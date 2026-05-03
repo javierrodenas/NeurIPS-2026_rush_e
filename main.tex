@@ -225,6 +225,10 @@ MNIST & $+0.348$ & $+0.180$ & $-0.252$ & $-0.177$ & arbitrary \\
 
 \paragraph{Practical protocol.} Compute $\delta$ on training-set class centroids (${\sim}8$ seconds CPU). \emph{If $\delta < 0.10$ and the labels carry a deep semantic hierarchy}, post-hoc Poincar\'{e} projection of frozen features improves NC and few-shot by $0.5$--$2.5$ pp; \emph{otherwise}, retain Euclidean. The decision is reversible (one-line distance switch), requires no training, and is unconfounded by optimisation tuning.
 
+\paragraph{Full results.} Table~\ref{tab:full-results} reports the complete per-(model, dataset) numerical results: backbone $\delta$ on the dataset's centroids, global ORC, R/H accuracies and $H_{\mathrm{adv}}$ for both NC and FS tasks. Three patterns are visible row by row. (1)~For DINOv2-L/G on hierarchical datasets (ImageNet, CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. (2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative (Euclidean already aligned with WordNet by design) while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), all advantages collapse toward zero. Sample-to-sample retrieval results (column omitted from the table for space) are in \texttt{master\_per\_dataset.csv} and uniformly null---see Section~\ref{sec:practical}.
+
+\input{tab_full_results}
+
 %% ============================================================
 \section{Conclusion}
 \label{sec:conclusion}
@@ -310,13 +314,6 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 
 %% ============================================================
 \appendix
-\section{Full results table}
-\label{app:full-table}
-
-Table~\ref{tab:full-results} contains the per-(model, dataset) numerical results for the 12 vision models $\times$ 6 datasets ($n = 72$): backbone $\delta$ on the dataset's centroids, global ORC, R/H accuracies, and $H_{\mathrm{adv}}$ for both NC and FS tasks. Sample-to-sample retrieval P@10 results are in the supplementary CSV (\texttt{master\_per\_dataset.csv}).
-
-\input{tab_full_results}
-
 \section{Additional analyses}
 Full results for all 39 models across $\delta$, ORC, defects, and three-way distortion are provided in the supplementary material. We also include rank-matched and spectrum-matched null analyses (15/22 vision models pass the spectrum-matched null at $p < 0.05$). All centroid files, per-(model, dataset) CSVs, and the S4 projection script are released alongside the paper.
 
