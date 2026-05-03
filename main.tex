@@ -96,41 +96,9 @@ This places the 95th-percentile feature norm at 0.5 inside the unit Poincar\'{e}
 \end{itemize}
 For each task we compute $H_\text{adv} = (\mathrm{acc}_H - \mathrm{acc}_R) \times 100$ pp.
 
-\paragraph{Models and datasets.} Table~\ref{tab:models} lists representative entries; full listing of all 39 models in Appendix.
+\paragraph{Models and datasets.} The complete 39-model panel with $\delta$, rank, and WordNet correlation values is given in Table~\ref{tab:models}.
 
-\begin{table}[t]
-  \caption{$\delta_{\text{norm}}$ on 1{,}000 ImageNet classes for representative models. Vision uses image centroids; text/LM uses class-name embeddings. Rank$_{90}$: PCA components for 90\% variance. WN $r$: Spearman correlation with WordNet taxonomy distances.}
-  \label{tab:models}
-  \centering
-  \scriptsize
-  \begin{tabular}{llrlrr}
-    \toprule
-    Model & Paradigm & Params & $\delta_{\text{norm}}$ & Rank$_{90}$ & WN $r$ \\
-    \midrule
-    ViT-T/16 (i21k) & supervised & 5M & $0.138 \pm 0.008$ & 59 & .275 \\
-    ViT-L/16 (i21k) & supervised & 307M & $0.103 \pm 0.005$ & 269 & .324 \\
-    \midrule
-    BarlowTwins-R50 & self-supervised & 23M & $0.070 \pm 0.005$ & 286 & .272 \\
-    DINOv2-S/14 & self-supervised & 22M & $0.120 \pm 0.009$ & 185 & .303 \\
-    DINOv2-B/14 & self-supervised & 86M & $0.091 \pm 0.010$ & 341 & .249 \\
-    DINOv2-L/14 & self-supervised & 307M & $\mathbf{0.067 \pm 0.008}$ & 423 & .214 \\
-    DINOv2-G/14 & self-supervised & 1.1B & $0.077 \pm 0.008$ & 485 & .302 \\
-    \midrule
-    CLIP-B/32 & contrastive & 86M & $0.126 \pm 0.005$ & 102 & .387 \\
-    CLIP-L/14 & contrastive & 307M & $0.117 \pm 0.006$ & 147 & .428 \\
-    SigLIP-B/16 & contrastive & 86M & $0.114 \pm 0.005$ & 136 & .401 \\
-    MERU-B/16 & contrastive-hyp & 86M & $0.115 \pm 0.005$ & 77 & .406 \\
-    \midrule
-    GPT-2 XL & causal LM & 1.5B & $0.073 \pm 0.004$ & 276 & .196 \\
-    OLMo-1B & causal LM & 1B & $0.084 \pm 0.005$ & 277 & .286 \\
-    Pythia-1B & causal LM & 1B & $0.095 \pm 0.005$ & 255 & .252 \\
-    \midrule
-    BGE-large & text embedding & 335M & $0.122 \pm 0.005$ & 176 & .328 \\
-    GTE-Qwen2-1.5B & text embedding & 1.5B & $0.124 \pm 0.005$ & 192 & .414 \\
-    E5-large & text embedding & 335M & $0.114 \pm 0.010$ & 211 & .357 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\input{tab_models}
 
 %% ============================================================
 \section{Ablation Study: $\delta$ reflects learned hierarchy}
