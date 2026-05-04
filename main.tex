@@ -67,6 +67,15 @@ La Platonic Representation Hypothesis postula que los foundation models converge
 \item $\delta$ is a \textbf{practical decision tool} for post-hoc hyperbolic projection. On 12 vision backbones $\times$ 6 datasets ($n = 72$), the hyperbolic advantage in nearest-centroid classification ($r = -0.542$, $p < 10^{-6}$) and 5-way 5-shot few-shot ($r = -0.496$, $p < 10^{-5}$) scales with backbone $\delta$. Within ImageNet alone the few-shot correlation reaches $r = -0.868$. Sample-to-sample retrieval shows no advantage in any dataset---a result consistent with the underlying geometric mechanism.
 \end{enumerate}
 
+\smallskip
+\noindent\textbf{Contribuciones (Castellano, draft only).}
+\begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
+\item La geometría jerárquica tree-like es \textbf{universal a través de modalidades y paradigmas}. Los 39 modelos tienen $\delta$ muy por debajo de las referencias Euclídea y esférica; el objetivo de entrenamiento, no la modalidad, determina el \emph{grado} y el \emph{tipo} de jerarquía aprendida.
+\item Los modelos causales de lenguaje, contra lo asumido previamente, \textbf{también son tree-like} cuando se evalúan sobre un espacio de etiquetas compartido de 1{,}000 clases (GPT-2 XL: $\delta = 0.073$, comparable a los mejores modelos SSL de visión). Los modelos de embeddings de texto contrastivos se agrupan con los modelos contrastivos de visión ($\delta \approx 0.114$--$0.124$), confirmando el patrón ``objetivo, no modalidad''.
+\item \textbf{Evidencia causal} de que $\delta$ refleja jerarquía semántica \emph{aprendida}: pesos aleatorios ($+65$--$144\%$), fine-tuning no jerárquico ($+19$--$91\%$), emergencia progresiva capa a capa ($-46$ a $-60\%$), y shuffle controls (sin cambio, $p > 0.12$) alteran $\delta$ de forma consistente con la formación de jerarquía.
+\item $\delta$ es una \textbf{herramienta práctica de decisión} para la proyección Poincaré post-hoc. En 12 backbones de visión $\times$ 6 datasets ($n = 72$), la ventaja hiperbólica en clasificación nearest-centroid ($r = -0.542$, $p < 10^{-6}$) y few-shot 5-way 5-shot ($r = -0.496$, $p < 10^{-5}$) escala con el $\delta$ del backbone. Solo dentro de ImageNet, la correlación few-shot alcanza $r = -0.868$. La retrieval sample-to-sample no muestra ventaja en ningún dataset---un resultado consistente con el mecanismo geométrico subyacente.
+\end{enumerate}
+
 %% ============================================================
 \section{Related Work}
 \label{sec:related}
