@@ -61,7 +61,7 @@ La Platonic Representation Hypothesis postula que los foundation models converge
 
 \textbf{Contributions.}
 \begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
-\item Hierarchical, tree-like geometry is \textbf{universal across modalities and paradigms}. The training \emph{objective}, not the modality, determines the degree and type of hierarchy that emerges.
+\item Foundation-model representations have a \textbf{universal hierarchical (tree-like) inter-class structure} that is \textbf{more efficiently exploitable in hyperbolic than in Euclidean space}. The training \emph{objective}, not the modality, determines the degree and type of hierarchy that emerges.
 \item \textbf{Causal language models are tree-like too}, contrary to the common assumption that this property is vision-specific. Their hierarchies match those of self-supervised vision models, while contrastive text and contrastive vision models cluster together at moderate hierarchy.
 \item \textbf{Causal evidence} that this geometry is \emph{learned} rather than architectural: it disappears with random weights, weakens with non-hierarchical fine-tuning, emerges progressively across transformer layers, and is preserved under shuffle controls.
 \item $\delta$ \textbf{and} ORC are \textbf{practical, zero-cost decision tools} for post-hoc hyperbolic projection. The hyperbolic advantage in prototype-based classification and few-shot learning is predictable from these two backbone-level diagnostics alone, and the conditions under which it disappears (symmetric retrieval, datasets without label hierarchy) are explainable from the same geometric mechanism.
@@ -70,7 +70,7 @@ La Platonic Representation Hypothesis postula que los foundation models converge
 \smallskip
 \noindent\textbf{Contribuciones (Castellano, draft only).}
 \begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
-\item La geometría jerárquica tree-like es \textbf{universal a través de modalidades y paradigmas}. El \emph{objetivo} de entrenamiento, no la modalidad, determina el grado y el tipo de jerarquía que emerge.
+\item Las representaciones de los foundation models tienen una \textbf{estructura inter-clase jerárquica (tree-like) universal}, \textbf{más eficientemente explotable en el espacio hiperbólico que en el euclídeo}. El \emph{objetivo} de entrenamiento, no la modalidad, determina el grado y el tipo de jerarquía que emerge.
 \item \textbf{Los modelos causales de lenguaje también son tree-like}, contra la asunción común de que esta propiedad es específica de visión. Sus jerarquías coinciden con las de los modelos SSL de visión, mientras que los modelos contrastivos de texto y de visión se agrupan en una jerarquía moderada.
 \item \textbf{Evidencia causal} de que esta geometría es \emph{aprendida} y no arquitectónica: desaparece con pesos aleatorios, se debilita con fine-tuning no jerárquico, emerge progresivamente a lo largo de las capas del transformer, y se preserva bajo shuffle controls.
 \item $\delta$ \textbf{y} ORC son \textbf{herramientas prácticas de decisión, de coste cero}, para la proyección Poincaré post-hoc. La ventaja hiperbólica en clasificación basada en prototipos y few-shot es predecible solo a partir de estos dos diagnósticos al nivel del backbone, y las condiciones bajo las cuales desaparece (retrieval simétrico, datasets sin jerarquía de etiquetas) se explican desde el mismo mecanismo geométrico.
