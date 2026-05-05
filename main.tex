@@ -109,34 +109,28 @@ where $\mu_u$ is the uniform distribution on $u$'s neighbours and $W_1$ is the $
 \subsection{Post-hoc Poincar\'{e} projection (parameter-free)}
 \label{sec:projection}
 
-\paragraph{The Poincar\'{e} ball model.} We work in the unit Poincar\'{e} ball $\mathbb{B}^d = \{\boldsymbol{x} \in \mathbb{R}^d : \|\boldsymbol{x}\| < 1\}$ with the conformal Riemannian metric $g_{\boldsymbol{x}} = \lambda(\boldsymbol{x})^2\, g_{\mathrm{eucl}}$, where $\lambda(\boldsymbol{x}) = 2/(1 - \|\boldsymbol{x}\|^2)$. This is the standard model of constant negative curvature $-1$~\citep{nickel2017poincare, ganea2018hyperbolic}. The exponential map at the origin sends a Euclidean tangent vector $\boldsymbol{v} \in \mathbb{R}^d$ to a point inside the ball along the radial geodesic in direction $\boldsymbol{v}$:
+We project a frozen Euclidean feature $\boldsymbol{x} \in \mathbb{R}^d$ from a foundation model into the unit Poincar\'{e} ball $\mathbb{B}^d$ (constant negative curvature $-1$) via the exponential map at the origin~\citep{nickel2017poincare, ganea2018hyperbolic}:
 \begin{equation}
-\exp_{\mathbf{0}}(\boldsymbol{v}) = \tanh\!\Big(\frac{\|\boldsymbol{v}\|}{2}\Big) \cdot \frac{\boldsymbol{v}}{\|\boldsymbol{v}\|}.
-\label{eq:expmap}
-\end{equation}
-The factor $1/2$ comes from $\lambda(\mathbf{0}) = 2$: a Euclidean tangent vector of norm $\|\boldsymbol{v}\|$ has hyperbolic norm $2\|\boldsymbol{v}\|$ at the origin, and the geodesic of hyperbolic length $L$ from $\mathbf{0}$ reaches Poincar\'{e} norm $\tanh(L/2)$. We follow the convention of \citet{khrulkov2020hyperbolic}; the alternative convention of \citet{ganea2018hyperbolic} drops the $1/2$ by re-scaling the tangent vector and is equivalent up to a renaming of the scale parameter introduced below.
-
-\paragraph{The projection.} Given a frozen Euclidean feature $\boldsymbol{x} \in \mathbb{R}^d$ from a foundation model, we define the projection
-\begin{equation}
-\phi(\boldsymbol{x}) \;=\; \exp_{\mathbf{0}}\!\big(s\,(\boldsymbol{x}-\boldsymbol\mu)\big)
+\phi(\boldsymbol{x}) \;=\; \exp_{\mathbf{0}}\!\big(s\,(\boldsymbol{x}-\boldsymbol\mu)\big),
+\qquad
+\exp_{\mathbf{0}}(\boldsymbol{v}) = \tanh\!\Big(\frac{\|\boldsymbol{v}\|}{2}\Big) \frac{\boldsymbol{v}}{\|\boldsymbol{v}\|}.
 \label{eq:projection}
 \end{equation}
-with two scalar parameters: a translation $\boldsymbol\mu \in \mathbb{R}^d$ and a scale $s > 0$, both fixed from training-set statistics (no learnable weights). $\boldsymbol\mu$ re-centres the feature cloud so the origin of $\mathbb{B}^d$ corresponds to the data centroid; $s$ controls how much of the ball the feature cloud occupies. Both steps are necessary because foundation models output features at arbitrary location and scale---means far from the origin, norms ranging from a few units to several thousand depending on backbone.
-
-\paragraph{Choosing $\boldsymbol\mu$ and $s$.} We set $\boldsymbol\mu$ to the training mean. To pick $s$ in a way that does not depend on dimension or backbone, let $\rho_{95} = \mathrm{quantile}_{95}(\|\boldsymbol{x} - \boldsymbol\mu\|)$ be the 95th percentile of the centred Euclidean norm (robust to outliers). For a target Poincar\'{e} radius $t \in (0, 1)$, inverting $\tanh$ in Eq.~\eqref{eq:expmap} gives the unique scale that maps the 95th-percentile feature to Poincar\'{e} norm exactly $t$ inside the ball:
+Two scalars determine the projection. The translation $\boldsymbol\mu$ is the training mean: foundation models output features with arbitrary location---means far from the origin, norms ranging from a few units to several thousand---so re-centring is required for the exp-map at $\mathbf{0}$ to be meaningful. The scale $s > 0$ is fixed so the 95th-percentile centred feature lands at Poincar\'{e} norm $1/\sqrt{2}$:
 \begin{equation}
-s \;=\; \frac{2\,\mathrm{arctanh}(t)}{\rho_{95}}.
+s \;=\; \frac{2\,\mathrm{arctanh}(1/\sqrt{2})}{\rho_{95}},
+\qquad
+\rho_{95} \;=\; \mathrm{quantile}_{95}\big(\|\boldsymbol{x}-\boldsymbol\mu\|\big).
 \label{eq:scale}
 \end{equation}
-Plugging Eq.~\eqref{eq:scale} into Eq.~\eqref{eq:projection} fully specifies the projection $\phi$ in terms of two interpretable quantities measured on the training set ($\boldsymbol\mu$, $\rho_{95}$) and one user-chosen target radius $t$.
+The target $1/\sqrt{2}$ places the bulk of the feature cloud at the inflection of the Poincar\'{e} conformal factor $\lambda(\boldsymbol{x}) = 2/(1-\|\boldsymbol{x}\|^2)$, where $\lambda(1/\sqrt{2})^2 = 16 = 4\,\lambda(\mathbf{0})^2$: features sit firmly in the hyperbolic regime (radial dimension carries hierarchy at $4\times$ the central rate) while staying safely away from boundary saturation~\citep{guo2022clipped}. Other targets in $(0,1)$ define a one-parameter family of projections; we sweep them in \S\ref{sec:practical}. We use the convention of \citet{khrulkov2020hyperbolic} (factor $1/2$ inside $\tanh$, from $\lambda(\mathbf{0}){=}2$); the equivalent formulation of \citet{ganea2018hyperbolic} drops the $1/2$ at the cost of a renaming of $s$.
 
-\paragraph{Choice of $t$.} We use $t = 1/\sqrt{2} \approx 0.707$ as the headline default. At this radius the metric $\lambda(\boldsymbol{x})^2 = 4/(1-\|\boldsymbol{x}\|^2)^2$ takes the value $\lambda(1/\sqrt{2})^2 = 16 = 4\,\lambda(\mathbf{0})^2$: the bulk of the feature cloud sits firmly in the hyperbolic regime---the radial dimension carries hierarchical information at four times the central rate---while staying safely away from the boundary saturation regime~\citep{guo2022clipped} where $\lambda \to \infty$, gradients vanish, and Poincar\'{e} distances are dominated by the radial coordinate alone. Other values of $t \in (0,1)$ are equally well-defined and trace out a one-parameter family of projections (equivalent to varying the curvature of the ball via $t = 0.5/\sqrt{c}$); \S\ref{sec:practical} sweeps the family.
-
-\paragraph{Distances.} Once features are in $\mathbb{B}^d$, the closed-form Poincar\'{e} distance between two projected points $\boldsymbol{u}, \boldsymbol{v}$ is~\citep{nickel2017poincare}
+The Poincar\'{e} distance between two projected points is~\citep{nickel2017poincare}
 \begin{equation}
-d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
+d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\!\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
+\label{eq:dist}
 \end{equation}
-The Euclidean and hyperbolic versions of every downstream task in \S\ref{sec:downstream} use the same features and identical compute; the only thing that changes between them is whether we measure inter-feature distance with $\|\cdot\|$ or with $d_\mathbb{B}$.
+Every downstream task in \S\ref{sec:downstream} runs in two versions, R (Euclidean, on $\boldsymbol{x}$) and H (hyperbolic, on $\phi(\boldsymbol{x})$), with identical features and identical compute---only the distance changes.
 
 \subsection{Downstream protocol}
 \label{sec:downstream}
