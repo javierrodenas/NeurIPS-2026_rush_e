@@ -188,27 +188,13 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
   \label{fig:tasks_geom}
 \end{figure}
 
-\paragraph{Paradigm-level breakdown.} Figure~\ref{fig:tasks_geom} pools all 12 backbones; Figures~\ref{fig:tasks_supervised}, \ref{fig:tasks_ssl} and \ref{fig:tasks_contrastive} break the same $H_\text{adv}$ down by paradigm, plotting the per-dataset linear regression for the supervised, self-supervised and contrastive subsets respectively. SSL is the paradigm where both descriptors track $H_\text{adv}$ most tightly (e.g.\ FS vs.\ ORC: $r = +0.62$ across the 5 SSL backbones $\times$ 6 datasets), and where the per-dataset slopes against $\delta$ are most consistently negative across the four hierarchical datasets. Supervised and contrastive backbones show similar but weaker patterns.
+\paragraph{Paradigm-level breakdown.} Figure~\ref{fig:tasks_geom} pools all 12 backbones $\times$ 6 datasets; Figure~\ref{fig:tasks_per_paradigm_bars} breaks the descriptor--gain relationship down by training paradigm, reporting Pearson $r(\delta, H_\text{adv})$ and $r(\mathrm{ORC}, H_\text{adv})$ for each (paradigm, task) cell. \emph{Self-supervised} backbones are the regime where both descriptors track $H_\text{adv}$ most tightly: $r(\delta, H_\text{adv}^{\text{NC}}) = -0.76$ ($p < 10^{-3}$) and $r(\mathrm{ORC}, H_\text{adv}^{\text{FS}}) = +0.65$ ($p < 10^{-3}$) across $5 \times 6 = 30$ (SSL backbone, dataset) pairs. Supervised backbones show a strong negative $r(\delta, H_\text{adv}^{\text{NC}}) = -0.59$ but a weak ORC signal. Contrastive backbones show null or weak relationships, consistent with their already-text-aligned hierarchy leaving little headroom for the post-hoc projection.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_tasks_vs_geom_supervised.pdf}
-  \caption{Hyperbolic advantage vs.\ $\delta$ and ORC, supervised backbones only ($n = 4$ ViT-i21k models on 6 datasets). Solid lines: hierarchical datasets; dashed: flat-hierarchy.}
-  \label{fig:tasks_supervised}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig_tasks_vs_geom_ssl.pdf}
-  \caption{Hyperbolic advantage vs.\ $\delta$ and ORC, self-supervised backbones ($n = 5$: DINOv1-B, DINOv2-S/B/L/G).}
-  \label{fig:tasks_ssl}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig_tasks_vs_geom_contrastive.pdf}
-  \caption{Hyperbolic advantage vs.\ $\delta$ and ORC, contrastive backbones ($n = 3$: CLIP-B/L, SigLIP-B).}
-  \label{fig:tasks_contrastive}
+  \includegraphics[width=\linewidth]{figures/fig_tasks_per_paradigm_bars.pdf}
+  \caption{Per-paradigm strength of the descriptor-to-gain relationship. For each paradigm and task, the Pearson correlation between the two descriptors ($\delta_{\mathrm{norm}}$ hatched, ORC solid) and the hyperbolic advantage $H_{\mathrm{adv}}$, computed across that paradigm's backbones $\times$ 6 datasets. Bar colours: red = supervised, green = SSL, blue = contrastive. SSL is the paradigm where both descriptors most tightly track $H_{\mathrm{adv}}$; significance markers $^*p<0.05$, $^{**}p<0.01$, $^{***}p<0.001$.}
+  \label{fig:tasks_per_paradigm_bars}
 \end{figure}
 
 \paragraph{Practical protocol.} Compute $\delta$ on training-set class centroids (${\sim}8$ seconds CPU). \emph{If $\delta < 0.10$ and the labels carry a deep semantic hierarchy}, post-hoc Poincar\'{e} projection of frozen features improves NC and few-shot by $0.5$--$2.5$ pp; \emph{otherwise}, retain Euclidean. The decision is reversible (one-line distance switch), requires no training, and is unconfounded by optimisation tuning.
