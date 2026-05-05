@@ -186,8 +186,8 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_tasks_vs_geom_per_dataset.pdf}
-  \caption{Hyperbolic advantage $H_{\mathrm{adv}}$ vs.\ the two coordinate-free descriptors, $\delta$ (left column) and Ollivier--Ricci curvature (right column), for nearest-centroid classification (top) and 5-way 5-shot few-shot (bottom). Each colour is a dataset; the line is a per-dataset linear regression fit through the 12 vision backbones. Lower $\delta$ and higher ORC predict a larger $H_{\mathrm{adv}}$ on the four hierarchical datasets (ImageNet, CIFAR-100, DTD, CIFAR-10); flat-hierarchy datasets (FashionMNIST, MNIST) show no significant slope. Pooled across the 72 (model, dataset) combinations: NC $r(\delta){=}{-}0.58$, $r(\mathrm{ORC}){=}{+}0.27$; FS $r(\delta){=}{-}0.28$, $r(\mathrm{ORC}){=}{+}0.45$.}
+  \includegraphics[width=\linewidth]{figures/fig_tasks_huh_style.pdf}
+  \caption{Geometric ``sweet spot'' for the hyperbolic advantage. For each (vision backbone, dataset) pair we plot the pair's two descriptors: $\delta_{\mathrm{norm}}$ (x-axis) and Ollivier--Ricci curvature (y-axis). The colour of each point encodes $H_{\mathrm{adv}}$ on (a) nearest-centroid classification and (b) 5-way 5-shot few-shot, with red = gain and blue = loss; markers distinguish paradigm. Red points concentrate in the top-left region (low $\delta$, high ORC), while blue points sit in the bottom-right: positive hyperbolic gain coincides with strongly tree-like geometry along both descriptors at once.}
   \label{fig:tasks_geom}
 \end{figure}
 
