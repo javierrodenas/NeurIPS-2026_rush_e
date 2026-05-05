@@ -52,7 +52,8 @@ La Platonic Representation Hypothesis postula que los foundation models converge
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_intro_concept.pdf}
+  % trim = LEFT BOTTOM RIGHT TOP (in pt). Page is 1440x810 pt. Increase any value to crop more from that side.
+  \includegraphics[width=\linewidth, trim=33 1 4 74, clip]{figures/fig_intro_concept.pdf}
   \caption{What does the platonic representation look like? An observer (here, a foundation model, evoking the prisoner in Plato's cave) only sees projections of an underlying structure. We ask whether that structure is naturally \emph{hierarchical} (left): instances belong to categories (Dog $\to$ Mammal $\to$ Animal), categories to broader concepts, and the resulting tree embeds with low distortion in the Poincar\'{e} disk; or flat (right), where the same set of concepts is captured only by their pairwise proximity in Euclidean space, with the radial separation between superordinate categories collapsed. Our experiments show that the inter-class distance structure of foundation models bears a clear hyperbolic signature, and that exploiting it post-hoc yields measurable downstream gains under predictable conditions.}
   \label{fig:intro_concept}
 \end{figure}
