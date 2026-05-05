@@ -1,15 +1,10 @@
 \begin{table}[t]
-\caption{\textbf{Breadth panel}: 27 additional foundation models evaluated for cross-modality $\delta$ on the same 1{,}000 ImageNet classes (vision: $100$ imgs/class; LM/text-embedding: prompt ``a photo of a \{class\}''). These models complement the 12 vision backbones in Table~\ref{tab:full-results} and span the remaining paradigms and families used in the cross-model analysis (\S\ref{sec:geometry-paradigm}). Rows are grouped by family and sorted by parameter count within each family.}
+\caption{\textbf{Breadth panel}: 24 additional foundation models evaluated for cross-modality $\delta$ on the same 1{,}000 ImageNet classes (vision: $100$ imgs/class; LM/text-embedding: prompt ``a photo of a \{class\}''). These models complement the 12 vision backbones in Table~\ref{tab:full-results} and span the remaining paradigms and families used in the cross-model analysis (\S\ref{sec:geometry-paradigm}). Rows are grouped by family and sorted by parameter count within each family.}
 \label{tab:breadth}
 \centering\scriptsize
 \begin{tabular}{llrr}
 \toprule
 Model & Paradigm & Params & $\delta_{\mathrm{norm}}$ \\
-\midrule
-\multicolumn{4}{l}{\emph{ResNet-50 SSL}} \\
-BarlowTwins-R50 & SSL & 23M & n/a \\
-BYOL-R50 & SSL & 23M & n/a \\
-VICReg-R50 & SSL & 23M & n/a \\
 \midrule
 \multicolumn{4}{l}{\emph{CLIP variants}} \\
 OpenCLIP-B/32 & Contrastive & 86M & 0.116 \\
