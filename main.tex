@@ -118,7 +118,7 @@ To turn the geometric diagnosis into a downstream decision rule, we map any froz
 \phi(\boldsymbol{x}) = \tanh\!\Big(\tfrac{1}{2}\|s(\boldsymbol{x}-\boldsymbol\mu)\|\Big) \cdot \frac{s(\boldsymbol{x}-\boldsymbol\mu)}{\|s(\boldsymbol{x}-\boldsymbol\mu)\|}.
 \end{equation}
 \end{enumerate}
-The target $1/\sqrt{2}$ keeps the bulk of the feature cloud firmly in the hyperbolic regime---the Poincar\'{e} conformal factor $\lambda(\boldsymbol{x}) = 2/(1-\|\boldsymbol{x}\|^2)$ takes the value $\lambda(1/\sqrt{2})^2 = 4\,\lambda(\mathbf{0})^2$ at this radius---while staying away from the boundary saturation regime~\citep{guo2022clipped} where $\lambda \to \infty$, gradients vanish, and Poincar\'{e} distances are dominated by the radial coordinate alone. Distances between projected points use the canonical Poincar\'{e} formula
+The target $1/\sqrt{2}$ keeps the bulk of the feature cloud firmly in the hyperbolic regime, the Poincar\'{e} conformal factor $\lambda(\boldsymbol{x}) = 2/(1-\|\boldsymbol{x}\|^2)$ takes the value $\lambda(1/\sqrt{2})^2 = 4\,\lambda(\mathbf{0})^2$ at this radius, while staying away from the boundary saturation regime~\citep{guo2022clipped} where $\lambda \to \infty$, gradients vanish, and Poincar\'{e} distances are dominated by the radial coordinate alone. Distances between projected points use the canonical Poincar\'{e} formula
 \begin{equation}
 d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
 \end{equation}
