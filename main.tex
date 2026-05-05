@@ -147,9 +147,7 @@ positive when the Poincar\'{e} projection beats the raw Euclidean baseline and n
 \subsection{Setup}
 \label{sec:setup}
 
-\paragraph{Models.} 39 foundation models in five paradigms: 22 vision (4 supervised ViTs, 9 self-supervised, 9 contrastive, 1 contrastive-hyperbolic), 9 causal language models, and 8 text-embedding models. The complete panel, grouped by family and sorted by parameter count within each family, is given in Table~\ref{tab:models} with the corresponding $\delta_{\text{norm}}$ values.
-
-\input{tab_models}
+\paragraph{Models.} 39 foundation models in five paradigms: 22 vision backbones (4 supervised ViTs, 9 self-supervised, 9 contrastive, including 1 contrastive-hyperbolic), 9 causal language models, and 8 text-embedding models. We work with two nested panels: a \emph{main panel} of 12 vision backbones (i21k-T/S/B/L; DINOv1-B; DINOv2-S/B/L/G; CLIP-B/L; SigLIP-B) for which we evaluate $\delta$, ORC and three downstream tasks across all 6 datasets; and a wider \emph{breadth panel} of 27 additional models for cross-modality $\delta$ on ImageNet only. Both panels appear in Table~\ref{tab:full-results}.
 
 \paragraph{Datasets and evaluation regime.} For the cross-model $\delta$ characterisation (\S\ref{sec:geometry-paradigm}) all 39 models are evaluated on the same $1{,}000$ ImageNet classes for direct comparability. For the downstream protocol (\S\ref{sec:downstream-results}, \S\ref{sec:curvature}) we use $12$ vision backbones $\times$ $6$ datasets ($n = 72$): ImageNet, CIFAR-100, CIFAR-10, DTD, FashionMNIST, MNIST. The cross-dataset $\delta$ generalisation check (\S\ref{sec:ablation-noise}) additionally uses ImageNet-Sketch and Places-365.
 
@@ -163,7 +161,7 @@ Table~\ref{tab:full-results} reports the complete per-(model, dataset) numerical
 \subsection{Geometry across capacity and paradigm}
 \label{sec:geometry-paradigm}
 
-Table~\ref{tab:models} reveals a striking pattern across all 39 models. Self-supervised vision models achieve the lowest $\delta$ (DINOv2-L: $0.067$; BarlowTwins: $0.070$), and $\delta$ decreases with scale within families: DINOv2-S to DINOv2-G ($-36\%$), supervised ViT-T to ViT-L ($-25\%$). Contrastive models remain flat ($\delta \approx 0.114$--$0.126$ regardless of scale). Causal LMs achieve comparably low $\delta$ when evaluated on the same 1{,}000 ImageNet classes: GPT-2 XL ($0.073$), OLMo-1B ($0.084$), Pythia-1B ($0.095$). Text embedding models cluster at $\delta \approx 0.114$--$0.124$, identical to vision contrastive models, confirming that the training \emph{objective} (contrastive loss), not the modality, determines the geometry.
+Table~\ref{tab:full-results} reveals a striking pattern across all 39 models. Self-supervised vision models achieve the lowest $\delta$ (DINOv2-L: $0.067$; BarlowTwins: $0.070$), and $\delta$ decreases with scale within families: DINOv2-S to DINOv2-G ($-36\%$), supervised ViT-T to ViT-L ($-25\%$). Contrastive models remain flat ($\delta \approx 0.114$--$0.126$ regardless of scale). Causal LMs achieve comparably low $\delta$ when evaluated on the same 1{,}000 ImageNet classes: GPT-2 XL ($0.073$), OLMo-1B ($0.084$), Pythia-1B ($0.095$). Text embedding models cluster at $\delta \approx 0.114$--$0.124$, identical to vision contrastive models, confirming that the training \emph{objective} (contrastive loss), not the modality, determines the geometry.
 
 Two axes organise the landscape: (1)~\emph{degree} of tree-likeness (SSL/causal $>$ supervised $>$ contrastive) and (2)~\emph{type} of tree---WordNet-aligned vs.\ emergent. Models without explicit text supervision discover their own hierarchy ($\delta$ low, WN $r$ low); models with text alignment learn WordNet's specific hierarchy ($\delta$ moderate, WN $r$ high). Across the 22 vision models, $\delta$ correlates with WordNet alignment ($r = 0.629$, $p = 0.002$).
 
