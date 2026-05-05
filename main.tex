@@ -124,6 +124,13 @@ d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\
 \end{equation}
 The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_euclid_vs_poincare.pdf}
+  \caption{Visualisation of $\phi$ on a concrete case: $100$ class centroids of CIFAR-100 from DINOv2-G (the (model, dataset) pair where $\phi$ delivers the largest few-shot gain in our panel; $\delta = 0.07$, ORC $= +0.65$). \textbf{Left:} 2D PCA of the centroids in raw Euclidean space, coloured by the $20$ CIFAR-100 superclasses. \textbf{Right:} the same centroids after the calibrated projection $\phi$, with a 2D PCA in the projected space rescaled into the unit Poincar\'{e} disk (grey boundary). The Euclidean cloud spreads roughly linearly; the Poincar\'{e} cloud is bounded by the disk and pushes the most discriminative directions outward, so the radial coordinate carries hierarchy depth and the angular coordinate carries within-superclass identity.}
+  \label{fig:euclid_vs_poincare}
+\end{figure}
+
 \subsection{Downstream protocol}
 \label{sec:downstream}
 
