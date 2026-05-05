@@ -173,13 +173,6 @@ The landscape organises by \emph{degree} of tree-likeness: SSL vision and causal
 
 \paragraph{Three-way embedding distortion.} We embed each set of centroids into $\mathbb{R}^{10}$ (Adam-optimised stress, MDS), $\mathbb{H}^{10}$ (Riemannian Adam on the Poincar\'{e} ball, with curvature search $c \in \{0.5, 1, 2\}$), and a discrete tree (best of UPGMA, Ward, MST), reporting the mean relative distortion in each case (full details in Appendix). Across all 40 vision models, $\mathbb{H}^{10}$ outperforms $\mathbb{R}^{10}$ ($\rho(\mathbb{H}/\mathbb{R}) > 1$ in 40/40 cases; range $1.03$--$1.21$). On ImageNet (deep WordNet taxonomy), discrete trees outperform $\mathbb{H}^{10}$ in 17/22 vision models---these representations are so tree-like that even continuous hyperbolic manifolds cannot fully capture them. On Places-365 (365 scene categories, shallow taxonomy), $\mathbb{H}^{10}$ wins 18/22, indicating that the relative advantage of trees vs.\ continuous $\mathbb{H}^{10}$ depends on taxonomic depth.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig1_alignment.pdf}
-  \caption{(a)~$\delta$ vs.\ scale for 22 vision models: DINOv2 decreases with scale, supervised ViTs decrease moderately, contrastive models remain flat. (b)~$\delta$ vs.\ pairwise representation alignment ($n = 14$; $r = -0.710$, $p = 0.004$): more tree-like models align better with each other.}
-  \label{fig:alignment}
-\end{figure}
-
 \subsection{Downstream task results}
 \label{sec:downstream-results}
 
