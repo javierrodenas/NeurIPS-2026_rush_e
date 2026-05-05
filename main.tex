@@ -140,51 +140,40 @@ H_\text{adv} = (\mathrm{acc}_H - \mathrm{acc}_R) \times 100 \;\; \text{(percenta
 positive when the Poincar\'{e} projection beats the raw Euclidean baseline and negative otherwise. None of the protocols use trainable heads, learnable distances, or hyperparameter search; any difference between R and H is attributable to the geometry alone.
 
 %% ============================================================
-\section{Ablation Study: $\delta$ reflects learned hierarchy}
-\label{sec:ablation}
+\section{Experiments}
+\label{sec:experiments}
 %% ============================================================
 
-To distinguish architectural bias from learned structure, we run four interventions on representative vision models. Each isolates a single causal factor.
-
-\paragraph{(A1) Random weights.} Random-initialised models have dramatically higher $\delta$: DINOv2-B ($+144\%$), DINOv2-S ($+134\%$), ViT-B ($+65\%$). Tree-like structure is not architectural; it emerges through training.
-
-\paragraph{(A2) Non-hierarchical fine-tuning.} Fine-tuning on an 8-class color classification task (no class hierarchy by construction) increases $\delta$: CLIP-B ($+91\%$), DINOv2-S ($+69\%$), ViT-B ($+19\%$). Fine-tuning on hierarchical CIFAR-100 produces minimal change ($-8\%$ to $+6\%$). Same protocol, different task structure---only destroying hierarchy raises $\delta$.
-
-\paragraph{(A3) Layer-wise emergence.} $\delta$ decreases progressively from layer~1 to the final layer in pretrained transformers: DINOv2-B ($-60\%$), CLIP-B ($-46\%$). A randomly initialised ViT-B shows flat $\delta \approx 0.195$ throughout, ruling out architectural artefacts and confirming that hierarchy is built up across depth.
-
-\paragraph{(A4) Shuffle control.} Shuffling embedding-to-label correspondence preserves the point-cloud geometry but destroys semantic association: $\delta$ does not change ($p > 0.12$). This rules out a trivial dependence on high-dimensional point-cloud properties and confirms that $\delta$ measures \emph{semantic} organisation.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig3_causal.pdf}
-  \caption{Ablations confirming that $\delta$ reflects learned hierarchy. (a)~Color (non-hierarchical) fine-tuning increases $\delta$ by 19--91\%. (b)~Shuffling embeddings preserves $\delta$ ($p > 0.12$). (c)~Random-weight models have 65--144\% higher $\delta$ than trained counterparts.}
-  \label{fig:causal}
-\end{figure}
-
-\paragraph{(A5) Cross-dataset generalization.} The $\delta$ ranking generalises beyond ImageNet: correlations with ImageNet-Sketch ($r = 0.873$, $p < 10^{-6}$) and Places-365 ($r = 0.661$, $p < 0.001$) are highly significant on the 22 vision models. DINOv2 achieves the lowest $\delta$ on all three datasets. The weaker Places-365 correlation reflects its shallower taxonomy (365 scene categories vs.\ 1{,}000 object categories).
-
-%% ============================================================
-\section{Results}
-\label{sec:results}
-%% ============================================================
-
-\subsection{Experimental setup}
+\subsection{Setup}
 \label{sec:setup}
 
 \paragraph{Models.} 39 foundation models in five paradigms: 22 vision (4 supervised ViTs, 9 self-supervised, 9 contrastive, 1 contrastive-hyperbolic), 9 causal language models, and 8 text-embedding models. The complete panel with $\delta$, rank, and WordNet correlation is given in Table~\ref{tab:models}.
 
 \input{tab_models}
 
-\paragraph{Datasets and evaluation regime.} For the cross-model $\delta$ characterisation (\S\ref{sec:universal}--\S\ref{sec:geometry}) all 39 models are evaluated on the same $1{,}000$ ImageNet classes for direct comparability. For the downstream protocol (\S\ref{sec:practical}) we use $12$ vision backbones $\times$ $6$ datasets ($n = 72$): ImageNet, CIFAR-100, CIFAR-10, DTD, FashionMNIST, MNIST. The cross-dataset $\delta$ generalisation check (\S\ref{sec:ablation}) additionally uses ImageNet-Sketch and Places-365.
+\paragraph{Datasets and evaluation regime.} For the cross-model $\delta$ characterisation (\S\ref{sec:geometry-paradigm}) all 39 models are evaluated on the same $1{,}000$ ImageNet classes for direct comparability. For the downstream protocol (\S\ref{sec:downstream-results}, \S\ref{sec:curvature}) we use $12$ vision backbones $\times$ $6$ datasets ($n = 72$): ImageNet, CIFAR-100, CIFAR-10, DTD, FashionMNIST, MNIST. The cross-dataset $\delta$ generalisation check (\S\ref{sec:ablation-noise}) additionally uses ImageNet-Sketch and Places-365.
 
-\subsection{Tree-like geometry is universal}
-\label{sec:universal}
+\subsection{Per-(model, dataset) results}
+\label{sec:complete-results}
+
+Table~\ref{tab:full-results} reports the complete per-(model, dataset) numerical results: backbone $\delta$ on the dataset's centroids, global ORC, R/H accuracies and $H_{\mathrm{adv}}$ for both NC and FS tasks. Three patterns are visible row by row. (1)~For DINOv2-L/G on hierarchical datasets (ImageNet, CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. (2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative (Euclidean already aligned with WordNet by design) while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), all advantages collapse toward zero. Sample-to-sample retrieval results (column omitted from the table for space) are in \texttt{master\_per\_dataset.csv} and uniformly null---see \S\ref{sec:downstream-results}.
+
+\input{tab_full_results}
+
+\subsection{Geometry across capacity and paradigm}
+\label{sec:geometry-paradigm}
 
 Table~\ref{tab:models} reveals a striking pattern across all 39 models. Self-supervised vision models achieve the lowest $\delta$ (DINOv2-L: $0.067$; BarlowTwins: $0.070$), and $\delta$ decreases with scale within families: DINOv2-S to DINOv2-G ($-36\%$), supervised ViT-T to ViT-L ($-25\%$). Contrastive models remain flat ($\delta \approx 0.114$--$0.126$ regardless of scale). Causal LMs achieve comparably low $\delta$ when evaluated on the same 1{,}000 ImageNet classes: GPT-2 XL ($0.073$), OLMo-1B ($0.084$), Pythia-1B ($0.095$). Text embedding models cluster at $\delta \approx 0.114$--$0.124$, identical to vision contrastive models, confirming that the training \emph{objective} (contrastive loss), not the modality, determines the geometry.
 
 Two axes organise the landscape: (1)~\emph{degree} of tree-likeness (SSL/causal $>$ supervised $>$ contrastive) and (2)~\emph{type} of tree---WordNet-aligned vs.\ emergent. Models without explicit text supervision discover their own hierarchy ($\delta$ low, WN $r$ low); models with text alignment learn WordNet's specific hierarchy ($\delta$ moderate, WN $r$ high). Across the 22 vision models, $\delta$ correlates with WordNet alignment ($r = 0.629$, $p = 0.002$).
 
+\paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 40 models ($r = -0.71$, $p < 10^{-4}$): the global four-point summary and the local edge-wise summary tell the same story. DINOv2 has the highest ORC ($0.52$--$0.65$, $0\%$ negative edges); supervised models are moderate ($0.31$--$0.38$, $4$--$7\%$ negative); contrastive lower ($0.31$--$0.34$, $5$--$6\%$); text embeddings distinctly lower ($0.17$--$0.24$, $13$--$17\%$ negative). Ranking is preserved across $k \in \{5, 10, 15, 20, 30, 50\}$ (Spearman $r = 1.0$), so the descriptor is not sensitive to the kNN-graph hyperparameter.
+
 \paragraph{The $\delta$--WordNet paradox.} DINOv2-L ($\delta = 0.067$, WN $r = 0.214$) is the most tree-like model but has \emph{lower} WordNet correlation than CLIP-B ($\delta = 0.126$, WN $r = 0.387$). This resolves once we distinguish $\delta$ (similarity to \emph{any} tree) from WN $r$ (similarity to \emph{WordNet's} tree). DINOv2 discovers an emergent visual hierarchy---grouping by appearance (motorcycle near bicycle) rather than by WordNet category (motorcycle under ``motor vehicle''). CLIP inherits WordNet's hierarchy from text supervision; its class names derive from WordNet synsets.
+
+\paragraph{Four-point defects.} For each model we compute the distribution of $S_{\max}-S_{\text{mid}}$ over $100\mathrm{K}$ random quadruples and compare it against samples from $\mathbb{R}^{10}$, $\mathbb{H}^{10}$ and $S^{10}$ matched in dimension and norm. Three regimes emerge: (i)~\textbf{strongly hyperbolic}---DINOv2 family, GPT-2 XL, OLMo (defect $0.005$--$0.012$, matching concentrated $\mathbb{H}^{10}$); (ii)~\textbf{moderately hyperbolic}---contrastive vision, text embeddings, supervised (defect $0.015$--$0.024$); (iii)~all 40 models far from $\mathbb{R}^{10}$ ($0.037$) and $S^{10}$ ($0.057$).
+
+\paragraph{Three-way embedding distortion.} We embed each set of centroids into $\mathbb{R}^{10}$ (Adam-optimised stress, MDS), $\mathbb{H}^{10}$ (Riemannian Adam on the Poincar\'{e} ball, with curvature search $c \in \{0.5, 1, 2\}$), and a discrete tree (best of UPGMA, Ward, MST), reporting the mean relative distortion in each case (full details in Appendix). Across all 40 vision models, $\mathbb{H}^{10}$ outperforms $\mathbb{R}^{10}$ ($\rho(\mathbb{H}/\mathbb{R}) > 1$ in 40/40 cases; range $1.03$--$1.21$). On ImageNet (deep WordNet taxonomy), discrete trees outperform $\mathbb{H}^{10}$ in 17/22 vision models---these representations are so tree-like that even continuous hyperbolic manifolds cannot fully capture them. On Places-365 (365 scene categories, shallow taxonomy), $\mathbb{H}^{10}$ wins 18/22, indicating that the relative advantage of trees vs.\ continuous $\mathbb{H}^{10}$ depends on taxonomic depth.
 
 \begin{figure}[t]
   \centering
@@ -193,17 +182,8 @@ Two axes organise the landscape: (1)~\emph{degree} of tree-likeness (SSL/causal 
   \label{fig:alignment}
 \end{figure}
 
-\subsection{Geometric characterisation}
-\label{sec:geometry}
-
-\paragraph{Three-way embedding distortion.} We embed each set of centroids into $\mathbb{R}^{10}$ (Adam-optimised stress, MDS), $\mathbb{H}^{10}$ (Riemannian Adam on the Poincar\'{e} ball, with curvature search $c \in \{0.5, 1, 2\}$), and a discrete tree (best of UPGMA, Ward, MST), reporting the mean relative distortion in each case (full details in Appendix). Across all 40 vision models, $\mathbb{H}^{10}$ outperforms $\mathbb{R}^{10}$ ($\rho(\mathbb{H}/\mathbb{R}) > 1$ in 40/40 cases; range $1.03$--$1.21$). On ImageNet (deep WordNet taxonomy), discrete trees outperform $\mathbb{H}^{10}$ in 17/22 vision models---these representations are so tree-like that even continuous hyperbolic manifolds cannot fully capture them. On Places-365 (365 scene categories, shallow taxonomy), $\mathbb{H}^{10}$ wins 18/22, indicating that the relative advantage of trees vs.\ continuous $\mathbb{H}^{10}$ depends on taxonomic depth.
-
-\paragraph{Four-point defects.} For each model we compute the distribution of $S_{\max}-S_{\text{mid}}$ over $100\mathrm{K}$ random quadruples and compare it against samples from $\mathbb{R}^{10}$, $\mathbb{H}^{10}$ and $S^{10}$ matched in dimension and norm. Three regimes emerge: (i)~\textbf{strongly hyperbolic}---DINOv2 family, GPT-2 XL, OLMo (defect 0.005--0.012, matching concentrated $\mathbb{H}^{10}$); (ii)~\textbf{moderately hyperbolic}---contrastive vision, text embeddings, supervised (defect 0.015--0.024); (iii)~all 40 models far from $\mathbb{R}^{10}$ ($0.037$) and $S^{10}$ ($0.057$).
-
-\paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 40 models ($r = -0.71$, $p < 10^{-4}$). DINOv2 has the highest ORC ($0.52$--$0.65$, 0\% negative edges); supervised models are moderate ($0.31$--$0.38$, 4--7\% negative); contrastive lower ($0.31$--$0.34$, 5--6\%); text embeddings distinctly lower ($0.17$--$0.24$, 13--17\% negative). Ranking is preserved across $k \in \{5, 10, 15, 20, 30, 50\}$ (Spearman $r = 1.0$).
-
-\subsection{Practical payoff: when post-hoc Poincar\'{e} projection helps}
-\label{sec:practical}
+\subsection{Downstream task results}
+\label{sec:downstream-results}
 
 We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on the three tasks of \S\ref{sec:downstream}, across $12$ vision models $\times$ $6$ datasets ($n = 72$).
 
@@ -212,8 +192,6 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
 \paragraph{Task FS.} Pooled $r = -0.283$ ($p < 0.05$): the correlation is weaker than for NC because, at this curvature, the few-shot projection helps almost every (model, dataset) pair (68/72 positive $H_\text{adv}$, mean $+0.55$ pp), compressing the variance against which $\delta$ can be tested. Within hierarchical datasets the dependence on $\delta$ remains strong: $r = -0.836$ on ImageNet ($p < 10^{-3}$), $r = -0.802$ on DTD, $r = -0.720$ on CIFAR-10. \emph{All} 12 vision models on ImageNet gain in few-shot ($H_\text{adv}$ from $+0.05$ to $+0.93$ pp), with the largest gains concentrated in the SSL family (DINOv2-G $+0.93$, DINOv2-L $+0.89$, DINOv2-B $+0.75$).
 
 \paragraph{Task R (sample-to-sample retrieval).} As a negative control, retrieval shows no $\delta$-dependence: in our reference run the hyperbolic advantage is uniformly negative or null in every dataset (mean $-0.5$ to $-2.3$ pp), and the within-dataset Pearson correlation with $\delta$ is essentially zero ($|r| < 0.30$ in every dataset, all $p > 0.10$). This is consistent with the geometric mechanism: when both query and database items are individual samples (both ``noisy''), no asymmetry exists between query and target representation that the radial dimension of the Poincar\'{e} ball can encode. The hyperbolic advantage is therefore restricted to settings where one side is a clean class prototype (NC, FS).
-
-\paragraph{Robustness to the curvature choice.} Sweeping the target Poincar\'{e} norm in $(0,1)$---equivalently the curvature $c \in \{0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 4\}$---changes the per-backbone $H_\text{adv}$ values but the qualitative findings are stable. The per-backbone optimum $c_\text{opt}$ correlates with the descriptor (Pearson $r(c_\text{opt}, \delta) = -0.43$, $n=12$): more tree-like backbones tolerate higher nominal curvature, less tree-like backbones require a softer compression. Full per-(backbone, $c$) results are in the supplementary.
 
 \begin{figure}[t]
   \centering
@@ -243,9 +221,34 @@ MNIST & $+0.387$ & $+0.235$ & arbitrary \\
 
 \paragraph{Practical protocol.} Compute $\delta$ on training-set class centroids (${\sim}8$ seconds CPU). \emph{If $\delta < 0.10$ and the labels carry a deep semantic hierarchy}, post-hoc Poincar\'{e} projection of frozen features improves NC and few-shot by $0.5$--$2.5$ pp; \emph{otherwise}, retain Euclidean. The decision is reversible (one-line distance switch), requires no training, and is unconfounded by optimisation tuning.
 
-\paragraph{Full results.} Table~\ref{tab:full-results} reports the complete per-(model, dataset) numerical results: backbone $\delta$ on the dataset's centroids, global ORC, R/H accuracies and $H_{\mathrm{adv}}$ for both NC and FS tasks. Three patterns are visible row by row. (1)~For DINOv2-L/G on hierarchical datasets (ImageNet, CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. (2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative (Euclidean already aligned with WordNet by design) while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), all advantages collapse toward zero. Sample-to-sample retrieval results (column omitted from the table for space) are in \texttt{master\_per\_dataset.csv} and uniformly null---see Section~\ref{sec:practical}.
+\subsection{Curvature sweep}
+\label{sec:curvature}
 
-\input{tab_full_results}
+The headline default $t = 1/\sqrt{2}$ (curvature $c = 0.5$ in the family $t = 0.5/\sqrt{c}$) is one specific point in a one-parameter family of projections. To probe sensitivity, we sweep $c \in \{0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 4\}$ on the 12 vision backbones for ImageNet NC (Table~\ref{tab:curvature}). The qualitative findings are stable: at the headline default, 9/12 backbones already have positive $H_\text{adv}$; tuning $c$ per backbone makes all 12 positive, with mean $H_\text{adv}$ rising from $+0.05$ pp at the default to $+0.21$ pp at $c_\text{opt}$. The per-backbone optimum $c_\text{opt}$ correlates with the descriptor (Pearson $r(c_\text{opt}, \delta) = -0.43$, Spearman $r = -0.49$, $n = 12$): \emph{more tree-like backbones tolerate higher nominal curvature; less tree-like backbones require a softer compression}. Geometric reading: lower $\delta$ means class centroids already concentrate near the metric's centre, so an aggressive curvature can compress them further without saturation; higher $\delta$ means centroids are more spread out and the projection must keep features further from the boundary. The decision rule of \S\ref{sec:downstream-results} can therefore be sharpened into a two-step recipe: \emph{measure $\delta$, then choose a curvature informed by $\delta$}.
+
+\input{tab_curvature}
+
+\subsection{Causal ablations: $\delta$ reflects learned hierarchy, not architectural noise}
+\label{sec:ablation-noise}
+
+To distinguish architectural bias and label noise from learned hierarchy, we run five interventions on representative vision models. Each isolates a single causal factor.
+
+\paragraph{(A1) Random weights.} Random-initialised models have dramatically higher $\delta$: DINOv2-B ($+144\%$), DINOv2-S ($+134\%$), ViT-B ($+65\%$). Tree-like structure is not architectural; it emerges through training.
+
+\paragraph{(A2) Non-hierarchical fine-tuning.} Fine-tuning on an 8-class \emph{color} classification task (no class hierarchy by construction) increases $\delta$: CLIP-B ($+91\%$), DINOv2-S ($+69\%$), ViT-B ($+19\%$). Fine-tuning on hierarchical CIFAR-100 produces minimal change ($-8\%$ to $+6\%$). Same protocol, different task structure---only destroying hierarchy raises $\delta$.
+
+\paragraph{(A3) Layer-wise emergence.} $\delta$ decreases progressively from layer~1 to the final layer in pretrained transformers: DINOv2-B ($-60\%$), CLIP-B ($-46\%$). A randomly initialised ViT-B shows flat $\delta \approx 0.195$ throughout, ruling out architectural artefacts and confirming that hierarchy is built up across depth.
+
+\paragraph{(A4) Shuffle control (label noise).} Shuffling embedding-to-label correspondence preserves the point-cloud geometry but destroys semantic association: $\delta$ does not change ($p > 0.12$). This rules out a trivial dependence on high-dimensional point-cloud properties and confirms that $\delta$ measures \emph{semantic} organisation, not feature norm or covariance.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig3_causal.pdf}
+  \caption{Ablations confirming that $\delta$ reflects learned hierarchy. (a)~Color (non-hierarchical) fine-tuning increases $\delta$ by 19--91\%. (b)~Shuffling embeddings preserves $\delta$ ($p > 0.12$). (c)~Random-weight models have 65--144\% higher $\delta$ than trained counterparts.}
+  \label{fig:causal}
+\end{figure}
+
+\paragraph{(A5) Cross-dataset generalization.} The $\delta$ ranking generalises beyond ImageNet: correlations with ImageNet-Sketch ($r = 0.873$, $p < 10^{-6}$) and Places-365 ($r = 0.661$, $p < 0.001$) are highly significant on the 22 vision models. DINOv2 achieves the lowest $\delta$ on all three datasets. The weaker Places-365 correlation reflects its shallower taxonomy (365 scene categories vs.\ 1{,}000 object categories).
 
 %% ============================================================
 \section{Conclusion}
@@ -254,7 +257,7 @@ MNIST & $+0.387$ & $+0.235$ & arbitrary \\
 
 We characterised the geometry of platonic representations and found tree-like inter-class distance structure as a universal property across modalities and paradigms. Across 39 models, five geometric metrics ($\delta$, ORC, four-point defects, intrinsic dimension, three-way distortion) converge on the same conclusion. Causal ablations establish that this geometry reflects \emph{learned} semantic hierarchy: random weights, non-hierarchical fine-tuning, and layer-wise analysis all support the link. The discovery that causal LMs are also tree-like overturns the assumption that this property is vision-specific.
 
-The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta$ predicts when post-hoc Poincar\'{e} projection improves prototype-based classification ($r = -0.542$ pooled, up to $r = -0.911$ within CIFAR-100) and few-shot learning ($r = -0.496$ pooled, up to $r = -0.919$ within DTD), and when it does not (sample-to-sample retrieval, datasets without label hierarchy). Computing $\delta$ takes seconds on CPU, providing a zero-cost diagnostic that tells practitioners whether to use hyperbolic geometry on their specific backbone--dataset combination---and when not to.
+The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta$ predicts when post-hoc Poincar\'{e} projection improves prototype-based classification ($r = -0.576$ pooled, up to $r = -0.886$ within CIFAR-100) and few-shot learning ($r = -0.283$ pooled, up to $r = -0.836$ within ImageNet), and when it does not (sample-to-sample retrieval, datasets without label hierarchy). Computing $\delta$ takes seconds on CPU, providing a zero-cost diagnostic that tells practitioners whether to use hyperbolic geometry on their specific backbone--dataset combination---and when not to.
 
 \textbf{Limitations.} $\delta$ measures inter-class centroid geometry; the within-class geometry is partially probed by our few-shot evaluation but not exhaustively. For self-supervised models, low $\delta$ is partly explained by the eigenvalue spectrum (15/22 vision models pass a spectrum-matched null at $p < 0.05$). Causal experiments use $n = 3$--$4$ models on CIFAR-100; extending strengthens the causal claim. Our few-shot evaluation uses random class subsets within each dataset rather than a held-out novel-class split. No model satisfies the strict ultrametric inequality; representations are tree-\emph{like}, not perfect trees.
 
