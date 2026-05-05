@@ -82,37 +82,71 @@ The Platonic Representation Hypothesis posits that foundation models converge to
 \label{sec:method}
 %% ============================================================
 
-\paragraph{Metric: Gromov $\delta$-hyperbolicity.} A metric space is $\delta$-hyperbolic~\citep{Gromov1987} if for any four points $x, y, z, w$, ordering the three pairwise sums $S_1{=}d(x,y){+}d(z,w)$, $S_2{=}d(x,z){+}d(y,w)$, $S_3{=}d(x,w){+}d(y,z)$ as $S_{\max} \ge S_{\text{mid}} \ge S_{\min}$,
+Our methodology has two parts: a set of \emph{descriptive} tools that quantify how tree-like a frozen representation is (\S\ref{sec:descriptors}--\S\ref{sec:aux}), and a single \emph{prescriptive} tool that turns those measurements into a downstream decision rule (\S\ref{sec:projection}--\S\ref{sec:downstream}). Both operate on raw Euclidean centroids and require no retraining or learnable parameters.
+
+\subsection{Embeddings and centroids}
+\label{sec:embeddings}
+
+We treat each foundation model as a fixed feature extractor and obtain a single vector per (model, sample) pair in one forward pass. \textbf{Vision} backbones produce the CLS token of the final transformer block; \textbf{causal language models} produce the last-token hidden state; \textbf{text-embedding} models use their native sentence-transformer pooling. To measure \emph{inter-class} structure rather than per-image variability, we collapse each class to a single centroid: vision centroids are the per-class mean of $50$ embeddings; for language and text-embedding models we encode the prompt ``a photo of a \{class\}''. The resulting set of $C$ class centroids in $\mathbb{R}^d$ is the metric space whose hyperbolicity we measure.
+
+\subsection{Two coordinate-free descriptors of tree-likeness}
+\label{sec:descriptors}
+
+Both descriptors operate directly on the centroid distance matrix and are invariant to the embedding dimension and basis. They capture complementary aspects of tree-like structure: $\delta$ is a \emph{global} four-point property of the metric, while ORC is a \emph{local}, edge-wise notion of curvature.
+
+\paragraph{Gromov $\delta$-hyperbolicity~\citep{Gromov1987}.} For any four points $x, y, z, w$, ordering the three pairwise sums $S_1{=}d(x,y){+}d(z,w)$, $S_2{=}d(x,z){+}d(y,w)$, $S_3{=}d(x,w){+}d(y,z)$ as $S_{\max} \ge S_{\text{mid}} \ge S_{\min}$, the four-point defect is $(S_{\max}-S_{\text{mid}})/2$, and
 \begin{equation}
 \delta = \max_{x,y,z,w} \frac{S_{\max} - S_{\text{mid}}}{2}.
 \end{equation}
-Trees have $\delta = 0$; the unit hyperbolic plane has $\delta = \log(1{+}\sqrt{2})$; Euclidean spaces have unbounded $\delta$. We normalise $\delta_{\text{norm}} = \delta / \mathrm{diam}(X)$ for cross-model comparability and use ``hyperbolic'' as shorthand for ``low $\delta$.''
+Trees achieve $\delta = 0$; the unit hyperbolic plane has $\delta = \log(1{+}\sqrt{2})$; Euclidean spaces have unbounded $\delta$. We normalise $\delta_{\text{norm}} = \delta / \mathrm{diam}(X)$ for cross-model comparability and use ``low $\delta$'' as shorthand for ``tree-like''. We approximate the maximum by sampling $500{,}000$ random quadruples per seed and average over $10$ seeds; sanity checks recover $\delta = 0.000$ on a binary tree, $\delta = 0.127$ on the sphere $S^{99}$, and the metric is invariant under isometries (variation $< 10^{-4}$).
 
-\paragraph{Embedding extraction.} Vision: CLS token of the final layer. Causal LMs: last-token hidden state. Text-embedding models: native sentence-transformer pooling. All in a single forward pass.
+\paragraph{Ollivier--Ricci curvature.} On the $k{=}10$ kNN graph over centroids, we compute Ollivier--Ricci curvature~\citep{ollivier2009ricci} per edge as
+\begin{equation}
+\kappa(u,v) = 1 - \frac{W_1(\mu_u, \mu_v)}{d(u, v)},
+\end{equation}
+where $\mu_u$ is the uniform distribution on $u$'s neighbours and $W_1$ is the $1$-Wasserstein distance. Negative-curvature edges concentrate around branch points of the tree-like skeleton, so the fraction of negative edges and the mean ORC give a local, edge-level view that complements the global $\delta$.
 
-\paragraph{Centroids.} For vision we average embeddings of 50 images per class, yielding 1{,}000 ImageNet centroids. For text/LM we encode the prompt ``a photo of a \{class\}''. This measures \emph{inter-class} distance structure.
+\subsection{Auxiliary geometric tools}
+\label{sec:aux}
 
-\paragraph{Sampling.} 500{,}000 random quadruples $\times$ 10 seeds; we report mean $\delta_{\text{norm}}$ and standard deviation. Sanity checks: a binary tree gives $\delta = 0.000$; the sphere $S^{99}$ gives $\delta = 0.127$; the metric is invariant under isometries ($< 10^{-4}$).
+For finer characterisation we use two additional measurements, each compared against synthetic references in matched dimension and norm.
 
-\paragraph{Auxiliary geometric measures.} (i)~\textbf{Ollivier--Ricci curvature (ORC)}~\citep{ollivier2009ricci} on the $k{=}10$ kNN graph, computed via 1-Wasserstein distance between neighbourhood measures; (ii)~\textbf{four-point defects}: distribution of $S_{\max}-S_{\text{mid}}$ over 100K quadruples, compared against synthetic references ($\mathbb{R}^{10}$, $\mathbb{H}^{10}$, $S^{10}$); (iii)~\textbf{three-way distortion}: embed centroids into $\mathbb{R}^{10}$ (Adam-optimised stress, MDS), $\mathbb{H}^{10}$ (Riemannian Adam on the Poincar\'{e} ball, search $c \in \{0.5, 1, 2\}$), and discrete trees (best of UPGMA, Ward, MST), reporting mean relative distortion. Implementation details in Appendix.
+\paragraph{Four-point defects.} The full distribution of $S_{\max}-S_{\text{mid}}$ over $100\mathrm{K}$ quadruples, compared against samples from $\mathbb{R}^{10}$, $\mathbb{H}^{10}$, and $S^{10}$. This places each model in a strongly-, moderately-, or weakly-hyperbolic regime.
 
-\paragraph{Post-hoc Poincar\'{e} projection (S4 pipeline).} For practical evaluations we apply a parameter-free pipeline to frozen backbone features: \textbf{(1)} compute training mean $\boldsymbol\mu$ and 95th-percentile centred norm $\rho_{95} = \mathrm{quantile}_{95}(\|\boldsymbol{x} - \boldsymbol\mu\|)$; \textbf{(2)} choose scale $s = 2\,\mathrm{arctanh}(0.5)/\rho_{95}$; \textbf{(3)} apply the exponential map at the origin,
+\paragraph{Three-way embedding distortion.} We embed centroids into $\mathbb{R}^{10}$ (Adam-optimised stress, MDS), $\mathbb{H}^{10}$ (Riemannian Adam on the Poincar\'{e} ball, with curvature search $c \in \{0.5, 1, 2\}$), and a discrete tree (best of UPGMA, Ward, MST), reporting the mean relative distortion in each case. Implementation details in Appendix.
+
+\subsection{Post-hoc Poincar\'{e} projection (parameter-free)}
+\label{sec:projection}
+
+To turn the geometric diagnosis into a downstream decision rule, we map any frozen Euclidean feature into the Poincar\'{e} ball without training a single parameter. The procedure is determined entirely by training-set statistics:
+\begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
+\item compute the training mean $\boldsymbol\mu$ and the 95th-percentile centred norm $\rho_{95} = \mathrm{quantile}_{95}(\|\boldsymbol{x} - \boldsymbol\mu\|)$;
+\item set the scale $s = 2\,\mathrm{arctanh}(0.5)/\rho_{95}$ so the 95th-percentile feature lands at norm $0.5$ inside the unit ball;
+\item apply the exponential map at the origin,
 \begin{equation}
 \phi(\boldsymbol{x}) = \tanh\!\Big(\tfrac{1}{2}\|s(\boldsymbol{x}-\boldsymbol\mu)\|\Big) \cdot \frac{s(\boldsymbol{x}-\boldsymbol\mu)}{\|s(\boldsymbol{x}-\boldsymbol\mu)\|}.
 \end{equation}
-This places the 95th-percentile feature norm at 0.5 inside the unit Poincar\'{e} ball, avoiding shell collapse (where features pile up against the boundary and Poincar\'{e} distance degenerates to a function of angles only). Distances between projected points use the canonical Poincar\'{e} formula, $d_\mathbb{H}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{acosh}\!\big(1 + 2\|\boldsymbol{u}-\boldsymbol{v}\|^2 \big/ \big[(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)\big]\big)$.
+\end{enumerate}
+The choice of $s$ avoids \emph{shell collapse}: if features pile up near the boundary of the ball, the Poincar\'{e} distance degenerates into a function of angles only, washing out the radial dimension that encodes hierarchy. Distances between projected points use the canonical Poincar\'{e} formula
+\begin{equation}
+d_\mathbb{H}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
+\end{equation}
+The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric.
 
-\paragraph{Practical evaluation pipeline.} Three downstream tasks on 12 vision models $\times$ 6 datasets ($n = 72$). All use frozen backbones and the S4 projection above.
+\subsection{Downstream protocol}
+\label{sec:downstream}
+
+For each (model, dataset) pair we evaluate three parameter-free metric-based tasks, each in two versions: Euclidean (R) on the raw features and hyperbolic (H) on $\phi(\boldsymbol{x})$.
 \begin{itemize}[topsep=0pt,itemsep=1pt,leftmargin=*]
-\item \textbf{NC (Nearest-Centroid):} per-class training mean as the prototype; classify each test sample by argmin distance to prototypes.
-\item \textbf{FS (Few-shot 5-way 5-shot):} 1{,}000 episodes per (model, dataset); per episode 5 classes, 5 support + 15 query; classify queries by nearest support-prototype~\citep{snell2017proto}.
-\item \textbf{R (Sample-to-sample retrieval P@10):} for each test query, retrieve the 10 nearest training samples and measure fraction sharing the query's class (fine) and superclass (sup). 1{,}000 queries per (model, dataset), 50 train samples per class.
+\item \textbf{NC (Nearest-Centroid).} Per-class training mean as the prototype; classify each test sample by argmin distance to prototypes.
+\item \textbf{FS (Few-shot 5-way 5-shot).} $1{,}000$ episodes per (model, dataset); per episode $5$ classes, $5$ support + $15$ query samples; classify queries by nearest support-prototype, in the spirit of Prototypical Networks~\citep{snell2017proto}.
+\item \textbf{R (Sample-to-sample retrieval P@10).} For each test query, retrieve the $10$ nearest training samples and measure the fraction sharing the query's class (\emph{fine}) and superclass (\emph{sup}). $1{,}000$ queries per (model, dataset), $50$ training samples per class.
 \end{itemize}
-For each task we compute $H_\text{adv} = (\mathrm{acc}_H - \mathrm{acc}_R) \times 100$ pp.
-
-\paragraph{Models and datasets.} The complete 39-model panel with $\delta$, rank, and WordNet correlation values is given in Table~\ref{tab:models}.
-
-\input{tab_models}
+For each task we report the \emph{hyperbolic advantage}
+\begin{equation}
+H_\text{adv} = (\mathrm{acc}_H - \mathrm{acc}_R) \times 100 \;\; \text{(percentage points)},
+\end{equation}
+positive when the Poincar\'{e} projection beats the raw Euclidean baseline and negative otherwise. None of the protocols use trainable heads, learnable distances, or hyperparameter search; any difference between R and H is attributable to the geometry alone.
 
 %% ============================================================
 \section{Ablation Study: $\delta$ reflects learned hierarchy}
@@ -143,6 +177,15 @@ To distinguish architectural bias from learned structure, we run four interventi
 \label{sec:results}
 %% ============================================================
 
+\subsection{Experimental setup}
+\label{sec:setup}
+
+\paragraph{Models.} 39 foundation models in five paradigms: 22 vision (4 supervised ViTs, 9 self-supervised, 9 contrastive, 1 contrastive-hyperbolic), 9 causal language models, and 8 text-embedding models. The complete panel with $\delta$, rank, and WordNet correlation is given in Table~\ref{tab:models}.
+
+\input{tab_models}
+
+\paragraph{Datasets and evaluation regime.} For the cross-model $\delta$ characterisation (\S\ref{sec:universal}--\S\ref{sec:geometry}) all 39 models are evaluated on the same $1{,}000$ ImageNet classes for direct comparability. For the downstream protocol (\S\ref{sec:practical}) we use $12$ vision backbones $\times$ $6$ datasets ($n = 72$): ImageNet, CIFAR-100, CIFAR-10, DTD, FashionMNIST, MNIST. The cross-dataset $\delta$ generalisation check (\S\ref{sec:ablation}) additionally uses ImageNet-Sketch and Places-365.
+
 \subsection{Tree-like geometry is universal}
 \label{sec:universal}
 
@@ -171,7 +214,7 @@ Two axes organise the landscape: (1)~\emph{degree} of tree-likeness (SSL/causal 
 \subsection{Practical payoff: when post-hoc Poincar\'{e} projection helps}
 \label{sec:practical}
 
-We evaluate the S4-projection pipeline of Section~\ref{sec:method} on three tasks across 12 vision models $\times$ 6 datasets ($n = 72$).
+We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on the three tasks of \S\ref{sec:downstream}, across $12$ vision models $\times$ $6$ datasets ($n = 72$).
 
 \paragraph{Task NC.} Pearson correlation between backbone $\delta$ and $H_\text{adv}$ pooled over all 72 combinations: $\boxed{r = -0.542,\;\; p < 10^{-6}}$. Within each individual dataset the correlation is stronger (Table~\ref{tab:within-dataset}), reaching $r = -0.911$ on CIFAR-100 and $r = -0.740$ on ImageNet. DINOv2-L gains $+2.36$ pp on CIFAR-100, $+0.85$ pp on DTD, and $+0.62$ pp on ImageNet.
 
@@ -222,7 +265,7 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 
 \textbf{Limitations.} $\delta$ measures inter-class centroid geometry; the within-class geometry is partially probed by our few-shot evaluation but not exhaustively. For self-supervised models, low $\delta$ is partly explained by the eigenvalue spectrum (15/22 vision models pass a spectrum-matched null at $p < 0.05$). Causal experiments use $n = 3$--$4$ models on CIFAR-100; extending strengthens the causal claim. Our few-shot evaluation uses random class subsets within each dataset rather than a held-out novel-class split. No model satisfies the strict ultrametric inequality; representations are tree-\emph{like}, not perfect trees.
 
-\textbf{Reproducibility.} All experiments use publicly available models and datasets; the S4 projection pipeline and per-(model, dataset) results are released as scripts and CSVs in the supplementary material. Compute requirements: $\delta$ on 1{,}000 centroids takes 8 s on CPU; the full 72-combination practical evaluation runs in $< 30$ minutes on a single GPU.
+\textbf{Reproducibility.} All experiments use publicly available models and datasets; the post-hoc Poincar\'{e} projection pipeline and per-(model, dataset) results are released as scripts and CSVs in the supplementary material. Compute requirements: $\delta$ on 1{,}000 centroids takes 8 s on CPU; the full 72-combination practical evaluation runs in $< 30$ minutes on a single GPU.
 
 \begin{ack}
 [Hidden in anonymous submission.]
@@ -235,7 +278,7 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 %% ============================================================
 \appendix
 \section{Additional analyses}
-Full results for all 39 models across $\delta$, ORC, defects, and three-way distortion are provided in the supplementary material. We also include rank-matched and spectrum-matched null analyses (15/22 vision models pass the spectrum-matched null at $p < 0.05$). All centroid files, per-(model, dataset) CSVs, and the S4 projection script are released alongside the paper.
+Full results for all 39 models across $\delta$, ORC, defects, and three-way distortion are provided in the supplementary material. We also include rank-matched and spectrum-matched null analyses (15/22 vision models pass the spectrum-matched null at $p < 0.05$). All centroid files, per-(model, dataset) CSVs, and the post-hoc projection script are released alongside the paper.
 
 \newpage
 \input{checklist.tex}
