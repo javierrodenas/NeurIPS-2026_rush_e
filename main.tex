@@ -109,20 +109,27 @@ where $\mu_u$ is the uniform distribution on $u$'s neighbours and $W_1$ is the $
 \subsection{Post-hoc Poincar\'{e} projection (parameter-free)}
 \label{sec:projection}
 
-To turn the geometric diagnosis into a downstream decision rule, we map any frozen Euclidean feature into the Poincar\'{e} ball without training a single parameter. The mapping must be \emph{calibrated} to the feature distribution: foundation models output Euclidean features at arbitrary location and scale---means far from the origin, norms ranging from a few units to several thousand depending on backbone---so we cannot apply the exp-map at the origin directly. The procedure is therefore: re-centre features at the origin, rescale them so they occupy a useful slice of the unit ball, and only then apply the exp-map. All three steps are determined entirely by training-set statistics:
+\paragraph{The Poincar\'{e} ball model.} We work in the unit Poincar\'{e} ball $\mathbb{B}^d = \{\boldsymbol{x} \in \mathbb{R}^d : \|\boldsymbol{x}\| < 1\}$ equipped with the conformal Riemannian metric $g_{\boldsymbol{x}} = \lambda(\boldsymbol{x})^2\, g_{\mathrm{eucl}}$ with conformal factor $\lambda(\boldsymbol{x}) = 2/(1 - \|\boldsymbol{x}\|^2)$. This is the standard model of constant negative curvature $-1$~\citep{nickel2017poincare, ganea2018hyperbolic}. The exponential map at the origin sends a tangent vector $\boldsymbol{v} \in T_{\mathbf{0}}\mathbb{B}^d \cong \mathbb{R}^d$ to the point reached by following the geodesic from $\mathbf{0}$ in direction $\boldsymbol{v}$ for hyperbolic time $\|\boldsymbol{v}\|$:
+\begin{equation}
+\exp_{\mathbf{0}}(\boldsymbol{v}) = \tanh\!\Big(\frac{\|\boldsymbol{v}\|}{2}\Big) \cdot \frac{\boldsymbol{v}}{\|\boldsymbol{v}\|}.
+\label{eq:expmap}
+\end{equation}
+The factor $1/2$ in $\tanh(\cdot/2)$ arises because the metric has $\lambda(\mathbf{0}) = 2$, so a Euclidean tangent vector of norm $\|\boldsymbol{v}\|$ corresponds to hyperbolic length $2\|\boldsymbol{v}\|$ along the geodesic; we follow the convention of \citet{khrulkov2020hyperbolic}. (\citet{ganea2018hyperbolic}'s formulation absorbs the factor by re-scaling $\boldsymbol{v}$ and is equivalent up to a constant; switching conventions only renames the scale parameter introduced below.)
+
+\paragraph{Calibrated projection of frozen features.} Mapping a frozen Euclidean feature into $\mathbb{B}^d$ without training a single parameter requires a \emph{calibration} to the feature distribution: foundation models output features at arbitrary location and scale---means far from the origin, norms ranging from a few units to several thousand depending on backbone---so we cannot pass them to Eq.~\eqref{eq:expmap} directly. The procedure is therefore re-centre, rescale, and only then apply $\exp_{\mathbf{0}}$. All three steps are determined entirely by training-set statistics:
 
 \begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
 \item compute the training mean $\boldsymbol\mu$ and the 95th-percentile centred norm $\rho_{95} = \mathrm{quantile}_{95}(\|\boldsymbol{x} - \boldsymbol\mu\|)$. The mean fixes the origin of the projection; the 95th-percentile (rather than the maximum) defines a robust, outlier-insensitive measure of the feature cloud's extent that does not depend on the dimensionality $d$;
 \item set the scale $s = 2\,\mathrm{arctanh}(t)/\rho_{95}$ with target radius $t = 1/\sqrt{2} \approx 0.707$, so the 95th-percentile feature lands at norm $1/\sqrt{2}$ in the unit Poincar\'{e} ball. The choice $t = 1/\sqrt{2}$ is principled: at this radius the conformal factor of the Poincar\'{e} metric, $g(r) = 4/(1-r^2)^2$, takes the value $g(1/\sqrt{2}) = 16 = 4\,g(0)$. The features therefore sit firmly in the hyperbolic regime---the radial dimension carries hierarchical information at four times the central rate---while remaining safely away from the boundary saturation regime~\citep{guo2022clipped} ($r \to 1$, $g \to \infty$, gradients vanish, and Poincar\'{e} distances are dominated by the radial coordinate alone). The choice $t = 1/\sqrt{2}$ is one specific point in a one-parameter family of projections, equivalent to varying the curvature of the ball via $t = 0.5/\sqrt{c}$; \S\ref{sec:practical} reports the full family;
-\item apply the exponential map at the origin,
+\item apply the exponential map at the origin (Eq.~\eqref{eq:expmap}) to the calibrated tangent vector $s(\boldsymbol{x}-\boldsymbol\mu)$:
 \begin{equation}
-\phi(\boldsymbol{x}) = \tanh\!\Big(\tfrac{1}{2}\|s(\boldsymbol{x}-\boldsymbol\mu)\|\Big) \cdot \frac{s(\boldsymbol{x}-\boldsymbol\mu)}{\|s(\boldsymbol{x}-\boldsymbol\mu)\|}.
+\phi(\boldsymbol{x}) \;=\; \exp_{\mathbf{0}}\big(s(\boldsymbol{x}-\boldsymbol\mu)\big) \;=\; \tanh\!\Big(\tfrac{1}{2}\|s(\boldsymbol{x}-\boldsymbol\mu)\|\Big) \cdot \frac{s(\boldsymbol{x}-\boldsymbol\mu)}{\|s(\boldsymbol{x}-\boldsymbol\mu)\|}.
 \end{equation}
 \end{enumerate}
 
-Distances between projected points use the canonical Poincar\'{e} formula
+Distances between projected points use the closed-form Poincar\'{e} distance, which in the unit ball reads~\citep{nickel2017poincare}
 \begin{equation}
-d_\mathbb{H}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
+d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
 \end{equation}
 The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric.
 
