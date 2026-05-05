@@ -82,19 +82,19 @@ The Platonic Representation Hypothesis posits that foundation models converge to
 \label{sec:method}
 %% ============================================================
 
-Our methodology has two parts: a set of \emph{descriptive} tools that quantify how tree-like a frozen representation is (\S\ref{sec:descriptors}--\S\ref{sec:aux}), and a single \emph{prescriptive} tool that turns those measurements into a downstream decision rule (\S\ref{sec:projection}--\S\ref{sec:downstream}). Both operate on raw Euclidean centroids and require no retraining or learnable parameters.
+Our methodology has two parts: a set of \emph{descriptive} tools that quantify how tree-like a frozen representation is (\S\ref{sec:descriptors}), and a \emph{prescriptive} tool that turns those measurements into a downstream decision rule (\S\ref{sec:projection}--\S\ref{sec:downstream}). Both operate on raw Euclidean centroids and require no retraining or learnable parameters.
 
 \subsection{Embeddings and centroids}
 \label{sec:embeddings}
 
-We treat each foundation model as a fixed feature extractor and obtain a single vector per (model, sample) pair in one forward pass. \textbf{Vision} backbones produce the CLS token of the final transformer block; \textbf{causal language models} produce the last-token hidden state; \textbf{text-embedding} models use their native sentence-transformer pooling. To measure \emph{inter-class} structure rather than per-image variability, we collapse each class to a single centroid: vision centroids are the per-class mean of $100$ embeddings; for language and text-embedding models we encode the prompt ``a photo of a \{class\}''. The resulting set of $C$ class centroids in $\mathbb{R}^d$ is the metric space whose hyperbolicity we measure.
+We treat each foundation model as a fixed feature extractor and obtain a single vector per (model, sample) pair in one forward pass. \textbf{Vision} backbones produce the CLS token of the final transformer block; \textbf{causal language models} produce the last-token hidden state; \textbf{text-embedding} models use their native sentence-transformer pooling. To measure \emph{inter-class} structure rather than per-image variability, we collapse each class to a single centroid: vision centroids are the per-class mean of training embeddings, and for language and text-embedding models we encode the prompt ``a photo of a \{class\}''. The resulting set of $C$ class centroids in $\mathbb{R}^d$ is the metric space whose hyperbolicity we measure. Sample counts per class for each experimental regime are listed in \S\ref{sec:setup}.
 
 \subsection{Two coordinate-free descriptors of tree-likeness}
 \label{sec:descriptors}
 
 Both descriptors operate directly on the centroid distance matrix and are invariant to the embedding dimension and basis. They capture complementary aspects of tree-like structure: $\delta$ is a \emph{global} four-point property of the metric, while ORC is a \emph{local}, edge-wise notion of curvature.
 
-\paragraph{Gromov $\delta$-hyperbolicity~\citep{Gromov1987}.} For any four points $x, y, z, w$, ordering the three pairwise sums $S_1{=}d(x,y){+}d(z,w)$, $S_2{=}d(x,z){+}d(y,w)$, $S_3{=}d(x,w){+}d(y,z)$ as $S_{\max} \ge S_{\text{mid}} \ge S_{\min}$, the four-point defect is $(S_{\max}-S_{\text{mid}})/2$, and
+\paragraph{Gromov $\delta$-hyperbolicity.} A metric space is $\delta$-hyperbolic in the sense of \citet{Gromov1987} if it satisfies a four-point condition. For any four points $x, y, z, w$, ordering the three pairwise sums $S_1{=}d(x,y){+}d(z,w)$, $S_2{=}d(x,z){+}d(y,w)$, $S_3{=}d(x,w){+}d(y,z)$ as $S_{\max} \ge S_{\text{mid}} \ge S_{\min}$, the four-point defect is $(S_{\max}-S_{\text{mid}})/2$, and
 \begin{equation}
 \delta = \max_{x,y,z,w} \frac{S_{\max} - S_{\text{mid}}}{2}.
 \end{equation}
@@ -105,15 +105,6 @@ Trees achieve $\delta = 0$; the unit hyperbolic plane has $\delta = \log(1{+}\sq
 \kappa(u,v) = 1 - \frac{W_1(\mu_u, \mu_v)}{d(u, v)},
 \end{equation}
 where $\mu_u$ is the uniform distribution on $u$'s neighbours and $W_1$ is the $1$-Wasserstein distance. Negative-curvature edges concentrate around branch points of the tree-like skeleton, so the fraction of negative edges and the mean ORC give a local, edge-level view that complements the global $\delta$.
-
-\subsection{Auxiliary geometric tools}
-\label{sec:aux}
-
-For finer characterisation we use two additional measurements, each compared against synthetic references in matched dimension and norm.
-
-\paragraph{Four-point defects.} The full distribution of $S_{\max}-S_{\text{mid}}$ over $100\mathrm{K}$ quadruples, compared against samples from $\mathbb{R}^{10}$, $\mathbb{H}^{10}$, and $S^{10}$. This places each model in a strongly-, moderately-, or weakly-hyperbolic regime.
-
-\paragraph{Three-way embedding distortion.} We embed centroids into $\mathbb{R}^{10}$ (Adam-optimised stress, MDS), $\mathbb{H}^{10}$ (Riemannian Adam on the Poincar\'{e} ball, with curvature search $c \in \{0.5, 1, 2\}$), and a discrete tree (best of UPGMA, Ward, MST), reporting the mean relative distortion in each case. Implementation details in Appendix.
 
 \subsection{Post-hoc Poincar\'{e} projection (parameter-free)}
 \label{sec:projection}
@@ -136,7 +127,7 @@ The Euclidean and hyperbolic versions of every downstream task below cost identi
 \subsection{Downstream protocol}
 \label{sec:downstream}
 
-For each (model, dataset) pair we evaluate three parameter-free metric-based tasks, each in two versions: Euclidean (R) on the raw features and hyperbolic (H) on $\phi(\boldsymbol{x})$.
+For each (model, dataset) pair we evaluate three parameter-free metric-based tasks, each in two versions: Euclidean (R) on the raw features and hyperbolic (H) on $\phi(\boldsymbol{x})$. The three tasks span the prototype-vs-sample axis on which a Poincar\'{e} projection can or cannot be exploited: nearest-centroid and few-shot pit a clean class prototype against individual samples (asymmetric setting); sample-to-sample retrieval is the symmetric case where no clean prototype exists, giving us a positive predicted, a positive observed, and a negative-control task in a single protocol.
 \begin{itemize}[topsep=0pt,itemsep=1pt,leftmargin=*]
 \item \textbf{NC (Nearest-Centroid).} Per-class training mean as the prototype; classify each test sample by argmin distance to prototypes.
 \item \textbf{FS (Few-shot 5-way 5-shot).} $1{,}000$ episodes per (model, dataset); per episode $5$ classes, $5$ support + $15$ query samples; classify queries by nearest support-prototype, in the spirit of Prototypical Networks~\citep{snell2017proto}.
@@ -205,9 +196,9 @@ Two axes organise the landscape: (1)~\emph{degree} of tree-likeness (SSL/causal 
 \subsection{Geometric characterisation}
 \label{sec:geometry}
 
-\paragraph{Three-way embedding distortion.} Across all 40 vision models, $\mathbb{H}^{10}$ outperforms $\mathbb{R}^{10}$ ($\rho(\mathbb{H}/\mathbb{R}) > 1$ in 40/40 cases; range $1.03$--$1.21$). On ImageNet (deep WordNet taxonomy), discrete trees outperform $\mathbb{H}^{10}$ in 17/22 vision models---these representations are so tree-like that even continuous hyperbolic manifolds cannot fully capture them. On Places-365 (365 scene categories, shallow taxonomy), $\mathbb{H}^{10}$ wins 18/22, indicating that the relative advantage of trees vs.\ continuous $\mathbb{H}^{10}$ depends on taxonomic depth.
+\paragraph{Three-way embedding distortion.} We embed each set of centroids into $\mathbb{R}^{10}$ (Adam-optimised stress, MDS), $\mathbb{H}^{10}$ (Riemannian Adam on the Poincar\'{e} ball, with curvature search $c \in \{0.5, 1, 2\}$), and a discrete tree (best of UPGMA, Ward, MST), reporting the mean relative distortion in each case (full details in Appendix). Across all 40 vision models, $\mathbb{H}^{10}$ outperforms $\mathbb{R}^{10}$ ($\rho(\mathbb{H}/\mathbb{R}) > 1$ in 40/40 cases; range $1.03$--$1.21$). On ImageNet (deep WordNet taxonomy), discrete trees outperform $\mathbb{H}^{10}$ in 17/22 vision models---these representations are so tree-like that even continuous hyperbolic manifolds cannot fully capture them. On Places-365 (365 scene categories, shallow taxonomy), $\mathbb{H}^{10}$ wins 18/22, indicating that the relative advantage of trees vs.\ continuous $\mathbb{H}^{10}$ depends on taxonomic depth.
 
-\paragraph{Four-point defects.} Three regimes emerge from the defect distribution: (i)~\textbf{strongly hyperbolic}---DINOv2 family, GPT-2 XL, OLMo (defect 0.005--0.012, matching concentrated $\mathbb{H}^{10}$); (ii)~\textbf{moderately hyperbolic}---contrastive vision, text embeddings, supervised (defect 0.015--0.024); (iii)~all 40 models far from $\mathbb{R}^{10}$ ($0.037$) and $S^{10}$ ($0.057$).
+\paragraph{Four-point defects.} For each model we compute the distribution of $S_{\max}-S_{\text{mid}}$ over $100\mathrm{K}$ random quadruples and compare it against samples from $\mathbb{R}^{10}$, $\mathbb{H}^{10}$ and $S^{10}$ matched in dimension and norm. Three regimes emerge: (i)~\textbf{strongly hyperbolic}---DINOv2 family, GPT-2 XL, OLMo (defect 0.005--0.012, matching concentrated $\mathbb{H}^{10}$); (ii)~\textbf{moderately hyperbolic}---contrastive vision, text embeddings, supervised (defect 0.015--0.024); (iii)~all 40 models far from $\mathbb{R}^{10}$ ($0.037$) and $S^{10}$ ($0.057$).
 
 \paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 40 models ($r = -0.71$, $p < 10^{-4}$). DINOv2 has the highest ORC ($0.52$--$0.65$, 0\% negative edges); supervised models are moderate ($0.31$--$0.38$, 4--7\% negative); contrastive lower ($0.31$--$0.34$, 5--6\%); text embeddings distinctly lower ($0.17$--$0.24$, 13--17\% negative). Ranking is preserved across $k \in \{5, 10, 15, 20, 30, 50\}$ (Spearman $r = 1.0$).
 
