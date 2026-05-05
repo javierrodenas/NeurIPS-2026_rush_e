@@ -68,14 +68,7 @@ La Platonic Representation Hypothesis postula que los foundation models converge
 \item \textbf{A practical $\mathbb{H}$-vs-$\mathbb{R}$ decision rule}: given a backbone and dataset, the two zero-cost diagnostics tell when post-hoc hyperbolic projection pays off and when it does not. The conditions under which it disappears (symmetric retrieval, datasets without label hierarchy) are explainable from the same geometric mechanism, turning the descriptor into an actionable, reversible recipe.
 \end{enumerate}
 
-\smallskip
-\noindent\textbf{Contribuciones (Castellano, draft only).}
-\begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
-\item La geometría jerárquica (tree-like) de una representación aprendida es \textbf{un co-producto de la capacidad del modelo y de la jerarquía de los datos}. A través de 39 modelos y 6 datasets, la intensidad de la jerarquía escala con el número de parámetros del backbone dentro de cada paradigma, y varía sistemáticamente entre datasets---los datasets con jerarquía más profunda (p.\,ej.\ ImageNet) producen $\delta$ más bajos que los datasets de jerarquía plana (p.\,ej.\ MNIST). El \emph{objetivo} de entrenamiento, no la modalidad, determina el tipo de árbol que se aprende.
-\item \textbf{Evidencia causal de que esta geometría es aprendida, no arquitectónica}: la jerarquía desaparece con pesos aleatorios, se debilita con fine-tuning no jerárquico, emerge progresivamente a lo largo de las capas del transformer, y se preserva bajo shuffle controls.
-\item $\delta$ \textbf{y ORC correlacionan con la ventaja hiperbólica}, en clasificación basada en prototipos y few-shot a través de 12 backbones de visión $\times$ 6 datasets ($n = 72$). Un $\delta$ más bajo y una ORC más alta, calculados una sola vez sobre los centroides del backbone, predicen la ganancia que la proyección Poincaré aporta downstream.
-\item \textbf{Una regla práctica $\mathbb{H}$-vs-$\mathbb{R}$ de decisión}: dado un backbone y un dataset, los dos diagnósticos de coste cero indican cuándo merece la pena proyectar a $\mathbb{H}$ y cuándo no. Las condiciones bajo las cuales no aporta ventaja (retrieval simétrico, datasets sin jerarquía de etiquetas) se explican desde el mismo mecanismo geométrico, convirtiendo el descriptor en una receta accionable y reversible.
-\end{enumerate}
+
 
 %% ============================================================
 \section{Related Work}
