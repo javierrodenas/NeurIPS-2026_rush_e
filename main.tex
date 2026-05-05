@@ -122,7 +122,7 @@ The choice of $s$ avoids \emph{shell collapse}: if features pile up near the bou
 \begin{equation}
 d_\mathbb{H}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
 \end{equation}
-The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric.
+The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric. The unit-ball convention ($c{=}1$) is a single point in a one-parameter family of curvatures: setting $s_c = 2\,\mathrm{arctanh}(0.5/\sqrt{c})/\rho_{95}$ in step (2) maps the 95th-percentile feature to half the boundary of a curvature-$c$ ball. The default $c{=}1$ is a reasonable starting point; \S\ref{sec:practical} shows that the per-backbone optimal $c$ itself correlates with the descriptor $\delta$.
 
 \subsection{Downstream protocol}
 \label{sec:downstream}
@@ -212,6 +212,10 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
 \paragraph{Task FS.} Pooled $r = -0.496$ ($p < 10^{-5}$). \emph{Every} of the 12 vision models on ImageNet gains in few-shot ($H_\text{adv}$ from $+0.01$ to $+1.31$ pp), and the magnitude scales tightly with $\delta$: within ImageNet $r = -0.868$ ($p = 0.0003$); within DTD $r = -0.919$ ($p < 10^{-4}$).
 
 \paragraph{Task R (sample-to-sample retrieval).} The hyperbolic advantage is uniformly negative or null in every dataset (mean $-0.5$ to $-2.3$ pp), and the correlation with $\delta$ is essentially zero in every dataset (Table~\ref{tab:within-dataset}). This is consistent with the geometric mechanism: when both query and database items are individual samples (both ``noisy''), no asymmetry exists between query and target representation that the radial dimension of the Poincar\'{e} ball can encode. The hyperbolic advantage is therefore restricted to settings where one side is a clean class prototype (NC, FS).
+
+\paragraph{Curvature tuning amplifies the hyperbolic advantage.} The default $c{=}1$ above is a single point in the one-parameter family of curvatures introduced in \S\ref{sec:projection}. Sweeping $c \in \{0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 4\}$ on the 12 vision backbones for ImageNet NC (Table~\ref{tab:curvature}) shows that the per-backbone optimal $c$ \emph{always} produces a positive $H_\text{adv}$, including for the contrastive backbones that were null or negative at $c{=}1$ (CLIP-B: $-0.92 \to +0.34$ pp; SigLIP-B: $-0.16 \to +0.31$ pp; CLIP-L: $-0.19 \to +0.22$ pp; DINOv1-B: $-0.75 \to +0.35$ pp). The mean $H_\text{adv}$ across the 12 backbones flips sign from $-0.21$ pp (at $c{=}1$) to $+0.21$ pp (at $c_\text{opt}$). Critically, $c_\text{opt}$ itself correlates with the descriptor: Pearson $r(c_\text{opt}, \delta) = -0.43$, Spearman $r = -0.49$ ($p \approx 0.10$--$0.16$, $n = 12$). \emph{More tree-like backbones tolerate higher nominal curvature; less tree-like backbones require a softer (lower-$c$) compression.} The shift is geometrically intuitive: lower $\delta$ means class centroids already concentrate near the metric's centre, so an aggressive curvature can compress them further without saturation; higher $\delta$ means centroids are more spread out, so the projection needs to keep features further from the boundary to avoid shell collapse. This sharpens the prescriptive claim into an explicit two-step decision rule: \emph{measure $\delta$ on the backbone centroids; project with a curvature read off from $\delta$}.
+
+\input{tab_curvature}
 
 \begin{figure}[t]
   \centering

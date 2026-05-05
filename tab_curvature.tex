@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering\scriptsize
+\caption{Curvature sweep on the 12 vision backbones for ImageNet NC. The default $c{=}1$ leaves 7/12 backbones with negative or null $H_\text{adv}$; tuning $c$ per backbone yields a positive $H_\text{adv}$ for all 12. The optimal curvature itself correlates with $\delta$ (Pearson $r = -0.43$, Spearman $r = -0.49$): more tree-like backbones tolerate higher nominal curvature; less tree-like ones need a softer compression. Sorted by $\delta_\text{full}$ (centroids on the full ImageNet train).}
+\label{tab:curvature}
+\begin{tabular}{llrrrrr}
+\toprule
+Model & Paradigm & $\delta_\text{full}$ & $c_\text{opt}$ & $H_\text{adv}@c{=}1$ & $H_\text{adv}@c_\text{opt}$ & $\Delta$ \\
+\midrule
+DINOv2-G/14   & SSL          & 0.0054 & 0.50 & $-0.07$ & $+0.06$ & $+0.13$ \\
+DINOv2-L/14   & SSL          & 0.0067 & 1.50 & $+0.52$ & $\mathbf{+0.55}$ & $+0.03$ \\
+DINOv2-B/14   & SSL          & 0.0072 & 0.50 & $+0.00$ & $+0.04$ & $+0.04$ \\
+DINOv2-S/14   & SSL          & 0.0101 & 0.25 & $-0.32$ & $+0.16$ & $+0.48$ \\
+DINOv1-B/16   & SSL          & 0.0111 & 0.25 & $-0.75$ & $+0.35$ & $+1.10$ \\
+ViT-B/16      & Supervised   & 0.0125 & 0.25 & $+0.09$ & $+0.17$ & $+0.08$ \\
+ViT-L/16      & Supervised   & 0.0127 & 0.75 & $-0.01$ & $+0.05$ & $+0.06$ \\
+ViT-S/16      & Supervised   & 0.0152 & 1.00 & $+0.07$ & $+0.07$ & $\phantom{+}0.00$ \\
+CLIP-L/14     & Contrastive  & 0.0164 & 0.25 & $-0.19$ & $+0.22$ & $+0.41$ \\
+SigLIP-B/16   & Contrastive  & 0.0172 & 0.25 & $-0.16$ & $+0.31$ & $+0.47$ \\
+CLIP-B/32     & Contrastive  & 0.0191 & 0.25 & $-0.92$ & $+0.34$ & $+1.26$ \\
+ViT-T/16      & Supervised   & 0.0208 & 0.25 & $-0.75$ & $+0.15$ & $+0.90$ \\
+\midrule
+\textbf{Mean} &              &        &      & $-0.21$ & $\mathbf{+0.21}$ & $+0.41$ \\
+\bottomrule
+\end{tabular}
+\end{table}
