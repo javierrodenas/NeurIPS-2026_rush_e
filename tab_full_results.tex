@@ -1,5 +1,5 @@
 \begin{table}[t]
-\caption{Full per-(model, dataset) results: $\delta$, ORC, R/H accuracies, and $H_{\mathrm{adv}}$ (pp) for nearest-centroid (NC) and 5-way 5-shot few-shot (FS), at the headline target $t = 1/\sqrt{2}$. Top section: 12 vision backbones $\times$ 6 datasets ($n = 72$); ImageNet uses the full-train extraction ($\sim 1{,}231$ imgs/class), the other five datasets use $100$ imgs/class. Bottom section: 27 additional models for cross-modality breadth (3 ResNet SSL, 6 contrastive variants, 1 hyperbolic-contrastive, 9 causal LMs, 8 text-embedding models), reporting ImageNet $\delta$ only.}
+\caption{Full per-(model, dataset) results: $\delta$, ORC, R/H accuracies, and $H_{\mathrm{adv}}$ (pp) for nearest-centroid (NC) and 5-way 5-shot few-shot (FS), at the headline target $t = 1/\sqrt{2}$. 12 vision backbones $\times$ 6 datasets ($n = 72$); ImageNet uses the full-train extraction ($\sim 1{,}231$ imgs/class), the other five datasets use $100$ imgs/class.}
 \label{tab:full-results}
 \centering\scriptsize
 \begin{tabular}{lllrrr|rrr|rrr}
@@ -83,35 +83,6 @@ MNIST & DINOv2-G & SSL & 1.1B & 0.034 & 0.650 & 0.793 & 0.786 & -0.65 & 0.729 & 
 MNIST & CLIP-B & Con & 86M & 0.033 & 0.340 & 0.701 & 0.666 & -3.56 & 0.709 & 0.697 & -1.23 \\
 MNIST & CLIP-L & Con & 307M & 0.043 & 0.326 & 0.852 & 0.861 & +0.88 & 0.837 & 0.847 & +0.95 \\
 MNIST & SigLIP-B & Con & 86M & 0.030 & 0.316 & 0.931 & 0.932 & +0.06 & 0.907 & 0.913 & +0.62 \\
-\midrule
-\multicolumn{12}{l}{\emph{Additional models (ImageNet $\delta$ only, $100$~imgs/class for vision; prompt-based for LM/text)}} \\
-ImageNet & BarlowTwins-R50 & SSL & 23M & n/a & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & BYOL-R50 & SSL & 23M & n/a & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & VICReg-R50 & SSL & 23M & n/a & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & CLIP-H/14 & Con & 307M & 0.107 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & OpenCLIP-B/32 & Con & 86M & 0.116 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & MetaCLIP-B & Con & 86M & 0.115 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & SigLIP-L/16 & Con & 307M & 0.112 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & OpenCLIP-L/14 & Con & 307M & 0.119 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & MetaCLIP-L & Con & 307M & 0.107 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & MERU-B/16 & Con-H & 86M & 0.123 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & GPT-2 S & LM & 117M & 0.131 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & GPT-2 M & LM & 345M & 0.082 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & GPT-2 L & LM & 774M & 0.079 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & GPT-2 XL & LM & 1.5B & 0.073 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & Pythia-410M & LM & 410M & 0.101 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & Pythia-1B & LM & 1.0B & 0.095 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & Pythia-2.8B & LM & 2.8B & 0.098 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & OLMo-1B & LM & 1.0B & 0.084 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & OLMo-7B & LM & 7.0B & 0.097 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & BGE-base & TE & 110M & 0.127 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & BGE-large & TE & 335M & 0.122 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & GTE-base & TE & 110M & 0.128 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & GTE-large & TE & 335M & 0.121 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & GTE-Qwen2-1.5B & TE & 1.5B & 0.124 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & E5-base & TE & 110M & 0.121 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & E5-large & TE & 335M & 0.114 & --- & --- & --- & --- & --- & --- & --- \\
-ImageNet & Nomic-v1.5 & TE & 137M & 0.126 & --- & --- & --- & --- & --- & --- & --- \\
 \bottomrule
 \end{tabular}
 \end{table}

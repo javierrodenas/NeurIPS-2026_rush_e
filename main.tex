@@ -147,7 +147,7 @@ positive when the Poincar\'{e} projection beats the raw Euclidean baseline and n
 \subsection{Setup}
 \label{sec:setup}
 
-\paragraph{Models.} 39 foundation models in five paradigms: 22 vision backbones (4 supervised ViTs, 9 self-supervised, 9 contrastive, including 1 contrastive-hyperbolic), 9 causal language models, and 8 text-embedding models. We work with two nested panels: a \emph{main panel} of 12 vision backbones (i21k-T/S/B/L; DINOv1-B; DINOv2-S/B/L/G; CLIP-B/L; SigLIP-B) for which we evaluate $\delta$, ORC and three downstream tasks across all 6 datasets; and a wider \emph{breadth panel} of 27 additional models for cross-modality $\delta$ on ImageNet only. Both panels appear in Table~\ref{tab:full-results}.
+\paragraph{Models.} 39 foundation models in five paradigms: 22 vision backbones (4 supervised ViTs, 9 self-supervised, 9 contrastive, including 1 contrastive-hyperbolic), 9 causal language models, and 8 text-embedding models. We work with two nested panels: a \emph{main panel} of 12 vision backbones (i21k-T/S/B/L; DINOv1-B; DINOv2-S/B/L/G; CLIP-B/L; SigLIP-B) for which we evaluate $\delta$, ORC and three downstream tasks across all 6 datasets (Table~\ref{tab:full-results}); and a \emph{breadth panel} of 27 additional models for cross-modality $\delta$ on ImageNet only (Table~\ref{tab:breadth}).
 
 \paragraph{Datasets and evaluation regime.} For the cross-model $\delta$ characterisation (\S\ref{sec:geometry-paradigm}) all 39 models are evaluated on the same $1{,}000$ ImageNet classes for direct comparability. For the downstream protocol (\S\ref{sec:downstream-results}, \S\ref{sec:curvature}) we use $12$ vision backbones $\times$ $6$ datasets ($n = 72$): ImageNet, CIFAR-100, CIFAR-10, DTD, FashionMNIST, MNIST. The cross-dataset $\delta$ generalisation check (\S\ref{sec:ablation-noise}) additionally uses ImageNet-Sketch and Places-365.
 
@@ -157,6 +157,8 @@ positive when the Poincar\'{e} projection beats the raw Euclidean baseline and n
 Table~\ref{tab:full-results} reports the complete per-(model, dataset) numerical results: backbone $\delta$ on the dataset's centroids, global ORC, R/H accuracies and $H_{\mathrm{adv}}$ for both NC and FS tasks. Three patterns are visible row by row. (1)~For DINOv2-L/G on hierarchical datasets (ImageNet, CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. (2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative (Euclidean already aligned with WordNet by design) while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), all advantages collapse toward zero. Sample-to-sample retrieval results (column omitted from the table for space) are in \texttt{master\_per\_dataset.csv} and uniformly null---see \S\ref{sec:downstream-results}.
 
 \input{tab_full_results}
+
+\input{tab_breadth}
 
 \subsection{Geometry across capacity and paradigm}
 \label{sec:geometry-paradigm}

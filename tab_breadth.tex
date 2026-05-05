@@ -1,0 +1,57 @@
+\begin{table}[t]
+\caption{\textbf{Breadth panel}: 27 additional foundation models evaluated for cross-modality $\delta$ on the same 1{,}000 ImageNet classes (vision: $100$ imgs/class; LM/text-embedding: prompt ``a photo of a \{class\}''). These models complement the 12 vision backbones in Table~\ref{tab:full-results} and span the remaining paradigms and families used in the cross-model analysis (\S\ref{sec:geometry-paradigm}). Rows are grouped by family and sorted by parameter count within each family.}
+\label{tab:breadth}
+\centering\scriptsize
+\begin{tabular}{llrr}
+\toprule
+Model & Paradigm & Params & $\delta_{\mathrm{norm}}$ \\
+\midrule
+\multicolumn{4}{l}{\emph{ResNet-50 SSL}} \\
+BarlowTwins-R50 & SSL & 23M & n/a \\
+BYOL-R50 & SSL & 23M & n/a \\
+VICReg-R50 & SSL & 23M & n/a \\
+\midrule
+\multicolumn{4}{l}{\emph{CLIP variants}} \\
+OpenCLIP-B/32 & Contrastive & 86M & 0.116 \\
+MetaCLIP-B & Contrastive & 86M & 0.115 \\
+CLIP-H/14 & Contrastive & 307M & 0.107 \\
+SigLIP-L/16 & Contrastive & 307M & 0.112 \\
+OpenCLIP-L/14 & Contrastive & 307M & 0.119 \\
+MetaCLIP-L & Contrastive & 307M & 0.107 \\
+\midrule
+\multicolumn{4}{l}{\emph{Hyperbolic-contrastive}} \\
+MERU-B/16 & Contrastive-H & 86M & 0.123 \\
+\midrule
+\multicolumn{4}{l}{\emph{GPT-2}} \\
+GPT-2 S & Causal LM & 117M & 0.131 \\
+GPT-2 M & Causal LM & 345M & 0.082 \\
+GPT-2 L & Causal LM & 774M & 0.079 \\
+GPT-2 XL & Causal LM & 1.5B & 0.073 \\
+\midrule
+\multicolumn{4}{l}{\emph{Pythia}} \\
+Pythia-410M & Causal LM & 410M & 0.101 \\
+Pythia-1B & Causal LM & 1.0B & 0.095 \\
+Pythia-2.8B & Causal LM & 2.8B & 0.098 \\
+\midrule
+\multicolumn{4}{l}{\emph{OLMo}} \\
+OLMo-1B & Causal LM & 1.0B & 0.084 \\
+OLMo-7B & Causal LM & 7.0B & 0.097 \\
+\midrule
+\multicolumn{4}{l}{\emph{BGE}} \\
+BGE-base & Text-Embed & 110M & 0.127 \\
+BGE-large & Text-Embed & 335M & 0.122 \\
+\midrule
+\multicolumn{4}{l}{\emph{GTE}} \\
+GTE-base & Text-Embed & 110M & 0.128 \\
+GTE-large & Text-Embed & 335M & 0.121 \\
+GTE-Qwen2-1.5B & Text-Embed & 1.5B & 0.124 \\
+\midrule
+\multicolumn{4}{l}{\emph{E5}} \\
+E5-base & Text-Embed & 110M & 0.121 \\
+E5-large & Text-Embed & 335M & 0.114 \\
+\midrule
+\multicolumn{4}{l}{\emph{Nomic}} \\
+Nomic-v1.5 & Text-Embed & 137M & 0.126 \\
+\bottomrule
+\end{tabular}
+\end{table}
