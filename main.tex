@@ -187,7 +187,7 @@ Two axes organise the landscape: (1)~\emph{degree} of tree-likeness (SSL/causal 
 
 We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on the three tasks of \S\ref{sec:downstream}, across $12$ vision models $\times$ $6$ datasets ($n = 72$).
 
-\paragraph{Task NC.} The largest gains concentrate where the geometry can be most exploited---the most tree-like backbones on the deepest-hierarchy datasets. DINOv2-L gains $\mathbf{+2.05}$ pp on CIFAR-100 (a $\sim$3\% relative improvement on a $\sim$70\% baseline) and $+0.74$ pp on DTD; DINOv2-G gains $+1.23$ pp on CIFAR-100, DINOv2-S $+0.97$ pp. The pooled correlation across all 72 combinations is $\boxed{r = -0.576,\;\; p < 10^{-6}}$: lower $\delta$ predicts higher $H_\text{adv}$ across backbones and datasets. Within-dataset correlations (Table~\ref{tab:within-dataset}) are strongest on hierarchical datasets, reaching $r = -0.886$ on CIFAR-100 and $r = -0.693$ on DTD; flat-hierarchy datasets (FashionMNIST, MNIST) show no significant correlation. ImageNet NC gains are smaller ($+0.36$ for DINOv2-L; pooled within-dataset $r = -0.39$) because the $1{,}000$ ImageNet classes already align tightly with the WordNet hierarchy that contrastive backbones inherit from text supervision, leaving little hierarchical headroom for a post-hoc projection.
+\paragraph{Task NC.} The largest gains concentrate where the geometry can be most exploited---the most tree-like backbones on the deepest-hierarchy datasets. DINOv2-L gains $\mathbf{+2.05}$ pp on CIFAR-100 (a $\sim$3\% relative improvement on a $\sim$70\% baseline) and $+0.74$ pp on DTD; DINOv2-G gains $+1.23$ pp on CIFAR-100, DINOv2-S $+0.97$ pp. The pooled correlation across all 72 combinations is $\boxed{r = -0.576,\;\; p < 10^{-6}}$: lower $\delta$ predicts higher $H_\text{adv}$ across backbones and datasets. Within-dataset correlations are strongest on hierarchical datasets, reaching $r = -0.886$ on CIFAR-100 ($p < 10^{-3}$) and $r = -0.693$ on DTD ($p < 0.05$); flat-hierarchy datasets (FashionMNIST, MNIST) show no significant correlation. The same pattern holds for FS (ImageNet $r = -0.836$, $p < 10^{-3}$; DTD $r = -0.802$, $p < 0.01$; CIFAR-10 $r = -0.720$, $p < 0.01$). ImageNet NC gains are smaller ($+0.36$ for DINOv2-L; pooled within-dataset $r = -0.39$) because the $1{,}000$ ImageNet classes already align tightly with the WordNet hierarchy that contrastive backbones inherit from text supervision, leaving little hierarchical headroom for a post-hoc projection.
 
 \paragraph{Task FS.} Pooled $r = -0.283$ ($p < 0.05$): the correlation is weaker than for NC because, at this curvature, the few-shot projection helps almost every (model, dataset) pair (68/72 positive $H_\text{adv}$, mean $+0.55$ pp), compressing the variance against which $\delta$ can be tested. Within hierarchical datasets the dependence on $\delta$ remains strong: $r = -0.836$ on ImageNet ($p < 10^{-3}$), $r = -0.802$ on DTD, $r = -0.720$ on CIFAR-10. \emph{All} 12 vision models on ImageNet gain in few-shot ($H_\text{adv}$ from $+0.05$ to $+0.93$ pp), with the largest gains concentrated in the SSL family (DINOv2-G $+0.93$, DINOv2-L $+0.89$, DINOv2-B $+0.75$).
 
@@ -199,25 +199,6 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
   \caption{$\delta$ predicts the hyperbolic advantage in post-hoc prototype-based downstream tasks (12 vision models $\times$ 6 datasets, $n = 72$). Left: nearest-centroid classification. Right: 5-way 5-shot few-shot. SSL backbones (lowest $\delta$) show the largest gains. Dashed line: linear fit.}
   \label{fig:tasks_CE}
 \end{figure}
-
-\begin{table}[t]
-\centering\scriptsize
-\caption{Within-dataset Pearson correlation $r$ between backbone $\delta$ and hyperbolic advantage $H_\text{adv}$ at $t = 1/\sqrt{2}$, across 12 vision models. The four hierarchical datasets show strong, significant negative correlations for prototype-based tasks (NC, FS); flat-hierarchy datasets (FashionMNIST, MNIST) show no significant correlation. Retrieval (R) was uniformly null in our reference run~at $t = 0.5$ and is omitted here.}
-\label{tab:within-dataset}
-\begin{tabular}{lccl}
-\toprule
-Dataset & $r$ (NC) & $r$ (FS) & Hierarchy \\
-\midrule
-ImageNet & $-0.389$ & $\mathbf{-0.836}^{***}$ & 30 WordNet super \\
-CIFAR-100 & $\mathbf{-0.886}^{****}$ & $-0.534$ & 20 WordNet super \\
-DTD & $\mathbf{-0.693}^{*}$ & $\mathbf{-0.802}^{**}$ & emergent clusters \\
-CIFAR-10 & $\mathbf{-0.586}^{*}$ & $\mathbf{-0.720}^{**}$ & vehicle / animal \\
-FashionMNIST & $-0.457$ & $+0.321$ & weak (4 super) \\
-MNIST & $+0.387$ & $+0.235$ & arbitrary \\
-\bottomrule
-\multicolumn{6}{l}{\scriptsize $^*p<0.05$, $^{**}p<0.01$, $^{***}p<0.005$, $^{****}p<0.001$.}
-\end{tabular}
-\end{table}
 
 \paragraph{Practical protocol.} Compute $\delta$ on training-set class centroids (${\sim}8$ seconds CPU). \emph{If $\delta < 0.10$ and the labels carry a deep semantic hierarchy}, post-hoc Poincar\'{e} projection of frozen features improves NC and few-shot by $0.5$--$2.5$ pp; \emph{otherwise}, retain Euclidean. The decision is reversible (one-line distance switch), requires no training, and is unconfounded by optimisation tuning.
 
