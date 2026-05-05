@@ -109,20 +109,22 @@ where $\mu_u$ is the uniform distribution on $u$'s neighbours and $W_1$ is the $
 \subsection{Post-hoc Poincar\'{e} projection (parameter-free)}
 \label{sec:projection}
 
-To turn the geometric diagnosis into a downstream decision rule, we map any frozen Euclidean feature into the Poincar\'{e} ball without training a single parameter. The procedure is determined entirely by training-set statistics:
+To turn the geometric diagnosis into a downstream decision rule, we map any frozen Euclidean feature into the Poincar\'{e} ball without training a single parameter. The mapping must be \emph{calibrated} to the feature distribution: foundation models output Euclidean features at arbitrary location and scale---means far from the origin, norms ranging from a few units to several thousand depending on backbone---so we cannot apply the exp-map at the origin directly. The procedure is therefore: re-centre features at the origin, rescale them so they occupy a useful slice of the unit ball, and only then apply the exp-map. All three steps are determined entirely by training-set statistics:
+
 \begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
-\item compute the training mean $\boldsymbol\mu$ and the 95th-percentile centred norm $\rho_{95} = \mathrm{quantile}_{95}(\|\boldsymbol{x} - \boldsymbol\mu\|)$;
-\item set the scale $s = 2\,\mathrm{arctanh}(0.5)/\rho_{95}$ so the 95th-percentile feature lands at norm $0.5$ inside the unit ball;
+\item compute the training mean $\boldsymbol\mu$ and the 95th-percentile centred norm $\rho_{95} = \mathrm{quantile}_{95}(\|\boldsymbol{x} - \boldsymbol\mu\|)$. The mean fixes the origin of the projection; the 95th-percentile (rather than the maximum) defines a robust, outlier-insensitive measure of the feature cloud's extent that does not depend on the dimensionality $d$;
+\item set the scale $s = 2\,\mathrm{arctanh}(t)/\rho_{95}$ with target radius $t = 0.5$, so the 95th-percentile feature lands at norm $0.5$ in the unit Poincar\'{e} ball. The choice $t = 0.5$ is a heuristic midpoint between two well-known failure modes of hyperbolic embeddings: as $t \to 0$ all features collapse near the origin, where the Poincar\'{e} distance degenerates into Euclidean distance and any tree-like signal is washed out; as $t \to 1$ features pile up against the boundary, the regime of \emph{boundary saturation}~\citep{guo2022clipped} where the Poincar\'{e} distance behaves like $-\log(1-\|\boldsymbol{x}\|^2)$, gradients vanish, and distances are dominated by radial coordinates alone. The midpoint $t = 0.5$ keeps the 95th-percentile feature comfortably away from both regimes; we revisit this choice in \S\ref{sec:practical} via a curvature sweep, where it amounts to varying $t$ along the family $t = 0.5/\sqrt{c}$;
 \item apply the exponential map at the origin,
 \begin{equation}
 \phi(\boldsymbol{x}) = \tanh\!\Big(\tfrac{1}{2}\|s(\boldsymbol{x}-\boldsymbol\mu)\|\Big) \cdot \frac{s(\boldsymbol{x}-\boldsymbol\mu)}{\|s(\boldsymbol{x}-\boldsymbol\mu)\|}.
 \end{equation}
 \end{enumerate}
-The choice of $s$ avoids \emph{shell collapse}: if features pile up near the boundary of the ball, the Poincar\'{e} distance degenerates into a function of angles only, washing out the radial dimension that encodes hierarchy. Distances between projected points use the canonical Poincar\'{e} formula
+
+Distances between projected points use the canonical Poincar\'{e} formula
 \begin{equation}
 d_\mathbb{H}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
 \end{equation}
-The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric. The unit-ball convention ($c{=}1$) is a single point in a one-parameter family of curvatures: setting $s_c = 2\,\mathrm{arctanh}(0.5/\sqrt{c})/\rho_{95}$ in step (2) maps the 95th-percentile feature to half the boundary of a curvature-$c$ ball. The default $c{=}1$ is a reasonable starting point; \S\ref{sec:practical} shows that the per-backbone optimal $c$ itself correlates with the descriptor $\delta$.
+The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric.
 
 \subsection{Downstream protocol}
 \label{sec:downstream}
