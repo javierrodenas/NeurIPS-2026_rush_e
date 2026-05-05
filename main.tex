@@ -116,14 +116,19 @@ We project a frozen Euclidean feature $\boldsymbol{x} \in \mathbb{R}^d$ from a f
 \exp_{\mathbf{0}}(\boldsymbol{v}) = \tanh\!\Big(\frac{\|\boldsymbol{v}\|}{2}\Big) \frac{\boldsymbol{v}}{\|\boldsymbol{v}\|}.
 \label{eq:projection}
 \end{equation}
-Two scalars determine the projection. The translation $\boldsymbol\mu$ is the training mean: foundation models output features with arbitrary location---means far from the origin, norms ranging from a few units to several thousand---so re-centring is required for the exp-map at $\mathbf{0}$ to be meaningful. The scale $s > 0$ is fixed so the 95th-percentile centred feature lands at Poincar\'{e} norm $1/\sqrt{2}$:
+Two scalars determine $\phi$: a translation $\boldsymbol\mu \in \mathbb{R}^d$ and a scale $s > 0$. They are the minimum pre-processing required for $\exp_{\mathbf{0}}$ to behave consistently across backbones with different feature distributions.
+
+\textbf{Why $\boldsymbol\mu$.} The origin of $\mathbb{B}^d$ is geometrically special: all hyperbolic distances are measured with respect to it, and its radial coordinate plays a privileged role---we want it to encode hierarchy depth (features close to $\mathbf{0}$ are ``general'', features close to the boundary are ``specific''). Foundation models output features with non-zero mean ($\|\boldsymbol\mu\| \approx 0.5$ for DINOv2, $\approx 30$ for CLIP), so without re-centring the origin of the ball would correspond to an arbitrary point in feature space and the radial coordinate would encode ``distance from that arbitrary point''. We therefore set $\boldsymbol\mu$ to the training mean.
+
+\textbf{Why $s$.} The exp-map is non-linear: for $\|\boldsymbol{v}\| \ll 1$ the map is approximately Euclidean ($\exp_{\mathbf{0}}(\boldsymbol{v}) \approx \boldsymbol{v}/2$, no hyperbolic effect), and for $\|\boldsymbol{v}\| \gg 1$ it saturates at the boundary (gradients vanish, distances are dominated by the radial coordinate). After re-centring, the typical norm $\|\boldsymbol{x}-\boldsymbol\mu\|$ varies by orders of magnitude across backbones (DINOv2: $\rho_{95} \approx 0.1$; CLIP: $\rho_{95} \approx 30$). Without rescaling, DINOv2 features would land near the origin (no hyperbolic effect at all) while CLIP features would saturate at the boundary; neither is useful, and they would not be comparable. The scale $s$ calibrates each backbone to the same regime by mapping the 95th-percentile centred feature to a target Poincar\'{e} norm $t$:
 \begin{equation}
-s \;=\; \frac{2\,\mathrm{arctanh}(1/\sqrt{2})}{\rho_{95}},
+s \;=\; \frac{2\,\mathrm{arctanh}(t)}{\rho_{95}},
 \qquad
-\rho_{95} \;=\; \mathrm{quantile}_{95}\big(\|\boldsymbol{x}-\boldsymbol\mu\|\big).
+\rho_{95} = \mathrm{quantile}_{95}\big(\|\boldsymbol{x}-\boldsymbol\mu\|\big).
 \label{eq:scale}
 \end{equation}
-The target $1/\sqrt{2}$ places the bulk of the feature cloud at the inflection of the Poincar\'{e} conformal factor $\lambda(\boldsymbol{x}) = 2/(1-\|\boldsymbol{x}\|^2)$, where $\lambda(1/\sqrt{2})^2 = 16 = 4\,\lambda(\mathbf{0})^2$: features sit firmly in the hyperbolic regime (radial dimension carries hierarchy at $4\times$ the central rate) while staying safely away from boundary saturation~\citep{guo2022clipped}. Other targets in $(0,1)$ define a one-parameter family of projections; we sweep them in \S\ref{sec:practical}. We use the convention of \citet{khrulkov2020hyperbolic} (factor $1/2$ inside $\tanh$, from $\lambda(\mathbf{0}){=}2$); the equivalent formulation of \citet{ganea2018hyperbolic} drops the $1/2$ at the cost of a renaming of $s$.
+
+\textbf{Choice of $t$.} We use $t = 1/\sqrt{2} \approx 0.707$. At this radius the Poincar\'{e} conformal factor $\lambda(\boldsymbol{x}) = 2/(1-\|\boldsymbol{x}\|^2)$ takes the value $\lambda(1/\sqrt{2})^2 = 16 = 4\,\lambda(\mathbf{0})^2$: the bulk of the feature cloud sits firmly in the hyperbolic regime (radial dimension carries hierarchy at $4\times$ the central rate) while staying safely away from the boundary saturation regime~\citep{guo2022clipped}. Other targets in $(0,1)$ define a one-parameter family of projections that we sweep in \S\ref{sec:practical}. We follow the convention of \citet{khrulkov2020hyperbolic} (factor $1/2$ inside $\tanh$, from $\lambda(\mathbf{0}){=}2$); \citet{ganea2018hyperbolic}'s equivalent formulation drops the $1/2$ at the cost of a renaming of $s$.
 
 The Poincar\'{e} distance between two projected points is~\citep{nickel2017poincare}
 \begin{equation}
