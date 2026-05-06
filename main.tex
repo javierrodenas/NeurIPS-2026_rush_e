@@ -304,7 +304,7 @@ To distinguish architectural bias and label noise from learned hierarchy, we run
 \subsection{Reproducibility}
 \label{sec:reproducibility}
 
-All models and datasets used in this paper are publicly available; the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} is a single \texttt{torch}-level operation determined entirely by training-set statistics ($\boldsymbol\mu$ and $\rho_{95}$). Computing $\delta$ on $1{,}000$ class centroids takes ${\sim}8$~s on CPU, and the full $60$-cell downstream evaluation across $10$ vision backbones $\times$ $6$ datasets runs in $<\!30$~minutes on a single consumer GPU. The per-(model, dataset) CSVs and the projection script are released in the supplementary material.
+All models and datasets used in this paper are publicly available; the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} is a single \texttt{torch}-level operation determined entirely by training-set statistics ($\boldsymbol\mu$ and $\rho_{95}$). Computing $\delta$ on $1{,}000$ class centroids takes ${\sim}8$~s on CPU, and the full downstream evaluation across the $10$ vision backbones $\times$ $6$ datasets ($n = 60$ combinations) runs in $<\!30$~minutes on a single consumer GPU. The per-(model, dataset) CSVs and the projection script are released in the supplementary material.
 
 \FloatBarrier
 
