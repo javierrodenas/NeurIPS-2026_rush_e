@@ -154,11 +154,7 @@ positive when the Poincar\'{e} projection beats the raw Euclidean baseline and n
 \subsection{Per-(model, dataset) results}
 \label{sec:complete-results}
 
-Table~\ref{tab:full-results} reports the complete per-(model, dataset) numerical results: backbone $\delta$ on the dataset's centroids, global ORC, R/H accuracies and $H_{\mathrm{adv}}$ for both NC and FS tasks. Three patterns are visible row by row. (1)~For DINOv2-L/G on hierarchical datasets (ImageNet, CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. (2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative (Euclidean already aligned with WordNet by design) while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), all advantages collapse toward zero.
-
-\input{tab_full_results}
-
-\input{tab_breadth}
+Table~\ref{tab:full-results} (Appendix~\ref{app:tables}) reports the complete per-(model, dataset) numerical results: backbone $\delta$ on the dataset's centroids, global ORC, R/H accuracies and $H_{\mathrm{adv}}$ for both NC and FS tasks. Three patterns are visible row by row. (1)~For DINOv2-L/G on hierarchical datasets (ImageNet, CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. (2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative (Euclidean already aligned with WordNet by design) while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), all advantages collapse toward zero. The breadth panel (Tables~\ref{tab:breadth-vision}--\ref{tab:breadth-text}, Appendix~\ref{app:tables}) reports $\delta$ and ORC for the additional 20 vision and text models discussed in \S\ref{sec:geometry-paradigm}.
 
 \subsection{Geometry across capacity and paradigm}
 \label{sec:geometry-paradigm}
@@ -240,6 +236,15 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 
 %% ============================================================
 \appendix
+\section{Full numerical tables}
+\label{app:tables}
+
+\input{tab_full_results}
+
+\input{tab_breadth}
+
+\FloatBarrier
+
 \section{Per-dataset breakdown of the post-hoc gain}
 \label{app:per-dataset-gain}
 Figure~\ref{fig:synthesis_pooled} pools the $60$ (model, dataset) cells. The $12$ figures below break that scatter down by dataset, one per row: each row pairs the gain plotted against ORC (left) with the gain plotted against $\delta$ (right). In every panel the bubble size is the parameter count, the colour is the paradigm, and the two sub-panels of each figure correspond to the two downstream tasks (NC, FS). The per-dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
