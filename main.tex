@@ -177,16 +177,9 @@ The landscape organises by \emph{degree} of tree-likeness: SSL vision and causal
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_scaling_vision.pdf}
-  \caption{Vision: $\delta$ and ORC vs parameter count, one curve per family. Self-supervised DINOv2 (green) is the only family in which both descriptors strengthen monotonically with scale: $\delta$ drops from $0.119$ (DINOv2-S, 22M) to $0.066$ (DINOv2-G, 1.1B) and ORC rises from $+0.35$ to $+0.73$. Supervised ViTs trend similarly but more weakly. Contrastive backbones (CLIP, OpenCLIP, MetaCLIP) are essentially flat in both descriptors across $\sim$$10\times$ scale, confirming that capacity alone does not produce hierarchy under a contrastive objective.}
-  \label{fig:scaling_vision}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig_scaling_text.pdf}
-  \caption{Text: $\delta$ and ORC vs parameter count, one curve per family. The causal-LM families (GPT-2, Pythia, OLMo) reach $\delta$ values comparable to the most tree-like vision models ($\delta \approx 0.08$ at scale) and ORC up to $+0.41$, despite never seeing an image: the prompt-conditioned hidden state of a class label inherits the same hierarchical geometry as the vision centroid. The text-embedder families (BGE, GTE, E5) are flatter and operate at lower ORC ($\sim$$0.20$), matching the geometry of vision contrastive backbones in Figure~\ref{fig:scaling_vision} and reinforcing that the \emph{objective} (autoregressive LM vs contrastive) is what controls hierarchy, not the modality.}
-  \label{fig:scaling_text}
+  \includegraphics[width=\linewidth]{figures/fig_scaling.pdf}
+  \caption{Hierarchy across families and modalities. \textbf{(a, b)} Vision: $\delta$ and ORC for the $14$ vision backbones, grouped by family (ViT supervised, DINOv2 SSL, CLIP/OpenCLIP/MetaCLIP contrastive). DINOv2 is the only family in which both descriptors strengthen monotonically with scale: $\delta$ drops from $0.119$ (DINOv2-S) to $0.066$ (DINOv2-G) and ORC rises from $+0.35$ to $+0.73$. Supervised ViTs trend similarly but more weakly. Contrastive backbones are essentially flat in both descriptors. \textbf{(c, d)} Text: $\delta$ and ORC for the $16$ text models, grouped by family (causal LMs GPT-2/Pythia/OLMo, text embedders BGE/GTE/E5). Causal-LM families reach $\delta$ values comparable to the most tree-like vision models ($\delta \approx 0.08$ at scale) and ORC up to $+0.41$, despite never seeing an image. Text embedders are flatter and operate at lower ORC ($\sim$$0.20$), matching the geometry of vision contrastive backbones in (b) and reinforcing that the \emph{training objective}, not the modality, controls hierarchy.}
+  \label{fig:scaling}
 \end{figure}
 
 \paragraph{Four-point defects.} For each model we compute the distribution of $S_{\max}-S_{\text{mid}}$ over $100\mathrm{K}$ random quadruples and compare it against samples from $\mathbb{R}^{10}$, $\mathbb{H}^{10}$ and $S^{10}$ matched in dimension and norm. Three regimes emerge: (i)~\textbf{strongly hyperbolic}---DINOv2 family, GPT-2 XL, OLMo (defect $0.005$--$0.012$, matching concentrated $\mathbb{H}^{10}$); (ii)~\textbf{moderately hyperbolic}---contrastive vision, text embeddings, supervised (defect $0.015$--$0.024$); (iii)~all 30 models far from $\mathbb{R}^{10}$ ($0.037$) and $S^{10}$ ($0.057$).
