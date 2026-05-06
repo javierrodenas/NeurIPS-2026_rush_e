@@ -124,13 +124,6 @@ d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\
 \end{equation}
 The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig_euclid_vs_poincare.pdf}
-  \caption{Effect of $\phi$ on the $4$-point Gromov defect, on a concrete case: $100$ fine-class centroids of CIFAR-100 from DINOv2-G (the (model, dataset) pair where $\phi$ delivers the largest few-shot gain in our panel; $\delta = 0.07$, ORC $= +0.65$). For each of $200$K random quadruples of centroids we compute the $4$-point Gromov defect (the gap between the two larger of the three pairwise sums of opposite edges), normalised by the diameter of the metric. A perfect tree has all defects zero; smaller defects mean a more tree-like metric. The blue histogram uses raw Euclidean centroid distances; the red histogram uses Poincar\'{e}-ball distances $d_\mathbb{B}(\phi(\cdot))$ on the same centroids after the calibrated projection. The hyperbolic distribution is sharply left-shifted (mean defect $0.008$ vs $0.013$, $\delta = 0.105$ vs $0.149$): $\phi$ does not only embed the centroids into a bounded space, it makes the induced metric \emph{measurably} more tree-like, which is what the downstream NC and few-shot classifiers exploit.}
-  \label{fig:euclid_vs_poincare}
-\end{figure}
-
 \subsection{Downstream protocol}
 \label{sec:downstream}
 
@@ -203,7 +196,7 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
 \subsection{Causal ablations: $\delta$ reflects learned hierarchy, not architectural noise}
 \label{sec:ablation-noise}
 
-To distinguish architectural bias and label noise from learned hierarchy, we run five interventions on representative vision models. Each isolates a single causal factor.
+To distinguish architectural bias and label noise from learned hierarchy, we run four interventions on representative vision models. Each isolates a single causal factor.
 
 \paragraph{(A1) Random weights.} Random-initialised models have dramatically higher $\delta$: DINOv2-B ($+144\%$), DINOv2-S ($+134\%$), ViT-B ($+65\%$). Tree-like structure is not architectural; it emerges through training.
 
@@ -244,9 +237,6 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 
 %% ============================================================
 \appendix
-\section{Additional analyses}
-Full results for all 30 models across $\delta$ and ORC are provided in the supplementary material. We also include rank-matched and spectrum-matched null analyses (the majority of vision models pass the spectrum-matched null at $p < 0.05$). All centroid files, per-(model, dataset) CSVs, and the post-hoc projection script are released alongside the paper.
-
 \section{Per-dataset breakdown of the post-hoc gain}
 \label{app:per-dataset-gain}
 Figure~\ref{fig:synthesis_pooled} pools the $60$ (model, dataset) cells. The $12$ figures below break that scatter down by dataset, one per row: each row pairs the gain plotted against ORC (left) with the gain plotted against $\delta$ (right). In every panel the bubble size is the parameter count, the colour is the paradigm, and the two sub-panels of each figure correspond to the two downstream tasks (NC, FS). The per-dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
