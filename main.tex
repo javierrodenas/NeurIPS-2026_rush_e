@@ -199,14 +199,14 @@ To distinguish architectural bias and label noise from learned hierarchy, we run
 
 \paragraph{(A2) Non-hierarchical fine-tuning.} Fine-tuning on an 8-class \emph{color} classification task (no class hierarchy by construction) increases $\delta$: CLIP-B ($+91\%$), DINOv2-S ($+69\%$), ViT-B ($+19\%$). Fine-tuning on hierarchical CIFAR-100 produces minimal change ($-8\%$ to $+6\%$). Same protocol, different task structure---only destroying hierarchy raises $\delta$.
 
-\paragraph{(A3) Layer-wise emergence.} $\delta$ decreases progressively from layer~1 to the final layer in pretrained transformers: DINOv2-B ($-60\%$), CLIP-B ($-46\%$). A randomly initialised ViT-B shows flat $\delta \approx 0.195$ throughout, ruling out architectural artefacts and confirming that hierarchy is built up across depth.
+\paragraph{(A3) Layer-wise emergence.} $\delta$ decreases progressively from layer~1 to the final layer in pretrained transformers: DINOv2-B ($-60\%$, from $0.147$ to $0.058$) and CLIP-B ($-46\%$, from $0.161$ to $0.087$). Hierarchy is not present at the input embeddings but is built up across depth, confirming that tree-like structure is a learned property of the representation rather than an artefact of token-level features.
 
 \paragraph{(A4) Shuffle control (label noise).} Shuffling embedding-to-label correspondence preserves the point-cloud geometry but destroys semantic association: $\delta$ does not change ($p > 0.12$). This rules out a trivial dependence on high-dimensional point-cloud properties and confirms that $\delta$ measures \emph{semantic} organisation, not feature norm or covariance.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig3_causal.pdf}
-  \caption{Ablations confirming that $\delta$ reflects learned hierarchy. (a)~Color (non-hierarchical) fine-tuning increases $\delta$ by 19--91\%. (b)~Shuffling embeddings preserves $\delta$ ($p > 0.12$). (c)~Random-weight models have 65--144\% higher $\delta$ than trained counterparts.}
+  \caption{Ablations confirming that $\delta$ reflects learned hierarchy. (a)~Random-weight models have 65--144\% higher $\delta$ than trained counterparts---tree-like structure is not architectural. (b)~Color (non-hierarchical) fine-tuning increases $\delta$ by 19--91\%, while hierarchical CIFAR-100 fine-tuning leaves $\delta$ near baseline ($-8$ to $+6\%$). (c)~$\delta$ decreases monotonically from layer~1 to the final layer in DINOv2-B ($-60\%$) and CLIP-B ($-46\%$): hierarchy emerges across depth. (d)~Shuffling embedding-to-label correspondence preserves $\delta$ ($p > 0.12$), ruling out a trivial dependence on point-cloud properties.}
   \label{fig:causal}
 \end{figure}
 
