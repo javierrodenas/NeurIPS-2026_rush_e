@@ -16,6 +16,7 @@
 \usepackage{subcaption}
 \usepackage{multirow}
 \usepackage{enumitem}
+\usepackage{placeins}
 
 \title{Hyperbolic Geometry in Platonic Representations}
 
@@ -213,7 +214,7 @@ To distinguish architectural bias and label noise from learned hierarchy, we run
   \label{fig:causal}
 \end{figure}
 
-\clearpage
+\FloatBarrier
 
 %% ============================================================
 \section{Conclusion}
@@ -232,7 +233,7 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 [Hidden in anonymous submission.]
 \end{ack}
 
-\clearpage
+\FloatBarrier
 %% ============================================================
 \bibliographystyle{plainnat}
 \bibliography{references}
@@ -243,50 +244,50 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 \label{app:per-dataset-gain}
 Figure~\ref{fig:synthesis_pooled} pools the $60$ (model, dataset) cells. The $12$ figures below break that scatter down by dataset, one per row: each row pairs the gain plotted against ORC (left) with the gain plotted against $\delta$ (right). In every panel the bubble size is the parameter count, the colour is the paradigm, and the two sub-panels of each figure correspond to the two downstream tasks (NC, FS). The per-dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_imagenet.pdf}
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_imagenet.pdf}
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_orc_imagenet.pdf}\\[-2pt]
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_delta_imagenet.pdf}
   \caption{ImageNet: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
   \label{fig:gain_bubble_imagenet}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_cifar100.pdf}
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_cifar100.pdf}
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_orc_cifar100.pdf}\\[-2pt]
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_delta_cifar100.pdf}
   \caption{CIFAR-100: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
   \label{fig:gain_bubble_cifar100}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_cifar10.pdf}
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_cifar10.pdf}
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_orc_cifar10.pdf}\\[-2pt]
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_delta_cifar10.pdf}
   \caption{CIFAR-10: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
   \label{fig:gain_bubble_cifar10}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_dtd.pdf}
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_dtd.pdf}
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_orc_dtd.pdf}\\[-2pt]
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_delta_dtd.pdf}
   \caption{DTD: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
   \label{fig:gain_bubble_dtd}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_fmnist.pdf}
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_fmnist.pdf}
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_orc_fmnist.pdf}\\[-2pt]
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_delta_fmnist.pdf}
   \caption{FashionMNIST: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
   \label{fig:gain_bubble_fmnist}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_mnist.pdf}
-  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_mnist.pdf}
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_orc_mnist.pdf}\\[-2pt]
+  \includegraphics[width=0.92\linewidth]{figures/fig_gain_bubble_delta_mnist.pdf}
   \caption{MNIST: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom). The slopes flatten and most cells sit below zero on NC---consistent with the flat label hierarchy of MNIST and with the prediction that the post-hoc projection does not help in the absence of tree-like structure.}
   \label{fig:gain_bubble_mnist}
 \end{figure}
