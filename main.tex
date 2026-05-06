@@ -224,9 +224,8 @@ positive when the Poincar\'{e} projection beats the raw Euclidean baseline and n
 
 
 \section{Experiments}
-\label{sec:setup}
 
-\paragraph{Models.} 30 foundation models in three paradigms: 14 vision backbones (4 supervised ViTs, 4 self-supervised, 6 contrastive), 9 causal language models, and 7 text-embedding models. We work with two settings: the main panel (Table~\ref{tab:full-results}) covers 10 vision backbones for which we evaluate $\delta$, ORC and two downstream tasks across all 6 datasets: the supervised ViT-T/S/B/L pretrained on ImageNet-21k~\citep{dosovitskiy2021an}, the self-supervised DINOv1-B~\citep{dinov1} and DINOv2-S/B/L/G~\citep{dinov2}, and the contrastive CLIP-B/L~\citep{CLIP}. The breadth panel (Tables~\ref{tab:breadth-vision} and~\ref{tab:breadth-text}) adds 20 models for cross-modality $\delta$ on ImageNet only: the contrastive variants OpenCLIP~\citep{openclip} and MetaCLIP~\citep{metaclip}; the causal language models GPT-2~\citep{gpt2}, Pythia~\citep{pythia} and OLMo~\citep{olmo}; and the text-embedding families BGE~\citep{BGE}, GTE~\citep{gte} and E5~\citep{e5}.
+\paragraph{Models.} 30 foundation models in three paradigms: 14 vision backbones (4 supervised ViTs, 4 self-supervised, 6 contrastive), 9 causal language models, and 7 text-embedding models. We work with two settings (Table ~\ref{tab:full-results}) covers 10 vision backbones for which we evaluate $\delta$, ORC and two downstream tasks across all 6 datasets: the supervised ViT-T/S/B/L pretrained on ImageNet-21k~\citep{dosovitskiy2021an}, the self-supervised DINOv1-B~\citep{dinov1} and DINOv2-S/B/L/G~\citep{dinov2}, and the contrastive CLIP-B/L~\citep{CLIP}. The (Table ~\ref{tab:breadth}) add 20 models for cross-modality $\delta$ on ImageNet only: contrastive variantes OpenCLIP~\citep{openclip}, MetaCLIP~\citep{metaclip}; the causal language models GPT-2~\citep{gpt2}, Pythia~\citep{pythia} and OLMo~\citep{olmo}; and the text-embedding families BGE~\citep{BGE}, GTE~\citep{gte} and E5~\citep{e5}.
 
 
 \paragraph{Datasets and evaluation.} For the cross-model $\delta$ and ORC characterisation (\S\ref{sec:geometry-paradigm}) we use the $1{,}000$ classes of ImageNet~\citep{imagenet} as a shared \emph{concept set}: vision backbones produce one centroid per class by averaging features of $100$ training images, while causal language models and text-embedding models encode the prompt ``a photo of a \{class\}'' once per class. This common $1{,}000 \times d$ matrix lets us compare $\delta$ and ORC across modalities on equal footing. For the downstream protocol (\S\ref{sec:downstream-results}) we use the $10$ vision backbones of the main panel $\times$ $6$ datasets ($n = 60$): ImageNet~\citep{imagenet}, CIFAR-100~\citep{cifar10}, CIFAR-10~\citep{cifar10}, DTD~\citep{dtd}, FashionMNIST~\citep{fashion}, and MNIST~\citep{mnist}.
@@ -242,7 +241,7 @@ Table~\ref{tab:full-results} (Appendix~\ref{app:tables}) reports the complete pe
 
 Tables~\ref{tab:full-results}, \ref{tab:breadth-vision} and~\ref{tab:breadth-text} reveal a striking pattern across all 30 models. Self-supervised vision models achieve the lowest $\delta$ (DINOv2-L: $0.067$; DINOv2-G: $0.066$; DINOv2-B: $0.096$), and $\delta$ decreases with scale within families: DINOv2-S to DINOv2-G ($-45\%$), supervised ViT-T to ViT-L ($-32\%$). Vision contrastive models are flatter ($\delta \approx 0.108$--$0.122$ across CLIP-B/L, OpenCLIP-B/L, MetaCLIP-B/L). Causal LMs achieve comparably low $\delta$: GPT-2 XL ($0.077$), OLMo-1B ($0.083$), GPT-2 M/L ($0.082$/$0.083$), Pythia-1B ($0.098$). Text embedding models cluster at $\delta \approx 0.110$--$0.124$, identical to vision contrastive models, confirming that the training objective, not the modality, determines the geometry.
 
-The landscape organises by degree of tree-likeness (Figure~\ref{fig:scaling}): SSL vision and causal language models are the most tree-like, supervised vision is intermediate, and contrastive vision and text embeddings are the least. Within each family, $\delta$ shrinks as parameter count grows.
+The landscape organises by degree of tree-likeness: SSL vision and causal language models are the most tree-like, supervised vision is intermediate, and contrastive vision and text embeddings are the least. Within each family, $\delta$ shrinks as parameter count grows.
 
 \paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 30 models: the global four-point summary and the local edge-wise summary shows that DINOv2 has the highest ORC ($0.35$--$0.73$, $0\%$ negative edges); supervised models are moderate ($0.33$--$0.38$); vision contrastive lower ($0.31$--$0.35$); text embedders distinctly lower ($0.20$--$0.24$).
 
@@ -300,10 +299,14 @@ To distinguish architectural bias and label noise from learned hierarchy, we run
   \label{fig:causal}
 \end{figure}
 
+\FloatBarrier
+
 %% ============================================================
 \section{Conclusion}
 \label{sec:conclusion}
 %% ============================================================
+
+
 
 We characterised the geometry of platonic representations and found tree-like inter-class distance structure as a universal property across modalities and paradigms. Across 30 models, two coordinate-free descriptors ($\delta$ and ORC) converge on the same conclusion. Causal ablations establish that this geometry reflects learned semantic hierarchy: random weights, non-hierarchical fine-tuning, and layer-wise analysis all support the link. The discovery that causal LMs are also tree-like overturns the assumption that this property is vision-specific.
 
@@ -334,7 +337,7 @@ The geometry is not merely descriptive but prescriptive. Backbone $\delta$ and O
 
 \section{Per-dataset breakdown of the post-hoc gain}
 \label{app:per-dataset-gain}
-Figure~\ref{fig:synthesis_pooled} pools the $60$ (model, dataset) cells. We further provide one figure per dataset: ImageNet (Figure~\ref{fig:gain_bubble_imagenet}), CIFAR-100 (Figure~\ref{fig:gain_bubble_cifar100}), CIFAR-10 (Figure~\ref{fig:gain_bubble_cifar10}), DTD (Figure~\ref{fig:gain_bubble_dtd}), FashionMNIST (Figure~\ref{fig:gain_bubble_fmnist}), and MNIST (Figure~\ref{fig:gain_bubble_mnist}). Each is a $2 \times 2$ grid showing $H_{\mathrm{adv}}$ vs ORC (top row) and vs $\delta$ (bottom row), for NC (left) and FS (right); bubble size encodes parameter count and colour encodes paradigm. The dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
+Figure~\ref{fig:synthesis_pooled} pools the $60$ (model, dataset) cells. The figures below break that scatter down by dataset, one per row: each row pairs the gain plotted against ORC (left) with the gain plotted against $\delta$ (right). In every panel the bubble size is the parameter count, the colour is the paradigm, and the two sub-panels of each figure correspond to the two downstream tasks (NC, FS). The dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
 
 \begin{figure}[!htbp]
   \centering
@@ -382,3 +385,5 @@ Figure~\ref{fig:synthesis_pooled} pools the $60$ (model, dataset) cells. We furt
 \input{checklist.tex}
 
 \end{document}
+
+\label{sec:setup}: the main panelbreadth panel (Tables~\ref{tab:breadth-vision} and-texts the and (Figure~\ref{fig:scaling})Wurther provide one figure per dataset: ImageNet (Figure~\ref{fig:gain_bubble_imagenet}), CIFAR-100 (Figure~\ref{fig:gain_bubble_cifar100}), CIFAR-10 (Figure~\ref{fig:gain_bubble_cifar10}), DTD (Figure~\ref{fig:gain_bubble_dtd}), FashionMNIST (Figure~\ref{fig:gain_bubble_fmnist}), and MNIST (Figure~\ref{fig:gain_bubble_mnist}). Each is a $2 \times 2$ grid showing $H_{\mathrm{adv}}$ vs ORC (top row) and vs $\delta$ (bottom row), for NC (left) and FS (right);encodes andencodes paradigm
