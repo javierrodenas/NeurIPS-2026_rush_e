@@ -190,6 +190,13 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
 
 \begin{figure}[t]
   \centering
+  \includegraphics[width=\linewidth]{figures/fig_synthesis_pooled.pdf}
+  \caption{Both diagnostics predict the post-hoc gain across all $60$ (model, dataset) cells. Each panel is a pooled scatter with one point per cell; colour encodes paradigm and marker shape encodes dataset. \textbf{(a, c):} $H_{\mathrm{adv}}$ vs ORC for NC and FS---higher curvature yields larger gain ($r = +0.32$ NC, $r = +0.44$ FS). \textbf{(b, d):} $H_{\mathrm{adv}}$ vs $\delta$ for NC and FS---lower Gromov defect yields larger gain ($r = -0.46$ NC, $r = -0.36$ FS). All four correlations are statistically significant in the predicted direction: a single backbone-level diagnostic, computable in seconds on training-set centroids, predicts whether the post-hoc Poincar\'{e} projection will help on a given dataset. The MNIST cross markers cluster at the negative tail, consistent with its flat label hierarchy: where there is no tree-like structure to exploit, the projection does not help.}
+  \label{fig:synthesis_pooled}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
   \includegraphics[width=\linewidth]{figures/fig_tasks_huh_style.pdf}
   \caption{Geometric ``sweet spot'' for the hyperbolic advantage. For each (vision backbone, dataset) pair we plot the pair's two descriptors: $\delta_{\mathrm{norm}}$ (x-axis) and Ollivier--Ricci curvature (y-axis). The colour of each point encodes $H_{\mathrm{adv}}$ on (a) nearest-centroid classification and (b) 5-way 5-shot few-shot, with red = gain and blue = loss; markers distinguish paradigm. Red points concentrate in the top-left region (low $\delta$, high ORC), while blue points sit in the bottom-right: positive hyperbolic gain coincides with strongly tree-like geometry along both descriptors at once.}
   \label{fig:tasks_geom}
@@ -259,6 +266,58 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 \appendix
 \section{Additional analyses}
 Full results for all 36 models across $\delta$, ORC, defects, and three-way distortion are provided in the supplementary material. We also include rank-matched and spectrum-matched null analyses (15/22 vision models pass the spectrum-matched null at $p < 0.05$). All centroid files, per-(model, dataset) CSVs, and the post-hoc projection script are released alongside the paper.
+
+\section{Per-dataset breakdown of the post-hoc gain}
+\label{app:per-dataset-gain}
+Figure~\ref{fig:synthesis_pooled} pools the $60$ (model, dataset) cells. The $12$ figures below break that scatter down by dataset, one per row: each row pairs the gain plotted against ORC (left) with the gain plotted against $\delta$ (right). In every panel the bubble size is the parameter count, the colour is the paradigm, and the two sub-panels of each figure correspond to the two downstream tasks (NC, FS). The per-dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_imagenet.pdf}
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_imagenet.pdf}
+  \caption{ImageNet: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
+  \label{fig:gain_bubble_imagenet}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_cifar100.pdf}
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_cifar100.pdf}
+  \caption{CIFAR-100: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
+  \label{fig:gain_bubble_cifar100}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_cifar10.pdf}
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_cifar10.pdf}
+  \caption{CIFAR-10: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
+  \label{fig:gain_bubble_cifar10}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_dtd.pdf}
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_dtd.pdf}
+  \caption{DTD: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
+  \label{fig:gain_bubble_dtd}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_fmnist.pdf}
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_fmnist.pdf}
+  \caption{FashionMNIST: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom).}
+  \label{fig:gain_bubble_fmnist}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_orc_mnist.pdf}
+  \includegraphics[width=\linewidth]{figures/fig_gain_bubble_delta_mnist.pdf}
+  \caption{MNIST: $H_{\mathrm{adv}}$ vs ORC (top) and vs $\delta$ (bottom). The slopes flatten and most cells sit below zero on NC---consistent with the flat label hierarchy of MNIST and with the prediction that the post-hoc projection does not help in the absence of tree-like structure.}
+  \label{fig:gain_bubble_mnist}
+\end{figure}
 
 \newpage
 \input{checklist.tex}
