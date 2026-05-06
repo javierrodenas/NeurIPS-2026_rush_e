@@ -129,6 +129,13 @@ d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\
 \end{equation}
 The Euclidean and hyperbolic versions of every downstream task below cost identical compute on the same features; the only thing that changes between them is the metric.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_tree_visualization.pdf}
+  \caption{The geometry of $100$ CIFAR-100 class centroids visualised for the least and most tree-like DINOv2 backbones. Each big disc is one of $20$ super-class hubs (mean of its $5$ fine classes); spokes connect each fine class to its hub. \textbf{(a)}~DINOv2-S in Euclidean coordinates ($\delta = 0.107$): super-class hubs and their fine classes are largely confined to a low-dimensional band, with several spokes spilling across other super-classes. \textbf{(b)}~The same DINOv2-S features after the post-hoc Poincar\'{e} projection of \S\ref{sec:projection}: the conformal scaling pushes outliers towards the boundary, but the spokes remain long and noisy. \textbf{(c)}~DINOv2-G ($\delta = 0.076$) on the same disk: hubs occupy distinct angular sectors and the spokes are visibly shorter and more compact, matching the lower $\delta$ that signals stronger tree-like structure.}
+  \label{fig:tree_visualization}
+\end{figure}
+
 \subsection{Downstream protocol}
 \label{sec:downstream}
 
