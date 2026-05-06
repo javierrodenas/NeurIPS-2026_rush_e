@@ -41,7 +41,9 @@ The Platonic Representation Hypothesis posits that foundation models converge to
 \paragraph{Capacity meets data.} The capacity of the model (parameters, depth, training objective), which controls how rich a structure it can encode, and the intrinsic hierarchy of the data, which controls what is worth encoding. Larger models have more expressive room; data with deep semantic hierarchy fills that room with a richer organisation. Empirically, both ingredients are required: a small model on hierarchical data hits a capacity wall, and any model on flat data has nothing hierarchical to learn. This suggests the geometry that emerges is neither a property of the architecture alone nor of the dataset alone, it is a co-product of the two, and should scale with both.
 
 
+
 \paragraph{The Platonic Representation Hypothesis and hierarchical reality.} The PRH of \citet{huh2024platonic} provides evidence that, as foundation models scale, they converge toward a shared representation of reality. The PRH measures that they converge, but leaves the geometry of the shared representation unspecified. Reality, as humans organise it, is fundamentally hierarchical: instances belong to categories (a husky is a dog), categories to superordinate classes (dogs are mammals), and superordinate classes to broader concepts (mammals are animals). The natural mathematical home for such hierarchies is hyperbolic geometry~\citep{nickel2017poincare, sarkar2011low}: it accommodates exponentially growing branching factors with low distortion, whereas Euclidean space provably cannot embed even modestly deep trees without distortion. If foundation models really do converge to a representation of a hierarchical reality, that representation should bear a hyperbolic signature, and the magnitude of that signature should depend on both the model's capacity and the dataset's intrinsic hierarchy.
+
 
 
 
