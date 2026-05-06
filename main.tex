@@ -155,7 +155,7 @@ positive when the Poincar\'{e} projection beats the raw Euclidean baseline and n
 
 \paragraph{Models.} 30 foundation models in three paradigms: 14 vision backbones (4 supervised ViTs, 4 self-supervised, 6 contrastive), 9 causal language models, and 7 text-embedding models. We work with two nested panels. The \emph{main panel} (Table~\ref{tab:full-results}) covers 10 vision backbones for which we evaluate $\delta$, ORC and two downstream tasks across all 6 datasets: the supervised ViT-T/S/B/L pretrained on ImageNet-21k~\citep{dosovitskiy2021vit}, the self-supervised DINOv2-S/B/L/G~\citep{oquab2024dinov2}, and the contrastive CLIP-B/L~\citep{radford2021clip}. The \emph{breadth panel} (Tables~\ref{tab:breadth-vision} and~\ref{tab:breadth-text}) adds 20 models for cross-modality $\delta$ and ORC on ImageNet only: the contrastive vision variants OpenCLIP~\citep{cherti2023openclip} and MetaCLIP~\citep{xu2024metaclip}; the causal language models GPT-2, Pythia~\citep{biderman2023pythia} and OLMo~\citep{groeneveld2024olmo}; and the text-embedding families BGE, GTE and E5.
 
-\paragraph{Datasets and evaluation regime.} For the cross-model $\delta$ and ORC characterisation (\S\ref{sec:geometry-paradigm}) all 30 models are evaluated on the same $1{,}000$ ImageNet classes~\citep{russakovsky2015imagenet} for direct comparability. For the downstream protocol (\S\ref{sec:downstream-results}, \S\ref{sec:curvature}) we use $10$ vision backbones $\times$ $6$ datasets ($n = 60$): ImageNet~\citep{russakovsky2015imagenet}, CIFAR-100, CIFAR-10, DTD~\citep{cimpoi2014dtd}, FashionMNIST, and MNIST.
+\paragraph{Datasets and evaluation regime.} For the cross-model $\delta$ and ORC characterisation (\S\ref{sec:geometry-paradigm}) all 30 models are evaluated on the same $1{,}000$ ImageNet classes~\citep{russakovsky2015imagenet} for direct comparability. For the downstream protocol (\S\ref{sec:downstream-results}) we use $10$ vision backbones $\times$ $6$ datasets ($n = 60$): ImageNet~\citep{russakovsky2015imagenet}, CIFAR-100, CIFAR-10, DTD~\citep{cimpoi2014dtd}, FashionMNIST, and MNIST.
 
 \subsection{Per-(model, dataset) results}
 \label{sec:complete-results}
@@ -182,10 +182,6 @@ The landscape organises by \emph{degree} of tree-likeness: SSL vision and causal
   \label{fig:scaling}
 \end{figure}
 
-\paragraph{Four-point defects.} For each model we compute the distribution of $S_{\max}-S_{\text{mid}}$ over $100\mathrm{K}$ random quadruples and compare it against samples from $\mathbb{R}^{10}$, $\mathbb{H}^{10}$ and $S^{10}$ matched in dimension and norm. Three regimes emerge: (i)~\textbf{strongly hyperbolic}---DINOv2 family, GPT-2 XL, OLMo (defect $0.005$--$0.012$, matching concentrated $\mathbb{H}^{10}$); (ii)~\textbf{moderately hyperbolic}---contrastive vision, text embeddings, supervised (defect $0.015$--$0.024$); (iii)~all 30 models far from $\mathbb{R}^{10}$ ($0.037$) and $S^{10}$ ($0.057$).
-
-\paragraph{Three-way embedding distortion.} We embed each set of centroids into $\mathbb{R}^{10}$ (Adam-optimised stress, MDS), $\mathbb{H}^{10}$ (Riemannian Adam on the Poincar\'{e} ball, with curvature search $c \in \{0.5, 1, 2\}$), and a discrete tree (best of UPGMA, Ward, MST), reporting the mean relative distortion in each case (full details in Appendix). Across all 14 vision models, $\mathbb{H}^{10}$ outperforms $\mathbb{R}^{10}$ ($\rho(\mathbb{H}/\mathbb{R}) > 1$ in all cases; range $1.03$--$1.21$). On ImageNet (deep WordNet taxonomy), discrete trees outperform $\mathbb{H}^{10}$ in most vision models---these representations are so tree-like that even continuous hyperbolic manifolds cannot fully capture them.
-
 \subsection{Downstream task results}
 \label{sec:downstream-results}
 
@@ -202,30 +198,7 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
   \label{fig:synthesis_pooled}
 \end{figure}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig_tasks_huh_style.pdf}
-  \caption{Geometric ``sweet spot'' for the hyperbolic advantage. For each (vision backbone, dataset) pair we plot the pair's two descriptors: $\delta_{\mathrm{norm}}$ (x-axis) and Ollivier--Ricci curvature (y-axis). The colour of each point encodes $H_{\mathrm{adv}}$ on (a) nearest-centroid classification and (b) 5-way 5-shot few-shot, with red = gain and blue = loss; markers distinguish paradigm. Red points concentrate in the top-left region (low $\delta$, high ORC), while blue points sit in the bottom-right: positive hyperbolic gain coincides with strongly tree-like geometry along both descriptors at once.}
-  \label{fig:tasks_geom}
-\end{figure}
-
-\paragraph{Paradigm-by-dataset breakdown.} Figure~\ref{fig:tasks_geom} pools all 10 backbones; Figure~\ref{fig:tasks_per_paradigm_bars} breaks $H_\text{adv}$ down by paradigm and by dataset to show \emph{where} the post-hoc projection helps each paradigm. The hierarchical datasets light up SSL most clearly: SSL backbones gain $+0.87$ pp on CIFAR-100 NC, $+0.26$ pp on DTD NC, and $+0.72$--$+0.98$ pp on CIFAR-100/DTD/CIFAR-10 FS, well above their supervised and contrastive counterparts at the same datasets. Supervised and contrastive backbones lose modestly on NC outside ImageNet but gain consistently on FS. Flat-hierarchy MNIST collapses all paradigms toward zero or negative on NC. The qualitative picture mirrors Figure~\ref{fig:tasks_geom}: the projection pays off where the geometry is most tree-like and the labels carry a deep semantic hierarchy.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig_tasks_per_paradigm_bars.pdf}
-  \caption{Mean hyperbolic advantage $H_{\mathrm{adv}}$ per (paradigm, dataset) for the two downstream tasks. Each bar is the average across the backbones in that paradigm (Supervised: 4 ViT-i21k; SSL: 5 DINOv1/v2; Contrastive: 3 CLIP/SigLIP). Bar colours: red = supervised, green = SSL, blue = contrastive. SSL leads on the deep-hierarchy datasets (CIFAR-100, DTD, CIFAR-10) on both NC and FS, consistent with its lower $\delta$ and higher ORC.}
-  \label{fig:tasks_per_paradigm_bars}
-\end{figure}
-
 \paragraph{Practical protocol.} Compute $\delta$ on training-set class centroids (${\sim}8$ seconds CPU). \emph{If $\delta < 0.10$ and the labels carry a deep semantic hierarchy}, post-hoc Poincar\'{e} projection of frozen features improves NC and few-shot by $0.5$--$2.5$ pp; \emph{otherwise}, retain Euclidean. The decision is reversible (one-line distance switch), requires no training, and is unconfounded by optimisation tuning.
-
-\subsection{Curvature sweep}
-\label{sec:curvature}
-
-The headline default $t = 1/\sqrt{2}$ (curvature $c = 0.5$ in the family $t = 0.5/\sqrt{c}$) is one specific point in a one-parameter family of projections. To probe sensitivity, we sweep $c \in \{0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 4\}$ on the 12 vision backbones for ImageNet NC (Table~\ref{tab:curvature}). The qualitative findings are stable: at the headline default, 9/12 backbones already have positive $H_\text{adv}$; tuning $c$ per backbone makes all 12 positive, with mean $H_\text{adv}$ rising from $+0.05$ pp at the default to $+0.21$ pp at $c_\text{opt}$. The per-backbone optimum $c_\text{opt}$ correlates with the descriptor (Pearson $r(c_\text{opt}, \delta) = -0.43$, Spearman $r = -0.49$, $n = 12$): \emph{more tree-like backbones tolerate higher nominal curvature; less tree-like backbones require a softer compression}. Geometric reading: lower $\delta$ means class centroids already concentrate near the metric's centre, so an aggressive curvature can compress them further without saturation; higher $\delta$ means centroids are more spread out and the projection must keep features further from the boundary. The decision rule of \S\ref{sec:downstream-results} can therefore be sharpened into a two-step recipe: \emph{measure $\delta$, then choose a curvature informed by $\delta$}.
-
-\input{tab_curvature}
 
 \subsection{Causal ablations: $\delta$ reflects learned hierarchy, not architectural noise}
 \label{sec:ablation-noise}
@@ -253,9 +226,9 @@ To distinguish architectural bias and label noise from learned hierarchy, we run
 \label{sec:conclusion}
 %% ============================================================
 
-We characterised the geometry of platonic representations and found tree-like inter-class distance structure as a universal property across modalities and paradigms. Across 30 models, five geometric metrics ($\delta$, ORC, four-point defects, intrinsic dimension, three-way distortion) converge on the same conclusion. Causal ablations establish that this geometry reflects \emph{learned} semantic hierarchy: random weights, non-hierarchical fine-tuning, and layer-wise analysis all support the link. The discovery that causal LMs are also tree-like overturns the assumption that this property is vision-specific.
+We characterised the geometry of platonic representations and found tree-like inter-class distance structure as a universal property across modalities and paradigms. Across 30 models, two coordinate-free descriptors ($\delta$ and ORC) converge on the same conclusion. Causal ablations establish that this geometry reflects \emph{learned} semantic hierarchy: random weights, non-hierarchical fine-tuning, and layer-wise analysis all support the link. The discovery that causal LMs are also tree-like overturns the assumption that this property is vision-specific.
 
-The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta$ predicts when post-hoc Poincar\'{e} projection improves prototype-based classification ($r = -0.576$ pooled, up to $r = -0.886$ within CIFAR-100) and few-shot learning ($r = -0.283$ pooled, up to $r = -0.836$ within ImageNet), and when it does not (datasets without label hierarchy). Computing $\delta$ takes seconds on CPU, providing a zero-cost diagnostic that tells practitioners whether to use hyperbolic geometry on their specific backbone--dataset combination---and when not to.
+The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta$ and ORC predict when post-hoc Poincar\'{e} projection improves prototype-based classification (pooled $r = -0.46$ vs $\delta$, $r = +0.32$ vs ORC; up to $r = -0.89$ within ImageNet) and few-shot learning (pooled $r = -0.36$ vs $\delta$, $r = +0.44$ vs ORC; up to $r = -0.84$ within CIFAR-100), and when they do not (datasets without label hierarchy). Computing both descriptors takes seconds on CPU, providing a zero-cost diagnostic that tells practitioners whether to use hyperbolic geometry on their specific backbone--dataset combination---and when not to.
 
 \textbf{Limitations.} $\delta$ measures inter-class centroid geometry; the within-class geometry is partially probed by our few-shot evaluation but not exhaustively. For self-supervised models, low $\delta$ is partly explained by the eigenvalue spectrum (the majority of vision models pass a spectrum-matched null at $p < 0.05$). Causal experiments use $n = 3$--$4$ models on CIFAR-100; extending strengthens the causal claim. Our few-shot evaluation uses random class subsets within each dataset rather than a held-out novel-class split. No model satisfies the strict ultrametric inequality; representations are tree-\emph{like}, not perfect trees.
 
@@ -272,7 +245,7 @@ The geometry is not merely descriptive but \emph{prescriptive}. Backbone $\delta
 %% ============================================================
 \appendix
 \section{Additional analyses}
-Full results for all 30 models across $\delta$, ORC, defects, and three-way distortion are provided in the supplementary material. We also include rank-matched and spectrum-matched null analyses (the majority of vision models pass the spectrum-matched null at $p < 0.05$). All centroid files, per-(model, dataset) CSVs, and the post-hoc projection script are released alongside the paper.
+Full results for all 30 models across $\delta$ and ORC are provided in the supplementary material. We also include rank-matched and spectrum-matched null analyses (the majority of vision models pass the spectrum-matched null at $p < 0.05$). All centroid files, per-(model, dataset) CSVs, and the post-hoc projection script are released alongside the paper.
 
 \section{Per-dataset breakdown of the post-hoc gain}
 \label{app:per-dataset-gain}
