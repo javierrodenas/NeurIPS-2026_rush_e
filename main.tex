@@ -244,7 +244,7 @@ Tables~\ref{tab:full-results}, \ref{tab:breadth-vision} and~\ref{tab:breadth-tex
 
 The landscape organises by degree of tree-likeness: SSL vision and causal language models are the most tree-like, supervised vision is intermediate, and contrastive vision and text embeddings are the least. Within each family, $\delta$ shrinks as parameter count grows.
 
-\paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 30 models: the global four-point summary and the local edge-wise summary shows that DINOv2 has the highest ORC ($0.35$--$0.73$, $0\%$ negative edges); supervised models are moderate ($0.33$--$0.38$); vision contrastive lower ($0.31$--$0.35$); text embedders distinctly lower ($0.20$--$0.24$). The model ranking is invariant to the kNN-graph hyperparameter: across $k \in \{5, 10, 15, 20, 30, 50\}$, all pairs of $k$ values yield Spearman $\rho = 1.0$ on the per-model mean ORC, so the descriptor is not sensitive to this choice.
+\paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 30 models: the global four-point summary and the local edge-wise summary shows that DINOv2 has the highest ORC ($0.35$--$0.73$, $0\%$ negative edges); supervised models are moderate ($0.33$--$0.38$); vision contrastive lower ($0.31$--$0.35$); text embedders distinctly lower ($0.20$--$0.24$). The model ranking is invariant to the kNN-graph hyperparameter (Spearman $\rho = 1.0$ between all pairs of $k \in \{5, 10, 15, 20, 30, 50\}$, Table~\ref{tab:orc-k}).
 
 \begin{figure}[t]
   \centering
@@ -335,6 +335,8 @@ The geometry is not merely descriptive but prescriptive. Backbone $\delta$ and O
 \input{tab_full_results}
 
 \input{tab_breadth}
+
+\input{tab_orc_k}
 
 \FloatBarrier
 
