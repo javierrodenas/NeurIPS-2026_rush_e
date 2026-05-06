@@ -244,7 +244,7 @@ Tables~\ref{tab:full-results}, \ref{tab:breadth-vision} and~\ref{tab:breadth-tex
 
 The landscape organises by degree of tree-likeness: SSL vision and causal language models are the most tree-like, supervised vision is intermediate, and contrastive vision and text embeddings are the least. Within each family, $\delta$ shrinks as parameter count grows.
 
-\paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 30 models: the global four-point summary and the local edge-wise summary shows that DINOv2 has the highest ORC ($0.35$--$0.73$, $0\%$ negative edges); supervised models are moderate ($0.33$--$0.38$); vision contrastive lower ($0.31$--$0.35$); text embedders distinctly lower ($0.20$--$0.24$).
+\paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 30 models: the global four-point summary and the local edge-wise summary shows that DINOv2 has the highest ORC ($0.35$--$0.73$, $0\%$ negative edges); supervised models are moderate ($0.33$--$0.38$); vision contrastive lower ($0.31$--$0.35$); text embedders distinctly lower ($0.20$--$0.24$). The model ranking is invariant to the kNN-graph hyperparameter: across $k \in \{5, 10, 15, 20, 30, 50\}$, all pairs of $k$ values yield Spearman $\rho = 1.0$ on the per-model mean ORC, so the descriptor is not sensitive to this choice.
 
 \begin{figure}[t]
   \centering
@@ -279,6 +279,7 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
   \label{fig:synthesis_pooled}
 \end{figure}
 
+\paragraph{Practical protocol.} Compute $\delta$ on training-set class centroids (${\sim}8$~s on CPU). \emph{If $\delta < 0.10$ and the labels carry a deep semantic hierarchy}, the post-hoc Poincar\'{e} projection of frozen features improves NC and few-shot accuracy by $0.5$--$2.5$~pp; otherwise, retain Euclidean. The decision is reversible (a one-line distance switch), requires no training, and is unconfounded by optimisation tuning, making the geometry a deployable diagnostic rather than only a descriptive one.
 
 \subsection{Causal ablations: $\delta$ reflects learned hierarchy, not architectural noise}
 \label{sec:ablation-noise}
