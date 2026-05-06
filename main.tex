@@ -319,7 +319,7 @@ We characterised the geometry of platonic representations and found tree-like in
 
 The geometry is not merely descriptive but prescriptive. Backbone $\delta$ and ORC predict when post-hoc Poincar\'{e} projection improves prototype-based classification (pooled $r = -0.46$ vs $\delta$, $r = +0.32$ vs ORC; up to $r = -0.89$ within ImageNet) and few-shot learning (pooled $r = -0.36$ vs $\delta$, $r = +0.44$ vs ORC; up to $r = -0.84$ within CIFAR-100), and when they do not (datasets without label hierarchy). Computing both descriptors takes seconds on CPU, providing a zero-cost diagnostic that tells practitioners whether to use hyperbolic geometry on their specific backbone, dataset combination, and when not to.
 
-\textbf{Limitations.} The downstream evaluation covers only two prototype-based tasks, nearest-centroid classification and 5-way 5-shot, and on the headline target $t = 1/\sqrt{2}$ the per-cell hyperbolic advantage is modest in absolute terms ($H_{\mathrm{adv}} \approx 0.5$--$2.5$ pp); whether the same diagnostic predicts gains on retrieval, dense prediction, or end-to-end training in $\mathbb{H}$ is not tested here.
+\textbf{Limitations.} The downstream evaluation covers only two prototype-based tasks, nearest-centroid classification and 5-way 5-shot, and on the headline target $t = 1/\sqrt{2}$ the hyperbolic advantage at any single (model, dataset) combination is modest in absolute terms ($H_{\mathrm{adv}} \approx 0.5$--$2.5$~pp); whether the same diagnostic predicts gains on retrieval, dense prediction, or end-to-end training in $\mathbb{H}$ is not tested here.
 
 
 \begin{ack}
