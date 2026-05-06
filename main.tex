@@ -290,7 +290,7 @@ To distinguish architectural bias and label noise from learned hierarchy, we run
 
 \paragraph{(A3) Layer-wise emergence.} Computing $\delta$ on class centroids (1{,}000 ImageNet classes, $50$ imgs/class) at each transformer block, we observe that $\delta$ decreases progressively from layer~1 to the final layer in pretrained transformers: DINOv2-B ($-51\%$, from $0.157$ to $0.077$) and CLIP-B ($-29\%$, from $0.157$ to $0.112$). Hierarchy is not present in shallow layers but is built up across depth, confirming that tree-like structure is a learned property of the representation rather than an artefact of token-level features.
 
-\paragraph{(A4) Shuffle control (label noise).} Shuffling embedding-to-label correspondence preserves the point-cloud geometry but destroys semantic association: $\delta$ does not change ($p > 0.12$). This rules out a trivial dependence on high-dimensional point-cloud properties and confirms that $\delta$ measures semantic organisation, not feature norm or covariance.
+\paragraph{(A4) Shuffle control (label noise).} Shuffling embedding-to-label correspondence preserves the point-cloud geometry but destroys semantic association: $\delta$ does not change. This rules out a trivial dependence on high-dimensional point-cloud properties and confirms that $\delta$ measures semantic organisation, not feature norm or covariance.
 
 \begin{figure}[t]
   \centering
