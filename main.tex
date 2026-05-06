@@ -171,7 +171,7 @@ Our methodology has two parts: a set of descriptive tools that quantify how tree
 \subsection{Embeddings and centroids}
 \label{sec:embeddings}
 
-We treat each foundation model as a fixed feature extractor and obtain a single vector per (model, sample) pair in one forward pass. \textbf{Vision} backbones produce the CLS token of the final transformer block; \textbf{causal language models} produce the last-token hidden state; \textbf{text-embedding} models use their native sentence-transformer pooling. To measure inter-class structure rather than per-image variability, we collapse each class to a single centroid: vision centroids are the per-class mean of training embeddings, and for language and text-embedding models we encode the prompt ``a photo of a \{class\}''. The resulting set of $C$ class centroids in $\mathbb{R}^d$ is the metric space whose hyperbolicity we measure. Sample counts per class for each experimental regime are listed in \S\ref{sec:setup}.
+We treat each foundation model as a fixed feature extractor and obtain a single vector per (model, sample) pair in one forward pass. \textbf{Vision} backbones produce the CLS token of the final transformer block; \textbf{causal language models} produce the last-token hidden state; \textbf{text-embedding} models use their native sentence-transformer pooling. To measure inter-class structure rather than per-image variability, we collapse each class to a single centroid: vision centroids are the per-class mean of training embeddings, and for language and text-embedding models we encode the prompt ``a photo of a \{class\}''.
 
 \subsection{Two coordinate-free descriptors of tree-likeness}
 \label{sec:descriptors}
