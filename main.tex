@@ -245,8 +245,6 @@ Three patterns emerge from our per-(model, dataset) measurements of $\delta$, OR
 
 Across all 30 models we find a striking pattern (Figure~\ref{fig:scaling}). Self-supervised vision models achieve the lowest $\delta$ (DINOv2-L: $0.067$; DINOv2-G: $0.066$; DINOv2-B: $0.096$), and $\delta$ decreases with scale within families: DINOv2-S to DINOv2-G ($-45\%$), supervised ViT-T to ViT-L ($-32\%$). Vision contrastive models are flatter ($\delta \approx 0.108$--$0.122$ across CLIP-B/L, OpenCLIP-B/L, MetaCLIP-B/L). Causal LMs achieve comparably low $\delta$: GPT-2 XL ($0.077$), OLMo-1B ($0.083$), GPT-2 M/L ($0.082$/$0.083$), Pythia-1B ($0.098$). Text embedding models cluster at $\delta \approx 0.110$--$0.124$, identical to vision contrastive models, confirming that the training objective, not the modality, determines the geometry.
 
-The landscape is organised by degree of tree-likeness: SSL vision and causal language models are the most tree-like, supervised vision is intermediate, and contrastive vision and text embeddings are the least. Within each family, $\delta$ shrinks as parameter count grows.
-
 \paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 30 models: the global four-point summary and the local edge-wise summary show that DINOv2 has the highest ORC ($0.35$--$0.73$, $0\%$ negative edges); supervised models are moderate ($0.33$--$0.38$); vision contrastive lower ($0.31$--$0.35$); text embedders distinctly lower ($0.20$--$0.24$). The model ranking is invariant to the kNN-graph hyperparameter (Spearman $\rho = 1.0$ between all pairs of $k \in \{5, 10, 15, 20, 30, 50\}$).
 
 \begin{figure}[t]
