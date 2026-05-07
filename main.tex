@@ -173,7 +173,7 @@ Our methodology is based on two parts: a set of descriptive tools that quantify 
 \subsection{Embeddings and centroids}
 \label{sec:embeddings}
 
-We treat each foundation model as a fixed feature extractor and obtain a single vector per {\em (model, sample)} pair in one forward pass. Vision backbones produce the CLS token at the output of the final transformer block; causal language models produce the last-token hidden state; text-embedding models use their native sentence-transformer pooling. To measure inter-class structure rather than per-image variability, we collapse each class to a single centroid: vision centroids are the per-class mean of training embeddings, and for language and text-embedding models we encode the prompt ``a photo of a \{class\}''.
+We treat each foundation model as a fixed feature extractor and obtain a single vector per model and sample pair in one forward pass. Vision backbones produce the CLS token at the output of the final transformer block; causal language models produce the last-token hidden state; text-embedding models use their native sentence-transformer pooling. To measure inter-class structure rather than per-image variability, we collapse each class to a single centroid: vision centroids are the per-class mean of training embeddings, and for language and text-embedding models we encode the prompt ``a photo of a \{class\}''.
 
 \subsection{Two coordinate-free descriptors of tree-likeness}
 \label{sec:descriptors}
@@ -213,10 +213,10 @@ The Euclidean and hyperbolic versions of every downstream task cost identical co
 \subsection{Downstream protocol}
 \label{sec:downstream}
 
-For each (model, dataset) pair, we evaluate two parameter-free, prototype-based metric tasks, each in two versions: Euclidean (R) on the raw feature vectors $\boldsymbol{x}$, and hyperbolic (H) on their post-hoc Poincar\'{e} projection $\phi(\boldsymbol{x})$ from \S\ref{sec:projection}.
+For each model and dataset pair, we evaluate two parameter-free, prototype-based metric tasks, each in two versions: Euclidean (R) on the raw feature vectors $\boldsymbol{x}$, and hyperbolic (H) on their post-hoc Poincar\'{e} projection $\phi(\boldsymbol{x})$ from \S\ref{sec:projection}.
 \begin{itemize}[topsep=0pt,itemsep=1pt,leftmargin=*]
 \item \textbf{NC (Nearest-Centroid).} Per-class training mean as the prototype; classify each test sample by argmin distance to prototypes.
-\item \textbf{FS (Few-shot 5-way 5-shot).} $1{,}000$ episodes per {\em (model, dataset)}; per episode $5$ classes, $5$ support + $15$ query samples; classify queries by nearest support-prototype, in the spirit of Prototypical Networks~\citep{snell2017proto}.
+\item \textbf{FS (Few-shot 5-way 5-shot).} $1{,}000$ episodes per model and dataset; per episode $5$ classes, $5$ support + $15$ query samples; classify queries by nearest support-prototype, in the spirit of Prototypical Networks~\citep{snell2017proto}.
 \end{itemize}
 For each task, we report the hyperbolic advantage
 \begin{equation}
@@ -238,7 +238,7 @@ Note that $H_{adv}$ is positive when the Poincar\'{e} projection beats the raw E
 \subsection{Per model and dataset results}
 \label{sec:complete-results}
 
-Three patterns emerge from our per-(model, dataset) measurements of $\delta$, ORC, R/H accuracies and $H_{\mathrm{adv}}$ across both NC and FS tasks. (1)~For DINOv2-L/G on hierarchical datasets (ImageNet, CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. (2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), all advantages collapse toward zero.
+Three patterns emerge from our per model and dataset measurements of $\delta$, ORC, R/H accuracies and $H_{\mathrm{adv}}$ across both NC and FS tasks. (1)~For DINOv2-L/G on hierarchical datasets (ImageNet, CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. (2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), all advantages collapse toward zero.
 
 \subsection{Geometry across capacity and paradigm}
 \label{sec:geometry-paradigm}
@@ -271,11 +271,11 @@ We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on th
 
 \paragraph{Task NC.} The largest gains concentrate where the geometry can be most exploited, the most tree-like backbones on the deepest-hierarchy datasets. DINOv2-L gains $\mathbf{+2.10}$ pp on CIFAR-100 (a $2.5\%$ relative improvement on a $85.6\%$ baseline) and $+0.80$ pp on DTD; DINOv2-G gains $+1.20$ pp on CIFAR-100 and DINOv2-S $+1.00$ pp, lower $\delta$ predicts higher $H_{\mathrm{adv}}$ as shown in Figure~\ref{fig:synthesis_pooled}. Within-dataset correlations are strongest on hierarchical datasets, reaching $r = -0.89$ on ImageNet and $r = -0.70$ on CIFAR-100; flat-hierarchy datasets (FashionMNIST, MNIST) show no significant correlation. ImageNet NC gains are themselves smaller in absolute terms ($+0.30$ pp for DINOv2-L).
 
-\paragraph{Task FS.} The pooled correlation is $r = -0.36$, weaker than for NC because, at this curvature, the few-shot projection helps almost every {\em (model, dataset)} pair ($54/60$ positive $H_{\mathrm{adv}}$, mean $+0.54$ pp), compressing the variance against which $\delta$ can be tested. Within the hierarchical datasets the dependence on $\delta$ is again strong: $r = -0.84$ on CIFAR-100, $r = -0.81$ on ImageNet, $r = -0.70$ on CIFAR-10. All $10$ vision models on ImageNet gain in few-shot ($H_{\mathrm{adv}}$ from $0.00$ to $+1.10$ pp), with the largest gains again in the SSL family (DINOv2-G $+1.10$, DINOv2-L $+0.90$, DINOv2-B $+0.70$).
+\paragraph{Task FS.} The pooled correlation is $r = -0.36$, weaker than for NC because, at this curvature, the few-shot projection helps almost every model and dataset pair ($54/60$ positive $H_{\mathrm{adv}}$, mean $+0.54$ pp), compressing the variance against which $\delta$ can be tested. Within the hierarchical datasets the dependence on $\delta$ is again strong: $r = -0.84$ on CIFAR-100, $r = -0.81$ on ImageNet, $r = -0.70$ on CIFAR-10. All $10$ vision models on ImageNet gain in few-shot ($H_{\mathrm{adv}}$ from $0.00$ to $+1.10$ pp), with the largest gains again in the SSL family (DINOv2-G $+1.10$, DINOv2-L $+0.90$, DINOv2-B $+0.70$).
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/fig_synthesis_pooled.pdf}
-  \caption{Both diagnostics predict the post-hoc gain across all $60$ (model, dataset) cells. Each panel is a pooled scatter with one point per cell; colour encodes paradigm and marker shape encodes dataset. \textbf{(a, c):} $H_{\mathrm{adv}}$ vs ORC for NC and FS, higher curvature yields larger gain ($r = +0.32$ NC, $r = +0.44$ FS). \textbf{(b, d):} $H_{\mathrm{adv}}$ vs $\delta$ for NC and FS, lower Gromov defect yields larger gain ($r = -0.46$ NC, $r = -0.36$ FS). All four correlations are statistically significant in the predicted direction: a single backbone-level diagnostic, computable in seconds on training-set centroids, predicts whether the post-hoc Poincar\'{e} projection will help on a given dataset. The MNIST cross markers cluster at the negative tail, consistent with its flat label hierarchy: where there is no tree-like structure to exploit, the projection does not help.}
+  \caption{Both diagnostics predict the post-hoc gain across all $60$ model and dataset cells. Each panel is a pooled scatter with one point per cell; colour encodes paradigm and marker shape encodes dataset. \textbf{(a, c):} $H_{\mathrm{adv}}$ vs ORC for NC and FS, higher curvature yields larger gain ($r = +0.32$ NC, $r = +0.44$ FS). \textbf{(b, d):} $H_{\mathrm{adv}}$ vs $\delta$ for NC and FS, lower Gromov defect yields larger gain ($r = -0.46$ NC, $r = -0.36$ FS). All four correlations are statistically significant in the predicted direction: a single backbone-level diagnostic, computable in seconds on training-set centroids, predicts whether the post-hoc Poincar\'{e} projection will help on a given dataset. The MNIST cross markers cluster at the negative tail, consistent with its flat label hierarchy: where there is no tree-like structure to exploit, the projection does not help.}
   \label{fig:synthesis_pooled}
 \end{figure}
 
@@ -321,7 +321,7 @@ The geometry is not merely descriptive, but prescriptive. Backbone $\delta$ and 
 
 The two findings close into a single arc: within hierarchy-respecting paradigms (most strongly self-supervised vision: DINOv2 drops $\delta$ by $45\%$ from S to G while ORC rises from $+0.35$ to $+0.73$), scaling up the backbone makes the geometry simultaneously more tree-like and more curved, and our correlations show that this is exactly the regime where the post-hoc hyperbolic projection delivers its largest gains (e.g.\ DINOv2-L on CIFAR-100: $H_{\mathrm{adv}}^{\text{NC}} = +2.10$~pp). Capacity makes the platonic representation tree-like, and tree-likeness, in turn, makes it exploitable in $\mathbb{H}$.
 
-\textbf{Limitations.} The downstream evaluation covers only two prototype-based tasks, nearest-centroid classification and 5-way 5-shot, and on the headline target $t = 1/\sqrt{2}$ the hyperbolic advantage at any single {\em (model, dataset)} combination is modest in absolute terms ($H_{\mathrm{adv}} \approx 0.5$--$2.5$~pp); whether the same diagnostic predicts gains on retrieval, dense prediction, or end-to-end training in $\mathbb{H}$ is not tested here. The Poincar\'{e} ball is fixed at constant negative curvature $-1$ throughout by design, to keep the projection parameter-free; ablating curvature would reintroduce a hyperparameter and is left as future work.
+\textbf{Limitations.} The downstream evaluation covers only two prototype-based tasks, nearest-centroid classification and 5-way 5-shot, and on the headline target $t = 1/\sqrt{2}$ the hyperbolic advantage at any single model and dataset combination is modest in absolute terms ($H_{\mathrm{adv}} \approx 0.5$--$2.5$~pp); whether the same diagnostic predicts gains on retrieval, dense prediction, or end-to-end training in $\mathbb{H}$ is not tested here. The Poincar\'{e} ball is fixed at constant negative curvature $-1$ throughout by design, to keep the projection parameter-free; ablating curvature would reintroduce a hyperparameter and is left as future work.
 
 
 \begin{ack}
@@ -349,7 +349,7 @@ The two findings close into a single arc: within hierarchy-respecting paradigms 
 
 \section{Per-dataset breakdown of the post-hoc gain}
 \label{app:per-dataset-gain}
-Figure~\ref{fig:synthesis_pooled} pools the $60$ (model, dataset) cells. The figures below break that scatter down by dataset, one per row: each row pairs the gain plotted against ORC (left) with the gain plotted against $\delta$ (right). In every panel the bubble size is the parameter count, the colour is the paradigm, and the two sub-panels of each figure correspond to the two downstream tasks (NC, FS). The dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
+Figure~\ref{fig:synthesis_pooled} pools the $60$ model and dataset cells. The figures below break that scatter down by dataset, one per row: each row pairs the gain plotted against ORC (left) with the gain plotted against $\delta$ (right). In every panel the bubble size is the parameter count, the colour is the paradigm, and the two sub-panels of each figure correspond to the two downstream tasks (NC, FS). The dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
 
 \begin{figure}[!htbp]
   \centering
