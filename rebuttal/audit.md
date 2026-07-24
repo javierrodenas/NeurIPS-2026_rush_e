@@ -62,6 +62,23 @@ Incluso dándole a H su mejor radio t por celda (sobreajuste a su favor), cosine
 
 **Resolución conceptual** (por qué no contradice "la geometría es arbórea, no esférica"): son dos preguntas distintas. δ describe el *layout inter-clase* (y ahí normalizar a la esfera lo empeora, δ sube — eso sigue siendo cierto); la accuracy downstream depende de *dónde está la señal discriminativa por muestra*. En DINOv2 —clusters compactos casi-estrella, sin exceso de árbol genuino sobre el null espectral— la señal es puramente angular → cosine óptimo. En CLIP —el exceso de árbol genuino más fuerte (−0.047)— la métrica hiperbólica añade sobre el ángulo (+0.69pp FS). El patrón por familias cuadra: exceso genuino ↔ ventaja H-sobre-esférico (Contrastive −0.042/+0.69; Supervised −0.037/+0.01; SSL +0.008/−0.51; a nivel de modelo r=−0.56, p=0.09, solo sugestivo — citarlo como patrón de familia, no como correlación).
 
+## 9. Reconciliación con la Figura 3 del paper (exp10) → la semántica de DINOv2 es ANGULAR
+
+La Figura 3 (DINOv2-G organizado por superclases en CIFAR-100) parecía contradecir la auditoría (ρ 0.18, ARI 0.19 "menos alineado"). exp10 lo resuelve con medidas locales e invariantes de escala:
+
+| medida (CIFAR-100) | DINOv2-L | DINOv2-G | ViT-L | CLIP-L |
+|---|---|---|---|---|
+| tripletas hermano-vs-no (euclídea) | 0.710 | 0.634 | 0.955 | 0.934 |
+| tripletas hermano-vs-no (cosine) | **0.913** | **0.850** | 0.963 | 0.931 |
+| recall@4 de hermanos (eucl → cos) | 0.27→0.50 | 0.22→0.44 | 0.57→0.60 | 0.54→0.55 |
+| spoke/inter-hub (dim completa) | 0.98 | 1.04 | 0.58 | 0.59 |
+
+**Lecturas**:
+1. La organización por superclases de DINOv2 **existe y es fuerte, pero es angular**: en euclídeo crudo está enmascarada por las normas; en cosine casi alcanza a los supervisados. Mis medidas de auditoría (ρ Spearman y ARI, euclídeas) la infravaloraban → corregido el matiz en `response_pux6.md`.
+2. Encaja con el downstream: cosine gana a H en DINOv2 *porque* su semántica vive en los ángulos; CLIP tiene además árbol genuino (null espectral) → H gana a cosine. Una sola explicación para las dos anomalías.
+3. Lo que se mantiene: a nivel **global** ImageNet/WordNet, DINOv2 sigue el más débil en ambas métricas (tripletas coarse 0.59–0.66 vs 0.83–0.85 CLIP): jerarquía local fuerte, árbol global plano.
+4. **⚠️ Aviso camera-ready**: el claim de la Figura 3 "DINOv2-G: spokes cortos y compactos" es un artefacto de proyección (el PCA se ajusta a los 20 hubs; las desviaciones ortogonales al plano desaparecen). En dimensión completa el ratio spoke/inter-hub de DINOv2-G es el PEOR del panel (1.04). Rehacer la figura en versión angular (o caveat explícito) antes de la camera-ready; si un reviewer lo recalcula, la figura queda expuesta.
+
 ---
 
-**Resumen**: 1 artefacto encontrado y corregido (ARI/average-linkage), 1 concesión suavizada con datos mejores (dimensión igualada por RP en vez de PCA), el hallazgo cosine/DINOv2 re-verificado por 5 vías independientes, y todo lo demás robusto a método, métrica y null. Los drafts (`response_RJje.md`, `response_pux6.md`, `response_Xbn5.md`) ya incorporan las correcciones; `comment_AC_global.md` y `response_1Eqj.md` no citaban ninguno de los números afectados.
+**Resumen**: 1 artefacto encontrado y corregido (ARI/average-linkage), 1 concesión suavizada con datos mejores (dimensión igualada por RP en vez de PCA), el hallazgo cosine/DINOv2 re-verificado por 5 vías independientes y ahora *explicado* (semántica angular local, árbol global plano — exp10), y todo lo demás robusto a método, métrica y null. Los drafts (`response_RJje.md`, `response_pux6.md`, `response_Xbn5.md`) ya incorporan las correcciones; `comment_AC_global.md` y `response_1Eqj.md` no citaban ninguno de los números afectados.
