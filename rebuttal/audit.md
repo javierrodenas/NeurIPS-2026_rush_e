@@ -52,6 +52,16 @@ Null de permutación por coordenadas PC (espectro y marginales exactos): mismo s
 
 Incluso dándole a H su mejor radio t por celda (sobreajuste a su favor), cosine gana en 9/12 celdas NC y 6/12 FS de DINOv2 (en DINOv2-G, 5 de 6). La concesión del rebuttal se mantiene.
 
+## 8. Re-verificación específica de "cosine > hiperbólico en DINOv2" (exp9) → **REAL, 5 vías independientes**
+
+1. **Reimplementación desde cero** (código nuevo, numpy/torch): reproduce exp2 dígito a dígito y reproduce la H del paper (DINOv2-L/CIFAR-100 NC H−R = +2.05pp vs +2.10 del paper) → mi pipeline H no tiene bug.
+2. **Prototipo H alternativo** (proyectar la media cruda en vez de re-exp-map de la media proyectada): mucho peor (0.84 vs 0.91) → H no está siendo penalizado por la construcción del prototipo; la del paper es la buena.
+3. **Features no pre-normalizadas** (CV de normas 0.013–0.039) → el cosine hace trabajo real, no es artefacto de la cache.
+4. **FS con 2 seeds nuevos × 2000 episodios**: COS−H = +1.15..+1.29pp (CI ±0.08–0.16) en CIFAR-100 y DTD → no es suerte de seed.
+5. **ImageNet full-train** (npz independiente de 1.23M muestras): R=0.788, H=0.786, COS=0.799 → aguanta con extracción de datos independiente.
+
+**Resolución conceptual** (por qué no contradice "la geometría es arbórea, no esférica"): son dos preguntas distintas. δ describe el *layout inter-clase* (y ahí normalizar a la esfera lo empeora, δ sube — eso sigue siendo cierto); la accuracy downstream depende de *dónde está la señal discriminativa por muestra*. En DINOv2 —clusters compactos casi-estrella, sin exceso de árbol genuino sobre el null espectral— la señal es puramente angular → cosine óptimo. En CLIP —el exceso de árbol genuino más fuerte (−0.047)— la métrica hiperbólica añade sobre el ángulo (+0.69pp FS). El patrón por familias cuadra: exceso genuino ↔ ventaja H-sobre-esférico (Contrastive −0.042/+0.69; Supervised −0.037/+0.01; SSL +0.008/−0.51; a nivel de modelo r=−0.56, p=0.09, solo sugestivo — citarlo como patrón de familia, no como correlación).
+
 ---
 
-**Resumen**: 1 artefacto encontrado y corregido (ARI/average-linkage), 1 concesión suavizada con datos mejores (dimensión igualada por RP en vez de PCA), y todo lo demás robusto a método, métrica y null. Los drafts (`response_RJje.md`, `response_pux6.md`, `response_Xbn5.md`) ya incorporan las correcciones; `comment_AC_global.md` y `response_1Eqj.md` no citaban ninguno de los números afectados.
+**Resumen**: 1 artefacto encontrado y corregido (ARI/average-linkage), 1 concesión suavizada con datos mejores (dimensión igualada por RP en vez de PCA), el hallazgo cosine/DINOv2 re-verificado por 5 vías independientes, y todo lo demás robusto a método, métrica y null. Los drafts (`response_RJje.md`, `response_pux6.md`, `response_Xbn5.md`) ya incorporan las correcciones; `comment_AC_global.md` y `response_1Eqj.md` no citaban ninguno de los números afectados.
