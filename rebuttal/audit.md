@@ -79,6 +79,23 @@ La Figura 3 (DINOv2-G organizado por superclases en CIFAR-100) parecía contrade
 3. Lo que se mantiene: a nivel **global** ImageNet/WordNet, DINOv2 sigue el más débil en ambas métricas (tripletas coarse 0.59–0.66 vs 0.83–0.85 CLIP): jerarquía local fuerte, árbol global plano.
 4. **⚠️ Aviso camera-ready**: el claim de la Figura 3 "DINOv2-G: spokes cortos y compactos" es un artefacto de proyección (el PCA se ajusta a los 20 hubs; las desviaciones ortogonales al plano desaparecen). En dimensión completa el ratio spoke/inter-hub de DINOv2-G es el PEOR del panel (1.04). Rehacer la figura en versión angular (o caveat explícito) antes de la camera-ready; si un reviewer lo recalcula, la figura queda expuesta.
 
+## 10. Nulls por dataset y métrica (exp11) → la "estrella" de DINOv2 es ESPECÍFICA DE IMAGENET
+
+Extensión de los nulls espectrales a los 6 datasets × 2 métricas (euclídea y angular). Resultado (exceso = δ real − δ null; negativo = árbol genuino):
+
+| exceso euclídeo | imagenet | cifar100 | dtd | cifar10 |
+|---|---|---|---|---|
+| ViT-L | −0.033 | −0.052 | −0.082 | −0.090 |
+| DINOv2-S | **+0.012** | −0.052 | −0.043 | −0.087 |
+| DINOv2-G | **+0.004** | **−0.078** | −0.076 | **−0.146** |
+| CLIP-L | −0.020 | −0.047 | −0.053 | −0.075 |
+
+**Lecturas**:
+1. El "DINOv2 en su null" ocurre **solo en ImageNet** (y la métrica angular tampoco lo rescata ahí: exceso cos +0.02..+0.03). En los 5 datasets de transfer, DINOv2 queda claramente por debajo del null — en CIFAR-100 y CIFAR-10 es **el más negativo del panel**, y el exceso se profundiza con la escala (S→G en CIFAR-10: −0.087→−0.146). Interpretación plausible: ImageNet es (casi) la distribución de pretraining de DINOv2; con 1000 clases finas saturando su espacio, la geometría se acerca al reparto uniforme (estrella). En datos de transfer, la estructura jerárquica genuina emerge.
+2. Esto apoya literalmente la tesis "co-producto de modelo y dato" del paper, y **reduce mucho la concesión**: las ganancias downstream del paper viven en los datasets de transfer, justo donde el árbol de DINOv2 es genuino. Respuesta a RJje actualizada con el scoping.
+3. Matiz honesto: el exceso negativo aparece en todos los modelos incluso en MNIST (−0.03..−0.07) — exceso < 0 per se indica no-gaussianidad/clusterización, no jerarquía *semántica*; lo diagnóstico es el patrón relativo y el flip de signo de DINOv2 en ImageNet.
+4. ¿Predice el exceso la ventaja H−R mejor que la δ cruda? Mixto: mejor en FS de los datasets de transfer (r=−0.78..−0.85 en cifar10/100/dtd vs −0.67..−0.78 de la δ cruda), invertido en ImageNet (+0.81). La δ cruda se queda como predictor del paper; el exceso es la herramienta interpretativa. No se overclaimea en el rebuttal.
+
 ---
 
-**Resumen**: 1 artefacto encontrado y corregido (ARI/average-linkage), 1 concesión suavizada con datos mejores (dimensión igualada por RP en vez de PCA), el hallazgo cosine/DINOv2 re-verificado por 5 vías independientes y ahora *explicado* (semántica angular local, árbol global plano — exp10), y todo lo demás robusto a método, métrica y null. Los drafts (`response_RJje.md`, `response_pux6.md`, `response_Xbn5.md`) ya incorporan las correcciones; `comment_AC_global.md` y `response_1Eqj.md` no citaban ninguno de los números afectados.
+**Resumen**: 1 artefacto encontrado y corregido (ARI/average-linkage), 1 concesión suavizada con datos mejores (dimensión igualada por RP en vez de PCA), el hallazgo cosine/DINOv2 re-verificado por 5 vías y *explicado* (semántica angular local — exp10), y la concesión del null espectral **reescopada a ImageNet** (exp11): en los datasets de transfer el árbol genuino de DINOv2 es el más fuerte del panel y escala S→G. Todo lo demás robusto a método, métrica, null y dataset. Los drafts (`response_RJje.md`, `response_pux6.md`, `response_Xbn5.md`) ya incorporan las correcciones; `comment_AC_global.md` y `response_1Eqj.md` no citaban ninguno de los números afectados.

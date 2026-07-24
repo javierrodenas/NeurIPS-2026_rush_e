@@ -21,6 +21,8 @@
 | E5 cross-model | RJje minor, Xbn5 W2: PRH | NEGATIVO: alignment medio 0.474 (R) vs 0.427 (H); solo 6/66 pares mejoran | Moderamos el framing PRH con base cuantitativa (lo pedía el meta-review de todos modos) |
 | E6 calibración H²/esfera | 1Eqj Q1/Q2 | δ absoluta de H² → ln2≈0.693, δ/diam → 0 al crecer región (0.16→0.02); esfera invariante de escala (S^99 chord 0.143, S² 0.47); árbol = 0.000 | Explica la "paradoja" del reviewer: comparaba constante absoluta (0.88) con normalizada (0.127) |
 | E7 recuperación jerarquía | Xbn5 Q1 (tarea extra), pux6 W2 | Linkage euclídeo ya recupera superclases (ARI hasta 0.39); linkage Poincaré NO mejora. ρ WordNet sin pooling (1 img/clase): +0.20..+0.34 (menor en DINOv2) | Negativo para H en esta tarea (se reporta); la señal jerárquica pre-existe sin centroides → anti-circularidad |
+| E8–E10 auditoría | (interna) | ARI≈0 de DINOv2 era artefacto de average-linkage (Ward: 0.19–0.61); semántica de DINOv2 es angular-local (tripletas 0.85–0.91 en cosine); nulls confirmados; ver audit.md | Drafts corregidos; aviso Figura 3 para camera-ready |
+| E11 nulls por dataset | (decisivo) | El "DINOv2 en su null" es SOLO en ImageNet; en transfer (CIFAR-100/10, DTD) su exceso genuino es el más fuerte del panel y escala S→G (−0.087→−0.146 en CIFAR-10) | La concesión queda reescopada; apoya la tesis capacity×data del paper |
 | kNN/retrieval (ya existía) | Xbn5/pux6: retrieval | A nivel sample el proyector NO ayuda (kNN se degrada con t; P@10 ligeramente negativo) | Reportarlo con honestidad: la jerarquía explotable vive a nivel prototipo/clase |
 
 ## Posición global (el "narrative arc" del rebuttal)
