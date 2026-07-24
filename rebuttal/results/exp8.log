@@ -1,0 +1,73 @@
+P1 i21k_t     avg_R ari=0.308(mx24) ward_R=0.378 kmeans=0.372 best=ward_R:0.378
+P1 i21k_s     avg_R ari=0.355(mx25) ward_R=0.558 kmeans=0.518 best=ward_R:0.558
+P1 i21k_b     avg_R ari=0.388(mx21) ward_R=0.610 kmeans=0.568 best=ward_R:0.610
+P1 i21k_l     avg_R ari=0.380(mx21) ward_R=0.548 kmeans=0.522 best=ward_R:0.548
+P1 dinov1_b   avg_R ari=0.216(mx34) ward_R=0.481 kmeans=0.428 best=ward_R:0.481
+P1 dinov2_s   avg_R ari=0.118(mx46) ward_R=0.513 kmeans=0.414 best=ward_R:0.513
+P1 dinov2_b   avg_R ari=0.017(mx72) ward_R=0.474 kmeans=0.227 best=ward_R:0.474
+P1 dinov2_l   avg_R ari=0.005(mx78) ward_R=0.316 kmeans=0.157 best=complete_COS:0.497
+P1 dinov2_g   avg_R ari=0.003(mx80) ward_R=0.188 kmeans=0.094 best=complete_COS:0.197
+P1 clip_b     avg_R ari=0.179(mx41) ward_R=0.479 kmeans=0.457 best=ward_R:0.479
+P1 clip_l     avg_R ari=0.349(mx22) ward_R=0.516 kmeans=0.528 best=kmeans_R:0.528
+P1 siglip_b   avg_R ari=0.222(mx36) ward_R=0.486 kmeans=0.537 best=kmeans_R:0.537
+P2 i21k_t     rho_eu=+0.517 rho_cos=+0.477 trip_eu=0.696 trip_cos=0.682
+P2 i21k_s     rho_eu=+0.492 rho_cos=+0.442 trip_eu=0.699 trip_cos=0.681
+P2 i21k_b     rho_eu=+0.480 rho_cos=+0.303 trip_eu=0.697 trip_cos=0.644
+P2 i21k_l     rho_eu=+0.525 rho_cos=+0.460 trip_eu=0.713 trip_cos=0.693
+P2 dinov1_b   rho_eu=+0.358 rho_cos=+0.459 trip_eu=0.631 trip_cos=0.658
+P2 dinov2_s   rho_eu=+0.218 rho_cos=+0.134 trip_eu=0.575 trip_cos=0.546
+P2 dinov2_b   rho_eu=+0.180 rho_cos=+0.177 trip_eu=0.562 trip_cos=0.563
+P2 dinov2_l   rho_eu=+0.178 rho_cos=+0.244 trip_eu=0.559 trip_cos=0.585
+P2 dinov2_g   rho_eu=+0.195 rho_cos=+0.232 trip_eu=0.563 trip_cos=0.583
+P2 clip_b     rho_eu=+0.564 rho_cos=+0.544 trip_eu=0.734 trip_cos=0.731
+P2 clip_l     rho_eu=+0.592 rho_cos=+0.567 trip_eu=0.732 trip_cos=0.731
+P2 siglip_b   rho_eu=+0.577 rho_cos=+0.506 trip_eu=0.730 trip_cos=0.713
+P3 i21k_t     own-clusters orc w/a=+0.347/+0.188 fneg w/a=0.051/0.139
+P3 i21k_s     own-clusters orc w/a=+0.348/+0.258 fneg w/a=0.040/0.110
+P3 i21k_b     own-clusters orc w/a=+0.373/+0.348 fneg w/a=0.030/0.045
+P3 i21k_l     own-clusters orc w/a=+0.384/+0.321 fneg w/a=0.029/0.059
+P3 dinov1_b   own-clusters orc w/a=+0.373/+0.391 fneg w/a=0.035/0.008
+P3 dinov2_s   own-clusters orc w/a=+0.356/+0.457 fneg w/a=0.020/0.000
+P3 dinov2_b   own-clusters orc w/a=+0.616/+0.790 fneg w/a=0.001/0.000
+P3 dinov2_l   own-clusters orc w/a=+0.688/+0.828 fneg w/a=0.000/0.000
+P3 dinov2_g   own-clusters orc w/a=+0.696/+0.827 fneg w/a=0.000/0.000
+P3 clip_b     own-clusters orc w/a=+0.352/+0.218 fneg w/a=0.042/0.122
+P3 clip_l     own-clusters orc w/a=+0.343/+0.209 fneg w/a=0.048/0.120
+P3 siglip_b   own-clusters orc w/a=+0.333/+0.186 fneg w/a=0.048/0.140
+P4 i21k_t     pca192=0.1227  rp192=0.1363
+P4 i21k_s     pca192=0.1062  pca384=0.0971  rp192=0.1188
+P4 i21k_b     pca192=0.1065  pca384=0.0931  rp192=0.1087
+P4 i21k_l     pca192=0.1039  pca384=0.0899  rp192=0.1130
+P4 dinov1_b   pca192=0.1202  pca384=0.1145  rp192=0.1111
+P4 dinov2_s   pca192=0.1269  pca384=0.1185  rp192=0.1165
+P4 dinov2_b   pca192=0.1134  pca384=0.0993  rp192=0.1002
+P4 dinov2_l   pca192=0.0893  pca384=0.0788  rp192=0.0939
+P4 dinov2_g   pca192=0.1104  pca384=0.0958  rp192=0.0983
+P4 clip_b     pca192=0.1234  pca384=0.1197  rp192=0.1308
+P4 clip_l     pca192=0.1233  pca384=0.1185  rp192=0.1254
+P4 siglip_b   pca192=0.1192  pca384=0.1142  rp192=0.1282
+P5 i21k_t     real=0.1227 permnull=0.1576 excess=-0.0350
+P5 i21k_s     real=0.0971 permnull=0.1330 excess=-0.0359
+P5 i21k_b     real=0.0881 permnull=0.1241 excess=-0.0360
+P5 i21k_l     real=0.0842 permnull=0.1238 excess=-0.0397
+P5 dinov1_b   real=0.1131 permnull=0.1173 excess=-0.0042
+P5 dinov2_s   real=0.1185 permnull=0.1014 excess=+0.0172
+P5 dinov2_b   real=0.0926 permnull=0.0817 excess=+0.0109
+P5 dinov2_l   real=0.0706 permnull=0.0741 excess=-0.0035
+P5 dinov2_g   real=0.0808 permnull=0.0752 excess=+0.0056
+P5 clip_b     real=0.1195 permnull=0.1666 excess=-0.0471
+P5 clip_l     real=0.1177 permnull=0.1544 excess=-0.0366
+P5 siglip_b   real=0.1137 permnull=0.1492 excess=-0.0355
+P6 i21k_l     m=  1 rho=+0.247±0.007
+P6 i21k_l     m= 10 rho=+0.489±0.005
+P6 i21k_l     m=100 rho=+0.525±0.000
+P6 dinov2_l   m=  1 rho=+0.084±0.011
+P6 dinov2_l   m= 10 rho=+0.153±0.004
+P6 dinov2_l   m=100 rho=+0.178±0.000
+P6 dinov2_g   m=  1 rho=+0.030±0.004
+P6 dinov2_g   m= 10 rho=+0.168±0.004
+P6 dinov2_g   m=100 rho=+0.195±0.000
+P6 clip_l     m=  1 rho=+0.264±0.011
+P6 clip_l     m= 10 rho=+0.557±0.005
+P6 clip_l     m=100 rho=+0.592±0.000
+Done
