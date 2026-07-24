@@ -9,6 +9,8 @@ We thank the reviewer for the encouraging assessment and for four questions that
 - **Metric-controlled study on the two tasks (positive).** Adding cosine (≡ spherical for ranking) and a matched radial-rescaling control (same tanh map, Euclidean distance) to all 60 cells: (i) the rescaling control changes nothing (|RT−R| ≤ 0.25pp), so the paper's H−R gain is attributable to the metric itself; (ii) against cosine — the strongest zero-cost alternative — the hyperbolic advantage concentrates on contrastive VLMs: CLIP few-shot H−COS = +0.7pp raw, +0.9..+1.3pp after L2 normalization (Poincaré *stacks on top of* normalization; per-episode CI95 ≤ ±0.15pp), while for DINOv2 cosine suffices. $\delta$/ORC continue to predict the H−R contrast as in the paper; the practical protocol becomes a three-way decision (Euclidean / cosine / hyperbolic) in the revision.
 - **Cross-model alignment (negative; see A4).**
 
+A text-based downstream evaluation was not run in this period; we state it as future work in the revision rather than implying coverage.
+
 > **Q2.** *"How robust are the text-model geometry results to prompt variation? ... an additional, simple validation using variations of the prompt 'a photo of a {object}' would provide more reassurance."*
 
 **A2.** Six templates over the 1000 ImageNet class names ("a photo of a {}", "{}" name-only, "an image of a {}", "a close-up photo of a {}", "this is a photo of a {}", "a {} in the wild"):
