@@ -1,0 +1,13 @@
+i21k_t     ARI R=0.308 H=0.239 | rho single=+0.335±0.006 centroid=+0.517
+i21k_s     ARI R=0.355 H=0.275 | rho single=+0.119±0.011 centroid=+0.492
+i21k_b     ARI R=0.388 H=0.363 | rho single=+0.176±0.017 centroid=+0.480
+i21k_l     ARI R=0.380 H=0.346 | rho single=+0.233±0.012 centroid=+0.525
+dinov1_b   ARI R=0.216 H=0.187 | rho single=+0.200±0.008 centroid=+0.358
+dinov2_s   ARI R=0.118 H=0.042 | rho single=+0.153±0.005 centroid=+0.218
+dinov2_b   ARI R=0.017 H=0.003 | rho single=+0.118±0.007 centroid=+0.180
+dinov2_l   ARI R=0.005 H=0.003 | rho single=+0.083±0.010 centroid=+0.178
+dinov2_g   ARI R=0.003 H=0.003 | rho single=+0.030±0.013 centroid=+0.195
+clip_b     ARI R=0.179 H=0.163 | rho single=+0.225±0.015 centroid=+0.564
+clip_l     ARI R=0.349 H=0.224 | rho single=+0.270±0.008 centroid=+0.592
+siglip_b   ARI R=0.222 H=0.169 | rho single=+0.235±0.012 centroid=+0.577
+Done

@@ -1,0 +1,13 @@
+i21k_t     (10s)  real=0.123  gauss=0.104  sphere=0.112  whitened=0.082  l2_chord=0.147  l2_geodesic=0.164  shufcoord=0.140  grp_wordnet=0.146  grp_random=0.159  cls_random100=0.145
+i21k_s     (15s)  real=0.104  gauss=0.081  sphere=0.087  whitened=0.069  l2_chord=0.117  l2_geodesic=0.127  shufcoord=0.107  grp_wordnet=0.110  grp_random=0.130  cls_random100=0.100
+i21k_b     (27s)  real=0.092  gauss=0.061  sphere=0.065  whitened=0.040  l2_chord=0.102  l2_geodesic=0.109  shufcoord=0.100  grp_wordnet=0.092  grp_random=0.120  cls_random100=0.087
+i21k_l     (34s)  real=0.084  gauss=0.055  sphere=0.056  whitened=0.000  l2_chord=0.100  l2_geodesic=0.107  shufcoord=0.103  grp_wordnet=0.104  grp_random=0.117  cls_random100=0.087
+dinov1_b   (26s)  real=0.109  gauss=0.061  sphere=0.065  whitened=0.047  l2_chord=0.137  l2_geodesic=0.152  shufcoord=0.082  grp_wordnet=0.084  grp_random=0.117  cls_random100=0.095
+dinov2_s   (14s)  real=0.119  gauss=0.081  sphere=0.087  whitened=0.071  l2_chord=0.139  l2_geodesic=0.159  shufcoord=0.082  grp_wordnet=0.077  grp_random=0.100  cls_random100=0.117
+dinov2_b   (26s)  real=0.096  gauss=0.061  sphere=0.065  whitened=0.049  l2_chord=0.120  l2_geodesic=0.136  shufcoord=0.062  grp_wordnet=0.068  grp_random=0.069  cls_random100=0.097
+dinov2_l   (34s)  real=0.067  gauss=0.055  sphere=0.056  whitened=0.000  l2_chord=0.096  l2_geodesic=0.106  shufcoord=0.054  grp_wordnet=0.060  grp_random=0.058  cls_random100=0.052
+dinov2_g   (48s)  real=0.080  gauss=0.046  sphere=0.047  whitened=0.000  l2_chord=0.098  l2_geodesic=0.106  shufcoord=0.046  grp_wordnet=0.054  grp_random=0.056  cls_random100=0.076
+clip_b     (17s)  real=0.122  gauss=0.074  sphere=0.076  whitened=0.060  l2_chord=0.121  l2_geodesic=0.123  shufcoord=0.096  grp_wordnet=0.126  grp_random=0.174  cls_random100=0.128
+clip_l     (27s)  real=0.118  gauss=0.061  sphere=0.065  whitened=0.044  l2_chord=0.117  l2_geodesic=0.119  shufcoord=0.073  grp_wordnet=0.117  grp_random=0.162  cls_random100=0.120
+siglip_b   (28s)  real=0.115  gauss=0.061  sphere=0.065  whitened=0.041  l2_chord=0.118  l2_geodesic=0.122  shufcoord=0.086  grp_wordnet=0.118  grp_random=0.158  cls_random100=0.128
+Done -> /home/javi/Platonic/rebuttal/results/exp1_delta_controls.csv

@@ -1,0 +1,13 @@
+i21k_t     (5s) wn_rho=+0.521 (shuf +0.015) ARI=0.308 (rand -0.007) | IN orc w/a=+0.350/+0.273 fneg w/a=0.052/0.094
+i21k_s     (9s) wn_rho=+0.502 (shuf +0.003) ARI=0.355 (rand +0.007) | IN orc w/a=+0.370/+0.278 fneg w/a=0.034/0.083
+i21k_b     (19s) wn_rho=+0.489 (shuf +0.027) ARI=0.388 (rand -0.006) | IN orc w/a=+0.403/+0.296 fneg w/a=0.021/0.059
+i21k_l     (26s) wn_rho=+0.534 (shuf +0.006) ARI=0.380 (rand -0.004) | IN orc w/a=+0.405/+0.305 fneg w/a=0.021/0.068
+dinov1_b   (20s) wn_rho=+0.362 (shuf -0.007) ARI=0.216 (rand -0.003) | IN orc w/a=+0.400/+0.325 fneg w/a=0.028/0.041
+dinov2_s   (9s) wn_rho=+0.221 (shuf +0.010) ARI=0.118 (rand +0.003) | IN orc w/a=+0.368/+0.333 fneg w/a=0.018/0.012
+dinov2_b   (20s) wn_rho=+0.182 (shuf -0.013) ARI=0.017 (rand -0.002) | IN orc w/a=+0.579/+0.636 fneg w/a=0.003/0.001
+dinov2_l   (25s) wn_rho=+0.182 (shuf -0.003) ARI=0.005 (rand +0.001) | IN orc w/a=+0.693/+0.724 fneg w/a=0.000/0.000
+dinov2_g   (38s) wn_rho=+0.199 (shuf -0.030) ARI=0.003 (rand -0.001) | IN orc w/a=+0.698/+0.739 fneg w/a=0.000/0.000
+clip_b     (15s) wn_rho=+0.566 (shuf +0.003) ARI=0.179 (rand -0.006) | IN orc w/a=+0.358/+0.290 fneg w/a=0.042/0.079
+clip_l     (18s) wn_rho=+0.591 (shuf +0.008) ARI=0.349 (rand +0.010) | IN orc w/a=+0.351/+0.274 fneg w/a=0.040/0.084
+siglip_b   (24s) wn_rho=+0.580 (shuf -0.015) ARI=0.222 (rand +0.000) | IN orc w/a=+0.336/+0.262 fneg w/a=0.050/0.075
+Done -> /home/javi/Platonic/rebuttal/results

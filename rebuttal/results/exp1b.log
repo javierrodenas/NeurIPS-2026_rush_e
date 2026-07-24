@@ -1,0 +1,13 @@
+i21k_t     d= 192 delta_pca192=0.1229±0.0035  gauss192=0.1038
+i21k_s     d= 384 delta_pca192=0.1134±0.0082  gauss192=0.1038
+i21k_b     d= 768 delta_pca192=0.1097±0.0080  gauss192=0.1038
+i21k_l     d=1024 delta_pca192=0.1038±0.0044  gauss192=0.1038
+dinov1_b   d= 768 delta_pca192=0.1161±0.0029  gauss192=0.1038
+dinov2_s   d= 384 delta_pca192=0.1282±0.0100  gauss192=0.1038
+dinov2_b   d= 768 delta_pca192=0.1166±0.0079  gauss192=0.1038
+dinov2_l   d=1024 delta_pca192=0.0853±0.0087  gauss192=0.1038
+dinov2_g   d=1536 delta_pca192=0.1112±0.0078  gauss192=0.1038
+clip_b     d= 512 delta_pca192=0.1249±0.0041  gauss192=0.1038
+clip_l     d= 768 delta_pca192=0.1241±0.0048  gauss192=0.1038
+siglip_b   d= 768 delta_pca192=0.1201±0.0066  gauss192=0.1038
+Done

@@ -1,0 +1,19 @@
+loaded i21k_t (6s)
+loaded i21k_s (9s)
+loaded i21k_b (18s)
+loaded i21k_l (25s)
+loaded dinov1_b (17s)
+loaded dinov2_s (9s)
+loaded dinov2_b (17s)
+loaded dinov2_l (23s)
+loaded dinov2_g (34s)
+loaded clip_b (12s)
+loaded clip_l (17s)
+loaded siglip_b (19s)
+align_R    0.473994
+align_H    0.426668
+gain      -0.047326
+SSL-SSL pairs: align_R    0.46091
+align_H    0.47907
+gain       0.01816
+Done -> /home/javi/Platonic/rebuttal/results/exp5_crossmodel_alignment.csv
