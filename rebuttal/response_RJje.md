@@ -1,4 +1,4 @@
-We thank the reviewer for an unusually constructive review. We ran **every requested control** on the same frozen features, splits and estimator as the paper (code available to the AC on request). Some controls confirm the paper's mechanisms; two sharpen its claims; revision commitments are listed at the end.
+We sincerely appreciate the time and effort invested in this review. We ran **every requested control** on the same frozen features, splits and estimator as the paper (code available to the AC on request). Some controls confirm the paper's mechanisms; two sharpen its claims; revision commitments are listed at the end.
 
 > **Q1.** *"Can the authors directly test whether the observed structure is better explained by negative curvature than by positive curvature or sphere-like geometry?"*
 
@@ -43,7 +43,7 @@ Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0
 
 > **W (ORC).** *"There is a confusing internal tension in the ORC argument ... the most tree-like models ... have the highest positive ORC and sometimes 0 percent negative edges."*
 
-**A7.** The reviewer is right that our §3.2 sentence was misleading. New edge-type analysis (k=10 centroid kNN graph; superclasses = the WordNet distance matrix clustered into 30 groups): for supervised and contrastive models, within-superclass edges have mean ORC +0.34..+0.41 vs +0.26..+0.31 across, and the negative-edge fraction is 2–4× higher on across (bridge) edges (ViT-L: .021 vs .068; CLIP-L: .040 vs .084) — high mean ORC = tight leaf clusters; negative curvature concentrates on the bridges. DINOv2 is the exception on ImageNet: even its cross-cluster edges are positively curved (0% negative under WordNet-30 *and* under its own 30 intrinsic clusters), consistent with its ImageNet-specific near-null geometry (A2). We will rewrite the ORC paragraph accordingly.
+**A7.** We apologize for the confusion here — the reviewer is right that our §3.2 sentence was misleading. New edge-type analysis (k=10 centroid kNN graph; superclasses = the WordNet distance matrix clustered into 30 groups): for supervised and contrastive models, within-superclass edges have mean ORC +0.34..+0.41 vs +0.26..+0.31 across, and the negative-edge fraction is 2–4× higher on across (bridge) edges (ViT-L: .021 vs .068; CLIP-L: .040 vs .084) — high mean ORC = tight leaf clusters; negative curvature concentrates on the bridges. DINOv2 is the exception on ImageNet: even its cross-cluster edges are positively curved (0% negative under WordNet-30 *and* under its own 30 intrinsic clusters), consistent with its ImageNet-specific near-null geometry (A2). We will rewrite the ORC paragraph accordingly.
 
 > **Minor.** *"The connection to the PRH is not fully established ... should discuss recent work that questions PRH-style convergence [1,2]."*
 
@@ -51,4 +51,4 @@ Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0
 
 **Committed revisions.** 1. Matched-null calibration tables + absolute/scaling claims restated as excesses; 2. rewritten ORC paragraph + bridge analysis; 3. WordNet-alignment section; 4. full cosine/RT/normalized metric comparison + three-way protocol; 5. narrowed causal-LM claims with template ranges; 6. PRH discussion incl. both references; 7. removal of curvature-estimation implications.
 
-We are happy to run further controls in the discussion phase.
+We are happy to run further controls in the discussion phase. Thank you again for a review that has materially improved this work.
