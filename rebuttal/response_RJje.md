@@ -6,12 +6,12 @@ We thank the reviewer for an unusually constructive review. We ran **every reque
 
 | space | $\hat\delta$ |
 |---|---|
-| balanced binary tree (depth 9) | 0.000 |
+| balanced binary tree (depth 10; 1023 nodes ≈ centroid count) | 0.000 |
 | $\mathbb{H}^2$ ($K{=}-1$), region radius $R{=}2/4/8/16$ | 0.162 / 0.087 / 0.043 / 0.022 |
 | uniform $S^{99}$ (chord / geodesic) | 0.143 / 0.179 |
 | iid Gaussian, $n{=}1000$, $d{=}192/768/1536$ | 0.104 / 0.061 / 0.046 |
 
-Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0$ as the region grows; spheres are scale-invariant at high $\hat\delta$. Low $\hat\delta$ is therefore diagnostic of tree-like rather than spherical structure — but the concentration concern is **correct**: iid Gaussians approach the equidistant (star-tree) limit as $d$ grows, so raw levels are only interpretable against matched nulls (A2).
+Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0$ as the region grows; spheres are scale-invariant, stuck at high $\hat\delta$ — they cannot produce low values at any radius. The 12 models' centroid values (.067–.123) all sit below the sphere band, and the data-side direct test agrees: forcing each model's centroids onto the sphere (L2) *raises* $\hat\delta$ in all 12 cases (table in A2). Low $\hat\delta$ is therefore diagnostic of tree-like rather than spherical structure — but the concentration concern is **correct**: iid Gaussians approach the equidistant (star-tree) limit as $d$ grows, so raw levels are only interpretable against matched nulls (A2).
 
 > **Q2.** *"Can the authors include a spherical baseline in the main figures...?"* / *"...could also arise from positive curvature, sphere-like geometry, high-dimensional concentration, or clustered class separation."*
 

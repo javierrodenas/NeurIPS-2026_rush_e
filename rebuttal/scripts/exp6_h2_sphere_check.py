@@ -43,9 +43,9 @@ for dim in [3, 100]:
     De = squareform(pdist(X)); d, diam = delta_from_D(De)
     print(f"S^{dim-1} chord   : delta={d:.3f}  diam={diam:.2f}  delta_norm={d/diam:.4f}")
 
-# balanced binary tree, unit edges, depth 9 (1023 nodes)
+# balanced binary tree, unit edges, depth 10 (1023 nodes)
 import collections
-depth=9; n=2**depth-1
+depth=10; n=2**depth-1
 # distance via LCA
 def tdist(a,b):
     da=int(np.log2(a+1)); db=int(np.log2(b+1)); d=0; 
