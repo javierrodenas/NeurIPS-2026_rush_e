@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+"""
+Extract ImageNet features with FULL train (~1250/class instead of 100/class).
+Test split is the SAME as before (files[100:150]), so the new <model>_imagenet_fulltrain.npz
+files can be combined with existing <model>_imagenet_test.npz for an apples-to-apples comparison.
+
+Run on REMOTE only (~/datasets/ILSVRC2012_img_train).
+"""
+import os, sys, gc, time, traceback, warnings
+warnings.filterwarnings("ignore")
+sys.stdout.reconfigure(line_buffering=True)
+
+os.environ.setdefault("TORCH_HOME", "/home/javi/Platonic/.torch_cache")
+os.environ.setdefault("HF_HOME",    "/home/javi/Platonic/.hf_cache")
+os.makedirs(os.environ["TORCH_HOME"], exist_ok=True)
+os.makedirs(os.environ["HF_HOME"],    exist_ok=True)
+
+import numpy as np
+import torch
+from torch.utils.data import Dataset, DataLoader
+from PIL import Image
+from pathlib import Path
+
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Device: {DEVICE}", flush=True)
+
+ROOT = Path("/home/javi/Platonic")
+CACHE = ROOT / "results/practical_tasks_cache"
+CACHE.mkdir(parents=True, exist_ok=True)
+IMAGENET_DIR = Path("/home/javi/datasets/ILSVRC2012_img_train")
+
+TEST_START = 100   # files[100:150] is test (matches existing extraction)
+TEST_END   = 150
+# Train = files[:TEST_START] + files[TEST_END:]  (everything except held-out test)
+
+MODEL_DEFS = {
+    "i21k_t":   ("timm",  "vit_tiny_patch16_224.augreg_in21k",        128),
+    "i21k_s":   ("timm",  "vit_small_patch16_224.augreg_in21k",       128),
+    "i21k_b":   ("timm",  "vit_base_patch16_224.augreg_in21k",        128),
+    "i21k_l":   ("timm",  "vit_large_patch16_224.augreg_in21k",        64),
+    "dinov1_b": ("timm",  "vit_base_patch16_224.dino",                128),
+    "dinov2_s": ("timm",  "vit_small_patch14_dinov2.lvd142m",         128),
+    "dinov2_b": ("timm",  "vit_base_patch14_dinov2.lvd142m",          128),
+    "dinov2_l": ("timm",  "vit_large_patch14_dinov2.lvd142m",          64),
+    "dinov2_g": ("timm",  "vit_giant_patch14_dinov2.lvd142m",          32),
+    "clip_b":   ("clip",  ("ViT-B-32", "openai"),                     128),
+    "clip_l":   ("clip",  ("ViT-L-14", "openai"),                      64),
+    "siglip_b": ("siglip",("ViT-B-16-SigLIP", "webli"),               128),
+}
+
+# Order: cheap models first (so we get most done quickly even if a long run is interrupted)
+ORDER = ["i21k_t","i21k_s","clip_b","siglip_b","i21k_b","dinov1_b","clip_l",
+         "dinov2_s","i21k_l","dinov2_b","dinov2_l","dinov2_g"]
+
+def build_index():
+    classes = sorted([d for d in os.listdir(IMAGENET_DIR) if os.path.isdir(IMAGENET_DIR/d)])
+    print(f"Found {len(classes)} class folders", flush=True)
+    train_files = []
+    n_total = 0
+    for ci, c in enumerate(classes):
+        files = sorted(os.listdir(IMAGENET_DIR/c))
+        n_total += len(files)
+        # Skip the held-out test slice [100:150]
+        train_part = files[:TEST_START] + files[TEST_END:]
+        for f in train_part:
+            train_files.append((IMAGENET_DIR/c/f, ci))
+    print(f"Train: {len(train_files)} files (~{len(train_files)//1000}/class). Total ImageNet: {n_total}", flush=True)
+    return train_files
+
+
+class FileDataset(Dataset):
+    def __init__(self, files, transform):
+        self.files = files; self.transform = transform
+    def __len__(self): return len(self.files)
+    def __getitem__(self, idx):
+        path, label = self.files[idx]
+        try:
+            img = Image.open(path).convert("RGB")
+        except Exception:
+            img = Image.new("RGB", (224, 224), (128,128,128))
+        return self.transform(img), label
+
+
+def load_model(model_key):
+    paradigm_t, args, batch = MODEL_DEFS[model_key]
+    if paradigm_t == "timm":
+        import timm
+        model = timm.create_model(args, pretrained=True, num_classes=0).eval().to(DEVICE)
+        cfg = timm.data.resolve_data_config(model.pretrained_cfg)
+        transform = timm.data.create_transform(**cfg)
+        return model, transform, batch
+    elif paradigm_t in ("clip", "siglip"):
+        import open_clip
+        arch, pretrained = args
+        full, _, preprocess = open_clip.create_model_and_transforms(arch, pretrained=pretrained)
+        model = full.visual.eval().to(DEVICE)
+        del full
+        return model, preprocess, batch
+
+
+def extract_full_train(model_key, train_files):
+    out = CACHE / f"{model_key}_imagenet_fulltrain.npz"
+    if out.exists():
+        d = np.load(out)
+        print(f"  CACHED {out.name}: {d['features'].shape}", flush=True)
+        return
+    print(f"\n>>> {model_key}/fulltrain  n={len(train_files)}", flush=True)
+    model, transform, batch = load_model(model_key)
+    use_fp16 = model_key in ("dinov2_l","dinov2_g","i21k_l","clip_l")
+    ds = FileDataset(train_files, transform)
+    loader = DataLoader(ds, batch_size=batch, shuffle=False, num_workers=4, pin_memory=True)
+    feats = []; labels = []
+    t0 = time.time()
+    with torch.no_grad():
+        for bi, (imgs, lbls) in enumerate(loader):
+            imgs = imgs.to(DEVICE, non_blocking=True)
+            if use_fp16:
+                with torch.cuda.amp.autocast():
+                    f = model(imgs)
+            else:
+                f = model(imgs)
+            if f.dim() == 3: f = f[:, 0]
+            feats.append(f.float().cpu().numpy())
+            labels.append(lbls.numpy())
+            if (bi + 1) % 100 == 0 or bi == len(loader) - 1:
+                el = time.time() - t0
+                rate = (bi+1)*batch/el
+                eta = (len(loader) - bi - 1) * batch / rate / 60
+                print(f"  batch {bi+1}/{len(loader)}  ({el:.0f}s, {rate:.0f} img/s, ETA {eta:.1f} min)", flush=True)
+    feats = np.concatenate(feats, 0)
+    labels = np.concatenate(labels, 0)
+    np.savez_compressed(out, features=feats, labels=labels)
+    print(f"  Saved {out.name}: {feats.shape}  ({time.time()-t0:.0f}s = {(time.time()-t0)/60:.1f} min)", flush=True)
+    del model
+    torch.cuda.empty_cache()
+    gc.collect()
+
+
+def main():
+    print("Indexing ImageNet train folder (excluding held-out test slice)...", flush=True)
+    train_files = build_index()
+    t_total = time.time()
+    for model_key in ORDER:
+        try:
+            extract_full_train(model_key, train_files)
+            print(f"  Cumulative time: {(time.time()-t_total)/3600:.2f} h", flush=True)
+        except Exception as e:
+            print(f"ERROR {model_key}: {e}", flush=True)
+            traceback.print_exc()
+    print(f"\nALL DONE in {(time.time()-t_total)/3600:.2f} h", flush=True)
+
+
+if __name__ == "__main__":
+    main()
