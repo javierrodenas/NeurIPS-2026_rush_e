@@ -1,4 +1,4 @@
-We thank the reviewer for the encouraging assessment and for four questions that are exactly the right stress-tests. We ran new experiments for each (same frozen features, splits and estimators as the paper; code available to the AC on request) and report everything we found, including the negatives — we would rather the reviewer reconsider significance on an honest basis than on a curated one.
+We thank the reviewer for the encouraging assessment and for four questions that are exactly the right stress-tests. We ran new experiments for each (same frozen features, splits and estimators as the paper; code available to the AC on request) and report everything we found, including the negatives, so that the significance judgment can rest on the full picture.
 
 > **Q1.** *"Can you validate the post-hoc projection on at least one additional downstream task, such as retrieval, clustering, or potentially a text-based task? If $\delta$ and ORC continue to predict when hyperbolic distances help beyond NC and FS vision classification, it would definitely make me reconsider the significance of the study."*
 
