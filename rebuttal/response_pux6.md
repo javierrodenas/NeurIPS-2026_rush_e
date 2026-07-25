@@ -1,4 +1,4 @@
-We sincerely appreciate this thoughtful review, which identified precisely the two deepest interpretive risks in the paper — semantic correctness and centroid circularity. We ran new quantitative experiments targeting both (same frozen features, splits and estimators as the paper), reported below in Q→A form together with the honest answer on downstream scope.
+We are grateful for this thoughtful review, which identified precisely the two deepest interpretive risks in the paper — semantic correctness and centroid circularity. We ran new quantitative experiments targeting both (same frozen features, splits and estimators as the paper), reported below in Q→A form together with the honest answer on downstream scope.
 
 > **Q1 (Semantic Correctness).** *"How can we quantitatively guarantee that the generated tree accurately mirrors the true semantic hierarchy of the concepts, rather than just an arbitrary branching structure? Have you considered evaluating the alignment against a dataset with strict, ground-truth hierarchical labels?"*
 

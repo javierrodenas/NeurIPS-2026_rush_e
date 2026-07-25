@@ -1,4 +1,4 @@
-We sincerely appreciate the time and effort invested in this careful review, and we apologize for the parts of the paper whose presentation made them unnecessarily hard to follow — the questions below uncovered real presentation defects, and we are grateful for them. We answer every technical question directly (with new calibration measurements where useful), then list the concrete writing revisions we will make in the final version.
+Thank you for the exceptionally careful reading — the questions below uncovered real presentation defects in our text, and we are grateful for them. We answer every technical question directly (with new calibration measurements where useful), then list the concrete writing revisions we will make in the final version.
 
 > **Q1.** *"[L145] What is the unit hyperbolic plane? Do the authors refer to the unit Poincaré ball (i.e., curvature=-1)?"*
 
@@ -27,7 +27,7 @@ Hyperbolic spaces have **bounded absolute** $\delta$ (our four-point measurement
 
 > **W.** *"[4.2, L214] Looking at Table 1 (Supp), they do not seem to 'collapse toward zero' as they are mostly negative (meaning there is an advantage in using Euclidean representations)."*
 
-**A5.** The reviewer is right, and we apologize — our wording was imprecise: on MNIST the NC advantages are mostly *negative* (Euclidean is better), while few-shot advantages hover near zero. The correct statement — which the revision will make — is that on flat-hierarchy datasets the projection gives no benefit and can hurt, which is exactly the prediction of the mechanism (no tree structure to exploit).
+**A5.** The reviewer is right — our wording was imprecise, in two ways. On MNIST the NC advantages are mostly *negative* (Euclidean is better), and the few-shot advantages are mixed (−1.2..+0.9) rather than collapsing to zero. What actually vanishes on the flat datasets is the *predictive relationship*: the within-dataset correlation between $\hat\delta$ and the gain, significant on the hierarchical datasets, disappears on FashionMNIST/MNIST (the flat slopes of Fig. 11). The revision will state exactly that — NC actively hurt, FS sign uninformative, predictor gone — instead of "collapse toward zero".
 
 > **W.** *"[3.3] The formula in L170 is unclear in both its meaning and calculation."*
 
@@ -40,9 +40,9 @@ Hyperbolic spaces have **bounded absolute** $\delta$ (our four-point measurement
 
 | family | $\hat\delta$ (ImageNet) | ORC | NC adv (hier.) | FS adv (hier.) | flat datasets |
 |---|---|---|---|---|---|
-| ViT supervised | .084–.123 | .33–.38 | −0.3..+0.5 | 0.0..+0.8 | NC mostly ≤ 0, FS ≈ 0 |
-| DINOv2 (SSL) | .066–.119 | .35–.73 | 0.0..**+2.1** | +0.5..**+1.5** | NC mostly ≤ 0, FS ≈ 0 |
-| CLIP (contrastive) | .108–.122 | .33–.35 | −0.5..+0.4 | +0.1..+1.2 | NC mostly ≤ 0, FS ≈ 0 |
+| ViT supervised | .084–.123 | .33–.38 | −0.3..+0.5 | 0.0..+0.8 | NC mostly ≤ 0; FS mixed (−1.2..+0.9), uncorrelated with $\hat\delta$ |
+| DINOv2 (SSL) | .066–.119 | .35–.73 | 0.0..**+2.1** | +0.5..**+1.5** | NC mostly ≤ 0; FS mixed (−1.2..+0.9), uncorrelated with $\hat\delta$ |
+| CLIP (contrastive) | .108–.122 | .33–.35 | −0.5..+0.4 | +0.1..+1.2 | NC mostly ≤ 0; FS mixed (−1.2..+0.9), uncorrelated with $\hat\delta$ |
 
 The revision additionally splits the appendix monolith into per-section tables and moves the inline parenthetical numbers into them.
 2. **Introduction**: merge the four fragments into two paragraphs; add references for the capacity/hierarchy claims (or mark them as hypotheses under test); fix the missing verb at L59.
