@@ -109,3 +109,7 @@ Comparación completa en `paper_vs_rerun_table1.csv`. **Brazo R: reproduce** (0.
 ## 12. Re-verificación independiente de las tareas 3/4/5 (exp15, 25 jul)
 
 A raíz de la duda "¿no estarán mal los negativos?": reimplementación desde cero (código propio, mismo muestreo que los runs de mayo del repo para comparar celda a celda). Resultado sobre 144 celdas: **retrieval exacto (|dif| ≤ 0.01pp en las 72 celdas), clustering exacto, kNN dentro del ruido de desempates del voto (media 0.15–0.22pp)** — y **cero celdas cambian el signo de su veredicto**. Los negativos de las tareas sample-level quedan verificados por dos implementaciones independientes escritas con meses de diferencia. CSV: `exp15_verify_345.csv`.
+
+## 13. Tarea de texto (exp14, DBpedia) — insertada tras aprobación (25 jul)
+
+DBpedia Classes (jerarquía real 9→70→219), embedders BGE/E5/GTE, protocolo NC/FS idéntico al paper. Geometría: árbol genuino en los 3 (exceso −0.020..−0.028) y tripletas 0.88–0.89 contra el nivel-2 real. Herramienta: δ̂ = 0.122–0.132 (sobre el umbral 0.10) → la regla predice ganancia marginal → FS +0.04..+0.08pp (CI fuera de 0 en E5/GTE), NC −0.4..−0.8pp. **Framing insertado: "el diagnóstico transfiere de modalidad", no "H gana en texto".** Criterio de éxito prefijado antes de mirar (≥2/3 CIs fuera de 0 en FS): cumplido. Insertado en Xbn5 A1 y AC §4 con aprobación explícita de Javi.

@@ -59,9 +59,9 @@ Estado: ✅ respondido con datos · 📋 respondido con compromiso de revisión 
 
 | # | Punto | Dónde | Estado |
 |---|---|---|---|
-| W1 | Solo 2 tareas prototype, solo visión; "universal exploitability" excesivo | A1 | ✅ negativos honestos + estudio de métricas; texto: 📋 future work declarado |
+| W1 | Solo 2 tareas prototype, solo visión; "universal exploitability" excesivo | A1 | ✅ negativos honestos + estudio de métricas + tarea de texto (exp14 DBpedia) |
 | W2 | Conexión PRH débil | A4 | ✅ |
-| Q1 | ¿Tarea adicional (retrieval/clustering/texto)? | A1 | ✅ kNN/retrieval/recovery corridos (negativos, reportados); texto: 📋 |
+| Q1 | ¿Tarea adicional (retrieval/clustering/texto)? | A1 | ✅ kNN/retrieval/recovery (negativos, reportados) + texto DBpedia (exp14): el diagnóstico transfiere — δ̂ 0.12–0.13 sobre umbral predice correctamente ganancia marginal |
 | Q2 | ¿Robustez a prompts? | A2 | ✅ tabla 6 templates |
 | Q3 | ¿Medida estadística (std/seeds)? | A3 | ✅ CIs pareados por episodio + 📋 McNemar |
 | Q4 | ¿Por qué "tightly connected" al PRH? | A4 | ✅ experimento + reformulación |
@@ -85,4 +85,4 @@ Estado: ✅ respondido con datos · 📋 respondido con compromiso de revisión 
 | 4. Downstream más allá de prototipos | §4 (→ Xbn5 A1, pux6 A3) |
 | 5. Narrowing de universalidad/geometría intrínseca/PRH | §5 (→ RJje A2/A8, Xbn5 A4) |
 
-**Únicos puntos sin experimento (los tres, reconocidos y comprometidos en el texto):** definiciones WordNet + conceptos no-visuales (RJje Q6c), tarea downstream de texto (Xbn5), HierarCaps (pux6), evaluación dense (pux6). Scripts preparados y no lanzados para fase 2: `exp12_curvature_sign.py` (signo de curvatura), `exp13_mcnemar.py` (McNemar NC).
+**Únicos puntos sin experimento (reconocidos y comprometidos en el texto):** definiciones WordNet + conceptos no-visuales (RJje Q6c), HierarCaps (pux6), evaluación dense (pux6). Corridos después de la primera versión: tarea de texto (exp14 DBpedia, insertada) y McNemar (exp13, insertado). En reserva para fase 2: `exp12_curvature_sign.py` (signo de curvatura), tabla completa de 12 modelos, correlación exceso-vs-gain (audit §10.4), verificación independiente de tareas 3/4/5 (exp15).

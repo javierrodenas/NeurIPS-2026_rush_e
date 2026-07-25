@@ -2,7 +2,7 @@ Thank you for the encouraging assessment and for four questions that are exactly
 
 > **Q1.** *"Can you validate the post-hoc projection on at least one additional downstream task, such as retrieval, clustering, or potentially a text-based task? If $\delta$ and ORC continue to predict when hyperbolic distances help beyond NC and FS vision classification, it would definitely make me reconsider the significance of the study."*
 
-**A1.** We extended the evaluation in five directions; two are negative (now scoped accordingly), three sharpen the contribution:
+**A1.** We extended the evaluation in five directions; three are negative (reported as-is and scoped accordingly), two sharpen the contribution:
 
 - **Sample-level tasks (negative).** kNN (k=5) and sample-to-sample retrieval P@10 across the paper's full 60-cell grid (10 backbones × 6 datasets): the projection *hurts* both (kNN mean −2.6pp; retrieval −3.8pp fine / −3.0pp superclass; positive in 0/60 cells). Mechanism: the class hierarchy the diagnostics detect lives at the prototype level; the radial map distorts local sample neighborhoods. The revision restricts the claimed domain of validity to prototype-based metric tasks.
 - **Hierarchy recovery (negative for H, informative overall).** Cutting centroid dendrograms of CIFAR-100 at 20 clusters vs the true superclasses (robustness over average/complete/Ward/k-means): Euclidean Ward recovers them well (ARI up to 0.61) and Poincaré-distance linkage does not improve on the best Euclidean/cosine variant for any model. Reported as-is.
