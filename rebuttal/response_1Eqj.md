@@ -27,7 +27,7 @@ Hyperbolic spaces have **bounded absolute** $\delta$ (our four-point measurement
 
 > **W.** *"[4.2, L214] Looking at Table 1 (Supp), they do not seem to 'collapse toward zero' as they are mostly negative (meaning there is an advantage in using Euclidean representations)."*
 
-**A5.** The reviewer is right — our wording was imprecise, in two ways. On MNIST the NC advantages are mostly *negative* (Euclidean is better), and the few-shot advantages are mixed (−1.2..+0.9) rather than collapsing to zero. What actually vanishes on the flat datasets is the *predictive relationship*: the within-dataset correlation between $\hat\delta$ and the gain, significant on the hierarchical datasets, disappears on FashionMNIST/MNIST (the flat slopes of Fig. 11). The revision will state exactly that — NC actively hurt, FS sign uninformative, predictor gone — instead of "collapse toward zero".
+**A5.** The reviewer is right — our wording was imprecise, in two ways. On MNIST the NC advantages are mostly *negative* (Euclidean is better), and the few-shot advantages are mixed (−1.2..+0.9) rather than collapsing to zero. What actually vanishes on the flat datasets is the *predictive relationship*: the within-dataset correlation between $\hat\delta$ and the gain, significant on the hierarchical datasets, disappears on FashionMNIST/MNIST (the flat slopes of Fig. 11). The revision will state exactly that — NC mostly hurts, FS sign uninformative, predictor gone — instead of "collapse toward zero".
 
 > **W.** *"[3.3] The formula in L170 is unclear in both its meaning and calculation."*
 
