@@ -36,7 +36,15 @@ Hyperbolic spaces have **bounded absolute** $\delta$ (our four-point measurement
 > **W.** *"The lack of a table in the main paper that reports the results discussed by the authors penalizes the proposed score. ... the authors placed many numbers and comparisons within the text, in parentheses, making the reading harder."*
 
 **A7 — committed writing revisions.**
-1. **A main-text results table** — we agree this is the paper's biggest presentation defect. The revision adds a compact main-text table (per-family means for $\hat\delta$, ORC, NC/FS advantages, plus headline cells), splits the appendix monolith into per-section tables, and moves inline parenthetical numbers into them.
+1. **A main-text results table** — we agree this is the paper's biggest presentation defect. Rather than only promising it, here is the summary table the revision will place in the main text (all values read from Appendix Table 1; "hier." = ImageNet/CIFAR-100/CIFAR-10/DTD, "flat" = FashionMNIST/MNIST; advantages in pp):
+
+| family | $\hat\delta$ (ImageNet) | ORC | NC adv (hier.) | FS adv (hier.) | flat datasets |
+|---|---|---|---|---|---|
+| ViT supervised | .084–.123 | .33–.38 | −0.3..+0.5 | 0.0..+0.8 | NC ≤ 0, FS ≈ 0 |
+| DINOv2 (SSL) | .066–.119 | .35–.73 | 0.0..**+2.1** | +0.5..**+1.5** | NC ≤ 0, FS ≈ 0 |
+| CLIP (contrastive) | .108–.122 | .33–.35 | −0.5..+0.4 | +0.1..+1.2 | NC ≤ 0, FS ≈ 0 |
+
+The revision additionally splits the appendix monolith into per-section tables and moves the inline parenthetical numbers into them.
 2. **Introduction**: merge the four fragments into two paragraphs; add references for the capacity/hierarchy claims (or mark them as hypotheses under test); fix the missing verb at L59.
 3. **Related work**: restructure §2.3 as "Background" (it is preliminaries, as the reviewer notes), merge the PRH paragraph into §2.2, avoid symbols like $\mathbb{H}$ in prose.
 4. **Methodology**: add citations in §3.1; motivate the choice of the two descriptors in §3.2 ($\hat\delta$: global, coordinate-free, tied to embeddability theorems; ORC: local, edge-level, complementary — plus the calibration table above); replace "argmin" phrasing; give the few-shot protocol as an explicit algorithm box. The §4.2 ORC ranking (L224–228) will also get its missing interpretation: a new edge-type analysis (reported to Reviewer RJje) shows high mean ORC reflects tight within-superclass clusters while negative curvature concentrates on the between-superclass bridge edges — this is the conclusion the ranking supports.
