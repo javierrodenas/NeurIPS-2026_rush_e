@@ -105,3 +105,7 @@ Comparación completa en `paper_vs_rerun_table1.csv`. **Brazo R: reproduce** (0.
 ---
 
 **Resumen**: 1 artefacto encontrado y corregido (ARI/average-linkage), 1 concesión suavizada con datos mejores (dimensión igualada por RP en vez de PCA), el hallazgo cosine/DINOv2 re-verificado por 5 vías y *explicado* (semántica angular local — exp10), la concesión del null espectral **reescopada a ImageNet** (exp11): en los datasets de transfer el árbol genuino de DINOv2 es el más fuerte del panel y escala S→G, y la Tabla 1 auditada por completo (§11): el problema queda confinado a la columna NC-H y **las correlaciones centrales del paper reproducen**. Todo lo demás robusto a método, métrica, null y dataset. Los drafts (`response_RJje.md`, `response_pux6.md`, `response_Xbn5.md`) ya incorporan las correcciones; `comment_AC_global.md` y `response_1Eqj.md` no citaban ninguno de los números afectados.
+
+## 12. Re-verificación independiente de las tareas 3/4/5 (exp15, 25 jul)
+
+A raíz de la duda "¿no estarán mal los negativos?": reimplementación desde cero (código propio, mismo muestreo que los runs de mayo del repo para comparar celda a celda). Resultado sobre 144 celdas: **retrieval exacto (|dif| ≤ 0.01pp en las 72 celdas), clustering exacto, kNN dentro del ruido de desempates del voto (media 0.15–0.22pp)** — y **cero celdas cambian el signo de su veredicto**. Los negativos de las tareas sample-level quedan verificados por dos implementaciones independientes escritas con meses de diferencia. CSV: `exp15_verify_345.csv`.

@@ -1,0 +1,44 @@
+kNN i21k_t listo
+kNN i21k_s listo
+kNN i21k_b listo
+kNN i21k_l listo
+kNN dinov1_b listo
+kNN dinov2_s listo
+kNN dinov2_b listo
+kNN dinov2_l listo
+kNN dinov2_g listo
+kNN clip_b listo
+kNN clip_l listo
+kNN siglip_b listo
+retr i21k_t listo
+retr i21k_s listo
+retr i21k_b listo
+retr i21k_l listo
+retr dinov1_b listo
+retr dinov2_s listo
+retr dinov2_b listo
+retr dinov2_l listo
+retr dinov2_g listo
+retr clip_b listo
+retr clip_l listo
+retr siglip_b listo
+clust i21k_t listo
+clust i21k_s listo
+clust i21k_b listo
+clust i21k_l listo
+clust dinov1_b listo
+clust dinov2_s listo
+clust dinov2_b listo
+clust dinov2_l listo
+clust dinov2_g listo
+clust clip_b listo
+clust clip_l listo
+clust siglip_b listo
+
+RESUMEN |dif| mío vs repo (pp):
+         dR    dH
+task             
+clust  0.00  0.00
+kNN    0.60  1.27
+retr   0.01  0.00
+Done
