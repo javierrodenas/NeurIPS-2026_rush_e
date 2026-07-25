@@ -28,7 +28,7 @@ We thank the reviewer for a review that identified precisely the two deepest int
 
 What remains true — and the limitations section will say it plainly — is that the *class inventory* is human-chosen, and for language models the prompts additionally inject class names (a prompt-robustness analysis reported to Reviewers Xbn5/RJje leads us to narrow the causal-LM claims). For vision models, points 1–3 show the measured tree is a property of the representation, probed — not created — by the label structure.
 
-> **Q3 (Downstream Utility).** *"Given the modest performance gains on simple metric tasks, do you have any preliminary results or theoretical intuition on whether this post-hoc Poincaré projection yields benefits in more complex, modern deployment scenarios like dense segmentation or text-image retrieval?"* — and W3: *"the downstream applications must better reflect how foundation models are actually deployed."*
+> **Q3 (Downstream Utility).** *"Given the modest performance gains on simple metric tasks, do you have any preliminary results or theoretical intuition on whether this post-hoc Poincaré projection yields benefits in more complex, modern deployment scenarios like dense segmentation or text-image retrieval?"* — and W3: *"The authors claim to have uncovered the 'universal geometry of foundation models'. However ... the downstream applications must better reflect how foundation models are actually deployed."*
 
 **A3.** We accept this criticism and act on it in three ways:
 
