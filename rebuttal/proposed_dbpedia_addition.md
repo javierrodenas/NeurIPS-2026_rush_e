@@ -1,4 +1,4 @@
-# PROPUESTA (pendiente de aprobación de Javi) — inserción del resultado DBpedia
+# APROBADA por Javi (25 jul) e INSERTADA en response_Xbn5.md y comment_AC_global.md — se conserva como registro
 
 ## Resultados crudos (exp14, `results/exp14_dbpedia.csv`)
 
