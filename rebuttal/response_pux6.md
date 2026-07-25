@@ -22,7 +22,7 @@ We sincerely appreciate this thoughtful review, which identified precisely the t
 
 **A2.** Three measurements now bound this legitimate concern:
 
-1. **Random vs semantic groupings.** If the space were merely "flexible enough to be binned into linguistic buckets", arbitrary binning should look as tree-like as semantic binning. It does not: 100 WordNet-coherent groups yield consistently lower $\hat\delta$ than 100 random groups (CLIP-B .126 vs .174; CLIP-L .117 vs .162; ViT-L .104 vs .117; 8/12 models, the rest at floor). The measured hierarchy tracks semantic structure, not the pooling operation.
+1. **Random vs semantic groupings.** If the space were merely "flexible enough to be binned into linguistic buckets", arbitrary binning should look as tree-like as semantic binning. It does not: 100 WordNet-coherent groups yield consistently lower $\hat\delta$ than 100 random groups (CLIP-B .126 vs .174; CLIP-L .117 vs .162; ViT-L .104 vs .117; 11/12 models, the sole exception at floor). The measured hierarchy tracks semantic structure, not the pooling operation.
 2. **The decoupling above.** If label-defined averaging injected the human taxonomy into the geometry, the label-free model (DINOv2) should not be the *most* tree-like yet *least* WordNet-aligned family — the injection account predicts the opposite coupling.
 3. **No pooling at all.** With a single random image per class (no centroids), the distance matrix still correlates with WordNet: $\rho$ = +0.34 (ViT-T), +0.27 (CLIP-L), +0.23 (SigLIP/CLIP-B), +0.20 (DINOv1), lower for DINOv2 (+0.03–0.15); 5 draws, small std. Pooling denoises (centroid $\rho$ is ~2× higher) but the hierarchical signal pre-exists at the single-sample level — it is not manufactured by averaging.
 

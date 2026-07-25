@@ -40,9 +40,9 @@ Hyperbolic spaces have **bounded absolute** $\delta$ (our four-point measurement
 
 | family | $\hat\delta$ (ImageNet) | ORC | NC adv (hier.) | FS adv (hier.) | flat datasets |
 |---|---|---|---|---|---|
-| ViT supervised | .084–.123 | .33–.38 | −0.3..+0.5 | 0.0..+0.8 | NC ≤ 0, FS ≈ 0 |
-| DINOv2 (SSL) | .066–.119 | .35–.73 | 0.0..**+2.1** | +0.5..**+1.5** | NC ≤ 0, FS ≈ 0 |
-| CLIP (contrastive) | .108–.122 | .33–.35 | −0.5..+0.4 | +0.1..+1.2 | NC ≤ 0, FS ≈ 0 |
+| ViT supervised | .084–.123 | .33–.38 | −0.3..+0.5 | 0.0..+0.8 | NC mostly ≤ 0, FS ≈ 0 |
+| DINOv2 (SSL) | .066–.119 | .35–.73 | 0.0..**+2.1** | +0.5..**+1.5** | NC mostly ≤ 0, FS ≈ 0 |
+| CLIP (contrastive) | .108–.122 | .33–.35 | −0.5..+0.4 | +0.1..+1.2 | NC mostly ≤ 0, FS ≈ 0 |
 
 The revision additionally splits the appendix monolith into per-section tables and moves the inline parenthetical numbers into them.
 2. **Introduction**: merge the four fragments into two paragraphs; add references for the capacity/hierarchy claims (or mark them as hypotheses under test); fix the missing verb at L59.
