@@ -1,4 +1,4 @@
-We sincerely appreciate the time and effort invested in this review. We ran **every requested control** on the same frozen features, splits and estimator as the paper (code available to the AC on request). Some controls confirm the paper's mechanisms; two sharpen its claims; revision commitments are listed at the end.
+We sincerely appreciate the time and effort invested in this review. We ran **every requested control** on the same frozen features, splits and estimator as the paper (code available on request). Some controls confirm the paper's mechanisms; two sharpen its claims; revision commitments are listed at the end.
 
 > **Q1.** *"Can the authors directly test whether the observed structure is better explained by negative curvature than by positive curvature or sphere-like geometry?"*
 
@@ -47,7 +47,7 @@ Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0
 
 > **Minor.** *"The connection to the PRH is not fully established ... should discuss recent work that questions PRH-style convergence [1,2]."*
 
-**A8.** Agreed. We ran the suggested experiment: mutual-kNN alignment (k=10 neighborhood-overlap fraction) across all 66 model pairs on the shared 1000 centroids, Euclidean vs Poincaré — hyperbolic does **not** improve cross-model alignment (mean 0.474 vs 0.427; 6/66 pairs improve). We will reposition the contribution as within-model geometry, soften "universal", and cite and discuss both suggested works (our within-model results require no cross-model alignment and are compatible with their critiques).
+**A8.** Agreed. We ran the suggested experiment: mutual-kNN alignment (k=10 neighborhood-overlap fraction) across all 66 model pairs on the shared 1000 centroids, Euclidean vs Poincaré — hyperbolic does **not** improve cross-model alignment (mean 0.474 vs 0.427; 6/66 pairs improve). We will reposition the contribution as within-model geometry, soften "universal", and cite and discuss both suggested works (our within-model results do not require cross-model alignment).
 
 **Committed revisions.** 1. Matched-null calibration tables + absolute/scaling claims restated as excesses; 2. rewritten ORC paragraph + bridge analysis; 3. WordNet-alignment section; 4. full cosine/RT/normalized metric comparison + three-way protocol; 5. narrowed causal-LM claims with template ranges; 6. PRH discussion incl. both references; 7. removal of curvature-estimation implications.
 
