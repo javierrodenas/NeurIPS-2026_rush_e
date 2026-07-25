@@ -11,11 +11,11 @@ We sincerely appreciate the time and effort invested in this review. We ran **ev
 | uniform $S^{99}$ (chord / geodesic) | 0.143 / 0.179 |
 | iid Gaussian, $n{=}1000$, $d{=}192/768/1536$ | 0.104 / 0.061 / 0.046 |
 
-Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0$ as the region grows; spheres are scale-invariant, stuck at high $\hat\delta$ — they cannot produce low values at any radius. The 12 panel models' values on the shared 1000 ImageNet-class centroids (.067–.123, paper protocol) all sit below the sphere band, and the data-side direct test agrees: forcing each model's centroids onto the sphere (L2) *raises* $\hat\delta$ in all 12 cases (table in A2). Low $\hat\delta$ is therefore diagnostic of tree-like rather than spherical structure. The Gaussian row of the table anticipates the reviewer's separate concentration point (part of the weakness quoted under Q2, and **correct**): iid Gaussians approach the equidistant (star-tree) limit as $d$ grows, so raw levels are only interpretable against matched nulls — addressed in A2.
+Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0$ as the region grows; spheres are scale-invariant, stuck at high $\hat\delta$ — they cannot produce low values at any radius. All 12 panel models (.067–.123 on the shared 1000 ImageNet centroids, paper protocol) sit below the sphere band, and the data-side direct test agrees: forcing each model's centroids onto the sphere (L2) *raises* $\hat\delta$ in all 12 cases (table in A2). Low $\hat\delta$ is therefore diagnostic of tree-like rather than spherical structure. The Gaussian row of the table anticipates the reviewer's separate concentration point (part of the weakness quoted under Q2, and **correct**): iid Gaussians approach the equidistant (star-tree) limit as $d$ grows, so raw levels are only interpretable against matched nulls — addressed in A2.
 
 > **Q2.** *"Can the authors include a spherical baseline in the main figures...?"* / *"...could also arise from [...] high-dimensional concentration, or clustered class separation [...] random Gaussian, random normalized, whitened, and dimension-matched controls."*
 
-**A2.** Yes — new matched-$n,d$ controls on the ImageNet centroids (representative rows; all 12 measured; full table in revision):
+**A2.** Yes — new matched-$n,d$ controls on the ImageNet centroids (representative rows; full table in revision):
 
 | model | real | Gauss null | L2-chord | L2-geodesic |
 |---|---|---|---|---|
@@ -47,8 +47,8 @@ Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0
 
 > **Minor.** *"The connection to the PRH is not fully established [...] discuss recent work that questions PRH-style convergence [1,2]."*
 
-**A8.** Agreed. We ran the suggested experiment: mutual-kNN alignment (k=10 neighborhood-overlap fraction) across all 66 model pairs on the shared 1000 centroids, Euclidean vs Poincaré — hyperbolic does **not** improve cross-model alignment (mean 0.474 vs 0.427; 6/66 pairs improve). This matches the position §2.4 of the submission already takes ("a within-model property that stands on its own"); the revision promotes that framing from Related Work into the title/abstract, softens "universal", and cites both suggested works — whose program we independently mirror: our matched-null recalibration is [2]'s calibration move applied to $\hat\delta$, and like [2] we find calibrated global convergence weak while local structure survives (each model builds its own tree).
+**A8.** Agreed. We ran the suggested experiment: mutual-kNN alignment (k=10 neighborhood-overlap fraction) across all 66 model pairs on the shared 1000 centroids, Euclidean vs Poincaré — hyperbolic does **not** improve cross-model alignment (mean 0.474 vs 0.427; 6/66 pairs improve). This matches the position §2.4 of the submission already takes ("a within-model property that stands on its own"); the revision promotes that framing from Related Work into the title/abstract, softens "universal", and cites both suggested works — whose program we independently mirror: our matched-null recalibration is [2]'s calibration move applied to $\hat\delta$, and like [2] we find calibrated global convergence weak while local structure survives (each model its own tree).
 
 **Committed revisions.** 1. Matched-null calibration tables + absolute/scaling claims restated as excesses; 2. rewritten ORC paragraph + bridge analysis; 3. WordNet-alignment section; 4. full cosine/RT/normalized metric comparison + three-way protocol; 5. narrowed causal-LM claims with template ranges; 6. PRH discussion incl. both references; 7. removal of curvature-estimation implications.
 
-Thank you again for a review that has materially improved this work; we are happy to run further controls in the discussion.
+Thank you again for a review that has materially improved this work.
