@@ -26,7 +26,10 @@ Text **embedders are highly robust** (range ≤ .011; the paper's template repro
 
 > **Q3.** *"Given the sometimes very small improvements on downstream tasks (e.g., +0.80 pp on DTD NC), it would be useful to include an additional statistical measure, such as standard deviation over 3 or 5 seeds, to show that even small improvements are consistent."*
 
-**A3.** Few-shot cells use 1000 episodes; we now compute per-episode *paired* confidence intervals for the advantage: across the 60 cells, CI95 ranges from ±0.03 to ±0.20pp. The headline few-shot gains exceed their cell CI by large factors (DINOv2-G CIFAR-10 +1.5pp vs ±0.11; DINOv2-L CIFAR-100 +1.0pp vs ±0.09; CLIP-L DTD +1.0pp vs ±0.13). NC is deterministic given the frozen features (no seed variance); we have now run McNemar tests on the paired predictions: the +2.1pp NC gain of DINOv2-L on CIFAR-100 corresponds to 242 vs 37 discordant test decisions on n=10,000 (p ≈ 4×10⁻³⁸), and DINOv2-G on CIFAR-100 gives p ≈ 3×10⁻¹⁶; the full per-cell table will be in the revision. The DTD NC +0.8pp cell the reviewer cites is one of the smaller effects and will be presented with its uncertainty rather than as a headline.
+**A3.**
+- **Few-shot:** cells use 1000 episodes; per-episode *paired* CI95 ranges ±0.03–0.20pp across the 60 cells. Headline gains exceed their CI by large factors (DINOv2-G CIFAR-10 +1.5pp vs ±0.11; DINOv2-L CIFAR-100 +1.0pp vs ±0.09; CLIP-L DTD +1.0pp vs ±0.13).
+- **NC:** deterministic given the frozen features (no seed variance); we have now run McNemar tests on the paired predictions: the +2.1pp DINOv2-L/CIFAR-100 gain corresponds to 242 vs 37 discordant test decisions on n=10,000 (p ≈ 4×10⁻³⁸), DINOv2-G/CIFAR-100 gives p ≈ 3×10⁻¹⁶; full per-cell table in the revision.
+- The DTD NC +0.8pp cell the reviewer cites is among the smaller effects and will be presented with its uncertainty rather than as a headline.
 
 > **Q4.** *"I would like the authors to clarify the main reasons why, and in what sense, this work is supposedly tightly connected to the Platonic Representation Hypothesis."*
 
