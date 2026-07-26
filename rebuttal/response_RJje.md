@@ -1,21 +1,21 @@
-We sincerely appreciate the time and effort invested in this review. We ran **every requested control** on the same frozen features, splits and estimator as the paper (code on request). Some controls confirm the paper's mechanisms; two sharpen its claims; revision commitments are listed at the end.
+We sincerely appreciate the time and effort invested in this review. We ran **every requested control** on the same frozen features, splits and estimator as the paper (code on request). Each answer below leads with its verdict; full per-model tables will be in the revision.
 
 > **Q1.** *"Can the authors directly test whether the observed structure is better explained by negative curvature than by positive curvature or sphere-like geometry?"*
 
-**A1.** We calibrated the exact estimator $\hat\delta=\delta_{\max}/\mathrm{diam}$ (500K quadruples × 10 seeds) on reference geometries:
+**A1. Yes: spherical geometry cannot produce the observed values.** Calibrating the exact estimator $\hat\delta=\delta_{\max}/\mathrm{diam}$ (500K quadruples × 10 seeds) on reference geometries:
 
 | space | $\hat\delta$ |
 |---|---|
-| balanced binary tree (depth 10; 1023 nodes ≈ centroid count) | 0.000 |
-| $\mathbb{H}^2$ ($K{=}-1$), region radius $R{=}2/4/8/16$ | 0.162 / 0.087 / 0.043 / 0.022 |
+| balanced binary tree (depth 10) | 0.000 |
+| $\mathbb{H}^2$ ($K{=}-1$), regions $R{=}2/4/8/16$ | 0.162 / 0.087 / 0.043 / 0.022 |
 | uniform $S^{99}$ (chord / geodesic) | 0.143 / 0.179 |
 | iid Gaussian, $n{=}1000$, $d{=}192/768/1536$ | 0.104 / 0.061 / 0.046 |
 
-Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0$ as the region grows; spheres are scale-invariant, stuck at high $\hat\delta$, they cannot produce low values at any radius. All model values printed in Table 1 (.066–.123 on ImageNet) sit below the sphere band, and the data-side direct test agrees: projecting each panel model's centroids onto the sphere raises $\hat\delta$ under the geodesic in all 12 cases (A2). Low $\hat\delta$ is therefore diagnostic of tree-like rather than spherical structure. The Gaussian row anticipates the reviewer's separate concentration point (from the weakness quoted under Q2, and **correct**): iid Gaussians approach the equidistant (star-tree) limit as $d$ grows, so raw levels are only interpretable against matched nulls, addressed in A2.
+Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0$ as the region grows; spheres are scale-invariant, stuck high. All values printed in Table 1 (.066–.123) sit below the sphere band, and sphericizing each model's centroids *raises* $\hat\delta$ (A2): low $\hat\delta$ is diagnostic of tree-like, not spherical, structure. The Gaussian row anticipates the reviewer's concentration point (correct): raw levels are only interpretable against matched nulls, addressed next.
 
-> **Q2.** *"Can the authors include a spherical baseline in the main figures...?"* / *"...could also arise from ... high-dimensional concentration, or clustered class separation ... random Gaussian, random normalized, whitened, and dimension-matched controls."*
+> **Q2.** *"Can the authors include a spherical baseline in the main figures...?"* / *"... random Gaussian, random normalized, whitened, and dimension-matched controls."*
 
-**A2.** Yes, new matched-$n,d$ controls on the ImageNet centroids (representative rows; full table in revision):
+**A2. All requested controls run.** Representative rows (ImageNet centroids):
 
 | model | real | Gauss null | L2-chord | L2-geodesic |
 |---|---|---|---|---|
@@ -23,45 +23,44 @@ Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0
 | DINOv2-L | .067 | .055 | .096 | .106 |
 | CLIP-B | .122 | .074 | .121 | .123 |
 
-- **Sphere: disfavored.** Sphericizing raises $\hat\delta$ for all 12 models under the geodesic (chord: 10/12, CLIP flat ±.001), and the cross-model ordering is preserved under cosine. Whitening (also requested) collapses $\hat\delta$ to 0.00–0.08: with $n\le d$ it yields a near-regular simplex (a degenerate star-tree), so we rely on the spectrum null instead.
-- **Concession.** Trained centroids sit above the iid null (a degenerate near-star): low absolute $\hat\delta$ alone cannot be read as "semantically hierarchical".
-- **Calibrated verdict.** Against a **spectrum-matched null** (random cloud with the centroids' own covariance spectrum; confirmed by a PC-permutation null), supervised ViTs (excess −0.015..−0.040) and CLIP/SigLIP (−0.017..−0.047) sit below their nulls (null s.d. ≤ .007): genuine higher-order tree structure. DINOv2 sits at its null **on ImageNet only** (−0.01..+0.02).
-- **All six datasets: 69/72 cells beat their nulls.** The exceptions are DINOv2-S/B/G on ImageNet; on the transfer datasets, where the paper's gains concentrate (Appendix Table 1), DINOv2 has the *strongest* excess of the panel (−0.078 CIFAR-100, −0.146 CIFAR-10), deepening with scale (S→G: −0.087→−0.146).
-- **Dimension matching.** Under random projection to $d{=}192$ the family ordering survives; PCA truncation attenuates it.
-- **We will restate** absolute-level and cross-dimension claims (incl. the "45%" headline) as excess over matched nulls (the within-architecture ablations are same-$d$, unaffected), and we do **not** estimate curvature: descriptive claims become "tree-like inter-class metric structure".
+- **Sphere:** sphericizing raises $\hat\delta$ for all 12 models (geodesic; 10/12 under chord). **Whitening** collapses centroids to a near-regular simplex (a degenerate star), so we rely on the spectrum-matched null instead.
+- **Concession, and the calibrated verdict.** Low absolute $\hat\delta$ alone is not evidence of hierarchy: iid clouds approach a star. Against **spectrum-matched nulls** (same covariance spectrum; confirmed by a PC-permutation null), supervised ViTs and CLIP/SigLIP sit clearly below their nulls, genuine higher-order tree structure; DINOv2 sits at its null **on ImageNet only**.
+- **Across all six datasets, 69/72 model×dataset cells beat their nulls.** The 3 exceptions are DINOv2-S/B/G on ImageNet; on the transfer datasets, where the paper's gains concentrate, DINOv2 shows the *strongest* excess of the panel, deepening with scale (S→G on CIFAR-10: −0.087→−0.146).
+- **Dimension matching:** under random projection the family ordering survives; PCA truncation attenuates it. We will restate absolute and scaling claims (incl. the "45%") as excess over matched nulls; the within-architecture ablations are same-$d$ and unaffected. We also do **not** estimate curvature: descriptive claims become "tree-like inter-class metric structure".
 
 > **Q3.** *"What happens if distances are computed after L2 normalization, with cosine distance, or with spherical distance?"*
 
-**A3.** Added to all 60 cells of the downstream grid (10 backbones × 6 datasets, §4.3; cosine ≡ spherical geodesic for ranking). Means over the four hierarchical datasets:
-- **SSL (DINOv2):** cosine is the strongest zero-cost metric (FS COS−R +1.44pp; H−COS −0.5pp).
-- **Supervised ViTs:** H ≈ COS.
-- **Contrastive VLMs: H beats COS.** FS +0.7pp raw; after L2-normalizing first, +0.9..+1.3pp on CIFAR-100/10/DTD (+0.1..+0.2pp on ImageNet; CI95 ≤ ±0.15pp): Poincaré stacks on top of normalization.
+**A3. Family-dependent; added to all 60 cells** (cosine ≡ spherical for ranking). Hierarchical-dataset means:
 
-We will report the full comparison and reframe the practical protocol as three-way ($\hat\delta$/ORC predict H−R, unchanged; paradigm predicts H-vs-cosine).
+- **SSL (DINOv2):** cosine is the strongest zero-cost metric (H−COS −0.5pp).
+- **Supervised ViTs:** H ≈ COS.
+- **Contrastive VLMs: H beats COS**, +0.7pp raw and +0.9..+1.3pp after L2-normalizing first on CIFAR-100/10/DTD (ImageNet +0.1..+0.2; CI95 ≤ ±0.15pp): Poincaré stacks on top of normalization.
+
+The practical protocol becomes three-way (Euclidean / cosine / hyperbolic); $\hat\delta$/ORC still predict the H−R contrast, unchanged.
 
 > **Q4.** *"What happens if the same radial transformation is used, but distances remain Euclidean or spherical?"*
 
-**A4.** Answered directly with an RT control: the *identical* radial tanh map, then Euclidean distances on the transformed points. RT−R ≈ 0 everywhere (|mean| ≤ 0.25pp), while H−RT ≈ H−R (SSL few-shot +0.89pp; DINOv2-G +1.20pp). For the *spherical* half: the radial map preserves direction, so "same transform + spherical distance" reduces exactly to centered cosine, also run (COSC), same picture as A3. The H−R gain is metric, not rescaling.
+**A4. Nothing changes: the gain is the metric.** The identical tanh map with Euclidean distances (RT) is indistinguishable from raw (|RT−R| ≤ 0.25pp), while H−RT ≈ H−R (up to +1.2pp). The spherical half reduces to centered cosine, since the map preserves direction, also run (COSC): same picture as A3.
 
 > **Q5.** *"Can the authors estimate curvature instead of fixing the Poincaré ball to curvature −1?"*
 
-**A5.** We swept the effective curvature scale (radius target $t\in[0.25,0.95]$; curvature $c\in[0.25,4]$ on full ImageNet): the few-shot advantage is positive at every setting, peaking near $t≈0.58$–$0.71$, conclusions are insensitive to the −1 convention. Estimating intrinsic curvature is a different problem, stated as out of scope.
+**A5.** We swept the effective curvature scale ($t\in[0.25,0.95]$; $c\in[0.25,4]$ on full ImageNet): the few-shot advantage is positive at every setting, peaking near $t≈0.6$–$0.7$; conclusions are insensitive to the −1 convention. Estimating intrinsic curvature is a different problem, stated as out of scope.
 
 > **Q6.** *"How much of the measured tree-like structure remains if class labels are replaced by random class groupings? Or ... under different prompts...?"*
 
 **A6.**
-- **Groupings.** Merging the 1000 classes into 100 WordNet-coherent groups yields lower $\hat\delta$ than 100 random groups in 11/12 models (CLIP-B .126 vs .174; ViT-L .104 vs .117; sole exception DINOv2-L, at floor under both): tree-likeness tracks semantics, not binning.
-- **Anti-circularity** (the label-hierarchy confound from the weaknesses). Spearman between centroid and WordNet distances: CLIP-L +0.59, SigLIP +0.58, supervised +0.49..+0.53, DINOv1 +0.36, DINOv2 +0.18..+0.22 (shuffle ±0.03). The lowest-$\hat\delta$ family (label-free DINOv2) is the *least* WordNet-aligned; had centroids injected the taxonomy, the opposite would appear: the *amount* of tree-likeness and the *identity* of the tree are decoupled.
-- **Prompts** (6 templates incl. class-name-only). Embedders are highly robust ($\hat\delta$ range ≤0.011; BGE .124 reproduces the paper's .123); causal LMs are template-sensitive (GPT-2-M .091–.134), and name-only attenuates/reverses the LM-vs-embedder ordering: **we will narrow the causal-LM claims**, discuss template dependence in the limitations, and add WordNet-definition and non-visual prompts in the revision. The core vision results involve no prompts.
+- **Groupings:** WordNet-coherent groups are more tree-like than random groups in **11/12 models** (e.g. CLIP-B .126 vs .174): the structure tracks semantics, not binning.
+- **Anti-circularity:** centroid distances correlate with WordNet at $\rho$ up to +0.59 (CLIP-L) vs +0.18..+0.22 for label-free DINOv2 (shuffle ±0.03). The lowest-$\hat\delta$ family is the *least* WordNet-aligned, the opposite of what label injection would produce: the *amount* of tree-likeness and the *identity* of the tree are decoupled.
+- **Prompts** (6 templates incl. name-only): embedders are highly robust (range ≤.011; the paper's template reproduces, BGE .124 vs .123); causal LMs are template-sensitive, and name-only reverses their ordering vs embedders: **we will narrow the causal-LM claims**, discuss template dependence in the limitations, and add WordNet-definition and non-visual prompts in the revision. The core vision results involve no prompts.
 
 > **W (ORC).** *"A confusing internal tension in the ORC argument ... highest positive ORC and sometimes 0 percent negative edges."*
 
-**A7.** We apologize: the reviewer is right that our §3.2 sentence was misleading. New edge-type analysis (k=10 centroid kNN graph; WordNet matrix clustered into 30 superclasses): for supervised and contrastive models, within-superclass edges have mean ORC +0.34..+0.41 vs +0.26..+0.31 across, and the negative-edge fraction is 2–4× higher on across (bridge) edges (ViT-L: .021 vs .068; CLIP-L: .040 vs .084), high mean ORC = tight leaf clusters; negative curvature concentrates on the bridges. DINOv2 is the exception on ImageNet: even its cross-cluster edges are positively curved (≈0% negative under WordNet-30 *and* under its own 30 intrinsic clusters), consistent with its ImageNet-specific near-null geometry (A2). We will rewrite the ORC paragraph accordingly.
+**A7.** We apologize: our §3.2 sentence was misleading. An edge-type analysis (k=10 centroid kNN graph, 30 WordNet superclasses) resolves it: high mean ORC reflects tight *within*-superclass clusters, while negative edges concentrate on the *bridges* between them (2–4× higher fraction, e.g. CLIP-L .040 vs .084). DINOv2 on ImageNet is the exception, ≈0% negative even across its own clusters, consistent with its near-null geometry (A2). The ORC paragraph will be rewritten accordingly.
 
 > **Minor.** *"The connection to the PRH is not fully established ... discuss recent work that questions PRH-style convergence [1,2]."*
 
-**A8.** Agreed. We ran the suggested experiment: mutual-kNN alignment (k=10 neighborhood-overlap fraction) across all 66 model pairs on the shared 1000 centroids, Euclidean vs Poincaré, hyperbolic does **not** improve cross-model alignment (mean 0.474 vs 0.427; 6/66 pairs improve). This matches the position §2.4 of the submission already takes ("a within-model property that stands on its own"); the revision promotes that framing from Related Work into the title/abstract, softens "universal", and cites both suggested works; [2] we independently mirror: our matched-null recalibration is its calibration move applied to $\hat\delta$, and our conclusion is its within-model complement, what survives calibration is the shared *form* (tree-likeness, 69/72), the *content* being model-specific (each model its own tree).
+**A8.** Agreed, and we ran the suggested test: mutual-kNN alignment across all 66 model pairs on the shared 1000 centroids, Euclidean vs Poincaré. Hyperbolic does **not** improve cross-model alignment (0.474 vs 0.427). This matches §2.4 of the submission ("a within-model property that stands on its own"); the revision promotes that framing into the title/abstract, softens "universal", and cites both suggested works. [2] we independently mirror: our matched-null recalibration is its calibration move applied to $\hat\delta$, and our conclusion is its within-model complement: what is shared is the *form* (tree-likeness, 69/72), the *content* is model-specific (each model its own tree).
 
-**Committed revisions.** 1. Matched-null calibration tables + absolute/scaling claims restated as excesses; 2. rewritten ORC paragraph + bridge analysis; 3. WordNet-alignment section; 4. full cosine/RT/normalized metric comparison + three-way protocol; 5. narrowed causal-LM claims with template ranges; 6. PRH discussion incl. both references; 7. removal of curvature-estimation implications.
+**Committed revisions:** matched-null tables with claims restated as excesses; rewritten ORC paragraph; WordNet-alignment section; full cosine/RT/normalized comparison and three-way protocol; narrowed causal-LM claims; PRH discussion with both references; removal of curvature-estimation implications.
 
 Thank you again for a review that has materially improved this work.
