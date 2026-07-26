@@ -11,7 +11,7 @@ We sincerely appreciate the time and effort invested in this review. We ran **ev
 | uniform $S^{99}$ (chord / geodesic) | 0.143 / 0.179 |
 | iid Gaussian, $n{=}1000$, $d{=}192/768/1536$ | 0.104 / 0.061 / 0.046 |
 
-Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0$ as the region grows; spheres are scale-invariant, stuck high. All values printed in Table 1 (.066–.123) sit below the sphere band, and sphericizing each model's centroids *raises* $\hat\delta$ (A2): low $\hat\delta$ is diagnostic of tree-like, not spherical, structure. The Gaussian row anticipates the reviewer's concentration point (correct): raw levels are only interpretable against matched nulls, addressed next.
+Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0$ as the region grows; spheres are scale-invariant, stuck high. Table 1's ImageNet rows (.066–.123) all sit below the sphere band, and sphericizing each model's centroids *raises* $\hat\delta$ (geodesic; A2): low $\hat\delta$ is diagnostic of tree-like, not spherical, structure. The Gaussian row anticipates the reviewer's concentration point (correct): raw levels are only interpretable against matched nulls, addressed next.
 
 > **Q2.** *"Can the authors include a spherical baseline in the main figures...?"* / *"... random Gaussian, random normalized, whitened, and dimension-matched controls."*
 
@@ -23,8 +23,8 @@ Hyperbolic spaces have bounded absolute $\delta$ ($\to\ln2$), so $\hat\delta\to0
 | DINOv2-L | .067 | .055 | .096 | .106 |
 | CLIP-B | .122 | .074 | .121 | .123 |
 
-- **Sphere:** sphericizing raises $\hat\delta$ for all 12 models (geodesic; 10/12 under chord). **Whitening** collapses centroids to a near-regular simplex (a degenerate star), so we rely on the spectrum-matched null instead.
-- **Concession, and the calibrated verdict.** Low absolute $\hat\delta$ alone is not evidence of hierarchy: iid clouds approach a star. Against **spectrum-matched nulls** (same covariance spectrum; confirmed by a PC-permutation null), supervised ViTs and CLIP/SigLIP sit clearly below their nulls, genuine higher-order tree structure; DINOv2 sits at its null **on ImageNet only**.
+- **Sphere:** sphericizing raises $\hat\delta$ for all 12 models under the geodesic; 10/12 under chord, the two exceptions (CLIP-B/L) within .002. **Whitening** collapses centroids to a near-regular simplex (a degenerate star), so we rely on the spectrum-matched null instead.
+- **Concession, and the calibrated verdict.** Low absolute $\hat\delta$ alone is not evidence of hierarchy: iid clouds approach a star. Against **spectrum-matched nulls** (same covariance spectrum; confirmed by a PC-permutation null), supervised ViTs and CLIP/SigLIP sit clearly below their nulls (excesses −0.015..−0.047; null s.d. ≤ .007), genuine higher-order tree structure; DINOv2 sits at its null **on ImageNet only**.
 - **Across all six datasets, 69/72 model×dataset cells beat their nulls.** The 3 exceptions are DINOv2-S/B/G on ImageNet; on the transfer datasets, where the paper's gains concentrate, DINOv2 shows the *strongest* excess of the panel, deepening with scale (S→G on CIFAR-10: −0.087→−0.146).
 - **Dimension matching:** under random projection the family ordering survives; PCA truncation attenuates it. We will restate absolute and scaling claims (incl. the "45%") as excess over matched nulls; the within-architecture ablations are same-$d$ and unaffected. We also do **not** estimate curvature: descriptive claims become "tree-like inter-class metric structure".
 
@@ -51,7 +51,7 @@ The practical protocol becomes three-way (Euclidean / cosine / hyperbolic); $\ha
 **A6.**
 - **Groupings:** WordNet-coherent groups are more tree-like than random groups in **11/12 models** (e.g. CLIP-B .126 vs .174): the structure tracks semantics, not binning.
 - **Anti-circularity:** centroid distances correlate with WordNet at $\rho$ up to +0.59 (CLIP-L) vs +0.18..+0.22 for label-free DINOv2 (shuffle ±0.03). The lowest-$\hat\delta$ family is the *least* WordNet-aligned, the opposite of what label injection would produce: the *amount* of tree-likeness and the *identity* of the tree are decoupled.
-- **Prompts** (6 templates incl. name-only): embedders are highly robust (range ≤.011; the paper's template reproduces, BGE .124 vs .123); causal LMs are template-sensitive, and name-only reverses their ordering vs embedders: **we will narrow the causal-LM claims**, discuss template dependence in the limitations, and add WordNet-definition and non-visual prompts in the revision. The core vision results involve no prompts.
+- **Prompts** (6 templates incl. name-only): embedders are highly robust (range ≤.011; the paper's template reproduces, BGE .124 vs .123); causal LMs are template-sensitive, and name-only attenuates or reverses their ordering vs embedders: **we will narrow the causal-LM claims**, discuss template dependence in the limitations, and add WordNet-definition and non-visual prompts in the revision. The core vision results involve no prompts.
 
 > **W (ORC).** *"A confusing internal tension in the ORC argument ... highest positive ORC and sometimes 0 percent negative edges."*
 
