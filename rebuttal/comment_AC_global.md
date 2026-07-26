@@ -1,6 +1,4 @@
-**Global response — summary of new experiments and revised positioning**
-
-Dear AC: we sincerely thank you and the reviewers for the time and effort invested in our submission. This comment is an executive index of the new experiments reported in our four per-review rebuttals (all posted via the Rebuttal buttons; nothing here is absent from those public responses), keyed to the five discussion points of your initial meta-review. All experiments use the same frozen features, splits and estimators as the paper.
+Dear AC: we sincerely thank you and the reviewers for the time and effort invested in our submission. This comment is an executive index of the new experiments reported in our per-review responses (each reviewer is answered separately; nothing here is absent from those responses), following the five discussion points of the meta-review. All experiments use the same frozen features, splits and estimators as the paper.
 
 **1. Clarity (1Eqj).** Every technical question answered directly, including a numerical calibration that resolves the absolute-vs-normalized $\delta$ ambiguity our text created. The promised main-text summary table is shown in the response itself, together with a concrete revision list (restructured sections, fixed references, motivated metrics).
 
