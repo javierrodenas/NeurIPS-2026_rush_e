@@ -62,7 +62,7 @@ exp13 CSV); ✅ null s.d.
 **Tenemos:** ✅ WordNet ρ hasta +0.59 (controles ≈0); ✅ ARI 0.61 (4 métodos); ✅ groupings
 11/12; ✅ no-pooling ρ+0.34; ✅ decoupling DINOv2 (más tree-like, menos alineado) +
 descomposición angular (triplets 0.91/0.85 vs 0.71/0.63); ✅ prompts 6 templates.
-**Falta:** 🔬 **HierarCaps** — compromiso público con pux6 ("commit to such an evaluation
+**Falta:** ✅ **HierarCaps HECHO (exp16, 3-ago)** — compromiso público con pux6 ("commit to such an evaluation
 in the revision"): montar pipeline (dataset ECCV'24, 73K imágenes, jerarquías de 4 niveles),
 medir alineamiento nivel-a-nivel y orden radial. ⚠️ Es el mayor bloque de trabajo nuevo;
 decidir alcance esta semana. 🔬 prompts WordNet-definition y no-visuales (comprometido
@@ -93,7 +93,7 @@ excess genuino, triplets 0.88); ✅ dominio de validez formulado.
 media página en §5: es la prueba de transferencia del diagnóstico).
 
 ## J. Reserva no comprometida (decidir si entra)
-- 🔬 exp12_curvature_sign.py: escrito, sin correr. Correr y decidir por resultado.
+- ✅ exp12 CORRIDO (3-ago): calibración separa signos; DINOv2 negativo y monótono con escala (ξ −0.02→−0.07, 66→89% neg). ENTRA en §4.
 - ✅ correlaciones exceso-vs-ganancia (audit §10.4): ⚠️ ¿entran en §5? (miran justo la
   pregunta "¿el exceso predice mejor que δ̂ crudo?" — si el resultado es limpio, sí).
 - Soundbite "two-sided dissociation" (DINOv2-ImageNet sin exceso pero con ganancias;
@@ -103,7 +103,7 @@ media página en §5: es la prueba de transferencia del diagnóstico).
 ---
 
 ## Orden de ejecución propuesto
-1. **Esta semana (3-9 ago):** C (Table 1 regenerada + verificación de titulares) — todo
+1. ✅ (3-ago) C hecho: Table 1 regenerada, titulares sobreviven (HEADLINE_CHANGES.md) — todo
    lo demás cita números que salen de aquí. En paralelo: decisiones ⚠️ con coautores.
 2. **10-17 ago:** HierarCaps pipeline + Fig. 3 nueva + figuras en base de exceso + exp12
    + prompts WordNet-definition.
