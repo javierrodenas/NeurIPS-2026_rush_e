@@ -1,0 +1,131 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2027_conference,times}
+
+\input{math_commands.tex}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+
+\title{Tree-Like Class Geometry in Foundation Models: \\ A Zero-Cost Diagnostic for Metric Selection}
+
+% Anonymous while \iclrfinalcopy is commented out.
+\author{Anonymous authors}
+
+%\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+% SKELETON (v0). Three validated statements, in this order:
+% (1) FORM: tree-like inter-class metric structure is near-universal across
+%     foundation models (69/72 model-dataset cells beyond nulls matched in
+%     dimension and covariance spectrum), and it is the training objective,
+%     not the modality, that determines its strength.
+% (2) CONTENT: the tree each model builds is its own; tree-likeness and
+%     WordNet alignment decouple (label-free DINOv2 is the most tree-like
+%     and the least aligned), and hyperbolic distances do not increase
+%     cross-model agreement. Convergence in form, not in content.
+% (3) TOOL: two zero-cost descriptors (delta-hyperbolicity vs matched null,
+%     ORC) decide WHEN to leave Euclidean distances, and the training
+%     objective selects WHICH metric collects the gain (angular for SSL,
+%     Poincare for contrastive VLMs); two-step protocol, no training.
+% Negative results stated up front: sample-level tasks do not benefit;
+% domain of validity is prototype-based metric tasks.
+TODO
+\end{abstract}
+
+\section{Introduction}
+% COMMITTED (1Eqj): merge the four fragments into two paragraphs; add
+% references for capacity/hierarchy claims or mark as hypotheses; fix L59 verb.
+% NEW FRAMING: within-model claim from the title down. No PRH in the intro
+% beyond one sentence pointing to related work.
+TODO
+
+\section{Related Work and Background}
+% COMMITTED (1Eqj): 2.3 becomes Background (preliminaries); PRH paragraph
+% merged into related work with the critical literature (Koepke et al. 2026;
+% Groger et al. 2026 "Aristotelian View") and our form-not-content position
+% promoted from old §2.4.
+TODO
+
+\section{Measuring Tree-Likeness}
+% COMMITTED (1Eqj/RJje):
+% - motivate both descriptors (delta: global, coordinate-free, embeddability;
+%   ORC: local, edge-level, complementary).
+% - CALIBRATION TABLE (from rebuttal): tree 0.000; H2 regions .162/.087/.043/.022;
+%   S99 .143 chord / .179 geodesic; iid Gaussian .104/.061/.046.
+% - CONSTANTS FIXED: four-point delta of H2 is ln 2 ~ 0.693 (Nica & Spakula 2016),
+%   thin-triangles constant ln(1+sqrt2) ~ 0.881 is a DIFFERENT definition;
+%   absolute vs normalized scales never mixed in one sentence.
+% - MATCHED NULLS ARE PRIMARY: excess over spectrum-matched null is THE quantity;
+%   "low delta" defined as "below the matched null", never absolute.
+% - Exponential-map subsection rewritten with geometric reading + diagram.
+% - Few-shot protocol as explicit algorithm box.
+TODO
+
+\section{The Geometry: Form Is Near-Universal, Content Is Model-Specific}
+% MAIN-TEXT SUMMARY TABLE (committed to 1Eqj, shown in rebuttal).
+% - 69/72 cells beyond matched nulls; exceptions DINOv2-S/B/G on ImageNet;
+%   capacity trend on the EXCESS basis (S->G CIFAR-10: -0.087 -> -0.146).
+% - Sphere disfavored: sphericizing raises delta-hat (12/12 geodesic, 10/12 chord).
+% - ORC bridge analysis (committed to RJje): within-cluster vs bridge edges.
+% - WordNet alignment section (committed to pux6): rho up to +0.59, ARI 0.61,
+%   the DINOv2 decoupling, no-pooling control, random-groupings control.
+% - Prompt robustness (committed to Xbn5): embedders robust, causal-LM claims
+%   narrowed to mean+-range across templates.
+TODO
+
+\section{The Tool: When to Leave Euclidean, and Which Metric Collects the Gain}
+% TWO-STEP PROTOCOL (from the discussion, the pux6/Xbn5 replies):
+% Step 1: delta-hat/ORC decide whether ANY non-Euclidean metric helps
+%   (best-metric advantage correlates with delta-hat; on MNIST nothing helps).
+% Step 2: objective selects the metric: SSL -> cosine; contrastive VLM ->
+%   Poincare (+0.9..+1.3pp over cosine on transfer datasets after L2);
+%   supervised -> either. RT control: the gain is the metric, not the map.
+% - Statistics: per-episode paired CIs; McNemar (242 vs 37, p ~ 4e-38).
+% - DBpedia text transfer: diagnostic correctly predicts no meaningful gain.
+% - HONEST NEGATIVES in the main text: kNN -2.6pp, retrieval 0/60;
+%   domain of validity = prototype-based metric tasks, with mechanism.
+TODO
+
+\section{Ablations: The Geometry Is Learned}
+% Port from neurips_2026.tex (random weights, fine-tuning, layer-wise),
+% restated as excesses where cross-dimension comparisons occur.
+TODO
+
+\section{Discussion and Limitations}
+% - No curvature estimation (descriptive claims are metric tree-likeness).
+% - Template dependence for causal LMs.
+% - Class inventory is human-chosen; labels probe, not create, the structure.
+% - HierarCaps-style multi-level evaluation (committed to pux6) if ready;
+%   otherwise stated as ongoing.
+TODO
+
+\subsubsection*{Reproducibility Statement}
+% Code + frozen features + per-cell CSVs; every number traceable to a script.
+TODO
+
+\subsubsection*{Ethics Statement}
+TODO
+
+\subsubsection*{The Use of Large Language Models}
+% MANDATORY for ICLR 2027. Draft honestly per the AI policy.
+TODO
+
+\bibliography{iclr2027_conference}
+\bibliographystyle{iclr2027_conference}
+
+\appendix
+\section{Full Per-Cell Tables}
+% Table 1 REGENERATED from tasks_t707 (internal audit: NC-H column + the
+% ImageNet delta cells DINOv2-G .066->.080, CLIP-L .108->.118). Split into
+% per-section tables. Null tables, metric-control tables, prompt tables,
+% McNemar per-cell, DBpedia.
+TODO
+
+\end{document}
