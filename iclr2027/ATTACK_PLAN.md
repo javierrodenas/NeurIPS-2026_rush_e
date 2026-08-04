@@ -27,7 +27,7 @@ constantes mal atribuidas; "low δ" sin referente.
 (S→G CIFAR-10: −0.087→−0.146); ✅ esfera 12/12 geodesic, 10/12 chord; ✅ ln 2 vs ln(1+√2)
 con cita Nica-Spakula (regalo de 1Eqj); ✅ "low δ" = "below matched null".
 **Falta:** 📝 sección Background con las dos constantes y las dos escalas;
-🔬 **regenerar las figuras principales en base de excesos** (Fig. 2 de escalado y las
+✅ figuras en base de excesos HECHAS (fig_excess_panel, 4-ago) — pendiente decidir composición NC del scatter en escritura. Antes: 🔬 regenerar las figuras principales en base de excesos (Fig. 2 de escalado y las
 que comparen dimensiones distintas deben mostrar exceso, no δ̂ crudo — decisión de
 presentación + regeneración de plots); 📝 el exceso como cantidad primaria en TODAS las tablas.
 
@@ -39,7 +39,7 @@ verificadas 144/144.
 **Falta:** 🔬 **regenerar Table 1 desde tasks_t707** — PRIORIDAD 1: el paper de ICLR nace
 con la tabla limpia; 🔬 re-verificar cada número titular contra la tabla regenerada
 (⚠️ ALGUNOS TITULARES PUEDEN CAMBIAR, p.ej. el +2.1pp — avisar a coautores de esto);
-🔬 rehacer Figura 3 (compacidad de spokes = artefacto PCA) con visualización honesta;
+✅ Figura 3 MEDIDA (fig3_recaption.md, 4-ago): la comparación impresa está INVERTIDA en full-D (ratio S 0.74 vs G 1.04; G conserva solo 5.9% de spoke en plano). Recaption diseñado, decisión de panel único vs doble con Javi en escritura;
 📝 pipeline número→script documentado (reproducibility statement con sustancia).
 
 ## D. La historia métrica (RJje Q3-Q4, pux6 Q3, Xbn5 Q1, toda la discusión)
@@ -65,8 +65,7 @@ descomposición angular (triplets 0.91/0.85 vs 0.71/0.63); ✅ prompts 6 templat
 **Falta:** ✅ **HierarCaps HECHO (exp16, 3-ago)** — compromiso público con pux6 ("commit to such an evaluation
 in the revision"): montar pipeline (dataset ECCV'24, 73K imágenes, jerarquías de 4 niveles),
 medir alineamiento nivel-a-nivel y orden radial. ⚠️ Es el mayor bloque de trabajo nuevo;
-decidir alcance esta semana. 🔬 prompts WordNet-definition y no-visuales (comprometido
-a RJje, barato: variante de exp4).
+decidir alcance esta semana. ✅ prompts WordNet-definition y no-visuales HECHO (exp17, 4-ago): embedders estables en las 5 plantillas (rango ≤.012) incluso con gloss_only SIN nombre de clase; causal LMs sensibles como ya concedido.
 
 ## G. ORC (RJje W3, 1Eqj L224-228, meta punto 2)
 **Tenemos:** ✅ análisis de puentes (negativos 2-4× en bridges, CLIP-L .040 vs .084;
