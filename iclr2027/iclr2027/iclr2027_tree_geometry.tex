@@ -7,6 +7,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{multirow}
 \usepackage{amsmath,amssymb}
 
 \title{Tree-Like Class Geometry in Foundation Models: \\ A Zero-Cost Diagnostic for Metric Selection}
@@ -21,19 +22,6 @@
 \maketitle
 
 \begin{abstract}
-% SKELETON (v0). Three validated statements, in this order:
-% (1) FORM: tree-like inter-class metric structure is near-universal across
-%     foundation models (69/72 model-dataset cells beyond nulls matched in
-%     dimension and covariance spectrum), and it is the training objective,
-%     not the modality, that determines its strength.
-% (2) CONTENT: the tree each model builds is its own; tree-likeness and
-%     WordNet alignment decouple (label-free DINOv2 is the most tree-like
-%     and the least aligned), and hyperbolic distances do not increase
-%     cross-model agreement. Convergence in form, not in content.
-% (3) TOOL: two zero-cost descriptors (delta-hyperbolicity vs matched null,
-%     ORC) decide WHEN to leave Euclidean distances, and the training
-%     objective selects WHICH metric collects the gain (angular for SSL,
-%     Poincare for contrastive VLMs); two-step protocol, no training.
 The geometry of learned representations bears directly on when non-Euclidean distance functions help downstream. We study the metric structure of class representations, the inter-class distance matrices of frozen models, across 30 foundation models: 14 vision backbones, 9 causal language models, and 7 text embedders. Tree-likeness is measured with two zero-cost, coordinate-free diagnostics, Gromov $\delta$-hyperbolicity and Ollivier--Ricci curvature, calibrated on reference geometries and, crucially, read against nulls matched in dimension and covariance spectrum, since random high-dimensional clouds concentrate toward degenerate star trees and make raw $\delta$ uninterpretable on its own. Three findings emerge. First, the \emph{form} is near-universal: 69 of 72 vision model$\times$dataset combinations show tree structure beyond their matched null; its strength is determined by the training objective rather than the modality, deepens with model scale, and a parallelogram curvature-sign estimator confirms increasingly negative curvature with scale for self-supervised models. Second, the \emph{content} is model-specific: the most tree-like family (label-free DINOv2) is the least aligned with WordNet, and hyperbolic distances do not increase cross-model agreement; models converge in the form of their class geometry, not in its content. Third, the diagnostics support a training-free, two-step metric-selection protocol: $\delta$ and ORC predict when leaving Euclidean distances pays on prototype-based tasks, and the training objective selects which zero-cost metric collects the gain, cosine for self-supervised models, a parameter-free Poincar\'{e} projection for contrastive vision--language models ($+0.9$ to $+1.3$pp over cosine after L2 normalization, up to $+2.05$pp over Euclidean, McNemar $p \approx 4\times10^{-38}$). On multi-level caption hierarchies the radial axis of the projection aligns with ground-truth semantic generality, and the protocol transfers to text, correctly predicting when hyperbolic distances help little. We also report where the projection does not help, sample-level kNN and retrieval, scoping its domain of validity to prototype-based metric tasks.
 \end{abstract}
 
@@ -49,7 +37,7 @@ Our measurement layer therefore rests on three legs: calibration of the exact es
 
 Three findings emerge, which the title condenses. \textbf{Form is near-universal:} 69 of 72 vision model$\times$dataset combinations exhibit tree structure beyond their matched null, the exceptions being self-supervised DINOv2 on its pretraining-like distribution. % exp11_null_per_dataset.csv
 The strength of the structure is set by the training objective rather than the modality, deepens with model scale on transfer data (DINOv2-S$\to$G excess $-0.087\to-0.146$ on CIFAR-10), and the curvature sign turns increasingly negative with scale for the same family. % exp12_curvature_sign.csv
-Ablations tie the structure to learning: it vanishes under random weights, weakens under non-hierarchical fine-tuning, and emerges progressively across layers. \textbf{Content is model-specific:} the most tree-like family (label-free DINOv2) is the \emph{least} aligned with the WordNet taxonomy, ground-truth checks (WordNet correlation, superclass recovery, definition-only prompts, multi-level caption hierarchies) separate ``how tree-like'' from ``whose tree'', and hyperbolic distances do not increase cross-model agreement. Models converge in the form of their class geometry, not in its content; we discuss the relation to representational-convergence hypotheses in Section~2. \textbf{The geometry is a usable signal:} the two diagnostics, computable in seconds on training centroids, predict when non-Euclidean metrics beat Euclidean distances on prototype-based tasks, and the training objective selects \emph{which} zero-cost metric collects the gain: cosine suffices for self-supervised models, while for contrastive vision--language models a parameter-free Poincar\'{e} projection beats cosine even after L2 normalization. % exp2_metric_controls.csv, exp2b_normalized_stack.csv
+Ablations tie the structure to learning: it vanishes under random weights, weakens under non-hierarchical fine-tuning, and emerges progressively across layers. \textbf{Content is model-specific:} the most tree-like family (label-free DINOv2) is the \emph{least} aligned with the WordNet taxonomy, ground-truth checks (WordNet correlation, superclass recovery, definition-only prompts, multi-level caption hierarchies) separate ``how tree-like'' from ``whose tree'', and hyperbolic distances do not increase cross-model agreement. Models converge in the form of their class geometry, not in its content; we discuss the relation to representational-convergence hypotheses in Section~\ref{sec:related}. \textbf{The geometry is a usable signal:} the two diagnostics, computable in seconds on training centroids, predict when non-Euclidean metrics beat Euclidean distances on prototype-based tasks, and the training objective selects \emph{which} zero-cost metric collects the gain: cosine suffices for self-supervised models, while for contrastive vision--language models a parameter-free Poincar\'{e} projection beats cosine even after L2 normalization. % exp2_metric_controls.csv, exp2b_normalized_stack.csv
 We validate the resulting two-step protocol with paired statistics, transfer it to a text hierarchy where it correctly predicts marginal gains, and report the negative results that scope it: sample-level kNN and retrieval do not benefit, because the hierarchy lives at the prototype level while the radial map distorts local neighborhoods.
 
 Our contributions are:
@@ -61,85 +49,165 @@ Our contributions are:
 \end{itemize}
 
 \section{Related Work and Background}
-% COMMITTED (1Eqj): 2.3 becomes Background (preliminaries); PRH paragraph
-% merged into related work with the critical literature (Koepke et al. 2026;
-% Groger et al. 2026 "Aristotelian View") and our form-not-content position
-% promoted from old §2.4.
-TODO
+\label{sec:related}
+
+\paragraph{Hyperbolic representation learning.} Trees embed in the hyperbolic plane with arbitrarily low distortion \citep{sarkar2011}, which motivated learning hierarchical embeddings directly in hyperbolic space \citep{nickel2017poincare}, hyperbolic image embeddings \citep{Khrulkov_2020_CVPR}, fully hyperbolic architectures \citep{chen2022fully}, and contrastive image--text training on the hyperboloid \citep{desai2023meru}. All of these \emph{impose} hyperbolic structure at training time. Our question is orthogonal: we never train anything, and instead measure whether the class geometry that standard foundation models already learn is tree-like in the metric sense, and when that structure can be read out by a better distance function.
+
+\paragraph{Emergent hierarchies in learned representations.} Closest in spirit, \citet{alper2024hierarcaps} show that image--text models encode visual-semantic hierarchies that can be traversed in embedding space, using multi-level caption data (HierarCaps). We use their test hierarchy as ground truth for one of our validations, and complement this line in three ways: our diagnostics are metric and coordinate-free (no traversal model is fit), they span three modalities and thirty models, and every reading is calibrated against a matched null.
+
+\paragraph{Representational convergence.} The Platonic Representation Hypothesis \citep{huh2024platonic} posits that strong models converge toward a shared representation of reality, and recent work stress-tests such convergence: \citet{koepke2026cave} examine cross-modal convergence at scale, and \citet{groger2026aristotelian} show that permutation-calibrated similarity removes most apparent global convergence while local neighborhood structure survives. % TODO-bib keys
+Our null-calibration philosophy mirrors theirs, applied within models rather than across them, and our results land on the same side: hyperbolic distances do not increase cross-model agreement in our panel (Section~\ref{sec:geometry}), so tree-likeness is a \emph{within-model} property. What is shared across models is the form of the class geometry, not its content.
+
+\paragraph{Background: two definitions, two scales.} For a metric space $(X,d)$ and $w,x,y,z \in X$, consider the three pairings $d(w,x){+}d(y,z)$, $d(w,y){+}d(x,z)$, $d(w,z){+}d(x,y)$, sorted as $S_{\max} \ge S_{\mathrm{mid}} \ge S_{\min}$. The four-point condition defines $\delta = \sup (S_{\max}-S_{\mathrm{mid}})/2$ over quadruples; trees satisfy $\delta = 0$ exactly. Two caveats matter. (i) \emph{Definitions differ}: under the four-point condition the hyperbolic plane has $\delta = \ln 2 \approx 0.693$, while the thin-triangles constant is $\ln(1+\sqrt{2}) \approx 0.881$; the two must not be conflated. % \citep{nica2016strong} TODO-bib
+(ii) \emph{Scales differ}: absolute $\delta$ is bounded for hyperbolic spaces, so the normalized $\hat\delta = \delta_{\max}/\mathrm{diam}$ of a hyperbolic region $\to 0$ as the region grows, whereas spheres are scale-invariant and keep $\hat\delta$ high at any radius. We use the normalized scale throughout and never mix the two in one statement. Ollivier--Ricci curvature (ORC) \citep{ollivier2009ricci} is our complementary local descriptor: on a kNN graph of the class representations, the curvature of an edge compares the transport cost between the neighborhoods of its endpoints to the edge length; positive values indicate overlapping, tightly clustered neighborhoods, negative values indicate tree-like bridges.
 
 \section{Measuring Tree-Likeness}
-% COMMITTED (1Eqj/RJje):
-% - motivate both descriptors (delta: global, coordinate-free, embeddability;
-%   ORC: local, edge-level, complementary).
-% - CALIBRATION TABLE (from rebuttal): tree 0.000; H2 regions .162/.087/.043/.022;
-%   S99 .143 chord / .179 geodesic; iid Gaussian .104/.061/.046.
-% - CONSTANTS FIXED: four-point delta of H2 is ln 2 ~ 0.693 (Nica & Spakula 2016),
-%   thin-triangles constant ln(1+sqrt2) ~ 0.881 is a DIFFERENT definition;
-%   absolute vs normalized scales never mixed in one sentence.
-% - MATCHED NULLS ARE PRIMARY: excess over spectrum-matched null is THE quantity;
-%   "low delta" defined as "below the matched null", never absolute.
-% - Exponential-map subsection rewritten with geometric reading + diagram.
-% - Few-shot protocol as explicit algorithm box.
-TODO
+\label{sec:method}
+
+This section fixes the estimator, calibrates it on reference geometries, and defines the null-corrected quantity that the rest of the paper reports. The message is that raw $\hat\delta$ is interpretable only against calibrated references and matched nulls.
+
+\paragraph{Setup.} We analyze 30 frozen models: 14 vision backbones (supervised ViT-T/S/B/L; self-supervised DINO-B and DINOv2-S/B/L/G; contrastive CLIP-B/L, OpenCLIP-B/L, MetaCLIP-B/L, SigLIP-B), 9 causal LMs, and 7 text embedders. % TODO: final model list table in appendix
+Vision class representations are class centroids of frozen features (100 training images per class) on ImageNet, CIFAR-100, CIFAR-10, DTD, FashionMNIST and MNIST; text-side class representations embed class names or descriptions. No model is fine-tuned at any point.
+
+\paragraph{Estimator.} $\hat\delta = \delta_{\max}/\mathrm{diam}$ is estimated from $5{\times}10^5$ random quadruples, averaged over 10 seeds (s.d.\ reported); ORC uses $k{=}10$ kNN graphs. $\hat\delta$ is global and coordinate-free and connects to tree-embeddability guarantees; ORC is local and edge-level; the two fail in different ways, which is why we report both.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+space & absolute $\delta$ & $\hat\delta=\delta_{\max}/\mathrm{diam}$ \\
+\midrule
+balanced binary tree (depth 10; 1023 nodes) & 0.000 & 0.000 \\
+$\mathbb{H}^2$ ($K{=}-1$), region radius $R{=}2/4/8/16$ & 0.65/0.69/0.69/0.69 & 0.162/0.087/0.043/0.022 \\
+uniform $S^{99}$ (chord / geodesic) & 0.25/0.37 & 0.143/0.179 \\
+iid Gaussian, $n{=}1000$, $d{=}192/768/1536$ & --- & 0.104/0.061/0.046 \\
+\bottomrule
+\end{tabular}
+\caption{Calibration of the exact estimator on reference geometries. Hyperbolic regions converge to the four-point constant $\ln 2$ in absolute terms and $\to 0$ on the normalized scale; spheres stay high at any radius; iid Gaussians drift low as $d$ grows, the dimension confound that motivates matched nulls. % exp1_delta_controls.csv, exp6
+}
+\label{tab:calibration}
+\end{table}
+
+\paragraph{Calibration.} Table~\ref{tab:calibration} shows the estimator on reference geometries. Trees sit at $0$, hyperbolic regions low, spheres high; crucially, iid Gaussians drift toward low $\hat\delta$ as dimension grows, because random high-dimensional clouds concentrate toward equidistance, a degenerate star tree. A low raw $\hat\delta$ is therefore \emph{not} evidence of hierarchy on its own.
+
+\paragraph{Matched nulls and excess.} For every model$\times$dataset cell we build a null cloud with the same $n$, $d$, mean and covariance \emph{spectrum} as the real class representations (Gaussian coefficients recombined with the real singular values), and report the \textbf{excess} $\hat\delta_{\mathrm{real}} - \hat\delta_{\mathrm{null}}$; a PC-permutation null (shuffling each principal component across classes) confirms the readings. Throughout the paper, ``tree-like'' means \emph{excess below zero beyond null noise} (null s.d.\ $\le 0.007$), never a low absolute value. Whitening is not a usable control here: it collapses centroids toward a near-regular simplex, itself a degenerate star.
+
+\paragraph{Curvature sign.} $\hat\delta$ diagnoses tree-likeness, not curvature. To address the sign directly we use a parallelogram estimator: for a triangle $(b,c)$ with approximate midpoint $m$ and reference point $a$, $\xi = [\,d(a,m)^2 + d(b,c)^2/4 - (d(a,b)^2+d(a,c)^2)/2\,]/(2\,d(a,m))$, which is $0$ in Euclidean space, positive in spherical and negative in hyperbolic/tree metrics. Calibration separates the regimes cleanly: depth-9 tree $\xi=-0.24$ and $\mathbb{H}^2$ region $\xi=-0.19$ (96\% of triangles negative) versus iid Gaussian $+0.09$ and spheres $+0.11$ to $+0.12$ (0\% negative). % exp12_curvature_sign.csv
+We estimate the \emph{sign}, not the magnitude, and claim nothing about a specific curvature value.
+
+\paragraph{Projection and tasks.} The downstream probe is the parameter-free Poincar\'{e} map $\phi(x) = \tanh\!\big(\tfrac12\|s(x-\mu)\|\big)\cdot \frac{s(x-\mu)}{\|s(x-\mu)\|}$: features are centered at $\mu$, scaled so that the 95th-percentile norm lands at radius $1/\sqrt2$, and the norm is passed through $\tanh$; the direction is untouched. % TODO: diagram figure committed to 1Eqj
+Tasks are nearest-centroid classification (NC; deterministic given frozen features) and 5-way 5-shot classification (FS; 1000 episodes, paired across metric arms). The metric arms are Euclidean (R), Poincar\'{e} after $\phi$ (H), the same radial map with Euclidean distances (RT; isolates the rescaling), cosine (COS; the spherical geodesic up to ranking), centered cosine (COSC), and the L2-normalize-first stack (HN/RTN). Note the distinction between deforming the \emph{configuration} (e.g.\ projecting centroids onto a sphere, which raises $\hat\delta$; Section~\ref{sec:geometry}) and changing the \emph{readout metric} on the intact configuration (COS/H), which is what the tool selects among.
 
 \section{The Geometry: Form Is Near-Universal, Content Is Model-Specific}
-% MAIN-TEXT SUMMARY TABLE (committed to 1Eqj, shown in rebuttal).
-% - 69/72 cells beyond matched nulls; exceptions DINOv2-S/B/G on ImageNet;
-%   capacity trend on the EXCESS basis (S->G CIFAR-10: -0.087 -> -0.146).
-% - Sphere disfavored: sphericizing raises delta-hat (12/12 geodesic, 10/12 chord).
-% - ORC bridge analysis (committed to RJje): within-cluster vs bridge edges.
-% - WordNet alignment section (committed to pux6): rho up to +0.59, ARI 0.61,
-%   the DINOv2 decoupling, no-pooling control, random-groupings control.
-% - Prompt robustness (committed to Xbn5): embedders robust, causal-LM claims
-%   narrowed to mean+-range across templates.
-TODO
+\label{sec:geometry}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+family & $\hat\delta$ (IN) & ORC (IN) & excess (hier.) & NC adv (hier.) & FS adv (hier.) & flat datasets \\
+\midrule
+ViT (sup.) & .084--.123 & .33--.38 & $-.090..-.019$ & $-1.2..+0.1$ & $+0.1..+0.9$ & \multirow{3}{*}{\shortstack[c]{NC mostly $\le 0$;\\ FS mixed,\\ uncorrelated with $\hat\delta$}} \\
+DINOv2 (SSL) & .071--.119 & .35--.74 & $-.146..+.012$ & $-0.3..+2.05$ & $+0.5..+1.5$ & \\
+CLIP (contr.) & .118--.120 & .33--.34 & $-.075..-.020$ & $-1.5..+0.4$ & $+0.03..+1.2$ & \\
+\bottomrule
+\end{tabular}
+\caption{Family-level summary (ranges over models and hierarchical datasets; advantages in pp over Euclidean). Full per-cell tables in the appendix. % table1_regenerated.csv, exp11_null_per_dataset.csv, orc_per_dataset.csv
+}
+\label{tab:summary}
+\end{table}
+
+\paragraph{Form: 69 of 72 cells beat their null.} Across 12 vision models and 6 datasets, 69/72 combinations show negative excess beyond null noise (Figure~\ref{fig:excess}a). The three exceptions are DINOv2-S/B/G on ImageNet, the distribution closest to their pretraining data; the same family shows the \emph{strongest} excess of the panel on transfer datasets, deepening with scale (S$\to$G on CIFAR-10: $-0.087 \to -0.146$; Figure~\ref{fig:excess}b). On ImageNet, supervised ViTs sit at excess $-0.015$ to $-0.040$ and CLIP/SigLIP at $-0.017$ to $-0.047$. The training objective, not the modality, orders the strength of the structure: text embedders land in the same band as contrastive vision models. % exp11_null_per_dataset.csv
+Sphericizing each model's centroids \emph{raises} $\hat\delta$ for all 12 models under the spherical geodesic (10/12 under chord, the two exceptions within $.002$): the observed values are not sphere-compatible. % exp1_delta_controls.csv
+
+\paragraph{The curvature sign agrees.} On ImageNet centroids, every model sits below the iid-Gaussian reference ($\xi = +0.09$), and the DINOv2 family crosses into negative territory monotonically with scale: $\xi = -0.020$ (S) $\to -0.070$ (G), with the fraction of negative triangles growing from 66\% to 89\%. Supervised and contrastive families remain mildly positive ($+0.02$ to $+0.04$) yet far below the sphere band. % exp12_curvature_sign.csv
+
+\paragraph{ORC: clusters and bridges.} Mean ORC is high and positive in the most tree-like models, which is not a contradiction: an edge-type analysis on the centroid kNN graph (30 WordNet superclasses) shows that high mean ORC reflects tight \emph{within}-superclass clusters, while negative-curvature edges concentrate on the \emph{bridges} between superclasses (2--4$\times$ higher negative fraction on bridges; e.g.\ CLIP-L $.040$ within vs $.084$ across). DINOv2 on ImageNet is the exception with $\approx 0\%$ negative edges, consistent with its at-null geometry there. % exp3_orc_bridge.csv
+
+\paragraph{Content: whose tree is it?} If the measured structure were injected by human labels, the label-free family should be the most human-aligned. The opposite holds. Spearman correlation between inter-centroid distances and WordNet tree distances on ImageNet is $+0.57$ to $+0.59$ for CLIP/SigLIP, $+0.49$ to $+0.53$ for supervised ViTs, $+0.36$ for DINO-B, and only $+0.18$ to $+0.22$ for DINOv2, with shuffle and Gaussian controls at $\approx 0$. % exp3_alignment.csv
+Cutting centroid dendrograms at 20 clusters recovers the true CIFAR-100 superclasses at ARI up to $0.61$ (Ward; four linkage methods checked; permuted labels $\approx 0$). % exp7_hierarchy_recovery.csv
+Three controls bound the circularity concern: WordNet-coherent groupings are more tree-like than random groupings in 11/12 models (CLIP-B $.126$ vs $.174$); with a single random image per class (no pooling) distances still correlate with WordNet ($\rho$ up to $+0.34$); and the tree-likeness/alignment decoupling above is the opposite of what label injection would produce. % exp1, exp8_p6_pooling.csv
+DINOv2's semantics concentrate in the angular component: sibling-vs-non-sibling triplet agreement on CIFAR-100 is $0.91/0.85$ (L/G) under cosine but only $0.71/0.63$ under raw Euclidean; strong local-angular semantics, flat global taxonomy. % exp10_local_vs_global.csv
+
+\paragraph{Prompts do not create the structure.} Across eleven templates, six photo-style variants, a dictionary-style WordNet definition, a \emph{definition-only} template containing no class name at all, and two non-visual framings, embedder $\hat\delta$ varies by $\le 0.012$ (BGE $.115$--$.126$), and the definition-only template reproduces the baseline value. Causal LMs are template-sensitive (ranges up to $.065$), so we report their geometry as mean$\pm$range and narrow all causal-LM claims accordingly. The core vision results involve no prompts. % exp4_prompt_variation.csv, exp17_wordnet_prompts.csv
+
+\paragraph{Multi-level ground truth.} On HierarCaps \citep{alper2024hierarcaps}, 1000 four-level caption chains, the radial axis of our projection aligns with ground-truth generality in all six text-capable models tested (three embedders and the text towers of CLIP-B/L and SigLIP-B): mean Spearman $\rho(\mathrm{level}, \mathrm{radius})$ from $+0.32$ to $+0.87$, with $9.8\%$--$53.9\%$ of chains strictly monotone against a $4.2\%$ chance rate (shuffle controls $\approx 0$), and sibling triplet agreement of $0.83$--$0.90$ (level 1) and $0.90$--$0.97$ (level 2). Both OpenAI CLIP text towers additionally show a modest negative leaf excess ($-0.010/-0.011$); SigLIP does not ($+0.014$). % exp16_hierarcaps.csv
+
+\paragraph{Cross-model: form, not content.} Mutual-kNN alignment across all 66 pairs of the 12 vision models on the shared 1000 ImageNet centroids does not increase under Poincar\'{e} distances ($0.474$ Euclidean vs $0.427$ hyperbolic). % exp5_crossmodel_alignment.csv
+Tree-likeness is a within-model property: near-universal in form (69/72), model-specific in content (each model its own tree), which is exactly why hyperbolic distances cannot buy cross-model agreement.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{../figures/fig_excess_panel.pdf}
+\caption{(a) Tree excess $\hat\delta_{\mathrm{real}}-\hat\delta_{\mathrm{null}}$ for 12 vision models $\times$ 6 datasets: 69/72 cells sit below zero; the exceptions are DINOv2-S/B/G on ImageNet. (b) Excess deepens with scale on transfer datasets, while DINOv2's ImageNet excess stays at null. % figures/make_figs.py
+}
+\label{fig:excess}
+\end{figure}
 
 \section{The Tool: When to Leave Euclidean, and Which Metric Collects the Gain}
-% TWO-STEP PROTOCOL (from the discussion, the pux6/Xbn5 replies):
-% Step 1: delta-hat/ORC decide whether ANY non-Euclidean metric helps
-%   (best-metric advantage correlates with delta-hat; on MNIST nothing helps).
-% Step 2: objective selects the metric: SSL -> cosine; contrastive VLM ->
-%   Poincare (+0.9..+1.3pp over cosine on transfer datasets after L2);
-%   supervised -> either. RT control: the gain is the metric, not the map.
-% - Statistics: per-episode paired CIs; McNemar (242 vs 37, p ~ 4e-38).
-% - DBpedia text transfer: diagnostic correctly predicts no meaningful gain.
-% - HONEST NEGATIVES in the main text: kNN -2.6pp, retrieval 0/60;
-%   domain of validity = prototype-based metric tasks, with mechanism.
-TODO
+\label{sec:tool}
+
+The geometric census supports a practical, training-free protocol with two independent steps: the diagnostics decide \emph{whether} a non-Euclidean readout will pay; the training objective decides \emph{which} one.
+
+\paragraph{Setup.} 10 vision backbones $\times$ 6 datasets (60 cells), NC and FS as in Section~\ref{sec:method}, all metric arms computed on identical frozen features and identical episodes.
+
+\paragraph{Step 1: when to leave Euclidean.} The $\mathrm{H{-}R}$ advantage correlates with $\hat\delta$ pooled across cells at $r=-0.45$ for NC, and within hierarchical datasets at $-0.83$ (ImageNet), $-0.87$ (CIFAR-100), $-0.63$ (CIFAR-10), $-0.46$ (DTD); for FS the within-dataset correlations are $-0.57$ to $-0.78$, while the pooled value ($-0.18$) is compressed because at this operating point almost every cell gains (56/60 positive). % table1_regenerated.csv + exp11
+Because cosine is itself a non-Euclidean (angular) geometry, the sharper question is whether $\hat\delta$ predicts the advantage of the \emph{best} zero-cost metric over Euclidean: it does ($r=-0.31$ pooled, $-0.33$ within hierarchical datasets for FS; Figure~\ref{fig:bestmetric}). On the flat-hierarchy datasets the correlation vanishes for every metric (cosine gains $+0.2$pp on average on MNIST; residual offsets uncorrelated with $\hat\delta$): where there is no tree structure, no metric interversion helps, which is the negative half of the prediction. % exp2_metric_controls.csv
+
+\paragraph{Step 2: which metric collects the gain.} The identical radial map with Euclidean distances is indistinguishable from raw ($|\mathrm{RT{-}R}| \le 0.25$pp), so the H$-$R gain is the metric, not the rescaling. Against cosine the picture splits by training objective: for DINOv2, cosine is the strongest zero-cost metric (family-mean $\mathrm{H{-}COS} = -0.5$pp, the gap widening with scale), consistent with its angular-local semantics; supervised ViTs sit at $\mathrm{H} \approx \mathrm{COS}$; for contrastive VLMs, H beats cosine by $+0.7$pp raw and $+0.9$ to $+1.3$pp after L2 normalization on CIFAR-100/10/DTD (ImageNet $+0.1$ to $+0.2$pp), i.e.\ the Poincar\'{e} readout stacks on top of normalization precisely for the family whose text towers also carry negative leaf excess. % exp2, exp2b
+The largest single-cell effects concentrate where Step 1 predicts them: DINOv2-L on CIFAR-100 gains $+2.05$pp (NC), and the best zero-cost metric gains $+2.4$ to $+2.6$pp (FS) at G scale. % table1_regenerated.csv, exp2
+
+\paragraph{Statistics.} FS gains carry per-episode paired 95\% CIs of $\pm 0.03$--$0.20$pp across the 60 cells (headline effects exceed their CI by an order of magnitude); NC is deterministic given the features, and McNemar tests on test-set decisions confirm the headline cell (242 vs 37 discordant decisions on $n{=}10^4$, $p \approx 4\times 10^{-38}$). Small effects are reported with their uncertainty rather than as headlines. % exp13_mcnemar.csv
+
+\paragraph{Transfer to text.} Transplanting the exact NC/FS protocol to DBpedia Classes (a real 3-level hierarchy, 219 leaf classes; BGE/E5/GTE) tests the diagnostic out of modality. Geometry: genuine tree excess in all three embedders ($-0.020$ to $-0.028$) and sibling-triplet agreement of $0.88$ against the true level-2 hierarchy. Tool: these embedders sit \emph{above} the paper's $\hat\delta \lesssim 0.10$ band ($\hat\delta = 0.122$--$0.132$, ORC $\approx +0.37$), and the projection behaves exactly as predicted: no meaningful gain (FS $+0.04$ to $+0.08$pp at a $\sim$99\% ceiling, NC slightly negative). The diagnostic transfers, correctly predicting when hyperbolic distances help little, which is half of its job. % exp14_dbpedia.csv
+
+\paragraph{Where the projection does not help.} On sample-level tasks the projection \emph{hurts}: kNN classification loses $2.6$pp on average and sample-to-sample retrieval improves in 0/60 cells. The mechanism is consistent with everything above: the hierarchy detected by the diagnostics lives at the prototype level, while the radial map distorts local sample neighborhoods. The domain of validity of the protocol is prototype-based metric tasks, and we state it as such. % exp15_verify_345.csv
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{../figures/fig_bestmetric_scatter.pdf}
+\caption{Advantage of the best zero-cost metric ($\max(\mathrm{H},\mathrm{COS})$) over Euclidean per cell, against $\hat\delta$. More tree-like cells carry larger exploitable gains (FS: $r=-0.31$ pooled, $-0.33$ hierarchical). % figures/make_figs.py
+}
+\label{fig:bestmetric}
+\end{figure}
 
 \section{Ablations: The Geometry Is Learned}
-% Port from neurips_2026.tex (random weights, fine-tuning, layer-wise),
-% restated as excesses where cross-dimension comparisons occur.
-TODO
+\label{sec:ablations}
+
+Three interventions tie the structure to learning rather than architecture. \textbf{Random weights}: re-initializing each backbone raises $\hat\delta$ by 65--144\%, removing the tree structure entirely. \textbf{Non-hierarchical fine-tuning}: fine-tuning on a flat objective weakens the structure. \textbf{Layer-wise emergence}: tree-likeness emerges progressively across transformer depth rather than being present at the input. All three are within-architecture comparisons at fixed dimension, so they are unaffected by the dimension confound; full curves in the appendix. % from the original submission; same-d comparisons
 
 \section{Discussion and Limitations}
-% - No curvature estimation (descriptive claims are metric tree-likeness).
-% - Template dependence for causal LMs.
-% - Class inventory is human-chosen; labels probe, not create, the structure.
-% - HierarCaps-style multi-level evaluation (committed to pux6) if ready;
-%   otherwise stated as ongoing.
-TODO
+\label{sec:discussion}
+
+\paragraph{What the census does and does not establish.} It establishes that tree-like inter-class metric structure is the near-universal \emph{form} of class geometry in foundation models, that its strength is set by the training objective, and that it is learned. It does not establish convergence of \emph{content}: each model's tree is its own, and hyperbolic distances do not increase cross-model agreement. Claims about ``the'' geometry of foundation models should therefore be read as claims about form.
+
+\paragraph{Excess measures existence, raw $\hat\delta$ predicts exploitability.} The two quantities dissociate in both directions: DINOv2 on ImageNet has no excess yet positive FS gains, while DBpedia embedders have genuine excess yet no meaningful gain. Raw $\hat\delta$ (with ORC) is the practical predictor of the downstream contrast; the excess is the existence proof of structure. Conflating the two overstates what either can do.
+
+\paragraph{Limitations.} (i) We estimate the curvature \emph{sign}, never a curvature value; descriptive claims are about tree-like metric structure. (ii) Causal-LM geometry is template-sensitive; those claims are reported as mean$\pm$range and remain weaker than the embedder and vision results. (iii) The class inventory is human-chosen: labels let us measure the structure (the controls in Section~\ref{sec:geometry} indicate they do not create it), but a different inventory could expose a different slice of it. (iv) The downstream scope is prototype-based metric tasks; sample-level tasks do not benefit and dense prediction, cross-modal retrieval and end-to-end hyperbolic training are out of scope (training-time approaches such as MERU are the appropriate tools there). (v) Low-dimensional visualizations are illustrations; all quantitative comparisons are made in the full feature space.
+
+\paragraph{Future work.} Why objectives place hierarchy in the angular versus radial channel; whether tree \emph{content} converges across models with scale; the excess as a zero-cost signal of distributional novelty; and hierarchical maps that preserve local neighborhoods, which would extend the protocol beyond prototype tasks.
 
 \subsubsection*{Reproducibility Statement}
-% Code + frozen features + per-cell CSVs; every number traceable to a script.
-TODO
+All experiments run on frozen, publicly available models and datasets. Every number in the paper is annotated in the source with the script and CSV that produce it; the full pipeline (feature extraction, diagnostics, nulls, calibration, tasks, statistics) with fixed seeds, per-cell result files and figure-generation scripts will be released. Estimator settings (quadruple counts, seeds, $k$, episode counts) are stated in Section~\ref{sec:method}.
 
 \subsubsection*{Ethics Statement}
-TODO
+This work analyzes publicly released models and standard public datasets, involves no human subjects and no personal data, and proposes an analysis methodology and a metric-selection heuristic. We do not foresee ethical risks beyond those already associated with the underlying models and datasets.
 
 \subsubsection*{The Use of Large Language Models}
-% MANDATORY for ICLR 2027. Draft honestly per the AI policy.
-TODO
+LLM-based assistants were used, under continuous author direction and review, to draft and edit text, to write analysis scripts, and to run the experiment pipeline on the authors' hardware. All experimental designs, results, verifications, and final claims were checked and approved by the authors, who take full responsibility for the content of this paper.
 
 \bibliography{iclr2027_conference}
 \bibliographystyle{iclr2027_conference}
 
 \appendix
 \section{Full Per-Cell Tables}
-% Table 1 REGENERATED from tasks_t707 (internal audit: NC-H column + the
-% ImageNet delta cells DINOv2-G .066->.080, CLIP-L .108->.118). Split into
-% per-section tables. Null tables, metric-control tables, prompt tables,
-% McNemar per-cell, DBpedia.
+% Table 1 regenerated from tasks_t707 (audited); split into per-section tables:
+% A.1 delta/excess per cell (exp11), A.2 NC/FS per cell (table1_regenerated),
+% A.3 metric arms (exp2/exp2b), A.4 McNemar per cell (exp13), A.5 nulls,
+% A.6 prompts (exp4+exp17), A.7 HierarCaps (exp16), A.8 DBpedia (exp14),
+% A.9 curvature sign (exp12), A.10 ablation curves.
 TODO
 
 \end{document}
