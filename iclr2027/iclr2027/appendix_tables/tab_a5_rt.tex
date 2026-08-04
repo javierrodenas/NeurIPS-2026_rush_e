@@ -1,0 +1,22 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+model & IN & C100 & C10 & DTD & FMNIST & MNIST \\
+\midrule
+ViT-T & +0.01 & +0.45 & +0.19 & +0.32 & +0.10 & +0.52 \\
+ViT-S & -0.02 & +0.16 & +0.27 & +0.25 & +0.08 & +0.65 \\
+ViT-B & -0.04 & +0.12 & +0.18 & +0.19 & +0.09 & +0.51 \\
+ViT-L & -0.03 & +0.31 & +0.35 & +0.16 & +0.17 & +0.42 \\
+DINOv2-S & +0.03 & +0.15 & +0.13 & +0.04 & +0.07 & +0.45 \\
+DINOv2-B & +0.04 & +0.09 & +0.03 & +0.01 & +0.04 & +0.48 \\
+DINOv2-L & +0.02 & +0.09 & -0.00 & +0.03 & +0.03 & +0.43 \\
+DINOv2-G & +0.03 & +0.13 & -0.02 & +0.01 & +0.04 & +0.56 \\
+CLIP-B & -0.00 & +0.44 & +0.20 & +0.36 & +0.17 & +0.23 \\
+CLIP-L & +0.00 & +0.39 & +0.25 & +0.36 & +0.33 & +0.58 \\
+\bottomrule
+\end{tabular}
+\caption{Few-shot advantage of the radial-rescaling control over Euclidean (pp): the map without the metric changes nothing. Source: \texttt{exp2\_metric\_controls.csv}.}
+\label{tab:a5}
+\end{table}

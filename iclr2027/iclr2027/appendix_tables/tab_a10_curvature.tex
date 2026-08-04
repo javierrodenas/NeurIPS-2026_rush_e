@@ -1,0 +1,30 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+space / model & $\xi$ (mean) & frac.\ negative \\
+\midrule
+iid Gaussian ($d{=}768$) & +0.092 & 0\% \\
+$S^{d}$ (geodesic) & +0.113 & 0\% \\
+$S^{d}$ (chord) & +0.115 & 0\% \\
+\midrule
+$\mathbb{H}^2$ region ($R{=}6$) & -0.194 & 96\% \\
+balanced tree (depth 9) & -0.239 & 96\% \\
+ViT-T & +0.027 & 25\% \\
+ViT-S & +0.027 & 23\% \\
+ViT-B & +0.033 & 16\% \\
+ViT-L & +0.028 & 21\% \\
+DINO-B & -0.008 & 55\% \\
+DINOv2-S & -0.020 & 66\% \\
+DINOv2-B & -0.049 & 83\% \\
+DINOv2-L & -0.068 & 90\% \\
+DINOv2-G & -0.070 & 89\% \\
+CLIP-B & +0.019 & 32\% \\
+CLIP-L & +0.028 & 28\% \\
+SigLIP-B & +0.036 & 20\% \\
+\bottomrule
+\end{tabular}
+\caption{Parallelogram curvature-sign estimator $\xi$ on reference geometries (top) and ImageNet centroids (bottom). Source: \texttt{exp12\_curvature\_sign.csv}.}
+\label{tab:a10}
+\end{table}

@@ -1,0 +1,22 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+model & IN & C100 & C10 & DTD & FMNIST & MNIST \\
+\midrule
+ViT-T & -0.01 & +1.01 & +0.66 & -0.23 & +0.21 & +0.64 \\
+ViT-S & +0.17 & +0.59 & +0.56 & -0.03 & +0.28 & +0.34 \\
+ViT-B & +0.20 & +0.56 & +0.49 & +0.28 & +0.03 & +0.19 \\
+ViT-L & +0.11 & +1.17 & +1.25 & +0.13 & +0.00 & +0.08 \\
+DINOv2-S & +0.68 & +0.80 & -0.36 & +0.30 & +0.02 & -0.07 \\
+DINOv2-B & +1.40 & +1.11 & +0.27 & +1.48 & +0.21 & +0.17 \\
+DINOv2-L & +2.13 & +1.80 & +0.92 & +2.40 & +0.29 & +0.25 \\
+DINOv2-G & +2.57 & +2.44 & +2.51 & +2.63 & +0.38 & +0.30 \\
+CLIP-B & -0.04 & -0.03 & -0.19 & -0.23 & +0.06 & +0.04 \\
+CLIP-L & +0.01 & +0.12 & +0.16 & -0.08 & +0.12 & +0.08 \\
+\bottomrule
+\end{tabular}
+\caption{Few-shot advantage of cosine over Euclidean (pp). Source: \texttt{exp2\_metric\_controls.csv}.}
+\label{tab:a4}
+\end{table}

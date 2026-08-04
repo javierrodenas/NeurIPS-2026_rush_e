@@ -32,7 +32,7 @@ The geometry of learned representations bears directly on when non-Euclidean dis
 
 Semantic knowledge is hierarchical: classes nest into superclasses, concepts into broader concepts. When a frozen foundation model represents a set of classes, as image-class centroids or as embedded class descriptions, the pairwise distances between those representations form a metric space, and the structure of that space decides which distance functions serve downstream tasks well. If the inter-class metric structure is tree-like, distances respecting negative curvature or angular geometry can outperform raw Euclidean distances at zero training cost. Most work in hyperbolic deep learning \emph{imposes} hierarchical structure through specialized architectures, losses, or trainable Poincar\'{e} embeddings \citep{nickel2017poincare, Khrulkov_2020_CVPR, chen2022fully, desai2023meru}. We ask the converse, purely observational question: \emph{do frozen foundation models already organize class concepts in a tree-like metric structure, and when is that structure exploitable?}
 
-Answering this requires care, because the na\"ive measurement is confounded. Gromov $\delta$-hyperbolicity \citep{Gromov1987} assigns $0$ to trees, but random high-dimensional point clouds concentrate toward equidistance, a degenerate star tree, so a low normalized $\delta$ alone is not evidence of learned hierarchy; and the reference constants themselves depend on which definition of hyperbolicity is used (the four-point constant of the hyperbolic plane is $\ln 2$, not the thin-triangles constant $\ln(1+\sqrt{2})$). % \citep{nica2016strong} TODO-bib
+Answering this requires care, because the na\"ive measurement is confounded. Gromov $\delta$-hyperbolicity \citep{Gromov1987} assigns $0$ to trees, but random high-dimensional point clouds concentrate toward equidistance, a degenerate star tree, so a low normalized $\delta$ alone is not evidence of learned hierarchy; and the reference constants themselves depend on which definition of hyperbolicity is used (the four-point constant of the hyperbolic plane is $\ln 2$, not the thin-triangles constant $\ln(1+\sqrt{2})$; \citealp{nica2016strong}).
 Our measurement layer therefore rests on three legs: calibration of the exact estimator on reference geometries (trees, hyperbolic planes, spheres, matched Gaussians), \emph{excess over a null matched in dimension and covariance spectrum} as the primary reported quantity, and a direct parallelogram estimator of the curvature \emph{sign}. Together with Ollivier--Ricci curvature \citep{ollivier2009ricci} as a complementary local descriptor, this turns ``how tree-like is this representation?'' into a calibrated, falsifiable question.
 
 Three findings emerge, which the title condenses. \textbf{Form is near-universal:} 69 of 72 vision model$\times$dataset combinations exhibit tree structure beyond their matched null, the exceptions being self-supervised DINOv2 on its pretraining-like distribution. % exp11_null_per_dataset.csv
@@ -51,14 +51,14 @@ Our contributions are:
 \section{Related Work and Background}
 \label{sec:related}
 
-\paragraph{Hyperbolic representation learning.} Trees embed in the hyperbolic plane with arbitrarily low distortion \citep{sarkar2011}, which motivated learning hierarchical embeddings directly in hyperbolic space \citep{nickel2017poincare}, hyperbolic image embeddings \citep{Khrulkov_2020_CVPR}, fully hyperbolic architectures \citep{chen2022fully}, and contrastive image--text training on the hyperboloid \citep{desai2023meru}. All of these \emph{impose} hyperbolic structure at training time. Our question is orthogonal: we never train anything, and instead measure whether the class geometry that standard foundation models already learn is tree-like in the metric sense, and when that structure can be read out by a better distance function.
+\paragraph{Hyperbolic representation learning.} Trees embed in the hyperbolic plane with arbitrarily low distortion \citep{sarkar2011low}, which motivated learning hierarchical embeddings directly in hyperbolic space \citep{nickel2017poincare}, hyperbolic image embeddings \citep{Khrulkov_2020_CVPR}, fully hyperbolic architectures \citep{chen2022fully}, and contrastive image--text training on the hyperboloid \citep{desai2023meru}. All of these \emph{impose} hyperbolic structure at training time. Our question is orthogonal: we never train anything, and instead measure whether the class geometry that standard foundation models already learn is tree-like in the metric sense, and when that structure can be read out by a better distance function.
 
 \paragraph{Emergent hierarchies in learned representations.} Closest in spirit, \citet{alper2024hierarcaps} show that image--text models encode visual-semantic hierarchies that can be traversed in embedding space, using multi-level caption data (HierarCaps). We use their test hierarchy as ground truth for one of our validations, and complement this line in three ways: our diagnostics are metric and coordinate-free (no traversal model is fit), they span three modalities and thirty models, and every reading is calibrated against a matched null.
 
-\paragraph{Representational convergence.} The Platonic Representation Hypothesis \citep{huh2024platonic} posits that strong models converge toward a shared representation of reality, and recent work stress-tests such convergence: \citet{koepke2026cave} examine cross-modal convergence at scale, and \citet{groger2026aristotelian} show that permutation-calibrated similarity removes most apparent global convergence while local neighborhood structure survives. % TODO-bib keys
+\paragraph{Representational convergence.} The Platonic Representation Hypothesis \citep{huh2024platonic} posits that strong models converge toward a shared representation of reality, and recent work stress-tests such convergence: \citet{koepke2026cave} examine cross-modal convergence at scale, and \citet{groger2026aristotelian} show that permutation-calibrated similarity removes most apparent global convergence while local neighborhood structure survives.
 Our null-calibration philosophy mirrors theirs, applied within models rather than across them, and our results land on the same side: hyperbolic distances do not increase cross-model agreement in our panel (Section~\ref{sec:geometry}), so tree-likeness is a \emph{within-model} property. What is shared across models is the form of the class geometry, not its content.
 
-\paragraph{Background: two definitions, two scales.} For a metric space $(X,d)$ and $w,x,y,z \in X$, consider the three pairings $d(w,x){+}d(y,z)$, $d(w,y){+}d(x,z)$, $d(w,z){+}d(x,y)$, sorted as $S_{\max} \ge S_{\mathrm{mid}} \ge S_{\min}$. The four-point condition defines $\delta = \sup (S_{\max}-S_{\mathrm{mid}})/2$ over quadruples; trees satisfy $\delta = 0$ exactly. Two caveats matter. (i) \emph{Definitions differ}: under the four-point condition the hyperbolic plane has $\delta = \ln 2 \approx 0.693$, while the thin-triangles constant is $\ln(1+\sqrt{2}) \approx 0.881$; the two must not be conflated. % \citep{nica2016strong} TODO-bib
+\paragraph{Background: two definitions, two scales.} For a metric space $(X,d)$ and $w,x,y,z \in X$, consider the three pairings $d(w,x){+}d(y,z)$, $d(w,y){+}d(x,z)$, $d(w,z){+}d(x,y)$, sorted as $S_{\max} \ge S_{\mathrm{mid}} \ge S_{\min}$. The four-point condition defines $\delta = \sup (S_{\max}-S_{\mathrm{mid}})/2$ over quadruples; trees satisfy $\delta = 0$ exactly. Two caveats matter. (i) \emph{Definitions differ}: under the four-point condition the hyperbolic plane has $\delta = \ln 2 \approx 0.693$, while the thin-triangles constant is $\ln(1+\sqrt{2}) \approx 0.881$; the two must not be conflated \citep{nica2016strong}.
 (ii) \emph{Scales differ}: absolute $\delta$ is bounded for hyperbolic spaces, so the normalized $\hat\delta = \delta_{\max}/\mathrm{diam}$ of a hyperbolic region $\to 0$ as the region grows, whereas spheres are scale-invariant and keep $\hat\delta$ high at any radius. We use the normalized scale throughout and never mix the two in one statement. Ollivier--Ricci curvature (ORC) \citep{ollivier2009ricci} is our complementary local descriptor: on a kNN graph of the class representations, the curvature of an edge compares the transport cost between the neighborhoods of its endpoints to the edge length; positive values indicate overlapping, tightly clustered neighborhoods, negative values indicate tree-like bridges.
 
 \section{Measuring Tree-Likeness}
@@ -198,16 +198,31 @@ This work analyzes publicly released models and standard public datasets, involv
 \subsubsection*{The Use of Large Language Models}
 LLM-based assistants were used, under continuous author direction and review, to draft and edit text, to write analysis scripts, and to run the experiment pipeline on the authors' hardware. All experimental designs, results, verifications, and final claims were checked and approved by the authors, who take full responsibility for the content of this paper.
 
-\bibliography{iclr2027_conference}
+\bibliography{references}
 \bibliographystyle{iclr2027_conference}
 
 \appendix
 \section{Full Per-Cell Tables}
-% Table 1 regenerated from tasks_t707 (audited); split into per-section tables:
-% A.1 delta/excess per cell (exp11), A.2 NC/FS per cell (table1_regenerated),
-% A.3 metric arms (exp2/exp2b), A.4 McNemar per cell (exp13), A.5 nulls,
-% A.6 prompts (exp4+exp17), A.7 HierarCaps (exp16), A.8 DBpedia (exp14),
-% A.9 curvature sign (exp12), A.10 ablation curves.
-TODO
+Every table below is generated directly from the released per-cell result files by \texttt{gen\_appendix.py}; nothing is hand-transcribed. The source file of each table is stated in its caption.
+
+\subsection{Tree excess per cell}
+\input{appendix_tables/tab_a1_excess}
+\subsection{Task accuracies (regenerated)}
+\input{appendix_tables/tab_a2_nc}
+\input{appendix_tables/tab_a3_fs}
+\subsection{Metric controls}
+\input{appendix_tables/tab_a4_cos}
+\input{appendix_tables/tab_a5_rt}
+\subsection{Statistics}
+\input{appendix_tables/tab_a6_mcnemar}
+\subsection{Prompt robustness}
+\input{appendix_tables/tab_a7_prompts}
+\subsection{Multi-level caption hierarchies}
+\input{appendix_tables/tab_a8_hierarcaps}
+\subsection{Text-modality transfer}
+\input{appendix_tables/tab_a9_dbpedia}
+\subsection{Curvature sign}
+\input{appendix_tables/tab_a10_curvature}
+% TODO: A.11 ablation curves (port from original submission figures)
 
 \end{document}

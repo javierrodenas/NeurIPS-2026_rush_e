@@ -1,0 +1,18 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+model & $\rho$(level, radius) & \% monotone & trip.\ L1 & trip.\ L2 & $\hat\delta$ leaves & excess \\
+\midrule
+BGE-base & +0.80$\pm$0.31 & 49.6 & 0.88 & 0.97 & 0.130 & +0.003 \\
+E5-base & +0.87$\pm$0.19 & 53.9 & 0.90 & 0.97 & 0.139 & +0.010 \\
+GTE-base & +0.47$\pm$0.55 & 24.0 & 0.90 & 0.97 & 0.135 & +0.006 \\
+CLIP-B & +0.64$\pm$0.43 & 27.2 & 0.86 & 0.95 & 0.123 & -0.011 \\
+CLIP-L & +0.51$\pm$0.49 & 18.7 & 0.86 & 0.96 & 0.117 & -0.010 \\
+SigLIP-B & +0.32$\pm$0.55 & 9.8 & 0.83 & 0.91 & 0.138 & +0.014 \\
+\bottomrule
+\end{tabular}
+\caption{HierarCaps test set (1000 four-level chains): radial ordering under the paper's projection (chance for strict monotonicity $=1/24\approx4.2\%$; shuffle controls $\approx 0$), sibling triplet agreement (cosine; chance $0.5$), and leaf $\hat\delta$ with spectrum-null excess. Source: \texttt{exp16\_hierarcaps.csv}.}
+\label{tab:a8}
+\end{table}
