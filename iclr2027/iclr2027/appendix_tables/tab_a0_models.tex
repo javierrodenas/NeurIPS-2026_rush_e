@@ -1,0 +1,45 @@
+\begin{table}[h]
+\centering
+\scriptsize
+\begin{tabular}{llr}
+\toprule
+type & model & params \\
+\midrule
+Supervised ViT (vision) & ViT-T (i21k) & 5M \\
+Supervised ViT (vision) & ViT-S (i21k) & 22M \\
+Supervised ViT (vision) & ViT-B (i21k) & 86M \\
+Supervised ViT (vision) & ViT-L (i21k) & 307M \\
+SSL (vision) & DINOv1-B & 86M \\
+SSL (vision) & DINOv2-S & 22M \\
+SSL (vision) & DINOv2-B & 86M \\
+SSL (vision) & DINOv2-L & 307M \\
+SSL (vision) & DINOv2-G & 1.1B \\
+Contrastive (vision) & CLIP-B & 86M \\
+Contrastive (vision) & CLIP-L & 307M \\
+Contrastive (vision) & SigLIP-B & 86M \\
+Contrastive (vision) & OpenCLIP-B/32 & 86M \\
+Contrastive (vision) & OpenCLIP-L/14 & 307M \\
+Contrastive (vision) & MetaCLIP-B & 86M \\
+Contrastive (vision) & MetaCLIP-L & 307M \\
+\midrule
+Causal LM & GPT-2 S & 117M \\
+Causal LM & GPT-2 M & 345M \\
+Causal LM & GPT-2 L & 774M \\
+Causal LM & GPT-2 XL & 1.5B \\
+Causal LM & Pythia-410M & 410M \\
+Causal LM & Pythia-1B & 1.0B \\
+Causal LM & Pythia-2.8B & 2.8B \\
+Causal LM & OLMo-1B & 1.0B \\
+Causal LM & OLMo-7B & 7.0B \\
+Text embedder & BGE-base & 110M \\
+Text embedder & BGE-large & 335M \\
+Text embedder & GTE-base & 110M \\
+Text embedder & GTE-large & 335M \\
+Text embedder & GTE-Qwen2-1.5B & 1.5B \\
+Text embedder & E5-base & 110M \\
+Text embedder & E5-large & 335M \\
+\bottomrule
+\end{tabular}
+\caption{The full model panel: 16 vision backbones (12 with per-dataset features for the census and task grids; 4 additional contrastive backbones with ImageNet geometry only), 9 causal LMs, and 7 text embedders.}
+\label{tab:a0}
+\end{table}
