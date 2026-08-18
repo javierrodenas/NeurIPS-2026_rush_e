@@ -1,0 +1,390 @@
+% ============================================================
+% ICLR 2027 port of neurips_2026.tex.
+% RULE: the NeurIPS paper verbatim, plus ONLY (a) the revisions committed in
+% the OpenReview discussion, and (b) the audited number corrections
+% (regenerated Table 1; ImageNet delta cells). Edits are marked:
+%   [REGEN]     printed number replaced by the audited rerun value
+%   [COMMITTED] change promised to reviewers in the discussion
+% ============================================================
+\documentclass{article}
+\usepackage{iclr2027_conference,times}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{placeins}
+\usepackage{float}
+
+% [COMMITTED] new title (announced to Reviewer Xbn5 and the AC)
+\title{Tree-Like Class Geometry in Foundation Models: \\ A Zero-Cost Diagnostic for Metric Selection}
+
+\author{Anonymous authors}
+
+%\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+% [COMMITTED] within-model framing promoted into the abstract; "universal"
+% softened; matched nulls added; scaling claim restated on the excess basis.
+% Everything else is the original abstract.
+Foundation models are often studied through cross-model convergence; we characterize instead the geometry each model learns on its own. We show that the inter-class distance structure of class concepts learned by vision models, causal language models, and text embedding models is hierarchical, specifically tree-like, consistent with hyperbolic geometry. Its negative curvature and exponential volume growth make it a natural host for tree-like structure. Hence, this representation can be exploited more efficiently in hyperbolic space than in Euclidean space, when the right downstream conditions are met. Using Gromov $\delta$-hyperbolicity and Ollivier--Ricci curvature (ORC) as hyperbolicity metrics on 30 models (14 vision, 9 causal language models (LMs), and 7 text embeddings), we show that it is the training objective, and not the modality, that determines the geometry. Because random high-dimensional clouds also yield low raw $\delta$, every reading is calibrated against a null matched in dimension and covariance spectrum: 69 of 72 vision model$\times$dataset combinations show tree structure beyond their null. Self-supervised vision models and causal LMs learn the most hierarchical representations. Contrastive models, vision and text alike, learn moderately hierarchical ones, and the strongest within-family scaling appears in self-supervised vision ($\delta$ drops by 33\% from DINOv2-S (22M parameters) to DINOv2-G (1.1B), and the null-corrected excess deepens with scale). % [REGEN] 45->33 with updated ImageNet delta; excess trend added
+Controlled ablations confirm that this hierarchy is learned rather than architectural: it disappears in random-weight models, weakens with non-hierarchical fine-tuning, and emerges progressively across transformer layers. Beyond description, across 10 vision backbones and 6 datasets, a parameter-free post-hoc Poincar\'{e} projection of frozen features improves prototype-based classification and few-shot learning, with the magnitude of the gain predictable from a single backbone-level diagnostic and conditioned on the dataset having a real label hierarchy. On flat-hierarchy datasets, no advantage emerges, a negative result that is consistent with the underlying geometric mechanism. Hierarchical, tree-like geometry is therefore a near-universal property of the \emph{form} of learned class representations, model-specific in its content, and a zero-cost decision tool for situations when hyperbolic distances help downstream.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+% [COMMITTED to 1Eqj] first two fragments merged into one paragraph.
+\paragraph{Capacity meets hierarchical data.} The capacity of the model (parameters, depth, training objective) controls how rich a structure it can encode, and the intrinsic hierarchy of the data controls what is worth encoding. Larger models have more expressive room; data with a deep semantic hierarchy fills that room with a richer organisation. Reality, as humans organise it, is fundamentally hierarchical: instances belong to categories (a husky is a dog), categories to superordinate classes (dogs are mammals), and superordinate classes to broader concepts (mammals are animals). The natural mathematical home for such hierarchies is hyperbolic geometry~\citep{nickel2017poincare, sarkar2011low}: it accommodates exponentially growing branching factors with low distortion, whereas Euclidean space fails to embed even modestly deep trees without distortion. If a foundation model learns a representation of a hierarchical reality, that representation should bear a tree-like signature, and the magnitude of that signature should depend on both the model's capacity and the dataset's intrinsic hierarchy: a small model on hierarchical data hits a capacity wall, and any model on flat data has nothing hierarchical to learn. The geometry that emerges is neither a property of the architecture alone nor of the dataset alone; it is a co-product of the two, and should scale with both. Cross-model convergence analyses such as the Platonic Representation Hypothesis~\citep{huh2024platonic} ask a complementary question, how similar different models are to one another; we return to the relation between the two questions in Section~\ref{sec:related}. % [COMMITTED] PRH demoted from framing paragraph to a pointer
+
+\paragraph{But, does the learned class representation have tree-like geometry, and how does it scale with capacity and data hierarchy?} When we look at the inter-class distance matrix produced by a frozen foundation model, is it tree-like in the metric sense, and, if so, can we exploit that structure downstream without any retraining? Figure~\ref{fig:intro_concept} frames the underlying question: an observer of reality only sees projections of an unknown structure; we ask whether that structure is hierarchical, in which case the natural geometry is hyperbolic, or flat, in which case standard Euclidean distances suffice. Prior hyperbolic-deep-learning work mostly imposes hyperbolic structure through specialized architectures, losses, or trainable Poincar\'{e} embeddings~\citep{nickel2017poincare, Khrulkov_2020_CVPR, chen2022fully, desai2023meru}. We take the opposite path: we never train anything new. Instead, we measure how hierarchical (tree-like) the natural geometry already is using two complementary, zero-cost diagnostics, Gromov $\delta$-hyperbolicity~\citep{Gromov1987} and Ollivier--Ricci curvature (ORC)~\citep{ollivier2009ricci}, computed directly on raw Euclidean centroids and calibrated against matched random baselines. We then test the prediction that the more tree-like a model's centroid geometry, the more hyperbolic potential it carries, both as an embedding and as a downstream decision rule.
+
+\begin{figure}[t]
+  \centering
+   \includegraphics[width=0.81\linewidth, trim=150 220 200 190, clip]{figures/fig_intro_concept.pdf}
+  \caption{What does the learned class representation look like? An observer (here, a foundation model, evoking the prisoner in Plato's cave) only sees projections of an underlying structure. We ask whether that structure is naturally hierarchical (left): instances belong to categories (Dog $\to$ Canine $\to$ Mammal $\to$ Animal), categories to broader concepts, and the resulting tree embeds with low distortion in the Poincar\'{e} disk; or flat (right), where the same set of concepts is captured only by their pairwise proximity in Euclidean space, with the radial separation between superordinate categories collapsed}.
+  \label{fig:intro_concept}
+\end{figure}
+
+\textbf{Our contributions are:}
+\begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
+\item We show that \textbf{the hierarchical (tree-like) geometry of a learned representation is a co-product of model capacity and data hierarchy}. Across 30 models and 6 datasets, and read against nulls matched in dimension and covariance spectrum (69/72 model$\times$dataset cells show genuine tree structure), the strength of the hierarchy scales with parameter count most clearly within self-supervised and supervised vision, while contrastive families (vision and text alike) are essentially flat in both descriptors; across datasets, deeper-hierarchy ones (e.g.\ ImageNet) yield lower $\delta$ than flat-hierarchy ones (e.g.\ MNIST). It is the training objective, not the modality, that determines how tree-like the learned geometry is. % [COMMITTED] matched nulls added
+\item \textbf{Causal evidence that the geometry is learned}: the hierarchy disappears with random weights, weakens with non-hierarchical fine-tuning, emerges progressively across transformer layers, and is preserved under shuffle controls.
+\item $\delta$ \textbf{and ORC correlate with the hyperbolic advantage}, in prototype-based classification and few-shot learning across 10 vision backbones $\times$ 6 datasets ($n = 60$). Low $\delta$ and high ORC, computed once on the backbone's centroids, predict the gain a Poincar\'{e} projection delivers downstream.
+\item \textbf{$\mathbb{H}$ vs.\ $\mathbb{R}$ (and cosine)}: given a backbone and dataset, the two zero-cost diagnostics tell when a post-hoc hyperbolic projection pays off and when it does not, and matched rescaling and cosine controls locate where the hyperbolic metric itself is the winning choice. % [COMMITTED] three-way protocol
+\end{enumerate}
+
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Hyperbolic deep learning across modalities.} A growing line of work imposes hyperbolic geometry by design as a hierarchy-friendly inductive bias, building on \citet{nickel2017poincare}'s Poincar\'{e} embeddings of taxonomies, anchored in \citet{sarkar2011low}'s tree-embedding result, and \citet{ganea2018hyperbolic}'s differentiable hyperbolic layers. The idea has branched across different modalities. In computer vision, hyperbolic classifiers for CNNs~\citep{Khrulkov_2020_CVPR}, ViTs~\citep{ermolov2022hyperbolic}, dense segmentation~\citep{atigh2022hyperbolic}, and fully hyperbolic CNNs~\citep{bdeir2024fully}. In vision--language, MERU~\citep{desai2023meru} and the recent HyCoCLIP~\citep{pal2025compositional} trained entirely in $\mathbb{H}$. In graphs, one can find the hyperbolic graph convolutional networks~\citep{chami2019hyperbolic}. In language, billion-parameter fully hyperbolic LLMs~\citep{he2026helm}, fully hyperbolic transformers~\citep{chen2022fully}, and hyperbolic regularisation injecting label hierarchy into supervised features~\citep{sinha2024learning}. The closest precedent to our paper is HypLoRA~\citep{yang2025hyperbolic}, which observes that token embeddings of standard Euclidean LLMs already exhibit a degree of latent hyperbolicity and exploits it through fine-tuning on the hyperbolic manifold. We take the opposite path: we never train, fine-tune, or regularise the model. Instead, we make the latent-hyperbolicity observation systematic across 30 foundation models spanning vision, causal language, and text embeddings. We characterise the geometry with two coordinate-free descriptors, isolate its causal origin in training rather than architecture, and translate it into a parameter-free downstream decision rule.
+
+\paragraph{Geometric analyses of learned representations.} A separate line studies the properties of representations without imposing curvature: linear probing accuracy as a quality proxy, representation similarity via centered kernel alignment~\citep{kornblith2019cka}, intrinsic dimension of penultimate features~\citep{ansuini2019intrinsic, pope2021intrinsic}, and the equiangular geometry of class means in the terminal training phase known as neural collapse~\citep{papyan2020prevalence}. These analyses operate on Euclidean point clouds and do not test for tree-like or hyperbolic structure. The closest precedents to ours are \citet{Khrulkov_2020_CVPR} and \citet{bdeir2024fully}, who report low $\delta$ on a handful of CNNs/ViTs but stop short of (i)~comparing across paradigms or modalities, (ii)~establishing that the geometry is causally produced by training (rather than architecture), and (iii)~translating the descriptor into a downstream decision rule. We address these three gaps explicitly and at scale.
+
+% [COMMITTED to 1Eqj] retitled: this subsection is preliminaries, not related work.
+\paragraph{Background: hyperbolic space and trees.} Hyperbolic geometry is the natural geometric `home' for hierarchical (tree-like) data. Volumes of hyperbolic balls grow exponentially with radius, while Euclidean balls in $\mathbb{R}^n$ grow only polynomially. The consequence is sharp: \citet{sarkar2011low} shows that arbitrary trees embed into the two-dimensional Poincar\'{e} disk $\mathbb{H}^2$ with arbitrarily low distortion, whereas embedding even modestly deep trees in $\mathbb{R}^n$ with bounded distortion provably requires the dimension to grow with the depth of the tree. The standard realisations of hyperbolic space, the Poincar\'{e} ball, the Lorentz (hyperboloid) model, and the upper half-space, are mutually isometric models of the constant negative-curvature space, all admitting closed-form distance functions. The post-hoc evaluation in this paper uses the Poincar\'{e}-ball distance directly, without any learnable parameters. \citet{Gromov1987}'s $\delta$-hyperbolicity formalises how tree-like a metric space is in a coordinate-free way, requiring neither an embedding nor a curvature value.
+
+% [COMMITTED to RJje/Xbn5] critical PRH literature added; within-model position
+% stated with the cross-model measurement.
+\paragraph{Platonic Representation Hypothesis and convergence analyses.} The PRH~\citep{huh2024platonic} argues, via kernel alignment and kNN overlap, that vision and language models converge toward a shared representation as they scale. Recent work stress-tests this convergence: \citet{koepke2026cave} examine cross-modal convergence at scale, and \citet{groger2026aristotelian} show that permutation-calibrated similarity removes most apparent global convergence while local neighborhood structure survives; our null-calibration philosophy (Section~\ref{sec:descriptors}) mirrors theirs, applied within models rather than across them. Our characterization is a within-model property that stands on its own: even if the cross-model alignment evidence is weakened by spectral or dataset-side confounds, the geometry of each foundation model's inter-class distances remains hierarchical, learned, and predictive of downstream behavior. Consistently, we find that hyperbolic distances do not increase cross-model agreement in our panel (mutual-kNN alignment $0.474$ Euclidean vs $0.427$ Poincar\'{e} over all 66 model pairs): what is shared across models is the \emph{form} of the class geometry (tree-likeness), not its \emph{content} (each model builds its own tree). % exp5_crossmodel_alignment.csv
+
+\section{Methodology}
+\label{sec:method}
+
+Our methodology is based on two parts: a set of descriptive tools that quantify how tree-like a frozen representation is (\S\ref{sec:descriptors}), and a prescriptive tool that turns those measurements into a downstream decision rule (\S\ref{sec:projection}--\S\ref{sec:downstream}). Both operate on raw Euclidean centroids and require no retraining or learnable parameters.
+
+\subsection{Embeddings and centroids}
+\label{sec:embeddings}
+
+We treat each foundation model as a fixed feature extractor~\citep{dosovitskiy2021an, dinov2, CLIP} and obtain a single vector per model and sample pair in one forward pass. Vision backbones produce the CLS token at the output of the final transformer block; causal language models produce the last-token hidden state; text-embedding models use their native sentence-transformer pooling. To measure inter-class structure rather than per-image variability, we collapse each class to a single centroid: vision centroids are the per-class mean of training embeddings, and for language and text-embedding models we encode the prompt ``a photo of a \{class\}''.
+
+\subsection{Two coordinate-free descriptors of tree-likeness}
+\label{sec:descriptors}
+
+$\delta$-hyperbolicity and ORC both operate directly on the centroid distance matrix and are invariant to the embedding dimension and basis. They capture complementary aspects of tree-like structure: $\delta$ is a global property of the inter-centroid metric, while ORC is a local, edge-wise notion of curvature.
+
+\paragraph{Gromov $\delta$-hyperbolicity.} A metric space is $\delta$-hyperbolic in the sense of \citet{Gromov1987} if it satisfies a four-point condition. For any four class centroids $x, y, z, w \in X$ (with $X$ the set of $C$ class centroids in $\mathbb{R}^d$ produced by the model), ordering the three pairwise sums $S_1{=}d(x,y){+}d(z,w)$, $S_2{=}d(x,z){+}d(y,w)$, $S_3{=}d(x,w){+}d(y,z)$ as $S_{\max} \ge S_{\text{mid}} \ge S_{\min}$, the four-point defect is $(S_{\max}-S_{\text{mid}})/2$, and
+\begin{equation}
+\delta = \max_{x,y,z,w} \frac{S_{\max} - S_{\text{mid}}}{2}.
+\end{equation}
+% [COMMITTED to 1Eqj] constants corrected: four-point vs thin-triangles definitions,
+% absolute vs normalized scales never mixed; calibration under the declared protocol.
+Trees achieve $\delta = 0$ \citep{Gromov1987}. Reference constants depend on the definition used: under the four-point condition above, the hyperbolic plane has absolute $\delta = \ln 2 \approx 0.693$ \citep{nica2016strong}, distinct from the thin-triangles constant $\ln(1+\sqrt{2}) \approx 0.881$. We normalise $\delta_{\text{norm}} = \delta / \mathrm{diam}(X)$ for cross-model comparability; on this normalized scale hyperbolic regions drift toward $0$ as they grow while spheres stay high at any radius, so the ordering is the intuitive one: trees $<$ hyperbolic $<$ spherical. We approximate the maximum by sampling $500{,}000$ random quadruples per seed and averaging over $10$ seeds. Table~\ref{tab:calibration} calibrates the exact estimator on reference geometries: it recovers $\delta_{\text{norm}} = 0.000$ on a binary tree, the four-point constant on hyperbolic regions, $0.143$/$0.179$ (chord/geodesic) on the unit sphere $S^{99}$, and, crucially, \emph{low} values on iid Gaussian clouds of growing dimension: random high-dimensional point clouds concentrate toward equidistance, a degenerate star tree. A low raw $\delta_{\text{norm}}$ is therefore not by itself evidence of hierarchy. For every model$\times$dataset cell we consequently also build a null cloud with the same $n$, $d$, mean and covariance spectrum as the real centroids and report the \emph{excess} $\delta_{\text{norm}}^{\text{real}} - \delta_{\text{norm}}^{\text{null}}$ (null s.d.\ $\le 0.007$; a PC-permutation null confirms the readings): throughout, ``tree-like'' means excess below zero, never a low absolute value alone. % exp11_null_per_dataset.csv
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+space & absolute $\delta$ & $\delta_{\text{norm}}=\delta_{\max}/\mathrm{diam}$ \\
+\midrule
+balanced binary tree (depth 10; 1023 nodes) & 0.000 & 0.000 \\
+$\mathbb{H}^2$ ($K{=}-1$), region radius $R{=}2/4/8/16$ & 0.65/0.69/0.69/0.69 & 0.162/0.087/0.043/0.022 \\
+uniform $S^{99}$ (chord / geodesic) & 0.25/0.37 & 0.143/0.179 \\
+iid Gaussian, $n{=}1000$, $d{=}192/768/1536$ & --- & 0.104/0.061/0.046 \\
+\bottomrule
+\end{tabular}
+\caption{Calibration of the estimator on reference geometries. Hyperbolic regions converge to the four-point constant $\ln 2$ in absolute terms and drift to $0$ on the normalized scale; spheres stay high; iid Gaussians drift low as $d$ grows, the dimension confound that motivates the matched nulls. % [COMMITTED to RJje] exp1_delta_controls.csv, exp6
+}
+\label{tab:calibration}
+\end{table}
+
+\paragraph{Ollivier--Ricci curvature.} On the $k{=}10$ kNN graph over centroids, we compute ORC~\citep{ollivier2009ricci} per edge as
+\begin{equation}
+\kappa(u,v) = 1 - \frac{W_1(\mu_u, \mu_v)}{d(u, v)},
+\end{equation}
+where $\mu_u$ and $\mu_v$ are the uniform distributions on the kNN neighbours of $u$ and $v$, respectively, and $W_1$ is the $1$-Wasserstein distance. High mean ORC on the centroid graph reflects tight, overlapping neighbourhoods within semantic clusters, while negative-curvature edges concentrate on the \emph{bridges} between clusters, the tree-like skeleton between branches; the fraction of negative edges and the mean ORC give a local, edge-level view that complements the global $\delta$. % [COMMITTED to RJje/1Eqj] corrected interpretation (bridge analysis, Sec. 4.2)
+
+\subsection{Post-hoc Poincar\'{e} projection (parameter-free)}
+\label{sec:projection}
+
+To turn the geometric measurements into a downstream decision rule, we map any frozen Euclidean feature into the unit Poincar\'{e} ball $\mathbb{B}^d$ (constant negative curvature $-1$)~\citep{nickel2017poincare, ganea2018hyperbolic} without training a single parameter. The procedure is determined entirely by training-set statistics (Figure~\ref{fig:expmap}): % [COMMITTED to 1Eqj] diagram added
+\begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
+\item Compute the mean $\boldsymbol\mu$ of the training features and the 95th-percentile centred norm $\rho_{95} = \mathrm{quantile}_{95}(\|\boldsymbol{x} - \boldsymbol\mu\|)$;
+\item Set the scale $s = 2\,\mathrm{arctanh}(1/\sqrt{2})/\rho_{95}$ so the 95th-percentile feature lands at norm $1/\sqrt{2}$ inside the unit ball;
+\item Apply the exponential map at the origin,
+\begin{equation}
+\phi(\boldsymbol{x}) = \tanh\!\Big(\tfrac{1}{2}\|s(\boldsymbol{x}-\boldsymbol\mu)\|\Big) \cdot \frac{s(\boldsymbol{x}-\boldsymbol\mu)}{\|s(\boldsymbol{x}-\boldsymbol\mu)\|}.
+\end{equation}
+\end{enumerate}
+The target $1/\sqrt{2}$ keeps the bulk of the feature cloud firmly in the hyperbolic regime. At this radius the Poincar\'{e} conformal factor $\lambda(\boldsymbol{x}) = 2/(1-\|\boldsymbol{x}\|^2)$ already takes the amplified value $\lambda(1/\sqrt{2})^2 = 4\,\lambda(\mathbf{0})^2$. At the same time, $1/\sqrt{2}$ stays away from the boundary saturation regime~\citep{guo2022clipped} where $\lambda \to \infty$, gradients vanish, and Poincar\'{e} distances are dominated by the radial coordinate alone. Distances between projected points use the canonical Poincar\'{e} formula
+\begin{equation}
+d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
+\end{equation}
+The Euclidean and hyperbolic versions of every downstream task cost identical compute on the same features; the only thing that changes between them is the metric.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.78\linewidth]{figures/fig_expmap.pdf}
+\caption{The parameter-free projection of \S\ref{sec:projection}: features are centered at $\boldsymbol\mu$ and rescaled so the 95th-percentile norm lands at radius $1/\sqrt2$; $\tanh$ compresses norms, directions are preserved.}
+\label{fig:expmap}
+\end{figure}
+
+\subsection{Downstream protocol}
+\label{sec:downstream}
+
+For each model and dataset pair, we evaluate two parameter-free, prototype-based metric tasks, each in two versions: Euclidean (R) on the raw feature vectors $\boldsymbol{x}$, and hyperbolic (H) on their post-hoc Poincar\'{e} projection $\phi(\boldsymbol{x})$ from \S\ref{sec:projection}.
+\begin{itemize}[topsep=0pt,itemsep=1pt,leftmargin=*]
+\item \textbf{NC (Nearest-Centroid).} Per-class training mean as the prototype; each test sample is assigned to the class of its nearest prototype. % [COMMITTED to 1Eqj] argmin phrasing fixed
+\item \textbf{FS (Few-shot 5-way 5-shot).} $1{,}000$ episodes per model and dataset; per episode $5$ classes, $5$ support + $15$ query samples; classify queries by nearest support-prototype, in the spirit of Prototypical Networks~\citep{snell2017proto}.
+\end{itemize}
+For each task, we report the hyperbolic advantage
+\begin{equation}
+H_\text{adv} = (\mathrm{acc}_H - \mathrm{acc}_R) \times 100 \;\; \text{(percentage points)},
+\end{equation}
+where $\mathrm{acc}_R$ denotes the accuracy under raw Euclidean distances and $\mathrm{acc}_H$ the accuracy after applying the post-hoc Poincar\'{e} projection $\phi$ of \S\ref{sec:projection}; both are measured on the same task and split.
+Note that $H_{adv}$ is positive when the Poincar\'{e} projection beats the raw Euclidean baseline and negative otherwise. All protocols are training-free: no trainable heads, no learnable distances, no hyperparameter search. Any difference between $R$ and $H$ is attributable to the geometry alone.
+
+\section{Experiments}
+\label{sec:setup}
+
+\paragraph{Models.} We used 30 foundation models in three paradigms: 14 vision backbones (4 supervised ViTs, 4 self-supervised, 6 contrastive), 9 causal language models, and 7 text-embedding models. % TODO-coauthors: the listed panels below sum to more than 14 vision models; confirm the intended count before submission.
+We work with two settings: a main panel of 10 vision backbones evaluated for $\delta$, ORC and two downstream tasks across all 6 datasets (the supervised ViT-T/S/B/L pretrained on ImageNet-21k~\citep{dosovitskiy2021an}, the self-supervised DINOv1-B~\citep{dinov1} and DINOv2-S/B/L/G~\citep{dinov2}, and the contrastive CLIP-B/L~\citep{CLIP}); and a breadth panel of 20 additional models evaluated for cross-modality $\delta$ on ImageNet only (the contrastive variants OpenCLIP~\citep{openclip} and MetaCLIP~\citep{metaclip}; the causal language models GPT-2~\citep{gpt2}, Pythia~\citep{pythia} and OLMo~\citep{olmo}; and the text-embedding families BGE~\citep{BGE}, GTE~\citep{gte} and E5~\citep{e5}).
+
+\paragraph{Datasets and evaluation.} For the cross-model $\delta$ and ORC characterisation (\S\ref{sec:geometry-paradigm}) we use the $1{,}000$ classes of ImageNet~\citep{imagenet} as a shared concept set: vision backbones produce one centroid per class by averaging features of $100$ training images, while causal language models and text-embedding models encode the prompt ``a photo of a \{class\}'' once per class. This common $1{,}000 \times d$ matrix lets us compare $\delta$ and ORC across modalities on equal footing. For the downstream protocol (\S\ref{sec:downstream-results}) we use the $10$ vision backbones of the main panel $\times$ $6$ datasets ($n = 60$): ImageNet~\citep{imagenet}, CIFAR-100~\citep{cifar10}, CIFAR-10~\citep{cifar10}, DTD~\citep{dtd}, FashionMNIST~\citep{fashion}, and MNIST~\citep{mnist}.
+
+% [COMMITTED to 1Eqj] practical protocol moved next to the setup.
+\paragraph{Practical protocol.} Compute $\delta$ on training-set class centroids (${\sim}8$~s on CPU). If $\delta < 0.10$ and the labels carry a deep semantic hierarchy, the post-hoc Poincar\'{e} projection of frozen features improves NC and few-shot accuracy by $0.5$--$2.5$~pp; otherwise, retain Euclidean. The decision is reversible (a one-line distance switch), requires no training, and is unconfounded by optimisation tuning, making the geometry a deployable diagnostic rather than only a descriptive one.
+
+\subsection{Per model and dataset results}
+\label{sec:complete-results}
+
+% [COMMITTED to 1Eqj] conclusion-first, and a main-text summary table.
+The full per-cell grid (Table~\ref{tab:full-results}, summarised in Table~\ref{tab:summary}) supports one headline conclusion: the projection pays exactly where tree-like geometry meets hierarchical labels. Three patterns detail it. (1)~For DINOv2-L/G on the deep-hierarchy datasets (CIFAR-100, CIFAR-10, DTD), $H_{\mathrm{adv}}$ is positive on both NC and FS. % [REGEN] scoped: DINOv2-G ImageNet NC is now slightly negative, consistent with its at-null geometry there
+(2)~For supervised and contrastive backbones, $H_{\mathrm{adv}}$ on NC is mostly negative while FS still benefits modestly. (3)~On flat-hierarchy datasets (FashionMNIST, MNIST), NC advantages are mostly negative, FS advantages are mixed, and neither correlates with $\delta$: the predictive relationship, not merely the sign, vanishes where labels carry no hierarchy. % [COMMITTED to 1Eqj] L214 fix
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+family & $\delta$ (IN) & ORC (IN) & excess (hier.) & NC adv (hier.) & FS adv (hier.) & flat datasets \\
+\midrule
+ViT (sup.) & .084--.123 & .33--.38 & $-.090..-.019$ & $-1.2..+0.1$ & $+0.1..+0.9$ & \multirow{3}{*}{\shortstack[c]{NC mostly $\le 0$;\\ FS mixed,\\ uncorrelated with $\delta$}} \\
+DINOv2 (SSL) & .071--.119 & .35--.74 & $-.146..+.012$ & $-0.3..+2.05$ & $+0.5..+1.5$ & \\
+CLIP (contr.) & .118--.122 & .33--.35 & $-.075..-.020$ & $-1.5..+0.4$ & $+0.03..+1.2$ & \\
+\bottomrule
+\end{tabular}
+\caption{Family-level summary (ranges over models and hierarchical datasets; advantages in pp). Full per-cell values in Table~\ref{tab:full-results}. % [COMMITTED to 1Eqj]; table1_regenerated.csv, exp11, orc_per_dataset.csv
+}
+\label{tab:summary}
+\end{table}
+
+\subsection{Geometry across capacity and paradigm}
+\label{sec:geometry-paradigm}
+
+Across all 30 models we find a striking pattern (Figure~\ref{fig:scaling}). Self-supervised vision models achieve the lowest $\delta$ (DINOv2-L: $0.071$; DINOv2-G: $0.080$; DINOv2-B: $0.093$), and $\delta$ decreases with scale within families: DINOv2-S to DINOv2-G ($-33\%$), supervised ViT-T to ViT-L ($-32\%$). % [REGEN] ImageNet delta cells from the declared-protocol rerun
+Vision contrastive models are flatter ($\delta \approx 0.115$--$0.122$ across CLIP-B/L, OpenCLIP-B/L, MetaCLIP-B/L). % [REGEN] CLIP-L 0.108 -> 0.118
+Causal LMs achieve comparably low $\delta$: GPT-2 XL ($0.077$), OLMo-1B ($0.083$), GPT-2 M/L ($0.082$/$0.083$), Pythia-1B ($0.098$). Text embedding models cluster at $\delta \approx 0.110$--$0.124$, identical to vision contrastive models, confirming that the training objective, not the modality, determines the geometry.
+
+% [COMMITTED to RJje] the matched-null reading as the primary claim.
+\paragraph{Matched nulls: 69 of 72 cells show genuine tree structure.} Because raw $\delta_{\text{norm}}$ is confounded by dimension (\S\ref{sec:descriptors}), we read every vision cell against its spectrum-matched null (Figure~\ref{fig:excess}). Across 12 vision models and 6 datasets, 69/72 combinations sit below their null beyond noise; the three exceptions are DINOv2-S/B/G on ImageNet, the distribution closest to their pretraining data, while the same family shows the strongest excess of the panel on transfer datasets, deepening with scale (S$\to$G on CIFAR-10: $-0.087 \to -0.146$). On ImageNet, supervised ViTs sit at excess $-0.015$ to $-0.040$ and CLIP/SigLIP at $-0.016$ to $-0.030$. Sphericizing each model's centroids \emph{raises} $\delta_{\text{norm}}$ for all 12 models under the spherical geodesic (10/12 under chord): the observed values are not sphere-compatible. % exp11, exp1
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_excess_panel.pdf}
+\caption{(a) Tree excess $\delta_{\text{norm}}^{\text{real}}-\delta_{\text{norm}}^{\text{null}}$ for 12 vision models $\times$ 6 datasets: 69/72 cells sit below zero; the exceptions are DINOv2-S/B/G on ImageNet. (b) The excess deepens with scale on transfer datasets, while DINOv2's ImageNet excess stays at null.}
+\label{fig:excess}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_scaling.pdf}
+  % TODO-figures: regenerate fig_scaling from the audited delta values
+  % (DINOv2-G 0.080, CLIP-L 0.118) before submission; the plotted points
+  % currently show the old values.
+  \caption{Hierarchy across families and modalities. \textbf{(a, b)} Vision: $\delta$ and ORC for the $14$ vision backbones, grouped by family (ViT supervised, DINOv2 SSL, CLIP/OpenCLIP/MetaCLIP contrastive). DINOv2 is the only family in which both descriptors strengthen monotonically with scale: $\delta$ drops from $0.119$ (DINOv2-S) to $0.080$ (DINOv2-G) and ORC rises from $+0.35$ to $+0.73$. % [REGEN] 0.066 -> 0.080
+  Supervised ViTs trend similarly but more weakly. Contrastive backbones are essentially flat in both descriptors. \textbf{(c, d)} Text: $\delta$ and ORC for the $16$ text models, grouped by family (causal LMs GPT-2/Pythia/OLMo, text embedders BGE/GTE/E5). Causal-LM families reach $\delta$ values comparable to the most tree-like vision models ($\delta \approx 0.08$ at scale) and ORC up to $+0.41$, despite never seeing an image; causal-LM geometry is measured under the template of \S\ref{sec:embeddings} and varies with the prompt template, so we report it as template-conditioned. % [COMMITTED to Xbn5/RJje] narrowed causal-LM claim
+  Text embedders are flatter and operate at lower ORC ($\sim$$0.20$), matching the geometry of vision contrastive backbones in (b) and reinforcing that the training objective, not the modality, controls hierarchy.}
+  \label{fig:scaling}
+\end{figure}
+
+\paragraph{Ollivier--Ricci curvature.} ORC correlates with $\delta$ across all 30 models: the global four-point summary and the local edge-wise summary show that DINOv2 has the highest ORC ($0.35$--$0.73$, $\approx 0\%$ negative edges); supervised models are moderate ($0.33$--$0.38$); vision contrastive lower ($0.31$--$0.35$); text embedders distinctly lower ($0.20$--$0.24$). The model ranking is invariant to the kNN-graph hyperparameter (Spearman $\rho = 1.0$ between all pairs of $k \in \{5, 10, 15, 20, 30, 50\}$). High mean ORC coexists with tree-likeness because the two live on different edges: an edge-type analysis on the centroid kNN graph (30 WordNet superclasses) shows that positive curvature concentrates \emph{within} superclasses, tight semantic clusters, while negative-curvature edges concentrate on the \emph{bridges} between them ($2$--$4\times$ higher negative fraction on bridges; e.g.\ CLIP-L $.040$ within vs $.084$ across). DINOv2 on ImageNet is the exception with $\approx 0\%$ negative edges even across clusters, consistent with its at-null excess there. % [COMMITTED to RJje/1Eqj] bridge analysis; exp3_orc_bridge.csv
+
+To make the difference in $\delta$ concrete, Figure~\ref{fig:tree_visualization} visualises the $100$ CIFAR-100 class centroids of the least (DINOv2-S, $\delta = 0.107$) and most (DINOv2-G, $\delta = 0.076$) tree-like DINOv2 backbones. We draw each of the $20$ CIFAR-100 super-classes as a hub (the mean of its $5$ fine class centroids) and connect every fine class to its hub by a thin spoke. PCA is fit on the super-class centroids so that the $20$ hubs spread maximally in $2$D. The panels are illustrative 2-D projections (each panel's PCA preserves $22$--$30\%$ of hub variance and $6$--$10\%$ of spoke length); quantitative comparisons between models are made in the full feature space by the descriptors above. % [COMMITTED to pux6] illustration, not evidence
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_tree_visualization.pdf}
+  \caption{The geometry of $100$ CIFAR-100 class centroids for the least and most tree-like DINOv2 backbones, as an \emph{illustrative} 2-D projection (per-panel PCA fit on super-class hubs; quantitative comparisons are made in the full feature space). Each disc is one of $20$ super-class hubs (mean of its $5$ fine classes); thin spokes connect every fine class to its hub. The 20 super-classes are grouped into 7 meta-categories (Big mammals, Aquatic, Bugs, Plants, Indoor objects, Outdoor / vehicles, People), and these in turn into 4 super-meta zones (\textsc{animals}, \textsc{plants}, \textsc{man-made}, \textsc{people}) shown as nested translucent regions. Coloured connectors trace the hierarchy outward from Reality at the centre to each super-meta and meta label. \textbf{(a)}~DINOv2-S in Euclidean coordinates ($\delta = 0.107$): hubs and their fine classes are confined to a low-dimensional band, with several spokes crossing other super-classes and the meta zones overlapping. \textbf{(b)}~The same DINOv2-S features after the post-hoc Poincar\'{e} projection of \S\ref{sec:projection}: the conformal scaling pushes outliers towards the boundary, but the spokes remain long and noisy. \textbf{(c)}~DINOv2-G ($\delta = 0.076$) on the same disk: super-meta and meta zones occupy clearly distinct angular sectors and hubs cluster within their meta band.}
+  \label{fig:tree_visualization}
+\end{figure}
+
+\subsection{Downstream task results}
+\label{sec:downstream-results}
+
+We evaluate the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} on the two tasks of \S\ref{sec:downstream}, across $10$ vision models $\times$ $6$ datasets ($n = 60$).
+
+\paragraph{Task NC.} The largest gains concentrate where the geometry can be most exploited, the most tree-like backbones on the deepest-hierarchy datasets. DINOv2-L gains $\mathbf{+2.05}$ pp on CIFAR-100 (a $2.4\%$ relative improvement on a $85.6\%$ baseline; McNemar $p \approx 4\times10^{-38}$ on test-set decisions) and $+0.75$ pp on DTD; DINOv2-G gains $+1.23$ pp on CIFAR-100 and DINOv2-S $+0.97$ pp, lower $\delta$ predicts higher $H_{\mathrm{adv}}$ as shown in Figure~\ref{fig:synthesis_pooled}. % [REGEN] audited values; McNemar added (committed to Xbn5)
+Within-dataset correlations are strongest on hierarchical datasets, reaching $r = -0.87$ on CIFAR-100 and $r = -0.83$ on ImageNet; flat-hierarchy datasets (FashionMNIST, MNIST) show no significant correlation. % [REGEN]
+Outside the SSL family, NC advantages are mostly small or negative: the NC gain is concentrated, not universal. % [REGEN] honest reading of the regenerated NC column
+ImageNet NC gains are themselves smaller in absolute terms ($+0.56$ pp for DINOv2-L). % [REGEN]
+
+\paragraph{Task FS.} The few-shot projection helps almost every model and dataset pair ($56/60$ positive $H_{\mathrm{adv}}$, mean $+0.56$ pp), which compresses the variance against which $\delta$ can be tested pooled ($r = -0.18$); within the hierarchical datasets the dependence on $\delta$ is strong: $r = -0.78$ on CIFAR-10, $r = -0.71$ on DTD, $r = -0.67$ on CIFAR-100. % [REGEN] honest pooled value with the compression mechanism stated
+All $10$ vision models on ImageNet gain in few-shot ($H_{\mathrm{adv}}$ from $+0.03$ to $+0.91$ pp), with the largest gains again in the SSL family (DINOv2-G $+0.91$, DINOv2-L $+0.89$, DINOv2-B $+0.74$). % [REGEN]
+Few-shot gains carry per-episode paired 95\% confidence intervals of $\pm 0.03$--$0.20$ pp across the 60 cells; headline effects exceed their interval by an order of magnitude. % [COMMITTED to Xbn5]
+
+% [COMMITTED to RJje] rescaling and cosine controls; three-way protocol.
+\paragraph{Rescaling and cosine controls.} Two controls locate the source of the gain. First, the identical radial map with Euclidean distances (RT) leaves accuracy essentially unchanged (mean $|\mathrm{RT{-}R}| = 0.12$ pp on NC and $0.20$ pp on FS, no cell reaching $1$ pp), so the H$-$R gain is the metric, not the rescaling. Second, against cosine distance the picture splits by training objective: for DINOv2, cosine is the strongest zero-cost metric; for supervised ViTs, H $\approx$ cosine; for contrastive CLIP, H beats cosine by $+0.9$ to $+1.3$ pp on the transfer datasets even after L2 normalization (ImageNet $+0.1$ to $+0.2$ pp). The practical protocol therefore becomes three-way (Euclidean / cosine / hyperbolic): $\delta$ and ORC decide whether to leave Euclidean distances at all, and the training objective selects which metric collects the gain. % exp2_metric_controls.csv, exp2b_normalized_stack.csv
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_synthesis_pooled.pdf}
+  % TODO-figures: regenerate fig_synthesis_pooled from table1_regenerated.csv;
+  % the plotted H_adv values are the pre-audit ones.
+  \caption{Both diagnostics predict the post-hoc gain across all $60$ model and dataset cells. Each panel is a pooled scatter with one point per cell; colour encodes paradigm and marker shape encodes dataset. \textbf{(a, c):} $H_{\mathrm{adv}}$ vs ORC for NC and FS, higher curvature yields larger gain ($r = +0.43$ NC, $r = +0.47$ FS). \textbf{(b, d):} $H_{\mathrm{adv}}$ vs $\delta$ for NC and FS, lower Gromov defect yields larger gain ($r = -0.45$ NC; for FS the pooled $r=-0.18$ is compressed by the near-uniform positive gains, and the within-dataset correlations of \S\ref{sec:downstream-results} carry the signal). % [REGEN]
+  The MNIST cross markers cluster at the negative tail, consistent with its flat label hierarchy: where there is no tree-like structure to exploit, the projection does not help. Per-cell numerical values are listed in Table~\ref{tab:full-results} (Appendix~\ref{app:tables}).}
+  \label{fig:synthesis_pooled}
+\end{figure}
+
+\subsection{Causal ablations: $\delta$ reflects learned hierarchy, not architectural noise}
+\label{sec:ablation-noise}
+
+To distinguish architectural bias and label noise from learned hierarchy, we run four interventions on representative vision models. Each isolates a single causal factor as shown in Figure~\ref{fig:causal}.
+
+\textbf{(A1) Random weights.} Random-initialised models have dramatically higher $\delta$: DINOv2-B ($+144\%$), DINOv2-S ($+134\%$), ViT-B ($+65\%$). Tree-like structure is not architectural; it emerges through training.
+
+\textbf{(A2) Non-hierarchical fine-tuning.} Fine-tuning on an 8-class color classification task (no class hierarchy by construction) increases $\delta$: CLIP-B ($+91\%$), DINOv2-S ($+69\%$), ViT-B ($+19\%$). Fine-tuning on hierarchical CIFAR-100 produces minimal change ($-8\%$ to $+6\%$). Same protocol, different task structure, only destroying hierarchy raises $\delta$.
+
+\textbf{(A3) Layer-wise emergence.} Computing $\delta$ on class centroids (1{,}000 ImageNet classes, $50$ imgs/class) at each transformer block, we observe that $\delta$ decreases progressively from layer~1 to the final layer in pretrained transformers: DINOv2-B ($-51\%$, from $0.157$ to $0.077$) and CLIP-B ($-29\%$, from $0.157$ to $0.112$). Hierarchy is not present in shallow layers but is built up across depth, confirming that tree-like structure is a learned property of the representation rather than an artefact of token-level features.
+
+\textbf{(A4) Shuffle control (label noise).} Shuffling embedding-to-label correspondence preserves the point-cloud geometry but destroys semantic association: $\delta$ does not change ($p > 0.12$). This rules out a trivial dependence on high-dimensional point-cloud properties and confirms that $\delta$ measures semantic organisation, not feature norm or covariance.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig3_causal.pdf}
+  \caption{Ablations confirming that $\delta$ reflects learned hierarchy. (a)~Random-weight models have 65--144\% higher $\delta$ than trained counterparts, tree-like structure is not architectural. (b)~Color (non-hierarchical) fine-tuning increases $\delta$ by 19--91\%, while hierarchical CIFAR-100 fine-tuning leaves $\delta$ near baseline ($-8$ to $+6\%$). (c)~$\delta$ decreases from layer~1 to the final layer when computed on class centroids in DINOv2-B ($-51\%$) and CLIP-B ($-29\%$): hierarchy emerges across depth. (d)~Shuffling embedding-to-label correspondence preserves $\delta$ ($p > 0.12$), ruling out a trivial dependence on point-cloud properties.}
+  \label{fig:causal}
+\end{figure}
+
+\subsection{Reproducibility}
+\label{sec:reproducibility}
+
+All models and datasets used in this paper are publicly available; the post-hoc Poincar\'{e} projection of \S\ref{sec:projection} is a single \texttt{torch}-level operation determined entirely by training-set statistics ($\boldsymbol\mu$ and $\rho_{95}$). Computing $\delta$ on $1{,}000$ class centroids takes ${\sim}8$~s on CPU, and the full downstream evaluation across the $10$ vision backbones $\times$ $6$ datasets ($n = 60$ combinations) runs in $<\!30$~minutes on a single NVIDIA RTX 4090 GPU.
+
+\FloatBarrier
+
+\section{Conclusions}
+\label{sec:conclusion}
+
+We characterised the geometry of learned class representations and found tree-like inter-class distance structure as a near-universal property of their \emph{form} across modalities and paradigms: read against matched nulls, 69 of 72 vision model$\times$dataset combinations carry genuine tree structure, while the \emph{content} of the tree remains model-specific (the most tree-like family is the least aligned with cross-model agreement). % [COMMITTED] "universal" softened into the form/content statement
+Across 30 models, two coordinate-free descriptors ($\delta$ and ORC) converge on the same conclusion. Causal ablations establish that this geometry reflects learned semantic hierarchy: random weights, non-hierarchical fine-tuning, and layer-wise analysis all support the link. The discovery that causal LMs are also tree-like (measured under class-name templates) overturns the assumption that this property is vision-specific. The tree structure is visualised in Figure~\ref{fig:tree_visualization} for DINOv2-S and DINOv2-G on CIFAR-100.
+
+The geometry is not merely descriptive, but prescriptive. Backbone $\delta$ and ORC predict when post-hoc Poincar\'{e} projection improves prototype-based classification (pooled $r = -0.45$ vs $\delta$, $r = +0.43$ vs ORC; up to $r = -0.87$ within CIFAR-100) and few-shot learning ($r = +0.47$ vs ORC; up to $r = -0.78$ within CIFAR-10), and when they do not (datasets without label hierarchy). % [REGEN]
+Computing both descriptors takes seconds on CPU, providing a zero-cost diagnostic that tells practitioners whether to use hyperbolic geometry on their specific backbone, dataset combination, and when not to.
+
+The two findings close into a single arc: within hierarchy-respecting paradigms (most strongly self-supervised vision: DINOv2 drops $\delta$ by $33\%$ from S to G while ORC rises from $+0.35$ to $+0.73$, and its null-corrected excess deepens with scale), scaling up the backbone makes the geometry simultaneously more tree-like and more curved, and our correlations show that this is exactly the regime where the post-hoc hyperbolic projection delivers its largest gains (e.g.\ DINOv2-L on CIFAR-100: $H_{\mathrm{adv}}^{\text{NC}} = +2.05$~pp). % [REGEN]
+Capacity makes the learned class representation tree-like, and tree-likeness, in turn, makes it exploitable in $\mathbb{H}$.
+
+\textbf{Limitations.} The downstream evaluation covers only two prototype-based tasks, nearest-centroid classification and 5-way 5-shot, and on the headline target $t = 1/\sqrt{2}$ the hyperbolic advantage at any single model and dataset combination is modest in absolute terms ($H_{\mathrm{adv}} \approx 0.5$--$2.1$~pp); whether the same diagnostic predicts gains on retrieval, dense prediction, or end-to-end training in $\mathbb{H}$ is not tested here. % [REGEN] 2.5 -> 2.1 (max regenerated cell)
+The Poincar\'{e} ball is fixed at constant negative curvature $-1$ throughout by design, to keep the projection parameter-free, and we do not estimate a curvature value for the representations themselves; our descriptive claims are about tree-like metric structure. % [COMMITTED to RJje]
+Causal-LM geometry is measured through class-name templates and is template-sensitive, so those claims are weaker than the vision and embedder results. % [COMMITTED to Xbn5/RJje]
+
+\subsubsection*{Ethics Statement}
+This work analyzes publicly released models and standard public datasets, involves no human subjects and no personal data, and proposes an analysis methodology and a metric-selection heuristic. We do not foresee ethical risks beyond those already associated with the underlying models and datasets.
+
+\subsubsection*{Reproducibility Statement}
+Section~\ref{sec:reproducibility} details compute and availability; all estimator settings (quadruple counts, seeds, $k$, episode counts) are stated in Sections~\ref{sec:descriptors} and \ref{sec:downstream}, and the per-cell result files behind every table will be released with the code.
+
+\subsubsection*{The Use of Large Language Models}
+LLM-based assistants were used, under continuous author direction and review, to draft and edit text, to write analysis scripts, and to run the experiment pipeline on the authors' hardware. All experimental designs, results, verifications, and final claims were checked and approved by the authors, who take full responsibility for the content of this paper.
+
+\FloatBarrier
+\bibliographystyle{iclr2027_conference}
+\bibliography{references}
+
+\clearpage
+\appendix
+\section{Full numerical tables}
+\label{app:tables}
+
+\input{tab_full_results} % [REGEN] regenerated from the audited reruns (table1_regenerated.csv)
+
+\input{tab_breadth}
+
+\input{tab_orc_k}
+
+\FloatBarrier
+
+\section{Per-dataset breakdown of the post-hoc gain}
+\label{app:per-dataset-gain}
+Figure~\ref{fig:synthesis_pooled} pools the $60$ model and dataset cells. The figures below break that scatter down by dataset, one per row: each row pairs the gain plotted against ORC (left) with the gain plotted against $\delta$ (right). In every panel the bubble size is the parameter count, the colour is the paradigm, and the two sub-panels of each figure correspond to the two downstream tasks (NC, FS). The dataset breakdown shows that the pooled signal in Figure~\ref{fig:synthesis_pooled} is not driven by any single dataset: the predicted direction (positive slope vs ORC, negative slope vs $\delta$) holds within almost every dataset, with the strongest dependence on the deep-hierarchy datasets (CIFAR-100, DTD) and a near-flat curve on MNIST.
+% TODO-figures: regenerate the six gain-bubble figures from table1_regenerated.csv.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_gain_bubble_imagenet.pdf}
+  \caption{ImageNet: $H_{\mathrm{adv}}$ vs ORC (top row) and vs $\delta$ (bottom row), for NC (left) and FS (right).}
+  \label{fig:gain_bubble_imagenet}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_gain_bubble_cifar100.pdf}
+  \caption{CIFAR-100: $H_{\mathrm{adv}}$ vs ORC (top row) and vs $\delta$ (bottom row), for NC (left) and FS (right).}
+  \label{fig:gain_bubble_cifar100}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_gain_bubble_cifar10.pdf}
+  \caption{CIFAR-10: $H_{\mathrm{adv}}$ vs ORC (top row) and vs $\delta$ (bottom row), for NC (left) and FS (right).}
+  \label{fig:gain_bubble_cifar10}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_gain_bubble_dtd.pdf}
+  \caption{DTD: $H_{\mathrm{adv}}$ vs ORC (top row) and vs $\delta$ (bottom row), for NC (left) and FS (right).}
+  \label{fig:gain_bubble_dtd}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_gain_bubble_fmnist.pdf}
+  \caption{FashionMNIST: $H_{\mathrm{adv}}$ vs ORC (top row) and vs $\delta$ (bottom row), for NC (left) and FS (right).}
+  \label{fig:gain_bubble_fmnist}
+\end{figure}
+
+\clearpage
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_gain_bubble_mnist.pdf}
+  \caption{MNIST: $H_{\mathrm{adv}}$ vs ORC (top row) and vs $\delta$ (bottom row), for NC (left) and FS (right). The slopes flatten and most cells sit below zero on NC, consistent with the flat label hierarchy of MNIST and with the prediction that the post-hoc projection does not help in the absence of tree-like structure.}
+  \label{fig:gain_bubble_mnist}
+\end{figure}
+
+\end{document}

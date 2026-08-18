@@ -1,0 +1,16 @@
+\begin{table}[!htbp]
+\caption{\textbf{ORC sensitivity to the kNN-graph hyperparameter.} Mean Ollivier--Ricci curvature on the 1{,}000-class ImageNet centroid graph for $k \in \{5, 10, 15, 20, 30, 50\}$, evaluated on five representative backbones. Two things happen as $k$ grows. First, the absolute ORC drifts upward; we emphasise that this is a property of the smoothing of the local graph, not of the underlying representation. Second, the relative \emph{ranking} of models is preserved across every, zero rank inversions.}
+\label{tab:orc-k}
+\centering\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & $k=5$ & $k=10$ & $k=15$ & $k=20$ & $k=30$ & $k=50$ \\
+\midrule
+DINOv2-L & 0.530 & 0.635 & 0.694 & 0.709 & 0.725 & 0.780 \\
+DINOv2-B & 0.411 & 0.521 & 0.593 & 0.625 & 0.656 & 0.712 \\
+ViT-L    & 0.320 & 0.378 & 0.411 & 0.433 & 0.460 & 0.487 \\
+CLIP-B   & 0.282 & 0.340 & 0.373 & 0.399 & 0.431 & 0.473 \\
+ViT-T    & 0.264 & 0.306 & 0.334 & 0.360 & 0.393 & 0.432 \\
+\bottomrule
+\end{tabular}
+\end{table}

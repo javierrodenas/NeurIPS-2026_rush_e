@@ -1,0 +1,49 @@
+\begin{table}[!htbp]
+\caption{\textbf{Additional vision models}: 4 contrastive vision backbones not in Table~\ref{tab:full-results}, evaluated for $\delta$ and ORC on the same $1{,}000$ ImageNet classes ($100$ imgs/class). Rows are grouped by family and ordered by parameter count within each family.}
+\label{tab:breadth-vision}
+\centering\scriptsize
+\begin{tabular}{llrrr}
+\toprule
+Family & Model & Params & $\delta$ & ORC \\
+\midrule
+OpenCLIP & OpenCLIP-B/32 & 86M & 0.119 & +0.323 \\
+OpenCLIP & OpenCLIP-L/14 & 307M & 0.121 & +0.313 \\
+\midrule
+MetaCLIP & MetaCLIP-B & 86M & 0.121 & +0.325 \\
+MetaCLIP & MetaCLIP-L & 307M & 0.115 & +0.324 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\caption{\textbf{Additional text models}: 16 text models evaluated for $\delta$ and ORC on the same $1{,}000$ ImageNet classes via prompt-conditioned class embeddings (``a photo of a \{class\}''). Causal language models (top block) and text embedders (bottom block) are reported together. Rows are grouped by family and ordered by parameter count within each family.}
+\label{tab:breadth-text}
+\centering\scriptsize
+\begin{tabular}{lllrrr}
+\toprule
+Family & Model & Type & Params & $\delta$ & ORC \\
+\midrule
+GPT-2  & GPT-2 S        & Causal LM & 117M  & 0.133 & 0.269 \\
+GPT-2  & GPT-2 M        & Causal LM & 345M  & 0.082 & 0.315 \\
+GPT-2  & GPT-2 L        & Causal LM & 774M  & 0.083 & 0.414 \\
+GPT-2  & GPT-2 XL       & Causal LM & 1.5B  & 0.077 & 0.409 \\
+\midrule
+Pythia & Pythia-410M    & Causal LM & 410M  & 0.104 & 0.381 \\
+Pythia & Pythia-1B      & Causal LM & 1.0B  & 0.098 & 0.382 \\
+Pythia & Pythia-2.8B    & Causal LM & 2.8B  & 0.099 & 0.400 \\
+\midrule
+OLMo   & OLMo-1B        & Causal LM & 1.0B  & 0.083 & 0.396 \\
+OLMo   & OLMo-7B        & Causal LM & 7.0B  & 0.099 & 0.385 \\
+\midrule
+BGE    & BGE-base       & Text-Embed & 110M & 0.123 & 0.216 \\
+BGE    & BGE-large      & Text-Embed & 335M & 0.123 & 0.210 \\
+\midrule
+GTE    & GTE-base       & Text-Embed & 110M & 0.122 & 0.200 \\
+GTE    & GTE-large      & Text-Embed & 335M & 0.121 & 0.201 \\
+GTE    & GTE-Qwen2-1.5B & Text-Embed & 1.5B & 0.124 & 0.241 \\
+\midrule
+E5     & E5-base        & Text-Embed & 110M & 0.113 & 0.203 \\
+E5     & E5-large       & Text-Embed & 335M & 0.110 & 0.204 \\
+\bottomrule
+\end{tabular}
+\end{table}
