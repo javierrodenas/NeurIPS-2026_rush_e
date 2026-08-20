@@ -1,0 +1,4 @@
+i21k_t    imagenet     delta 0.1227±0.0037 null 0.1432±0.0067 exc -0.0205 z=-2.7 (5s)
+i21k_s    imagenet     delta 0.0971±0.0064 null 0.1173±0.0060 exc -0.0202 z=-2.3 (8s)
+i21k_b    imagenet     delta 0.0881±0.0062 null 0.1158±0.0069 exc -0.0277 z=-3.0 (22s)
+i21k_l    imagenet     delta 0.0842±0.0044 null 0.1144±0.0052 exc -0.0302 z=-4.4 (43s)
