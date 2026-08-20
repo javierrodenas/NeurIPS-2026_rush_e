@@ -34,7 +34,7 @@ MODELS = [
     ("pythia_1b",  "causal", "EleutherAI/pythia-1b",                None,   "", True),
     ("pythia_2b8", "causal", "EleutherAI/pythia-2.8b",              None,   "", True),
     ("olmo_1b",    "causal", "allenai/OLMo-1B-hf",                  None,   "", True),
-    ("olmo_7b",    "causal", "allenai/OLMo-7B-hf",                  None,   "", True),
+    # ("olmo_7b", "causal", "allenai/OLMo-7B-hf", None, "", True),  # skipped: 27GB download does not fit on this disk (filled the partition on 20-ago); note in the report
     ("bge_base",   "embed",  "BAAI/bge-base-en-v1.5",               "cls",  "", False),
     ("bge_large",  "embed",  "BAAI/bge-large-en-v1.5",              "cls",  "", False),
     ("gte_base",   "embed",  "thenlper/gte-base",                   "mean", "", False),
