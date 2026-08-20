@@ -131,7 +131,7 @@ where $\mu_u$ and $\mu_v$ are the uniform distributions on the kNN neighbours of
 \subsection{Post-hoc Poincar\'{e} projection (parameter-free)}
 \label{sec:projection}
 
-To turn the geometric measurements into a downstream decision rule, we map any frozen Euclidean feature into the unit Poincar\'{e} ball $\mathbb{B}^d$ (constant negative curvature $-1$)~\citep{nickel2017poincare, ganea2018hyperbolic} without training a single parameter. The procedure is determined entirely by training-set statistics (Figure~\ref{fig:expmap}): % [COMMITTED to 1Eqj] diagram added
+To turn the geometric measurements into a downstream decision rule, we map any frozen Euclidean feature into the unit Poincar\'{e} ball $\mathbb{B}^d$ (constant negative curvature $-1$)~\citep{nickel2017poincare, ganea2018hyperbolic} without training a single parameter. The procedure is determined entirely by training-set statistics:
 \begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
 \item Compute the mean $\boldsymbol\mu$ of the training features and the 95th-percentile centred norm $\rho_{95} = \mathrm{quantile}_{95}(\|\boldsymbol{x} - \boldsymbol\mu\|)$;
 \item Set the scale $s = 2\,\mathrm{arctanh}(1/\sqrt{2})/\rho_{95}$ so the 95th-percentile feature lands at norm $1/\sqrt{2}$ inside the unit ball;
@@ -145,13 +145,6 @@ The target $1/\sqrt{2}$ keeps the bulk of the feature cloud firmly in the hyperb
 d_\mathbb{B}(\boldsymbol{u},\boldsymbol{v}) = \mathrm{arcosh}\Big(1 + \frac{2\|\boldsymbol{u}-\boldsymbol{v}\|^2}{(1-\|\boldsymbol{u}\|^2)(1-\|\boldsymbol{v}\|^2)}\Big).
 \end{equation}
 The Euclidean and hyperbolic versions of every downstream task cost identical compute on the same features; the only thing that changes between them is the metric.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.78\linewidth]{figures/fig_expmap.pdf}
-\caption{The parameter-free projection of \S\ref{sec:projection}: features are centered at $\boldsymbol\mu$ and rescaled so the 95th-percentile norm lands at radius $1/\sqrt2$; $\tanh$ compresses norms, directions are preserved.}
-\label{fig:expmap}
-\end{figure}
 
 \subsection{Downstream protocol}
 \label{sec:downstream}
@@ -211,14 +204,7 @@ Vision contrastive models are flatter ($\delta \approx 0.115$--$0.122$ across CL
 Causal LMs achieve comparably low $\delta$: GPT-2 XL ($0.077$), OLMo-1B ($0.083$), GPT-2 M/L ($0.082$/$0.083$), Pythia-1B ($0.098$). Text embedding models cluster at $\delta \approx 0.110$--$0.124$, identical to vision contrastive models, confirming that the training objective, not the modality, determines the geometry.
 
 % [COMMITTED to RJje] the matched-null reading as the primary claim.
-\paragraph{Matched nulls: 69 of 72 cells show genuine tree structure.} Because raw $\delta_{\text{norm}}$ is confounded by dimension (\S\ref{sec:descriptors}), we read every vision cell against its spectrum-matched null (Figure~\ref{fig:excess}). Across 12 vision models and 6 datasets, 69/72 combinations sit below their null beyond noise; the three exceptions are DINOv2-S/B/G on ImageNet, the distribution closest to their pretraining data, while the same family shows the strongest excess of the panel on transfer datasets, deepening with scale (S$\to$G on CIFAR-10: $-0.087 \to -0.146$). On ImageNet, supervised ViTs sit at excess $-0.015$ to $-0.040$ and CLIP/SigLIP at $-0.016$ to $-0.030$. Sphericizing each model's centroids \emph{raises} $\delta_{\text{norm}}$ for all 12 models under the spherical geodesic (10/12 under chord): the observed values are not sphere-compatible. % exp11, exp1
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/fig_excess_panel.pdf}
-\caption{(a) Tree excess $\delta_{\text{norm}}^{\text{real}}-\delta_{\text{norm}}^{\text{null}}$ for 12 vision models $\times$ 6 datasets: 69/72 cells sit below zero; the exceptions are DINOv2-S/B/G on ImageNet. (b) The excess deepens with scale on transfer datasets, while DINOv2's ImageNet excess stays at null.}
-\label{fig:excess}
-\end{figure}
+\paragraph{Matched nulls: 69 of 72 cells show genuine tree structure.} Because raw $\delta_{\text{norm}}$ is confounded by dimension (\S\ref{sec:descriptors}), we read every vision cell against its spectrum-matched null. Across 12 vision models and 6 datasets, 69/72 combinations sit below their null beyond noise; the three exceptions are DINOv2-S/B/G on ImageNet, the distribution closest to their pretraining data, while the same family shows the strongest excess of the panel on transfer datasets, deepening with scale (S$\to$G on CIFAR-10: $-0.087 \to -0.146$). On ImageNet, supervised ViTs sit at excess $-0.015$ to $-0.040$ and CLIP/SigLIP at $-0.016$ to $-0.030$. Sphericizing each model's centroids \emph{raises} $\delta_{\text{norm}}$ for all 12 models under the spherical geodesic (10/12 under chord): the observed values are not sphere-compatible. % exp11, exp1
 
 \begin{figure}[t]
   \centering
