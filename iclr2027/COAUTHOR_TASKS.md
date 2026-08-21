@@ -21,9 +21,13 @@ Mientras tanto el caption del .tex ya la escopa como ilustración; si el script 
 aparece, alternativa: Claude la reconstruye aproximada desde los features cacheados
 (decisión de Javi, tras lo aprendido: no se sustituye ninguna figura sin OK explícito).
 
-## 3. Título — elegir entre:
-(a) "Form, not Content: Calibrated Measurement of Tree-Like Geometry in Foundation Models" (actual)
-(b) "What Survives Calibration: Tree-Like Form, Model-Specific Content in Foundation Model Geometry"
+## 3. Título — actualizado 21-ago tras el mapa de árboles (exp22):
+Los candidatos previos ("Grow Their Own Trees", "Form not Content") quedaron
+parcialmente invalidados por el resultado: los supervisados/contrastivos SÍ
+comparten esencialmente un árbol. Actual en el .tex:
+(a) "Whose Tree Does a Foundation Model Grow?" ← recomendado
+(b) "Whose Tree Is It? Calibrated Tree-Likeness of Class Representations in Foundation Models"
+(c) "The Trees Foundation Models Grow: Calibrated Geometry of Class Representations"
 
 ## 4. Recuento del panel (TODO-coauthors en §3 del .tex)
 Censo calibrado: 12 visión × 6 datasets + 16 texto = 28 modelos; + 4 contrastivos
