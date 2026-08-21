@@ -134,11 +134,13 @@ lines += [r"\bottomrule", r"\end{tabular}",
 print("done")
 
 
-# ---- B7: tree-map metric/linkage controls (exp23) ----
-import numpy as np
-lines = [r"\begin{table}[H]", r"\centering", r"\small",
-         r"\begin{tabular}{llcccc}", r"\toprule",
-         r"dataset & config & Dv2-B/L/G vs sup.\ block & Dv2-S+DINO-B vs block & block internal & coph.\ (big/block) \\",
+# ---- B7: tree-map metric/linkage controls (exp23 + config diagnostics) ----
+import numpy as np, json
+diag = json.load(open(RES/"exp23_config_diagnostics.json"))
+SELECTED = {"imagenet": "cosine-average", "cifar100": "cosine-complete"}
+lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize",
+         r"\begin{tabular}{llcccccc}", r"\toprule",
+         r"dataset & config & max-cluster frac.\ & mean CPCC & Dv2-B/L/G vs block & Dv2-S+DINO-B vs block & block internal \\",
          r"\midrule"]
 for ds, tag in [("imagenet","summary_in"), ("cifar100","summary_c1")]:
     z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True)[tag].item()
@@ -146,18 +148,24 @@ for ds, tag in [("imagenet","summary_in"), ("cifar100","summary_c1")]:
                 "('cosine', 'average')","('cosine', 'complete')","('cosine', 'ward')"]:
         v = z[key]
         cfg = key.replace("('","").replace("')","").replace("', '","-")
-        lines.append(f"{ds} & {cfg} & {v['big_vs_sup']:.2f} & {v['small_vs_sup']:.2f} & "
-                     f"{v['sup_vs_sup']:.2f} & {v['cop_big_sup']:.2f}/{v['cop_sup_sup']:.2f} \\\\")
+        metric, link = cfg.split("-")
+        d = diag[f"{ds}|{metric}|{link}"]
+        deg = d["maxfrac"] > 0.5
+        mark = r" $\leftarrow$ selected" if (cfg == SELECTED[ds] and not deg) else (" (degenerate)" if deg else "")
+        lines.append(f"{ds} & {cfg}{mark} & {d['maxfrac']:.2f} & {d['cpcc']:.3f} & "
+                     f"{v['big_vs_sup']:.2f} & {v['small_vs_sup']:.2f} & {v['sup_vs_sup']:.2f} \\\\")
     lines.append(r"\midrule")
 lines[-1] = r"\bottomrule"
 lines += [r"\end{tabular}",
-          r"\caption{Tree-map controls: mean pairwise ARI at the reference cut under six "
-          r"metric--linkage configurations. The DINOv2 island of the naive configuration "
-          r"(euclid-average) largely dissolves under cosine-Ward; cophenetic correlations "
-          r"(cut-free) agree. Source: \texttt{exp23\_treemap\_controls.npz}.}",
+          r"\caption{Tree-map configurations with the two quantities that drive the selection "
+          r"criterion of \S5: the degeneracy diagnostic (largest-cluster fraction at the reference "
+          r"cut, worst model) and the mean cophenetic fidelity (CPCC) of each model's dendrogram to "
+          r"its own distance matrix. Configurations with max-cluster fraction $>0.5$ are excluded; "
+          r"among the rest, highest CPCC selects the marked row. Mean pairwise ARIs at the reference "
+          r"cut shown for all configurations. Sources: \texttt{exp23\_treemap\_controls.npz}, "
+          r"\texttt{exp23\_config\_diagnostics.json}.}",
           r"\label{tab:b7-treemapcontrols}", r"\end{table}"]
 (OUT/"tab_b7_treemap.tex").write_text("\n".join(lines)+"\n"); print("b7")
-
 
 # ---- B8: validation-split metric selection (exp24) ----
 r24 = load("exp24_val_metric_selection.csv")
@@ -165,12 +173,19 @@ HIER = {"imagenet","cifar100","cifar10","dtd"}
 from statistics import mean as _mean
 def pol(rows, col): return _mean(float(r[col]) for r in rows)
 h24 = [r for r in r24 if r["dataset"] in HIER]
+d20g = {(r["model"],r["dataset"]): float(r["delta"]) for r in load("exp20_null_ztable.csv")}
+FLATg = {"fashionmnist","mnist"}
+def dgate_adv(r):
+    if d20g[(r["model"],r["dataset"])] >= 0.10 or r["dataset"] in FLATg: return 0.0
+    return float(r["adv_rule"])
+
 lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{lcc}", r"\toprule",
          r"policy (test advantage over Euclidean, pp) & all 60 cells & hierarchical (40) \\",
          r"\midrule",
          f"always cosine & {pol(r24,'adv_cos'):+.2f} & {pol(h24,'adv_cos'):+.2f} \\\\",
          f"objective rule (zero validation) & {pol(r24,'adv_rule'):+.2f} & {pol(h24,'adv_rule'):+.2f} \\\\",
+         f"$\\delta$-gated objective rule & {_mean(dgate_adv(r) for r in r24):+.2f} & {_mean(dgate_adv(r) for r in h24):+.2f} \\\\",
          f"validation-picked per cell & {pol(r24,'adv_val'):+.2f} & {pol(h24,'adv_val'):+.2f} \\\\",
          f"test oracle (reference) & {pol(r24,'adv_oracle'):+.2f} & {pol(h24,'adv_oracle'):+.2f} \\\\",
          r"\bottomrule", r"\end{tabular}",

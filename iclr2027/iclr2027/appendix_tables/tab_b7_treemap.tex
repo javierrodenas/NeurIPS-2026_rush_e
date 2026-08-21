@@ -1,25 +1,25 @@
 \begin{table}[H]
 \centering
-\small
-\begin{tabular}{llcccc}
+\scriptsize
+\begin{tabular}{llcccccc}
 \toprule
-dataset & config & Dv2-B/L/G vs sup.\ block & Dv2-S+DINO-B vs block & block internal & coph.\ (big/block) \\
+dataset & config & max-cluster frac.\ & mean CPCC & Dv2-B/L/G vs block & Dv2-S+DINO-B vs block & block internal \\
 \midrule
-imagenet & euclid-average & 0.03 & 0.08 & 0.64 & 0.36/0.80 \\
-imagenet & euclid-complete & 0.03 & 0.17 & 0.44 & 0.20/0.66 \\
-imagenet & euclid-ward & 0.15 & 0.38 & 0.53 & 0.62/0.84 \\
-imagenet & cosine-average & 0.38 & 0.35 & 0.48 & 0.48/0.78 \\
-imagenet & cosine-complete & 0.13 & 0.17 & 0.50 & 0.18/0.70 \\
-imagenet & cosine-ward & 0.17 & 0.39 & 0.55 & 0.59/0.85 \\
+imagenet & euclid-average (degenerate) & 0.97 & 0.761 & 0.03 & 0.08 & 0.64 \\
+imagenet & euclid-complete (degenerate) & 0.83 & 0.606 & 0.03 & 0.17 & 0.44 \\
+imagenet & euclid-ward & 0.48 & 0.464 & 0.15 & 0.38 & 0.53 \\
+imagenet & cosine-average $\leftarrow$ selected & 0.40 & 0.691 & 0.38 & 0.35 & 0.48 \\
+imagenet & cosine-complete & 0.32 & 0.539 & 0.13 & 0.17 & 0.50 \\
+imagenet & cosine-ward & 0.37 & 0.464 & 0.17 & 0.39 & 0.55 \\
 \midrule
-cifar100 & euclid-average & 0.00 & 0.41 & 0.57 & 0.15/0.78 \\
-cifar100 & euclid-complete & 0.17 & 0.40 & 0.54 & 0.23/0.72 \\
-cifar100 & euclid-ward & 0.37 & 0.65 & 0.63 & 0.63/0.77 \\
-cifar100 & cosine-average & 0.30 & 0.54 & 0.58 & 0.42/0.72 \\
-cifar100 & cosine-complete & 0.39 & 0.51 & 0.63 & 0.46/0.64 \\
-cifar100 & cosine-ward & 0.56 & 0.62 & 0.61 & 0.74/0.73 \\
+cifar100 & euclid-average (degenerate) & 0.80 & 0.798 & 0.00 & 0.41 & 0.57 \\
+cifar100 & euclid-complete (degenerate) & 0.66 & 0.722 & 0.17 & 0.40 & 0.54 \\
+cifar100 & euclid-ward & 0.33 & 0.534 & 0.37 & 0.65 & 0.63 \\
+cifar100 & cosine-average (degenerate) & 0.53 & 0.777 & 0.30 & 0.54 & 0.58 \\
+cifar100 & cosine-complete $\leftarrow$ selected & 0.39 & 0.698 & 0.39 & 0.51 & 0.63 \\
+cifar100 & cosine-ward & 0.14 & 0.584 & 0.56 & 0.62 & 0.61 \\
 \bottomrule
 \end{tabular}
-\caption{Tree-map controls: mean pairwise ARI at the reference cut under six metric--linkage configurations. The DINOv2 island of the naive configuration (euclid-average) largely dissolves under cosine-Ward; cophenetic correlations (cut-free) agree. Source: \texttt{exp23\_treemap\_controls.npz}.}
+\caption{Tree-map configurations with the two quantities that drive the selection criterion of \S5: the degeneracy diagnostic (largest-cluster fraction at the reference cut, worst model) and the mean cophenetic fidelity (CPCC) of each model's dendrogram to its own distance matrix. Configurations with max-cluster fraction $>0.5$ are excluded; among the rest, highest CPCC selects the marked row. Mean pairwise ARIs at the reference cut shown for all configurations. Sources: \texttt{exp23\_treemap\_controls.npz}, \texttt{exp23\_config\_diagnostics.json}.}
 \label{tab:b7-treemapcontrols}
 \end{table}

@@ -1,0 +1,50 @@
+{
+ "imagenet|euclid|average": {
+  "cpcc": 0.7614445694320396,
+  "maxfrac": 0.971
+ },
+ "imagenet|euclid|complete": {
+  "cpcc": 0.6056619595277347,
+  "maxfrac": 0.827
+ },
+ "imagenet|euclid|ward": {
+  "cpcc": 0.4643042020435915,
+  "maxfrac": 0.48
+ },
+ "imagenet|cosine|average": {
+  "cpcc": 0.6913027445562018,
+  "maxfrac": 0.404
+ },
+ "imagenet|cosine|complete": {
+  "cpcc": 0.5391301666433812,
+  "maxfrac": 0.315
+ },
+ "imagenet|cosine|ward": {
+  "cpcc": 0.4641320707604207,
+  "maxfrac": 0.37
+ },
+ "cifar100|euclid|average": {
+  "cpcc": 0.7978430421254417,
+  "maxfrac": 0.8
+ },
+ "cifar100|euclid|complete": {
+  "cpcc": 0.7224332816021625,
+  "maxfrac": 0.66
+ },
+ "cifar100|euclid|ward": {
+  "cpcc": 0.5341061567434275,
+  "maxfrac": 0.33
+ },
+ "cifar100|cosine|average": {
+  "cpcc": 0.7769767042244947,
+  "maxfrac": 0.53
+ },
+ "cifar100|cosine|complete": {
+  "cpcc": 0.698197412079439,
+  "maxfrac": 0.39
+ },
+ "cifar100|cosine|ward": {
+  "cpcc": 0.583895351347547,
+  "maxfrac": 0.14
+ }
+}

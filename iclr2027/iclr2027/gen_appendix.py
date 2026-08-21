@@ -152,22 +152,32 @@ lines += [r"\bottomrule", r"\end{tabular}",
           r"\label{tab:a9}", r"\end{table}"]
 (OUT/"tab_a9_dbpedia.tex").write_text("\n".join(lines) + "\n"); print("wrote tab_a9_dbpedia.tex")
 
-# ---- A10: curvature sign (exp12) ----
+# ---- A10: curvature sign (exp12 raw + exp26 matched nulls) ----
 cv = load("exp12_curvature_sign.csv")
+e26 = {r["model"]: r for r in load("exp26_xi_nulls.csv")}
 lines = [r"\begin{table}[H]", r"\centering", r"\small",
-         r"\begin{tabular}{lcc}", r"\toprule",
-         r"space / model & $\xi$ (mean) & frac.\ negative \\", r"\midrule"]
+         r"\begin{tabular}{lccccc}", r"\toprule",
+         r"space / model & $\xi$ (mean) & frac.\ negative & null $\xi$ & excess & $z$ \\", r"\midrule"]
 REF = {"ref_tree_d9":"balanced tree (depth 9)","ref_H2_R6":"$\\mathbb{H}^2$ region ($R{=}6$)",
        "ref_gauss768":"iid Gaussian ($d{=}768$)","ref_sphere_geo":"$S^{d}$ (geodesic)",
        "ref_sphere_chord":"$S^{d}$ (chord)"}
 for r in cv:
     nm = REF.get(r["model"], NAME.get(r["model"], r["model"]))
-    lines.append(f'{nm} & {float(r["xi_mean"]):+.3f} & {100*float(r["frac_neg"]):.0f}\\% \\\\')
+    if r["model"] in e26:
+        x = e26[r["model"]]
+        tail = (f' & {float(x["xi_null"]):+.3f}$\\pm${float(x["xi_null_sd"]):.3f}'
+                f' & {float(x["excess"]):+.3f} & {float(x["z"]):+.0f}')
+    else:
+        tail = " & --- & --- & ---"
+    lines.append(f'{nm} & {float(r["xi_mean"]):+.3f} & {100*float(r["frac_neg"]):.0f}\\%{tail} \\\\')
     if r["model"] == "ref_sphere_chord":
         lines.append(r"\midrule")
 lines += [r"\bottomrule", r"\end{tabular}",
           r"\caption{Parallelogram curvature-sign estimator $\xi$ on reference geometries "
-          r"(top) and ImageNet centroids (bottom). Source: \texttt{exp12\_curvature\_sign.csv}.}",
+          r"(top) and ImageNet centroids (bottom), with the spectrum-matched null, excess and "
+          r"$z$-score for each model (3 null replicates): matched nulls have positive $\xi$, so "
+          r"raw readings understate curvature. Sources: \texttt{exp12\_curvature\_sign.csv}, "
+          r"\texttt{exp26\_xi\_nulls.csv}.}",
           r"\label{tab:a10}", r"\end{table}"]
 (OUT/"tab_a10_curvature.tex").write_text("\n".join(lines) + "\n"); print("wrote tab_a10_curvature.tex")
 
