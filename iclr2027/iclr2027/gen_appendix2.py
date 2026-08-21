@@ -157,3 +157,26 @@ lines += [r"\end{tabular}",
           r"(cut-free) agree. Source: \texttt{exp23\_treemap\_controls.npz}.}",
           r"\label{tab:b7-treemapcontrols}", r"\end{table}"]
 (OUT/"tab_b7_treemap.tex").write_text("\n".join(lines)+"\n"); print("b7")
+
+
+# ---- B8: validation-split metric selection (exp24) ----
+r24 = load("exp24_val_metric_selection.csv")
+HIER = {"imagenet","cifar100","cifar10","dtd"}
+from statistics import mean as _mean
+def pol(rows, col): return _mean(float(r[col]) for r in rows)
+h24 = [r for r in r24 if r["dataset"] in HIER]
+lines = [r"\begin{table}[h]", r"\centering", r"\small",
+         r"\begin{tabular}{lcc}", r"\toprule",
+         r"policy (test advantage over Euclidean, pp) & all 60 cells & hierarchical (40) \\",
+         r"\midrule",
+         f"always cosine & {pol(r24,'adv_cos'):+.2f} & {pol(h24,'adv_cos'):+.2f} \\\\",
+         f"objective rule (zero validation) & {pol(r24,'adv_rule'):+.2f} & {pol(h24,'adv_rule'):+.2f} \\\\",
+         f"validation-picked per cell & {pol(r24,'adv_val'):+.2f} & {pol(h24,'adv_val'):+.2f} \\\\",
+         f"test oracle (reference) & {pol(r24,'adv_oracle'):+.2f} & {pol(h24,'adv_oracle'):+.2f} \\\\",
+         r"\bottomrule", r"\end{tabular}",
+         r"\caption{Metric-selection policies evaluated on held-out episodes (500 validation / "
+         r"500 test per cell, paper protocol). Validation picking retains the oracle advantage; "
+         r"the zero-validation objective rule modestly beats always-cosine. "
+         r"Source: \texttt{exp24\_val\_metric\_selection.csv}.}",
+         r"\label{tab:b8-valpick}", r"\end{table}"]
+(OUT/"tab_b8_valpick.tex").write_text("\n".join(lines)+"\n"); print("b8")
