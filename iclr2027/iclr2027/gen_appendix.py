@@ -26,7 +26,7 @@ def load(f):
     return list(csv.DictReader(open(RES/f)))
 
 def grid_table(fname, caption, label, models, cell_fn, colhead=DS):
-    lines = [r"\begin{table}[h]", r"\centering", r"\small",
+    lines = [r"\begin{table}[H]", r"\centering", r"\small",
              r"\begin{tabular}{l" + "c"*len(colhead) + "}", r"\toprule",
              "model & " + " & ".join(DSH[d] for d in colhead) + r" \\", r"\midrule"]
     for m in models:
@@ -103,7 +103,7 @@ tpl_order = ["photo","name_only","image","closeup","this_is","wild",
              "def_pair","gloss_only","concept","discussion"]
 tpl_head = ["photo","name","image","closeup","this is","wild",
             "def.","gloss only","concept","discuss."]
-lines = [r"\begin{table}[h]", r"\centering", r"\scriptsize",
+lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize",
          r"\begin{tabular}{l" + "c"*len(tpl_order) + "}", r"\toprule",
          "model & " + " & ".join(tpl_head) + r" \\", r"\midrule"]
 for m in ["bge_base","e5_base","gpt2","gpt2_m"]:
@@ -117,7 +117,7 @@ lines += [r"\bottomrule", r"\end{tabular}",
 
 # ---- A8: HierarCaps (exp16) ----
 h = load("exp16_hierarcaps.csv")
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{lcccccc}", r"\toprule",
          r"model & $\rho$(level, radius) & \% monotone & trip.\ L1 & trip.\ L2 & "
          r"$\hat\delta$ leaves & excess \\", r"\midrule"]
@@ -136,7 +136,7 @@ lines += [r"\bottomrule", r"\end{tabular}",
 
 # ---- A9: DBpedia (exp14) ----
 db = load("exp14_dbpedia.csv")
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{lcccccc}", r"\toprule",
          r"model & $\hat\delta$ & excess & trip.\ (cos) & NC H$-$R (pp) & FS H$-$R (pp) & CI95 \\",
          r"\midrule"]
@@ -154,7 +154,7 @@ lines += [r"\bottomrule", r"\end{tabular}",
 
 # ---- A10: curvature sign (exp12) ----
 cv = load("exp12_curvature_sign.csv")
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{lcc}", r"\toprule",
          r"space / model & $\xi$ (mean) & frac.\ negative \\", r"\midrule"]
 REF = {"ref_tree_d9":"balanced tree (depth 9)","ref_H2_R6":"$\\mathbb{H}^2$ region ($R{=}6$)",

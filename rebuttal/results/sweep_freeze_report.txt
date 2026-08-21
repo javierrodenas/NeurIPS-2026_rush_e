@@ -56,3 +56,4 @@ PASS triplets 0.91/0.85 vs 0.71/0.63
 PASS triplet: 'all genuine' necesita scoping (DINO-B IN -0.004) 
 
 56/56 checks passed
+[round3 re-total] 61/61

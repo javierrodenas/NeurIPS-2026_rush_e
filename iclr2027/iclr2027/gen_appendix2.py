@@ -27,7 +27,7 @@ _order = ["gpt2","gpt2_m","gpt2_l","gpt2_xl","pythia_410m","pythia_1b","pythia_2
           "olmo_1b","olmo_7b","bge_base","bge_large","gte_base","gte_large",
           "e5_base","e5_large","gte_qwen2"]
 rows = sorted(load("exp18_text_nulls.csv"), key=lambda r: _order.index(r["model"]))
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{llrcccc}", r"\toprule",
          r"model & type & $d$ & $\delta_{\text{norm}}$ & null & excess & $z$ \\", r"\midrule"]
 for r in rows:
@@ -47,7 +47,7 @@ z = {(r["model"], r["dataset"]): r for r in load("exp20_null_ztable.csv")}
 DS = ["imagenet","cifar100","cifar10","dtd","fashionmnist","mnist"]
 DSH = {"imagenet":"IN","cifar100":"C100","cifar10":"C10","dtd":"DTD","fashionmnist":"FMNIST","mnist":"MNIST"}
 M12 = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b","dinov2_l","dinov2_g","clip_b","clip_l","siglip_b"]
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{l"+"c"*6+"}", r"\toprule",
          "model & " + " & ".join(DSH[d] for d in DS) + r" \\", r"\midrule"]
 for m in M12:
@@ -70,7 +70,7 @@ from statistics import mean
 def agg(m,C,mode,f):
     v=[float(r[f]) for r in c19 if r["model"]==m and int(r["C"])==C and r["mode"]==mode]
     return mean(v) if v else None
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{lr|ccc|ccc}", r"\toprule",
          r" & & \multicolumn{3}{c|}{random subsets (span the hierarchy)} & \multicolumn{3}{c}{WordNet-coherent (siblings)} \\",
          r"model & $C$ & $\delta_{\text{norm}}$ & excess & NC adv & $\delta_{\text{norm}}$ & excess & NC adv \\", r"\midrule"]
@@ -90,7 +90,7 @@ lines += [r"\end{tabular}",
 
 # ---- B4: t-sweep ----
 ts = load("night/t_sweep.csv")
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{l"+"c"*len(ts)+"}", r"\toprule",
          "target $t$ & " + " & ".join(f'{float(r["t"]):.2f}' for r in ts) + r" \\", r"\midrule",
          "FS adv.\\ mean (pp) & " + " & ".join(f'{float(r["FS_adv_mean"]):+.2f}' for r in ts) + r" \\",
@@ -104,7 +104,7 @@ lines = [r"\begin{table}[h]", r"\centering", r"\small",
 
 # ---- B5: correlation CIs ----
 ci = load("night/correlation_cis.csv")
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{llcc}", r"\toprule",
          r"task & dataset & $r$ & CI95 \\", r"\midrule"]
 for r in ci:
@@ -119,7 +119,7 @@ lines += [r"\bottomrule", r"\end{tabular}",
 
 # ---- B6: ORC bridges ----
 br = load("night/orc_bridges.csv")
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{llcccc}", r"\toprule",
          r"model & dataset & ORC within & ORC across & \%neg within & \%neg across \\", r"\midrule"]
 for r in br:
@@ -136,7 +136,7 @@ print("done")
 
 # ---- B7: tree-map metric/linkage controls (exp23) ----
 import numpy as np
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{llcccc}", r"\toprule",
          r"dataset & config & Dv2-B/L/G vs sup.\ block & Dv2-S+DINO-B vs block & block internal & coph.\ (big/block) \\",
          r"\midrule"]
@@ -165,7 +165,7 @@ HIER = {"imagenet","cifar100","cifar10","dtd"}
 from statistics import mean as _mean
 def pol(rows, col): return _mean(float(r[col]) for r in rows)
 h24 = [r for r in r24 if r["dataset"] in HIER]
-lines = [r"\begin{table}[h]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{lcc}", r"\toprule",
          r"policy (test advantage over Euclidean, pp) & all 60 cells & hierarchical (40) \\",
          r"\midrule",
@@ -180,3 +180,36 @@ lines = [r"\begin{table}[h]", r"\centering", r"\small",
          r"Source: \texttt{exp24\_val\_metric\_selection.csv}.}",
          r"\label{tab:b8-valpick}", r"\end{table}"]
 (OUT/"tab_b8_valpick.tex").write_text("\n".join(lines)+"\n"); print("b8")
+
+
+# ---- B9: NC metric-selection policies with the delta gate (exp2 + exp20) ----
+e2p = {(r["model"],r["dataset"]): r for r in load("exp2_metric_controls.csv")}
+d20p = {(r["model"],r["dataset"]): float(r["delta"]) for r in load("exp20_null_ztable.csv")}
+FLATp = {"fashionmnist","mnist"}
+def famp(m): return "ssl" if m.startswith("dinov") else "sup" if m.startswith("i21k") else "con"
+pols = {"always cosine": [], "always Poincar\\'e": [], "gated rule (flat$\\to$R)": [], "$\\delta$-gated rule": []}
+splits = {"all": [], "flat": [], "hier": []}
+recs = []
+for (m,ds), r in e2p.items():
+    if (m,ds) not in d20p: continue
+    R_,H_,C_ = float(r["NC_R"]), float(r["NC_H"]), float(r["NC_COS"])
+    obj = C_ if famp(m) in ("ssl","sup") else H_
+    row = {"always cosine": (C_-R_)*100, "always Poincar\\'e": (H_-R_)*100,
+           "gated rule (flat$\\to$R)": ((R_ if ds in FLATp else obj)-R_)*100,
+           "$\\delta$-gated rule": ((R_ if (d20p[(m,ds)]>=0.10 or ds in FLATp) else obj)-R_)*100,
+           "flat": ds in FLATp}
+    recs.append(row)
+from statistics import mean as _m
+lines = [r"\begin{table}[H]", r"\centering", r"\small",
+         r"\begin{tabular}{lccc}", r"\toprule",
+         r"NC policy (advantage over Euclidean, pp) & all 60 & flat (20) & hierarchical (40) \\",
+         r"\midrule"]
+for pol in ["always cosine","always Poincar\\'e","gated rule (flat$\\to$R)","$\\delta$-gated rule"]:
+    a=_m(x[pol] for x in recs); f=_m(x[pol] for x in recs if x["flat"]); h=_m(x[pol] for x in recs if not x["flat"])
+    lines.append(f"{pol} & {a:+.2f} & {f:+.2f} & {h:+.2f} \\\\")
+lines += [r"\bottomrule", r"\end{tabular}",
+          r"\caption{NC metric-selection policies. The gate's value is avoiding the Poincar\'e "
+          r"projection on flat-label data; cosine is a safe NC default everywhere. "
+          r"Sources: \texttt{exp2\_metric\_controls.csv}, \texttt{exp20\_null\_ztable.csv}.}",
+          r"\label{tab:b9-ncpolicies}", r"\end{table}"]
+(OUT/"tab_b9_ncpolicies.tex").write_text("\n".join(lines)+"\n"); print("b9")

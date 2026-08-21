@@ -1,0 +1,31 @@
+ref_gauss768       xi_mean=+0.0925 median=+0.0928 frac_neg=0.000
+ref_sphere_geo     xi_mean=+0.1126 median=+0.1130 frac_neg=0.000
+ref_sphere_chord   xi_mean=+0.1154 median=+0.1158 frac_neg=0.000
+ref_H2_R6          xi_mean=-0.1938 median=-0.1940 frac_neg=0.959
+ref_tree_d9        xi_mean=-0.2386 median=-0.2500 frac_neg=0.961
+i21k_t             xi_mean=+0.0270 median=+0.0318 frac_neg=0.253 | cos: +0.0841/+0.0886/0.052
+i21k_s             xi_mean=+0.0268 median=+0.0311 frac_neg=0.231 | cos: +0.0843/+0.0876/0.027
+i21k_b             xi_mean=+0.0332 median=+0.0361 frac_neg=0.156 | cos: +0.0767/+0.0791/0.024
+i21k_l             xi_mean=+0.0283 median=+0.0325 frac_neg=0.211 | cos: +0.0806/+0.0826/0.018
+dinov1_b           xi_mean=-0.0076 median=-0.0059 frac_neg=0.546 | cos: +0.0910/+0.0966/0.035
+dinov2_s           xi_mean=-0.0202 median=-0.0230 frac_neg=0.662 | cos: +0.1034/+0.1053/0.009
+dinov2_b           xi_mean=-0.0486 median=-0.0531 frac_neg=0.829 | cos: +0.1116/+0.1126/0.004
+dinov2_l           xi_mean=-0.0682 median=-0.0698 frac_neg=0.898 | cos: +0.1141/+0.1150/0.002
+dinov2_g           xi_mean=-0.0698 median=-0.0731 frac_neg=0.886 | cos: +0.1036/+0.1047/0.003
+clip_b             xi_mean=+0.0188 median=+0.0261 frac_neg=0.319 | cos: +0.0304/+0.0364/0.249
+clip_l             xi_mean=+0.0280 median=+0.0330 frac_neg=0.276 | cos: +0.0406/+0.0460/0.192
+siglip_b           xi_mean=+0.0356 median=+0.0404 frac_neg=0.200 | cos: +0.0585/+0.0635/0.100
+Done
+i21k_t    xi +0.0270 (fneg 0.25) | null +0.0288±0.0020 (fneg 0.19) | exc -0.0019 z=-0.9 | 10s
+i21k_s    xi +0.0268 (fneg 0.23) | null +0.0419±0.0026 (fneg 0.09) | exc -0.0151 z=-5.7 | 12s
+i21k_b    xi +0.0332 (fneg 0.16) | null +0.0476±0.0008 (fneg 0.05) | exc -0.0144 z=-18.3 | 19s
+i21k_l    xi +0.0283 (fneg 0.21) | null +0.0496±0.0018 (fneg 0.05) | exc -0.0213 z=-11.5 | 24s
+dinov1_b  xi -0.0076 (fneg 0.55) | null +0.0524±0.0011 (fneg 0.07) | exc -0.0600 z=-54.2 | 19s
+dinov2_s  xi -0.0202 (fneg 0.66) | null +0.0628±0.0019 (fneg 0.04) | exc -0.0830 z=-44.4 | 13s
+dinov2_b  xi -0.0486 (fneg 0.83) | null +0.0758±0.0025 (fneg 0.00) | exc -0.1243 z=-49.5 | 20s
+dinov2_l  xi -0.0682 (fneg 0.90) | null +0.0815±0.0009 (fneg 0.00) | exc -0.1497 z=-175.1 | 25s
+dinov2_g  xi -0.0698 (fneg 0.89) | null +0.0831±0.0010 (fneg 0.00) | exc -0.1529 z=-147.9 | 35s
+clip_b    xi +0.0188 (fneg 0.32) | null +0.0244±0.0015 (fneg 0.21) | exc -0.0056 z=-3.8 | 14s
+clip_l    xi +0.0280 (fneg 0.28) | null +0.0328±0.0001 (fneg 0.15) | exc -0.0049 z=-35.4 | 21s
+siglip_b  xi +0.0356 (fneg 0.20) | null +0.0312±0.0002 (fneg 0.16) | exc +0.0044 z=+26.0 | 20s
+Done

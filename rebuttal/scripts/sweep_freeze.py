@@ -254,3 +254,41 @@ n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks:
     print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"\n{len(checks)-n_fail}/{len(checks)} checks passed")
+
+# ---------- ROUND-3 additions (appended 22-ago) ----------
+def round3():
+    e26 = {r["model"]: r for r in load("exp26_xi_nulls.csv")}
+    chk("xi-null: 10/12 exceso negativo, ViT-T at-null, SigLIP +z",
+        sum(1 for r in e26.values() if float(r["excess"])<0 and abs(float(r["z"]))>2)==10
+        and abs(float(e26["i21k_t"]["z"]))<2 and float(e26["siglip_b"]["z"])>2)
+    chk("xi-exceso Dv2 -0.083->-0.153 monotono", abs(float(e26["dinov2_s"]["excess"])+0.083)<0.003
+        and abs(float(e26["dinov2_g"]["excess"])+0.153)<0.003
+        and float(e26["dinov2_s"]["excess"])>float(e26["dinov2_b"]["excess"])>float(e26["dinov2_l"]["excess"]))
+    e2p = {(r["model"],r["dataset"]): r for r in load("exp2_metric_controls.csv")}
+    d20p = {(r["model"],r["dataset"]): float(r["delta"]) for r in load("exp20_null_ztable.csv")}
+    FLATp = {"fashionmnist","mnist"}
+    famp = lambda m: "ssl" if m.startswith("dinov") else "sup" if m.startswith("i21k") else "con"
+    advH, advC, advR_flat, advH_flat, advH_hier = [], [], [], [], []
+    for (m,ds), r in e2p.items():
+        if (m,ds) not in d20p: continue
+        R_,H_,C_ = float(r["NC_R"]), float(r["NC_H"]), float(r["NC_COS"])
+        advH.append((H_-R_)*100); advC.append((C_-R_)*100)
+        if ds in FLATp: advH_flat.append((H_-R_)*100)
+        else: advH_hier.append((H_-R_)*100)
+    chk("NC medias: H -0.24 all / -0.00 hier / -0.70 flat; COS +0.48",
+        abs(mean(advH)+0.24)<0.02 and abs(mean(advH_hier)-0.0)<0.02
+        and abs(mean(advH_flat)+0.70)<0.03 and abs(mean(advC)-0.48)<0.02)
+    from scipy.stats import ttest_rel, wilcoxon
+    e24r = load("exp24_val_metric_selection.csv")
+    h24r = [r for r in e24r if r["dataset"] in HIER]
+    _, pt = ttest_rel([float(r["adv_rule"]) for r in h24r], [float(r["adv_cos"]) for r in h24r])
+    chk("FS regla vs coseno pareado p=0.011", abs(pt-0.011)<0.003, f"p={pt:.4f}")
+    z23 = np.load(R/"exp23_treemap_controls.npz", allow_pickle=True)
+    zi = z23["summary_in"].item(); zc = z23["summary_c1"].item()
+    chk("configs seleccionadas: IN cos-avg 0.38/0.48, C100 cos-comp 0.39/0.64",
+        abs(zi["('cosine', 'average')"]["big_vs_sup"]-0.380)<0.01
+        and abs(zc["('cosine', 'complete')"]["big_vs_sup"]-0.389)<0.01
+        and abs(zc["('cosine', 'complete')"]["sup_vs_sup"]-0.635)<0.01)
+round3()
+n_fail = sum(1 for _,ok,_ in checks if not ok)
+print(f"[round3 re-total] {len(checks)-n_fail}/{len(checks)}")

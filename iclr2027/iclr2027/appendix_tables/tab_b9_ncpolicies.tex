@@ -1,0 +1,16 @@
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+NC policy (advantage over Euclidean, pp) & all 60 & flat (20) & hierarchical (40) \\
+\midrule
+always cosine & +0.48 & +0.24 & +0.59 \\
+always Poincar\'e & -0.24 & -0.70 & -0.00 \\
+gated rule (flat$\to$R) & +0.34 & +0.00 & +0.51 \\
+$\delta$-gated rule & +0.19 & +0.00 & +0.29 \\
+\bottomrule
+\end{tabular}
+\caption{NC metric-selection policies. The gate's value is avoiding the Poincar\'e projection on flat-label data; cosine is a safe NC default everywhere. Sources: \texttt{exp2\_metric\_controls.csv}, \texttt{exp20\_null\_ztable.csv}.}
+\label{tab:b9-ncpolicies}
+\end{table}
