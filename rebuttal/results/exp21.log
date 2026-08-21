@@ -1,0 +1,90 @@
+prepared i21k_t
+prepared i21k_s
+prepared i21k_b
+prepared i21k_l
+prepared dinov1_b
+prepared dinov2_s
+prepared dinov2_b
+prepared dinov2_l
+prepared dinov2_g
+prepared clip_b
+prepared clip_l
+prepared siglip_b
+i21k_t-i21k_s: kNN 0.709/0.653 (null 0.010) | CKA 0.857/0.862 (null 0.041)
+i21k_t-i21k_b: kNN 0.643/0.590 (null 0.011) | CKA 0.817/0.821 (null 0.044)
+i21k_t-i21k_l: kNN 0.614/0.549 (null 0.011) | CKA 0.841/0.845 (null 0.043)
+i21k_t-dinov1_b: kNN 0.664/0.557 (null 0.010) | CKA 0.768/0.777 (null 0.052)
+i21k_t-dinov2_s: kNN 0.529/0.401 (null 0.010) | CKA 0.451/0.463 (null 0.066)
+i21k_t-dinov2_b: kNN 0.273/0.196 (null 0.011) | CKA 0.390/0.403 (null 0.092)
+i21k_t-dinov2_l: kNN 0.182/0.141 (null 0.011) | CKA 0.399/0.415 (null 0.104)
+i21k_t-dinov2_g: kNN 0.181/0.142 (null 0.011) | CKA 0.382/0.397 (null 0.109)
+i21k_t-clip_b: kNN 0.704/0.679 (null 0.010) | CKA 0.857/0.862 (null 0.024)
+i21k_t-clip_l: kNN 0.662/0.629 (null 0.010) | CKA 0.843/0.848 (null 0.030)
+i21k_t-siglip_b: kNN 0.685/0.655 (null 0.010) | CKA 0.853/0.860 (null 0.029)
+i21k_s-i21k_b: kNN 0.753/0.717 (null 0.010) | CKA 0.856/0.859 (null 0.065)
+i21k_s-i21k_l: kNN 0.696/0.646 (null 0.010) | CKA 0.860/0.863 (null 0.063)
+i21k_s-dinov1_b: kNN 0.636/0.555 (null 0.010) | CKA 0.754/0.763 (null 0.075)
+i21k_s-dinov2_s: kNN 0.533/0.445 (null 0.011) | CKA 0.491/0.501 (null 0.097)
+i21k_s-dinov2_b: kNN 0.312/0.259 (null 0.011) | CKA 0.463/0.474 (null 0.136)
+i21k_s-dinov2_l: kNN 0.216/0.199 (null 0.010) | CKA 0.468/0.483 (null 0.153)
+i21k_s-dinov2_g: kNN 0.211/0.197 (null 0.012) | CKA 0.462/0.476 (null 0.160)
+i21k_s-clip_b: kNN 0.633/0.572 (null 0.010) | CKA 0.841/0.845 (null 0.035)
+i21k_s-clip_l: kNN 0.659/0.613 (null 0.010) | CKA 0.834/0.840 (null 0.044)
+i21k_s-siglip_b: kNN 0.664/0.613 (null 0.010) | CKA 0.835/0.841 (null 0.042)
+i21k_b-i21k_l: kNN 0.767/0.721 (null 0.011) | CKA 0.895/0.897 (null 0.068)
+i21k_b-dinov1_b: kNN 0.604/0.516 (null 0.011) | CKA 0.753/0.760 (null 0.081)
+i21k_b-dinov2_s: kNN 0.501/0.397 (null 0.011) | CKA 0.476/0.485 (null 0.106)
+i21k_b-dinov2_b: kNN 0.309/0.233 (null 0.011) | CKA 0.465/0.476 (null 0.147)
+i21k_b-dinov2_l: kNN 0.218/0.177 (null 0.010) | CKA 0.482/0.496 (null 0.165)
+i21k_b-dinov2_g: kNN 0.214/0.176 (null 0.011) | CKA 0.474/0.488 (null 0.173)
+i21k_b-clip_b: kNN 0.590/0.535 (null 0.010) | CKA 0.837/0.840 (null 0.038)
+i21k_b-clip_l: kNN 0.634/0.579 (null 0.010) | CKA 0.837/0.843 (null 0.047)
+i21k_b-siglip_b: kNN 0.637/0.582 (null 0.010) | CKA 0.829/0.835 (null 0.046)
+i21k_l-dinov1_b: kNN 0.573/0.485 (null 0.010) | CKA 0.771/0.776 (null 0.080)
+i21k_l-dinov2_s: kNN 0.469/0.375 (null 0.010) | CKA 0.469/0.477 (null 0.103)
+i21k_l-dinov2_b: kNN 0.295/0.237 (null 0.010) | CKA 0.452/0.463 (null 0.143)
+i21k_l-dinov2_l: kNN 0.219/0.189 (null 0.010) | CKA 0.471/0.485 (null 0.161)
+i21k_l-dinov2_g: kNN 0.213/0.188 (null 0.010) | CKA 0.463/0.476 (null 0.169)
+i21k_l-clip_b: kNN 0.578/0.506 (null 0.010) | CKA 0.863/0.865 (null 0.038)
+i21k_l-clip_l: kNN 0.636/0.577 (null 0.010) | CKA 0.861/0.864 (null 0.047)
+i21k_l-siglip_b: kNN 0.634/0.582 (null 0.010) | CKA 0.859/0.864 (null 0.045)
+dinov1_b-dinov2_s: kNN 0.572/0.491 (null 0.010) | CKA 0.676/0.680 (null 0.123)
+dinov1_b-dinov2_b: kNN 0.304/0.242 (null 0.012) | CKA 0.570/0.578 (null 0.172)
+dinov1_b-dinov2_l: kNN 0.203/0.176 (null 0.011) | CKA 0.551/0.562 (null 0.194)
+dinov1_b-dinov2_g: kNN 0.201/0.175 (null 0.012) | CKA 0.558/0.567 (null 0.202)
+dinov1_b-clip_b: kNN 0.584/0.487 (null 0.010) | CKA 0.735/0.739 (null 0.044)
+dinov1_b-clip_l: kNN 0.577/0.493 (null 0.010) | CKA 0.751/0.754 (null 0.055)
+dinov1_b-siglip_b: kNN 0.596/0.501 (null 0.009) | CKA 0.753/0.758 (null 0.053)
+dinov2_s-dinov2_b: kNN 0.469/0.508 (null 0.011) | CKA 0.664/0.670 (null 0.223)
+dinov2_s-dinov2_l: kNN 0.341/0.418 (null 0.010) | CKA 0.582/0.591 (null 0.251)
+dinov2_s-dinov2_g: kNN 0.342/0.419 (null 0.010) | CKA 0.621/0.629 (null 0.262)
+dinov2_s-clip_b: kNN 0.479/0.362 (null 0.010) | CKA 0.408/0.415 (null 0.057)
+dinov2_s-clip_l: kNN 0.490/0.390 (null 0.010) | CKA 0.450/0.456 (null 0.071)
+dinov2_s-siglip_b: kNN 0.509/0.395 (null 0.009) | CKA 0.454/0.460 (null 0.069)
+dinov2_b-dinov2_l: kNN 0.719/0.809 (null 0.004) | CKA 0.690/0.694 (null 0.349)
+dinov2_b-dinov2_g: kNN 0.684/0.742 (null 0.004) | CKA 0.730/0.734 (null 0.364)
+dinov2_b-clip_b: kNN 0.253/0.186 (null 0.009) | CKA 0.364/0.372 (null 0.081)
+dinov2_b-clip_l: kNN 0.284/0.226 (null 0.009) | CKA 0.402/0.411 (null 0.100)
+dinov2_b-siglip_b: kNN 0.289/0.217 (null 0.009) | CKA 0.402/0.411 (null 0.097)
+dinov2_l-dinov2_g: kNN 0.773/0.810 (null 0.003) | CKA 0.759/0.761 (null 0.409)
+dinov2_l-clip_b: kNN 0.170/0.135 (null 0.010) | CKA 0.386/0.397 (null 0.091)
+dinov2_l-clip_l: kNN 0.197/0.172 (null 0.009) | CKA 0.421/0.432 (null 0.112)
+dinov2_l-siglip_b: kNN 0.198/0.164 (null 0.009) | CKA 0.416/0.428 (null 0.109)
+dinov2_g-clip_b: kNN 0.170/0.137 (null 0.010) | CKA 0.371/0.381 (null 0.094)
+dinov2_g-clip_l: kNN 0.197/0.173 (null 0.009) | CKA 0.412/0.422 (null 0.117)
+dinov2_g-siglip_b: kNN 0.195/0.165 (null 0.009) | CKA 0.405/0.416 (null 0.114)
+clip_b-clip_l: kNN 0.754/0.705 (null 0.010) | CKA 0.971/0.972 (null 0.026)
+clip_b-siglip_b: kNN 0.719/0.675 (null 0.010) | CKA 0.954/0.957 (null 0.025)
+clip_l-siglip_b: kNN 0.760/0.726 (null 0.010) | CKA 0.951/0.953 (null 0.031)
+
+== MEANS over 66 pairs ==
+  knn_R      0.4740
+  knn_H      0.4267
+  knn_null   0.0099
+  knn_cal_R  0.4641
+  cka_R      0.6361
+  cka_H      0.6438
+  cka_null   0.1069
+  cka_cal_R  0.5292
+  cka_cal_H  0.5367
+Done
