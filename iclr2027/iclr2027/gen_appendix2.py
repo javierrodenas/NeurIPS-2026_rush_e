@@ -23,15 +23,19 @@ NAME = {"gpt2":"GPT-2 S","gpt2_m":"GPT-2 M","gpt2_l":"GPT-2 L","gpt2_xl":"GPT-2 
         "clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
 
 # ---- B1: text-model nulls (exp18) ----
-rows = load("exp18_text_nulls.csv")
+_order = ["gpt2","gpt2_m","gpt2_l","gpt2_xl","pythia_410m","pythia_1b","pythia_2b8",
+          "olmo_1b","olmo_7b","bge_base","bge_large","gte_base","gte_large",
+          "e5_base","e5_large","gte_qwen2"]
+rows = sorted(load("exp18_text_nulls.csv"), key=lambda r: _order.index(r["model"]))
 lines = [r"\begin{table}[h]", r"\centering", r"\small",
          r"\begin{tabular}{llrcccc}", r"\toprule",
-         r"model & type & $d$ & $\delta_{\text{norm}}$ & null & excess \\", r"\midrule"]
+         r"model & type & $d$ & $\delta_{\text{norm}}$ & null & excess & $z$ \\", r"\midrule"]
 for r in rows:
     lines.append(f'{NAME[r["model"]]} & {"causal LM" if r["kind"]=="causal" else "embedder"} & '
                  f'{int(float(r["d"]))} & {float(r["delta"]):.3f}$\\pm${float(r["delta_sd"]):.3f} & '
                  f'{float(r["null_mean"]):.3f}$\\pm${float(r["null_sd"]):.3f} & '
-                 f'{float(r["excess"]):+.3f} \\\\')
+                 f'{float(r["excess"]):+.3f} & '
+                 f'{float(r["excess"])/max((float(r["null_sd"])**2+float(r["delta_sd"])**2)**0.5,1e-9):+.1f} \\\\')
 lines += [r"\bottomrule", r"\end{tabular}",
           r"\caption{Text models under the calibrated protocol (1000 ImageNet class prompts): "
           r"$\delta_{\text{norm}}$, spectrum-matched null (3 reps) and excess. "
@@ -70,7 +74,7 @@ lines = [r"\begin{table}[h]", r"\centering", r"\small",
          r"\begin{tabular}{lr|ccc|ccc}", r"\toprule",
          r" & & \multicolumn{3}{c|}{random subsets (span the hierarchy)} & \multicolumn{3}{c}{WordNet-coherent (siblings)} \\",
          r"model & $C$ & $\delta_{\text{norm}}$ & excess & NC adv & $\delta_{\text{norm}}$ & excess & NC adv \\", r"\midrule"]
-for m in ["dinov2_l","clip_l"]:
+for m in ["dinov2_l","dinov2_g","clip_l"]:
     for C in [10,20,50,100,200,500,1000]:
         dr,er,nr = agg(m,C,"random","delta"),agg(m,C,"random","excess"),agg(m,C,"random","nc_adv_pp")
         dc,ec,nc = agg(m,C,"coherent","delta"),agg(m,C,"coherent","excess"),agg(m,C,"coherent","nc_adv_pp")

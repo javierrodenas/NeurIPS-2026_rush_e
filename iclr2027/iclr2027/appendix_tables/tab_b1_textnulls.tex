@@ -3,24 +3,24 @@
 \small
 \begin{tabular}{llrcccc}
 \toprule
-model & type & $d$ & $\delta_{\text{norm}}$ & null & excess \\
+model & type & $d$ & $\delta_{\text{norm}}$ & null & excess & $z$ \\
 \midrule
-GPT-2 S & causal LM & 768 & 0.131$\pm$0.007 & 0.083$\pm$0.002 & +0.048 \\
-GPT-2 M & causal LM & 1024 & 0.091$\pm$0.004 & 0.103$\pm$0.002 & -0.013 \\
-GPT-2 L & causal LM & 1280 & 0.095$\pm$0.004 & 0.129$\pm$0.006 & -0.034 \\
-GPT-2 XL & causal LM & 1600 & 0.083$\pm$0.005 & 0.131$\pm$0.007 & -0.048 \\
-Pythia-410M & causal LM & 1024 & 0.098$\pm$0.005 & 0.136$\pm$0.005 & -0.037 \\
-Pythia-1B & causal LM & 2048 & 0.096$\pm$0.004 & 0.131$\pm$0.004 & -0.035 \\
-Pythia-2.8B & causal LM & 2560 & 0.098$\pm$0.004 & 0.139$\pm$0.008 & -0.041 \\
-OLMo-1B & causal LM & 2048 & 0.100$\pm$0.005 & 0.101$\pm$0.002 & -0.001 \\
-BGE-base & embedder & 768 & 0.121$\pm$0.006 & 0.117$\pm$0.005 & +0.005 \\
-BGE-large & embedder & 1024 & 0.121$\pm$0.008 & 0.120$\pm$0.003 & +0.001 \\
-GTE-base & embedder & 768 & 0.124$\pm$0.011 & 0.113$\pm$0.003 & +0.011 \\
-GTE-large & embedder & 1024 & 0.120$\pm$0.012 & 0.116$\pm$0.003 & +0.004 \\
-GTE-Qwen2-1.5B & embedder & 1536 & 0.107$\pm$0.004 & 0.126$\pm$0.004 & -0.019 \\
-E5-base & embedder & 768 & 0.115$\pm$0.007 & 0.112$\pm$0.005 & +0.003 \\
-E5-large & embedder & 1024 & 0.114$\pm$0.010 & 0.113$\pm$0.003 & +0.001 \\
-OLMo-7B & causal LM & 4096 & 0.093$\pm$0.005 & 0.108$\pm$0.002 & -0.015 \\
+GPT-2 S & causal LM & 768 & 0.131$\pm$0.007 & 0.083$\pm$0.002 & +0.048 & +6.5 \\
+GPT-2 M & causal LM & 1024 & 0.091$\pm$0.004 & 0.103$\pm$0.002 & -0.013 & -2.7 \\
+GPT-2 L & causal LM & 1280 & 0.095$\pm$0.004 & 0.129$\pm$0.006 & -0.034 & -5.0 \\
+GPT-2 XL & causal LM & 1600 & 0.083$\pm$0.005 & 0.131$\pm$0.007 & -0.048 & -5.4 \\
+Pythia-410M & causal LM & 1024 & 0.098$\pm$0.005 & 0.136$\pm$0.005 & -0.037 & -5.4 \\
+Pythia-1B & causal LM & 2048 & 0.096$\pm$0.004 & 0.131$\pm$0.004 & -0.035 & -6.2 \\
+Pythia-2.8B & causal LM & 2560 & 0.098$\pm$0.004 & 0.139$\pm$0.008 & -0.041 & -4.6 \\
+OLMo-1B & causal LM & 2048 & 0.100$\pm$0.005 & 0.101$\pm$0.002 & -0.001 & -0.2 \\
+OLMo-7B & causal LM & 4096 & 0.093$\pm$0.005 & 0.108$\pm$0.002 & -0.015 & -2.8 \\
+BGE-base & embedder & 768 & 0.121$\pm$0.006 & 0.117$\pm$0.005 & +0.005 & +0.6 \\
+BGE-large & embedder & 1024 & 0.121$\pm$0.008 & 0.120$\pm$0.003 & +0.001 & +0.1 \\
+GTE-base & embedder & 768 & 0.124$\pm$0.011 & 0.113$\pm$0.003 & +0.011 & +0.9 \\
+GTE-large & embedder & 1024 & 0.120$\pm$0.012 & 0.116$\pm$0.003 & +0.004 & +0.4 \\
+E5-base & embedder & 768 & 0.115$\pm$0.007 & 0.112$\pm$0.005 & +0.003 & +0.3 \\
+E5-large & embedder & 1024 & 0.114$\pm$0.010 & 0.113$\pm$0.003 & +0.001 & +0.1 \\
+GTE-Qwen2-1.5B & embedder & 1536 & 0.107$\pm$0.004 & 0.126$\pm$0.004 & -0.019 & -3.1 \\
 \bottomrule
 \end{tabular}
 \caption{Text models under the calibrated protocol (1000 ImageNet class prompts): $\delta_{\text{norm}}$, spectrum-matched null (3 reps) and excess. Source: \texttt{exp18\_text\_nulls.csv}.}

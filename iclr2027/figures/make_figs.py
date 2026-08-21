@@ -23,9 +23,9 @@ ORDER = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b",
 
 def para(m): return PARA[m[:4]] if m.startswith("i21k") else PARA[m[:5]]
 
-d11 = list(csv.DictReader(open(RES/"exp11_null_per_dataset.csv")))
-exc = {(r["model"], r["dataset"]): float(r["exc_eucl"]) for r in d11}
-dlt = {(r["model"], r["dataset"]): float(r["d_eucl"]) for r in d11}
+d20 = list(csv.DictReader(open(RES/"exp20_null_ztable.csv")))
+exc = {(r["model"], r["dataset"]): float(r["excess"]) for r in d20}
+dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
 # ---------- Figure A: excess panel ----------
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9.2, 3.1),

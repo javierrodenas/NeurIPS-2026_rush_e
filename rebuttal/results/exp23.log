@@ -1,0 +1,29 @@
+imagenet  euclid-average  | Dv2-B/L/G vs SUP: ARI 0.029 coph 0.359 | Dv2-S+DINO-B vs SUP: 0.077 | SUP vs SUP: ARI 0.638 coph 0.801 | max Dv2big maxclust-frac 0.97
+imagenet  euclid-complete | Dv2-B/L/G vs SUP: ARI 0.031 coph 0.197 | Dv2-S+DINO-B vs SUP: 0.172 | SUP vs SUP: ARI 0.440 coph 0.657 | max Dv2big maxclust-frac 0.83
+imagenet  euclid-ward     | Dv2-B/L/G vs SUP: ARI 0.153 coph 0.619 | Dv2-S+DINO-B vs SUP: 0.381 | SUP vs SUP: ARI 0.527 coph 0.843 | max Dv2big maxclust-frac 0.48
+imagenet  cosine-average  | Dv2-B/L/G vs SUP: ARI 0.380 coph 0.482 | Dv2-S+DINO-B vs SUP: 0.353 | SUP vs SUP: ARI 0.481 coph 0.778 | max Dv2big maxclust-frac 0.33
+imagenet  cosine-complete | Dv2-B/L/G vs SUP: ARI 0.126 coph 0.178 | Dv2-S+DINO-B vs SUP: 0.167 | SUP vs SUP: ARI 0.497 coph 0.704 | max Dv2big maxclust-frac 0.09
+imagenet  cosine-ward     | Dv2-B/L/G vs SUP: ARI 0.170 coph 0.589 | Dv2-S+DINO-B vs SUP: 0.386 | SUP vs SUP: ARI 0.547 coph 0.851 | max Dv2big maxclust-frac 0.37
+  k-sweep imagenet euclid k=  10: island 0.096 vs block 0.257
+  k-sweep imagenet euclid k=  30: island 0.029 vs block 0.638
+  k-sweep imagenet euclid k= 100: island 0.026 vs block 0.529
+  k-sweep imagenet euclid k= 300: island 0.015 vs block 0.465
+  k-sweep imagenet cosine k=  10: island 0.431 vs block 0.533
+  k-sweep imagenet cosine k=  30: island 0.380 vs block 0.481
+  k-sweep imagenet cosine k= 100: island 0.362 vs block 0.619
+  k-sweep imagenet cosine k= 300: island 0.397 vs block 0.533
+cifar100  euclid-average  | Dv2-B/L/G vs SUP: ARI 0.005 coph 0.155 | Dv2-S+DINO-B vs SUP: 0.406 | SUP vs SUP: ARI 0.571 coph 0.779 | max Dv2big maxclust-frac 0.80
+cifar100  euclid-complete | Dv2-B/L/G vs SUP: ARI 0.166 coph 0.231 | Dv2-S+DINO-B vs SUP: 0.401 | SUP vs SUP: ARI 0.542 coph 0.724 | max Dv2big maxclust-frac 0.66
+cifar100  euclid-ward     | Dv2-B/L/G vs SUP: ARI 0.368 coph 0.630 | Dv2-S+DINO-B vs SUP: 0.650 | SUP vs SUP: ARI 0.628 coph 0.771 | max Dv2big maxclust-frac 0.33
+cifar100  cosine-average  | Dv2-B/L/G vs SUP: ARI 0.298 coph 0.417 | Dv2-S+DINO-B vs SUP: 0.539 | SUP vs SUP: ARI 0.582 coph 0.721 | max Dv2big maxclust-frac 0.53
+cifar100  cosine-complete | Dv2-B/L/G vs SUP: ARI 0.389 coph 0.459 | Dv2-S+DINO-B vs SUP: 0.506 | SUP vs SUP: ARI 0.635 coph 0.645 | max Dv2big maxclust-frac 0.39
+cifar100  cosine-ward     | Dv2-B/L/G vs SUP: ARI 0.558 coph 0.740 | Dv2-S+DINO-B vs SUP: 0.624 | SUP vs SUP: ARI 0.609 coph 0.735 | max Dv2big maxclust-frac 0.13
+  k-sweep cifar100 euclid k=   5: island -0.019 vs block 0.544
+  k-sweep cifar100 euclid k=  10: island -0.010 vs block 0.614
+  k-sweep cifar100 euclid k=  20: island 0.005 vs block 0.571
+  k-sweep cifar100 euclid k=  40: island 0.128 vs block 0.608
+  k-sweep cifar100 cosine k=   5: island 0.221 vs block 0.432
+  k-sweep cifar100 cosine k=  10: island 0.277 vs block 0.574
+  k-sweep cifar100 cosine k=  20: island 0.298 vs block 0.582
+  k-sweep cifar100 cosine k=  40: island 0.281 vs block 0.510
+Done

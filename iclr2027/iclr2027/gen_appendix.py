@@ -78,14 +78,18 @@ grid_table("tab_a5_rt.tex",
     r"without the metric changes nothing. Source: \texttt{exp2\_metric\_controls.csv}.",
     "tab:a5", M10, diff_cell("RT", "R"))
 
-# ---- A6: McNemar p-values (NC, H vs R), exp13 ----
+# ---- A6: McNemar p-values (NC, H vs R) with gain direction, exp13 ----
 mc = {(r["model"], r["dataset"]): r for r in load("exp13_mcnemar.csv")}
+t1d = {(r["model"], r["dataset"]): float(r["NC_adv"]) for r in load("table1_regenerated.csv")}
 def p_cell(m, d):
     p = float(mc[(m, d)]["p_H_vs_R"])
-    return rf"$10^{{{max(-99, int(f'{p:.0e}'.split('e')[1])) }}}$" if p < 1e-3 else f"{p:.2f}"
+    sign = "+" if t1d[(m, d)] > 0 else "$-$"
+    ptxt = rf"$10^{{{max(-99, int(f'{p:.0e}'.split('e')[1])) }}}$" if p < 1e-3 else f"{p:.2f}"
+    return f"{ptxt}\,({sign})"
 grid_table("tab_a6_mcnemar.tex",
     r"McNemar $p$-values for NC test-set decisions, Poincar\'e vs Euclidean "
-    r"(order of magnitude when $p<10^{-3}$). Source: \texttt{exp13\_mcnemar.csv}.",
+    r"(order of magnitude when $p<10^{-3}$; sign of the NC advantage in parentheses, "
+    r"so significance is readable with its direction). Sources: \texttt{exp13\_mcnemar.csv}, \texttt{table1\_regenerated.csv}.",
     "tab:a6", M10, p_cell)
 
 # ---- A7: prompts (exp4 + exp17) ----
