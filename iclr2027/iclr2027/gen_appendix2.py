@@ -228,3 +228,20 @@ lines += [r"\bottomrule", r"\end{tabular}",
           r"Sources: \texttt{exp2\_metric\_controls.csv}, \texttt{exp20\_null\_ztable.csv}.}",
           r"\label{tab:b9-ncpolicies}", r"\end{table}"]
 (OUT/"tab_b9_ncpolicies.tex").write_text("\n".join(lines)+"\n"); print("b9")
+
+# ---- B11: ground-truth recovery per model x configuration (C100) ----
+r28 = load("exp28_recovery_per_config.csv")
+CONFS = ["euclid-average","euclid-ward","cosine-average","cosine-complete","cosine-ward"]
+HEAD = ["euclid-avg (naive, degen.)","euclid-ward","cosine-avg (degen.\\ C100)","cosine-complete $\\leftarrow$ sel.","cosine-ward"]
+lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize",
+         r"\begin{tabular}{l" + "c"*5 + "}", r"\toprule",
+         "model & " + " & ".join(HEAD) + r" \\", r"\midrule"]
+for r in r28:
+    lines.append(NAME[r["model"]] + " & " + " & ".join(f'{float(r[c]):.2f}' for c in CONFS) + r" \\")
+lines += [r"\bottomrule", r"\end{tabular}",
+          r"\caption{Recovery of the true CIFAR-100 superclasses (ARI of the 20-cluster cut) per "
+          r"model and configuration, the quantity behind the corrected picture of \S5. Degenerate "
+          r"configurations marked; the criterion-selected configuration is cosine-complete. "
+          r"Source: \texttt{exp28\_recovery\_per\_config.csv}.}",
+          r"\label{tab:b11-recovery}", r"\end{table}"]
+(OUT/"tab_b11_recovery.tex").write_text("\n".join(lines)+"\n"); print("b11")

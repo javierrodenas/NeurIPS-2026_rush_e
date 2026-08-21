@@ -52,12 +52,21 @@ def main():
         t0 = time.time()
         C = cents(m)
         xr, xmed, fneg = xi_of(C)
-        nulls = [xi_of(specnull(C, rep)) for rep in range(3)]
-        nm = float(np.mean([n[0] for n in nulls])); nsd = float(np.std([n[0] for n in nulls]))
+        # estimator noise: xi over 5 independent triangle subsamples
+        from scipy.spatial.distance import pdist as _p, squareform as _s
+        D0 = _s(_p(C, "euclidean"))
+        import numpy as _np
+        xs = [xi_stats(D0, n_tri=20000, seed=s)[0] for s in range(5)]
+        x_sd = float(_np.std(xs, ddof=1))
+        nulls = [xi_of(specnull(C, rep)) for rep in range(20)]
+        nm = float(np.mean([n[0] for n in nulls])); nsd = float(np.std([n[0] for n in nulls], ddof=1))
         nfneg = float(np.mean([n[2] for n in nulls]))
-        z = (xr-nm)/max(nsd, 1e-9)
+        noise = float(np.sqrt(nsd**2 + x_sd**2))
+        z = (xr-nm)/max(noise, 1e-9)
+        ci = 1.96*noise
         rows.append(dict(model=m, xi=xr, frac_neg=fneg, xi_null=nm, xi_null_sd=nsd,
-                         null_frac_neg=nfneg, excess=xr-nm, z=z, time_s=time.time()-t0))
+                         xi_est_sd=x_sd, null_frac_neg=nfneg, excess=xr-nm,
+                         ci95=ci, z=z, time_s=time.time()-t0))
         print(f"{m:9s} xi {xr:+.4f} (fneg {fneg:.2f}) | null {nm:+.4f}±{nsd:.4f} "
               f"(fneg {nfneg:.2f}) | exc {xr-nm:+.4f} z={z:+.1f} | {rows[-1]['time_s']:.0f}s")
         pd.DataFrame(rows).to_csv(csv_path, index=False)
