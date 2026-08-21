@@ -3,8 +3,9 @@
 ## 1. Figura 1 (caverna, `fig_intro_concept.pdf`) — artwork manual, framing viejo dentro del dibujo
 El texto incrustado dice: "How is the reality?", paneles "Hyperbolic" / "Euclidean", nodo raíz "Reality".
 Con la espina nueva (forma-vs-contenido) ese lenguaje es el que hemos retirado.
-**Opción A (relabel, quien tenga el fichero fuente — draw.io/Figma/Illustrator):**
-- "How is the reality?" → "Is the class geometry tree-like or flat?"
+**Opción A (relabel, quien tenga el fichero fuente — draw.io/Figma/Illustrator)
+[ACTUALIZADO 21-ago con el título elegido]:**
+- "How is the reality?" → "Is there a Platonic tree?"  ← la pregunta del título, alineación perfecta
 - "Hyperbolic" → "Tree-like (low-distortion embedding in the Poincaré disk)"
 - nodo "Reality" → eliminar o renombrar "root"
 **Opción B (quitarla):** el mock review ya señaló que ocupa media página y aporta poco;
