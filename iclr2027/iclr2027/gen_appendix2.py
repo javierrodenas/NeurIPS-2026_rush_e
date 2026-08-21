@@ -132,3 +132,28 @@ lines += [r"\bottomrule", r"\end{tabular}",
           r"\label{tab:b6-bridges}", r"\end{table}"]
 (OUT/"tab_b6_bridges.tex").write_text("\n".join(lines)+"\n"); print("b6")
 print("done")
+
+
+# ---- B7: tree-map metric/linkage controls (exp23) ----
+import numpy as np
+lines = [r"\begin{table}[h]", r"\centering", r"\small",
+         r"\begin{tabular}{llcccc}", r"\toprule",
+         r"dataset & config & Dv2-B/L/G vs sup.\ block & Dv2-S+DINO-B vs block & block internal & coph.\ (big/block) \\",
+         r"\midrule"]
+for ds, tag in [("imagenet","summary_in"), ("cifar100","summary_c1")]:
+    z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True)[tag].item()
+    for key in ["('euclid', 'average')","('euclid', 'complete')","('euclid', 'ward')",
+                "('cosine', 'average')","('cosine', 'complete')","('cosine', 'ward')"]:
+        v = z[key]
+        cfg = key.replace("('","").replace("')","").replace("', '","-")
+        lines.append(f"{ds} & {cfg} & {v['big_vs_sup']:.2f} & {v['small_vs_sup']:.2f} & "
+                     f"{v['sup_vs_sup']:.2f} & {v['cop_big_sup']:.2f}/{v['cop_sup_sup']:.2f} \\\\")
+    lines.append(r"\midrule")
+lines[-1] = r"\bottomrule"
+lines += [r"\end{tabular}",
+          r"\caption{Tree-map controls: mean pairwise ARI at the reference cut under six "
+          r"metric--linkage configurations. The DINOv2 island of the naive configuration "
+          r"(euclid-average) largely dissolves under cosine-Ward; cophenetic correlations "
+          r"(cut-free) agree. Source: \texttt{exp23\_treemap\_controls.npz}.}",
+          r"\label{tab:b7-treemapcontrols}", r"\end{table}"]
+(OUT/"tab_b7_treemap.tex").write_text("\n".join(lines)+"\n"); print("b7")
