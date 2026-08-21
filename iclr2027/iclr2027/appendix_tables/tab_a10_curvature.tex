@@ -3,7 +3,7 @@
 \small
 \begin{tabular}{lccccc}
 \toprule
-space / model & $\xi$ (mean) & frac.\ negative & null $\xi$ & excess & $z$ \\
+space / model & $\xi$ (mean) & frac.\ negative & null $\xi$ & excess ($\pm$CI95) & $z$ \\
 \midrule
 iid Gaussian ($d{=}768$) & +0.092 & 0\% & --- & --- & --- \\
 $S^{d}$ (geodesic) & +0.113 & 0\% & --- & --- & --- \\
@@ -11,20 +11,20 @@ $S^{d}$ (chord) & +0.115 & 0\% & --- & --- & --- \\
 \midrule
 $\mathbb{H}^2$ region ($R{=}6$) & -0.194 & 96\% & --- & --- & --- \\
 balanced tree (depth 9) & -0.239 & 96\% & --- & --- & --- \\
-ViT-T & +0.027 & 25\% & +0.027$\pm$0.002 & -0.001 & -0 \\
-ViT-S & +0.027 & 23\% & --- & --- & --- \\
-ViT-B & +0.033 & 16\% & --- & --- & --- \\
-ViT-L & +0.028 & 21\% & --- & --- & --- \\
-DINO-B & -0.008 & 55\% & --- & --- & --- \\
-DINOv2-S & -0.020 & 66\% & --- & --- & --- \\
-DINOv2-B & -0.049 & 83\% & --- & --- & --- \\
-DINOv2-L & -0.068 & 90\% & --- & --- & --- \\
-DINOv2-G & -0.070 & 89\% & --- & --- & --- \\
-CLIP-B & +0.019 & 32\% & --- & --- & --- \\
-CLIP-L & +0.028 & 28\% & --- & --- & --- \\
-SigLIP-B & +0.036 & 20\% & --- & --- & --- \\
+ViT-T & +0.027 & 25\% & +0.027$\pm$0.002 & -0.001$\pm$0.003 & -0 \\
+ViT-S & +0.027 & 23\% & +0.042$\pm$0.002 & -0.015$\pm$0.005 & -7 \\
+ViT-B & +0.033 & 16\% & +0.047$\pm$0.002 & -0.014$\pm$0.004 & -6 \\
+ViT-L & +0.028 & 21\% & +0.046$\pm$0.002 & -0.018$\pm$0.005 & -7 \\
+DINO-B & -0.008 & 55\% & +0.052$\pm$0.003 & -0.059$\pm$0.005 & -21 \\
+DINOv2-S & -0.020 & 66\% & +0.061$\pm$0.004 & -0.081$\pm$0.008 & -20 \\
+DINOv2-B & -0.049 & 83\% & +0.075$\pm$0.003 & -0.123$\pm$0.005 & -45 \\
+DINOv2-L & -0.068 & 90\% & +0.080$\pm$0.002 & -0.149$\pm$0.004 & -66 \\
+DINOv2-G & -0.070 & 89\% & +0.082$\pm$0.002 & -0.152$\pm$0.004 & -69 \\
+CLIP-B & +0.019 & 32\% & +0.024$\pm$0.002 & -0.005$\pm$0.003 & -3 \\
+CLIP-L & +0.028 & 28\% & +0.032$\pm$0.002 & -0.004$\pm$0.004 & -2 \\
+SigLIP-B & +0.036 & 20\% & +0.031$\pm$0.002 & +0.005$\pm$0.004 & +2 \\
 \bottomrule
 \end{tabular}
-\caption{Parallelogram curvature-sign estimator $\xi$ on reference geometries (top) and ImageNet centroids (bottom), with the spectrum-matched null, excess and $z$-score for each model (3 null replicates): matched nulls have positive $\xi$, so raw readings understate curvature.}
+\caption{Parallelogram curvature-sign estimator $\xi$ on reference geometries (top) and ImageNet centroids (bottom), with the spectrum-matched null, excess and $z$-score for each model (20 null replicates; noise combines null and estimator s.d.): matched nulls have positive $\xi$, so raw readings understate curvature.}
 \label{tab:a10}
 \end{table}

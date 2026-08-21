@@ -258,12 +258,14 @@ print(f"\n{len(checks)-n_fail}/{len(checks)} checks passed")
 # ---------- ROUND-3 additions (appended 22-ago) ----------
 def round3():
     e26 = {r["model"]: r for r in load("exp26_xi_nulls.csv")}
-    chk("xi-null: 10/12 exceso negativo, ViT-T at-null, SigLIP +z",
-        sum(1 for r in e26.values() if float(r["excess"])<0 and abs(float(r["z"]))>2)==10
-        and abs(float(e26["i21k_t"]["z"]))<2 and float(e26["siglip_b"]["z"])>2)
-    chk("xi-exceso Dv2 -0.083->-0.153 monotono", abs(float(e26["dinov2_s"]["excess"])+0.083)<0.003
-        and abs(float(e26["dinov2_g"]["excess"])+0.153)<0.003
-        and float(e26["dinov2_s"]["excess"])>float(e26["dinov2_b"]["excess"])>float(e26["dinov2_l"]["excess"]))
+    chk("xi-null v2: 9/12 exceso negativo, ViT-T y CLIP-L at-null, SigLIP +z",
+        sum(1 for r in e26.values() if float(r["excess"])<0 and abs(float(r["z"]))>2)==9
+        and abs(float(e26["i21k_t"]["z"]))<2 and abs(float(e26["clip_l"]["z"]))<2
+        and float(e26["siglip_b"]["z"])>2)
+    chk("xi-exceso Dv2 -0.081->-0.152 monotono, CI<=0.008", abs(float(e26["dinov2_s"]["excess"])+0.081)<0.003
+        and abs(float(e26["dinov2_g"]["excess"])+0.152)<0.003
+        and float(e26["dinov2_s"]["excess"])>float(e26["dinov2_b"]["excess"])>float(e26["dinov2_l"]["excess"])
+        and max(float(r["ci95"]) for r in e26.values())<=0.0082)
     e2p = {(r["model"],r["dataset"]): r for r in load("exp2_metric_controls.csv")}
     d20p = {(r["model"],r["dataset"]): float(r["delta"]) for r in load("exp20_null_ztable.csv")}
     FLATp = {"fashionmnist","mnist"}

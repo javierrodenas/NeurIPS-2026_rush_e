@@ -17,3 +17,15 @@ clip_l             xi_mean=+0.0280 median=+0.0330 frac_neg=0.276 | cos: +0.0406/
 siglip_b           xi_mean=+0.0356 median=+0.0404 frac_neg=0.200 | cos: +0.0585/+0.0635/0.100
 Done
 i21k_t    xi +0.0270 (fneg 0.25) | null +0.0275±0.0017 (fneg 0.20) | exc -0.0005 z=-0.3 | 64s
+i21k_s    xi +0.0268 (fneg 0.23) | null +0.0422±0.0023 (fneg 0.08) | exc -0.0154 z=-6.5 | 77s
+i21k_b    xi +0.0332 (fneg 0.16) | null +0.0470±0.0023 (fneg 0.05) | exc -0.0138 z=-6.0 | 125s
+i21k_l    xi +0.0283 (fneg 0.21) | null +0.0463±0.0024 (fneg 0.05) | exc -0.0180 z=-7.5 | 153s
+dinov1_b  xi -0.0076 (fneg 0.55) | null +0.0516±0.0027 (fneg 0.07) | exc -0.0592 z=-21.4 | 124s
+dinov2_s  xi -0.0202 (fneg 0.66) | null +0.0612±0.0040 (fneg 0.04) | exc -0.0814 z=-20.1 | 78s
+dinov2_b  xi -0.0486 (fneg 0.83) | null +0.0749±0.0027 (fneg 0.00) | exc -0.1235 z=-45.1 | 122s
+dinov2_l  xi -0.0682 (fneg 0.90) | null +0.0803±0.0022 (fneg 0.00) | exc -0.1485 z=-66.0 | 157s
+dinov2_g  xi -0.0698 (fneg 0.89) | null +0.0819±0.0022 (fneg 0.00) | exc -0.1517 z=-68.8 | 206s
+clip_b    xi +0.0188 (fneg 0.32) | null +0.0243±0.0016 (fneg 0.21) | exc -0.0055 z=-3.1 | 85s
+clip_l    xi +0.0280 (fneg 0.28) | null +0.0321±0.0021 (fneg 0.15) | exc -0.0041 z=-1.9 | 124s
+siglip_b  xi +0.0356 (fneg 0.20) | null +0.0308±0.0019 (fneg 0.15) | exc +0.0048 z=+2.5 | 123s
+Done

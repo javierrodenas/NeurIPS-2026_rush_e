@@ -157,7 +157,7 @@ cv = load("exp12_curvature_sign.csv")
 e26 = {r["model"]: r for r in load("exp26_xi_nulls.csv")}
 lines = [r"\begin{table}[H]", r"\centering", r"\small",
          r"\begin{tabular}{lccccc}", r"\toprule",
-         r"space / model & $\xi$ (mean) & frac.\ negative & null $\xi$ & excess & $z$ \\", r"\midrule"]
+         r"space / model & $\xi$ (mean) & frac.\ negative & null $\xi$ & excess ($\pm$CI95) & $z$ \\", r"\midrule"]
 REF = {"ref_tree_d9":"balanced tree (depth 9)","ref_H2_R6":"$\\mathbb{H}^2$ region ($R{=}6$)",
        "ref_gauss768":"iid Gaussian ($d{=}768$)","ref_sphere_geo":"$S^{d}$ (geodesic)",
        "ref_sphere_chord":"$S^{d}$ (chord)"}
@@ -166,7 +166,7 @@ for r in cv:
     if r["model"] in e26:
         x = e26[r["model"]]
         tail = (f' & {float(x["xi_null"]):+.3f}$\\pm${float(x["xi_null_sd"]):.3f}'
-                f' & {float(x["excess"]):+.3f} & {float(x["z"]):+.0f}')
+                f' & {float(x["excess"]):+.3f}$\\pm${float(x["ci95"]):.3f} & {float(x["z"]):+.0f}')
     else:
         tail = " & --- & --- & ---"
     lines.append(f'{nm} & {float(r["xi_mean"]):+.3f} & {100*float(r["frac_neg"]):.0f}\\%{tail} \\\\')
@@ -175,7 +175,7 @@ for r in cv:
 lines += [r"\bottomrule", r"\end{tabular}",
           r"\caption{Parallelogram curvature-sign estimator $\xi$ on reference geometries "
           r"(top) and ImageNet centroids (bottom), with the spectrum-matched null, excess and "
-          r"$z$-score for each model (3 null replicates): matched nulls have positive $\xi$, so "
+          r"$z$-score for each model (20 null replicates; noise combines null and estimator s.d.): matched nulls have positive $\xi$, so "
           r"raw readings understate curvature. Sources: \texttt{exp12\_curvature\_sign.csv}, "
           r"\texttt{exp26\_xi\_nulls.csv}.}",
           r"\label{tab:a10}", r"\end{table}"]
