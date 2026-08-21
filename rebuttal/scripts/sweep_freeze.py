@@ -292,3 +292,27 @@ def round3():
 round3()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 print(f"[round3 re-total] {len(checks)-n_fail}/{len(checks)}")
+
+# ---------- ROUND-4 additions ----------
+def round4():
+    import json
+    d27 = json.load(open(R/"exp27_dbpedia_treemap.json"))
+    chk("DBpedia map: sin degeneracion, seleccion euclid-average CPCC .705",
+        all(v["maxfrac"]<=0.105 for v in d27.values())
+        and abs(d27["euclid-average"]["cpcc"]-0.705)<0.005
+        and d27["euclid-average"]["cpcc"]==max(v["cpcc"] for v in d27.values()))
+    l2_all = [a for v in d27.values() for a in v["ari_l2"].values()]
+    chk("DBpedia ARI L2 .21-.29 estable, cross .65-.82",
+        0.205<min(l2_all) and max(l2_all)<0.295
+        and 0.64<min(v["cross_model"] for v in d27.values())
+        and max(v["cross_model"] for v in d27.values())<0.83)
+    import csv as _csv
+    diag = json.load(open(R/"exp23_config_diagnostics.json"))
+    adm_in = {k for k,v in diag.items() if k.startswith("imagenet") and v["maxfrac"]<=0.5}
+    adm_c1 = {k for k,v in diag.items() if k.startswith("cifar100") and v["maxfrac"]<=0.5}
+    chk("seleccion reproducible: IN cos-avg, C100 cos-comp",
+        max(adm_in, key=lambda k: diag[k]["cpcc"])=="imagenet|cosine|average"
+        and max(adm_c1, key=lambda k: diag[k]["cpcc"])=="cifar100|cosine|complete")
+round4()
+n_fail = sum(1 for _,ok,_ in checks if not ok)
+print(f"[round4 re-total] {len(checks)-n_fail}/{len(checks)}")

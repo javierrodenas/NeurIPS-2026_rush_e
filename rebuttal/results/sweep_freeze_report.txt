@@ -57,3 +57,4 @@ PASS triplet: 'all genuine' necesita scoping (DINO-B IN -0.004)
 
 56/56 checks passed
 [round3 re-total] 61/61
+[round4 re-total] 64/64

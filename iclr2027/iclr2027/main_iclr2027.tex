@@ -4,7 +4,7 @@
 % Figures included use ONLY clean regenerated data (fig_excess_panel,
 % fig_text_nulls, fig_bestmetric_scatter) or data-independent originals
 % (fig_intro_concept, fig_tree_visualization, fig3_causal). The stale-data
-% originals (fig_scaling, fig_synthesis_pooled, gain bubbles) are NwOT
+% originals (fig_scaling, fig_synthesis_pooled, gain bubbles) are NOT
 % referenced and must be regenerated before any future use.
 % ============================================================
 \documentclass{article}
@@ -186,6 +186,8 @@ Under the selected configurations the island shrinks from categorical to moderat
 Cutting centroid dendrograms recovers the 20 true CIFAR-100 superclasses at ARI up to $0.61$ (four linkage methods; permuted labels $\approx0$). % exp8_p1_recovery.csv
 Three controls bound circularity: WordNet-coherent groupings are more tree-like than random groupings in 11/12 models; single-image (no pooling) distances still correlate with WordNet ($\rho$ up to $+0.26$); and the decoupling above is the opposite of what label injection would produce. % exp1, exp8_p6_pooling.csv
 DINOv2's semantics concentrate in the angular component (sibling triplet agreement $0.91/0.85$ under cosine vs $0.71/0.63$ Euclidean for L/G): strong local-angular semantics, with global taxonomy alignment that is configuration-sensitive and weakest on ImageNet. This angular concentration is also the mechanism behind the naive island above: it is what makes Euclidean dendrograms chain for this family. % exp10_local_vs_global.csv
+
+\paragraph{A non-WordNet control.} ImageNet classes are WordNet synsets, so recovering WordNet there could in principle be circular. Repeating the tree map on DBpedia Classes, a three-level ontology independent of WordNet (219 leaf classes; the three text embedders), closes this door: no configuration degenerates (worst largest-cluster fraction $0.10$, far from the $0.5$ bound; the fixed criterion selects euclid-average, CPCC $0.705$), the embedders recover the true 70-way level-2 partition at ARI $0.22$--$0.27$ \emph{stably across all six configurations} ($0.21$--$0.29$), and they agree with each other at cross-model ARI $0.65$--$0.82$. The recovered hierarchy on a non-WordNet concept set is real, shared, and configuration-robust; the fragility of \S\ref{sec:content} is itself a property of the (family, concept set) pair. % exp27_dbpedia_treemap.json
 
 \paragraph{What is shared, calibrated.} Applying the permutation-calibration of \citet{groger2026aristotelian} to our cross-model measures: local neighborhood agreement survives calibration (mutual-kNN $0.474$ raw over the 66 pairs, null $0.010$, calibrated $0.464$), and, unlike in raw representation space, so does global feature alignment on class centroids (linear CKA $0.636$ raw, permutation null $0.107$, calibrated $0.529$): class centroids distill a genuinely shared relational base, the common human world in which every model separates animals from vehicles. % exp21_local_global.csv
 A separate and independent statement concerns the metric: the Poincar\'{e} reading improves neither agreement (kNN $0.474 \to 0.427$; CKA $0.636 \to 0.644$). Hyperbolic distances buy no cross-model alignment, under any of our measures; this is a fact about the readout metric and holds regardless of how much of the tree is shared.
