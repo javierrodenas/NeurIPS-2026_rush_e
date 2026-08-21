@@ -1,0 +1,22 @@
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{llcc}
+\toprule
+task & dataset & $r$ & CI95 \\
+\midrule
+NC & imagenet & -0.83 & [-0.97, -0.65] \\
+NC & cifar100 & -0.87 & [-0.97, -0.78] \\
+NC & cifar10 & -0.63 & [-0.97, -0.06] \\
+NC & dtd & -0.46 & [-0.90, +0.22] \\
+FS & imagenet & -0.57 & [-0.91, +0.14] \\
+FS & cifar100 & -0.67 & [-0.95, -0.15] \\
+FS & cifar10 & -0.78 & [-0.93, -0.23] \\
+FS & dtd & -0.71 & [-0.94, -0.32] \\
+NC & POOLED(cluster-bs) & -0.45 & [-0.60, -0.36] \\
+FS & POOLED(cluster-bs) & -0.18 & [-0.50, +0.12] \\
+\bottomrule
+\end{tabular}
+\caption{Bootstrap CI95 for the correlations between $\delta_{\text{norm}}$ and the projection advantage (within-dataset: 10k resamples of the 10 models; pooled: cluster bootstrap over datasets). Source: \texttt{night/correlation\_cis.csv}.}
+\label{tab:b5-cis}
+\end{table}
