@@ -25,7 +25,7 @@ aparece, alternativa: Claude la reconstruye aproximada desde los features cachea
 Los candidatos previos ("Grow Their Own Trees", "Form not Content") quedaron
 parcialmente invalidados por el resultado: los supervisados/contrastivos SÍ
 comparten esencialmente un árbol. Actual en el .tex:
-(a) "Whose Tree Does a Foundation Model Grow?" ← recomendado
+(a) "Is There a Platonic Tree? Calibrated Class Geometry in Foundation Models" ← ELEGIDO por Javi 21-ago
 (b) "Whose Tree Is It? Calibrated Tree-Likeness of Class Representations in Foundation Models"
 (c) "The Trees Foundation Models Grow: Calibrated Geometry of Class Representations"
 
