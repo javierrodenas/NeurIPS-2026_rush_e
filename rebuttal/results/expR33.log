@@ -1,0 +1,4 @@
+dinov2_l: delta 0.0809 excA -0.0051 zA -0.4 | excB -0.0306 zB -2.0 (31s)
+i21k_l: delta 0.1053 excA -0.0325 zA -5.0 | excB -0.0390 zB -5.1 (31s)
+clip_b: delta 0.1269 excA -0.0296 zA -6.4 | excB -0.0292 zB -2.4 (26s)
+Done expR33

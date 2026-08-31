@@ -188,3 +188,16 @@ Cuatro experimentos nuevos (scripts en `rebuttal/scripts/expR29-32*.py`, resulta
 | Densidad §5/§6 | Sin resolver del todo (falta de espacio); las tablas B12-B15 absorben parte | parcial |
 
 Para caber en 9 páginas con el material nuevo: la tabla de calibración pasó al Apéndice A.1 (sus números clave quedan inline en §3) y hubo recortes de redacción distribuidos sin tocar cifras. Compila: 22 páginas, texto principal hasta la 9, 0 warnings.
+
+---
+
+## Ronda 2 del revisor simulado (nota 8) — los 6 puntos restantes, resueltos
+
+1. **Abstract sobrevendía el null B** → ahora dice "significant in 14/24 cells, concentrated in CIFAR-100 and the supervised models". (El "5 de 12" del revisor era el −1.95 de ViT-T redondeado en la tabla; el recuento estricto es 4/12 IN + 10/12 C100 = 14/24.)
+2. **Null B usa la taxonomía humana** → frase de alcance (i) en la caption de B13: certifica jerarquía *alineada con WordNet/superclases*; no detectaría jerarquía propia del modelo desalineada.
+3. **"Estable desde 10⁵" no valía en ImageNet** → cierto (DINOv2-L IN deriva −0.024→−0.005; ViT-L y CLIP-B derivan en dirección contraria). Frase de §3 y caption de B15 reescopadas a transfer sets con el caveat de ImageNet explícito. Y **expR33** (nuevo): a presupuesto 4× (2×10⁶) los veredictos del null B en ImageNet persisten — ViT-L zB=−5.1, CLIP-B −2.4, **DINOv2-L −2.0** (la celda rescatada no es artefacto del presupuesto); citado en la caption de B13. El bootstrap de ImageNet requiere el caché por imagen (no está en esta máquina) → nota en B15 y pendiente coautores.
+4. **Discrepancia B13 vs Tabla 3 en ImageNet** → diagnosticada: los `.npy` de `results/centroids/imagenet_train/` difieren del caché del censo **solo para los 4 ViT supervisados** (δ̂ +0.016..+0.025; el resto ±0.003). Caption (ii) de B13 lo declara; dentro de cada fila todo usa los mismos centroides. Pendiente coautores: regenerar la mitad ImageNet de B13 desde el caché canónico.
+5. **Fig. 5 desincronizada** → títulos ahora "within-ds r −0.60..−0.83 (pooled −0.31)" (calculado en `make_figs.py`) y caption remite a B12.
+6. **Limitación (iv)** → añade "the within-dataset δ–gain prediction rests chiefly on DINOv2's scale range".
+
+Compila: 22 páginas, texto principal hasta la 9, 0 warnings, sin `??`.

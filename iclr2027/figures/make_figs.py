@@ -93,9 +93,10 @@ for ax, key, lab in [(axes[0], "fs", "FS"), (axes[1], "nc", "NC")]:
     r_all = pear([p["delta"] for p in pts], [p[key] for p in pts])
     ph = [p for p in pts if p["ds"] in HIER]
     r_h = pear([p["delta"] for p in ph], [p[key] for p in ph])
+    r_ds = [pear([p["delta"] for p in ph if p["ds"] == d], [p[key] for p in ph if p["ds"] == d]) for d in HIER]
     ax.set_xlabel(r"$\hat\delta$ (per model$\times$dataset)", fontsize=7.5)
     ax.set_ylabel(f"best $-$ Euclidean (pp), {lab}", fontsize=7)
-    ax.set_title(f"{lab}: r = {r_all:+.2f} pooled / {r_h:+.2f} hierarchical", fontsize=7.5)
+    ax.set_title(f"{lab}: within-ds r {max(r_ds):+.2f}..{min(r_ds):+.2f} (pooled {r_all:+.2f})", fontsize=7)
     ax.tick_params(labelsize=7)
 hp = [plt.Line2D([], [], marker="o", ls="", color=c, ms=5, label=p) for p, c in COL.items()]
 hm = [plt.Line2D([], [], marker=mk, ls="", color="gray", ms=4.5, label=ds) for ds, mk in MARK.items()]
