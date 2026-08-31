@@ -201,3 +201,13 @@ Para caber en 9 páginas con el material nuevo: la tabla de calibración pasó a
 6. **Limitación (iv)** → añade "the within-dataset δ–gain prediction rests chiefly on DINOv2's scale range".
 
 Compila: 22 páginas, texto principal hasta la 9, 0 warnings, sin `??`.
+
+---
+
+## Ronda 3 (nota 8, aceptar — sostenida): tres menores de redacción, hechos
+
+1. Caption B13: "Two scopes" → "Three scope notes" (eran tres).
+2. Caption B15: fuera la frase de bitácora ("not available on this machine") → "reported on CIFAR-100 and DTD".
+3. Trazabilidad de A.4: comentario de fuente en el .tex (expR29/expR33 + generador + almacén de centroides), ya que el índice de procedencia renderizado se retiró a petición.
+
+Oferta del revisor para la siguiente pasada: solo legibilidad de §5-§6 (siguen densas). Decisión de Javi.
