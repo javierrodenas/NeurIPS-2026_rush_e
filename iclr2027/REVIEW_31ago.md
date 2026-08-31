@@ -240,3 +240,19 @@ Compila: 25 páginas, texto principal hasta la 9, 0 warnings, sin `??`.
 Ajustes de página por el material nuevo: título de §6 acortado ("Corollary: Diagnosing Exploitability"), limitaciones fusionadas (v-vi), recortes menores distribuidos. Compila: texto principal hasta la p. 9, 0 warnings, sin `??`.
 
 **Para coautores**: regenerar las filas † de B13/B18/B20 desde el caché canónico de ImageNet; el resto de pendientes sin cambios.
+
+---
+
+## Revisión 4 (tercer agente, nota 5) — atacada con 2 experimentos + 1 análisis nuevos
+
+- **W1/Q1 (estadístico primario)** → **expR40**: censo completo bajo p99.9 (20 réplicas, Tabla B21). Resultado decisivo: el censo NO depende del supremo — 70/72 negativos (vs 69/72), 40/48 jerárquicos con |z|≥2 (vs 41/48); solo cambia la identidad de las excepciones (ViT-T/IN +0.007 y ViT-B/C100 +0.001 en vez de DINOv2-S/B/G/IN), que es exactamente la historia supremo-vs-grueso ya contada en §4. Con esto, mantener el supremo como primario (pre-registrado, comparable en todo el paper) con p99.9 al lado es defendible con datos; frase añadida en §4.
+- **W2 (¿δ cruda = proxy de rango efectivo/normas?)** → análisis nuevo (participation ratio + CV de normas por celda): el parcial de δ sobrevive within-dataset (−0.41/−0.53/−0.35/−0.20) pero el pooled NO (−0.33→−0.07), y el rango efectivo por sí solo correlaciona +0.99 con la ganancia en ImageNet. Reportado tal cual en §6 ("part of raw δ is spectral; its residual is the within-dataset signal").
+- **W3 (ablaciones en δ cruda)** → los point clouds de pesos aleatorios/FT/capas no están en disco (solo CSVs con δ), así que no se pueden re-puntuar como exceso aquí. Caveat honesto añadido a "The form is learned" (el FT de superclases colapsa el rango efectivo 96→1; el label shuffle es null-invariante). Re-puntuar las ablaciones como exceso → coautores.
+- **Q4 (Holm prometido y ausente)** → cierto; la promesa colgante eliminada del texto ("Per-cell values and z-scores are in Appendix").
+- **W4 (§6 se autodebilita / comprimir)** → ya van 2 de 3 revisores frescos pidiéndolo; sigue siendo decisión de coautores, pero el balance ha cambiado (recomendación: comprimir a ~media página, políticas ya están en apéndice).
+- **W5 (control positivo con MERU/HypViT)** → no ejecutado esta noche: requiere imágenes crudas + código del repo MERU (features no extraíbles desde los cachés). Propuesta concreta para coautores/otra sesión: MERU-ViT-B vs CLIP-B en CIFAR-100/10/DTD (datasets descargables por torchvision).
+- **W6 (iNaturalist)** → coautores (ya en la lista).
+- **W7 (legibilidad; ORC al apéndice)** → parcial una vez más; la sugerencia de mover ORC al apéndice queda anotada como opción de espacio para coautores.
+- **Q3 (dos fuentes de centroides)** → ya documentado en B13(ii)/B18/B20; la Tabla 1 usa la caché del censo salvo la columna p99.9 (almacén, con caveat).
+
+Ajuste de páginas tras integrar W2/W3/B21: limitación (i) duplicada eliminada, (iii)-(v) comprimidas, recortes de palabra en §5/§6. Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??`.

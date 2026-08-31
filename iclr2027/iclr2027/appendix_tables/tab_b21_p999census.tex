@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lcccccccccccc}
+\toprule
+ & \multicolumn{2}{c}{IN} & \multicolumn{2}{c}{C100} & \multicolumn{2}{c}{C10} & \multicolumn{2}{c}{DTD} & \multicolumn{2}{c}{FMNIST} & \multicolumn{2}{c}{MNIST} \\
+model & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r \\
+\midrule
+ViT-T & $+.007$\rlap{$^\dagger$} & 1 & $-.008$ & 15 & $-.051$ & 20 & $-.024$ & 20 & $-.012$ & 11 & $-.041$ & 19 \\
+ViT-S & $-.005$\rlap{$^\dagger$} & 18 & $-.005$ & 15 & $-.090$ & 20 & $-.035$ & 20 & $-.060$ & 20 & $-.051$ & 20 \\
+ViT-B & $-.006$\rlap{$^\dagger$} & 20 & $+.001$ & 12 & $-.083$ & 20 & $-.042$ & 20 & $-.069$ & 20 & $-.041$ & 20 \\
+ViT-L & $-.014$\rlap{$^\dagger$} & 20 & $-.029$ & 20 & $-.096$ & 20 & $-.054$ & 20 & $-.079$ & 20 & $-.060$ & 20 \\
+\midrule
+DINO-B & $-.025$ & 20 & $-.041$ & 20 & $-.094$ & 20 & $-.041$ & 20 & $-.035$ & 18 & $-.058$ & 20 \\
+DINOv2-S & $-.022$ & 20 & $-.047$ & 20 & $-.095$ & 20 & $-.032$ & 20 & $-.061$ & 20 & $-.029$ & 17 \\
+DINOv2-B & $-.026$ & 20 & $-.057$ & 20 & $-.134$ & 20 & $-.057$ & 20 & $-.089$ & 20 & $-.036$ & 18 \\
+DINOv2-L & $-.023$ & 20 & $-.067$ & 20 & $-.154$ & 20 & $-.065$ & 20 & $-.068$ & 20 & $-.032$ & 19 \\
+DINOv2-G & $-.020$ & 20 & $-.073$ & 20 & $-.155$ & 20 & $-.061$ & 20 & $-.075$ & 20 & $-.037$ & 19 \\
+\midrule
+CLIP-B & $-.006$ & 19 & $-.025$ & 20 & $-.071$ & 20 & $-.035$ & 20 & $-.042$ & 19 & $-.028$ & 16 \\
+CLIP-L & $-.011$ & 20 & $-.026$ & 20 & $-.080$ & 20 & $-.039$ & 20 & $-.058$ & 20 & $-.023$ & 15 \\
+SigLIP-B & $-.009$ & 20 & $-.029$ & 20 & $-.088$ & 20 & $-.039$ & 20 & $-.068$ & 20 & $-.067$ & 20 \\
+\bottomrule
+\end{tabular}
+\caption{The full vision p99.9 census with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). Agreement with the 5-replicate census on the 68 directly comparable cells: sign 64/68, significance at $|z|\ge2$ 54/68; 56/72 cells lie below every replicate. $^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (Table~\ref{tab:b13-flatnull}, note ii) and are not directly comparable to Table~\ref{tab:b2-ztable}. The distributional statistic is stricter on supervised ViTs and stronger on DINO/DINOv2 than the supremum (Table~\ref{tab:b18-p999}).}
+\label{tab:b21-p999census}
+\end{table}

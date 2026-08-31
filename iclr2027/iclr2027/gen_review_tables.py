@@ -241,3 +241,42 @@ if f.exists():
       r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (Table~\ref{tab:b13-flatnull}, note ii) and are not directly comparable to Table~\ref{tab:b2-ztable}.}",
       r"\label{tab:b20-census20}",r"\end{table}"]
     (OUT/"tab_b20_census20.tex").write_text("\n".join(lines)+"\n"); print(f"b20 written ({n} cells; agree sign {sign_agree}/{comp}, sig {sig_agree}/{comp})")
+
+# ---- B20: p99.9 census with 20 null replicates (expR39) vs the 5-replicate census ----
+f = RES/"expR40_p999census.csv"
+if f.exists():
+    r39=list(csv.DictReader(open(f)))
+    r20={(a['model'],a['dataset']):a for a in load('exp20_null_ztable.csv')}
+    n=len(r39); sign_agree=0; sig_agree=0; comp=0
+    below_all=sum(float(a['frac_null_above'])==1.0 for a in r39)
+    for a in r39:
+        b=r20.get((a['model'],a['dataset']))
+        if b is None or int(a.get('store_centroids',0))==1: continue
+        comp+=1
+        sign_agree += (float(a['excess'])<0)==(float(b['excess'])<0)
+        sig_agree  += (float(a['z'])<=-2)==(float(b['z'])<=-2)
+    DSH={'imagenet':'IN','cifar100':'C100','cifar10':'C10','dtd':'DTD','fashionmnist':'FMNIST','mnist':'MNIST'}
+    NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
+          "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
+          "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+    by={(a['model'],a['dataset']):a for a in r39}
+    DS=['imagenet','cifar100','cifar10','dtd','fashionmnist','mnist']
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.5pt}",
+      r"\begin{tabular}{l"+"cc"*len(DS)+"}",r"\toprule",
+      " & "+" & ".join(f"\\multicolumn{{2}}{{c}}{{{DSH[d]}}}" for d in DS)+r" \\",
+      r"model & "+" & ".join([r"exc.\ & r"]*len(DS))+r" \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        cs=[]
+        for d in DS:
+            a=by.get((m,d))
+            if a is None: cs+=["--","--"]; continue
+            star = r"\rlap{$^\dagger$}" if int(a.get('store_centroids',0))==1 else ""
+            cs += [f"${float(a['excess']):+.3f}$".replace("0.", ".")+star, f"{round(20*float(a['frac_null_above']))}"]
+        lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{The full vision p99.9 census with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). "
+      f"Agreement with the 5-replicate census on the {comp} directly comparable cells: sign {sign_agree}/{comp}, significance at $|z|\\ge2$ {sig_agree}/{comp}; {below_all}/{n} cells lie below every replicate. "
+      r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (Table~\ref{tab:b13-flatnull}, note ii) and are not directly comparable to Table~\ref{tab:b2-ztable}. The distributional statistic is stricter on supervised ViTs and stronger on DINO/DINOv2 than the supremum (Table~\ref{tab:b18-p999}).}",
+      r"\label{tab:b21-p999census}",r"\end{table}"]
+    (OUT/"tab_b21_p999census.tex").write_text("\n".join(lines)+"\n"); print(f"b21 written ({n} cells; agree sign {sign_agree}/{comp}, sig {sig_agree}/{comp})")
