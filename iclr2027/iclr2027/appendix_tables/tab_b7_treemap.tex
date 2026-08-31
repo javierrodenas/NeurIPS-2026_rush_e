@@ -1,22 +1,23 @@
 \begin{table}[H]
 \centering
 \scriptsize
-\begin{tabular}{llcccccc}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llccccc}
 \toprule
-dataset & config & max-cluster frac.\ & mean CPCC & Dv2-B/L/G vs block & Dv2-S+DINO-B vs block & block internal \\
+dataset & configuration & max frac.\ & CPCC & Dv2-B/L/G vs block & Dv2-S+DINO-B vs block & within block \\
 \midrule
-imagenet & euclid-average (degenerate) & 0.97 & 0.761 & 0.03 & 0.08 & 0.64 \\
-imagenet & euclid-complete (degenerate) & 0.83 & 0.606 & 0.03 & 0.17 & 0.44 \\
+imagenet & euclid-average (deg.) & 0.97 & 0.761 & 0.03 & 0.08 & 0.64 \\
+imagenet & euclid-complete (deg.) & 0.83 & 0.606 & 0.03 & 0.17 & 0.44 \\
 imagenet & euclid-ward & 0.48 & 0.464 & 0.15 & 0.38 & 0.53 \\
-imagenet & cosine-average $\leftarrow$ selected & 0.40 & 0.691 & 0.38 & 0.35 & 0.48 \\
+imagenet & cosine-average (selected) & 0.40 & 0.691 & 0.38 & 0.35 & 0.48 \\
 imagenet & cosine-complete & 0.32 & 0.539 & 0.13 & 0.17 & 0.50 \\
 imagenet & cosine-ward & 0.37 & 0.464 & 0.17 & 0.39 & 0.55 \\
 \midrule
-cifar100 & euclid-average (degenerate) & 0.80 & 0.798 & 0.00 & 0.41 & 0.57 \\
-cifar100 & euclid-complete (degenerate) & 0.66 & 0.722 & 0.17 & 0.40 & 0.54 \\
+cifar100 & euclid-average (deg.) & 0.80 & 0.798 & 0.00 & 0.41 & 0.57 \\
+cifar100 & euclid-complete (deg.) & 0.66 & 0.722 & 0.17 & 0.40 & 0.54 \\
 cifar100 & euclid-ward & 0.33 & 0.534 & 0.37 & 0.65 & 0.63 \\
-cifar100 & cosine-average (degenerate) & 0.53 & 0.777 & 0.30 & 0.54 & 0.58 \\
-cifar100 & cosine-complete $\leftarrow$ selected & 0.39 & 0.698 & 0.39 & 0.51 & 0.63 \\
+cifar100 & cosine-average (deg.) & 0.53 & 0.777 & 0.30 & 0.54 & 0.58 \\
+cifar100 & cosine-complete (selected) & 0.39 & 0.698 & 0.39 & 0.51 & 0.63 \\
 cifar100 & cosine-ward & 0.14 & 0.584 & 0.56 & 0.62 & 0.61 \\
 \bottomrule
 \end{tabular}

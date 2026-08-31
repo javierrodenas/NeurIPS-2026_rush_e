@@ -26,6 +26,8 @@ for f in sorted(TD.glob("tab_*.tex")):
 lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize",
          r"\begin{tabular}{lll}", r"\toprule",
          r"table & generated file & result file(s) \\", r"\midrule"]
+MAIN = (Path(__file__).parent / "main_iclr2027.tex").read_text()
+prov = [x for x in prov if f"appendix_tables/{x[1]}" in MAIN]  # index only tables the paper includes
 for label, stem, files in prov:
     ftex = files.replace("_", r"\_") if files else "(stated in generator)"
     lines.append(rf"\ref{{{label}}} & \texttt{{{stem.replace('_', chr(92)+'_')}}} & \texttt{{{ftex}}} \\")

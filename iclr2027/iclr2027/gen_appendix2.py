@@ -47,7 +47,7 @@ z = {(r["model"], r["dataset"]): r for r in load("exp20_null_ztable.csv")}
 DS = ["imagenet","cifar100","cifar10","dtd","fashionmnist","mnist"]
 DSH = {"imagenet":"IN","cifar100":"C100","cifar10":"C10","dtd":"DTD","fashionmnist":"FMNIST","mnist":"MNIST"}
 M12 = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b","dinov2_l","dinov2_g","clip_b","clip_l","siglip_b"]
-lines = [r"\begin{table}[H]", r"\centering", r"\small",
+lines = [r"\begin{table}[H]", r"\centering", r"\small", r"\setlength{\tabcolsep}{4pt}",
          r"\begin{tabular}{l"+"c"*6+"}", r"\toprule",
          "model & " + " & ".join(DSH[d] for d in DS) + r" \\", r"\midrule"]
 for m in M12:
@@ -138,9 +138,9 @@ print("done")
 import numpy as np, json
 diag = json.load(open(RES/"exp23_config_diagnostics.json"))
 SELECTED = {"imagenet": "cosine-average", "cifar100": "cosine-complete"}
-lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize",
-         r"\begin{tabular}{llcccccc}", r"\toprule",
-         r"dataset & config & max-cluster frac.\ & mean CPCC & Dv2-B/L/G vs block & Dv2-S+DINO-B vs block & block internal \\",
+lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{3pt}",
+         r"\begin{tabular}{llccccc}", r"\toprule",
+         r"dataset & configuration & max frac.\ & CPCC & Dv2-B/L/G vs block & Dv2-S+DINO-B vs block & within block \\",
          r"\midrule"]
 for ds, tag in [("imagenet","summary_in"), ("cifar100","summary_c1")]:
     z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True)[tag].item()
@@ -151,7 +151,7 @@ for ds, tag in [("imagenet","summary_in"), ("cifar100","summary_c1")]:
         metric, link = cfg.split("-")
         d = diag[f"{ds}|{metric}|{link}"]
         deg = d["maxfrac"] > 0.5
-        mark = r" $\leftarrow$ selected" if (cfg == SELECTED[ds] and not deg) else (" (degenerate)" if deg else "")
+        mark = r" (selected)" if (cfg == SELECTED[ds] and not deg) else (" (deg.)" if deg else "")
         lines.append(f"{ds} & {cfg}{mark} & {d['maxfrac']:.2f} & {d['cpcc']:.3f} & "
                      f"{v['big_vs_sup']:.2f} & {v['small_vs_sup']:.2f} & {v['sup_vs_sup']:.2f} \\\\")
     lines.append(r"\midrule")
