@@ -1,0 +1,32 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llcccccc|c}
+\toprule
+model & data & \multicolumn{6}{c|}{excess vs quadruple budget ($10^4$..$2{\times}10^6$)} & p99.9 @$5{\times}10^5$ \\
+\midrule
+ViT-L & IN & $-0.026$ & $-0.024$ & $-0.027$ & $-0.030$ & $-0.034$ & $-0.035$ & $-0.018$ \\
+DINOv2-L & IN & $-0.027$ & $-0.019$ & $-0.024$ & $-0.011$ & $-0.004$ & $-0.005$ & $-0.024$ \\
+CLIP-B & IN & $-0.008$ & $-0.012$ & $-0.023$ & $-0.025$ & $-0.025$ & $-0.031$ & $-0.007$ \\
+ViT-L & C100 & $-0.045$ & $-0.047$ & $-0.047$ & $-0.049$ & $-0.052$ & $-0.053$ & $-0.033$ \\
+DINOv2-L & C100 & $-0.071$ & $-0.055$ & $-0.054$ & $-0.050$ & $-0.052$ & $-0.055$ & $-0.069$ \\
+CLIP-B & C100 & $-0.045$ & $-0.047$ & $-0.050$ & $-0.049$ & $-0.052$ & $-0.051$ & $-0.030$ \\
+ViT-L & DTD & $-0.064$ & $-0.070$ & $-0.076$ & $-0.083$ & $-0.084$ & $-0.084$ & $-0.054$ \\
+DINOv2-L & DTD & $-0.068$ & $-0.072$ & $-0.075$ & $-0.083$ & $-0.084$ & $-0.084$ & $-0.064$ \\
+CLIP-B & DTD & $-0.048$ & $-0.055$ & $-0.059$ & $-0.065$ & $-0.066$ & $-0.066$ & $-0.035$ \\
+\midrule
+\multicolumn{9}{l}{Centroid bootstrap (30 resamples of the per-class images): s.d.\ of the excess} \\
+ViT-L & C100 & \multicolumn{6}{l}{excess $-0.0493$, bootstrap s.d.\ $0.0029$ (30 resamples, 500 images/class)} & \\
+DINOv2-L & C100 & \multicolumn{6}{l}{excess $-0.0493$, bootstrap s.d.\ $0.0022$ (30 resamples, 500 images/class)} & \\
+DINOv2-G & C100 & \multicolumn{6}{l}{excess $-0.0778$, bootstrap s.d.\ $0.0020$ (30 resamples, 500 images/class)} & \\
+CLIP-B & C100 & \multicolumn{6}{l}{excess $-0.0476$, bootstrap s.d.\ $0.0017$ (30 resamples, 500 images/class)} & \\
+ViT-L & DTD & \multicolumn{6}{l}{excess $-0.0803$, bootstrap s.d.\ $0.0049$ (30 resamples, 80 images/class)} & \\
+DINOv2-L & DTD & \multicolumn{6}{l}{excess $-0.0878$, bootstrap s.d.\ $0.0048$ (30 resamples, 80 images/class)} & \\
+DINOv2-G & DTD & \multicolumn{6}{l}{excess $-0.0863$, bootstrap s.d.\ $0.0051$ (30 resamples, 80 images/class)} & \\
+CLIP-B & DTD & \multicolumn{6}{l}{excess $-0.0581$, bootstrap s.d.\ $0.0054$ (30 resamples, 80 images/class)} & \\
+\bottomrule
+\end{tabular}
+\caption{Estimator robustness. Top: the excess is stable once the quadruple budget reaches $10^5$ (the paper uses $5{\times}10^5$), and a 99.9th-percentile variant of the four-point statistic, robust to the supremum, is negative wherever the supremum excess is. Bottom: resampling the per-class images that form each centroid moves the excess by an order of magnitude less than its size.}
+\label{tab:b15-robust}
+\end{table}

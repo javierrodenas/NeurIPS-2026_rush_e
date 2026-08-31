@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc|cccc}
+\toprule
+& \multicolumn{4}{c|}{ImageNet (30 WordNet groups)} & \multicolumn{4}{c}{CIFAR-100 (20 superclasses)} \\
+model & $\hat\delta$ & exc.\ A & exc.\ B & $z_B$ & $\hat\delta$ & exc.\ A & exc.\ B & $z_B$ \\
+\midrule
+ViT-T & $0.140$ & $-0.008$ & $-0.016$ & $-2.0$ & $0.169$ & $-0.043$ & $-0.029$ & $-2.6$ \\
+ViT-S & $0.113$ & $-0.018$ & $-0.028$ & $-3.1$ & $0.157$ & $-0.033$ & $-0.028$ & $-2.2$ \\
+ViT-B & $0.113$ & $-0.026$ & $-0.034$ & $-3.0$ & $0.169$ & $-0.017$ & $-0.020$ & $-1.6$ \\
+ViT-L & $0.101$ & $-0.026$ & $-0.032$ & $-5.1$ & $0.136$ & $-0.048$ & $-0.037$ & $-3.6$ \\
+\midrule
+DINO-B & $0.112$ & $-0.006$ & $-0.016$ & $-1.6$ & $0.114$ & $-0.068$ & $-0.049$ & $-3.1$ \\
+DINOv2-S & $0.119$ & $+0.009$ & $-0.005$ & $-0.4$ & $0.113$ & $-0.053$ & $-0.030$ & $-4.2$ \\
+DINOv2-B & $0.095$ & $+0.005$ & $-0.010$ & $-0.8$ & $0.112$ & $-0.043$ & $-0.010$ & $-2.2$ \\
+DINOv2-L & $0.071$ & $-0.011$ & $-0.034$ & $-3.0$ & $0.098$ & $-0.051$ & $-0.007$ & $-0.7$ \\
+DINOv2-G & $0.079$ & $+0.002$ & $-0.029$ & $-1.5$ & $0.070$ & $-0.079$ & $-0.027$ & $-2.4$ \\
+\midrule
+CLIP-B & $0.123$ & $-0.021$ & $-0.024$ & $-1.9$ & $0.141$ & $-0.047$ & $-0.045$ & $-4.0$ \\
+CLIP-L & $0.121$ & $-0.018$ & $-0.011$ & $-1.3$ & $0.141$ & $-0.043$ & $-0.036$ & $-2.2$ \\
+SigLIP-B & $0.114$ & $-0.019$ & $-0.018$ & $-1.8$ & $0.146$ & $-0.042$ & $-0.031$ & $-2.2$ \\
+\bottomrule
+\end{tabular}
+\caption{Hierarchy-flattening null (null B): each centroid keeps its offset to its superclass hub, while the hub configuration is replaced by a spectrum-matched Gaussian sample of the hubs (5 replicates), so cluster structure is preserved and only the organization \emph{among} clusters is destroyed; null A is the spectrum null of \S\ref{sec:instrument}. Negative excess B ($z_B$ against combined null and estimator noise) is evidence of tree organization among superclass hubs beyond clustering.}
+\label{tab:b13-flatnull}
+\end{table}

@@ -1,0 +1,26 @@
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{llccccc}
+\toprule
+quantity & dataset & pooled $r$ & demeaned $r$ & ViT & DINOv2 & CLIP \\
+\midrule
+NC H$-$R & ImageNet & $-0.83$ & $-0.73$ & $-0.99$ & $-0.77$ & (-1) \\
+ & CIFAR-100 & $-0.87$ & $-0.45$ & $-0.68$ & $-0.33$ & (-1) \\
+ & CIFAR-10 & $-0.63$ & $-0.31$ & $+0.01$ & $-0.98$ & (+1) \\
+ & DTD & $-0.46$ & $-0.57$ & $-0.78$ & $-0.76$ & (+1) \\
+\midrule
+FS H$-$R & ImageNet & $-0.57$ & $-0.73$ & $-0.04$ & $-0.97$ & (-1) \\
+ & CIFAR-100 & $-0.67$ & $-0.63$ & $-0.41$ & $-0.96$ & (+1) \\
+ & CIFAR-10 & $-0.78$ & $-0.64$ & $-0.22$ & $-0.79$ & (-1) \\
+ & DTD & $-0.71$ & $-0.86$ & $-0.95$ & $-0.98$ & (+1) \\
+\midrule
+FS best$-$R & ImageNet & $-0.64$ & $-0.71$ & $-0.57$ & $-0.90$ & (-1) \\
+ & CIFAR-100 & $-0.83$ & $-0.82$ & $-0.58$ & $-0.96$ & (+1) \\
+ & CIFAR-10 & $-0.63$ & $-0.55$ & $-0.26$ & $-0.65$ & (-1) \\
+ & DTD & $-0.60$ & $-0.70$ & $-0.95$ & $-0.88$ & (+1) \\
+\bottomrule
+\end{tabular}
+\caption{Family-identity control for the $\delta_{\text{norm}}$--gain correlations (within dataset, 10 backbones = 3 families with nested scales). Demeaned: both variables centered within family before correlating; ViT/DINOv2: within-family correlations (4 models each); CLIP has only two models, so its within-family value (parenthesized sign) is not informative. The within-dataset prediction survives the family control; pooled cross-dataset correlations of the best-metric advantage do not ($-0.31\to-0.18$ over all 60 cells, $-0.33\to-0.04$ on hierarchical cells) and are therefore family-driven.}
+\label{tab:b12-familycorr}
+\end{table}

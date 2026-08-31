@@ -50,18 +50,21 @@ fams = {"DINOv2 (SSL)": ["dinov2_s","dinov2_b","dinov2_l","dinov2_g"],
         "ViT (Sup.)":   ["i21k_t","i21k_s","i21k_b","i21k_l"]}
 for fam, ms in fams.items():
     col = COL["SSL"] if "DINO" in fam else COL["Supervised"]
-    tr = [np.mean([exc[(m, ds)] for ds in ["cifar100","cifar10","dtd"]]) for m in ms]
-    im = [exc[(m, "imagenet")] for m in ms]
-    ax2.plot(range(len(ms)), tr, "-o", color=col, ms=4, lw=1.4, label=f"{fam}, transfer")
-    ax2.plot(range(len(ms)), im, "--o", color=col, ms=4, lw=1.1, alpha=0.45,
-             label=f"{fam}, ImageNet")
+    for ds in ["cifar100","cifar10","dtd"]:
+        ax2.plot(range(len(ms)), [exc[(m, ds)] for m in ms], "-", marker=MARK[ds],
+                 color=col, ms=3.5, lw=1.0, label=None)
+    ax2.plot(range(len(ms)), [exc[(m, "imagenet")] for m in ms], "--o", color=col,
+             ms=3.5, lw=1.0, alpha=0.45, label=None)
+hd2 = [plt.Line2D([], [], marker=MARK[ds], ls="-", color="gray", ms=3.5, lw=1.0, label=ds)
+       for ds in ["cifar100","cifar10","dtd"]] +       [plt.Line2D([], [], marker="o", ls="--", color="gray", ms=3.5, lw=1.0, alpha=0.6, label="imagenet")] +       [plt.Line2D([], [], ls="-", color=COL["SSL"], lw=1.6, label="DINOv2"),
+       plt.Line2D([], [], ls="-", color=COL["Supervised"], lw=1.6, label="ViT")]
 ax2.axhline(0, color="k", lw=0.8)
 ax2.set_xticks(range(4)); ax2.set_xticklabels(["1\n(smallest)", "2", "3", "4\n(largest)"], fontsize=6.5)
 ax2.set_xlabel("model scale $\\rightarrow$", fontsize=8)
-ax2.set_title("(b) excess deepens with scale", fontsize=7.5)
+ax2.set_title("(b) per-dataset excess vs scale", fontsize=7.5)
 ax2.tick_params(labelsize=7)
-ax2.set_ylim(-0.115, 0.08)
-ax2.legend(fontsize=5.5, frameon=False, loc="upper right", handlelength=1.6)
+ax2.set_ylim(-0.175, 0.09)
+ax2.legend(handles=hd2, fontsize=5.2, frameon=False, loc="upper right", ncol=2, handlelength=1.5, columnspacing=0.7, handletextpad=0.4)
 fig.tight_layout()
 for o in (OUT, OUT.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_excess_panel.pdf"); fig.savefig(o/"fig_excess_panel.png", dpi=200)
 

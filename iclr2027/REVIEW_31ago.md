@@ -160,3 +160,31 @@ Todo compilado con tectonic: **20 páginas, texto principal termina en la 9, cer
 - Recortes adicionales para volver a 9 páginas tras añadir la tabla: intro "two halves", contribuciones 3-4, related work (convergencia), Discussion, Limitations (i)-(ii), §5 (criterio), §6 (frases sueltas). Sin cambios de contenido ni de cifras.
 
 **Sigue pendiente (requiere a coautores):** Fig. 4 regenerada; Fig. 7 regenerada sin "Reality" (script no localizado); enlace anónimo al código en Reproducibility; decidir si Fig. 1 vuelve re-etiquetada.
+
+---
+
+## Nota de numeración (los números de figura de las secciones anteriores son los del borrador original)
+
+Tras retirar la figura de la caverna y mover la visualización al Apéndice B, la numeración compilada es:
+Figure 1 = `fig_excess_panel` · Figure 2 = `fig_text_nulls` · **Figure 3 = `fig3_causal` (ablaciones; la única aún ilegible ×0.30)** · Figure 4 = `fig_treemap_controls` (naive vs. seleccionada) · Figure 5 = `fig_bestmetric_scatter` · **Figure 6 = `fig_tree_visualization` (Apéndice B; nodo "Reality" pendiente, δ viejas ya tapadas)**. La tabla de calibración está ahora en el Apéndice A.1 y la Tabla 1 del texto principal es el censo.
+
+---
+
+## Respuesta a la revisión simulada (31 ago, madrugada) — TODOS los puntos atacados
+
+Cuatro experimentos nuevos (scripts en `rebuttal/scripts/expR29-32*.py`, resultados en `rebuttal/results/expR*.csv`), corridos en esta máquina (los features estaban en `/media/HDD_4TB_2/javi/Platonic`, no en `/home/javi/Platonic` como asumían los scripts viejos; GPU 2080 Ti para GPT-2).
+
+| Punto | Resultado | En el paper |
+|---|---|---|
+| **W1** null que aísle jerarquía de clustering | **expR29**: null que conserva la geometría de cada cluster y sustituye la configuración de hubs por una muestra gaussiana espectro-igualada. 24/24 celdas (IN wn30 + C100) siguen negativas; 14/24 con z<−2 (ViT-L IN −0.032, z=−5.1). En C100 el componente entre-hubs lleva el 56-94 % del exceso para sup./contrastivos y menos para DINOv2 (semántica angular). DINOv2-L en IN: marginal bajo null espectral → significativo bajo el plano (−0.034, z=−3.0) | Párrafo "Hierarchy, not just clusters" en §4; Tabla B13; abstract y contribución 1 mencionan el null; Fig. — |
+| **W2** pseudo-replicación por familia | Demeaned por familia: within-dataset sobrevive (NC −0.31..−0.73; FS −0.63..−0.86; best−R −0.55..−0.82, sostenido por DINOv2); el pooled del mejor-métrica NO (−0.31→−0.18, −0.33→−0.04) | Frases en §6 (dos sitios); Tabla B12 |
+| **W3** ¿sobrevive la emergencia GPT-2 a la plantilla? | **expR30**: 10 plantillas × 4 tamaños con nulls. S: 0/10 genuino (7/10 POR ENCIMA del null); M: 3/10; L: 9/10; XL: 9/10 (incl. gloss_only sin nombres de clase). El orden con la escala es robusto a plantilla; los valores no | Frase "Two scopes" reescrita en §4; Limitation (iii) matizada; Tabla B14 |
+| **W4** desconexión instrumento↔corolario | z pooled predice ≥ δ (NC −0.50 vs −0.45; FS −0.36 vs −0.18); exceso within-transfer −0.55..−0.84; inversión SOLO en ImageNet (la celda anómala DINOv2) | Frase en §6 y en Discussion ("dissociation localized") |
+| **W5** media de excesos incomparables | Tabla 1 con columnas exc. C100/C10/DTD; Fig. 1b con líneas por dataset | hecho |
+| **W6** cuádruplas / percentil | **expR31**: exceso estable desde 10⁵ cuádruplas (sd ≤0.004 salvo la celda at-null); p99.9 conserva todos los signos | Frase en §3; Tabla B15 |
+| **Q4** bootstrap de centroides | **expR32**: sd del exceso 0.002-0.005 con 30 remuestreos (C100 500 img/clase, DTD 80) — un orden por debajo del exceso | Frase en §3; Tabla B15 |
+| Menores | CLIP-L "marginal (z=−1.9)"; GTE-Qwen2 anotado en Fig. 2 + texto ("patterning with the causal-LM scale story"); DINO-B unificado; **§3 corregido**: los centroides de transfer usan el split cacheado completo (500 C100 / 80 DTD / ~6000 MNIST), no "100 por clase" — verificar con coautores que ImageNet sí es 100 | hecho |
+| Recomendación "mover §6 al apéndice" | No seguida (Xbn5/pux6 pidieron utilidad downstream); en su lugar: §6 reformulada como diagnóstico + política (commit anterior) + los resultados W2/W4 arriba | — |
+| Densidad §5/§6 | Sin resolver del todo (falta de espacio); las tablas B12-B15 absorben parte | parcial |
+
+Para caber en 9 páginas con el material nuevo: la tabla de calibración pasó al Apéndice A.1 (sus números clave quedan inline en §3) y hubo recortes de redacción distribuidos sin tocar cifras. Compila: 22 páginas, texto principal hasta la 9, 0 warnings.

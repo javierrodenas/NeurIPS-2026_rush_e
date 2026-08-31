@@ -1,0 +1,23 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+template & GPT-2 S & GPT-2 M & GPT-2 L & GPT-2 XL \\
+\midrule
+photo & $+0.035$\rlap{$^*$} & $-0.026$\rlap{$^*$} & $-0.033$\rlap{$^*$} & $-0.041$\rlap{$^*$} \\
+name\_only & $+0.032$\rlap{$^*$} & $+0.006$ & $-0.018$\rlap{$^*$} & $-0.021$\rlap{$^*$} \\
+image & $+0.028$\rlap{$^*$} & $-0.006$ & $-0.049$\rlap{$^*$} & $-0.040$\rlap{$^*$} \\
+closeup & $+0.008$ & $+0.000$ & $-0.046$\rlap{$^*$} & $-0.040$\rlap{$^*$} \\
+this\_is & $+0.003$ & $+0.005$ & $-0.051$\rlap{$^*$} & $-0.032$\rlap{$^*$} \\
+wild & $+0.002$ & $-0.009$ & $-0.029$\rlap{$^*$} & $-0.017$ \\
+def\_pair & $+0.030$\rlap{$^*$} & $-0.016$\rlap{$^*$} & $-0.019$\rlap{$^*$} & $-0.015$\rlap{$^*$} \\
+gloss\_only & $+0.034$\rlap{$^*$} & $+0.003$ & $-0.013$ & $-0.013$\rlap{$^*$} \\
+concept & $+0.041$\rlap{$^*$} & $+0.016$\rlap{$^*$} & $-0.034$\rlap{$^*$} & $-0.035$\rlap{$^*$} \\
+discussion & $+0.015$\rlap{$^*$} & $-0.020$\rlap{$^*$} & $-0.026$\rlap{$^*$} & $-0.025$\rlap{$^*$} \\
+\bottomrule
+\end{tabular}
+\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline.}
+\label{tab:b14-templates}
+\end{table}

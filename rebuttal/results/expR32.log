@@ -1,0 +1,9 @@
+i21k_l cifar100: ref delta 0.1369 exc -0.0487 | boot sd(delta)=0.0029 sd(exc)=0.0029
+dinov2_l cifar100: ref delta 0.0979 exc -0.0480 | boot sd(delta)=0.0022 sd(exc)=0.0022
+dinov2_g cifar100: ref delta 0.0701 exc -0.0764 | boot sd(delta)=0.0020 sd(exc)=0.0020
+clip_b cifar100: ref delta 0.1425 exc -0.0470 | boot sd(delta)=0.0017 sd(exc)=0.0017
+i21k_l dtd: ref delta 0.0975 exc -0.0830 | boot sd(delta)=0.0048 sd(exc)=0.0049
+dinov2_l dtd: ref delta 0.1020 exc -0.0884 | boot sd(delta)=0.0047 sd(exc)=0.0048
+dinov2_g dtd: ref delta 0.1099 exc -0.0815 | boot sd(delta)=0.0051 sd(exc)=0.0051
+clip_b dtd: ref delta 0.1198 exc -0.0621 | boot sd(delta)=0.0055 sd(exc)=0.0054
+Done expR32
