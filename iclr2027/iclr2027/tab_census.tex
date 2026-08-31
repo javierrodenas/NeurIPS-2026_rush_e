@@ -2,26 +2,26 @@
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2pt}
-\begin{tabular}{l c c c c c c c c c c}
+\begin{tabular}{l c c c c c c c c c c c}
 \toprule
-model & $\delta_{\text{norm}}$ IN & excess IN ($z$) & exc.\ C100 & exc.\ C10 & exc.\ DTD & $\xi$-exc.\ IN & $\rho_{\text{WN}}$ & ARI$_{20}$ & best$-$R & metric \\
+model & $\delta_{\text{norm}}$ IN & exc.\ IN sup.\ ($z$) & p99.9 & exc.\ C100 & exc.\ C10 & exc.\ DTD & $\xi$-exc.\ IN & $\rho_{\text{WN}}$ & ARI$_{20}$ & best$-$R & metric \\
 \midrule
-ViT-T & $.123$ & $-.021$ ($-2.7$) & $-.043$ & $-.059$ & $-.037$ & $-.001$ & $+.52$ & $.33$ & $+.58$ & either \\
-ViT-S & $.097$ & $-.020$ ($-2.3$) & $-.033$ & $-.096$ & $-.052$ & $-.015$ & $+.50$ & $.47$ & $+.49$ & either \\
-ViT-B & $.088$ & $-.028$ ($-3.0$) & $-.017$ & $-.090$ & $-.058$ & $-.014$ & $+.49$ & $.45$ & $+.51$ & either \\
-ViT-L & $.084$ & $-.030$ ($-4.4$) & $-.048$ & $-.098$ & $-.077$ & $-.018$ & $+.53$ & $.48$ & $+.87$ & either \\
+ViT-T & $.123$ & $-.021$ ($-2.7$) & $+.007$ & $-.043$ & $-.059$ & $-.037$ & $-.001$ & $+.52$ & $.33$ & $+.58$ & either \\
+ViT-S & $.097$ & $-.020$ ($-2.3$) & $-.005$ & $-.033$ & $-.096$ & $-.052$ & $-.015$ & $+.50$ & $.47$ & $+.49$ & either \\
+ViT-B & $.088$ & $-.028$ ($-3.0$) & $-.006$ & $-.017$ & $-.090$ & $-.058$ & $-.014$ & $+.49$ & $.45$ & $+.51$ & either \\
+ViT-L & $.084$ & $-.030$ ($-4.4$) & $-.014$ & $-.048$ & $-.098$ & $-.077$ & $-.018$ & $+.53$ & $.48$ & $+.87$ & either \\
 \midrule
-DINO-B & $.113$ & $-.005$ ($-.6$) & $-.068$ & $-.097$ & $-.051$ & $-.059$ & $+.36$ & $.38$ & --- & --- \\
-DINOv2-S & $.119$ & \textbf{$+.012$ ($+1.1$)} & $-.053$ & $-.095$ & $-.040$ & $-.081$ & $+.22$ & $.33$ & $+.68$ & H \\
-DINOv2-B & $.093$ & \textbf{$+.006$ ($+.6$)} & $-.043$ & $-.135$ & $-.068$ & $-.123$ & $+.18$ & $.42$ & $+1.17$ & cos \\
-DINOv2-L & $.071$ & $-.008$ ($-1.1$) & $-.051$ & $-.155$ & $-.078$ & $-.149$ & $+.18$ & $.50$ & $+1.84$ & cos \\
-DINOv2-G & $.081$ & \textbf{$+.004$ ($+.5$)} & $-.079$ & $-.157$ & $-.071$ & $-.152$ & $+.20$ & $.20$ & $+2.54$ & cos \\
+DINO-B & $.113$ & $-.005$ ($-.6$) & $-.025$ & $-.068$ & $-.097$ & $-.051$ & $-.059$ & $+.36$ & $.38$ & --- & --- \\
+DINOv2-S & $.119$ & \textbf{$+.012$ ($+1.1$)} & $-.022$ & $-.053$ & $-.095$ & $-.040$ & $-.081$ & $+.22$ & $.33$ & $+.68$ & H \\
+DINOv2-B & $.093$ & \textbf{$+.006$ ($+.6$)} & $-.026$ & $-.043$ & $-.135$ & $-.068$ & $-.123$ & $+.18$ & $.42$ & $+1.17$ & cos \\
+DINOv2-L & $.071$ & $-.008$ ($-1.1$) & $-.023$ & $-.051$ & $-.155$ & $-.078$ & $-.149$ & $+.18$ & $.50$ & $+1.84$ & cos \\
+DINOv2-G & $.081$ & \textbf{$+.004$ ($+.5$)} & $-.020$ & $-.079$ & $-.157$ & $-.071$ & $-.152$ & $+.20$ & $.20$ & $+2.54$ & cos \\
 \midrule
-CLIP-B & $.120$ & $-.025$ ($-3.1$) & $-.047$ & $-.077$ & $-.059$ & $-.005$ & $+.57$ & $.37$ & $+.67$ & H \\
-CLIP-L & $.118$ & $-.021$ ($-2.3$) & $-.043$ & $-.083$ & $-.049$ & $-.004$ & $+.59$ & $.41$ & $+.65$ & H \\
-SigLIP-B & $.114$ & $-.019$ ($-1.7$) & $-.042$ & $-.091$ & $-.057$ & $+.005$ & $+.58$ & $.37$ & --- & --- \\
+CLIP-B & $.120$ & $-.025$ ($-3.1$) & $-.006$ & $-.047$ & $-.077$ & $-.059$ & $-.005$ & $+.57$ & $.37$ & $+.67$ & H \\
+CLIP-L & $.118$ & $-.021$ ($-2.3$) & $-.011$ & $-.043$ & $-.083$ & $-.049$ & $-.004$ & $+.59$ & $.41$ & $+.65$ & H \\
+SigLIP-B & $.114$ & $-.019$ ($-1.7$) & $-.009$ & $-.042$ & $-.091$ & $-.057$ & $+.005$ & $+.58$ & $.37$ & --- & --- \\
 \bottomrule
 \end{tabular}
-\caption{Calibrated census of the 12 vision backbones (supervised / self-supervised / contrastive). $\delta_{\text{norm}}$: raw ImageNet reading; excess IN: excess over the spectrum-matched null with $z$ (bold: sign-positive, at null); exc.\ C100/C10/DTD: per-dataset excess on the transfer sets (means across datasets are not comparable, \S\ref{sec:form}); $\xi$-excess: curvature-sign excess on ImageNet (negative: hyperbolic-leaning); $\rho_{\text{WN}}$: Spearman correlation with WordNet distances; ARI$_{20}$: recovery of the 20 CIFAR-100 superclasses (selected cosine-complete configuration); best$-$R: few-shot advantage of the best zero-cost metric over Euclidean, mean over the four hierarchical datasets; metric: which of Poincar\'e (H) or cosine collects it (either: within $0.15$pp; ---: outside the 10-model task grid). Per-cell values in Appendix~\ref{app:tables}.}
+\caption{Calibrated census of the 12 vision backbones (supervised / self-supervised / contrastive). $\delta_{\text{norm}}$: raw ImageNet reading; excess IN: excess over the spectrum-matched null with $z$ (bold: sign-positive, at null); p99.9: ImageNet excess under the supremum-robust statistic (20 replicates, Table~\ref{tab:b18-p999}; centroid-store caveat there); exc.\ C100/C10/DTD: per-dataset excess on the transfer sets (means across datasets are not comparable, \S\ref{sec:form}); $\xi$-excess: curvature-sign excess on ImageNet (negative: hyperbolic-leaning); $\rho_{\text{WN}}$: Spearman correlation with WordNet distances; ARI$_{20}$: recovery of the 20 CIFAR-100 superclasses (selected cosine-complete configuration); best$-$R: few-shot advantage of the best zero-cost metric over Euclidean, mean over the four hierarchical datasets; metric: which of Poincar\'e (H) or cosine collects it (either: within $0.15$pp; ---: outside the 10-model task grid). Per-cell values in Appendix~\ref{app:tables}.}
 \label{tab:census}
 \end{table}

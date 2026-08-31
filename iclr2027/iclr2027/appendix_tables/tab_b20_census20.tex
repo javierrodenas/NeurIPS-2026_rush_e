@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lcccccccccccc}
+\toprule
+ & \multicolumn{2}{c}{IN} & \multicolumn{2}{c}{C100} & \multicolumn{2}{c}{C10} & \multicolumn{2}{c}{DTD} & \multicolumn{2}{c}{FMNIST} & \multicolumn{2}{c}{MNIST} \\
+model & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r \\
+\midrule
+ViT-T & $-.005$\rlap{$^\dagger$} & 14 & $-.039$ & 20 & $-.051$ & 20 & $-.042$ & 20 & $-.012$ & 11 & $-.041$ & 19 \\
+ViT-S & $-.019$\rlap{$^\dagger$} & 20 & $-.031$ & 20 & $-.090$ & 20 & $-.055$ & 20 & $-.060$ & 20 & $-.051$ & 20 \\
+ViT-B & $-.024$\rlap{$^\dagger$} & 20 & $-.015$ & 18 & $-.083$ & 20 & $-.061$ & 20 & $-.069$ & 20 & $-.041$ & 20 \\
+ViT-L & $-.027$\rlap{$^\dagger$} & 20 & $-.043$ & 20 & $-.096$ & 20 & $-.082$ & 20 & $-.079$ & 20 & $-.060$ & 20 \\
+\midrule
+DINO-B & $-.005$ & 18 & $-.063$ & 20 & $-.094$ & 20 & $-.057$ & 20 & $-.035$ & 18 & $-.058$ & 20 \\
+DINOv2-S & $+.009$ & 0 & $-.051$ & 20 & $-.095$ & 20 & $-.046$ & 20 & $-.061$ & 20 & $-.029$ & 17 \\
+DINOv2-B & $+.006$ & 0 & $-.042$ & 20 & $-.134$ & 20 & $-.071$ & 20 & $-.089$ & 20 & $-.036$ & 18 \\
+DINOv2-L & $-.011$ & 20 & $-.051$ & 20 & $-.154$ & 20 & $-.081$ & 20 & $-.068$ & 20 & $-.032$ & 19 \\
+DINOv2-G & $+.002$ & 3 & $-.079$ & 20 & $-.155$ & 20 & $-.073$ & 20 & $-.075$ & 20 & $-.037$ & 19 \\
+\midrule
+CLIP-B & $-.023$ & 20 & $-.044$ & 20 & $-.071$ & 20 & $-.062$ & 20 & $-.042$ & 19 & $-.028$ & 16 \\
+CLIP-L & $-.017$ & 20 & $-.038$ & 20 & $-.080$ & 20 & $-.056$ & 20 & $-.058$ & 20 & $-.023$ & 15 \\
+SigLIP-B & $-.017$ & 20 & $-.037$ & 20 & $-.088$ & 20 & $-.062$ & 20 & $-.068$ & 20 & $-.067$ & 20 \\
+\bottomrule
+\end{tabular}
+\caption{The full vision census re-run with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). Agreement with the 5-replicate census on the 68 directly comparable cells: sign 68/68, significance at $|z|\ge2$ 62/68; 56/72 cells lie below every replicate. $^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (Table~\ref{tab:b13-flatnull}, note ii) and are not directly comparable to Table~\ref{tab:b2-ztable}.}
+\label{tab:b20-census20}
+\end{table}

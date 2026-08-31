@@ -228,3 +228,15 @@ Oferta del revisor para la siguiente pasada: solo legibilidad de §5-§6 (siguen
 - **No seguido**: comprimir §6 a media página (conflicto entre revisores; decisión de coautores). **Pendiente coautores**: censo a ≥30 réplicas, iNaturalist (Q5), bootstrap ImageNet.
 
 Compila: 25 páginas, texto principal hasta la 9, 0 warnings, sin `??`.
+
+---
+
+## Respuesta post-revisión (condición 6→8): reconciliación de ImageNet + censo a 20 réplicas
+
+**Reconciliación del relato de ImageNet** (la condición del revisor, ~12 ediciones): la excepción del censo ya no se cuenta como "DINOv2 at null" sino como *supremum-specific*: §4 lo resuelve explícitamente ("DINOv2's ImageNet tree is real, in the bulk of its four-point distribution and among its own clusters; only the supremum read in the WordNet frame sits at null"), §5 lo pliega en forma-vs-contenido ("a real tree, least aligned with WordNet's top level"), y todas las frases "at null" (abstract-fig.1-ORC-§6-§7) quedan escopadas al supremo. La Tabla 1 muestra ahora el exceso supremo (z) **y la columna p99.9** lado a lado. La tensión δ/ξ se cierra igual (norm structure, expR38); caption de B19 con el resultado explícito.
+
+**Censo a ≥20 réplicas** (segunda condición): **expR39** — las 72 celdas con 20 réplicas y rangos percentiles (Tabla B20): reproduce el censo de 5 réplicas con **signo 68/68** y significancia 62/68 en las celdas comparables; 56/72 por debajo de las 20 réplicas; mismas tres excepciones (DINOv2-S/B/G en IN). Los 4 ViT-ImageNet van marcados († almacén de centroides; no comparables directos con la Tabla 3). Frase en §3.
+
+Ajustes de página por el material nuevo: título de §6 acortado ("Corollary: Diagnosing Exploitability"), limitaciones fusionadas (v-vi), recortes menores distribuidos. Compila: texto principal hasta la p. 9, 0 warnings, sin `??`.
+
+**Para coautores**: regenerar las filas † de B13/B18/B20 desde el caché canónico de ImageNet; el resto de pendientes sin cambios.
