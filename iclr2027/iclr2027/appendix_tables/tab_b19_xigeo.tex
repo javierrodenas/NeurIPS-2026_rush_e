@@ -1,0 +1,26 @@
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+model & $\xi_{\text{geo}}$ & frac.\ neg.\ & excess & $z$ \\
+\midrule
+ViT-T & $+0.031$ & $0.24$ & $-0.0048$ & $-2.7$ \\
+ViT-S & $+0.065$ & $0.08$ & $+0.0092$ & $+6.2$ \\
+ViT-B & $+0.067$ & $0.07$ & $+0.0144$ & $+10.5$ \\
+ViT-L & $+0.074$ & $0.04$ & $+0.0113$ & $+7.9$ \\
+\midrule
+DINO-B & $+0.085$ & $0.05$ & $+0.0014$ & $+1.0$ \\
+DINOv2-S & $+0.100$ & $0.02$ & $+0.0033$ & $+2.3$ \\
+DINOv2-B & $+0.108$ & $0.01$ & $+0.0046$ & $+4.9$ \\
+DINOv2-L & $+0.108$ & $0.01$ & $+0.0040$ & $+3.9$ \\
+DINOv2-G & $+0.094$ & $0.01$ & $-0.0114$ & $-12.5$ \\
+\midrule
+CLIP-B & $+0.025$ & $0.28$ & $-0.0129$ & $-7.1$ \\
+CLIP-L & $+0.033$ & $0.25$ & $-0.0120$ & $-4.8$ \\
+SigLIP-B & $+0.051$ & $0.14$ & $+0.0025$ & $+1.2$ \\
+\bottomrule
+\end{tabular}
+\caption{$\xi$ on the angular geometry: centroids L2-normalized, distances the spherical geodesic, spectrum null built on the normalized cloud and re-normalized (20 replicates; ImageNet centroid store). Probes whether the deep negative $\xi$-excess of DINOv2 on ImageNet (Table~\ref{tab:a10}) is a norm-structure effect: if it persists here, the tree signal lives in the angular component as well.}
+\label{tab:b19-xigeo}
+\end{table}

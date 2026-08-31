@@ -1,0 +1,13 @@
+i21k_t    p999 0.1004 null 0.0935 exc +0.0069 z +1.3 null-above 0.05 (10s)
+i21k_s    p999 0.0790 null 0.0838 exc -0.0048 z -1.1 null-above 0.85 (17s)
+i21k_b    p999 0.0814 null 0.0878 exc -0.0065 z -1.8 null-above 1.00 (45s)
+i21k_l    p999 0.0686 null 0.0825 exc -0.0139 z -4.3 null-above 1.00 (80s)
+dinov1_b  p999 0.0543 null 0.0790 exc -0.0247 z -10.9 null-above 1.00 (60s)
+dinov2_s  p999 0.0533 null 0.0753 exc -0.0220 z -16.1 null-above 1.00 (34s)
+dinov2_b  p999 0.0350 null 0.0606 exc -0.0256 z -33.1 null-above 1.00 (64s)
+dinov2_l  p999 0.0318 null 0.0552 exc -0.0235 z -42.2 null-above 1.00 (61s)
+dinov2_g  p999 0.0316 null 0.0520 exc -0.0203 z -37.9 null-above 1.00 (109s)
+clip_b    p999 0.0867 null 0.0928 exc -0.0061 z -1.6 null-above 0.95 (40s)
+clip_l    p999 0.0762 null 0.0876 exc -0.0114 z -3.1 null-above 1.00 (42s)
+siglip_b  p999 0.0758 null 0.0848 exc -0.0090 z -2.7 null-above 1.00 (41s)
+Done expR34

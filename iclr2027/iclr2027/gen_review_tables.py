@@ -114,3 +114,91 @@ if f1.exists() and f2.exists():
       r"\caption{Estimator robustness. Top: on CIFAR-100 and DTD the excess is stable once the quadruple budget reaches $10^5$ (the paper uses $5{\times}10^5$); on ImageNet ($C{=}1000$) every sign holds at every budget but magnitudes drift by up to $0.02$ (DINOv2-L toward its null, ViT-L and CLIP-B away from it), so ImageNet excess magnitudes carry a budget caveat. The 99.9th-percentile variant of the four-point statistic, robust to the supremum, is negative wherever the supremum excess is. Bottom: resampling the per-class images that form each centroid (reported on CIFAR-100 and DTD) moves the excess by an order of magnitude less than its size.}",
       r"\label{tab:b15-robust}",r"\end{table}"]
     (OUT/"tab_b15_robust.tex").write_text("\n".join(lines)+"\n"); print("b15 written")
+
+# ---- B16: data-driven (k-means) hub null (expR36) ----
+f = RES/"expR36_kmeans_hubs.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
+          "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
+          "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+    by={(a['model'],a['dataset']):a for a in rows}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\setlength{\tabcolsep}{5pt}",
+      r"\begin{tabular}{lcc|cc}",r"\toprule",
+      r"& \multicolumn{2}{c|}{ImageNet ($k{=}30$)} & \multicolumn{2}{c}{CIFAR-100 ($k{=}20$)} \\",
+      r"model & exc.\ B$_{\text{km}}$ & $z$ & exc.\ B$_{\text{km}}$ & $z$ \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        cs=[]
+        for ds in ("imagenet","cifar100"):
+            a=by.get((m,ds))
+            cs += ["--","--"] if a is None else [f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.1f}$"]
+        lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{Hierarchy-flattening null with \emph{data-driven} hubs: as Table~\ref{tab:b13-flatnull}, but the hubs are $k$-means clusters of each model's own centroids ($k{=}30$/$20$, restarts fixed), so no human taxonomy enters the construction. All 24 cells remain sign-negative (16/24 at $|z|\ge2$), and DINOv2-L/G on ImageNet, at their spectrum null and marginal under WordNet hubs, are strongly tree-organized among their own clusters ($z=-4.4$/$-4.6$): the scope note of Table~\ref{tab:b13-flatnull} is addressed empirically.}",
+      r"\label{tab:b16-kmhubs}",r"\end{table}"]
+    (OUT/"tab_b16_kmhubs.tex").write_text("\n".join(lines)+"\n"); print(f"b16 written ({len(rows)} cells)")
+
+# ---- B17: sample-level census (expR37) ----
+f = RES/"expR37_sample_level.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
+          "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
+          "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+    by={(a['model'],a['dataset']):a for a in rows}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\setlength{\tabcolsep}{5pt}",
+      r"\begin{tabular}{lccc|ccc}",r"\toprule",
+      r"& \multicolumn{3}{c|}{CIFAR-100 (10/class)} & \multicolumn{3}{c}{DTD (22/class)} \\",
+      r"model & raw $\hat\delta$ & excess & $z$ & raw $\hat\delta$ & excess & $z$ \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        cs=[]
+        for ds in ("cifar100","dtd"):
+            a=by.get((m,ds))
+            cs += ["--","--","--"] if a is None else [f"${float(a['delta']):.3f}$", f"${float(a['excess']):+.4f}$", f"${float(a['z']):+.1f}$"]
+        lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{The instrument transplanted to sample-level features, the object of prior latent-hyperbolicity readings ($\approx$1000 stratified training images per cell, spectrum-matched nulls). Raw sample-level $\hat\delta$ sits in the same low band those works report, but the excess is mostly within null noise (6/24 cells at $|z|\ge2$; DINOv2 on DTD is sign-\emph{positive}): raw sample-level readings are confounded exactly as raw centroid readings are, and the genuine tree excess of the census is a statement about \emph{inter-class} geometry.}",
+      r"\label{tab:b17-samplelevel}",r"\end{table}"]
+    (OUT/"tab_b17_samplelevel.tex").write_text("\n".join(lines)+"\n"); print(f"b17 written ({len(rows)} cells)")
+
+# ---- B18: p99.9 ImageNet column with 20 null replicates + percentile ranks (expR34) ----
+f = RES/"expR34_p999_imagenet.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
+          "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
+          "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+    by={a['model']:a for a in rows}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcccc}",r"\toprule",
+      r"model & p99.9 $\hat\delta$ & excess & $z$ & null reps above real \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        a=by.get(m)
+        if a is None: lines.append(NAME[m]+r" & -- & -- & -- & -- \\"); continue
+        lines.append(f"{NAME[m]} & ${float(a['p999']):.3f}$ & ${float(a['excess']):+.4f}$ & ${float(a['z']):+.1f}$ & {round(20*float(a['frac_null_above']))}/20 \\\\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{The ImageNet census under the supremum-robust statistic: 99.9th percentile of the four-point defect, 20 spectrum-null replicates, with the percentile rank (how many replicates exceed the real value; 20/20 = below every replicate). The ordering shifts relative to the supremum: DINO/DINOv2 carry the most budget-robust excess, while ViT-T's supremum excess does not survive ($+0.007$, above 19/20 replicates), consistent with the curvature-sign ordering of Table~\ref{tab:a10}. Large $|z|$ should be read as ``below every replicate'', not as a Gaussian tail probability.}",
+      r"\label{tab:b18-p999}",r"\end{table}"]
+    (OUT/"tab_b18_p999.tex").write_text("\n".join(lines)+"\n"); print(f"b18 written ({len(rows)} models)")
+
+# ---- B19: xi on the angular geometry (expR38) ----
+f = RES/"expR38_xi_angular.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
+          "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
+          "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+    by={a['model']:a for a in rows}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcccc}",r"\toprule",
+      r"model & $\xi_{\text{geo}}$ & frac.\ neg.\ & excess & $z$ \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        a=by.get(m)
+        if a is None: lines.append(NAME[m]+r" & -- & -- & -- & -- \\"); continue
+        lines.append(f"{NAME[m]} & ${float(a['xi_geo']):+.3f}$ & ${float(a['frac_neg']):.2f}$ & ${float(a['excess']):+.4f}$ & ${float(a['z']):+.1f}$ \\\\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{$\xi$ on the angular geometry: centroids L2-normalized, distances the spherical geodesic, spectrum null built on the normalized cloud and re-normalized (20 replicates; ImageNet centroid store). Probes whether the deep negative $\xi$-excess of DINOv2 on ImageNet (Table~\ref{tab:a10}) is a norm-structure effect: if it persists here, the tree signal lives in the angular component as well.}",
+      r"\label{tab:b19-xigeo}",r"\end{table}"]
+    (OUT/"tab_b19_xigeo.tex").write_text("\n".join(lines)+"\n"); print(f"b19 written ({len(rows)} models)")

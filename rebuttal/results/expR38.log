@@ -1,0 +1,13 @@
+i21k_t    xi_geo +0.0308 fneg 0.24 null +0.0356 exc -0.0048 z -2.7 (18s)
+i21k_s    xi_geo +0.0649 fneg 0.08 null +0.0557 exc +0.0092 z +6.2 (26s)
+i21k_b    xi_geo +0.0665 fneg 0.07 null +0.0521 exc +0.0144 z +10.5 (44s)
+i21k_l    xi_geo +0.0739 fneg 0.04 null +0.0625 exc +0.0113 z +7.9 (46s)
+dinov1_b  xi_geo +0.0849 fneg 0.05 null +0.0835 exc +0.0014 z +1.0 (31s)
+dinov2_s  xi_geo +0.0999 fneg 0.02 null +0.0966 exc +0.0033 z +2.3 (16s)
+dinov2_b  xi_geo +0.1077 fneg 0.01 null +0.1031 exc +0.0046 z +4.9 (24s)
+dinov2_l  xi_geo +0.1076 fneg 0.01 null +0.1036 exc +0.0040 z +3.9 (28s)
+dinov2_g  xi_geo +0.0937 fneg 0.01 null +0.1052 exc -0.0114 z -12.5 (35s)
+clip_b    xi_geo +0.0252 fneg 0.28 null +0.0381 exc -0.0129 z -7.1 (11s)
+clip_l    xi_geo +0.0328 fneg 0.25 null +0.0448 exc -0.0120 z -4.8 (17s)
+siglip_b  xi_geo +0.0508 fneg 0.14 null +0.0483 exc +0.0025 z +1.2 (15s)
+Done expR38

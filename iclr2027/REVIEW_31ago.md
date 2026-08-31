@@ -211,3 +211,20 @@ Compila: 22 páginas, texto principal hasta la 9, 0 warnings, sin `??`.
 3. Trazabilidad de A.4: comentario de fuente en el .tex (expR29/expR33 + generador + almacén de centroides), ya que el índice de procedencia renderizado se retiró a petición.
 
 Oferta del revisor para la siguiente pasada: solo legibilidad de §5-§6 (siguen densas). Decisión de Javi.
+
+---
+
+## Revisión "desde cero" (segundo agente; nota 6, subiría a 8 con W1-W2-W5) — atacada con 5 experimentos nuevos
+
+- **W1/Q3** → **expR34**: ImageNet re-puntuado con p99.9 + 20 réplicas + rangos percentiles (Tabla B18); reordena honestamente (DINO/DINOv2 por debajo de las 20 réplicas; el exceso de ViT-T era del supremo) y coincide con el orden de ξ. Frase en §4.
+- **W2 (z con 5 réplicas)** → §3: |z| grande se lee como "por debajo de todas las réplicas", no cola gaussiana; B18 aporta la versión de 20 réplicas. Pendiente coautores: censo completo a ≥30 réplicas desde el caché canónico.
+- **W3** → "genuine" definido como relativo al null en §3 + tabla A.2 nueva (qué conserva/destruye cada null).
+- **W4** → abstract añade "41/48 beyond 2σ on hierarchical datasets" junto al 14/24.
+- **W5** → **expR37**: instrumento sobre features a nivel muestra (el objeto de Khrulkov/Yang): δ crudos en la misma banda baja, excesos casi todos en ruido (6/24 con |z|≥2; DINOv2/DTD positivo). Tabla B17 + related work reescrito ("our census is about inter-class geometry") + enlace desde §6.
+- **Q4** → **expR36**: null plano con hubs k-means de los propios centroides (sin taxonomía humana): 24/24 negativos, 16/24 |z|≥2, DINOv2-L/G en ImageNet a −4.4/−4.6. Tabla B16 + §4.
+- **Q2** → **expR38** (ξ vectorizado): en geometría angular el ξ negativo de DINOv2-S/B/L NO sobrevive (pasan a positivo); G sigue negativo (−12.5) y CLIP también. Tabla B19 + limitación (viii): la celda "no resuelta" se estrecha a efecto de normas.
+- **Q1** → pooling detallado en el apéndice del panel (timm `num_classes=0`; last-token causal; pooling por embedder).
+- **W7** → definición de *cell*, fórmula de ξ en el apéndice, nota de que el no-alineamiento cross-model bajo ϕ es esperable. Densidad §5-§6: parcial (limitada por espacio).
+- **No seguido**: comprimir §6 a media página (conflicto entre revisores; decisión de coautores). **Pendiente coautores**: censo a ≥30 réplicas, iNaturalist (Q5), bootstrap ImageNet.
+
+Compila: 25 páginas, texto principal hasta la 9, 0 warnings, sin `??`.
