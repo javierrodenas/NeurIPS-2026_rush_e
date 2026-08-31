@@ -141,3 +141,22 @@ Hecho en `main_iclr2027.tex` y `appendix_tables/` (compila con tectonic: **20 p�
 Copia de seguridad del `.tex` original: scratchpad de la sesión (`main_iclr2027.tex.bak`); el diff completo está en `git diff`.
 
 **Pendiente (decisiones de autor, no tocado):** A3 tabla resumen en el texto principal (hay ~0 líneas de margen: habrá que pagarla con más recortes en §5 o quitando Fig. 1); A4 Fig. 1 artwork viejo; B8 reformular §6/contribución 4; B9 Fig. 5 naive vs corregida; B11 OpenCLIP/MetaCLIP en el panel; C legibilidad de Figs. 2/4/6; 14-15 Fig. 3 anotación y Fig. 2b caption.
+
+---
+
+## Estado tras la pasada de pendientes (31 ago, noche)
+
+Todo compilado con tectonic: **20 páginas, texto principal termina en la 9, cero warnings**. Commit anterior: `79da833`.
+
+- **A3 tabla resumen en el texto principal**: ✅ nueva Tabla 2 (`tab_census.tex`, generada por `gen_main_table.py` desde exp20/exp26/exp3/exp28/exp2): 12 backbones × {δ̂ IN, exceso IN (z), exceso transfer, ξ-exceso, ρ_WN, ARI₂₀, mejor métrica − R (FS), métrica}. Referenciada desde §4, §5 y §6.
+- **A4 Fig. 1 (artwork viejo)**: ✅ retirada del paper (opción B de COAUTHOR_TASKS); el fichero sigue en `figures/` por si se re-etiqueta. La frase de la intro que la citaba se reescribió.
+- **B8 §6 / contribución 4**: ✅ reformulado como *diagnóstico + política*: contribución 4, abstract (3), frase de la intro, título de §6 ("A Diagnostic of Exploitability, and a Modest Policy"), párrafo de apertura, y "Which metric collects the gain" reordenado (abre con validation pick / objective rule, cierra con el negativo δ-gated en un párrafo propio "What the diagnostic is, and is not"). Ninguna cifra cambia.
+- **B9 Fig. 5 naive vs. corregida**: ✅ nueva `fig_treemap_controls.pdf` (`iclr2027/figures/make_treemap_fig.py`, desde las matrices ARI por configuración de exp23): (a) ImageNet naive, (b) ImageNet cosine-average, (c) CIFAR-100 naive, (d) CIFAR-100 cosine-complete, con el ARI medio DINOv2-B/L/G vs bloque sobre cada panel (0.03 → 0.38; 0.00 → 0.39). Sustituye a la figura naive; caption nuevo. Además la sensibilidad del umbral ya estaba en A.5.
+- **B11 OpenCLIP/MetaCLIP**: ✅ fuera de la Tabla A.1 y de la frase de §3 (no hay resultados calibrados); el TODO-coauthors queda resuelto: censo 12 visión × 6 + 16 texto; malla de tareas 10 visión (sin DINO-B ni SigLIP-B).
+- **C legibilidad**: ✅ Figs. 2, 3 y 6 regeneradas a 5.5 in de ancho con fuentes 6.5-8 pt (`make_figs.py`, `fig_text_nulls.py`; rutas ahora relativas al repo, con `PLATONIC_RESULTS` como override). ⚠️ **Fig. 4 (ablaciones) no se puede regenerar aquí**: el script de 4 paneles y los datos de la curva por capas no están en el repo (`figures_archive/gen_fig3_causal.py` es una versión antigua de 3 paneles). Queda para coautores: regenerar a `figsize=(5.5, 1.7)` con fuentes ≥ 7 pt.
+- **14 Fig. 3 anotación**: ✅ reubicada (ya no tapa Pythia). **15 Fig. 2b**: ✅ caption dice "mean over the three hierarchical transfer datasets"; el texto cita también la media de transfer (−0.063 → −0.103).
+- **12 Fig. 7 δ viejas**: ✅ tapadas con `overpic` (cajas blancas sobre "δ = 0.107 / 0.076"); el nodo "Reality" sigue (necesita el script fuente).
+- **Menores**: ✅ "5 null replicates for δ, 20 for ξ"; exp19 "means over 5 draws"; frase de Related Work suavizada.
+- Recortes adicionales para volver a 9 páginas tras añadir la tabla: intro "two halves", contribuciones 3-4, related work (convergencia), Discussion, Limitations (i)-(ii), §5 (criterio), §6 (frases sueltas). Sin cambios de contenido ni de cifras.
+
+**Sigue pendiente (requiere a coautores):** Fig. 4 regenerada; Fig. 7 regenerada sin "Reality" (script no localizado); enlace anónimo al código en Reproducibility; decidir si Fig. 1 vuelve re-etiquetada.
