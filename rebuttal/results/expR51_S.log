@@ -1,0 +1,31 @@
+/home/javi/anaconda3/lib/python3.8/site-packages/torch/functional.py:512: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at ../aten/src/ATen/native/TensorShape.cpp:3587.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+2026-09-01 20:10:51.807 | INFO     | meru.utils.checkpointing:load:142 - Rank 0: Loading checkpoint from /media/HDD_4TB_2/javi/hf_cache/meru/meru_vit_s.pth
+2026-09-01 20:10:59.114 | INFO     | meru.utils.checkpointing:load:152 - Rank 0: Loading model from /media/HDD_4TB_2/javi/hf_cache/meru/meru_vit_s.pth
+2026-09-01 20:10:59.176 | INFO     | meru.utils.checkpointing:load:161 - Rank 0: optimizer not found in `checkpointables`.
+2026-09-01 20:10:59.177 | INFO     | meru.utils.checkpointing:load:161 - Rank 0: scheduler not found in `checkpointables`.
+2026-09-01 20:10:59.177 | INFO     | meru.utils.checkpointing:load:161 - Rank 0: scaler not found in `checkpointables`.
+loaded meru_s (14s)
+  extracted meru_s cifar100: 50000 images (32s)
+  extracted meru_s cifar100 text: 100 prompts
+  extracted meru_s imagenet: 50000 images (343s)
+  extracted meru_s imagenet text: 1000 prompts
+2026-09-01 20:17:18.683 | INFO     | meru.utils.checkpointing:load:142 - Rank 0: Loading checkpoint from /media/HDD_4TB_2/javi/hf_cache/meru/clip_vit_s.pth
+2026-09-01 20:17:26.867 | INFO     | meru.utils.checkpointing:load:152 - Rank 0: Loading model from /media/HDD_4TB_2/javi/hf_cache/meru/clip_vit_s.pth
+2026-09-01 20:17:27.048 | INFO     | meru.utils.checkpointing:load:161 - Rank 0: optimizer not found in `checkpointables`.
+2026-09-01 20:17:27.049 | INFO     | meru.utils.checkpointing:load:161 - Rank 0: scheduler not found in `checkpointables`.
+2026-09-01 20:17:27.049 | INFO     | meru.utils.checkpointing:load:161 - Rank 0: scaler not found in `checkpointables`.
+loaded clip_s (10s)
+  extracted clip_s cifar100: 50000 images (49s)
+  extracted clip_s cifar100 text: 100 prompts
+  extracted clip_s imagenet: 50000 images (106s)
+  extracted clip_s imagenet text: 1000 prompts
+meru_s  cifar100  image K=20 delta 0.1630 excA -0.0397 (z -3.0) | excB -0.0228 star -0.0454 depth +0.0226 (z +1.7) | native 0.1630 raw 0.1598 | ARI ward 0.41 avg 0.27 (14s)
+meru_s  cifar100  text  K=20 delta 0.1339 excA -0.0386 (z -3.7) | excB -0.0077 star -0.0338 depth +0.0260 (z +2.6) | native 0.1336 raw 0.1337 | ARI ward 0.61 avg 0.28 (14s)
+meru_s  imagenet  image K=30 delta 0.1282 excA -0.0241 (z -2.5) | excB -0.0151 star -0.0115 depth -0.0036 (z -0.4) | native 0.1280 raw 0.1291 | ARI ward 0.22 avg 0.46 (64s)
+meru_s  imagenet  text  K=30 delta 0.1339 excA -0.0010 (z -0.1) | excB +0.0019 star -0.0029 depth +0.0047 (z +0.5) | native 0.1336 raw 0.1362 | ARI ward 0.14 avg 0.31 (68s)
+clip_s  cifar100  image K=20 delta 0.1409 excA -0.0588 (z -4.9) | excB -0.0419 star -0.0412 depth -0.0007 (z -0.1) | native 0.1396 raw 0.1401 | ARI ward 0.37 avg 0.27 (14s)
+clip_s  cifar100  text  K=20 delta 0.1276 excA -0.0420 (z -4.3) | excB -0.0086 star -0.0298 depth +0.0212 (z +1.7) | native 0.1390 raw 0.1280 | ARI ward 0.47 avg 0.18 (15s)
+clip_s  imagenet  image K=30 delta 0.1258 excA -0.0246 (z -2.7) | excB -0.0168 star -0.0118 depth -0.0050 (z -0.5) | native 0.1514 raw 0.1184 | ARI ward 0.23 avg 0.45 (34s)
+clip_s  imagenet  text  K=30 delta 0.1381 excA +0.0087 (z +0.8) | excB +0.0093 star -0.0015 depth +0.0107 (z +0.9) | native 0.1554 raw 0.1292 | ARI ward 0.14 avg 0.10 (34s)
+done

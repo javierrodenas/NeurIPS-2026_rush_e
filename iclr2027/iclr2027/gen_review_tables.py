@@ -446,3 +446,26 @@ if f.exists():
           r"\caption{Star-calibrated depth test (excess B, Haar construction). For each backbone the class centroids are compared with a \emph{matched star}: $K$ Gaussian hubs with the real hubs' RMS radius and, around each hub, an isotropic Gaussian cloud with that superclass's real within-cluster RMS spread (same $n$, $d$, $K$ and cluster sizes; 3 star seeds). ``real'' and ``star'' are excesses of $\hat\delta$ over the hub-randomizing null (each cluster kept intact, hubs replaced by a Haar-rotated sample with the hubs' exact spectrum, 10 replicates), which has a small star bias of its own; ``depth'' is their difference (real minus star; negative = more tree-like than a matched star), with $z$ against the combined star, null and estimator spread. On ImageNet only DINOv2-L exceeds its matched star beyond two spreads ($z{=}-2.5$; DINOv2-G $-1.7$, all others $|z|\le1.6$); on CIFAR-100 every backbone is \emph{less} tree-like than its matched star. The excess of \S\ref{sec:form} is therefore accounted for by clustered, star-like organization; residual depth is at most marginal.}",
           r"\label{tab:b29-depth}",r"\end{table}"]
         (OUT/"tab_b29_depth.tex").write_text("\n".join(lines)+"\n"); print(f"b29 written ({len(rows)} rows)")
+
+# ---- B30: hyperbolic-backbone control (expR51, MERU vs CLIP twins) ----
+f = RES/"expR51_meru_control.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    by={(a['model'],a['dataset'],a['modality']):a for a in rows}
+    M=[m for m in ["meru_s","clip_s","meru_b","clip_b","meru_l","clip_l"] if any(a['model']==m for a in rows)]
+    MN={"meru_s":"MERU ViT-S","clip_s":"CLIP ViT-S","meru_b":"MERU ViT-B","clip_b":"CLIP ViT-B","meru_l":"MERU ViT-L","clip_l":"CLIP ViT-L"}
+    if len(rows)>=15:
+        def cell(a):
+            if a is None: return "-- & -- & --"
+            return f"${float(a['excessA']):+.3f}$ ({float(a['zA']):+.1f}) & ${float(a['depth']):+.3f}$ ({float(a['z_depth']):+.1f}) & ${float(a['delta_native']):.3f}$/${float(a['delta']):.3f}$"
+        lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.6pt}",
+          r"\begin{tabular}{lccc@{\hspace{8pt}}ccc}",r"\toprule",
+          r" & \multicolumn{3}{c}{CIFAR-100 images ($K{=}20$)} & \multicolumn{3}{c}{ImageNet images ($K{=}30$)} \\",
+          r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}",
+          r"model & exc.\ ($z$) & depth ($z$) & $\hat\delta$ nat./Eucl. & exc.\ ($z$) & depth ($z$) & $\hat\delta$ nat./Eucl. \\",r"\midrule"]
+        for m in M:
+            lines.append(MN[m]+" & "+cell(by.get((m,'cifar100','image')))+" & "+cell(by.get((m,'imagenet','image')))+r" \\")
+        lines+=[r"\bottomrule",r"\end{tabular}",
+          r"\caption{Hyperbolic-backbone control. MERU \citep{desai2023meru} embeds images on the Lorentz hyperboloid with an entailment objective; its released Euclidean twin (a CLIP baseline: same ViT, same RedCaps data and recipe, minus the hyperbolic lift and entailment loss) differs only in geometry. Both pass through the paper's instrument unchanged (class centroids of the projected embeddings; ``exc.'' is the excess over the spectrum-matched null, ``depth'' the star-calibrated test of Table~\ref{tab:b29-depth}, ``nat.'' the Gromov $\hat\delta$ computed with the model's own metric: Lorentz distance between tangent-space-mean centroids for MERU, angular for CLIP). Training in hyperbolic space changes nothing at the class level: MERU shows the same clustering excess as its twin, no residual depth beyond a matched star on either dataset, and its Lorentz-metric $\hat\delta$ is indistinguishable from the Euclidean one. MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy; the class-tree depth that no standard backbone shows is not present in a hyperbolic one either. The synthetic two-level tree of Table~\ref{tab:b25-star} remains the existence proof that the depth test fires when depth is present.}",
+          r"\label{tab:b30-meru}",r"\end{table}"]
+        (OUT/"tab_b30_meru.tex").write_text("\n".join(lines)+"\n"); print(f"b30 written ({len(rows)} rows, {len(M)} models)")
