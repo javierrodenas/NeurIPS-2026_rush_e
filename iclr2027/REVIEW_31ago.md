@@ -315,3 +315,14 @@ Tres párrafos: *Whether* (correlaciones within-dataset con controles de dimensi
 - **Su pregunta (¿null B calibrado contra la estrella como test de profundidad?)**: sí, es prometedor — bajo Haar la jerarquía 6×5 queda 2-3× por debajo de la estrella; anotado en la caption de B25 como trabajo futuro (requiere una estrella emparejada por celda en número y compacidad de clusters).
 
 Compila: 26 páginas, texto principal hasta la p. 9, 0 warnings, sin `??`.
+
+---
+
+## Ronda 9 (seguimiento, nota 7): flecos + la pregunta de la variabilidad de extracción
+
+- **Fig. 3**: la versión comprometida ya tenía dos paneles (el revisor vio una copia vieja); sin cambios.
+- **Fig. 2 caption** → "GPT-2" (sin OLMo). **B23** → "between extractions". **Intro y contribución 3** → fuera "hyperbolic distances buy no cross-model agreement" (queda solo como nota "esperable" en §5).
+- **Variabilidad extracción-a-extracción (su pregunta)** → **expR47** lo atribuye: en GPT-2 M la precisión es irrelevante (fp16≡fp32 a 4 decimales) y el *batch* mueve δ̂ hasta 0.018 (0.082 sin padding vs 0.091/0.100 con batch 32/16; coseno 0.98 con la extracción sin padding): HF no desplaza los position ids de GPT-2 con padding a la izquierda. OLMo-1B es invariante (0.082 en las seis condiciones, igual al valor impreso del paper; el 0.100 de exp18 era otra revisión del checkpoint). Tabla B28 + frase en §4. **Protocolo canónico → extracción sin padding (batch 1)**: **expR48** re-corre el censo de texto así (20 réplicas); B23 pasa a ese bloque al terminar, con la columna Δδ̂ frente a la extracción original.
+- ⚠️ Para coautores: la caché del censo de texto original (exp18/exp4) se extrajo con batch 32 y padding a la izquierda; los valores de GPT-2 del cuerpo deberían re-derivarse de la extracción sin padding en la versión final (el trend con escala se verifica en B23).
+
+**expR48 integrado (censo de texto sin padding, 20 réplicas → B23 y Fig. 2)**: con extracción sin padding, GPT-2 S y M quedan *en* su null (−0.015/−0.010; el "+0.048 por encima del null" de S era artefacto del padding), L y XL genuinos (−0.041/−0.049, por debajo de las 20 réplicas): la emergencia con la escala sobrevive como "genuino a partir de L". Pythia idéntico (−0.032..−0.036), OLMo-1B genuino (−0.039, dos re-extracciones coincidentes; se recupera OLMo en el texto), embedders idénticos a la extracción original (el padding a la derecha con máscara no afecta), GTE-Qwen2 sigue en null y sin uso. Texto de §4 e intro reescritos con los valores sin padding; Fig. 2 regenerada desde expR48 (OLMo-7B omitido, no re-extraído); captions de B14 (plantillas, batched) y B23 actualizadas. Compila: 26 páginas, texto principal hasta la p. 9, 0 warnings.

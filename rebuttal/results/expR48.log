@@ -1,0 +1,17 @@
+gpt2         delta 0.1280 null 0.1430 exc -0.0150 z -1.6 above 1.00 (38s)
+gpt2_m       delta 0.0816 null 0.0914 exc -0.0098 z -1.2 above 0.90 (42s)
+gpt2_l       delta 0.0823 null 0.1229 exc -0.0406 z -5.3 above 1.00 (88s)
+gpt2_xl      delta 0.0721 null 0.1207 exc -0.0485 z -7.4 above 1.00 (131s)
+pythia_410m  delta 0.0984 null 0.1345 exc -0.0361 z -4.5 above 1.00 (55s)
+pythia_1b    delta 0.0963 null 0.1281 exc -0.0319 z -4.4 above 1.00 (68s)
+pythia_2b8   delta 0.0981 null 0.1342 exc -0.0361 z -4.3 above 1.00 (110s)
+olmo_1b      delta 0.0817 null 0.1211 exc -0.0393 z -5.7 above 1.00 (61s)
+bge_base     delta 0.1213 null 0.1177 exc +0.0037 z +0.5 above 0.25 (30s)
+bge_large    delta 0.1205 null 0.1177 exc +0.0029 z +0.3 above 0.25 (50s)
+gte_base     delta 0.1242 null 0.1130 exc +0.0113 z +1.0 above 0.00 (30s)
+gte_large    delta 0.1203 null 0.1134 exc +0.0069 z +0.6 above 0.05 (52s)
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:50<00:50, 50.71s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:03<00:00, 28.33s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:03<00:00, 31.69s/it]gte_qwen2    delta 0.1224 null 0.1205 exc +0.0019 z +0.2 above 0.40 (135s)
+e5_base      delta 0.1152 null 0.1128 exc +0.0024 z +0.3 above 0.45 (30s)
+e5_large     delta 0.1139 null 0.1091 exc +0.0047 z +0.4 above 0.15 (49s)
+Done expR48
+

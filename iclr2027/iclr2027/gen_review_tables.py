@@ -79,7 +79,7 @@ if f.exists():
             cs.append("--" if a is None else f"${float(a['excess']):+.3f}$"+(r"\rlap{$^*$}" if abs(float(a['z']))>=2 else ""))
         lines.append(t.replace("_",r"\_")+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline.}",
+      r"\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline. Batched (batch 16, left-padded) extraction: padding raises GPT-2's $\hat\delta$ (Table~\ref{tab:b28-extraction}), so the L/XL verdicts are conservative while S's sign-positive cells are not robust.}",
       r"\label{tab:b14-templates}",r"\end{table}"]
     (OUT/"tab_b14_templates.tex").write_text("\n".join(lines)+"\n"); print(f"b14 written ({len(rows)} rows)")
 
@@ -307,25 +307,32 @@ if f.exists():
     (OUT/"tab_b22_flatnull_p999.tex").write_text("\n".join(lines)+"\n"); print(f"b22 written ({len(rows)} cells)")
 
 # ---- B23: text census with 20 null replicates (expR44) ----
-f = RES/"expR44_text_census20.csv"
-if f.exists():
-    rows=list(csv.DictReader(open(f))); r18={a['model']:a for a in load('exp18_text_nulls.csv')}
+f = RES/"expR48_text_census_bs1.csv"
+_f44 = RES/"expR44_text_census20.csv"
+import pandas as _pd
+if f.exists() and len(_pd.read_csv(f)) >= 15:
+    rows=list(csv.DictReader(open(f))); r18={a['model']:a for a in load('exp18_text_nulls.csv')}; SRC="padding-free (batch-size-1)"
+elif _f44.exists():
+    rows=list(csv.DictReader(open(_f44))); r18={a['model']:a for a in load('exp18_text_nulls.csv')}; SRC="batched (batch 16)"
+else:
+    rows=None
+if rows is not None:
     TN={"gpt2":"GPT-2 S","gpt2_m":"GPT-2 M","gpt2_l":"GPT-2 L","gpt2_xl":"GPT-2 XL","pythia_410m":"Pythia-410M","pythia_1b":"Pythia-1B","pythia_2b8":"Pythia-2.8B","olmo_1b":"OLMo-1B","olmo_7b":"OLMo-7B","bge_base":"BGE-base","bge_large":"BGE-large","gte_base":"GTE-base","gte_large":"GTE-large","gte_qwen2":"GTE-Qwen2-1.5B","e5_base":"E5-base","e5_large":"E5-large"}
     by={a['model']:a for a in rows}; agree=0; comp=0
-    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcccc|cc}",r"\toprule",
-      r"& \multicolumn{4}{c|}{20 replicates} & \multicolumn{2}{c}{3 replicates (Table~\ref{tab:b1-textnulls})} \\",
-      r"model & $\hat\delta$ & excess & $z$ & reps above & excess & $z$ \\",r"\midrule"]
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcccc|ccc}",r"\toprule",
+      r"& \multicolumn{4}{c|}{re-extraction, 20 replicates} & \multicolumn{3}{c}{original extraction, 3 replicates (Table~\ref{tab:b1-textnulls})} \\",
+      r"model & $\hat\delta$ & excess & $z$ & reps above & $\hat\delta$ & excess & $\Delta\hat\delta$ \\",r"\midrule"]
     for m in TN:
         a=by.get(m); b=r18.get(m)
         if a is None and b is None: continue
-        if a is None: lines.append(f"{TN[m]} & -- & -- & -- & -- & ${float(b['excess']):+.3f}$ & -- \\\\"); continue
+        if a is None: lines.append(f"{TN[m]} & -- & -- & -- & -- & ${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$ & -- \\\\"); continue
         bz=(float(b['excess'])/max((float(b['null_sd'])**2+float(b['delta_sd'])**2)**0.5,1e-9)) if b else None
         if b: comp+=1; agree += ((float(a['excess'])<0)==(float(b['excess'])<0))
-        lines.append(f"{TN[m]} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}$ & ${float(a['z']):+.1f}$ & {round(20*float(a['frac_null_above']))}/20 & " + (f"${float(b['excess']):+.3f}$ & ${bz:+.1f}$" if b else "-- & --") + r" \\")
+        lines.append(f"{TN[m]} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}$ & ${float(a['z']):+.1f}$ & {round(20*float(a['frac_null_above']))}/20 & " + (f"${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$ & ${float(a['delta'])-float(b['delta']):+.3f}$" if b else "-- & -- & --") + r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{The text census independently re-extracted (same template and pooling; batched fp16 inference) and re-scored with 20 spectrum-null replicates; OLMo-7B not re-run (exceeds the local GPU). Raw $\hat\delta$ differs from Table~\ref{tab:b1-textnulls} because the embeddings were re-extracted, not because of the replicate count. "
+      r"\caption{The text census independently re-extracted (same template and pooling; " + SRC + r" inference) and re-scored with 20 spectrum-null replicates; OLMo-7B not re-run (exceeds the local GPU). Raw $\hat\delta$ differs from the original extraction because the embeddings were re-extracted, not because of the replicate count; $\Delta\hat\delta$ is that extraction-to-extraction difference. "
       f"Sign agreement with the 3-replicate census: {agree}/{comp}. "
-      r"Large $|z|$ read as ``below every replicate''. Two verdicts change with replicates: OLMo-1B (at null with 3, genuine with 20) and GTE-Qwen2 (genuine with 3, at null with 20); the main text uses neither OLMo-1B nor GTE-Qwen2 as evidence.}",
+      r"Large $|z|$ read as ``below every replicate''. Three verdicts change between extractions, each with a known cause: GPT-2 S (above null in the left-padded original, at null padding-free; Table~\ref{tab:b28-extraction}), OLMo-1B (the original used a different checkpoint revision; both new extractions agree at $-0.039$), and GTE-Qwen2 (genuine in the original, at null in both re-extractions; not used as evidence).}",
       r"\label{tab:b23-text20}",r"\end{table}"]
     (OUT/"tab_b23_text20.tex").write_text("\n".join(lines)+"\n"); print(f"b23 written ({len(rows)} models; sign agree {agree}/{comp})")
 
@@ -398,3 +405,21 @@ if f.exists():
       r"\caption{Excess under three constructions of the spectrum-matched null (10 replicates each): Gaussian coefficients (the paper's), Haar-rotated coefficients (exact sample spectrum) and PC-permutation (exact per-component marginals). The Gaussian and PC-permutation constructions agree; the exact-sample-spectrum construction yields smaller excesses for low-effective-rank clouds on the small-$C$ sets (most visibly DINOv2 on CIFAR-100), so the size of those excesses is partly a property of the null hypothesis, while signs and the ImageNet readings are stable.}",
       r"\label{tab:b27-nullvariants}",r"\end{table}"]
     (OUT/"tab_b27_nullvariants.tex").write_text("\n".join(lines)+"\n"); print(f"b27 written ({len(rows)} cells)")
+
+# ---- B28: extraction variance attribution (expR47) ----
+f = RES/"expR47_extraction_variance.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcc|cc}",r"\toprule",
+      r"& \multicolumn{2}{c|}{GPT-2 M} & \multicolumn{2}{c}{OLMo-1B} \\", r"batch size & fp32 $\hat\delta$ & fp16 $\hat\delta$ & fp32 $\hat\delta$ & fp16 $\hat\delta$ \\",r"\midrule"]
+    for bs in (1,16,32):
+        cs=[]
+        for m in ("gpt2_m","olmo_1b"):
+            for fp in (0,1):
+                a=[r for r in rows if r['model']==m and int(r['fp16'])==fp and int(r['batch'])==bs]
+                cs.append(f"${float(a[0]['delta']):.4f}$" if a else "--")
+        lines.append(f"{bs}{' (no padding)' if bs==1 else ''} & "+" & ".join(cs)+r" \\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{Where extraction-to-extraction variability comes from. Same 1000 prompts, same model; only batch size and precision vary. Precision is irrelevant (fp16 equals fp32 to four decimals). For GPT-2, left-padded batching changes the hidden states (mean cosine to the padding-free extraction $0.98$) and moves $\hat\delta$ by up to $0.018$; OLMo handles left padding correctly and is invariant. Padding-free (batch-size-1) extraction is therefore the protocol of Table~\ref{tab:b23-text20}.}",
+      r"\label{tab:b28-extraction}",r"\end{table}"]
+    (OUT/"tab_b28_extraction.tex").write_text("\n".join(lines)+"\n"); print(f"b28 written ({len(rows)} rows)")

@@ -1,0 +1,13 @@
+gpt2_m   fp16=0 bs= 1 delta 0.0816±0.0045 cos-to-ref 1.0000 (34s)
+gpt2_m   fp16=0 bs=16 delta 0.0996±0.0026 cos-to-ref 0.9790 (3s)
+gpt2_m   fp16=0 bs=32 delta 0.0905±0.0042 cos-to-ref 0.9781 (3s)
+gpt2_m   fp16=1 bs= 1 delta 0.0817±0.0042 cos-to-ref 1.0000 (15s)
+gpt2_m   fp16=1 bs=16 delta 0.0997±0.0021 cos-to-ref 0.9790 (3s)
+gpt2_m   fp16=1 bs=32 delta 0.0905±0.0040 cos-to-ref 0.9781 (3s)
+olmo_1b  fp16=0 bs= 1 delta 0.0817±0.0037 cos-to-ref 1.0000 (33s)
+olmo_1b  fp16=0 bs=16 delta 0.0817±0.0037 cos-to-ref 1.0000 (5s)
+olmo_1b  fp16=0 bs=32 delta 0.0817±0.0037 cos-to-ref 1.0000 (5s)
+olmo_1b  fp16=1 bs= 1 delta 0.0817±0.0037 cos-to-ref 1.0000 (18s)
+olmo_1b  fp16=1 bs=16 delta 0.0816±0.0037 cos-to-ref 1.0000 (4s)
+olmo_1b  fp16=1 bs=32 delta 0.0817±0.0037 cos-to-ref 1.0000 (4s)
+Done expR47
