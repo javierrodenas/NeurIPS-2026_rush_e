@@ -295,3 +295,9 @@ Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??` (verifica
 Compila: 26 páginas, texto principal termina en la p. 9 con holgura (Fig. 3 devuelta a 1.6 in), 0 warnings, sin `??`.
 
 **expR44 integrado (Tabla B23)**: censo de texto a 20 réplicas, 15/15 signos coinciden con el de 3. Dos veredictos cambian y el texto lo refleja: OLMo-1B pasa a genuino (−0.039, z=−5.7) → la "emergencia con escala" queda solo en GPT-2 (OLMo genuino en ambas escalas); GTE-Qwen2 pasa a null (−0.002) → marcado como no robusto (texto, caption y anotación de Fig. 2). Abstract: "emerging with size in GPT-2".
+
+---
+
+## §6 comprimido a media página (decisión de Javi, 1 sept)
+
+Tres párrafos: *Whether* (correlaciones within-dataset con controles de dimensión/accuracy/familia/espectro; pooled no usado como evidencia; flat datasets; CIs y McNemar), *Which metric* (control RT, división por objetivo, predicción del mejor métrica within-dataset, selección held-out, regla por objetivo vs coseno), *Scope and negatives* (diagnóstico ≠ política; δ-gated la peor; NC no mejora en media; coseno default; +0.5..+2 pp solo en prototipos; kNN/retrieval negativos; DBpedia; robustez a t en apéndice). Ninguna cifra nueva; las tablas de políticas, CIs y controles siguen en el apéndice. Compila: texto principal con holgura en la p. 9, 0 warnings.
