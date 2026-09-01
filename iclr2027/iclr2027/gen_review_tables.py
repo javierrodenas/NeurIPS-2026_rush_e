@@ -135,7 +135,7 @@ if f.exists():
             cs += ["--","--"] if a is None else [f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.2f}$"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Hierarchy-flattening null with \emph{data-driven} hubs: as Table~\ref{tab:b13-flatnull}, but the hubs are $k$-means clusters of each model's own centroids ($k{=}30$/$20$, restarts fixed), so no human taxonomy enters the construction. All 24 cells remain sign-negative (16/24 at $|z|\ge2$), and DINOv2-L/G on ImageNet, at their spectrum null and marginal under WordNet hubs, are strongly tree-organized among their own clusters ($z=-4.4$/$-4.6$): the scope note of Table~\ref{tab:b13-flatnull} is addressed empirically.}",
+      r"\caption{Hierarchy-flattening null with \emph{data-driven} hubs: as the WordNet-hub null, but the hubs are $k$-means clusters of each model's own centroids ($k{=}30$/$20$, restarts fixed), so no human taxonomy enters the construction. All 24 cells remain sign-negative (16/24 at $|z|\ge2$), and DINOv2-L/G on ImageNet, at their spectrum null and marginal under WordNet hubs, are strongly tree-organized among their own clusters ($z=-4.4$/$-4.6$): the taxonomy-dependence concern is addressed empirically.}",
       r"\label{tab:b16-kmhubs}",r"\end{table}"]
     (OUT/"tab_b16_kmhubs.tex").write_text("\n".join(lines)+"\n"); print(f"b16 written ({len(rows)} cells)")
 
@@ -238,7 +238,7 @@ if f.exists():
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{The full vision census re-run with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). "
       f"Agreement with the 5-replicate census on the {comp} directly comparable cells: sign {sign_agree}/{comp}, significance at $|z|\\ge2$ {sig_agree}/{comp}; {below_all}/{n} cells lie below every replicate. "
-      r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (Table~\ref{tab:b13-flatnull}, note ii) and are not directly comparable to Table~\ref{tab:b2-ztable}.}",
+      r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (precomputed centroid store, whose supervised-ViT centroids differ slightly from the census cache) and are not directly comparable to Table~\ref{tab:b2-ztable}.}",
       r"\label{tab:b20-census20}",r"\end{table}"]
     (OUT/"tab_b20_census20.tex").write_text("\n".join(lines)+"\n"); print(f"b20 written ({n} cells; agree sign {sign_agree}/{comp}, sig {sig_agree}/{comp})")
 
@@ -277,7 +277,7 @@ if f.exists():
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{The full vision p99.9 census with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). "
       f"Agreement with the 5-replicate census on the {comp} directly comparable cells: sign {sign_agree}/{comp}, significance at $|z|\\ge2$ {sig_agree}/{comp}; {below_all}/{n} cells lie below every replicate. "
-      r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (Table~\ref{tab:b13-flatnull}, note ii) and are not directly comparable to Table~\ref{tab:b2-ztable}. The distributional statistic is stricter on supervised ViTs and stronger on DINO/DINOv2 than the supremum (Table~\ref{tab:b18-p999}).}",
+      r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (precomputed centroid store, whose supervised-ViT centroids differ slightly from the census cache) and are not directly comparable to Table~\ref{tab:b2-ztable}. The distributional statistic is stricter on supervised ViTs and stronger on DINO/DINOv2 than the supremum (Table~\ref{tab:b18-p999}).}",
       r"\label{tab:b21-p999census}",r"\end{table}"]
     (OUT/"tab_b21_p999census.tex").write_text("\n".join(lines)+"\n"); print(f"b21 written ({n} cells; agree sign {sign_agree}/{comp}, sig {sig_agree}/{comp})")
 
@@ -302,6 +302,99 @@ if f.exists():
                   [f"${float(a['delta']):.3f}$", f"${float(a['excessA']):+.3f}$", f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.2f}$"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Table~\ref{tab:b13-flatnull} repeated under the p99.9 statistic (20 replicates of each null). Where a supervised model's cluster-preserving excess is significant under the supremum but not here, that excess is carried by a few extreme quadruples; where DINOv2's is significant here, it sits in the bulk of the distribution.}",
+      r"\caption{The WordNet-hub null repeated under the p99.9 statistic (20 replicates of each null). Where a supervised model's cluster-preserving excess is significant under the supremum but not here, that excess is carried by a few extreme quadruples; where DINOv2's is significant here, it sits in the bulk of the distribution.}",
       r"\label{tab:b22-flatnull-p999}",r"\end{table}"]
     (OUT/"tab_b22_flatnull_p999.tex").write_text("\n".join(lines)+"\n"); print(f"b22 written ({len(rows)} cells)")
+
+# ---- B23: text census with 20 null replicates (expR44) ----
+f = RES/"expR44_text_census20.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f))); r18={a['model']:a for a in load('exp18_text_nulls.csv')}
+    TN={"gpt2":"GPT-2 S","gpt2_m":"GPT-2 M","gpt2_l":"GPT-2 L","gpt2_xl":"GPT-2 XL","pythia_410m":"Pythia-410M","pythia_1b":"Pythia-1B","pythia_2b8":"Pythia-2.8B","olmo_1b":"OLMo-1B","olmo_7b":"OLMo-7B","bge_base":"BGE-base","bge_large":"BGE-large","gte_base":"GTE-base","gte_large":"GTE-large","gte_qwen2":"GTE-Qwen2-1.5B","e5_base":"E5-base","e5_large":"E5-large"}
+    by={a['model']:a for a in rows}; agree=0; comp=0
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcccc|cc}",r"\toprule",
+      r"& \multicolumn{4}{c|}{20 replicates} & \multicolumn{2}{c}{3 replicates (Table~\ref{tab:b1-textnulls})} \\",
+      r"model & $\hat\delta$ & excess & $z$ & reps above & excess & $z$ \\",r"\midrule"]
+    for m in TN:
+        a=by.get(m); b=r18.get(m)
+        if a is None and b is None: continue
+        if a is None: lines.append(f"{TN[m]} & -- & -- & -- & -- & ${float(b['excess']):+.3f}$ & -- \\\\"); continue
+        bz=(float(b['excess'])/max((float(b['null_sd'])**2+float(b['delta_sd'])**2)**0.5,1e-9)) if b else None
+        if b: comp+=1; agree += ((float(a['excess'])<0)==(float(b['excess'])<0))
+        lines.append(f"{TN[m]} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}$ & ${float(a['z']):+.1f}$ & {round(20*float(a['frac_null_above']))}/20 & " + (f"${float(b['excess']):+.3f}$ & ${bz:+.1f}$" if b else "-- & --") + r" \\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{The text census re-run with 20 spectrum-null replicates (paper template; OLMo-7B not re-run, it exceeds the local GPU). "
+      f"Sign agreement with the 3-replicate census: {agree}/{comp}. "
+      r"Large $|z|$ read as ``below every replicate''.}",
+      r"\label{tab:b23-text20}",r"\end{table}"]
+    (OUT/"tab_b23_text20.tex").write_text("\n".join(lines)+"\n"); print(f"b23 written ({len(rows)} models; sign agree {agree}/{comp})")
+
+# ---- B24: extra backbones (ConvNet SSL, MAE, I-JEPA) on ImageNet (expR45) ----
+f = RES/"expR45_convnet_rows.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    XN={"barlow_r50":"Barlow Twins (ResNet-50)","byol_r50":"BYOL (ResNet-50)","mae_b":"MAE-B (ViT)","ijepa_h":"I-JEPA-H (ViT)"}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcccc}",r"\toprule",
+      r"model & $d$ & $\hat\delta$ & excess ($z$) & reps above \\",r"\midrule"]
+    for a in rows:
+        lines.append(f"{XN.get(a['model'],a['model'])} & {a['d']} & ${float(a['delta']):.3f}$ & ${float(a['excessA']):+.3f}$ (${float(a['zA']):+.1f}$) & {round(20*float(a['rankA']))}/20 \\\\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{Backbones outside the ViT census, ImageNet centroid store: two ResNet-50 self-supervised models and two further ViT-SSL recipes, under the spectrum null (20 replicates, percentile rank).}",
+      r"\label{tab:b24-extra}",r"\end{table}"]
+    (OUT/"tab_b24_extra.tex").write_text("\n".join(lines)+"\n"); print(f"b24 written ({len(rows)} rows)")
+
+# ---- B25: star vs hierarchy calibration of the nulls (expR42 v2: Gaussian and Haar constructions) ----
+f = RES/"expR42_star_calibration.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    CN={"star30_tight":"30-cluster star, tight (0.1)","star30_mid":"30-cluster star, mid (0.3)","star30_loose":"30-cluster star, loose (0.6)","hier6x5_mid":"2-level hierarchy $6\\times5$ (0.3)"}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\setlength{\tabcolsep}{4pt}",r"\begin{tabular}{lc|cc|cc}",r"\toprule",
+      r"& & \multicolumn{2}{c|}{spectrum null A} & \multicolumn{2}{c}{hub-randomizing null B} \\",
+      r"synthetic cloud ($n{=}1000$, $d{=}768$) & $\hat\delta$ & Gaussian & Haar & Gaussian & Haar \\",r"\midrule"]
+    for cfg in CN:
+        sub=[a for a in rows if a['config']==cfg]
+        if not sub: continue
+        m=lambda k: st.mean(float(a[k]) for a in sub)
+        lines.append(f"{CN[cfg]} & ${m('delta'):.3f}$ & ${m('excessA_gauss'):+.3f}$ & ${m('excessA_haar'):+.3f}$ & ${m('excessB_gauss'):+.3f}$ & ${m('excessB_haar'):+.3f}$ \\\\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{Calibration of the nulls on synthetic clouds (excess, means over seeds; within/between-cluster noise ratio in parentheses). A pure star (Gaussian clusters around Gaussian centers, no hierarchy) sits far below the spectrum null A under either construction (Gaussian coefficients, the paper's; Haar-rotated coefficients, exact sample spectrum): null A certifies clustering, not depth. The hub-randomizing null B, which keeps every cluster intact and resamples only the hub configuration, also reports the star as ``hierarchical'': a near-regular simplex of hubs already minimizes $\delta$, so any hub randomization raises it. Null B is therefore not a valid depth test and is not used in the paper.}",
+      r"\label{tab:b25-star}",r"\end{table}"]
+    (OUT/"tab_b25_star.tex").write_text("\n".join(lines)+"\n"); print(f"b25 written ({len(rows)} rows)")
+
+# ---- B26: xi on norm-heterogeneous references (expR43) ----
+f = RES/"expR43_xi_norm_references.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    RN={"gaussian":"iid Gaussian","gauss_lognorm_r0.3":"Gaussian, lognormal radii ($\\sigma{=}0.3$)","gauss_lognorm_r0.6":"Gaussian, lognormal radii ($\\sigma{=}0.6$)","gauss_lognorm_r1.0":"Gaussian, lognormal radii ($\\sigma{=}1.0$)","core_shell":"core + shell mixture","sphere":"uniform sphere","sphere_radial_jitter":"sphere with radial jitter"}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcc}",r"\toprule",
+      r"reference (no curvature unless stated) & $\xi$ & frac.\ negative \\",r"\midrule"]
+    for k in RN:
+        sub=[a for a in rows if a['reference']==k]
+        if not sub: continue
+        lines.append(f"{RN[k]} & ${st.mean(float(a['xi']) for a in sub):+.4f}$ & ${st.mean(float(a['frac_neg']) for a in sub):.2f}$ \\\\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{$\xi$ on references with heterogeneous norms but no curvature ($n{=}1000$, $d{=}768$, 5 seeds). Norm dispersion alone drives $\xi$ negative (lognormal radii, radial jitter on a sphere, core+shell): the estimator reads norm structure, not curvature, and the paper reports it only as such.}",
+      r"\label{tab:b26-xinorm}",r"\end{table}"]
+    (OUT/"tab_b26_xinorm.tex").write_text("\n".join(lines)+"\n"); print(f"b26 written ({len(rows)} rows)")
+
+# ---- B27: spectrum-null construction sensitivity on real cells (expR46) ----
+f = RES/"expR46_null_variants.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B","dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G","clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+    DS=[d for d in ["imagenet","cifar100","cifar10"] if any(a['dataset']==d for a in rows)]; DSH={"imagenet":"IN","cifar100":"C100","cifar10":"C10"}
+    by={(a['model'],a['dataset']):a for a in rows}
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{3pt}",r"\begin{tabular}{l"+"|ccc"*len(DS)+"}",r"\toprule",
+      " & "+" & ".join(f"\\multicolumn{{3}}{{c}}{{{DSH[d]}}}" for d in DS)+r" \\",
+      "model & "+" & ".join(["Gauss. & Haar & PC-perm."]*len(DS))+r" \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        cs=[]
+        for d in DS:
+            a=by.get((m,d))
+            cs += ["--","--","--"] if a is None else [f"${float(a[k]):+.3f}$".replace("0.",".") for k in ("excess_gauss","excess_haar","excess_pcperm")]
+        lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{Excess under three constructions of the spectrum-matched null (10 replicates each): Gaussian coefficients (the paper's), Haar-rotated coefficients (exact sample spectrum) and PC-permutation (exact per-component marginals). The Gaussian and PC-permutation constructions agree; the exact-sample-spectrum construction yields smaller excesses for low-effective-rank clouds on the small-$C$ sets (most visibly DINOv2 on CIFAR-100), so the size of those excesses is partly a property of the null hypothesis, while signs and the ImageNet readings are stable.}",
+      r"\label{tab:b27-nullvariants}",r"\end{table}"]
+    (OUT/"tab_b27_nullvariants.tex").write_text("\n".join(lines)+"\n"); print(f"b27 written ({len(rows)} cells)")

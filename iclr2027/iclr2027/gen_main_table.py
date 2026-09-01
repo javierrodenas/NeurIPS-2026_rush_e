@@ -37,9 +37,9 @@ for m in ORDER:
         best, metric = None, "---"   # backbone outside the 10-model task grid
     p9 = float(d34[m]["excess"]) if m in d34 else None
     rows.append((NAME[m], float(r["delta"]), float(r["excess"]), float(r["z"]), p9, exc_tr, xi, rho, ari, best, metric))
-lines = [r"\begin{table}[t]", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{2pt}",
-         r"\begin{tabular}{l c c c c c c c c c c c}", r"\toprule",
-         r"model & $\delta_{\text{norm}}$ IN & exc.\ IN sup.\ ($z$) & p99.9 & exc.\ C100 & exc.\ C10 & exc.\ DTD & $\xi$-exc.\ IN & $\rho_{\text{WN}}$ & ARI$_{20}$ & best$-$R & metric \\",
+lines = [r"\begin{table}[t]", r"\centering", r"\footnotesize", r"\setlength{\tabcolsep}{3pt}",
+         r"\begin{tabular}{l c c c c c c c c c}", r"\toprule",
+         r"model & $\delta_{\text{norm}}$ IN & exc.\ IN sup.\ ($z$) & p99.9 & exc.\ C100 & exc.\ C10 & exc.\ DTD & $\rho_{\text{WN}}$ & best$-$R & metric \\",
          r"\midrule"]
 for i,(n,dl,ex,z,p9,tr,xi,rho,ari,best,met) in enumerate(rows):
     if i in (4,9): lines.append(r"\midrule")
@@ -48,11 +48,11 @@ for i,(n,dl,ex,z,p9,tr,xi,rho,ari,best,met) in enumerate(rows):
     bests = f"${best:+.2f}$" if best is not None else "---"
     trs = " & ".join(f"${v:+.3f}$".replace("0.", ".") for v in tr)
     p9s = f"${p9:+.3f}$".replace("0.", ".") if p9 is not None else "--"
-    lines.append(f"{n} & ${dl:.3f}$ & {exs} & {p9s} & {trs} & ${xi:+.3f}$ & ${rho:+.2f}$ & ${ari:.2f}$ & {bests} & {met} \\\\".replace("$0.", "$.").replace("$-0.", "$-.").replace("$+0.", "$+."))
+    lines.append(f"{n} & ${dl:.3f}$ & {exs} & {p9s} & {trs} & ${rho:+.2f}$ & {bests} & {met} \\\\".replace("$0.", "$.").replace("$-0.", "$-.").replace("$+0.", "$+."))
 lines += [r"\bottomrule", r"\end{tabular}",
   r"\caption{Calibrated census of the 12 vision backbones (supervised / self-supervised / contrastive). "
   r"$\delta_{\text{norm}}$: raw ImageNet reading; excess IN: excess over the spectrum-matched null with $z$ (bold: sign-positive, at null); p99.9: ImageNet excess under the supremum-robust statistic (20 replicates, Table~\ref{tab:b18-p999}; centroid-store caveat there); exc.\ C100/C10/DTD: per-dataset excess on the transfer sets (means across datasets are not comparable, \S\ref{sec:form}); "
-  r"$\xi$-excess: curvature-sign excess on ImageNet (negative: hyperbolic-leaning); $\rho_{\text{WN}}$: Spearman correlation with WordNet distances; ARI$_{20}$: recovery of the 20 CIFAR-100 superclasses (selected cosine-complete configuration); "
+  r"$\rho_{\text{WN}}$: Spearman correlation with WordNet distances (superclass recovery and the norm-structure descriptor $\xi$: Appendix~\ref{app:tables}); "
   r"best$-$R: few-shot advantage of the best zero-cost metric over Euclidean, mean over the four hierarchical datasets; metric: which of Poincar\'e (H) or cosine collects it (either: within $0.15$pp; ---: outside the 10-model task grid). Per-cell values in Appendix~\ref{app:tables}.}",
   r"\label{tab:census}", r"\end{table}"]
 open(HERE/"tab_census.tex","w").write("\n".join(lines)+"\n")

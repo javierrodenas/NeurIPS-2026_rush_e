@@ -1,0 +1,18 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lc|cc|cc}
+\toprule
+& & \multicolumn{2}{c|}{spectrum null A} & \multicolumn{2}{c}{hub-randomizing null B} \\
+synthetic cloud ($n{=}1000$, $d{=}768$) & $\hat\delta$ & Gaussian & Haar & Gaussian & Haar \\
+\midrule
+30-cluster star, tight (0.1) & $0.055$ & $-0.115$ & $-0.115$ & $-0.126$ & $-0.058$ \\
+30-cluster star, mid (0.3) & $0.059$ & $-0.104$ & $-0.103$ & $-0.114$ & $-0.049$ \\
+30-cluster star, loose (0.6) & $0.061$ & $-0.084$ & $-0.082$ & $-0.090$ & $-0.033$ \\
+2-level hierarchy $6\times5$ (0.3) & $0.044$ & $-0.143$ & $-0.143$ & $-0.113$ & $-0.112$ \\
+\bottomrule
+\end{tabular}
+\caption{Calibration of the nulls on synthetic clouds (excess, means over seeds; within/between-cluster noise ratio in parentheses). A pure star (Gaussian clusters around Gaussian centers, no hierarchy) sits far below the spectrum null A under either construction (Gaussian coefficients, the paper's; Haar-rotated coefficients, exact sample spectrum): null A certifies clustering, not depth. The hub-randomizing null B, which keeps every cluster intact and resamples only the hub configuration, also reports the star as ``hierarchical'': a near-regular simplex of hubs already minimizes $\delta$, so any hub randomization raises it. Null B is therefore not a valid depth test and is not used in the paper.}
+\label{tab:b25-star}
+\end{table}

@@ -15,7 +15,7 @@ RES = Path(os.environ.get("PLATONIC_ABLATIONS", "/media/HDD_4TB_2/javi/Platonic/
 NAME = {"dinov2_s":"Dv2-S","dinov2_b":"Dv2-B","i21k_b":"ViT-B","clip_b":"CLIP-B","clip_b_vision":"CLIP-B"}
 LEG = {"dinov2_b":"DINOv2-B","clip_b_vision":"CLIP-B"}
 BLUE, RED, GREEN = "#4C72B0", "#C44E52", "#55A868"
-fig, ax = plt.subplots(1, 3, figsize=(5.5, 1.35))
+fig, ax = plt.subplots(1, 3, figsize=(5.5, 1.6))
 # (a) random weights
 r = list(csv.DictReader(open(RES/"e5_random_control.csv")))
 pre = {a["model"]: float(a["delta_normalized"]) for a in r if a["mode"]=="pretrained"}

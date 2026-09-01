@@ -1,0 +1,19 @@
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+reference (no curvature unless stated) & $\xi$ & frac.\ negative \\
+\midrule
+iid Gaussian & $+0.0919$ & $0.00$ \\
+Gaussian, lognormal radii ($\sigma{=}0.3$) & $-0.0621$ & $0.99$ \\
+Gaussian, lognormal radii ($\sigma{=}0.6$) & $-0.0607$ & $1.00$ \\
+Gaussian, lognormal radii ($\sigma{=}1.0$) & $-0.0496$ & $0.99$ \\
+core + shell mixture & $-0.3217$ & $0.79$ \\
+uniform sphere & $+0.1154$ & $0.00$ \\
+sphere with radial jitter & $-0.0571$ & $1.00$ \\
+\bottomrule
+\end{tabular}
+\caption{$\xi$ on references with heterogeneous norms but no curvature ($n{=}1000$, $d{=}768$, 5 seeds). Norm dispersion alone drives $\xi$ negative (lognormal radii, radial jitter on a sphere, core+shell): the estimator reads norm structure, not curvature, and the paper reports it only as such.}
+\label{tab:b26-xinorm}
+\end{table}

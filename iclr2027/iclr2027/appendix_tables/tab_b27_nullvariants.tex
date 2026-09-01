@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{l|ccc|ccc|ccc}
+\toprule
+ & \multicolumn{3}{c}{IN} & \multicolumn{3}{c}{C100} & \multicolumn{3}{c}{C10} \\
+model & Gauss. & Haar & PC-perm. & Gauss. & Haar & PC-perm. & Gauss. & Haar & PC-perm. \\
+\midrule
+ViT-T & $-.005$ & $-.014$ & $-.038$ & $-.044$ & $-.031$ & $-.055$ & $-.057$ & $-.027$ & $-.050$ \\
+ViT-S & $-.023$ & $-.025$ & $-.052$ & $-.034$ & $-.025$ & $-.049$ & $-.098$ & $-.063$ & $-.090$ \\
+ViT-B & $-.027$ & $-.025$ & $-.054$ & $-.018$ & $-.011$ & $-.039$ & $-.090$ & $-.054$ & $-.078$ \\
+ViT-L & $-.028$ & $-.029$ & $-.040$ & $-.047$ & $-.034$ & $-.051$ & $-.104$ & $-.066$ & $-.096$ \\
+\midrule
+DINO-B & $-.005$ & $-.002$ & $-.008$ & $-.068$ & $-.056$ & $-.068$ & $-.100$ & $-.070$ & $-.097$ \\
+DINOv2-S & $+.010$ & $+.015$ & $+.013$ & $-.050$ & $-.029$ & $-.051$ & $-.093$ & $-.083$ & $-.098$ \\
+DINOv2-B & $+.004$ & $+.015$ & $+.006$ & $-.042$ & $-.007$ & $-.041$ & $-.132$ & $-.120$ & $-.124$ \\
+DINOv2-L & $-.013$ & $+.000$ & $-.011$ & $-.053$ & $-.008$ & $-.044$ & $-.153$ & $-.136$ & $-.122$ \\
+DINOv2-G & $-.000$ & $+.016$ & $+.001$ & $-.080$ & $-.032$ & $-.074$ & $-.155$ & $-.138$ & $-.110$ \\
+\midrule
+CLIP-B & $-.028$ & $-.028$ & $-.048$ & $-.046$ & $-.036$ & $-.053$ & $-.079$ & $-.045$ & $-.075$ \\
+CLIP-L & $-.016$ & $-.017$ & $-.029$ & $-.042$ & $-.031$ & $-.052$ & $-.087$ & $-.049$ & $-.082$ \\
+SigLIP-B & $-.019$ & $-.020$ & $-.044$ & $-.042$ & $-.032$ & $-.046$ & $-.096$ & $-.056$ & $-.081$ \\
+\bottomrule
+\end{tabular}
+\caption{Excess under three constructions of the spectrum-matched null (10 replicates each): Gaussian coefficients (the paper's), Haar-rotated coefficients (exact sample spectrum) and PC-permutation (exact per-component marginals). The Gaussian and PC-permutation constructions agree; the exact-sample-spectrum construction yields smaller excesses for low-effective-rank clouds on the small-$C$ sets (most visibly DINOv2 on CIFAR-100), so the size of those excesses is partly a property of the null hypothesis, while signs and the ImageNet readings are stable.}
+\label{tab:b27-nullvariants}
+\end{table}

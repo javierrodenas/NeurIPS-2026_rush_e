@@ -1,0 +1,9 @@
+star30_tight  s0 delta 0.0537 | gauss A -0.1164 B -0.1274 | haar A -0.1159 B -0.0585 (49s)
+star30_tight  s1 delta 0.0559 | gauss A -0.1140 B -0.1248 | haar A -0.1139 B -0.0568 (51s)
+star30_mid    s0 delta 0.0585 | gauss A -0.1049 B -0.1151 | haar A -0.1039 B -0.0495 (73s)
+star30_mid    s1 delta 0.0603 | gauss A -0.1031 B -0.1128 | haar A -0.1026 B -0.0480 (51s)
+star30_loose  s0 delta 0.0611 | gauss A -0.0842 B -0.0899 | haar A -0.0822 B -0.0332 (55s)
+star30_loose  s1 delta 0.0618 | gauss A -0.0838 B -0.0892 | haar A -0.0820 B -0.0333 (65s)
+hier6x5_mid   s0 delta 0.0488 | gauss A -0.1379 B -0.1087 | haar A -0.1379 B -0.1073 (79s)
+hier6x5_mid   s1 delta 0.0394 | gauss A -0.1485 B -0.1182 | haar A -0.1477 B -0.1176 (56s)
+Done expR42

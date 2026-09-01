@@ -1,0 +1,5 @@
+barlow_r50  ConvNet SSL      d=2048 delta 0.0746 excA -0.0388 zA -4.8 | excB -0.0388 zB -4.8 (75s)
+byol_r50    ConvNet SSL      d=2048 delta 0.0732 excA -0.0203 zA -2.4 | excB -0.0203 zB -2.4 (81s)
+missing mae_b
+missing ijepa_h
+Done expR45
