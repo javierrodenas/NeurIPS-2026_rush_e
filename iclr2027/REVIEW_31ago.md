@@ -268,3 +268,14 @@ Ajuste de páginas tras integrar W2/W3/B21: limitación (i) duplicada eliminada,
 - **iNaturalist (punto 6)** → coautores (imágenes + taxonomía; mismo pipeline que arriba).
 
 Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??` (verificado antes del commit).
+
+---
+
+## Ronda 6 (seguimiento, nota 6 "sin asteriscos"): lo cerrado
+
+- **Frase form-vs-content con números en §7** → añadida ("the models with the most WordNet content (supervised ViTs, CLIP) carry the most fragile form (supremum-borne), while the family with the most robust form (DINOv2) is the least WordNet-aligned").
+- **Barras del FT jerárquico en la Fig. 3b** → **Fig. 3 regenerada desde los CSV de resultados** (`iclr2027/figures/make_fig3_causal.py`, a 5.5 in y fuentes legibles, lo que además cierra el pendiente de legibilidad de esta figura): (a) pesos aleatorios (`e5_random_control.csv`: +65/+134/+144 %), (b) FT no-jerárquico (`analysis4_finetuning.csv`: +19/+69/+91 %), (c) profundidad (`e1_delta_by_layer.csv`). Sin el brazo jerárquico. El panel del shuffle no tiene CSV en disco → fuera de la figura, se mantiene en texto (p>0.12). ⚠️ **Cambio de cifras**: la caída con la profundidad sale del CSV como DINOv2-B −61 % / CLIP-B −46 % (la figura antigua, de una corrida no rastreada, decía −51/−29); el texto adopta el CSV por el estándar de trazabilidad del paper. Coautores: confirmar cuál es la corrida canónica. La figura vieja queda en `figures/fig3_causal_old4panel.pdf`.
+- **Recuento 16 vs 17 en B22** → el 16 es correcto a precisión completa (CLIP-L/ImageNet z_B=−1.951 se mostraba como −2.0). B13/B16/B22 muestran ahora z con dos decimales, para que el recuento visible cuadre.
+- Ajuste de páginas: Fig. 5 (scatter) 2.3→1.95 in de alto; recortes menores. Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??`.
+
+**Sigue abierto (lo que separa el 6 del 7):** control positivo con MERU/HyCoCLIP (receta arriba) y densidad de la prosa.

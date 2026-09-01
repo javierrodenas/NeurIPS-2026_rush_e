@@ -55,7 +55,7 @@ if f.exists():
         for ds in ("imagenet","cifar100"):
             a=by.get((m,ds))
             cs += ["--","--","--","--"] if a is None else \
-                  [f"${float(a['delta']):.3f}$", f"${float(a['excessA']):+.3f}$", f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.1f}$"]
+                  [f"${float(a['delta']):.3f}$", f"${float(a['excessA']):+.3f}$", f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.2f}$"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{Hierarchy-flattening null (null B): each centroid keeps its offset to its superclass hub, while the hub configuration is replaced by a spectrum-matched Gaussian sample of the hubs (5 replicates), so cluster structure is preserved and only the organization \emph{among} clusters is destroyed; null A is the spectrum null of \S\ref{sec:instrument}. Negative excess B ($z_B$ against combined null and estimator noise) is evidence of tree organization among superclass hubs beyond clustering. Three scope notes: (i) the hubs are defined by the human taxonomy, so this control certifies hierarchy \emph{aligned with WordNet / the CIFAR superclasses} and would not detect model-specific hierarchy unaligned with it; (ii) the ImageNet rows are computed on the precomputed centroid store, whose supervised-ViT centroids differ slightly from the census cache ($\hat\delta$ up to $+0.025$ vs Table~\ref{tab:b2-ztable}); every quantity in a row uses the same centroids, so the within-row verdicts are unaffected; (iii) at a $4\times$ quadruple budget ($2{\times}10^6$) the ImageNet verdicts persist (ViT-L $z_B{=}-5.1$, CLIP-B $-2.4$, DINOv2-L $-2.0$).}",
@@ -132,7 +132,7 @@ if f.exists():
         cs=[]
         for ds in ("imagenet","cifar100"):
             a=by.get((m,ds))
-            cs += ["--","--"] if a is None else [f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.1f}$"]
+            cs += ["--","--"] if a is None else [f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.2f}$"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{Hierarchy-flattening null with \emph{data-driven} hubs: as Table~\ref{tab:b13-flatnull}, but the hubs are $k$-means clusters of each model's own centroids ($k{=}30$/$20$, restarts fixed), so no human taxonomy enters the construction. All 24 cells remain sign-negative (16/24 at $|z|\ge2$), and DINOv2-L/G on ImageNet, at their spectrum null and marginal under WordNet hubs, are strongly tree-organized among their own clusters ($z=-4.4$/$-4.6$): the scope note of Table~\ref{tab:b13-flatnull} is addressed empirically.}",
@@ -299,7 +299,7 @@ if f.exists():
         for ds in ("imagenet","cifar100"):
             a=by.get((m,ds))
             cs += ["--","--","--","--"] if a is None else \
-                  [f"${float(a['delta']):.3f}$", f"${float(a['excessA']):+.3f}$", f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.1f}$"]
+                  [f"${float(a['delta']):.3f}$", f"${float(a['excessA']):+.3f}$", f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.2f}$"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{Table~\ref{tab:b13-flatnull} repeated under the p99.9 statistic (20 replicates of each null). Where a supervised model's cluster-preserving excess is significant under the supremum but not here, that excess is carried by a few extreme quadruples; where DINOv2's is significant here, it sits in the bulk of the distribution.}",

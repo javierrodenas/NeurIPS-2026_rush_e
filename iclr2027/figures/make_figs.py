@@ -84,7 +84,7 @@ def pear(x, y):
     x, y = np.asarray(x), np.asarray(y)
     return np.corrcoef(x, y)[0, 1]
 
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.3))
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.95))
 for ax, key, lab in [(axes[0], "fs", "FS"), (axes[1], "nc", "NC")]:
     for p in pts:
         ax.scatter(p["delta"], p[key], marker=MARK[p["ds"]], s=18,
