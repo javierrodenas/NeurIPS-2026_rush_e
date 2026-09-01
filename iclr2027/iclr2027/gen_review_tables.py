@@ -33,7 +33,7 @@ for name,col in [("NC H$-$R",lambda m,ds: float(t1[(m,ds)]['NC_adv'])),
     lines.append(r"\midrule")
 lines[-1]=r"\bottomrule"
 lines+=[r"\end{tabular}",
- r"\caption{Family-identity control for the $\delta_{\text{norm}}$--gain correlations (within dataset, 10 backbones = 3 families with nested scales). Demeaned: both variables centered within family before correlating; ViT/DINOv2: within-family correlations (4 models each); CLIP has only two models, so its within-family value (parenthesized sign) is not informative. The within-dataset prediction survives the family control; pooled cross-dataset correlations of the best-metric advantage do not ($-0.31\to-0.18$ over all 60 cells, $-0.33\to-0.04$ on hierarchical cells) and are therefore family-driven.}",
+ r"\caption{Family-identity control for the $\delta_{\text{norm}}$--gain correlations (within dataset, 10 backbones = 3 families with nested scales). Demeaned: both variables centered within family before correlating; ViT/DINOv2: within-family correlations (4 models each); CLIP has only two models, so its within-family value (parenthesized sign) is not informative. Without DINOv2 (six backbones) the NC correlation holds on ImageNet and CIFAR-100 ($-0.87$/$-0.65$) but not on CIFAR-10/DTD ($+0.23$/$-0.34$). The within-dataset prediction survives the family control; pooled cross-dataset correlations of the best-metric advantage do not ($-0.31\to-0.18$ over all 60 cells, $-0.33\to-0.04$ on hierarchical cells) and are therefore family-driven.}",
  r"\label{tab:b12-familycorr}",r"\end{table}"]
 (OUT/"tab_b12_familycorr.tex").write_text("\n".join(lines)+"\n"); print("b12 written")
 
@@ -62,8 +62,9 @@ if f.exists():
       r"\label{tab:b13-flatnull}",r"\end{table}"]
     (OUT/"tab_b13_flatnull.tex").write_text("\n".join(lines)+"\n"); print(f"b13 written ({len(rows)} cells)")
 
-# ---- B14: template-conditioned nulls for GPT-2 (expR30) ----
-f = RES/"expR30_template_nulls.csv"
+# ---- B14: template-conditioned nulls for GPT-2 (expR49 padding-free, else expR30 batched) ----
+f = RES/"expR49_template_nulls_bs1.csv"; b14_pf = f.exists() and len(list(csv.DictReader(open(f))))>=40
+if not b14_pf: f = RES/"expR30_template_nulls.csv"
 if f.exists():
     rows=list(csv.DictReader(open(f)))
     T=["photo","name_only","image","closeup","this_is","wild","def_pair","gloss_only","concept","discussion"]
@@ -79,7 +80,7 @@ if f.exists():
             cs.append("--" if a is None else f"${float(a['excess']):+.3f}$"+(r"\rlap{$^*$}" if abs(float(a['z']))>=2 else ""))
         lines.append(t.replace("_",r"\_")+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline. Batched (batch 16, left-padded) extraction: padding raises GPT-2's $\hat\delta$ (Table~\ref{tab:b28-extraction}), so the L/XL verdicts are conservative while S's sign-positive cells are not robust.}",
+      r"\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline. "+("Padding-free extraction (one prompt at a time, the canonical protocol of Table~\\ref{tab:b23-text20}; 3 null replicates per cell)." if b14_pf else "Batched (batch 16, left-padded) extraction: padding raises GPT-2's $\\hat\\delta$ (Table~\\ref{tab:b28-extraction}), so the L/XL verdicts are conservative while S's sign-positive cells are not robust.")+"}",
       r"\label{tab:b14-templates}",r"\end{table}"]
     (OUT/"tab_b14_templates.tex").write_text("\n".join(lines)+"\n"); print(f"b14 written ({len(rows)} rows)")
 
@@ -364,7 +365,7 @@ if f.exists():
         m=lambda k: st.mean(float(a[k]) for a in sub)
         lines.append(f"{CN[cfg]} & ${m('delta'):.3f}$ & ${m('excessA_gauss'):+.3f}$ & ${m('excessA_haar'):+.3f}$ & ${m('excessB_gauss'):+.3f}$ & ${m('excessB_haar'):+.3f}$ \\\\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Calibration of the nulls on synthetic clouds (excess, means over seeds; within/between-cluster noise ratio in parentheses). A pure star (Gaussian clusters around Gaussian centers, no hierarchy) sits far below the spectrum null A under either construction (Gaussian coefficients, the paper's; Haar-rotated coefficients, exact sample spectrum): null A certifies clustering, not depth. The hub-randomizing null B, which keeps every cluster intact and resamples only the hub configuration, also reports the star as ``hierarchical'': a near-regular simplex of hubs already minimizes $\delta$, so any hub randomization raises it. Null B is therefore not a valid depth test as constructed and is not used in the paper; a star-calibrated version (excess B relative to a matched star with the same cluster count and tightness) may still serve as a depth test, since under the Haar construction the two-level hierarchy sits $2$--$3\times$ below the star, and is left to future work.}",
+      r"\caption{Calibration of the nulls on synthetic clouds (excess, means over seeds; within/between-cluster noise ratio in parentheses). A pure star (Gaussian clusters around Gaussian centers, no hierarchy) sits far below the spectrum null A under either construction (Gaussian coefficients, the paper's; Haar-rotated coefficients, exact sample spectrum): null A certifies clustering, not depth. The hub-randomizing null B, which keeps every cluster intact and resamples only the hub configuration, also reports the star as ``hierarchical'': a near-regular simplex of hubs already minimizes $\delta$, so any hub randomization raises it. Null B is therefore not a valid depth test as constructed and is not used in the paper; a star-calibrated version (excess B relative to a matched star with the same cluster count and tightness) may still serve as a depth test, since under the Haar construction the two-level hierarchy sits $2$--$3\times$ below the star. That version is run on the real backbones in Table~\ref{tab:b29-depth}. Under the plain Gaussian null the mid-radius star scores $-0.104$ and the $6{\times}5$ hierarchy $-0.14$: a star and a two-level tree differ by a fraction of either's excess, which is why depth cannot be read from the spectrum excess alone.}",
       r"\label{tab:b25-star}",r"\end{table}"]
     (OUT/"tab_b25_star.tex").write_text("\n".join(lines)+"\n"); print(f"b25 written ({len(rows)} rows)")
 
@@ -423,3 +424,25 @@ if f.exists():
       r"\caption{Where extraction-to-extraction variability comes from. Same 1000 prompts, same model; only batch size and precision vary. Precision is irrelevant (fp16 equals fp32 to four decimals). For GPT-2, left-padded batching changes the hidden states (mean cosine to the padding-free extraction $0.98$) and moves $\hat\delta$ by up to $0.018$; OLMo handles left padding correctly and is invariant. Padding-free (batch-size-1) extraction is therefore the protocol of Table~\ref{tab:b23-text20}.}",
       r"\label{tab:b28-extraction}",r"\end{table}"]
     (OUT/"tab_b28_extraction.tex").write_text("\n".join(lines)+"\n"); print(f"b28 written ({len(rows)} rows)")
+
+# ---- B29: star-calibrated depth test (expR50) ----
+f = RES/"expR50_depth_test.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    if len(rows)>=24:
+        by={(a['model'],a['dataset']):a for a in rows}
+        M=["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b","dinov2_l","dinov2_g","clip_b","clip_l","siglip_b"]
+        MN={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B","dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G","clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+        def cell(a):
+            return f"${float(a['excessB_real']):+.3f}$ & ${float(a['excessB_star']):+.3f}$ & ${float(a['depth_excess']):+.3f}$ ({float(a['z_depth']):+.1f})"
+        lines=[r"\begin{table}[H]",r"\centering",r"\footnotesize",r"\setlength{\tabcolsep}{3.5pt}",
+          r"\begin{tabular}{lccc@{\hspace{9pt}}ccc}",r"\toprule",
+          r" & \multicolumn{3}{c}{CIFAR-100 ($K{=}20$ coarse)} & \multicolumn{3}{c}{ImageNet ($K{=}30$ WordNet)} \\",
+          r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}",
+          r"model & real & star & depth ($z$) & real & star & depth ($z$) \\",r"\midrule"]
+        for m in M:
+            lines.append(MN[m]+" & "+cell(by[(m,'cifar100')])+" & "+cell(by[(m,'imagenet')])+r" \\")
+        lines+=[r"\bottomrule",r"\end{tabular}",
+          r"\caption{Star-calibrated depth test (excess B, Haar construction). For each backbone the class centroids are compared with a \emph{matched star}: $K$ Gaussian hubs with the real hubs' RMS radius and, around each hub, an isotropic Gaussian cloud with that superclass's real within-cluster RMS spread (same $n$, $d$, $K$ and cluster sizes; 3 star seeds). ``real'' and ``star'' are excesses of $\hat\delta$ over the hub-randomizing null (each cluster kept intact, hubs replaced by a Haar-rotated sample with the hubs' exact spectrum, 10 replicates), which has a small star bias of its own; ``depth'' is their difference (real minus star; negative = more tree-like than a matched star), with $z$ against the combined star, null and estimator spread. On ImageNet only DINOv2-L exceeds its matched star beyond two spreads ($z{=}-2.5$; DINOv2-G $-1.7$, all others $|z|\le1.6$); on CIFAR-100 every backbone is \emph{less} tree-like than its matched star. The excess of \S\ref{sec:form} is therefore accounted for by clustered, star-like organization; residual depth is at most marginal.}",
+          r"\label{tab:b29-depth}",r"\end{table}"]
+        (OUT/"tab_b29_depth.tex").write_text("\n".join(lines)+"\n"); print(f"b29 written ({len(rows)} rows)")

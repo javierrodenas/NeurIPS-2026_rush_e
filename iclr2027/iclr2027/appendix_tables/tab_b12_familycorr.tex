@@ -21,6 +21,6 @@ FS best$-$R & ImageNet & $-0.64$ & $-0.71$ & $-0.57$ & $-0.90$ & (-1) \\
  & DTD & $-0.60$ & $-0.70$ & $-0.95$ & $-0.88$ & (+1) \\
 \bottomrule
 \end{tabular}
-\caption{Family-identity control for the $\delta_{\text{norm}}$--gain correlations (within dataset, 10 backbones = 3 families with nested scales). Demeaned: both variables centered within family before correlating; ViT/DINOv2: within-family correlations (4 models each); CLIP has only two models, so its within-family value (parenthesized sign) is not informative. The within-dataset prediction survives the family control; pooled cross-dataset correlations of the best-metric advantage do not ($-0.31\to-0.18$ over all 60 cells, $-0.33\to-0.04$ on hierarchical cells) and are therefore family-driven.}
+\caption{Family-identity control for the $\delta_{\text{norm}}$--gain correlations (within dataset, 10 backbones = 3 families with nested scales). Demeaned: both variables centered within family before correlating; ViT/DINOv2: within-family correlations (4 models each); CLIP has only two models, so its within-family value (parenthesized sign) is not informative. Without DINOv2 (six backbones) the NC correlation holds on ImageNet and CIFAR-100 ($-0.87$/$-0.65$) but not on CIFAR-10/DTD ($+0.23$/$-0.34$). The within-dataset prediction survives the family control; pooled cross-dataset correlations of the best-metric advantage do not ($-0.31\to-0.18$ over all 60 cells, $-0.33\to-0.04$ on hierarchical cells) and are therefore family-driven.}
 \label{tab:b12-familycorr}
 \end{table}
