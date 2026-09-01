@@ -32,7 +32,7 @@ ax.tick_params(labelsize=7)
 ax.annotate("genuine form emerges\nwith scale (GPT-2, OLMo)", xy=(3.45, -0.040),
             xytext=(3.9, 0.031), fontsize=6.5, va="center", arrowprops=dict(arrowstyle="->", lw=0.8))
 ax.annotate("classic sentence embedders: at null", xy=(12.4, 0.038), fontsize=6.5, ha="center")
-ax.annotate("LLM-backboned:\ngenuine", xy=(15.05, -0.021), xytext=(13.0, -0.047), fontsize=6, ha="center", va="center", arrowprops=dict(arrowstyle="->", lw=0.7))
+ax.annotate("LLM-backboned:\nnot robust (App.)", xy=(15.05, -0.021), xytext=(13.0, -0.047), fontsize=6, ha="center", va="center", arrowprops=dict(arrowstyle="->", lw=0.7))
 fig.tight_layout()
 out = Path(__file__).parent / "figures"
 fig.savefig(out/"fig_text_nulls.pdf"); fig.savefig(out/"fig_text_nulls.png", dpi=200)

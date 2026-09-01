@@ -293,3 +293,5 @@ Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??` (verifica
 **Sin cambio**: §6 (tres de cuatro revisores frescos piden comprimirlo; decisión de coautores — Q3 del revisor: no, la tesis no cambia sin §6). MERU (receta anotada). iNaturalist.
 
 Compila: 26 páginas, texto principal termina en la p. 9 con holgura (Fig. 3 devuelta a 1.6 in), 0 warnings, sin `??`.
+
+**expR44 integrado (Tabla B23)**: censo de texto a 20 réplicas, 15/15 signos coinciden con el de 3. Dos veredictos cambian y el texto lo refleja: OLMo-1B pasa a genuino (−0.039, z=−5.7) → la "emergencia con escala" queda solo en GPT-2 (OLMo genuino en ambas escalas); GTE-Qwen2 pasa a null (−0.002) → marcado como no robusto (texto, caption y anotación de Fig. 2). Abstract: "emerging with size in GPT-2".

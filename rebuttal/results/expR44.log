@@ -1,0 +1,24 @@
+gpt2         delta 0.1306 null 0.0937 exc +0.0369 z +4.6 above 0.00 (80s)
+gpt2_m       delta 0.0996 null 0.1124 exc -0.0128 z -1.3 above 0.95 (169s)
+gpt2_l       delta 0.0909 null 0.1197 exc -0.0287 z -4.2 above 1.00 (73s)
+gpt2_xl      delta 0.0801 null 0.1165 exc -0.0363 z -4.8 above 1.00 (124s)
+pythia_410m  delta 0.0984 null 0.1345 exc -0.0361 z -4.5 above 1.00 (139s)
+pythia_1b    delta 0.0962 null 0.1281 exc -0.0319 z -4.4 above 1.00 (276s)
+pythia_2b8   delta 0.0980 null 0.1342 exc -0.0362 z -4.3 above 1.00 (542s)
+olmo_1b      delta 0.0816 null 0.1211 exc -0.0394 z -5.7 above 1.00 (435s)
+bge_base     delta 0.1213 null 0.1177 exc +0.0037 z +0.5 above 0.25 (47s)
+bge_large    delta 0.1205 null 0.1177 exc +0.0029 z +0.3 above 0.25 (104s)
+gte_base     delta 0.1242 null 0.1130 exc +0.0113 z +1.0 above 0.00 (41s)
+gte_large    delta 0.1203 null 0.1134 exc +0.0069 z +0.6 above 0.05 (88s)
+A new version of the following files was downloaded from https://huggingface.co/Alibaba-NLP/gte-Qwen2-1.5B-instruct:
+- tokenization_qwen.py
+. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
+A new version of the following files was downloaded from https://huggingface.co/Alibaba-NLP/gte-Qwen2-1.5B-instruct:
+- modeling_qwen.py
+. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
+Downloading shards:   0%|          | 0/2 [00:00<?, ?it/s]Downloading shards:  50%|█████     | 1/2 [06:06<06:06, 366.99s/it]Downloading shards: 100%|██████████| 2/2 [08:04<00:00, 220.27s/it]Downloading shards: 100%|██████████| 2/2 [08:04<00:00, 242.28s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.09it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.79it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.63it/s]gte_qwen2    delta 0.1250 null 0.1270 exc -0.0020 z -0.3 above 0.55 (537s)
+e5_base      delta 0.1152 null 0.1128 exc +0.0024 z +0.3 above 0.45 (48s)
+e5_large     delta 0.1139 null 0.1091 exc +0.0047 z +0.4 above 0.15 (106s)
+Done expR44
+

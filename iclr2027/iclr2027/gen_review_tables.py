@@ -325,7 +325,7 @@ if f.exists():
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{The text census re-run with 20 spectrum-null replicates (paper template; OLMo-7B not re-run, it exceeds the local GPU). "
       f"Sign agreement with the 3-replicate census: {agree}/{comp}. "
-      r"Large $|z|$ read as ``below every replicate''.}",
+      r"Large $|z|$ read as ``below every replicate''. Two verdicts change with replicates: OLMo-1B (at null with 3, genuine with 20) and GTE-Qwen2 (genuine with 3, at null with 20); the main text builds on neither.}",
       r"\label{tab:b23-text20}",r"\end{table}"]
     (OUT/"tab_b23_text20.tex").write_text("\n".join(lines)+"\n"); print(f"b23 written ({len(rows)} models; sign agree {agree}/{comp})")
 

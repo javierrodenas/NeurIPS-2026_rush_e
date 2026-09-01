@@ -12,18 +12,18 @@ GPT-2 L & $0.091$ & $-0.029$ & $-4.2$ & 20/20 & $-0.034$ & $-5.0$ \\
 GPT-2 XL & $0.080$ & $-0.036$ & $-4.8$ & 20/20 & $-0.048$ & $-5.4$ \\
 Pythia-410M & $0.098$ & $-0.036$ & $-4.5$ & 20/20 & $-0.037$ & $-5.4$ \\
 Pythia-1B & $0.096$ & $-0.032$ & $-4.4$ & 20/20 & $-0.035$ & $-6.2$ \\
-Pythia-2.8B & -- & -- & -- & -- & $-0.041$ & -- \\
-OLMo-1B & -- & -- & -- & -- & $-0.001$ & -- \\
+Pythia-2.8B & $0.098$ & $-0.036$ & $-4.3$ & 20/20 & $-0.041$ & $-4.6$ \\
+OLMo-1B & $0.082$ & $-0.039$ & $-5.7$ & 20/20 & $-0.001$ & $-0.2$ \\
 OLMo-7B & -- & -- & -- & -- & $-0.015$ & -- \\
-BGE-base & -- & -- & -- & -- & $+0.005$ & -- \\
-BGE-large & -- & -- & -- & -- & $+0.001$ & -- \\
-GTE-base & -- & -- & -- & -- & $+0.011$ & -- \\
-GTE-large & -- & -- & -- & -- & $+0.004$ & -- \\
-GTE-Qwen2-1.5B & -- & -- & -- & -- & $-0.019$ & -- \\
-E5-base & -- & -- & -- & -- & $+0.003$ & -- \\
-E5-large & -- & -- & -- & -- & $+0.001$ & -- \\
+BGE-base & $0.121$ & $+0.004$ & $+0.5$ & 5/20 & $+0.005$ & $+0.6$ \\
+BGE-large & $0.121$ & $+0.003$ & $+0.3$ & 5/20 & $+0.001$ & $+0.1$ \\
+GTE-base & $0.124$ & $+0.011$ & $+1.0$ & 0/20 & $+0.011$ & $+0.9$ \\
+GTE-large & $0.120$ & $+0.007$ & $+0.6$ & 1/20 & $+0.004$ & $+0.4$ \\
+GTE-Qwen2-1.5B & $0.125$ & $-0.002$ & $-0.3$ & 11/20 & $-0.019$ & $-3.1$ \\
+E5-base & $0.115$ & $+0.002$ & $+0.3$ & 9/20 & $+0.003$ & $+0.3$ \\
+E5-large & $0.114$ & $+0.005$ & $+0.4$ & 3/20 & $+0.001$ & $+0.1$ \\
 \bottomrule
 \end{tabular}
-\caption{The text census re-run with 20 spectrum-null replicates (paper template; OLMo-7B not re-run, it exceeds the local GPU). Sign agreement with the 3-replicate census: 6/6. Large $|z|$ read as ``below every replicate''.}
+\caption{The text census re-run with 20 spectrum-null replicates (paper template; OLMo-7B not re-run, it exceeds the local GPU). Sign agreement with the 3-replicate census: 15/15. Large $|z|$ read as ``below every replicate''. Two verdicts change with replicates: OLMo-1B (at null with 3, genuine with 20) and GTE-Qwen2 (genuine with 3, at null with 20); the main text builds on neither.}
 \label{tab:b23-text20}
 \end{table}
