@@ -256,3 +256,15 @@ Ajustes de página por el material nuevo: título de §6 acortado ("Corollary: D
 - **Q3 (dos fuentes de centroides)** → ya documentado en B13(ii)/B18/B20; la Tabla 1 usa la caché del censo salvo la columna p99.9 (almacén, con caveat).
 
 Ajuste de páginas tras integrar W2/W3/B21: limitación (i) duplicada eliminada, (iii)-(v) comprimidas, recortes de palabra en §5/§6. Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??`.
+
+---
+
+## Ronda 5 (seguimiento del tercer agente, 5→6): lo abierto, atacado
+
+- **Ablaciones en δ cruda (su punto 3)** → tenía razón en que mi caveat empeoraba el caso: el brazo de fine-tuning *jerárquico* colapsa el rango efectivo 96→1 (una recta es un árbol trivial), así que "δ cerca del baseline" ahí no informa. **Brazo retirado como evidencia** (texto y caption de Fig. 3b); el brazo no-jerárquico (+19..+91 %), la profundidad y el shuffle (null-invariante) se mantienen, declarados como δ cruda. Re-puntuar las ablaciones como exceso → coautores (no hay point clouds en disco).
+- **Inconsistencia nueva (abstract vs Tabla B21)** → cierta. **expR41**: null B (hubs WordNet) bajo p99.9 con 20 réplicas (Tabla B22): 23/24 negativos, **16/24 con |z_B|≥2**, pero los portadores cambian: ViT-T/S/B caen al null en ambos datasets (su exceso entre-hubs es de unas pocas cuádruplas extremas), DINO/DINOv2 pasan a z_B −5..−12 (grueso de la distribución). Abstract reescrito ("significant in 14/24 under the supremum and 16/24 under a supremum-robust statistic, with the carriers differing…") y frase de reconciliación en §4.
+- **Legibilidad (punto 7)** → pasada de des-densificación sobre mis propios añadidos (§3 réplicas, §6 control espectral: cuatro cifras → un rango; los recuentos viven en las captions del apéndice). Texto principal sigue en 9 páginas.
+- **MERU/HypViT (punto 5)** → NO ejecutado: requiere imágenes crudas (los cachés solo tienen features) y el código del repo de MERU; el disco raíz está al 100 % y un env nuevo con torch no cabe en /tmp. **Receta para coautores/otra máquina**: `pip install git+https://github.com/facebookresearch/meru` en un env aparte sobre el HDD; checkpoint `meru_vit_b`; extraer embeddings de imagen para CIFAR-100/CIFAR-10/DTD (torchvision) con el mismo preprocesado que CLIP-B; centroides → exp20-protocol (δ + null espectral, 20 réplicas) y null B; comparar exceso MERU-B vs CLIP-B. Predicción del paper: exceso MERU ≥ CLIP; si no, el instrumento tiene un problema. Es la validación positiva que falta y la más barata de las pendientes grandes.
+- **iNaturalist (punto 6)** → coautores (imágenes + taxonomía; mismo pipeline que arriba).
+
+Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??` (verificado antes del commit).

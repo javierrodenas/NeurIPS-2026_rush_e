@@ -280,3 +280,28 @@ if f.exists():
       r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (Table~\ref{tab:b13-flatnull}, note ii) and are not directly comparable to Table~\ref{tab:b2-ztable}. The distributional statistic is stricter on supervised ViTs and stronger on DINO/DINOv2 than the supremum (Table~\ref{tab:b18-p999}).}",
       r"\label{tab:b21-p999census}",r"\end{table}"]
     (OUT/"tab_b21_p999census.tex").write_text("\n".join(lines)+"\n"); print(f"b21 written ({n} cells; agree sign {sign_agree}/{comp}, sig {sig_agree}/{comp})")
+
+# ---- B22: flattening null B under p99.9 (expR41) ----
+f = RES/"expR41_flatnull_p999.csv"
+if f.exists():
+    rows=list(csv.DictReader(open(f)))
+    NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
+          "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
+          "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+    by={(a['model'],a['dataset']):a for a in rows}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\setlength{\tabcolsep}{4pt}",
+      r"\begin{tabular}{lcccc|cccc}",r"\toprule",
+      r"& \multicolumn{4}{c|}{ImageNet (30 WordNet groups)} & \multicolumn{4}{c}{CIFAR-100 (20 superclasses)} \\",
+      r"model & p99.9 & exc.\ A & exc.\ B & $z_B$ & p99.9 & exc.\ A & exc.\ B & $z_B$ \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        cs=[]
+        for ds in ("imagenet","cifar100"):
+            a=by.get((m,ds))
+            cs += ["--","--","--","--"] if a is None else \
+                  [f"${float(a['delta']):.3f}$", f"${float(a['excessA']):+.3f}$", f"${float(a['excessB']):+.3f}$", f"${float(a['zB']):+.1f}$"]
+        lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{Table~\ref{tab:b13-flatnull} repeated under the p99.9 statistic (20 replicates of each null). Where a supervised model's cluster-preserving excess is significant under the supremum but not here, that excess is carried by a few extreme quadruples; where DINOv2's is significant here, it sits in the bulk of the distribution.}",
+      r"\label{tab:b22-flatnull-p999}",r"\end{table}"]
+    (OUT/"tab_b22_flatnull_p999.tex").write_text("\n".join(lines)+"\n"); print(f"b22 written ({len(rows)} cells)")

@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc|cccc}
+\toprule
+& \multicolumn{4}{c|}{ImageNet (30 WordNet groups)} & \multicolumn{4}{c}{CIFAR-100 (20 superclasses)} \\
+model & p99.9 & exc.\ A & exc.\ B & $z_B$ & p99.9 & exc.\ A & exc.\ B & $z_B$ \\
+\midrule
+ViT-T & $0.100$ & $+0.007$ & $-0.001$ & $-0.2$ & $0.131$ & $-0.008$ & $-0.004$ & $-0.6$ \\
+ViT-S & $0.079$ & $-0.005$ & $-0.007$ & $-1.2$ & $0.122$ & $-0.005$ & $-0.004$ & $-0.4$ \\
+ViT-B & $0.081$ & $-0.006$ & $-0.007$ & $-1.0$ & $0.126$ & $+0.001$ & $+0.002$ & $+0.2$ \\
+ViT-L & $0.069$ & $-0.014$ & $-0.016$ & $-3.2$ & $0.094$ & $-0.029$ & $-0.024$ & $-3.7$ \\
+\midrule
+DINO-B & $0.054$ & $-0.025$ & $-0.019$ & $-5.2$ & $0.082$ & $-0.041$ & $-0.030$ & $-5.2$ \\
+DINOv2-S & $0.053$ & $-0.022$ & $-0.017$ & $-4.7$ & $0.067$ & $-0.047$ & $-0.033$ & $-6.6$ \\
+DINOv2-B & $0.035$ & $-0.026$ & $-0.023$ & $-5.8$ & $0.049$ & $-0.057$ & $-0.035$ & $-12.3$ \\
+DINOv2-L & $0.032$ & $-0.023$ & $-0.024$ & $-5.0$ & $0.036$ & $-0.067$ & $-0.035$ & $-10.4$ \\
+DINOv2-G & $0.032$ & $-0.020$ & $-0.021$ & $-5.3$ & $0.030$ & $-0.073$ & $-0.034$ & $-9.7$ \\
+\midrule
+CLIP-B & $0.087$ & $-0.006$ & $-0.008$ & $-1.2$ & $0.101$ & $-0.025$ & $-0.026$ & $-3.1$ \\
+CLIP-L & $0.076$ & $-0.011$ & $-0.010$ & $-2.0$ & $0.097$ & $-0.026$ & $-0.022$ & $-3.0$ \\
+SigLIP-B & $0.076$ & $-0.009$ & $-0.010$ & $-2.2$ & $0.098$ & $-0.029$ & $-0.025$ & $-3.4$ \\
+\bottomrule
+\end{tabular}
+\caption{Table~\ref{tab:b13-flatnull} repeated under the p99.9 statistic (20 replicates of each null). Where a supervised model's cluster-preserving excess is significant under the supremum but not here, that excess is carried by a few extreme quadruples; where DINOv2's is significant here, it sits in the bulk of the distribution.}
+\label{tab:b22-flatnull-p999}
+\end{table}
