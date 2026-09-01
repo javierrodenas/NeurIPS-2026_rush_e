@@ -6,18 +6,18 @@
 \toprule
 template & GPT-2 S & GPT-2 M & GPT-2 L & GPT-2 XL \\
 \midrule
-photo & $+0.035$\rlap{$^*$} & $-0.026$\rlap{$^*$} & $-0.033$\rlap{$^*$} & $-0.041$\rlap{$^*$} \\
-name\_only & $+0.032$\rlap{$^*$} & $+0.006$ & $-0.018$\rlap{$^*$} & $-0.021$\rlap{$^*$} \\
-image & $+0.028$\rlap{$^*$} & $-0.006$ & $-0.049$\rlap{$^*$} & $-0.040$\rlap{$^*$} \\
-closeup & $+0.008$ & $+0.000$ & $-0.046$\rlap{$^*$} & $-0.040$\rlap{$^*$} \\
-this\_is & $+0.003$ & $+0.005$ & $-0.051$\rlap{$^*$} & $-0.032$\rlap{$^*$} \\
-wild & $+0.002$ & $-0.009$ & $-0.029$\rlap{$^*$} & $-0.017$ \\
-def\_pair & $+0.030$\rlap{$^*$} & $-0.016$\rlap{$^*$} & $-0.019$\rlap{$^*$} & $-0.015$\rlap{$^*$} \\
-gloss\_only & $+0.034$\rlap{$^*$} & $+0.003$ & $-0.013$ & $-0.013$\rlap{$^*$} \\
-concept & $+0.041$\rlap{$^*$} & $+0.016$\rlap{$^*$} & $-0.034$\rlap{$^*$} & $-0.035$\rlap{$^*$} \\
-discussion & $+0.015$\rlap{$^*$} & $-0.020$\rlap{$^*$} & $-0.026$\rlap{$^*$} & $-0.025$\rlap{$^*$} \\
+photo & $-0.016$\rlap{$^*$} & $-0.019$\rlap{$^*$} & $-0.043$\rlap{$^*$} & $-0.050$\rlap{$^*$} \\
+name\_only & $-0.006$ & $-0.007$ & $-0.048$\rlap{$^*$} & $-0.051$\rlap{$^*$} \\
+image & $-0.018$\rlap{$^*$} & $-0.028$\rlap{$^*$} & $-0.050$\rlap{$^*$} & $-0.049$\rlap{$^*$} \\
+closeup & $+0.007$ & $-0.018$\rlap{$^*$} & $-0.044$\rlap{$^*$} & $-0.049$\rlap{$^*$} \\
+this\_is & $-0.032$\rlap{$^*$} & $-0.022$\rlap{$^*$} & $-0.042$\rlap{$^*$} & $-0.046$\rlap{$^*$} \\
+wild & $-0.023$\rlap{$^*$} & $-0.067$\rlap{$^*$} & $-0.014$ & $-0.010$\rlap{$^*$} \\
+def\_pair & $-0.002$ & $-0.019$\rlap{$^*$} & $-0.036$\rlap{$^*$} & $-0.035$\rlap{$^*$} \\
+gloss\_only & $-0.020$\rlap{$^*$} & $-0.030$\rlap{$^*$} & $-0.033$\rlap{$^*$} & $-0.036$\rlap{$^*$} \\
+concept & $-0.002$ & $-0.003$ & $-0.043$\rlap{$^*$} & $-0.041$\rlap{$^*$} \\
+discussion & $-0.010$ & $-0.013$\rlap{$^*$} & $-0.041$\rlap{$^*$} & $-0.040$\rlap{$^*$} \\
 \bottomrule
 \end{tabular}
-\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline. Batched (batch 16, left-padded) extraction: padding raises GPT-2's $\hat\delta$ (Table~\ref{tab:b28-extraction}), so the L/XL verdicts are conservative while S's sign-positive cells are not robust.}
+\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline. Padding-free extraction (one prompt at a time, the canonical protocol of Table~\ref{tab:b23-text20}). Mean excess over templates: $-0.012$ (S), $-0.023$ (M), $-0.040$ (L), $-0.041$ (XL); cells at $|z|\ge2$: 5, 8, 9 and 10 of 10. Only 3 null replicates per cell here, so the $z$ are coarser than the census's 20-replicate values: on the baseline template the census puts S and M within noise ($z=-1.6$/$-1.2$, excess $-0.015$/$-0.010$), so their starred cells are borderline, whereas the L/XL cells ($z$ from $-4$ to $-9$) are not in doubt.}
 \label{tab:b14-templates}
 \end{table}
