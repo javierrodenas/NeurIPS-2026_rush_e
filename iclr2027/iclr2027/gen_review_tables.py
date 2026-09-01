@@ -179,7 +179,7 @@ if f.exists():
         if a is None: lines.append(NAME[m]+r" & -- & -- & -- & -- \\"); continue
         lines.append(f"{NAME[m]} & ${float(a['p999']):.3f}$ & ${float(a['excess']):+.4f}$ & ${float(a['z']):+.1f}$ & {round(20*float(a['frac_null_above']))}/20 \\\\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{The ImageNet census under the supremum-robust statistic: 99.9th percentile of the four-point defect, 20 spectrum-null replicates, with the percentile rank (how many replicates exceed the real value; 20/20 = below every replicate). The ordering shifts relative to the supremum: DINO/DINOv2 carry the most budget-robust excess, while ViT-T's supremum excess does not survive ($+0.007$, above 19/20 replicates), consistent with the curvature-sign ordering of Table~\ref{tab:a10}. Large $|z|$ should be read as ``below every replicate'', not as a Gaussian tail probability.}",
+      r"\caption{The ImageNet census under the supremum-robust statistic: 99.9th percentile of the four-point defect, 20 spectrum-null replicates, with the percentile rank (how many replicates exceed the real value; 20/20 = below every replicate). The ordering shifts relative to the supremum: DINO/DINOv2 carry the most budget-robust excess, while ViT-T's supremum excess does not survive ($+0.007$, above 19/20 replicates), consistent with the ordering of the norm-structure descriptor $\xi$ (Table~\ref{tab:a10}). Large $|z|$ should be read as ``below every replicate'', not as a Gaussian tail probability.}",
       r"\label{tab:b18-p999}",r"\end{table}"]
     (OUT/"tab_b18_p999.tex").write_text("\n".join(lines)+"\n"); print(f"b18 written ({len(rows)} models)")
 
@@ -323,9 +323,9 @@ if f.exists():
         if b: comp+=1; agree += ((float(a['excess'])<0)==(float(b['excess'])<0))
         lines.append(f"{TN[m]} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}$ & ${float(a['z']):+.1f}$ & {round(20*float(a['frac_null_above']))}/20 & " + (f"${float(b['excess']):+.3f}$ & ${bz:+.1f}$" if b else "-- & --") + r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{The text census re-run with 20 spectrum-null replicates (paper template; OLMo-7B not re-run, it exceeds the local GPU). "
+      r"\caption{The text census independently re-extracted (same template and pooling; batched fp16 inference) and re-scored with 20 spectrum-null replicates; OLMo-7B not re-run (exceeds the local GPU). Raw $\hat\delta$ differs from Table~\ref{tab:b1-textnulls} because the embeddings were re-extracted, not because of the replicate count. "
       f"Sign agreement with the 3-replicate census: {agree}/{comp}. "
-      r"Large $|z|$ read as ``below every replicate''. Two verdicts change with replicates: OLMo-1B (at null with 3, genuine with 20) and GTE-Qwen2 (genuine with 3, at null with 20); the main text builds on neither.}",
+      r"Large $|z|$ read as ``below every replicate''. Two verdicts change with replicates: OLMo-1B (at null with 3, genuine with 20) and GTE-Qwen2 (genuine with 3, at null with 20); the main text uses neither OLMo-1B nor GTE-Qwen2 as evidence.}",
       r"\label{tab:b23-text20}",r"\end{table}"]
     (OUT/"tab_b23_text20.tex").write_text("\n".join(lines)+"\n"); print(f"b23 written ({len(rows)} models; sign agree {agree}/{comp})")
 
@@ -339,7 +339,7 @@ if f.exists():
     for a in rows:
         lines.append(f"{XN.get(a['model'],a['model'])} & {a['d']} & ${float(a['delta']):.3f}$ & ${float(a['excessA']):+.3f}$ (${float(a['zA']):+.1f}$) & {round(20*float(a['rankA']))}/20 \\\\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Backbones outside the ViT census, ImageNet centroid store: two ResNet-50 self-supervised models and two further ViT-SSL recipes, under the spectrum null (20 replicates, percentile rank).}",
+      r"\caption{Backbones outside the ViT census, ImageNet centroid store: two ResNet-50 self-supervised models, under the spectrum null (20 replicates, percentile rank).}",
       r"\label{tab:b24-extra}",r"\end{table}"]
     (OUT/"tab_b24_extra.tex").write_text("\n".join(lines)+"\n"); print(f"b24 written ({len(rows)} rows)")
 
@@ -357,7 +357,7 @@ if f.exists():
         m=lambda k: st.mean(float(a[k]) for a in sub)
         lines.append(f"{CN[cfg]} & ${m('delta'):.3f}$ & ${m('excessA_gauss'):+.3f}$ & ${m('excessA_haar'):+.3f}$ & ${m('excessB_gauss'):+.3f}$ & ${m('excessB_haar'):+.3f}$ \\\\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Calibration of the nulls on synthetic clouds (excess, means over seeds; within/between-cluster noise ratio in parentheses). A pure star (Gaussian clusters around Gaussian centers, no hierarchy) sits far below the spectrum null A under either construction (Gaussian coefficients, the paper's; Haar-rotated coefficients, exact sample spectrum): null A certifies clustering, not depth. The hub-randomizing null B, which keeps every cluster intact and resamples only the hub configuration, also reports the star as ``hierarchical'': a near-regular simplex of hubs already minimizes $\delta$, so any hub randomization raises it. Null B is therefore not a valid depth test and is not used in the paper.}",
+      r"\caption{Calibration of the nulls on synthetic clouds (excess, means over seeds; within/between-cluster noise ratio in parentheses). A pure star (Gaussian clusters around Gaussian centers, no hierarchy) sits far below the spectrum null A under either construction (Gaussian coefficients, the paper's; Haar-rotated coefficients, exact sample spectrum): null A certifies clustering, not depth. The hub-randomizing null B, which keeps every cluster intact and resamples only the hub configuration, also reports the star as ``hierarchical'': a near-regular simplex of hubs already minimizes $\delta$, so any hub randomization raises it. Null B is therefore not a valid depth test as constructed and is not used in the paper; a star-calibrated version (excess B relative to a matched star with the same cluster count and tightness) may still serve as a depth test, since under the Haar construction the two-level hierarchy sits $2$--$3\times$ below the star, and is left to future work.}",
       r"\label{tab:b25-star}",r"\end{table}"]
     (OUT/"tab_b25_star.tex").write_text("\n".join(lines)+"\n"); print(f"b25 written ({len(rows)} rows)")
 

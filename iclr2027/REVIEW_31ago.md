@@ -301,3 +301,17 @@ Compila: 26 páginas, texto principal termina en la p. 9 con holgura (Fig. 3 dev
 ## §6 comprimido a media página (decisión de Javi, 1 sept)
 
 Tres párrafos: *Whether* (correlaciones within-dataset con controles de dimensión/accuracy/familia/espectro; pooled no usado como evidencia; flat datasets; CIs y McNemar), *Which metric* (control RT, división por objetivo, predicción del mejor métrica within-dataset, selección held-out, regla por objetivo vs coseno), *Scope and negatives* (diagnóstico ≠ política; δ-gated la peor; NC no mejora en media; coseno default; +0.5..+2 pp solo en prototipos; kNN/retrieval negativos; DBpedia; robustez a t en apéndice). Ninguna cifra nueva; las tablas de políticas, CIs y controles siguen en el apéndice. Compila: texto principal con holgura en la p. 9, 0 warnings.
+
+---
+
+## Ronda 8 (seguimiento del quinto agente, nota 6 → "7 con 4-5 limpios y abstract reescrito")
+
+- **Abstract**: reescrito de nuevo, **199 palabras**, sin "beyond second moments"/"chaining artifact"/recuentos múltiples; una cifra (69/72) y lenguaje llano ("random cloud with the same dimension and spectrum", "an artifact of the clustering step").
+- **Tabla 9 (B23) no cuadraba consigo misma** → cierto: expR44 *re-extrajo* los embeddings (inferencia fp16 por lotes), no solo cambió las réplicas. Caption lo declara; el texto ya no se apoya en OLMo en ningún sentido ("OLMo's verdicts differ between extractions and are not used"), la emergencia con escala queda solo en GPT-2 y la anotación de la Fig. 2 dice "(GPT-2)".
+- **Restos**: Tabla 34 (a10) ya no se titula "curvature-sign estimator" (editado el .tex generado; el generador vive en la otra máquina); Tabla 24 (B18) remite al "norm-structure descriptor ξ"; Tabla 6 (B24) ya no anuncia "two further ViT-SSL recipes".
+- **Tabla 27 → §4**: frase en el cuerpo: la *magnitud* (no el signo) de los excesos en datasets pequeños depende de la construcción del null (DINOv2/C100 −0.04..−0.08 → −0.007..−0.03; signos 35/36).
+- **Ablaciones en δ crudo (punto 6)**: brazo de pesos aleatorios retirado como evidencia (features casi gaussianas ⇒ δ crudo mayor por construcción); Fig. 3 pasa a dos paneles (FT no-jerárquico, profundidad); "The form is learned" → "The form tracks training"; abstract/intro/contribución 2 en consonancia ("training-dependent").
+- **Circularidad de la regla por objetivo (§6)**: frase explícita ("read off the same three families it is scored on… describes these families rather than validating a policy").
+- **Su pregunta (¿null B calibrado contra la estrella como test de profundidad?)**: sí, es prometedor — bajo Haar la jerarquía 6×5 queda 2-3× por debajo de la estrella; anotado en la caption de B25 como trabajo futuro (requiere una estrella emparejada por celda en número y compacidad de clusters).
+
+Compila: 26 páginas, texto principal hasta la p. 9, 0 warnings, sin `??`.

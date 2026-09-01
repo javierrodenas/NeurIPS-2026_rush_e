@@ -24,6 +24,6 @@ E5-base & $0.115$ & $+0.002$ & $+0.3$ & 9/20 & $+0.003$ & $+0.3$ \\
 E5-large & $0.114$ & $+0.005$ & $+0.4$ & 3/20 & $+0.001$ & $+0.1$ \\
 \bottomrule
 \end{tabular}
-\caption{The text census re-run with 20 spectrum-null replicates (paper template; OLMo-7B not re-run, it exceeds the local GPU). Sign agreement with the 3-replicate census: 15/15. Large $|z|$ read as ``below every replicate''. Two verdicts change with replicates: OLMo-1B (at null with 3, genuine with 20) and GTE-Qwen2 (genuine with 3, at null with 20); the main text builds on neither.}
+\caption{The text census independently re-extracted (same template and pooling; batched fp16 inference) and re-scored with 20 spectrum-null replicates; OLMo-7B not re-run (exceeds the local GPU). Raw $\hat\delta$ differs from Table~\ref{tab:b1-textnulls} because the embeddings were re-extracted, not because of the replicate count. Sign agreement with the 3-replicate census: 15/15. Large $|z|$ read as ``below every replicate''. Two verdicts change with replicates: OLMo-1B (at null with 3, genuine with 20) and GTE-Qwen2 (genuine with 3, at null with 20); the main text uses neither OLMo-1B nor GTE-Qwen2 as evidence.}
 \label{tab:b23-text20}
 \end{table}

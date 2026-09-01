@@ -29,7 +29,7 @@ ax.axhline(0, color="k", lw=0.9)
 ax.set_xticks(x); ax.set_xticklabels([NAME[m] for m in order], rotation=55, ha="right", fontsize=6.5)
 ax.set_ylabel(r"tree excess  $\delta_{\rm real}-\delta_{\rm null}$", fontsize=7)
 ax.tick_params(labelsize=7)
-ax.annotate("genuine form emerges\nwith scale (GPT-2, OLMo)", xy=(3.45, -0.040),
+ax.annotate("genuine form emerges\nwith scale (GPT-2)", xy=(3.45, -0.040),
             xytext=(3.9, 0.031), fontsize=6.5, va="center", arrowprops=dict(arrowstyle="->", lw=0.8))
 ax.annotate("classic sentence embedders: at null", xy=(12.4, 0.038), fontsize=6.5, ha="center")
 ax.annotate("LLM-backboned:\nnot robust (App.)", xy=(15.05, -0.021), xytext=(13.0, -0.047), fontsize=6, ha="center", va="center", arrowprops=dict(arrowstyle="->", lw=0.7))
