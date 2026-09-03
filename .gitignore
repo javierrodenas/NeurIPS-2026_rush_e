@@ -1,2 +1,3 @@
 __pycache__/
 *.pyc
+rebuttal/results/*.part_*.csv
