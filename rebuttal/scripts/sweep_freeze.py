@@ -368,3 +368,15 @@ tool_check()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-4:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det else ""))
 print(f"[tool re-total] {len(checks)-n_fail}/{len(checks)}")
+
+
+# ---------- p99.9 robustness census at 200 replicates (expR40b, census cache) ----------
+e40 = load("expR40b_p999census200.csv")
+p40 = {(r["model"],r["dataset"]): float(r["p_left"]) for r in e40}; x40 = {(r["model"],r["dataset"]): float(r["excess"]) for r in e40}
+chk("p99.9@200: 70/72 sign-neg, 56/72 genuine, 44/48 hier genuine", sum(1 for v in x40.values() if v<0)==70
+    and sum(1 for v in p40.values() if v<=0.05)==56 and sum(1 for (m,d),v in p40.items() if d in HIER and v<=0.05)==44)
+chk("p99.9@200 ImageNet: DINO/DINOv2 genuine, ViT-T not", all(p40[(m,"imagenet")]<=0.05 for m in ["dinov1_b","dinov2_s","dinov2_b","dinov2_l","dinov2_g"])
+    and p40[("i21k_t","imagenet")]>0.05)
+n_fail = sum(1 for _,ok,_ in checks if not ok)
+for name, ok, det in checks[-2:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det else ""))
+print(f"[p999 re-total] {len(checks)-n_fail}/{len(checks)}")

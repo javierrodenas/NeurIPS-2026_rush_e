@@ -349,3 +349,31 @@ embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust acro
    ResNet-50 acortada en el censo, Figura 1 a 0.95 in, overview 1.65 in, excesos 1.7 in, tree map 1.95 in.
 - Verificación: `sweep_freeze.py` **71/71 PASS** (67 + 4 checks del tool); compila con 30 páginas, 0 warnings, 0 `??`; el texto principal
   (Limitations incluidas) termina en p9 y el Ethics Statement abre p10. PDF: `iclr2027/main_iclr2027_final.pdf`.
+
+## 13. Pasada final de consistencia
+
+1. **Vocabulario signo/genuino alineado con §3**: intro "What survives is clustered form." → "Structure beyond the matched null is nearly
+   universal on datasets with a class hierarchy (43 of 48 cells; 55 of 72 overall; negative excess in 68 of 72)"; lead-in de §4 →
+   "Vision: negative excess in 68 of 72 cells, genuine in 55."; contribución 2 → "Genuine tree-like form in nearly every vision cell with
+   a class hierarchy".
+2. **§3**: "(exact enumeration when C ≤ 30)" → "(for C = 10 the 5×10⁵ draws cover every quadruple many times over, so the supremum is exact)".
+   Verificado: `delta_norm` de `expR39c_census200_cache.py` (y de todos los censos) muestrea 5×10⁵ cuádruplas por semilla en todos los casos;
+   con C = 10 hay 210 cuádruplas distintas, cubiertas miles de veces.
+3. **MERU**: "whether or not they were trained in hyperbolic space" (abstract) y "whether or not the model was trained in hyperbolic space"
+   (intro) → "including a backbone trained in hyperbolic space" (un solo modelo, MERU). La caja de p1 no contenía la frase.
+4. **ORC**: el párrafo "Negative curvature concentrates on bridges" pasa íntegro al apéndice A.14 ("ORC edge types", nuevo label `app:orc`);
+   en §4 queda un puntero de una línea; en el párrafo de neural collapse "(below)" → "(Appendix A.14)". Hueco de la Figura 1 de vuelta a 1.2 in.
+5. **p99.9 a 200 réplicas** (`expR40b_p999census200.py` → `expR40b_p999census200.csv`; copia de expR40 con `range(200)` y la caché del censo
+   como fuente de centroides en todos los datasets — expR40 leía ImageNet del store —, mismo estadístico p99.9 y mismas semillas; 3 procesos,
+   ~70 min). Recuentos: sign-negativas **70/72 (sin cambio)**; jerárquicas genuinas **44/48** (antes "42/48 below every replicate" a 20 réplicas
+   sobre el store); genuinas 56/72; ImageNet: DINO/DINOv2 genuinos (p 0.005), ViT-T no (p 0.114), CLIP-B p 0.0498. Frase de §4 reescrita
+   ("…44/48 hierarchical cells genuine under the same protocol (200 replicates)…"); B21 regenerada desde expR40b (exc/r/p por celda, recuentos
+   en la leyenda); la columna p99.9 de `tab_census_extra` pasa de expR34 (20 réplicas) a expR40b (200). Check nuevo en el sweep.
+   Sign-positivas bajo p99.9: ViT-B/CIFAR-100 (+0.001, p 0.56) y ViT-T/FMNIST (+0.001, p 0.53).
+6. **`iclr2027/tool/demo.py`** (n = 60, d = 32, 50 réplicas, semillas fijas): nube aleatoria → exceso −0.014, r 47/50, p 0.078 → no genuino;
+   estrella de 6 clusters → exceso −0.054, p 0.020 → genuino, profundidad +0.039 (z +0.9) → sin profundidad; jerarquía 6×5 → exceso −0.115,
+   p 0.020 → genuino, profundidad −0.025 (z −0.6) → más arbóreo que su estrella. A n = 60 con K = 6 hubs el test de profundidad está
+   infra-potenciado (probé cuatro parametrizaciones; |z| ≤ 0.6 en todas), así que el demo y el README leen el signo de la profundidad y remiten
+   a B25/B29 (n = 100–1000) para la calibración. `tool/README.md`: uso, check de reproducción de dos celdas, demo.
+- Verificación: `sweep_freeze.py` **73/73 PASS**; compila con 30 páginas, 0 warnings, 0 `??`; el texto principal (Limitations incluidas)
+  termina en p9 y el Ethics Statement abre p10. PDF: `iclr2027/main_iclr2027_final.pdf`.

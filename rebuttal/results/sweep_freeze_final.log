@@ -66,3 +66,6 @@ PASS tool == Table 1 (dinov2_l/imagenet): excess 3dp, r, p | tool -0.0079 r200 p
 PASS tool == B29 (ViT-L/CIFAR-100): depth 3dp, z 1dp | tool +0.0396 z+4.06 | table +0.0396 z+4.06
 PASS tool == B29 (DINOv2-L/ImageNet, store centroids as expR50): depth 3dp, z 1dp | tool -0.0289 z-2.46 | table -0.0289 z-2.46
 [tool re-total] 71/71
+PASS p99.9@200: 70/72 sign-neg, 56/72 genuine, 44/48 hier genuine 
+PASS p99.9@200 ImageNet: DINO/DINOv2 genuine, ViT-T not 
+[p999 re-total] 73/73

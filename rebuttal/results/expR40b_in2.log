@@ -1,0 +1,7 @@
+dinov2_b  imagenet     exc -0.0244 r 200/200 p 0.0050 (355s)
+dinov2_l  imagenet     exc -0.0234 r 200/200 p 0.0050 (395s)
+dinov2_g  imagenet     exc -0.0187 r 200/200 p 0.0050 (551s)
+clip_b    imagenet     exc -0.0075 r 191/200 p 0.0498 (200s)
+clip_l    imagenet     exc -0.0103 r 199/200 p 0.0100 (240s)
+siglip_b  imagenet     exc -0.0089 r 198/200 p 0.0149 (204s)
+Done part in2

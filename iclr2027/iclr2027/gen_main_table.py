@@ -62,7 +62,8 @@ for r in rows: print(r[0], f"{r[1]} d={r[2]:.3f} exc={r[3]:+.3f} r={r[4]}/{N} p=
 print("wrote tab_census.tex from", src)
 
 # ---- appendix: the columns moved out of Table 1 ----
-d34 = {r["model"]: r for r in load("expR34_p999_imagenet.csv")}
+_p9 = "expR40b_p999census200.csv" if (RES/"expR40b_p999census200.csv").exists() else "expR34_p999_imagenet.csv"
+d34 = {r["model"]: r for r in load(_p9) if r.get("dataset", "imagenet") == "imagenet"}
 d2 = {(r["model"], r["dataset"]): r for r in load("exp2_metric_controls.csv")}
 HIER = ("imagenet", "cifar100", "cifar10", "dtd")
 lines = [r"\begin{table}[H]", r"\centering", r"\small", r"\setlength{\tabcolsep}{4.5pt}",
@@ -84,10 +85,10 @@ for i, m in enumerate(ORDER):
     lines.append(f"{NAME[m]} & {p9} & " + " & ".join(cells) + f" & {bests} & {met} \\\\")
 lines += [r"\bottomrule", r"\end{tabular}",
   r"\caption{Census columns moved out of Table~\ref{tab:census}. p99.9 IN: ImageNet excess under the "
-  r"supremum-robust statistic (20 replicates; Table~\ref{tab:b18-p999}); exc.\ DTD/FMNIST/MNIST: per-dataset "
+  r"supremum-robust statistic (200 replicates, census cache; Table~\ref{tab:b21-p999census}); exc.\ DTD/FMNIST/MNIST: per-dataset "
   r"excess on the remaining sets; best$-$R: few-shot advantage of the best zero-cost metric over Euclidean, "
   r"mean over the four hierarchical datasets; metric: which of Poincar\'e (H) or cosine collects it "
-  r"(either: within $0.15$pp; ---: outside the 10-model task grid). % expR34_p999_imagenet.csv, exp2_metric_controls.csv, " + src + "\n}",
+  r"(either: within $0.15$pp; ---: outside the 10-model task grid). % " + _p9 + ", exp2_metric_controls.csv, " + src + "\n}",
   r"\label{tab:census-extra}", r"\end{table}"]
 (HERE/"appendix_tables"/"tab_census_extra.tex").write_text("\n".join(lines) + "\n")
 print("wrote tab_census_extra.tex")

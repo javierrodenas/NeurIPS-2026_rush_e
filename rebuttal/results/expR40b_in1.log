@@ -1,0 +1,7 @@
+i21k_t    imagenet     exc -0.0056 r 178/200 p 0.1144 (202s)
+i21k_s    imagenet     exc -0.0142 r 200/200 p 0.0050 (232s)
+i21k_b    imagenet     exc -0.0189 r 200/200 p 0.0050 (290s)
+i21k_l    imagenet     exc -0.0183 r 200/200 p 0.0050 (409s)
+dinov1_b  imagenet     exc -0.0232 r 200/200 p 0.0050 (278s)
+dinov2_s  imagenet     exc -0.0202 r 200/200 p 0.0050 (180s)
+Done part in1
