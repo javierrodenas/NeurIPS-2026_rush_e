@@ -42,7 +42,7 @@ import matplotlib.patches as mpatches
 hd = [mpatches.Patch(facecolor=FAMILY_COLORS["causal_lm"], label="causal LM"),
       mpatches.Patch(facecolor=FAMILY_COLORS["embedder"], label="text embedder"),
       mpatches.Patch(facecolor="white", edgecolor="k", label="hollow: at null (not below every replicate)")]
-ax.legend(handles=hd, frameon=False, loc="upper left", handlelength=1.2, borderaxespad=0.2)
+ax.legend(handles=hd, frameon=False, loc="lower right", ncol=1, handlelength=1.2, borderaxespad=0.3)
 fig.tight_layout()
 out = Path(__file__).parent / "figures"
 fig.savefig(out/"fig_text_nulls.pdf"); fig.savefig(out/"fig_text_nulls.png", dpi=200)

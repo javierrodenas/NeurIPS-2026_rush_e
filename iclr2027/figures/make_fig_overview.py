@@ -29,7 +29,7 @@ d_in = {r["model"]: (float(r["delta"]), float(r["excess"])) for r in census if r
 DIMS = {"i21k_t":192,"i21k_s":384,"i21k_b":768,"i21k_l":1024,"dinov1_b":768,"dinov2_s":384,
         "dinov2_b":768,"dinov2_l":1024,"dinov2_g":1536,"clip_b":512,"clip_l":768,"siglip_b":768}
 
-fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.55), gridspec_kw={"width_ratios":[1.2,1,1]})
+fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.8), gridspec_kw={"width_ratios":[1.2,1,1]})
 # (a) gauss curve + raw deltas
 g = sorted({int(r["d"]): float(r["delta_max"]) for r in csv.DictReader(open(RES/"exp1_delta_controls.csv"))
             if r["variant"]=="gauss"}.items())
@@ -40,7 +40,11 @@ for m, d in DIMS.items():
         axes[0].scatter(d, d_in[m][0], s=16, color=fam_color(m), zorder=3)
 axes[0].set_xlabel("dimension $d$"); axes[0].set_ylabel(r"raw $\delta_{\rm norm}$ (ImageNet)")
 axes[0].set_title("(a) raw readings ride the\ndimension confound")
-axes[0].legend(frameon=False, loc="upper right", handlelength=1.4)
+_fam = [plt.Line2D([], [], marker="o", ls="", color=FAMILY_COLORS[k], ms=4, label=l) for k, l in
+        [("supervised", "sup."), ("ssl", "SSL"), ("contrastive", "contr.")]]
+axes[0].set_xlim(80, 2450)
+axes[0].legend(handles=axes[0].get_legend_handles_labels()[0] + _fam, frameon=False, loc="upper right",
+               ncol=1, fontsize=6.5, handlelength=1.2, handletextpad=0.3, borderaxespad=0.2, labelspacing=0.25)
 # (b) same raw, opposite verdict
 t48 = {r["model"]: r for r in csv.DictReader(open(RES/"expR48_text_census_bs1.csv"))}
 bge_d, bge_e = float(t48["bge_base"]["delta"]), float(t48["bge_base"]["excess"])
@@ -57,9 +61,10 @@ NM = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov
       "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
       "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
 DSN = {"imagenet":"IN","cifar100":"C100","cifar10":"C10","dtd":"DTD","fashionmnist":"FMN","mnist":"MN"}
-axes[1].set_xticks(X); axes[1].set_xticklabels(["BGE-base", f"{NM[v_name]}\n({DSN[v_ds]})"])
+axes[1].set_xticks(X); axes[1].set_xticklabels(["BGE-base", f"{NM[v_name]} ({DSN[v_ds]})"])
 axes[1].set_title("(b) same raw value,\nopposite verdict")
-axes[1].legend(frameon=False, loc="lower left", handlelength=1.2)
+axes[1].legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=2, handlelength=1.2,
+               columnspacing=1.0, borderaxespad=0.0)
 # (c) the map before/after
 z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True)
 zi, zc = z["summary_in"].item(), z["summary_c1"].item()
@@ -82,7 +87,7 @@ import matplotlib.patches as mpatches
 axes[2].legend(handles=[mpatches.Patch(color=FAMILY_COLORS["null"], label="naive"),
                         mpatches.Patch(color=FAMILY_COLORS["ssl"], label="selected")],
                frameon=False, loc="upper left", handlelength=1.2)
-fig.tight_layout()
+fig.subplots_adjust(left=0.10, right=0.99, top=0.80, bottom=0.36, wspace=0.55)
 for o in (HERE, HERE.parent/"iclr2027"/"figures"):
     fig.savefig(o/"fig_overview.pdf"); fig.savefig(o/"fig_overview.png", dpi=200)
 print("fig_overview written")
