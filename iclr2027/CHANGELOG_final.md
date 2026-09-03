@@ -323,3 +323,29 @@ embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust acro
 ### Verificación
 - `sweep_freeze.py` (sección 2 → expR39c; sección 3 → expR48b): **67/67 PASS**.
 - Compilación: 30 páginas, warnings = 0 (Overfull de B20 corregido con tabcolsep 1.8 pt), `??` = 0; Ethics en p9; p10 abre con Reproducibility Statement. PDF: `iclr2027/main_iclr2027_final.pdf`.
+
+## 12. Pasada de contribución (cuatro ediciones de texto + el instrumento como herramienta)
+
+1. **Abstract**: "nearly universal in vision (68 of 72 cells)" → "nearly universal on datasets with a class hierarchy (43 of 48 cells;
+   55 of 72 overall)" (expR39c, genuine = p ≤ 0.05). §4 (párrafo del censo): "p ≥ 1.00" → "p ≥ 0.99" (DINOv2-G ImageNet, r = 1/200 → p = 0.995).
+2. **§4, nuevo párrafo "Relation to neural collapse."** (8 líneas, solo `papyan2020prevalence`), inmediatamente después de "The excess certifies
+   clustering, not depth.": el ETF de neural collapse como caso extremo de la estrella (δ = 0 sin jerarquía); lo que separa nuestra lectura:
+   (i) la organización certificada no es plana — hubs de superclase recuperados en §5 y curvatura negativa en los puentes; (ii) aparece en
+   modelos sin etiquetas, en datasets de transfer y en LMs causales, fuera del ámbito de neural collapse, y el test de estrella emparejada
+   pregunta lo que neural collapse no pregunta. §2: "…without testing tree-likeness" + "; §4 relates our excess to the collapsed simplex".
+3. **Intro**: al final del párrafo del instrumento, dos frases de posicionamiento: Gröger et al. calibran similitud entre modelos; nosotros
+   geometría dentro de un modelo, y comparar los árboles resultantes entre modelos necesita su propia calibración (§5).
+4. **El instrumento como herramienta**: `iclr2027/tool/calibrated_delta.py` (entrada: matriz de centroides n×d `.npy` + etiquetas de superclase
+   opcionales; salida: δ_norm cruda, exceso espectral con rango r/200 y p de cola izquierda, y el test de profundidad con estrella emparejada de
+   B29; funciones y semillas copiadas verbatim de `expR39c_census200_cache.py` y `expR50_depth_test.py`). `iclr2027/tool/run_checks.py`
+   lo ejecuta en ViT-L/CIFAR-100 y DINOv2-L/ImageNet y escribe `rebuttal/results/tool_check.json`; `sweep_freeze.py` (sección TOOL) compara con
+   la Tabla 1 (exceso 3 dp, r, p) y con B29 (profundidad 3 dp, z 1 dp; en ImageNet con los centroides del store, como expR50).
+   **Resultado: reproducción exacta** — ViT-L/C100 exceso −0.0441, r 200, p 0.005; DINOv2-L/IN −0.0079, r 200, p 0.005; profundidad
+   +0.0396 (z +4.06) y −0.0289 (z −2.46), idénticos a las tablas. Frase nueva en §3 ("The instrument is a single script: …") y en el
+   Reproducibility Statement con el placeholder `\url{ANONYMIZED-REPO}` (ver `TODO_author.md`).
+5. **Ajuste de páginas**: el párrafo nuevo y las frases añadidas empujaban ~9 líneas a p10 → §6 comprimido de nuevo (sin la pregunta
+   introductoria; tres párrafos de 3–4 líneas; se conservan r = −0.83 y +1.3 pp), cláusula de la null PC-permutación eliminada en §4
+   ("a PC-permutation null confirms every verdict": los veredictos son ahora por rango), cláusula de Poincaré acortada en §5, frase de las
+   ResNet-50 acortada en el censo, Figura 1 a 0.95 in, overview 1.65 in, excesos 1.7 in, tree map 1.95 in.
+- Verificación: `sweep_freeze.py` **71/71 PASS** (67 + 4 checks del tool); compila con 30 páginas, 0 warnings, 0 `??`; el texto principal
+  (Limitations incluidas) termina en p9 y el Ethics Statement abre p10. PDF: `iclr2027/main_iclr2027_final.pdf`.
