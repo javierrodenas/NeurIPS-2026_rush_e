@@ -30,7 +30,7 @@ d_in = {r["model"]: (float(r["delta"]), float(r["excess"])) for r in census if r
 DIMS = {"i21k_t":192,"i21k_s":384,"i21k_b":768,"i21k_l":1024,"dinov1_b":768,"dinov2_s":384,
         "dinov2_b":768,"dinov2_l":1024,"dinov2_g":1536,"clip_b":512,"clip_l":768,"siglip_b":768}
 
-fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.8), gridspec_kw={"width_ratios":[1.2,1,1]})
+fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.65), gridspec_kw={"width_ratios":[1.2,1,1]})
 # (a) gauss curve + raw deltas
 g = sorted({int(r["d"]): float(r["delta_max"]) for r in csv.DictReader(open(RES/"exp1_delta_controls.csv"))
             if r["variant"]=="gauss"}.items())

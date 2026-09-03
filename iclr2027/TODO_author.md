@@ -74,3 +74,13 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - El censo de texto a 200 réplicas usa 3 semillas de cuádruplas por réplica (como expR48); el de visión, 5 (como expR39). Es lo que había; si quieres
   homogeneizar a 5 en texto, `expR48b` tarda ~1.5 h más de CPU.
 - OLMo-7B sigue sin re-extraer (solo extracción original, Tabla B1); el texto de §4 dice ahora "OLMo-1B".
+
+## Añadido en la pasada de contribución
+
+- **`\url{ANONYMIZED-REPO}`** en el Reproducibility Statement: sustituir por la URL del repositorio anónimo. El tool está en
+  `iclr2027/tool/calibrated_delta.py` (uso: `python calibrated_delta.py centroids.npy [--labels sup.npy] [--reps 200] [--json out.json]`);
+  `iclr2027/tool/run_checks.py` reproduce dos celdas de la Tabla 1 y de B29 y escribe `rebuttal/results/tool_check.json`, que
+  `sweep_freeze.py` compara en cada freeze (re-ejecuta el check solo si falta el JSON; ~15 min de CPU).
+- Para el check de B29 en DINOv2-L/ImageNet el tool recibe los centroides del **store** (como hizo expR50); con los de la caché del censo
+  el test de profundidad da un valor ligeramente distinto (store ≠ caché, ver CHANGELOG §0). Si en algún momento se rehace B29 sobre la caché,
+  cambiar la línea correspondiente de `run_checks.py`.

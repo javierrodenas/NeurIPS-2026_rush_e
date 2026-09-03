@@ -342,3 +342,29 @@ def round4():
 round4()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 print(f"[round4 re-total] {len(checks)-n_fail}/{len(checks)}")
+
+
+# ---------- TOOL: calibrated_delta.py reproduces Table 1 / B29 on two cells ----------
+def tool_check():
+    import json, subprocess
+    jf = R/"tool_check.json"
+    if not jf.exists():   # ~15 CPU-min: run once, then compare the saved output
+        subprocess.run([sys.executable, str(Path(__file__).resolve().parents[2]/"iclr2027/tool/run_checks.py")], check=True)
+    J = json.load(open(jf))
+    e39 = {(r["model"],r["dataset"]): r for r in load("expR39c_census200_cache.csv")}
+    e50 = {(r["model"],r["dataset"]): r for r in load("expR50_depth_test.csv")}
+    for cell in ["i21k_l/cifar100", "dinov2_l/imagenet"]:
+        m, d = cell.split("/"); c = J[cell]["census"]; ref = e39[(m,d)]
+        chk(f"tool == Table 1 ({cell}): excess 3dp, r, p", round(c["excess"],3)==round(float(ref["excess"]),3)
+            and c["r_above"]==int(ref["r_above"]) and abs(c["p_left"]-float(ref["p_left"]))<1e-9,
+            f"tool {c['excess']:+.4f} r{c['r_above']} p{c['p_left']:.4f} | table {float(ref['excess']):+.4f} r{ref['r_above']} p{float(ref['p_left']):.4f}")
+    dd = J["i21k_l/cifar100"]["depth"]; ref = e50[("i21k_l","cifar100")]
+    chk("tool == B29 (ViT-L/CIFAR-100): depth 3dp, z 1dp", round(dd["depth_excess"],3)==round(float(ref["depth_excess"]),3)
+        and round(dd["z_depth"],1)==round(float(ref["z_depth"]),1), f"tool {dd['depth_excess']:+.4f} z{dd['z_depth']:+.2f} | table {float(ref['depth_excess']):+.4f} z{float(ref['z_depth']):+.2f}")
+    dd = J["dinov2_l/imagenet_store_depth"]["depth"]; ref = e50[("dinov2_l","imagenet")]
+    chk("tool == B29 (DINOv2-L/ImageNet, store centroids as expR50): depth 3dp, z 1dp", round(dd["depth_excess"],3)==round(float(ref["depth_excess"]),3)
+        and round(dd["z_depth"],1)==round(float(ref["z_depth"]),1), f"tool {dd['depth_excess']:+.4f} z{dd['z_depth']:+.2f} | table {float(ref['depth_excess']):+.4f} z{float(ref['z_depth']):+.2f}")
+tool_check()
+n_fail = sum(1 for _,ok,_ in checks if not ok)
+for name, ok, det in checks[-4:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det else ""))
+print(f"[tool re-total] {len(checks)-n_fail}/{len(checks)}")

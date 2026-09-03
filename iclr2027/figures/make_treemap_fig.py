@@ -39,7 +39,7 @@ else:
     DS, outname = "imagenet", "fig_treemap_controls"
     PANELS = [("imagenet","('euclid', 'average')","(a) ImageNet, naive\nEuclidean, average"),
               ("imagenet",_SELKEY["imagenet"],"(b) ImageNet, selected\n"+_SELTXT["imagenet"])]
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.05))
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.95))
 for ax,(ds,cfg,title) in zip(axes, PANELS):
     M = np.asarray(S[ds][cfg]["ari"], dtype=float)
     im = ax.imshow(M, vmin=0, vmax=1, cmap="viridis")
