@@ -7,11 +7,20 @@ Extends the night sweep with exp18b/21/22/23/24 and the rewritten Secs. 4-6.
 import csv, itertools, sys
 sys.stdout.reconfigure(line_buffering=True)
 import numpy as np
+# numpy<2 compat: this npz was pickled under numpy>=2 (numpy._core module path)
+import sys as _sys, numpy.core as _nc
+_sys.modules.setdefault("numpy._core", _nc)
+for _s in ("multiarray", "umath", "numeric", "_multiarray_umath"):
+    try:
+        _sys.modules.setdefault("numpy._core." + _s, __import__("numpy.core." + _s, fromlist=["_"]))
+    except Exception:
+        pass
 from statistics import mean
 from pathlib import Path
 from scipy.spatial.distance import pdist, squareform
 
-R = Path("/home/javi/Platonic/rebuttal/results")
+import os
+R = Path(os.environ.get("PLATONIC_RESULTS", str(Path(__file__).resolve().parents[1]/"results")))
 checks = []
 def chk(name, cond, detail=""):
     checks.append((name, bool(cond), detail))
@@ -72,25 +81,27 @@ G = rng.randn(1000,768)
 chk("calib: gauss d=768 ~0.061", abs(delta_from_D(squareform(pdist(G)))-0.061) < 0.008,
     f"{delta_from_D(squareform(pdist(G))):.3f}")
 
-# ---------- 2. Vision census (exp20) ----------
-e20 = load("exp20_null_ztable.csv")
+# ---------- 2. Vision census (expR39b: homogeneous 20-replicate census on the census cache) ----------
+e20 = load("exp20_null_ztable.csv")          # kept: raw deltas for the corollary checks below
+e39 = load("expR39b_census20_cache.csv")
 HIER = {"imagenet","cifar100","cifar10","dtd"}
-exc = {(r["model"],r["dataset"]):float(r["excess"]) for r in e20}
-zz  = {(r["model"],r["dataset"]):float(r["z"]) for r in e20}
+exc = {(r["model"],r["dataset"]):float(r["excess"]) for r in e39}
+zz  = {(r["model"],r["dataset"]):float(r["z"]) for r in e39}
+rk  = {(r["model"],r["dataset"]):round(20*float(r["frac_null_above"])) for r in e39}
+chk("census: 72 cells, none from the store", len(e39)==72 and all(int(r["store_centroids"])==0 for r in e39))
 chk("69/72 sign-neg", sum(1 for v in exc.values() if v<0)==69)
 pos = [(m,d) for (m,d),v in exc.items() if v>0]
-chk("3 excepciones Dv2 S/B/G IN, z<+1.2", set(pos)=={("dinov2_s","imagenet"),("dinov2_b","imagenet"),("dinov2_g","imagenet")}
-    and all(zz[p]<1.2 for p in pos), str([(p,round(zz[p],1)) for p in pos]))
-hz = [zz[(m,d)] for (m,d) in zz if d in HIER]
-chk("51/72 z<-2 | hier 41/48 | 34/48 z<-3", sum(1 for v in zz.values() if v<-2)==51
-    and sum(1 for v in hz if v<-2)==41 and sum(1 for v in hz if v<-3)==34)
-chk("flat 24/24 sign-neg", sum(1 for (m,d),v in exc.items() if d not in HIER and v<0)==24)
-vit = [exc[(m,"imagenet")] for m in ["i21k_t","i21k_s","i21k_b","i21k_l"]]
-cs  = [exc[(m,"imagenet")] for m in ["clip_b","clip_l","siglip_b"]]
-chk("ViT IN -0.020..-0.030", abs(min(vit)+0.030)<0.0015 and abs(max(vit)+0.020)<0.0015, f"{min(vit):.3f}..{max(vit):.3f}")
-chk("CLIP/SigLIP IN -0.019..-0.025", abs(min(cs)+0.025)<0.0015 and abs(max(cs)+0.019)<0.0015, f"{min(cs):.3f}..{max(cs):.3f}")
-chk("Dv2-L IN z=-1.1", abs(zz[("dinov2_l","imagenet")]+1.1)<0.1)
-chk("S->G C10 -0.095->-0.157", abs(exc[("dinov2_s","cifar10")]+0.095)<0.002 and abs(exc[("dinov2_g","cifar10")]+0.157)<0.002)
+chk("3 excepciones Dv2 S/B/G IN: rank 0/20, z<=+1.1", set(pos)=={("dinov2_s","imagenet"),("dinov2_b","imagenet"),("dinov2_g","imagenet")}
+    and all(rk[p]==0 and zz[p]<=1.15 for p in pos), str([(p,rk[p],round(zz[p],1)) for p in pos]))
+chk("57/72 below every replicate", sum(1 for v in rk.values() if v==20)==57)
+chk("hier 43/48 below every replicate", sum(1 for (m,d),v in rk.items() if d in HIER and v==20)==43)
+chk("flat 24/24 sign-neg, 14/24 below all", sum(1 for (m,d),v in exc.items() if d not in HIER and v<0)==24
+    and sum(1 for (m,d),v in rk.items() if d not in HIER and v==20)==14)
+chk("B20 caption: |z|>=2 50/72, hier z<=-3 31/48", sum(1 for v in zz.values() if abs(v)>=2)==50
+    and sum(1 for (m,d),v in zz.items() if d in HIER and v<=-3)==31)
+chk("R1 fidelity: ImageNet raw delta == exp20 cache (4 dp)",
+    all(abs(float(r["delta"])-float(next(a for a in e20 if a["model"]==r["model"] and a["dataset"]=="imagenet")["delta"]))<5e-5
+        for r in e39 if r["dataset"]=="imagenet"))
 
 # sphere controls (exp1)
 e1 = {}
@@ -181,13 +192,17 @@ chk("C100 cosine-ward: 0.56 vs 0.61, coph 0.74/0.74",
 ca = z23i["('cosine', 'average')"]
 chk("IN cosine-avg 0.38 vs 0.48", abs(ca["big_vs_sup"]-0.380)<0.01 and abs(ca["sup_vs_sup"]-0.481)<0.01)
 
-# ---------- 5. Cross-model calibrated (exp21) ----------
-e21 = load("exp21_local_global.csv")
-m21 = {c: mean(float(r[c]) for r in e21) for c in ["knn_R","knn_H","knn_null","cka_R","cka_H","cka_null","knn_cal_R","cka_cal_R"]}
-chk("exp21 kNN .474/.427 null .010 cal .464", abs(m21["knn_R"]-0.474)<0.002 and abs(m21["knn_H"]-0.427)<0.002
-    and abs(m21["knn_null"]-0.010)<0.002 and abs(m21["knn_cal_R"]-0.464)<0.002)
-chk("exp21 CKA .636/.644 null .107 cal .529", abs(m21["cka_R"]-0.636)<0.002 and abs(m21["cka_H"]-0.644)<0.002
-    and abs(m21["cka_null"]-0.107)<0.002 and abs(m21["cka_cal_R"]-0.529)<0.002)
+# ---------- 5. Cross-model calibrated (exp21b: Groger calibration, K=200, alpha=0.05) ----------
+e21 = load("exp21b_local_global_K200.csv")
+m21 = {c: mean(float(r[c]) for r in e21) for c in ["knn_R_raw","knn_R_cal","knn_R_null_mean","knn_H_raw","cka_R_raw","cka_R_cal","cka_R_null_mean","cka_H_raw"]}
+chk("exp21b: 66 pairs", len(e21)==66)
+chk("exp21b kNN raw .472 cal .464 null .010 (= 10/999)", abs(m21["knn_R_raw"]-0.472)<0.002 and abs(m21["knn_R_cal"]-0.464)<0.002
+    and abs(m21["knn_R_null_mean"]-10/999)<0.001, f"{m21['knn_R_raw']:.4f}/{m21['knn_R_cal']:.4f}/{m21['knn_R_null_mean']:.4f}")
+chk("exp21b CKA raw .633 cal .577 null .108", abs(m21["cka_R_raw"]-0.633)<0.002 and abs(m21["cka_R_cal"]-0.577)<0.002
+    and abs(m21["cka_R_null_mean"]-0.108)<0.002, f"{m21['cka_R_raw']:.4f}/{m21['cka_R_cal']:.4f}/{m21['cka_R_null_mean']:.4f}")
+chk("exp21b Poincare: kNN .425, CKA .640", abs(m21["knn_H_raw"]-0.425)<0.002 and abs(m21["cka_H_raw"]-0.640)<0.002)
+chk("exp21b every pair p=1/201 (<0.05) for kNN and CKA", all(float(r["knn_R_p"])<0.05 and float(r["cka_R_p"])<0.05 for r in e21)
+    and all(abs(float(r["knn_R_p"])-1/201)<1e-6 for r in e21))
 
 # ---------- 6. Corollary (table1_regenerated + exp2 + night + exp13 + exp24) ----------
 t1 = load("table1_regenerated.csv")

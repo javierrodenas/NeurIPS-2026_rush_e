@@ -1,0 +1,160 @@
+copied 60 transfer rows verbatim from expR39_census20.csv (cache-based already)
+i21k_t    imagenet exc -0.0187 z -2.3 above 1.00 (18s)
+i21k_s: cache not extracted yet, skipping this pass
+i21k_b: cache not extracted yet, skipping this pass
+i21k_l: cache not extracted yet, skipping this pass
+dinov1_b: cache not extracted yet, skipping this pass
+dinov2_s  imagenet exc +0.0118 z +1.1 above 0.00 (26s)
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_b: cache not extracted yet, skipping this pass
+clip_l: cache not extracted yet, skipping this pass
+siglip_b: cache not extracted yet, skipping this pass
+SUMMARY: 61/72 sign-negative | 50/72 below every one of 20 replicates | hierarchical 36/48 below every replicate
+Done expR39b
+i21k_s: cache not extracted yet, skipping this pass
+i21k_b: cache not extracted yet, skipping this pass
+i21k_l: cache not extracted yet, skipping this pass
+dinov1_b: cache not extracted yet, skipping this pass
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_b: cache not extracted yet, skipping this pass
+clip_l: cache not extracted yet, skipping this pass
+siglip_b: cache not extracted yet, skipping this pass
+SUMMARY: 61/72 sign-negative | 50/72 below every one of 20 replicates | hierarchical 36/48 below every replicate
+Done expR39b
+i21k_s: cache not extracted yet, skipping this pass
+i21k_b: cache not extracted yet, skipping this pass
+i21k_l: cache not extracted yet, skipping this pass
+dinov1_b: cache not extracted yet, skipping this pass
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_b: cache not extracted yet, skipping this pass
+clip_l: cache not extracted yet, skipping this pass
+siglip_b: cache not extracted yet, skipping this pass
+SUMMARY: 61/72 sign-negative | 50/72 below every one of 20 replicates | hierarchical 36/48 below every replicate
+Done expR39b
+i21k_s: cache not extracted yet, skipping this pass
+i21k_b: cache not extracted yet, skipping this pass
+i21k_l: cache not extracted yet, skipping this pass
+dinov1_b: cache not extracted yet, skipping this pass
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_b: cache not extracted yet, skipping this pass
+clip_l: cache not extracted yet, skipping this pass
+siglip_b: cache not extracted yet, skipping this pass
+SUMMARY: 61/72 sign-negative | 50/72 below every one of 20 replicates | hierarchical 36/48 below every replicate
+Done expR39b
+i21k_s    imagenet exc -0.0214 z -2.6 above 1.00 (45s)
+i21k_b: cache not extracted yet, skipping this pass
+i21k_l: cache not extracted yet, skipping this pass
+dinov1_b: cache not extracted yet, skipping this pass
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_b: cache not extracted yet, skipping this pass
+clip_l: cache not extracted yet, skipping this pass
+siglip_b: cache not extracted yet, skipping this pass
+SUMMARY: 62/72 sign-negative | 51/72 below every one of 20 replicates | hierarchical 37/48 below every replicate
+Done expR39b
+i21k_b    imagenet exc -0.0266 z -3.3 above 1.00 (109s)
+i21k_l: cache not extracted yet, skipping this pass
+dinov1_b: cache not extracted yet, skipping this pass
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_b: cache not extracted yet, skipping this pass
+clip_l: cache not extracted yet, skipping this pass
+siglip_b: cache not extracted yet, skipping this pass
+SUMMARY: 63/72 sign-negative | 52/72 below every one of 20 replicates | hierarchical 38/48 below every replicate
+Done expR39b
+i21k_l    imagenet exc -0.0309 z -5.3 above 1.00 (183s)
+dinov1_b  imagenet exc -0.0046 z -0.7 above 0.80 (37s)
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_b    imagenet exc -0.0265 z -2.8 above 1.00 (58s)
+clip_l: cache not extracted yet, skipping this pass
+siglip_b: cache not extracted yet, skipping this pass
+SUMMARY: 66/72 sign-negative | 54/72 below every one of 20 replicates | hierarchical 40/48 below every replicate
+Done expR39b
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_l: cache not extracted yet, skipping this pass
+siglip_b  imagenet exc -0.0175 z -1.6 above 1.00 (72s)
+SUMMARY: 67/72 sign-negative | 55/72 below every one of 20 replicates | hierarchical 41/48 below every replicate
+Done expR39b
+dinov2_b: cache not extracted yet, skipping this pass
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+clip_l    imagenet exc -0.0199 z -2.2 above 1.00 (35s)
+SUMMARY: 68/72 sign-negative | 56/72 below every one of 20 replicates | hierarchical 42/48 below every replicate
+Done expR39b
+dinov2_b  imagenet exc +0.0069 z +0.7 above 0.00 (39s)
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 68/72 sign-negative | 56/72 below every one of 20 replicates | hierarchical 42/48 below every replicate
+Done expR39b
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 68/72 sign-negative | 56/72 below every one of 20 replicates | hierarchical 42/48 below every replicate
+Done expR39b
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 68/72 sign-negative | 56/72 below every one of 20 replicates | hierarchical 42/48 below every replicate
+Done expR39b
+dinov2_l: cache not extracted yet, skipping this pass
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 68/72 sign-negative | 56/72 below every one of 20 replicates | hierarchical 42/48 below every replicate
+Done expR39b
+Traceback (most recent call last):
+  File "rebuttal/scripts/expR39b_census20_cache.py", line 89, in <module>
+    main()
+  File "rebuttal/scripts/expR39b_census20_cache.py", line 68, in main
+    C = cents(m, "imagenet")
+  File "rebuttal/scripts/expR39b_census20_cache.py", line 48, in cents
+    d = np.load(CACHE/f"{m}_{ds}_train.npz")
+  File "/home/javi/anaconda3/lib/python3.8/site-packages/numpy/lib/npyio.py", line 420, in load
+    ret = NpzFile(fid, own_fid=own_fid, allow_pickle=allow_pickle,
+  File "/home/javi/anaconda3/lib/python3.8/site-packages/numpy/lib/npyio.py", line 187, in __init__
+    _zip = zipfile_factory(fid)
+  File "/home/javi/anaconda3/lib/python3.8/site-packages/numpy/lib/npyio.py", line 103, in zipfile_factory
+    return zipfile.ZipFile(file, *args, **kwargs)
+  File "/home/javi/anaconda3/lib/python3.8/zipfile.py", line 1269, in __init__
+    self._RealGetContents()
+  File "/home/javi/anaconda3/lib/python3.8/zipfile.py", line 1336, in _RealGetContents
+    raise BadZipFile("File is not a zip file")
+zipfile.BadZipFile: File is not a zip file
+dinov2_l  imagenet exc -0.0084 z -1.1 above 1.00 (46s)
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b
+dinov2_g: cache not extracted yet, skipping this pass
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b
+dinov2_g  imagenet exc +0.0044 z +0.6 above 0.00 (61s)
+SUMMARY: 69/72 sign-negative | 57/72 below every one of 20 replicates | hierarchical 43/48 below every replicate
+Done expR39b

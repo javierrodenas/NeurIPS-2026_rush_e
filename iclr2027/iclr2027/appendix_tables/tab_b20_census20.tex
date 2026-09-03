@@ -7,22 +7,22 @@
  & \multicolumn{2}{c}{IN} & \multicolumn{2}{c}{C100} & \multicolumn{2}{c}{C10} & \multicolumn{2}{c}{DTD} & \multicolumn{2}{c}{FMNIST} & \multicolumn{2}{c}{MNIST} \\
 model & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r \\
 \midrule
-ViT-T & $-.005$\rlap{$^\dagger$} & 14 & $-.039$ & 20 & $-.051$ & 20 & $-.042$ & 20 & $-.012$ & 11 & $-.041$ & 19 \\
-ViT-S & $-.019$\rlap{$^\dagger$} & 20 & $-.031$ & 20 & $-.090$ & 20 & $-.055$ & 20 & $-.060$ & 20 & $-.051$ & 20 \\
-ViT-B & $-.024$\rlap{$^\dagger$} & 20 & $-.015$ & 18 & $-.083$ & 20 & $-.061$ & 20 & $-.069$ & 20 & $-.041$ & 20 \\
-ViT-L & $-.027$\rlap{$^\dagger$} & 20 & $-.043$ & 20 & $-.096$ & 20 & $-.082$ & 20 & $-.079$ & 20 & $-.060$ & 20 \\
+ViT-T & $-0.019$ & 20 & $-0.039$ & 20 & $-0.051$ & 20 & $-0.042$ & 20 & $-0.012$ & 11 & $-0.041$ & 19 \\
+ViT-S & $-0.021$ & 20 & $-0.031$ & 20 & $-0.090$ & 20 & $-0.055$ & 20 & $-0.060$ & 20 & $-0.051$ & 20 \\
+ViT-B & $-0.027$ & 20 & $-0.015$ & 18 & $-0.083$ & 20 & $-0.061$ & 20 & $-0.069$ & 20 & $-0.041$ & 20 \\
+ViT-L & $-0.031$ & 20 & $-0.043$ & 20 & $-0.096$ & 20 & $-0.082$ & 20 & $-0.079$ & 20 & $-0.060$ & 20 \\
 \midrule
-DINO-B & $-.005$ & 18 & $-.063$ & 20 & $-.094$ & 20 & $-.057$ & 20 & $-.035$ & 18 & $-.058$ & 20 \\
-DINOv2-S & $+.009$ & 0 & $-.051$ & 20 & $-.095$ & 20 & $-.046$ & 20 & $-.061$ & 20 & $-.029$ & 17 \\
-DINOv2-B & $+.006$ & 0 & $-.042$ & 20 & $-.134$ & 20 & $-.071$ & 20 & $-.089$ & 20 & $-.036$ & 18 \\
-DINOv2-L & $-.011$ & 20 & $-.051$ & 20 & $-.154$ & 20 & $-.081$ & 20 & $-.068$ & 20 & $-.032$ & 19 \\
-DINOv2-G & $+.002$ & 3 & $-.079$ & 20 & $-.155$ & 20 & $-.073$ & 20 & $-.075$ & 20 & $-.037$ & 19 \\
+DINO-B & $-0.005$ & 16 & $-0.063$ & 20 & $-0.094$ & 20 & $-0.057$ & 20 & $-0.035$ & 18 & $-0.058$ & 20 \\
+DINOv2-S & $+0.012$ & 0 & $-0.051$ & 20 & $-0.095$ & 20 & $-0.046$ & 20 & $-0.061$ & 20 & $-0.029$ & 17 \\
+DINOv2-B & $+0.007$ & 0 & $-0.042$ & 20 & $-0.134$ & 20 & $-0.071$ & 20 & $-0.089$ & 20 & $-0.036$ & 18 \\
+DINOv2-L & $-0.008$ & 20 & $-0.051$ & 20 & $-0.154$ & 20 & $-0.081$ & 20 & $-0.068$ & 20 & $-0.032$ & 19 \\
+DINOv2-G & $+0.004$ & 0 & $-0.079$ & 20 & $-0.155$ & 20 & $-0.073$ & 20 & $-0.075$ & 20 & $-0.037$ & 19 \\
 \midrule
-CLIP-B & $-.023$ & 20 & $-.044$ & 20 & $-.071$ & 20 & $-.062$ & 20 & $-.042$ & 19 & $-.028$ & 16 \\
-CLIP-L & $-.017$ & 20 & $-.038$ & 20 & $-.080$ & 20 & $-.056$ & 20 & $-.058$ & 20 & $-.023$ & 15 \\
-SigLIP-B & $-.017$ & 20 & $-.037$ & 20 & $-.088$ & 20 & $-.062$ & 20 & $-.068$ & 20 & $-.067$ & 20 \\
+CLIP-B & $-0.027$ & 20 & $-0.044$ & 20 & $-0.071$ & 20 & $-0.062$ & 20 & $-0.042$ & 19 & $-0.028$ & 16 \\
+CLIP-L & $-0.020$ & 20 & $-0.038$ & 20 & $-0.080$ & 20 & $-0.056$ & 20 & $-0.058$ & 20 & $-0.023$ & 15 \\
+SigLIP-B & $-0.017$ & 20 & $-0.037$ & 20 & $-0.088$ & 20 & $-0.062$ & 20 & $-0.068$ & 20 & $-0.067$ & 20 \\
 \bottomrule
 \end{tabular}
-\caption{The full vision census re-run with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). Agreement with the 5-replicate census on the 68 directly comparable cells: sign 68/68, significance at $|z|\ge2$ 62/68; 56/72 cells lie below every replicate. $^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (precomputed centroid store, whose supervised-ViT centroids differ slightly from the census cache) and are not directly comparable to Table~\ref{tab:b2-ztable}.}
+\caption{\textbf{The 20-replicate census: excess and percentile rank per cell.} Excess over the spectrum-matched null and rank r (number of the 20 null replicates above the real value; 20 = below every replicate). 57/72 cells lie below every replicate. Secondary $z$ summary (excess over the combined null and estimator s.d.): $|z|\ge2$ in 50/72 cells, $z\le-3$ in 31/48 hierarchical-dataset cells. Agreement with the 5-replicate census (Table~\ref{tab:b2-ztable}) on the 72 comparable cells: sign 72/72, significance at $|z|\ge2$ 67/72. Every cell is computed on the census cache (one centroid source; the ImageNet cache was regenerated with the original extraction pipeline).}
 \label{tab:b20-census20}
 \end{table}

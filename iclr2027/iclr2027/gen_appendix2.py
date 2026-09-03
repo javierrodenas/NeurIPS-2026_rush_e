@@ -2,9 +2,10 @@
 """Appendix tables for the restructured (form-not-content) paper, generated
 from the night-run CSVs. Complements gen_appendix.py; nothing hand-typed."""
 import csv
+import os
 from pathlib import Path
 
-RES = Path("/home/javi/Platonic/rebuttal/results")
+RES = Path(os.environ.get("PLATONIC_RESULTS", str(Path(__file__).resolve().parents[2] / "rebuttal/results")))
 OUT = Path(__file__).parent / "appendix_tables"
 OUT.mkdir(exist_ok=True)
 
@@ -136,8 +137,27 @@ print("done")
 
 # ---- B7: tree-map metric/linkage controls (exp23 + config diagnostics) ----
 import numpy as np, json
+# numpy<2 compat: this npz was pickled under numpy>=2 (numpy._core module path)
+import sys as _sys, numpy.core as _nc
+_sys.modules.setdefault("numpy._core", _nc)
+for _s in ("multiarray", "umath", "numeric", "_multiarray_umath"):
+    try:
+        _sys.modules.setdefault("numpy._core." + _s, __import__("numpy.core." + _s, fromlist=["_"]))
+    except Exception:
+        pass
 diag = json.load(open(RES/"exp23_config_diagnostics.json"))
-SELECTED = {"imagenet": "cosine-average", "cifar100": "cosine-complete"}
+def _select(diag):
+    """Selection criterion of Sec. 5, executable: among configurations with maxfrac <= 0.5
+    (non-degenerate), pick the highest CPCC, per dataset."""
+    out = {}
+    for ds in ("imagenet", "cifar100"):
+        adm = {k: v for k, v in diag.items() if k.startswith(ds + "|") and v["maxfrac"] <= 0.5}
+        best = max(adm, key=lambda k: adm[k]["cpcc"])
+        out[ds] = best.split("|", 1)[1].replace("|", "-")
+    return out
+SELECTED = _select(json.load(open(RES/"exp23_config_diagnostics.json")))
+assert SELECTED == {"imagenet": "cosine-average", "cifar100": "cosine-complete"}, \
+    f"selection criterion changed: {SELECTED} - the Sec. 5 text must be revised"
 lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{3pt}",
          r"\begin{tabular}{llccccc}", r"\toprule",
          r"dataset & configuration & max frac.\ & CPCC & Dv2-B/L/G vs block & Dv2-S+DINO-B vs block & within block \\",

@@ -1,0 +1,60 @@
+PASS calib: tree delta=0.000 
+PASS calib: H2 R=4 delta_norm ~0.087 
+PASS calib: H2 R=4 absolute ~0.69 (ln2) 
+PASS calib: S99 chord ~0.143 
+PASS calib: S99 geodesic ~0.179 
+PASS calib: gauss d=768 ~0.061 
+PASS 69/72 sign-neg 
+PASS 3 excepciones Dv2 S/B/G IN, z<+1.2 
+PASS 51/72 z<-2 | hier 41/48 | 34/48 z<-3 
+PASS flat 24/24 sign-neg 
+PASS ViT IN -0.020..-0.030 
+PASS CLIP/SigLIP IN -0.019..-0.025 
+PASS Dv2-L IN z=-1.1 
+PASS S->G C10 -0.095->-0.157 
+PASS sphere 12/12 geo, 10/12 chord 
+PASS xi Dv2 -0.020->-0.070 66->89% 
+PASS sup/con xi +0.02..+0.04, < gauss 0.09 
+PASS GPT2 +0.048/-0.013/-0.034/-0.048 
+PASS OLMo -0.001 / -0.015 
+PASS Pythia -0.035..-0.041 
+PASS embedders +0.001..+0.011 
+PASS qwen -0.019 
+PASS embedder raw .114-.124 
+PASS erank GPT2 1.3->56; GTE 98 
+PASS pcperm z S/M/L/XL -1.4/-3.7/-7.8/-6.4 
+PASS templates: emb <=.012, LM hasta .065 
+PASS DBpedia exc -0.020..-0.028, delta .122-.132, NC -0.4..-0.8, FS +0.04..+0.08 
+PASS C50 Dv2-L exc -0.124/-0.093 NC +1.58/+0.53 
+PASS Dv2-G at-null C>=500 
+PASS bridges IN ViT 7.6/3.2 CLIPSIG 8.0/4.4 
+PASS naive IN: ViT-T~CLIP-B 0.82 
+PASS naive block WordNet 0.38-0.51 
+PASS naive island <=0.06 vs supervised 
+PASS C100 cosine-ward: 0.56 vs 0.61, coph 0.74/0.74 
+PASS IN cosine-avg 0.38 vs 0.48 
+PASS exp21 kNN .474/.427 null .010 cal .464 
+PASS exp21 CKA .636/.644 null .107 cal .529 
+PASS NC pooled -0.45 
+PASS NC imagenet -0.83 
+PASS NC cifar100 -0.87 
+PASS FS 56/60 estricto 
+PASS +2.05 headline 
+PASS McNemar p~4e-38 
+PASS RT means 0.20/0.12 
+PASS best-metric FS -0.31/-0.33 
+PASS CLIP HN-COS +0.9..+1.3 transfer 
+PASS exp24 val +0.63 oracle +0.64 (hier +0.78) 
+PASS exp24 rule +0.41 vs cos +0.28 hier 
+PASS CIs NC pooled [-0.60,-0.36], FS pooled inc. 0 
+PASS t-sweep NC cruza cero, FS>0 siempre 
+PASS rho ladder CLIP .57-.59 ViT .49-.53 DINOB .36 Dv2 .18-.22 
+PASS ARI 0.61 (exp8_p1) 
+PASS groupings 11/12 clipB .126/.174 
+PASS no-pooling +0.26 
+PASS triplets 0.91/0.85 vs 0.71/0.63 
+PASS triplet: 'all genuine' necesita scoping (DINO-B IN -0.004) 
+
+56/56 checks passed
+[round3 re-total] 61/61
+[round4 re-total] 64/64

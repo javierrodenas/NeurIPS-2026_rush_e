@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""Figure 2 (overview, final pass 6.2), three panels:
+(a) raw delta_norm vs d: iid-Gaussian curve (exp1_delta_controls.csv, variant gauss) with the
+    12 models' raw ImageNet delta overlaid at their d (family colors);
+(b) same raw, opposite verdict: paired bars raw/excess for BGE-base (expR48, padding-free)
+    and the vision cell with the closest raw delta (picked from the census data);
+(c) the map: DINOv2-B/L/G-vs-block mean ARI, naive vs selected, ImageNet and CIFAR-100
+    (exp23_treemap_controls.npz, big_vs_sup)."""
+import csv, os, sys, importlib
+from pathlib import Path
+import numpy as np, numpy.core as _core
+sys.modules.setdefault("numpy._core", _core)
+for _s in ("multiarray", "numeric", "_multiarray_umath"):
+    try: sys.modules.setdefault("numpy._core."+_s, importlib.import_module("numpy.core."+_s))
+    except Exception: pass
+import matplotlib; matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+HERE = Path(__file__).resolve().parent
+RES = Path(os.environ.get("PLATONIC_RESULTS", HERE.parents[1] / "rebuttal/results"))
+plt.style.use(str(HERE / "style.mplstyle"))
+sys.path.insert(0, str(HERE))
+from palette import FAMILY_COLORS, color as fam_color
+
+src = RES/"expR39b_census20_cache.csv"
+if not src.exists(): src = RES/"exp20_null_ztable.csv"          # fallback until R1 lands
+print("census source:", src.name)
+census = list(csv.DictReader(open(src)))
+d_in = {r["model"]: (float(r["delta"]), float(r["excess"])) for r in census if r["dataset"]=="imagenet"}
+DIMS = {"i21k_t":192,"i21k_s":384,"i21k_b":768,"i21k_l":1024,"dinov1_b":768,"dinov2_s":384,
+        "dinov2_b":768,"dinov2_l":1024,"dinov2_g":1536,"clip_b":512,"clip_l":768,"siglip_b":768}
+
+fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.55), gridspec_kw={"width_ratios":[1.2,1,1]})
+# (a) gauss curve + raw deltas
+g = sorted({int(r["d"]): float(r["delta_max"]) for r in csv.DictReader(open(RES/"exp1_delta_controls.csv"))
+            if r["variant"]=="gauss"}.items())
+axes[0].plot([d for d,_ in g], [v for _,v in g], "--", color=FAMILY_COLORS["null"], lw=1.2,
+             label="iid Gaussian")
+for m, d in DIMS.items():
+    if m in d_in:
+        axes[0].scatter(d, d_in[m][0], s=16, color=fam_color(m), zorder=3)
+axes[0].set_xlabel("dimension $d$"); axes[0].set_ylabel(r"raw $\delta_{\rm norm}$ (ImageNet)")
+axes[0].set_title("(a) raw readings ride the\ndimension confound")
+axes[0].legend(frameon=False, loc="upper right", handlelength=1.4)
+# (b) same raw, opposite verdict
+t48 = {r["model"]: r for r in csv.DictReader(open(RES/"expR48_text_census_bs1.csv"))}
+bge_d, bge_e = float(t48["bge_base"]["delta"]), float(t48["bge_base"]["excess"])
+cand = min(census, key=lambda r: abs(float(r["delta"]) - bge_d))
+v_name, v_ds, v_d, v_e = cand["model"], cand["dataset"], float(cand["delta"]), float(cand["excess"])
+print(f"closest vision cell to BGE-base raw {bge_d:.3f}: {v_name}/{v_ds} raw {v_d:.3f} exc {v_e:+.3f}")
+X = np.arange(2)
+axes[1].bar(X-0.16, [bge_d, v_d], width=0.3, color="white",
+            edgecolor=[fam_color("bge_base"), fam_color(v_name)], linewidth=1.2, label="raw")
+axes[1].bar(X+0.16, [bge_e, v_e], width=0.3,
+            color=[fam_color("bge_base"), fam_color(v_name)], label="excess")
+axes[1].axhline(0, color="k", lw=0.8)
+NM = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
+      "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
+      "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+DSN = {"imagenet":"IN","cifar100":"C100","cifar10":"C10","dtd":"DTD","fashionmnist":"FMN","mnist":"MN"}
+axes[1].set_xticks(X); axes[1].set_xticklabels(["BGE-base", f"{NM[v_name]}\n({DSN[v_ds]})"])
+axes[1].set_title("(b) same raw value,\nopposite verdict")
+axes[1].legend(frameon=False, loc="lower left", handlelength=1.2)
+# (c) the map before/after
+z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True)
+zi, zc = z["summary_in"].item(), z["summary_c1"].item()
+import json as _json
+diag = _json.load(open(RES/"exp23_config_diagnostics.json"))
+def sel(ds):
+    adm = {k: v for k, v in diag.items() if k.startswith(ds+"|") and v["maxfrac"] <= 0.5}
+    m, l = max(adm, key=lambda k: adm[k]["cpcc"]).split("|")[1:]
+    return f"('{m}', '{l}')"
+vals = [zi["('euclid', 'average')"]["big_vs_sup"], zi[sel("imagenet")]["big_vs_sup"],
+        zc["('euclid', 'average')"]["big_vs_sup"], zc[sel("cifar100")]["big_vs_sup"]]
+pos = [0, 0.35, 1.0, 1.35]
+cols = [FAMILY_COLORS["null"], FAMILY_COLORS["ssl"], FAMILY_COLORS["null"], FAMILY_COLORS["ssl"]]
+axes[2].bar(pos, vals, width=0.3, color=cols)
+for x, v in zip(pos, vals): axes[2].text(x, v+0.012, f"{v:.2f}", ha="center", fontsize=6.5)
+axes[2].set_xticks([0.175, 1.175]); axes[2].set_xticklabels(["ImageNet", "CIFAR-100"])
+axes[2].set_ylabel("DINOv2 vs block (ARI)")
+axes[2].set_title("(c) the island is the\nclustering step's artifact")
+import matplotlib.patches as mpatches
+axes[2].legend(handles=[mpatches.Patch(color=FAMILY_COLORS["null"], label="naive"),
+                        mpatches.Patch(color=FAMILY_COLORS["ssl"], label="selected")],
+               frameon=False, loc="upper left", handlelength=1.2)
+fig.tight_layout()
+for o in (HERE, HERE.parent/"iclr2027"/"figures"):
+    fig.savefig(o/"fig_overview.pdf"); fig.savefig(o/"fig_overview.png", dpi=200)
+print("fig_overview written")

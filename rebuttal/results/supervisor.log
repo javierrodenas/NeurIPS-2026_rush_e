@@ -1,0 +1,8 @@
+13:37:54 supervisor v2 start
+16:01:45 stream A (GPU0) finished
+16:49:12 stream B (GPU1) finished
+16:50:04 dinov2_g shards merged
+16:58:33 R1 complete (12/12 ImageNet cells)
+16:58:33 launching exp21b (R2)
+17:20:01 R2 complete
+17:20:01 ALL DONE

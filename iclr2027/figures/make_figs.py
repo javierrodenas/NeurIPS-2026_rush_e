@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 RES = Path(os.environ.get("PLATONIC_RESULTS", Path(__file__).resolve().parents[2] / "rebuttal/results"))
 OUT = Path(__file__).resolve().parent
+plt.style.use(str(OUT / "style.mplstyle"))
 
 NAME = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L",
         "dinov1_b":"DINO-B","dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B",
@@ -23,12 +24,15 @@ ORDER = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b",
 
 def para(m): return PARA[m[:4]] if m.startswith("i21k") else PARA[m[:5]]
 
-d20 = list(csv.DictReader(open(RES/"exp20_null_ztable.csv")))
+_src = RES/"expR39b_census20_cache.csv"
+if not _src.exists(): _src = RES/"exp20_null_ztable.csv"     # fallback until R1 lands
+print("census source:", _src.name)
+d20 = list(csv.DictReader(open(_src)))
 exc = {(r["model"], r["dataset"]): float(r["excess"]) for r in d20}
 dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
 # ---------- Figure A: excess panel ----------
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 2.35),
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.85),
                                gridspec_kw={"width_ratios": [1.55, 1]})
 xs = np.arange(len(ORDER))
 for k, m in enumerate(ORDER):
@@ -40,11 +44,11 @@ for k, m in enumerate(ORDER):
 ax1.axhline(0, color="k", lw=0.8, zorder=1)
 ax1.set_xticks(xs); ax1.set_xticklabels([NAME[m] for m in ORDER], rotation=60, ha="right", fontsize=6.5)
 ax1.set_ylabel(r"tree excess  $\hat\delta_{\rm real}-\hat\delta_{\rm null}$", fontsize=8)
-ax1.set_title("(a) 69/72 cells below their matched null", fontsize=7.5)
+_neg = sum(1 for r in d20 if float(r["excess"]) < 0)
+ax1.set_title(f"(a) {_neg}/72 cells below their matched null", fontsize=7.5)
 ax1.tick_params(labelsize=7)
 hd = [plt.Line2D([], [], marker=mk, ls="", color="gray", ms=4.5, label=ds)
       for ds, mk in MARK.items()]
-ax1.legend(handles=hd, fontsize=5.5, ncol=3, frameon=False, loc="lower left", columnspacing=0.8, handletextpad=0.3)
 
 fams = {"DINOv2 (SSL)": ["dinov2_s","dinov2_b","dinov2_l","dinov2_g"],
         "ViT (Sup.)":   ["i21k_t","i21k_s","i21k_b","i21k_l"]}
@@ -64,8 +68,10 @@ ax2.set_xlabel("model scale $\\rightarrow$", fontsize=8)
 ax2.set_title("(b) per-dataset excess vs scale", fontsize=7.5)
 ax2.tick_params(labelsize=7)
 ax2.set_ylim(-0.175, 0.09)
-ax2.legend(handles=hd2, fontsize=5.2, frameon=False, loc="upper right", ncol=2, handlelength=1.5, columnspacing=0.7, handletextpad=0.4)
-fig.tight_layout()
+hfam = [plt.Line2D([], [], marker="s", ls="", color=c, ms=5, label=p) for p, c in COL.items()]
+fig.legend(handles=hd + hfam + hd2[3:4], fontsize=5.8, ncol=10, frameon=False,
+           loc="lower center", bbox_to_anchor=(0.5, -0.02), columnspacing=0.7, handletextpad=0.3)
+fig.tight_layout(rect=(0, 0.10, 1, 1))
 for o in (OUT, OUT.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_excess_panel.pdf"); fig.savefig(o/"fig_excess_panel.png", dpi=200)
 
 # ---------- Figure B: best-metric scatter ----------
@@ -84,7 +90,7 @@ def pear(x, y):
     x, y = np.asarray(x), np.asarray(y)
     return np.corrcoef(x, y)[0, 1]
 
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.95))
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.5))
 for ax, key, lab in [(axes[0], "fs", "FS"), (axes[1], "nc", "NC")]:
     for p in pts:
         ax.scatter(p["delta"], p[key], marker=MARK[p["ds"]], s=18,
@@ -96,7 +102,8 @@ for ax, key, lab in [(axes[0], "fs", "FS"), (axes[1], "nc", "NC")]:
     r_ds = [pear([p["delta"] for p in ph if p["ds"] == d], [p[key] for p in ph if p["ds"] == d]) for d in HIER]
     ax.set_xlabel(r"$\hat\delta$ (per model$\times$dataset)", fontsize=7.5)
     ax.set_ylabel(f"best $-$ Euclidean (pp), {lab}", fontsize=7)
-    ax.set_title(f"{lab}: within-ds r {max(r_ds):+.2f}..{min(r_ds):+.2f} (pooled {r_all:+.2f})", fontsize=7)
+    ax.set_title(lab, fontsize=8)
+    print(f"CAPTION DATA {lab}: within-dataset r {max(r_ds):+.2f}..{min(r_ds):+.2f}; pooled {r_all:+.2f}; hier-only {r_h:+.2f}")
     ax.tick_params(labelsize=7)
 hp = [plt.Line2D([], [], marker="o", ls="", color=c, ms=5, label=p) for p, c in COL.items()]
 hm = [plt.Line2D([], [], marker=mk, ls="", color="gray", ms=4.5, label=ds) for ds, mk in MARK.items()]

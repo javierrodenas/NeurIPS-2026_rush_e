@@ -2,10 +2,10 @@
 """Generate appendix tables (appendix_tables/*.tex) from the result CSVs.
 Every table in the appendix is produced by this script; nothing is hand-typed.
 """
-import csv
+import csv, os
 from pathlib import Path
 
-RES = Path("/home/javi/Platonic/rebuttal/results")
+RES = Path(os.environ.get("PLATONIC_RESULTS", str(Path(__file__).resolve().parents[2] / "rebuttal/results")))
 OUT = Path(__file__).parent / "appendix_tables"
 OUT.mkdir(exist_ok=True)
 
@@ -182,3 +182,25 @@ lines += [r"\bottomrule", r"\end{tabular}",
 (OUT/"tab_a10_curvature.tex").write_text("\n".join(lines) + "\n"); print("wrote tab_a10_curvature.tex")
 
 print("all appendix tables generated")
+
+
+# ---- Table 3: estimator calibration (generated; R4 of the final pass) ----
+# Gaussian rows from exp1_delta_controls.csv (variant "gauss", deduplicated by d).
+# Tree / H^2 / sphere rows have no result CSV (exp6_h2_sphere_check printed to stdout);
+# they are typed here and re-verified live by rebuttal/scripts/sweep_freeze.py.
+_g = {}
+for r in load("exp1_delta_controls.csv"):
+    if r["variant"] == "gauss": _g[int(r["d"])] = float(r["delta_max"])
+_ds = sorted(_g)
+lines = [r"\begin{table}[H]", r"\centering", r"\small", r"\begin{tabular}{lcc}", r"\toprule",
+         r"space & absolute $\delta$ & $\delta_{\text{norm}}$ \\", r"\midrule",
+         r"balanced binary tree (depth 10) & 0.000 & 0.000 \\",
+         r"$\mathbb{H}^2$ ($K{=}-1$), region radius $R{=}2/4/8/16$ & 0.65/0.69/0.69/0.69 & 0.162/0.087/0.043/0.022 \\",
+         r"uniform $S^{99}$ (chord / geodesic) & 0.25/0.37 & 0.143/0.179 \\",
+         "iid Gaussian ($n{=}1000$), $d{=}192,\\dots,1536$ & --- & "
+         + "/".join(f"{_g[d]:.3f}" for d in _ds) + r" \\",
+         r"\bottomrule", r"\end{tabular}",
+         r"\caption{\textbf{A low raw $\delta$ is not evidence of hierarchy.} Calibration on reference geometries: the estimator recovers the tree zero and the four-point constant of $\mathbb{H}^2$, spheres stay high, and iid Gaussians drift low as $d$ grows, the dimension confound. Gaussian row from the released control file; tree/$\mathbb{H}^2$/sphere rows re-verified synthetically at every freeze. % exp1_delta_controls.csv, sweep_freeze.py",
+         r"}",
+         r"\label{tab:calibration}", r"\end{table}"]
+(OUT/"tab_calibration.tex").write_text("\n".join(lines) + "\n"); print("wrote tab_calibration.tex")

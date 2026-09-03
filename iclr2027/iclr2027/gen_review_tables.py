@@ -204,8 +204,10 @@ if f.exists():
       r"\label{tab:b19-xigeo}",r"\end{table}"]
     (OUT/"tab_b19_xigeo.tex").write_text("\n".join(lines)+"\n"); print(f"b19 written ({len(rows)} models)")
 
-# ---- B20: census re-run with 20 null replicates (expR39) vs the 5-replicate census ----
-f = RES/"expR39_census20.csv"
+# ---- B20: census re-run with 20 null replicates vs the 5-replicate census ----
+# prefers the homogeneous cache-based expR39b (final pass R1); falls back to expR39 (store-based ImageNet)
+f = RES/"expR39b_census20_cache.csv"
+if not f.exists(): f = RES/"expR39_census20.csv"
 if f.exists():
     r39=list(csv.DictReader(open(f)))
     r20={(a['model'],a['dataset']):a for a in load('exp20_null_ztable.csv')}
@@ -234,12 +236,17 @@ if f.exists():
             a=by.get((m,d))
             if a is None: cs+=["--","--"]; continue
             star = r"\rlap{$^\dagger$}" if int(a.get('store_centroids',0))==1 else ""
-            cs += [f"${float(a['excess']):+.3f}$".replace("0.", ".")+star, f"{round(20*float(a['frac_null_above']))}"]
+            cs += [f"${float(a['excess']):+.3f}$"+star, f"{round(20*float(a['frac_null_above']))}"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
+    HIERSET={'imagenet','cifar100','cifar10','dtd'}
+    nz2=sum(abs(float(a['z']))>=2 for a in r39); nz3h=sum(float(a['z'])<=-3 for a in r39 if a['dataset'] in HIERSET)
+    nh=sum(1 for a in r39 if a['dataset'] in HIERSET); nflag=sum(int(a.get('store_centroids',0))==1 for a in r39)
+    dag = (r" $^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store, whose supervised-ViT centroids differ slightly from the census cache." if nflag else
+           r" Every cell is computed on the census cache (one centroid source; the ImageNet cache was regenerated with the original extraction pipeline).")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{The full vision census re-run with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). "
-      f"Agreement with the 5-replicate census on the {comp} directly comparable cells: sign {sign_agree}/{comp}, significance at $|z|\\ge2$ {sig_agree}/{comp}; {below_all}/{n} cells lie below every replicate. "
-      r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (precomputed centroid store, whose supervised-ViT centroids differ slightly from the census cache) and are not directly comparable to Table~\ref{tab:b2-ztable}.}",
+      r"\caption{\textbf{The 20-replicate census: excess and percentile rank per cell.} Excess over the spectrum-matched null and rank r (number of the 20 null replicates above the real value; 20 = below every replicate). "
+      f"{below_all}/{n} cells lie below every replicate. Secondary $z$ summary (excess over the combined null and estimator s.d.): $|z|\\ge2$ in {nz2}/{n} cells, $z\\le-3$ in {nz3h}/{nh} hierarchical-dataset cells. "
+      f"Agreement with the 5-replicate census (Table~\\ref{{tab:b2-ztable}}) on the {comp} comparable cells: sign {sign_agree}/{comp}, significance at $|z|\\ge2$ {sig_agree}/{comp}."+dag+"}",
       r"\label{tab:b20-census20}",r"\end{table}"]
     (OUT/"tab_b20_census20.tex").write_text("\n".join(lines)+"\n"); print(f"b20 written ({n} cells; agree sign {sign_agree}/{comp}, sig {sig_agree}/{comp})")
 
@@ -273,7 +280,7 @@ if f.exists():
             a=by.get((m,d))
             if a is None: cs+=["--","--"]; continue
             star = r"\rlap{$^\dagger$}" if int(a.get('store_centroids',0))==1 else ""
-            cs += [f"${float(a['excess']):+.3f}$".replace("0.", ".")+star, f"{round(20*float(a['frac_null_above']))}"]
+            cs += [f"${float(a['excess']):+.3f}$"+star, f"{round(20*float(a['frac_null_above']))}"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{The full vision p99.9 census with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). "
@@ -400,7 +407,7 @@ if f.exists():
         cs=[]
         for d in DS:
             a=by.get((m,d))
-            cs += ["--","--","--"] if a is None else [f"${float(a[k]):+.3f}$".replace("0.",".") for k in ("excess_gauss","excess_haar","excess_pcperm")]
+            cs += ["--","--","--"] if a is None else [f"${float(a[k]):+.3f}$" for k in ("excess_gauss","excess_haar","excess_pcperm")]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{Excess under three constructions of the spectrum-matched null (10 replicates each): Gaussian coefficients (the paper's), Haar-rotated coefficients (exact sample spectrum) and PC-permutation (exact per-component marginals). The Gaussian and PC-permutation constructions agree; the exact-sample-spectrum construction yields smaller excesses for low-effective-rank clouds on the small-$C$ sets (most visibly DINOv2 on CIFAR-100), so the size of those excesses is partly a property of the null hypothesis, while signs and the ImageNet readings are stable.}",
@@ -469,3 +476,23 @@ if f.exists():
           r"\caption{Hyperbolic-backbone control. MERU \citep{desai2023meru} embeds images on the Lorentz hyperboloid with an entailment objective; its released Euclidean twin (a CLIP baseline: same ViT, same RedCaps data and recipe, minus the hyperbolic lift and entailment loss) differs only in geometry. Both pass through the paper's instrument unchanged (class centroids of the projected embeddings; ``exc.'' is the excess over the spectrum-matched null, ``depth'' the star-calibrated test of Table~\ref{tab:b29-depth}, ``nat.'' the Gromov $\hat\delta$ computed with the model's own metric: Lorentz distance between tangent-space-mean centroids for MERU, angular for CLIP). Training in hyperbolic space changes nothing at the class level: MERU shows the same clustering excess as its twin, no residual depth beyond a matched star on either dataset, and its Lorentz-metric $\hat\delta$ is indistinguishable from the Euclidean one. MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy; the class-tree depth that no standard backbone shows is not present in a hyperbolic one either. The synthetic two-level tree of Table~\ref{tab:b25-star} remains the existence proof that the depth test fires when depth is present.}",
           r"\label{tab:b30-meru}",r"\end{table}"]
         (OUT/"tab_b30_meru.tex").write_text("\n".join(lines)+"\n"); print(f"b30 written ({len(rows)} rows, {len(M)} models)")
+
+
+# ---- B31: Groger-style permutation calibration, K=200 (exp21b) ----
+f = RES/"exp21b_local_global_K200.csv"
+if f.exists():
+    import statistics as _st
+    rows=list(csv.DictReader(open(f)))
+    if len(rows)==66:
+        TAGS=[("knn_R","mutual-kNN ($k{=}10$), Euclidean"),("knn_H","mutual-kNN, Poincar\\'e"),("cka_R","linear CKA, Euclidean"),("cka_H","linear CKA, Poincar\\'e")]
+        lines=[r"\begin{table}[H]",r"\centering",r"\footnotesize",r"\setlength{\tabcolsep}{3pt}",
+          r"\begin{tabular}{lcccccc}",r"\toprule",
+          r"measure & raw & null mean & $\tau_{0.05}$ & calibrated & null-centered & pairs $p<0.05$ \\",r"\midrule"]
+        for tag,name in TAGS:
+            g=lambda k: _st.mean(float(a[f"{tag}_{k}"]) for a in rows)
+            fr=sum(float(a[f"{tag}_p"])<0.05 for a in rows)
+            lines.append(f"{name} & ${g('raw'):.3f}$ & ${g('null_mean'):.3f}$ & ${g('tau95'):.3f}$ & ${g('cal'):.3f}$ & ${g('nullcentered'):.3f}$ & {fr}/66 \\\\")
+        lines+=[r"\bottomrule",r"\end{tabular}",
+          r"\caption{\textbf{Cross-model agreement survives permutation calibration.} Means over the 66 model pairs of the 12 vision backbones on the 1000 ImageNet class centroids (census cache). Calibration of \citet{groger2026aristotelian} with $K{=}200$ permutations of the class correspondence and $\alpha{=}0.05$, scalar (no layer search): $\tau_{0.05}$ is the $\lceil0.95(K{+}1)\rceil$-th order statistic of the observed score and its nulls (eq.\ 9), $p=(1+\#\{\text{null}\ge\text{obs}\})/(K{+}1)$ (eq.\ 10), calibrated $=\max\{(\text{obs}-\tau_{0.05})/(1-\tau_{0.05}),0\}$ (eq.\ 12); ``null-centered'' is the earlier raw-minus-null-mean variant, kept for continuity. The mKNN null mean equals the analytic chance level $k/(n{-}1)=10/999$. % exp21b_local_global_K200.csv",
+          r"}", r"\label{tab:b31-groger}",r"\end{table}"]
+        (OUT/"tab_b31_groger.tex").write_text("\n".join(lines)+"\n"); print("b31 written (66 pairs)")

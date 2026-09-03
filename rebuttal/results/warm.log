@@ -1,0 +1,11 @@
+index ready: 100000 train, 100000 exp5sub, 191799 union
+  warmed 20000/191799 (2.5 GB, 98s)
+  warmed 40000/191799 (4.7 GB, 201s)
+  warmed 60000/191799 (7.0 GB, 352s)
+  warmed 80000/191799 (9.4 GB, 513s)
+  warmed 100000/191799 (11.6 GB, 694s)
+  warmed 120000/191799 (13.9 GB, 862s)
+  warmed 140000/191799 (15.9 GB, 1032s)
+  warmed 160000/191799 (18.1 GB, 1205s)
+  warmed 180000/191799 (20.3 GB, 1384s)
+warm done: 21.9 GB in 1483s

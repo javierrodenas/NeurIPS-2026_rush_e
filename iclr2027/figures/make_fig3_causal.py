@@ -10,24 +10,27 @@ import numpy as np
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 HERE = Path(__file__).resolve().parent
+plt.style.use(str(HERE / "style.mplstyle"))
+import sys; sys.path.insert(0, str(HERE))
+from palette import color as fam_color
 RES = Path(os.environ.get("PLATONIC_ABLATIONS", "/media/HDD_4TB_2/javi/Platonic/results"))
 NAME = {"dinov2_s":"Dv2-S","dinov2_b":"Dv2-B","i21k_b":"ViT-B","clip_b":"CLIP-B","clip_b_vision":"CLIP-B"}
 LEG = {"dinov2_b":"DINOv2-B","clip_b_vision":"CLIP-B"}
-BLUE, RED, GREEN = "#4C72B0", "#C44E52", "#55A868"
-fig, ax = plt.subplots(1, 2, figsize=(5.5, 1.6))
+
+fig, ax = plt.subplots(1, 2, figsize=(5.5, 1.45))
 # (b) non-hierarchical fine-tuning
 r = list(csv.DictReader(open(RES/"analysis4_finetuning.csv")))
 ft = {a["model"]: float(a["pct_change"]) for a in r}
 ms = ["i21k_b","dinov2_s","clip_b"]
 pct = [ft[m] for m in ms]
-ax[0].bar(range(3), pct, color=RED, width=0.6)
+ax[0].bar(range(3), pct, color=[fam_color(m) for m in ms], width=0.6)   # family colors, not red
 for i,v in enumerate(pct): ax[0].text(i, v+3, f"+{v:.0f}%", ha="center", fontsize=6.5, fontweight="bold")
 ax[0].set_xticks(range(3)); ax[0].set_xticklabels([NAME[m] for m in ms], fontsize=6.5)
 ax[0].set_ylabel(r"$\Delta\delta$ vs pretrained (%)", fontsize=6.5); ax[0].set_ylim(0, max(pct)*1.25)
 ax[0].set_title("(a) Non-hierarchical fine-tuning", fontsize=7)
 # (c) depth
 r = list(csv.DictReader(open(RES/"e1_delta_by_layer.csv")))
-for m, col in [("dinov2_b", GREEN), ("clip_b_vision", BLUE)]:
+for m, col in [("dinov2_b", fam_color("dinov2_b")), ("clip_b_vision", fam_color("clip_b"))]:
     rows = sorted([a for a in r if a["model"]==m and int(a["layer"])>=1], key=lambda a:int(a["layer"]))
     xs = [int(a["layer"]) for a in rows]; ys = [float(a["delta_normalized"]) for a in rows]
     ax[1].plot(xs, ys, "-o", color=col, ms=3, lw=1.2, label=LEG[m])

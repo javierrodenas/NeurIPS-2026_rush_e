@@ -1,0 +1,15 @@
+# ICLR 2027 figure style (final pass, brief 6.0)
+font.family: serif
+font.serif: STIXGeneral
+mathtext.fontset: stix
+font.size: 8
+axes.labelsize: 8
+xtick.labelsize: 7
+ytick.labelsize: 7
+legend.fontsize: 7
+axes.titlesize: 8
+axes.linewidth: 0.6
+axes.spines.top: False
+axes.spines.right: False
+savefig.bbox: tight
+pdf.fonttype: 42

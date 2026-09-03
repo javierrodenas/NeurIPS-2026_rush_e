@@ -6,6 +6,11 @@ import numpy as np
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from pathlib import Path
+import sys
+_FIGDIR = Path(__file__).resolve().parents[2] / "iclr2027" / "figures"
+plt.style.use(str(_FIGDIR / "style.mplstyle"))
+sys.path.insert(0, str(_FIGDIR))
+from palette import FAMILY_COLORS, color as fam_color
 RES = Path(os.environ.get("PLATONIC_RESULTS", Path(__file__).resolve().parents[2] / "rebuttal/results"))
 rows = list(csv.DictReader(open(RES / "expR48_text_census_bs1.csv")))   # padding-free, 20 replicates
 order = ["gpt2","gpt2_m","gpt2_l","gpt2_xl","pythia_410m","pythia_1b","pythia_2b8",
@@ -20,21 +25,24 @@ d = {r["model"]: r for r in rows}
 order = [m for m in order if m in d]
 exc = [float(d[m]["excess"]) for m in order]
 err = [np.sqrt(float(d[m]["null_sd"])**2 + float(d[m]["delta_sd"])**2) for m in order]
-FAM = {"gpt2":"#DD8452","gpt2_m":"#DD8452","gpt2_l":"#DD8452","gpt2_xl":"#DD8452","pythia_410m":"#4C72B0","pythia_1b":"#4C72B0","pythia_2b8":"#4C72B0","olmo_1b":"#55A868","olmo_7b":"#55A868","bge_base":"#8172B3","bge_large":"#8172B3","gte_base":"#8172B3","gte_large":"#8172B3","e5_base":"#8172B3","e5_large":"#8172B3","gte_qwen2":"#937860"}
-col = [FAM[m] for m in order]
+col = [fam_color(m) for m in order]                       # causal LMs purple, embedders brown
+at_null = [float(d[m]["frac_null_above"]) < 1.0 for m in order]  # not below every replicate
 
-fig, ax = plt.subplots(figsize=(5.5, 2.1))
+fig, ax = plt.subplots(figsize=(5.5, 1.75))
 x = np.arange(len(order))
-ax.bar(x, exc, yerr=err, color=col, capsize=2, error_kw=dict(lw=0.8))
+bars = ax.bar(x, exc, yerr=err, capsize=2, error_kw=dict(lw=0.8))
+for b, c, hollow in zip(bars, col, at_null):   # hollow = at null (not below every replicate)
+    b.set_edgecolor(c); b.set_linewidth(1.0)
+    b.set_facecolor("white" if hollow else c)
 ax.axhline(0, color="k", lw=0.9)
 ax.set_xticks(x); ax.set_xticklabels([NAME[m] for m in order], rotation=55, ha="right", fontsize=6.5)
 ax.set_ylabel(r"tree excess  $\delta_{\rm real}-\delta_{\rm null}$", fontsize=7)
 ax.tick_params(labelsize=7)
-ax.annotate("genuine form emerges\nwith scale (GPT-2)", xy=(2.6, -0.038),
-            xytext=(0.2, 0.030), fontsize=6.5, va="center", arrowprops=dict(arrowstyle="->", lw=0.8))
-ax.annotate("classic sentence embedders: at null", xy=(11.4, 0.038), fontsize=6.5, ha="center")
-qi = order.index("gte_qwen2")
-ax.annotate("LLM-backboned:\nnot robust (App.)", xy=(qi, 0.004), xytext=(qi-2.0, -0.040), fontsize=6, ha="center", va="center", arrowprops=dict(arrowstyle="->", lw=0.7))
+import matplotlib.patches as mpatches
+hd = [mpatches.Patch(facecolor=FAMILY_COLORS["causal_lm"], label="causal LM"),
+      mpatches.Patch(facecolor=FAMILY_COLORS["embedder"], label="text embedder"),
+      mpatches.Patch(facecolor="white", edgecolor="k", label="hollow: at null (not below every replicate)")]
+ax.legend(handles=hd, frameon=False, loc="upper left", handlelength=1.2, borderaxespad=0.2)
 fig.tight_layout()
 out = Path(__file__).parent / "figures"
 fig.savefig(out/"fig_text_nulls.pdf"); fig.savefig(out/"fig_text_nulls.png", dpi=200)
