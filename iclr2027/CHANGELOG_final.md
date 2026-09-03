@@ -322,4 +322,4 @@ embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust acro
 
 ### Verificación
 - `sweep_freeze.py` (sección 2 → expR39c; sección 3 → expR48b): **67/67 PASS**.
-- Compilación: 30 páginas, warnings = 1, `??` = 0; Ethics en p9 (1); p10 abre con "R EPRODUCIBILITY S TATEMENT". PDF: `iclr2027/main_iclr2027_final.pdf`.
+- Compilación: 30 páginas, warnings = 0 (Overfull de B20 corregido con tabcolsep 1.8 pt), `??` = 0; Ethics en p9; p10 abre con Reproducibility Statement. PDF: `iclr2027/main_iclr2027_final.pdf`.

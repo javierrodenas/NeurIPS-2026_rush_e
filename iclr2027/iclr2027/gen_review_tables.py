@@ -227,7 +227,7 @@ if f.exists():
           "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
     by={(a['model'],a['dataset']):a for a in r39}
     DS=['imagenet','cifar100','cifar10','dtd','fashionmnist','mnist']
-    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.2pt}",
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{1.8pt}",
       r"\begin{tabular}{l"+"ccc"*len(DS)+"}",r"\toprule",
       " & "+" & ".join(f"\\multicolumn{{3}}{{c}}{{{DSH[d]}}}" for d in DS)+r" \\",
       r"model & "+" & ".join([r"exc.\ & $r$ & $p$"]*len(DS))+r" \\",r"\midrule"]
