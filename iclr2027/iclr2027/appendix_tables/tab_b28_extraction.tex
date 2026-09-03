@@ -11,6 +11,6 @@ batch size & fp32 $\hat\delta$ & fp16 $\hat\delta$ & fp32 $\hat\delta$ & fp16 $\
 32 & $0.0905$ & $0.0905$ & $0.0817$ & $0.0817$ \\
 \bottomrule
 \end{tabular}
-\caption{Where extraction-to-extraction variability comes from. Same 1000 prompts, same model; only batch size and precision vary. Precision is irrelevant (fp16 equals fp32 to four decimals). For GPT-2, left-padded batching changes the hidden states (mean cosine to the padding-free extraction $0.98$) and moves $\hat\delta$ by up to $0.018$; OLMo handles left padding correctly and is invariant. Padding-free (batch-size-1) extraction is therefore the protocol of Table~\ref{tab:b23-text20}.}
+\caption{Where extraction-to-extraction variability comes from. Same 1000 prompts, same model; only batch size and precision vary. Precision is irrelevant (fp16 equals fp32 to four decimals). For GPT-2, left-padded batching changes the hidden states (mean cosine to the padding-free extraction $0.98$) and moves $\hat\delta$ by up to $0.018$; OLMo handles left padding correctly and is invariant. Padding-free (batch-size-1) extraction is therefore the protocol of Table~\ref{tab:b23-text200}.}
 \label{tab:b28-extraction}
 \end{table}

@@ -249,3 +249,77 @@ Poincaré "0.472→0.425; 0.633→0.640". La frase de Poincaré se conserva.
    de B23. El bloque queda en tres párrafos cortos con una frase-puntero a A.templates.
 - Verificación: `sweep_freeze.py` **67/67 PASS**; compilación 30 páginas, warnings = 0, `??` = 0; Ethics en
   p9 (1); p10 abre con "R EPRODUCIBILITY S TATEMENT". PDF actualizado en `iclr2027/main_iclr2027_final.pdf`.
+
+## 11. R6 — censo a 200 réplicas (resolución Gröger): censo de registro
+
+Ficheros nuevos: `expR39c_census200_cache.csv` (72 celdas; copia de expR39b con `range(200)`, semillas 300+rep, 5 semillas/réplica) y
+`expR48b_text_census200_bs1.csv` (15 modelos; copia de expR48 con `range(200)`, 3 semillas/réplica como expR48). Ambos guardan `frac_null_above`,
+`r_above` y `p_left = (1+#{null ≤ real})/201`. Cómputo: 3 procesos de visión (ImageNet en dos mitades + transfer) y 2 de texto (una GPU cada uno),
+BLAS monohilo, ~1.5 h de pared en máquina compartida. Los CSV de 20 réplicas (`expR39b`, `expR48`) se conservan como histórico; sus tablas B20/B23
+se sustituyen por las de 200 réplicas (labels `tab:b20-census200`, `tab:b23-text200`). **"Genuine" se define una sola vez en §3: p ≤ 0.05, r ≥ 191/200**;
+todas las frases "below every replicate" del texto principal se han sustituido.
+
+### Recuentos (texto principal)
+
+| enunciado | antes (20 réplicas, expR39b) | ahora (200 réplicas, expR39c) |
+|---|---|---|
+| sign-negativas (abstract, intro, §4) | 69/72 | **68/72** (ViT-T FashionMNIST pasa de -0.012 (11/20) a +0.001 (95/200, p=0.527)) |
+| celdas genuinas (antes: bajo las 20 réplicas) | 57/72 | **55/72** (p ≤ 0.05); bajo las 200 réplicas: 44/72 |
+| jerárquicas genuinas | 43/48 | **43/48** |
+| planas: signo / genuinas | 24/24 / 14/24 | **23/24 / 12/24** |
+| excepciones sign-positivas | DINOv2-S/B/G IN (excess ≤ +0.012, rango 0/20) | DINOv2-S/B/G IN (excess ≤ +0.011, r = 0/0/1 de 200, p ≥ 0.99) + ViT-T FMNIST (+0.001, p 0.53) |
+| leyenda B20: \|z\| ≥ 2 / z ≤ −3 jerárquicas | 50/72 / 31/48 | 49/72 / 32/48 |
+| §4 l.137 rangos ImageNet: ViT / CLIP-SigLIP | −0.019..−0.031 / −0.017..−0.027 | −0.020..−0.030 / −0.016..−0.025 |
+| §4 l.137 DINOv2-L ImageNet | "below every replicate, excess −0.008" | "genuine, excess −0.008, r = 200/200" |
+| §4 l.137 p99.9 (expR40, 20 réplicas) | "42/48 below every replicate" | "42/48 genuine at 20 replicates" (mismo recuento, lenguaje de p) |
+| Fig. 3 título (a) | 69/72 | 68/72 (calculado) · huecos = p > 0.05 |
+| Fig. 2 (b) exceso SigLIP-B/DTD | −0.062 | −0.066 |
+
+### Tabla 1, celda a celda (exceso (r) 20 réplicas → exceso (r/200, p) 200 réplicas)
+
+| modelo | ImageNet | CIFAR-100 | CIFAR-10 |
+|---|---|---|---|
+| i21k_t | -0.019 (20/20) → -0.020 (199/200, p=0.010) | -0.039 (20/20) → -0.038 (200/200, p=0.005) | -0.051 (20/20) → -0.042 (191/200, p=0.050) |
+| i21k_s | -0.021 (20/20) → -0.022 (200/200, p=0.005) | -0.031 (20/20) → -0.031 (199/200, p=0.010) | -0.090 (20/20) → -0.081 (200/200, p=0.005) |
+| i21k_b | -0.027 (20/20) → -0.025 (200/200, p=0.005) | -0.015 (18/20) → -0.016 (187/200, p=0.070) | -0.083 (20/20) → -0.073 (200/200, p=0.005) |
+| i21k_l | -0.031 (20/20) → -0.030 (200/200, p=0.005) | -0.043 (20/20) → -0.044 (200/200, p=0.005) | -0.096 (20/20) → -0.088 (200/200, p=0.005) |
+| dinov1_b | -0.005 (16/20) → -0.003 (162/200, p=0.194) | -0.063 (20/20) → -0.064 (200/200, p=0.005) | -0.094 (20/20) → -0.085 (200/200, p=0.005) |
+| dinov2_s | +0.012 (0/20) → +0.011 (0/200, p=1.000) | -0.051 (20/20) → -0.052 (200/200, p=0.005) | -0.095 (20/20) → -0.095 (200/200, p=0.005) |
+| dinov2_b | +0.007 (0/20) → +0.007 (0/200, p=1.000) | -0.042 (20/20) → -0.042 (200/200, p=0.005) | -0.134 (20/20) → -0.135 (200/200, p=0.005) |
+| dinov2_l | -0.008 (20/20) → -0.008 (200/200, p=0.005) | -0.051 (20/20) → -0.051 (200/200, p=0.005) | -0.154 (20/20) → -0.153 (200/200, p=0.005) |
+| dinov2_g | +0.004 (0/20) → +0.005 (1/200, p=0.995) | -0.079 (20/20) → -0.079 (200/200, p=0.005) | -0.155 (20/20) → -0.155 (200/200, p=0.005) |
+| clip_b | -0.027 (20/20) → -0.025 (200/200, p=0.005) | -0.044 (20/20) → -0.044 (200/200, p=0.005) | -0.071 (20/20) → -0.062 (200/200, p=0.005) |
+| clip_l | -0.020 (20/20) → -0.018 (200/200, p=0.005) | -0.038 (20/20) → -0.039 (200/200, p=0.005) | -0.080 (20/20) → -0.072 (200/200, p=0.005) |
+| siglip_b | -0.017 (20/20) → -0.016 (199/200, p=0.010) | -0.037 (20/20) → -0.038 (200/200, p=0.005) | -0.088 (20/20) → -0.080 (200/200, p=0.005) |
+
+Cambio máximo de exceso entre 20 y 200 réplicas: 0.0131. Celdas que cambian de veredicto (bajo-todas a 20 vs p ≤ 0.05 a 200): i21k_s/mnist (-0.044, r=186, p=0.075; antes 20/20); i21k_b/mnist (-0.030, r=181, p=0.100; antes 20/20).
+Marca ∘ en Tabla 1 (transfer no genuino): i21k_b/cifar100 (p=0.070).
+
+### Censo de texto (expR48, 20 réplicas → expR48b, 200 réplicas)
+
+| modelo | exceso 20 (rango/20) | exceso 200 (r/200, p) | veredicto 200 |
+|---|---|---|---|
+| gpt2 | -0.0150 (20/20) | -0.0132 (183/200, p=0.090) | no genuino |
+| gpt2_m | -0.0098 (18/20) | -0.0090 (173/200, p=0.139) | no genuino |
+| gpt2_l | -0.0406 (20/20) | -0.0389 (200/200, p=0.005) | genuino |
+| gpt2_xl | -0.0485 (20/20) | -0.0472 (200/200, p=0.005) | genuino |
+| pythia_410m | -0.0361 (20/20) | -0.0352 (200/200, p=0.005) | genuino |
+| pythia_1b | -0.0319 (20/20) | -0.0310 (200/200, p=0.005) | genuino |
+| pythia_2b8 | -0.0361 (20/20) | -0.0346 (200/200, p=0.005) | genuino |
+| olmo_1b | -0.0393 (20/20) | -0.0381 (200/200, p=0.005) | genuino |
+| bge_base | +0.0037 (5/20) | +0.0053 (23/200, p=0.886) | no genuino |
+| bge_large | +0.0029 (5/20) | +0.0034 (53/200, p=0.736) | no genuino |
+| gte_base | +0.0113 (0/20) | +0.0121 (2/200, p=0.990) | no genuino |
+| gte_large | +0.0069 (1/20) | +0.0071 (11/200, p=0.945) | no genuino |
+| gte_qwen2 | +0.0019 (8/20) | +0.0033 (63/200, p=0.687) | no genuino |
+| e5_base | +0.0024 (9/20) | +0.0040 (39/200, p=0.806) | no genuino |
+| e5_large | +0.0047 (3/20) | +0.0049 (28/200, p=0.861) | no genuino |
+
+Genuinos: 6/15. GPT-2 S (p = 0.090) y M (p = 0.139) no son genuinos y L/XL sí → se mantiene "emerges with scale" (regla del brief).
+Frase de §4: "S and M sit at their null (−0.015/−0.010) while L and XL lie below every replicate (−0.041/−0.049)" → "S and M are not genuine (−0.013/−0.009) while L and XL are (−0.039/−0.047)"; "OLMo at both scales tested" → "OLMo-1B" (OLMo-7B no re-extraído);
+embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust across replicate counts" → "not genuine either". Leyenda B14: S/M (z −1.6/−1.2, −0.015/−0.010) → (−0.013/−0.009, p 0.09/0.14).
+§3: "over 20 spectrum-null replicates, for δ and ξ alike" → "over 200 (20 for ξ)"; definición de genuine; "each replicate 5" → "5 (3 in the text census)". Intro: "ranked against 20" → "200". Leyendas Fig. 3/4: huecos = p > 0.05; Fig. 4 "20 null replicates" → "200".
+
+### Verificación
+- `sweep_freeze.py` (sección 2 → expR39c; sección 3 → expR48b): **67/67 PASS**.
+- Compilación: 30 páginas, warnings = 1, `??` = 0; Ethics en p9 (1); p10 abre con "R EPRODUCIBILITY S TATEMENT". PDF: `iclr2027/main_iclr2027_final.pdf`.

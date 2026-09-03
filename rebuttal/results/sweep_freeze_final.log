@@ -4,25 +4,25 @@ PASS calib: H2 R=4 absolute ~0.69 (ln2)
 PASS calib: S99 chord ~0.143 
 PASS calib: S99 geodesic ~0.179 
 PASS calib: gauss d=768 ~0.061 
-PASS census: 72 cells, none from the store 
-PASS 69/72 sign-neg 
-PASS 3 excepciones Dv2 S/B/G IN: rank 0/20, z<=+1.1 
-PASS 57/72 below every replicate 
-PASS hier 43/48 below every replicate 
-PASS flat 24/24 sign-neg, 14/24 below all 
-PASS B20 caption: |z|>=2 50/72, hier z<=-3 31/48 
+PASS census: 72 cells, 200 replicates, none from the store 
+PASS 68/72 sign-neg 
+PASS 4 sign-positive: Dv2 S/B/G IN (exc<=+0.011, p>=0.99) + ViT-T FMNIST (~0, p~0.5) 
+PASS genuine p<=0.05: 55/72, hier 43/48, flat 12/24 
+PASS 44/72 below all 200 replicates; flat 23/24 sign-neg 
+PASS genuine <=> r>=191 
+PASS B20 caption: |z|>=2 49/72, hier z<=-3 32/48 
+PASS IN ranges: ViT -0.020..-0.030, CLIP/SigLIP -0.016..-0.025 
+PASS Dv2-L IN -0.008 genuine r=200; S->G C10 -0.095->-0.155 
 PASS R1 fidelity: ImageNet raw delta == exp20 cache (4 dp) 
 PASS sphere 12/12 geo, 10/12 chord 
 PASS xi Dv2 -0.020->-0.070 66->89% 
 PASS sup/con xi +0.02..+0.04, < gauss 0.09 
-PASS GPT2 +0.048/-0.013/-0.034/-0.048 
-PASS OLMo -0.001 / -0.015 
-PASS Pythia -0.035..-0.041 
-PASS embedders +0.001..+0.011 
-PASS qwen -0.019 
-PASS embedder raw .114-.124 
+PASS text: 15 models, 200 replicates 
+PASS GPT-2 S/M not genuine (-0.013/-0.009; p .090/.139), L/XL genuine (-0.039/-0.047) 
+PASS Pythia x3 + OLMo-1B genuine 
+PASS 7 embedders not genuine, excess +0.003..+0.012 
+PASS genuine 6/15 
 PASS erank GPT2 1.3->56; GTE 98 
-PASS pcperm z S/M/L/XL -1.4/-3.7/-7.8/-6.4 
 PASS templates: emb <=.012, LM hasta .065 
 PASS DBpedia exc -0.020..-0.028, delta .122-.132, NC -0.4..-0.8, FS +0.04..+0.08 
 PASS C50 Dv2-L exc -0.124/-0.093 NC +1.58/+0.53 

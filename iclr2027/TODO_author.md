@@ -66,3 +66,11 @@ como `iclr2027/iclr2027/figures/fig1_concept.pdf` (vectorial), ancho de texto, �
 img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 `rebuttal/scripts/extract_imagenet_cache_local.py`); shards de DINOv2-G en `*_train.shard{0,1}of2.npz`
 (se pueden borrar). `i21k_t`/`dinov2_s` tienen además `*_imagenet_exp5sub100.npz` (de la primera pasada).
+
+## Añadido en R6 (censo a 200 réplicas)
+
+- El recuento de signo baja de 69/72 a **68/72**: ViT-T en FashionMNIST queda en exceso +0.001 (p = 0.53), es decir, exactamente en el null;
+  el abstract y la intro dicen ahora "68 of 72". Si prefieres redondear el mensaje a "nearly universal" sin número, es un cambio de dos frases.
+- El censo de texto a 200 réplicas usa 3 semillas de cuádruplas por réplica (como expR48); el de visión, 5 (como expR39). Es lo que había; si quieres
+  homogeneizar a 5 en texto, `expR48b` tarda ~1.5 h más de CPU.
+- OLMo-7B sigue sin re-extraer (solo extracción original, Tabla B1); el texto de §4 dice ahora "OLMo-1B".

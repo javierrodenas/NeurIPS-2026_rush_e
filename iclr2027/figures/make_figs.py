@@ -24,11 +24,17 @@ ORDER = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b",
 
 def para(m): return PARA[m[:4]] if m.startswith("i21k") else PARA[m[:5]]
 
-_src = RES/"expR39b_census20_cache.csv"
-if not _src.exists(): _src = RES/"exp20_null_ztable.csv"     # fallback until R1 lands
+_src = RES/"expR39c_census200_cache.csv"                              # R6: census of record (200 replicates)
+if not _src.exists(): _src = RES/"expR39b_census20_cache.csv"
+if not _src.exists(): _src = RES/"exp20_null_ztable.csv"
 print("census source:", _src.name)
 d20 = list(csv.DictReader(open(_src)))
 exc = {(r["model"], r["dataset"]): float(r["excess"]) for r in d20}
+def _p(r):
+    if "p_left" in r: return float(r["p_left"])
+    if "frac_null_above" in r: return (1 + 20 - round(20*float(r["frac_null_above"]))) / 21
+    return 0.0
+gen = {(r["model"], r["dataset"]): _p(r) <= 0.05 for r in d20}   # genuine = p <= 0.05
 dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
 # ---------- Figure A: excess panel ----------
@@ -38,9 +44,10 @@ xs = np.arange(len(ORDER))
 for k, m in enumerate(ORDER):
     for ds, mk in MARK.items():
         if (m, ds) in exc:
-            ax1.scatter(k, exc[(m, ds)], marker=mk, s=16, color=COL[para(m)],
-                        alpha=0.45 if ds == "imagenet" else 0.9,
-                        edgecolors="none", zorder=3)
+            _g = gen[(m, ds)]
+            ax1.scatter(k, exc[(m, ds)], marker=mk, s=16,
+                        facecolors=COL[para(m)] if _g else "white", edgecolors=COL[para(m)], linewidths=0.8,
+                        alpha=0.45 if ds == "imagenet" else 0.9, zorder=3)   # hollow = not genuine (p > 0.05)
 ax1.axhline(0, color="k", lw=0.8, zorder=1)
 ax1.set_xticks(xs); ax1.set_xticklabels([NAME[m] for m in ORDER], rotation=60, ha="right", fontsize=6.5)
 ax1.set_ylabel(r"tree excess  $\hat\delta_{\rm real}-\hat\delta_{\rm null}$", fontsize=8)

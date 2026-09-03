@@ -1,0 +1,9 @@
+bge_base     delta 0.1213 null 0.1160 exc +0.0053 r 23/200 p 0.8856 (414s)
+bge_large    delta 0.1205 null 0.1171 exc +0.0034 r 53/200 p 0.7363 (605s)
+gte_base     delta 0.1242 null 0.1121 exc +0.0121 r 2/200 p 0.9900 (417s)
+gte_large    delta 0.1203 null 0.1131 exc +0.0071 r 11/200 p 0.9453 (572s)
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:36<00:36, 36.05s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:49<00:00, 22.81s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:49<00:00, 24.80s/it]gte_qwen2    delta 0.1224 null 0.1192 exc +0.0033 r 63/200 p 0.6866 (859s)
+e5_base      delta 0.1152 null 0.1112 exc +0.0040 r 39/200 p 0.8060 (303s)
+e5_large     delta 0.1139 null 0.1090 exc +0.0049 r 28/200 p 0.8607 (383s)
+Done part b
+

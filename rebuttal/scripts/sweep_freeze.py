@@ -81,24 +81,34 @@ G = rng.randn(1000,768)
 chk("calib: gauss d=768 ~0.061", abs(delta_from_D(squareform(pdist(G)))-0.061) < 0.008,
     f"{delta_from_D(squareform(pdist(G))):.3f}")
 
-# ---------- 2. Vision census (expR39b: homogeneous 20-replicate census on the census cache) ----------
+# ---------- 2. Vision census of record (expR39c: 200 spectrum-null replicates, census cache) ----------
 e20 = load("exp20_null_ztable.csv")          # kept: raw deltas for the corollary checks below
-e39 = load("expR39b_census20_cache.csv")
+e39 = load("expR39c_census200_cache.csv")
 HIER = {"imagenet","cifar100","cifar10","dtd"}
 exc = {(r["model"],r["dataset"]):float(r["excess"]) for r in e39}
 zz  = {(r["model"],r["dataset"]):float(r["z"]) for r in e39}
-rk  = {(r["model"],r["dataset"]):round(20*float(r["frac_null_above"])) for r in e39}
-chk("census: 72 cells, none from the store", len(e39)==72 and all(int(r["store_centroids"])==0 for r in e39))
-chk("69/72 sign-neg", sum(1 for v in exc.values() if v<0)==69)
+rk  = {(r["model"],r["dataset"]):int(r["r_above"]) for r in e39}
+pp  = {(r["model"],r["dataset"]):float(r["p_left"]) for r in e39}
+chk("census: 72 cells, 200 replicates, none from the store", len(e39)==72 and all(int(r["store_centroids"])==0 for r in e39)
+    and all(0<=v<=200 for v in rk.values()))
+chk("68/72 sign-neg", sum(1 for v in exc.values() if v<0)==68)
 pos = [(m,d) for (m,d),v in exc.items() if v>0]
-chk("3 excepciones Dv2 S/B/G IN: rank 0/20, z<=+1.1", set(pos)=={("dinov2_s","imagenet"),("dinov2_b","imagenet"),("dinov2_g","imagenet")}
-    and all(rk[p]==0 and zz[p]<=1.15 for p in pos), str([(p,rk[p],round(zz[p],1)) for p in pos]))
-chk("57/72 below every replicate", sum(1 for v in rk.values() if v==20)==57)
-chk("hier 43/48 below every replicate", sum(1 for (m,d),v in rk.items() if d in HIER and v==20)==43)
-chk("flat 24/24 sign-neg, 14/24 below all", sum(1 for (m,d),v in exc.items() if d not in HIER and v<0)==24
-    and sum(1 for (m,d),v in rk.items() if d not in HIER and v==20)==14)
-chk("B20 caption: |z|>=2 50/72, hier z<=-3 31/48", sum(1 for v in zz.values() if abs(v)>=2)==50
-    and sum(1 for (m,d),v in zz.items() if d in HIER and v<=-3)==31)
+chk("4 sign-positive: Dv2 S/B/G IN (exc<=+0.011, p>=0.99) + ViT-T FMNIST (~0, p~0.5)",
+    set(pos)=={("dinov2_s","imagenet"),("dinov2_b","imagenet"),("dinov2_g","imagenet"),("i21k_t","fashionmnist")}
+    and all(exc[p]<=0.0115 and pp[p]>=0.99 for p in pos if p[1]=="imagenet") and exc[("i21k_t","fashionmnist")]<0.002,
+    str([(p,round(exc[p],4),round(pp[p],3)) for p in pos]))
+chk("genuine p<=0.05: 55/72, hier 43/48, flat 12/24", sum(1 for v in pp.values() if v<=0.05)==55
+    and sum(1 for (m,d),v in pp.items() if d in HIER and v<=0.05)==43 and sum(1 for (m,d),v in pp.items() if d not in HIER and v<=0.05)==12)
+chk("44/72 below all 200 replicates; flat 23/24 sign-neg", sum(1 for v in rk.values() if v==200)==44
+    and sum(1 for (m,d),v in exc.items() if d not in HIER and v<0)==23)
+chk("genuine <=> r>=191", all((v<=0.05)==(rk[k]>=191) for k,v in pp.items()))
+chk("B20 caption: |z|>=2 49/72, hier z<=-3 32/48", sum(1 for v in zz.values() if abs(v)>=2)==49
+    and sum(1 for (m,d),v in zz.items() if d in HIER and v<=-3)==32)
+vit = [exc[(m,"imagenet")] for m in ["i21k_t","i21k_s","i21k_b","i21k_l"]]; cs = [exc[(m,"imagenet")] for m in ["clip_b","clip_l","siglip_b"]]
+chk("IN ranges: ViT -0.020..-0.030, CLIP/SigLIP -0.016..-0.025", abs(max(vit)+0.020)<0.0015 and abs(min(vit)+0.030)<0.0015
+    and abs(max(cs)+0.016)<0.0015 and abs(min(cs)+0.025)<0.0015, f"{max(vit):.4f}..{min(vit):.4f} | {max(cs):.4f}..{min(cs):.4f}")
+chk("Dv2-L IN -0.008 genuine r=200; S->G C10 -0.095->-0.155", abs(exc[("dinov2_l","imagenet")]+0.008)<0.001 and rk[("dinov2_l","imagenet")]==200
+    and abs(exc[("dinov2_s","cifar10")]+0.095)<0.002 and abs(exc[("dinov2_g","cifar10")]+0.155)<0.002)
 chk("R1 fidelity: ImageNet raw delta == exp20 cache (4 dp)",
     all(abs(float(r["delta"])-float(next(a for a in e20 if a["model"]==r["model"] and a["dataset"]=="imagenet")["delta"]))<5e-5
         for r in e39 if r["dataset"]=="imagenet"))
@@ -120,23 +130,22 @@ others_xi = [float(e12[m]["xi_mean"]) for m in ["i21k_t","i21k_s","i21k_b","i21k
 chk("sup/con xi +0.02..+0.04, < gauss 0.09", 0.015<min(others_xi) and max(others_xi)<0.041
     and max(others_xi)<float(e12["ref_gauss768"]["xi_mean"]), f"{min(others_xi):.3f}..{max(others_xi):.3f}")
 
-# ---------- 3. Text census (exp18 + 18b) ----------
-e18 = {r["model"]:r for r in load("exp18_text_nulls.csv")}
-g = lambda m,k: float(e18[m][k])
-chk("GPT2 +0.048/-0.013/-0.034/-0.048", all(abs(g(m,"excess")-v)<0.002 for m,v in
-    [("gpt2",0.0477),("gpt2_m",-0.0126),("gpt2_l",-0.0339),("gpt2_xl",-0.0477)]))
-chk("OLMo -0.001 / -0.015", abs(g("olmo_1b","excess")+0.0009)<0.002 and abs(g("olmo_7b","excess")+0.0152)<0.002)
-chk("Pythia -0.035..-0.041", all(-0.042<g(m,"excess")<-0.034 for m in ["pythia_410m","pythia_1b","pythia_2b8"]))
-emb = ["bge_base","bge_large","gte_base","gte_large","e5_base","e5_large"]
-chk("embedders +0.001..+0.011", all(0.0005<g(m,"excess")<0.0115 for m in emb),
+# ---------- 3. Text census of record (expR48b: padding-free, 200 replicates) + anisotropy (exp18b) ----------
+e48 = {r["model"]:r for r in load("expR48b_text_census200_bs1.csv")}
+g = lambda m,k: float(e48[m][k])
+chk("text: 15 models, 200 replicates", len(e48)==15 and all(0<=float(r["r_above"])<=200 for r in e48.values()))
+chk("GPT-2 S/M not genuine (-0.013/-0.009; p .090/.139), L/XL genuine (-0.039/-0.047)",
+    abs(g("gpt2","excess")+0.0132)<0.001 and abs(g("gpt2_m","excess")+0.0090)<0.001 and g("gpt2","p_left")>0.05 and g("gpt2_m","p_left")>0.05
+    and abs(g("gpt2_l","excess")+0.0389)<0.001 and abs(g("gpt2_xl","excess")+0.0472)<0.001 and g("gpt2_l","p_left")<=0.05 and g("gpt2_xl","p_left")<=0.05,
+    f"S {g('gpt2','excess'):+.4f} p{g('gpt2','p_left'):.3f} M {g('gpt2_m','excess'):+.4f} p{g('gpt2_m','p_left'):.3f}")
+chk("Pythia x3 + OLMo-1B genuine", all(g(m,"p_left")<=0.05 for m in ["pythia_410m","pythia_1b","pythia_2b8","olmo_1b"]))
+emb = ["bge_base","bge_large","gte_base","gte_large","e5_base","e5_large","gte_qwen2"]
+chk("7 embedders not genuine, excess +0.003..+0.012", all(g(m,"p_left")>0.05 and 0.002<g(m,"excess")<0.0125 for m in emb),
     str([round(g(m,"excess"),4) for m in emb]))
-chk("qwen -0.019", abs(g("gte_qwen2","excess")+0.0188)<0.002)
-chk("embedder raw .114-.124", abs(min(g(m,"delta") for m in emb)-0.114)<0.002 and abs(max(g(m,"delta") for m in emb)-0.124)<0.002)
+chk("genuine 6/15", sum(1 for r in e48.values() if float(r["p_left"])<=0.05)==6)
 e18b = {r["model"]:r for r in load("exp18b_text_anisotropy.csv")}
 chk("erank GPT2 1.3->56; GTE 98", abs(float(e18b["gpt2"]["erank"])-1.3)<0.2
     and abs(float(e18b["gpt2_xl"]["erank"])-56)<2 and abs(float(e18b["gte_base"]["erank"])-98)<2)
-chk("pcperm z S/M/L/XL -1.4/-3.7/-7.8/-6.4", all(abs(float(e18b[m]["z_pcperm"])-v)<0.3 for m,v in
-    [("gpt2",-1.4),("gpt2_m",-3.7),("gpt2_l",-7.8),("gpt2_xl",-6.4)]))
 
 # prompts (exp4+17)
 allp = {}

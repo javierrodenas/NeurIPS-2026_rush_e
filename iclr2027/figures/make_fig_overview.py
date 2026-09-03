@@ -21,8 +21,9 @@ plt.style.use(str(HERE / "style.mplstyle"))
 sys.path.insert(0, str(HERE))
 from palette import FAMILY_COLORS, color as fam_color
 
-src = RES/"expR39b_census20_cache.csv"
-if not src.exists(): src = RES/"exp20_null_ztable.csv"          # fallback until R1 lands
+src = RES/"expR39c_census200_cache.csv"
+if not src.exists(): src = RES/"expR39b_census20_cache.csv"
+if not src.exists(): src = RES/"exp20_null_ztable.csv"
 print("census source:", src.name)
 census = list(csv.DictReader(open(src)))
 d_in = {r["model"]: (float(r["delta"]), float(r["excess"])) for r in census if r["dataset"]=="imagenet"}
@@ -46,7 +47,9 @@ axes[0].set_xlim(80, 2450)
 axes[0].legend(handles=axes[0].get_legend_handles_labels()[0] + _fam, frameon=False, loc="upper right",
                ncol=1, fontsize=6.5, handlelength=1.2, handletextpad=0.3, borderaxespad=0.2, labelspacing=0.25)
 # (b) same raw, opposite verdict
-t48 = {r["model"]: r for r in csv.DictReader(open(RES/"expR48_text_census_bs1.csv"))}
+_t = RES/"expR48b_text_census200_bs1.csv"
+if not _t.exists(): _t = RES/"expR48_text_census_bs1.csv"
+t48 = {r["model"]: r for r in csv.DictReader(open(_t))}
 bge_d, bge_e = float(t48["bge_base"]["delta"]), float(t48["bge_base"]["excess"])
 cand = min(census, key=lambda r: abs(float(r["delta"]) - bge_d))
 v_name, v_ds, v_d, v_e = cand["model"], cand["dataset"], float(cand["delta"]), float(cand["excess"])

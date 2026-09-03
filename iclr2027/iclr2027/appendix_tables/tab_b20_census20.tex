@@ -1,28 +1,28 @@
 \begin{table}[H]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{lcccccccccccc}
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular}{lcccccccccccccccccc}
 \toprule
- & \multicolumn{2}{c}{IN} & \multicolumn{2}{c}{C100} & \multicolumn{2}{c}{C10} & \multicolumn{2}{c}{DTD} & \multicolumn{2}{c}{FMNIST} & \multicolumn{2}{c}{MNIST} \\
-model & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r & exc.\ & r \\
+ & \multicolumn{3}{c}{IN} & \multicolumn{3}{c}{C100} & \multicolumn{3}{c}{C10} & \multicolumn{3}{c}{DTD} & \multicolumn{3}{c}{FMNIST} & \multicolumn{3}{c}{MNIST} \\
+model & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ \\
 \midrule
-ViT-T & $-0.019$ & 20 & $-0.039$ & 20 & $-0.051$ & 20 & $-0.042$ & 20 & $-0.012$ & 11 & $-0.041$ & 19 \\
-ViT-S & $-0.021$ & 20 & $-0.031$ & 20 & $-0.090$ & 20 & $-0.055$ & 20 & $-0.060$ & 20 & $-0.051$ & 20 \\
-ViT-B & $-0.027$ & 20 & $-0.015$ & 18 & $-0.083$ & 20 & $-0.061$ & 20 & $-0.069$ & 20 & $-0.041$ & 20 \\
-ViT-L & $-0.031$ & 20 & $-0.043$ & 20 & $-0.096$ & 20 & $-0.082$ & 20 & $-0.079$ & 20 & $-0.060$ & 20 \\
+ViT-T & $-0.020$ & 199 & .010 & $-0.038$ & 200 & .005 & $-0.042$ & 191 & .050 & $-0.046$ & 200 & .005 & $+0.001$ & 95 & .527 & $-0.033$ & 178 & .114 \\
+ViT-S & $-0.022$ & 200 & .005 & $-0.031$ & 199 & .010 & $-0.081$ & 200 & .005 & $-0.058$ & 200 & .005 & $-0.050$ & 198 & .015 & $-0.044$ & 186 & .075 \\
+ViT-B & $-0.025$ & 200 & .005 & $-0.016$ & 187 & .070 & $-0.073$ & 200 & .005 & $-0.063$ & 200 & .005 & $-0.060$ & 199 & .010 & $-0.030$ & 181 & .100 \\
+ViT-L & $-0.030$ & 200 & .005 & $-0.044$ & 200 & .005 & $-0.088$ & 200 & .005 & $-0.085$ & 200 & .005 & $-0.070$ & 200 & .005 & $-0.052$ & 196 & .025 \\
 \midrule
-DINO-B & $-0.005$ & 16 & $-0.063$ & 20 & $-0.094$ & 20 & $-0.057$ & 20 & $-0.035$ & 18 & $-0.058$ & 20 \\
-DINOv2-S & $+0.012$ & 0 & $-0.051$ & 20 & $-0.095$ & 20 & $-0.046$ & 20 & $-0.061$ & 20 & $-0.029$ & 17 \\
-DINOv2-B & $+0.007$ & 0 & $-0.042$ & 20 & $-0.134$ & 20 & $-0.071$ & 20 & $-0.089$ & 20 & $-0.036$ & 18 \\
-DINOv2-L & $-0.008$ & 20 & $-0.051$ & 20 & $-0.154$ & 20 & $-0.081$ & 20 & $-0.068$ & 20 & $-0.032$ & 19 \\
-DINOv2-G & $+0.004$ & 0 & $-0.079$ & 20 & $-0.155$ & 20 & $-0.073$ & 20 & $-0.075$ & 20 & $-0.037$ & 19 \\
+DINO-B & $-0.003$ & 162 & .194 & $-0.064$ & 200 & .005 & $-0.085$ & 200 & .005 & $-0.060$ & 200 & .005 & $-0.022$ & 164 & .184 & $-0.045$ & 193 & .040 \\
+DINOv2-S & $+0.011$ & 0 & 1 & $-0.052$ & 200 & .005 & $-0.095$ & 200 & .005 & $-0.049$ & 200 & .005 & $-0.049$ & 196 & .025 & $-0.020$ & 154 & .234 \\
+DINOv2-B & $+0.007$ & 0 & 1 & $-0.042$ & 200 & .005 & $-0.135$ & 200 & .005 & $-0.073$ & 200 & .005 & $-0.078$ & 200 & .005 & $-0.028$ & 162 & .194 \\
+DINOv2-L & $-0.008$ & 200 & .005 & $-0.051$ & 200 & .005 & $-0.153$ & 200 & .005 & $-0.083$ & 200 & .005 & $-0.058$ & 199 & .010 & $-0.024$ & 163 & .189 \\
+DINOv2-G & $+0.005$ & 1 & .995 & $-0.079$ & 200 & .005 & $-0.155$ & 200 & .005 & $-0.076$ & 200 & .005 & $-0.066$ & 200 & .005 & $-0.028$ & 162 & .194 \\
 \midrule
-CLIP-B & $-0.027$ & 20 & $-0.044$ & 20 & $-0.071$ & 20 & $-0.062$ & 20 & $-0.042$ & 19 & $-0.028$ & 16 \\
-CLIP-L & $-0.020$ & 20 & $-0.038$ & 20 & $-0.080$ & 20 & $-0.056$ & 20 & $-0.058$ & 20 & $-0.023$ & 15 \\
-SigLIP-B & $-0.017$ & 20 & $-0.037$ & 20 & $-0.088$ & 20 & $-0.062$ & 20 & $-0.068$ & 20 & $-0.067$ & 20 \\
+CLIP-B & $-0.025$ & 200 & .005 & $-0.044$ & 200 & .005 & $-0.062$ & 200 & .005 & $-0.065$ & 200 & .005 & $-0.037$ & 177 & .119 & $-0.015$ & 137 & .318 \\
+CLIP-L & $-0.018$ & 200 & .005 & $-0.039$ & 200 & .005 & $-0.072$ & 200 & .005 & $-0.059$ & 200 & .005 & $-0.047$ & 191 & .050 & $-0.017$ & 144 & .284 \\
+SigLIP-B & $-0.016$ & 199 & .010 & $-0.038$ & 200 & .005 & $-0.080$ & 200 & .005 & $-0.066$ & 200 & .005 & $-0.058$ & 200 & .005 & $-0.064$ & 200 & .005 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{The 20-replicate census: excess and percentile rank per cell.} Excess over the spectrum-matched null and rank r (number of the 20 null replicates above the real value; 20 = below every replicate). 57/72 cells lie below every replicate. Secondary $z$ summary (excess over the combined null and estimator s.d.): $|z|\ge2$ in 50/72 cells, $z\le-3$ in 31/48 hierarchical-dataset cells. Agreement with the 5-replicate census (Table~\ref{tab:b2-ztable}) on the 72 comparable cells: sign 72/72, significance at $|z|\ge2$ 67/72. Every cell is computed on the census cache (one centroid source; the ImageNet cache was regenerated with the original extraction pipeline).}
-\label{tab:b20-census20}
+\caption{\textbf{The census of record: excess, percentile rank and left-tail $p$ per cell.} Excess over the spectrum-matched null; $r$ = number of the 200 null replicates above the real value; $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine = $p\le0.05$ ($r\ge191$). Genuine cells: 55/72 overall, 43/48 on the hierarchical-label datasets. Secondary $z$ summary (excess over the combined null and estimator s.d.): $|z|\ge2$ in 49/72 cells, $z\le-3$ in 32/48 hierarchical cells. Sign agreement with the 5-replicate census (Table~\ref{tab:b2-ztable}): 71/72. Every cell is computed on the census cache (one centroid source; the ImageNet cache regenerated with the original extraction pipeline).}
+\label{tab:b20-census200}
 \end{table}

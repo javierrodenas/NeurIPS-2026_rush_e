@@ -80,7 +80,7 @@ if f.exists():
             cs.append("--" if a is None else f"${float(a['excess']):+.3f}$"+(r"\rlap{$^*$}" if abs(float(a['z']))>=2 else ""))
         lines.append(t.replace("_",r"\_")+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline. "+("Padding-free extraction (one prompt at a time, the canonical protocol of Table~\\ref{tab:b23-text20}). Mean excess over templates: $-0.012$ (S), $-0.023$ (M), $-0.040$ (L), $-0.041$ (XL); cells at $|z|\\ge2$: 5, 8, 9 and 10 of 10. Only 3 null replicates per cell here, so the $z$ are coarser than the census's 20-replicate values: on the baseline template the census puts S and M within noise ($z=-1.6$/$-1.2$, excess $-0.015$/$-0.010$), so their starred cells are borderline, whereas the L/XL cells ($z$ from $-4$ to $-9$) are not in doubt. Template sensitivity of raw $\\hat\\delta$: range up to $0.065$ for causal LMs and $\\le0.012$ for embedders (prompt table in Appendix~\\ref{tab:a7})." if b14_pf else "Batched (batch 16, left-padded) extraction: padding raises GPT-2's $\\hat\\delta$ (Table~\\ref{tab:b28-extraction}), so the L/XL verdicts are conservative while S's sign-positive cells are not robust.")+"}",
+      r"\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline. "+("Padding-free extraction (one prompt at a time, the canonical protocol of Table~\\ref{tab:b23-text200}). Mean excess over templates: $-0.012$ (S), $-0.023$ (M), $-0.040$ (L), $-0.041$ (XL); cells at $|z|\\ge2$: 5, 8, 9 and 10 of 10. Only 3 null replicates per cell here, so the $z$ are coarser than the census's 20-replicate values: on the baseline template the 200-replicate census (Table~\\ref{tab:b23-text200}) finds S and M not genuine (excess $-0.013$/$-0.009$, $p=0.09$/$0.14$), so their starred cells are borderline, whereas the L/XL cells ($z$ from $-4$ to $-9$) are not in doubt. Template sensitivity of raw $\\hat\\delta$: range up to $0.065$ for causal LMs and $\\le0.012$ for embedders (prompt table in Appendix~\\ref{tab:a7})." if b14_pf else "Batched (batch 16, left-padded) extraction: padding raises GPT-2's $\\hat\\delta$ (Table~\\ref{tab:b28-extraction}), so the L/XL verdicts are conservative while S's sign-positive cells are not robust.")+"}",
       r"\label{tab:b14-templates}",r"\end{table}"]
     (OUT/"tab_b14_templates.tex").write_text("\n".join(lines)+"\n"); print(f"b14 written ({len(rows)} rows)")
 
@@ -204,51 +204,49 @@ if f.exists():
       r"\label{tab:b19-xigeo}",r"\end{table}"]
     (OUT/"tab_b19_xigeo.tex").write_text("\n".join(lines)+"\n"); print(f"b19 written ({len(rows)} models)")
 
-# ---- B20: census re-run with 20 null replicates vs the 5-replicate census ----
-# prefers the homogeneous cache-based expR39b (final pass R1); falls back to expR39 (store-based ImageNet)
-f = RES/"expR39b_census20_cache.csv"
-if not f.exists(): f = RES/"expR39_census20.csv"
+# ---- B20: census of record (R6: 200 null replicates; falls back to the 20-replicate expR39b) ----
+f = RES/"expR39c_census200_cache.csv"
+if not f.exists(): f = RES/"expR39b_census20_cache.csv"
 if f.exists():
     r39=list(csv.DictReader(open(f)))
+    N20 = 200 if "r_above" in r39[0] else 20; RMIN20 = 191 if N20 == 200 else 20
+    rk = lambda a: int(a["r_above"]) if "r_above" in a else round(20*float(a["frac_null_above"]))
+    pl = lambda a: float(a["p_left"]) if "p_left" in a else (1 + 20 - rk(a)) / 21
     r20={(a['model'],a['dataset']):a for a in load('exp20_null_ztable.csv')}
-    n=len(r39); sign_agree=0; sig_agree=0; comp=0
-    below_all=sum(float(a['frac_null_above'])==1.0 for a in r39)
+    n=len(r39); sign_agree=0; comp=0
     for a in r39:
         b=r20.get((a['model'],a['dataset']))
-        if b is None or int(a.get('store_centroids',0))==1: continue
-        comp+=1
-        sign_agree += (float(a['excess'])<0)==(float(b['excess'])<0)
-        sig_agree  += (float(a['z'])<=-2)==(float(b['z'])<=-2)
+        if b is None: continue
+        comp+=1; sign_agree += (float(a['excess'])<0)==(float(b['excess'])<0)
+    HIERSET={'imagenet','cifar100','cifar10','dtd'}
+    gen=sum(pl(a)<=0.05 for a in r39); genh=sum(pl(a)<=0.05 for a in r39 if a['dataset'] in HIERSET); nh=sum(1 for a in r39 if a['dataset'] in HIERSET)
+    nz2=sum(abs(float(a['z']))>=2 for a in r39); nz3h=sum(float(a['z'])<=-3 for a in r39 if a['dataset'] in HIERSET)
     DSH={'imagenet':'IN','cifar100':'C100','cifar10':'C10','dtd':'DTD','fashionmnist':'FMNIST','mnist':'MNIST'}
     NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
           "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
           "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
     by={(a['model'],a['dataset']):a for a in r39}
     DS=['imagenet','cifar100','cifar10','dtd','fashionmnist','mnist']
-    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.5pt}",
-      r"\begin{tabular}{l"+"cc"*len(DS)+"}",r"\toprule",
-      " & "+" & ".join(f"\\multicolumn{{2}}{{c}}{{{DSH[d]}}}" for d in DS)+r" \\",
-      r"model & "+" & ".join([r"exc.\ & r"]*len(DS))+r" \\",r"\midrule"]
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.2pt}",
+      r"\begin{tabular}{l"+"ccc"*len(DS)+"}",r"\toprule",
+      " & "+" & ".join(f"\\multicolumn{{3}}{{c}}{{{DSH[d]}}}" for d in DS)+r" \\",
+      r"model & "+" & ".join([r"exc.\ & $r$ & $p$"]*len(DS))+r" \\",r"\midrule"]
+    def pfmt(p): return f"{p:.3f}".lstrip("0") if p < 1 else "1"
     for i,m in enumerate(NAME):
         if i in (4,9): lines.append(r"\midrule")
         cs=[]
         for d in DS:
             a=by.get((m,d))
-            if a is None: cs+=["--","--"]; continue
-            star = r"\rlap{$^\dagger$}" if int(a.get('store_centroids',0))==1 else ""
-            cs += [f"${float(a['excess']):+.3f}$"+star, f"{round(20*float(a['frac_null_above']))}"]
+            if a is None: cs+=["--","--","--"]; continue
+            cs += [f"${float(a['excess']):+.3f}$", f"{rk(a)}", pfmt(pl(a))]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
-    HIERSET={'imagenet','cifar100','cifar10','dtd'}
-    nz2=sum(abs(float(a['z']))>=2 for a in r39); nz3h=sum(float(a['z'])<=-3 for a in r39 if a['dataset'] in HIERSET)
-    nh=sum(1 for a in r39 if a['dataset'] in HIERSET); nflag=sum(int(a.get('store_centroids',0))==1 for a in r39)
-    dag = (r" $^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store, whose supervised-ViT centroids differ slightly from the census cache." if nflag else
-           r" Every cell is computed on the census cache (one centroid source; the ImageNet cache was regenerated with the original extraction pipeline).")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{\textbf{The 20-replicate census: excess and percentile rank per cell.} Excess over the spectrum-matched null and rank r (number of the 20 null replicates above the real value; 20 = below every replicate). "
-      f"{below_all}/{n} cells lie below every replicate. Secondary $z$ summary (excess over the combined null and estimator s.d.): $|z|\\ge2$ in {nz2}/{n} cells, $z\\le-3$ in {nz3h}/{nh} hierarchical-dataset cells. "
-      f"Agreement with the 5-replicate census (Table~\\ref{{tab:b2-ztable}}) on the {comp} comparable cells: sign {sign_agree}/{comp}, significance at $|z|\\ge2$ {sig_agree}/{comp}."+dag+"}",
-      r"\label{tab:b20-census20}",r"\end{table}"]
-    (OUT/"tab_b20_census20.tex").write_text("\n".join(lines)+"\n"); print(f"b20 written ({n} cells; agree sign {sign_agree}/{comp}, sig {sig_agree}/{comp})")
+      r"\caption{\textbf{The census of record: excess, percentile rank and left-tail $p$ per cell.} Excess over the spectrum-matched null; "
+      f"$r$ = number of the {N20} null replicates above the real value; $p=(1+\\#\\{{\\text{{null}}\\le\\text{{real}}\\}})/{N20+1}$; genuine = $p\\le0.05$ ($r\\ge{RMIN20}$). "
+      f"Genuine cells: {gen}/{n} overall, {genh}/{nh} on the hierarchical-label datasets. Secondary $z$ summary (excess over the combined null and estimator s.d.): $|z|\\ge2$ in {nz2}/{n} cells, $z\\le-3$ in {nz3h}/{nh} hierarchical cells. "
+      f"Sign agreement with the 5-replicate census (Table~\\ref{{tab:b2-ztable}}): {sign_agree}/{comp}. Every cell is computed on the census cache (one centroid source; the ImageNet cache regenerated with the original extraction pipeline).}}",
+      r"\label{tab:b20-census200}",r"\end{table}"]
+    (OUT/"tab_b20_census20.tex").write_text("\n".join(lines)+"\n"); print(f"b20 written ({n} cells, N={N20}; genuine {gen}/{n})")
 
 # ---- B20: p99.9 census with 20 null replicates (expR39) vs the 5-replicate census ----
 f = RES/"expR40_p999census.csv"
@@ -314,35 +312,38 @@ if f.exists():
       r"\label{tab:b22-flatnull-p999}",r"\end{table}"]
     (OUT/"tab_b22_flatnull_p999.tex").write_text("\n".join(lines)+"\n"); print(f"b22 written ({len(rows)} cells)")
 
-# ---- B23: text census with 20 null replicates (expR44) ----
-f = RES/"expR48_text_census_bs1.csv"
-_f44 = RES/"expR44_text_census20.csv"
+# ---- B23: text census of record (R6: padding-free, 200 replicates; falls back to expR48 at 20) ----
+f = RES/"expR48b_text_census200_bs1.csv"
+if not f.exists(): f = RES/"expR48_text_census_bs1.csv"
 import pandas as _pd
-if f.exists() and len(_pd.read_csv(f)) >= 15:
-    rows=list(csv.DictReader(open(f))); r18={a['model']:a for a in load('exp18_text_nulls.csv')}; SRC="padding-free (batch-size-1)"
-elif _f44.exists():
-    rows=list(csv.DictReader(open(_f44))); r18={a['model']:a for a in load('exp18_text_nulls.csv')}; SRC="batched (batch 16)"
-else:
-    rows=None
+rows = list(csv.DictReader(open(f))) if f.exists() and len(_pd.read_csv(f)) >= 15 else None
 if rows is not None:
+    r18={a['model']:a for a in load('exp18_text_nulls.csv')}
+    N23 = 200 if "r_above" in rows[0] else 20; RMIN23 = 191 if N23 == 200 else 20
+    rk = lambda a: int(a["r_above"]) if "r_above" in a else round(20*float(a["frac_null_above"]))
+    pl = lambda a: float(a["p_left"]) if "p_left" in a else (1 + 20 - rk(a)) / 21
+    def pfmt(p): return f"{p:.3f}".lstrip("0") if p < 1 else "1"
     TN={"gpt2":"GPT-2 S","gpt2_m":"GPT-2 M","gpt2_l":"GPT-2 L","gpt2_xl":"GPT-2 XL","pythia_410m":"Pythia-410M","pythia_1b":"Pythia-1B","pythia_2b8":"Pythia-2.8B","olmo_1b":"OLMo-1B","olmo_7b":"OLMo-7B","bge_base":"BGE-base","bge_large":"BGE-large","gte_base":"GTE-base","gte_large":"GTE-large","gte_qwen2":"GTE-Qwen2-1.5B","e5_base":"E5-base","e5_large":"E5-large"}
     by={a['model']:a for a in rows}; agree=0; comp=0
-    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lcccc|ccc}",r"\toprule",
-      r"& \multicolumn{4}{c|}{re-extraction, 20 replicates} & \multicolumn{3}{c}{original extraction, 3 replicates (Table~\ref{tab:b1-textnulls})} \\",
-      r"model & $\hat\delta$ & excess & $z$ & reps above & $\hat\delta$ & excess & $\Delta\hat\delta$ \\",r"\midrule"]
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\setlength{\tabcolsep}{4pt}",r"\begin{tabular}{lcccc|ccc}",r"\toprule",
+      r"& \multicolumn{4}{c|}{padding-free re-extraction, " + str(N23) + r" replicates} & \multicolumn{3}{c}{original extraction, 3 replicates (Table~\ref{tab:b1-textnulls})} \\",
+      r"model & $\hat\delta$ & excess & $r$/" + str(N23) + r" & $p$ & $\hat\delta$ & excess & $\Delta\hat\delta$ \\",r"\midrule"]
     for m in TN:
         a=by.get(m); b=r18.get(m)
         if a is None and b is None: continue
         if a is None: lines.append(f"{TN[m]} & -- & -- & -- & -- & ${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$ & -- \\\\"); continue
-        bz=(float(b['excess'])/max((float(b['null_sd'])**2+float(b['delta_sd'])**2)**0.5,1e-9)) if b else None
         if b: comp+=1; agree += ((float(a['excess'])<0)==(float(b['excess'])<0))
-        lines.append(f"{TN[m]} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}$ & ${float(a['z']):+.1f}$ & {round(20*float(a['frac_null_above']))}/20 & " + (f"${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$ & ${float(a['delta'])-float(b['delta']):+.3f}$" if b else "-- & -- & --") + r" \\")
+        lines.append(f"{TN[m]} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}$ & {rk(a)} & {pfmt(pl(a))} & " + (f"${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$ & ${float(a['delta'])-float(b['delta']):+.3f}$" if b else "-- & -- & --") + r" \\")
+    q=by.get("gte_qwen2")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{The text census independently re-extracted (same template and pooling; " + SRC + r" inference) and re-scored with 20 spectrum-null replicates; OLMo-7B not re-run (exceeds the local GPU). Raw $\hat\delta$ differs from the original extraction because the embeddings were re-extracted, not because of the replicate count; $\Delta\hat\delta$ is that extraction-to-extraction difference. "
-      f"Sign agreement with the 3-replicate census: {agree}/{comp}. "
-      r"Large $|z|$ read as ``below every replicate''. Three verdicts change between extractions, each with a known cause: GPT-2 S (above null in the left-padded original, at null padding-free; Table~\ref{tab:b28-extraction}), OLMo-1B (the original used a different checkpoint revision; both new extractions agree at $-0.039$), and GTE-Qwen2 (genuine in the original with 3 replicates, $-0.019$; at null in both re-extractions, $+0.002$ with rank 8/20 here; not used as evidence).}",
-      r"\label{tab:b23-text20}",r"\end{table}"]
-    (OUT/"tab_b23_text20.tex").write_text("\n".join(lines)+"\n"); print(f"b23 written ({len(rows)} models; sign agree {agree}/{comp})")
+      r"\caption{\textbf{The text census of record: padding-free extraction scored against " + str(N23) + r" spectrum-null replicates.} "
+      f"$r$ = replicates above the real value, $p$ the left-tail add-one $p$-value (genuine = $p\\le0.05$, $r\\ge{RMIN23}$); OLMo-7B not re-run (exceeds the local GPU). "
+      r"Raw $\hat\delta$ differs from the original extraction because the embeddings were re-extracted, not because of the replicate count; $\Delta\hat\delta$ is that extraction-to-extraction difference. "
+      f"Sign agreement with the 3-replicate original: {agree}/{comp}. "
+      r"Three verdicts change between extractions, each with a known cause: GPT-2 S (above null in the left-padded original; Table~\ref{tab:b28-extraction}), OLMo-1B (the original used a different checkpoint revision), and GTE-Qwen2 (genuine in the original with 3 replicates, $-0.019$; "
+      + (f"here excess ${float(q['excess']):+.3f}$, $r={rk(q)}$, $p={pfmt(pl(q))}$" if q else "at null here") + r"; not used as evidence).}",
+      r"\label{tab:b23-text200}",r"\end{table}"]
+    (OUT/"tab_b23_text20.tex").write_text("\n".join(lines)+"\n"); print(f"b23 written ({len(rows)} models, N={N23}; sign agree {agree}/{comp})")
 
 # ---- B24: extra backbones (ConvNet SSL, MAE, I-JEPA) on ImageNet (expR45) ----
 f = RES/"expR45_convnet_rows.csv"
@@ -428,7 +429,7 @@ if f.exists():
                 cs.append(f"${float(a[0]['delta']):.4f}$" if a else "--")
         lines.append(f"{bs}{' (no padding)' if bs==1 else ''} & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{Where extraction-to-extraction variability comes from. Same 1000 prompts, same model; only batch size and precision vary. Precision is irrelevant (fp16 equals fp32 to four decimals). For GPT-2, left-padded batching changes the hidden states (mean cosine to the padding-free extraction $0.98$) and moves $\hat\delta$ by up to $0.018$; OLMo handles left padding correctly and is invariant. Padding-free (batch-size-1) extraction is therefore the protocol of Table~\ref{tab:b23-text20}.}",
+      r"\caption{Where extraction-to-extraction variability comes from. Same 1000 prompts, same model; only batch size and precision vary. Precision is irrelevant (fp16 equals fp32 to four decimals). For GPT-2, left-padded batching changes the hidden states (mean cosine to the padding-free extraction $0.98$) and moves $\hat\delta$ by up to $0.018$; OLMo handles left padding correctly and is invariant. Padding-free (batch-size-1) extraction is therefore the protocol of Table~\ref{tab:b23-text200}.}",
       r"\label{tab:b28-extraction}",r"\end{table}"]
     (OUT/"tab_b28_extraction.tex").write_text("\n".join(lines)+"\n"); print(f"b28 written ({len(rows)} rows)")
 

@@ -12,7 +12,9 @@ plt.style.use(str(_FIGDIR / "style.mplstyle"))
 sys.path.insert(0, str(_FIGDIR))
 from palette import FAMILY_COLORS, color as fam_color
 RES = Path(os.environ.get("PLATONIC_RESULTS", Path(__file__).resolve().parents[2] / "rebuttal/results"))
-rows = list(csv.DictReader(open(RES / "expR48_text_census_bs1.csv")))   # padding-free, 20 replicates
+_src = RES / "expR48b_text_census200_bs1.csv"                          # R6: 200 replicates
+if not _src.exists(): _src = RES / "expR48_text_census_bs1.csv"
+rows = list(csv.DictReader(open(_src)))
 order = ["gpt2","gpt2_m","gpt2_l","gpt2_xl","pythia_410m","pythia_1b","pythia_2b8",
          "olmo_1b","olmo_7b","bge_base","bge_large","gte_base","gte_large",
          "e5_base","e5_large","gte_qwen2"]
@@ -26,7 +28,9 @@ order = [m for m in order if m in d]
 exc = [float(d[m]["excess"]) for m in order]
 err = [np.sqrt(float(d[m]["null_sd"])**2 + float(d[m]["delta_sd"])**2) for m in order]
 col = [fam_color(m) for m in order]                       # causal LMs purple, embedders brown
-at_null = [float(d[m]["frac_null_above"]) < 1.0 for m in order]  # not below every replicate
+def _p(r):
+    return float(r["p_left"]) if "p_left" in r else (1 + 20 - round(20*float(r["frac_null_above"]))) / 21
+at_null = [_p(d[m]) > 0.05 for m in order]   # hollow = not genuine (p > 0.05)
 
 fig, ax = plt.subplots(figsize=(5.5, 1.75))
 x = np.arange(len(order))
@@ -41,7 +45,7 @@ ax.tick_params(labelsize=7)
 import matplotlib.patches as mpatches
 hd = [mpatches.Patch(facecolor=FAMILY_COLORS["causal_lm"], label="causal LM"),
       mpatches.Patch(facecolor=FAMILY_COLORS["embedder"], label="text embedder"),
-      mpatches.Patch(facecolor="white", edgecolor="k", label="hollow: at null (not below every replicate)")]
+      mpatches.Patch(facecolor="white", edgecolor="k", label="hollow: not genuine ($p>0.05$)")]
 ax.legend(handles=hd, frameon=False, loc="lower right", ncol=1, handlelength=1.2, borderaxespad=0.3)
 fig.tight_layout()
 out = Path(__file__).parent / "figures"
