@@ -248,44 +248,45 @@ if f.exists():
       r"\label{tab:b20-census200}",r"\end{table}"]
     (OUT/"tab_b20_census20.tex").write_text("\n".join(lines)+"\n"); print(f"b20 written ({n} cells, N={N20}; genuine {gen}/{n})")
 
-# ---- B20: p99.9 census with 20 null replicates (expR39) vs the 5-replicate census ----
-f = RES/"expR40_p999census.csv"
+# ---- B21: p99.9 robustness census (R7: 200 replicates on the census cache; falls back to expR40 at 20) ----
+f = RES/"expR40b_p999census200.csv"
+if not f.exists(): f = RES/"expR40_p999census.csv"
 if f.exists():
-    r39=list(csv.DictReader(open(f)))
-    r20={(a['model'],a['dataset']):a for a in load('exp20_null_ztable.csv')}
-    n=len(r39); sign_agree=0; sig_agree=0; comp=0
-    below_all=sum(float(a['frac_null_above'])==1.0 for a in r39)
-    for a in r39:
-        b=r20.get((a['model'],a['dataset']))
-        if b is None or int(a.get('store_centroids',0))==1: continue
-        comp+=1
-        sign_agree += (float(a['excess'])<0)==(float(b['excess'])<0)
-        sig_agree  += (float(a['z'])<=-2)==(float(b['z'])<=-2)
+    r40=list(csv.DictReader(open(f)))
+    N21 = 200 if "r_above" in r40[0] else 20; RMIN21 = 191 if N21 == 200 else 20
+    rk = lambda a: int(a["r_above"]) if "r_above" in a else round(20*float(a["frac_null_above"]))
+    pl = lambda a: float(a["p_left"]) if "p_left" in a else (1 + 20 - rk(a)) / 21
+    def pfmt(p): return f"{p:.3f}".lstrip("0") if p < 1 else "1"
+    HIERSET={'imagenet','cifar100','cifar10','dtd'}; n=len(r40)
+    gen=sum(pl(a)<=0.05 for a in r40); genh=sum(pl(a)<=0.05 for a in r40 if a['dataset'] in HIERSET); nh=sum(1 for a in r40 if a['dataset'] in HIERSET)
+    sneg=sum(float(a['excess'])<0 for a in r40); nflag=sum(int(a.get('store_centroids',0))==1 for a in r40)
     DSH={'imagenet':'IN','cifar100':'C100','cifar10':'C10','dtd':'DTD','fashionmnist':'FMNIST','mnist':'MNIST'}
     NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
           "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
           "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
-    by={(a['model'],a['dataset']):a for a in r39}
+    by={(a['model'],a['dataset']):a for a in r40}
     DS=['imagenet','cifar100','cifar10','dtd','fashionmnist','mnist']
-    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.5pt}",
-      r"\begin{tabular}{l"+"cc"*len(DS)+"}",r"\toprule",
-      " & "+" & ".join(f"\\multicolumn{{2}}{{c}}{{{DSH[d]}}}" for d in DS)+r" \\",
-      r"model & "+" & ".join([r"exc.\ & r"]*len(DS))+r" \\",r"\midrule"]
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{1.8pt}",
+      r"\begin{tabular}{l"+"ccc"*len(DS)+"}",r"\toprule",
+      " & "+" & ".join(f"\\multicolumn{{3}}{{c}}{{{DSH[d]}}}" for d in DS)+r" \\",
+      r"model & "+" & ".join([r"exc.\ & $r$ & $p$"]*len(DS))+r" \\",r"\midrule"]
     for i,m in enumerate(NAME):
         if i in (4,9): lines.append(r"\midrule")
         cs=[]
         for d in DS:
             a=by.get((m,d))
-            if a is None: cs+=["--","--"]; continue
+            if a is None: cs+=["--","--","--"]; continue
             star = r"\rlap{$^\dagger$}" if int(a.get('store_centroids',0))==1 else ""
-            cs += [f"${float(a['excess']):+.3f}$"+star, f"{round(20*float(a['frac_null_above']))}"]
+            cs += [f"${float(a['excess']):+.3f}$"+star, f"{rk(a)}", pfmt(pl(a))]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
+    src = ("Every cell on the census cache, the same centroids as Table~\\ref{tab:b20-census200}." if nflag==0 else
+           r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store.")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{The full vision p99.9 census with 20 spectrum-null replicates: excess and percentile rank r (number of the 20 null replicates above the real value; 20 = below every replicate). "
-      f"Agreement with the 5-replicate census on the {comp} directly comparable cells: sign {sign_agree}/{comp}, significance at $|z|\\ge2$ {sig_agree}/{comp}; {below_all}/{n} cells lie below every replicate. "
-      r"$^\dagger$ImageNet rows for the supervised ViTs use the precomputed centroid store (precomputed centroid store, whose supervised-ViT centroids differ slightly from the census cache) and are not directly comparable to Table~\ref{tab:b2-ztable}. The distributional statistic is stricter on supervised ViTs and stronger on DINO/DINOv2 than the supremum (Table~\ref{tab:b18-p999}).}",
+      r"\caption{\textbf{The robustness statistic (p99.9) at the same resolution as the census of record.} Excess of the 99.9th-percentile four-point statistic over its spectrum-matched null, "
+      f"rank $r$ (of {N21} replicates above the real value) and left-tail $p$; genuine = $p\\le0.05$ ($r\\ge{RMIN21}$). Sign-negative {sneg}/{n}; genuine {gen}/{n} overall, {genh}/{nh} on the hierarchical-label datasets. "
+      + src + r" The distributional statistic is stricter on supervised ViTs and stronger on DINO/DINOv2 than the supremum (Table~\ref{tab:b18-p999}).}",
       r"\label{tab:b21-p999census}",r"\end{table}"]
-    (OUT/"tab_b21_p999census.tex").write_text("\n".join(lines)+"\n"); print(f"b21 written ({n} cells; agree sign {sign_agree}/{comp}, sig {sig_agree}/{comp})")
+    (OUT/"tab_b21_p999census.tex").write_text("\n".join(lines)+"\n"); print(f"b21 written ({n} cells, N={N21}; sign-neg {sneg}, genuine {gen}/{n}, hier {genh}/{nh})")
 
 # ---- B22: flattening null B under p99.9 (expR41) ----
 f = RES/"expR41_flatnull_p999.csv"
