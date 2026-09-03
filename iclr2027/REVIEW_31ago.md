@@ -344,3 +344,14 @@ Prioridad del revisor: "moderadamente compartido" en abstract/§7 y pasar la cal
 - Compila: 28 páginas, texto principal termina en p9, 0 warnings, 0 `??`.
 - **expR49 terminado (plantillas GPT-2 sin padding, 40 celdas, 3 réplicas de null)**: exceso medio −0.012 (S) → −0.023 (M) → −0.040 (L) → −0.041 (XL); celdas con |z|≥2: 5/8/9/10 de 10. La ordenación por escala se mantiene; S ya no es "genuine on none": sus celdas son someras y, en la plantilla base, dentro del ruido del censo de 20 réplicas (B23: S z −1.6, M z −1.2). B14 regenerada desde expR49 (el generador cae a expR30 si faltan filas); §4 actualizado con los números. Commit 2 de la ronda.
 - **Control con backbone hiperbólico (expR51, Tabla B30, opción A elegida por Javi)**: MERU S/B/L (Desai et al. 2023; Lorentz + entailment) frente a sus gemelos CLIP del mismo repo (mismo ViT, mismos datos RedCaps, misma receta sin lift hiperbólico), por el instrumento sin cambios, en CIFAR-100 imágenes (coarse-20), ImageNet 50 img/clase (WN-30) y prompts de clase. Resultado (24 celdas): entrenar en el hiperboloide no cambia nada a nivel de clases — mismo exceso de clustering que el gemelo (z −1.5..−4.9 en imágenes), profundidad frente a estrella emparejada nunca negativa más allá del ruido (a menudo positiva: menos arbóreo que su estrella), y la δ̂ de MERU en su propia métrica de Lorentz igual a la euclídea a 3 decimales. Lectura en el paper (§4 + leyenda B30): el exceso mide cómo se organizan las clases, no la geometría en la que se sumergen; la jerarquía de MERU es genérico→específico (texto⊃imagen), no una taxonomía de clases; el árbol sintético 6×5 de B25 sigue siendo la prueba de existencia de que el test de profundidad dispara cuando hay profundidad. Texto en ImageNet: ambas torres al null (+0.002..+0.009), consistente con el hallazgo de embedders. Script rebuttal/scripts/expR51_meru_control.py; cachés en Platonic/results/meru_cache. Commit 3 de la ronda.
+
+## Pasada de versión final (2026-09-03) — brief "final-version pass"
+
+Ejecutada íntegra; detalle en `iclr2027/CHANGELOG_final.md` (números viejo→nuevo con fuente) y
+`iclr2027/TODO_author.md` (vetos pendientes: centroides de R2, figura best-metric al apéndice, tamaño de la
+Fig. 1 de Canva; filas de calibración sin CSV; Fig. 6 sin script). Hitos: cachés de ImageNet regeneradas en
+local con el pipeline original (fidelidad 4 decimales en los 12 modelos); censo homogéneo de 20 réplicas
+`expR39b` (69/72 · 57/72 · 43/48); calibración Gröger K=200 `exp21b` (mKNN 0.472→0.464, CKA 0.633→0.577,
+p=1/201 en los 66 pares); evidencia primaria = rango de percentil; caja p1; Figs. 1 (placeholder Canva) y 2
+(overview) nuevas; Tabla 1 de 7 columnas; criterio del tree map ejecutable; tabla de calibración generada;
+estilo/paleta de figuras; sweep_freeze 67/67; texto principal + Ethics en p9. Commit `1205a73`.
