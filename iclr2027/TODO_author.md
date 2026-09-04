@@ -84,3 +84,19 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - Para el check de B29 en DINOv2-L/ImageNet el tool recibe los centroides del **store** (como hizo expR50); con los de la caché del censo
   el test de profundidad da un valor ligeramente distinto (store ≠ caché, ver CHANGELOG §0). Si en algún momento se rehace B29 sobre la caché,
   cambiar la línea correspondiente de `run_checks.py`.
+
+## Añadido en la respuesta a la revisión (Fase A)
+
+- **Control positivo con los checkpoints fine-tuned jerárquicamente (Fig. 5a)**: no hay pesos ni features guardados en
+  `Platonic/` (solo `analysis4_finetuning.csv`, `hierarchical_finetuning.csv` y logs; `run_finetune_ablation.py` y
+  `exp_hierarchical_finetuning.py` no guardan nada). Coste de rehacerlo: re-entrenar ViT-B, DINOv2-S y CLIP-B con el objetivo
+  jerárquico de CIFAR-100 (el log original da ~1.8 h de GPU para ViT-B; ~4–5 h para los tres en una 2080 Ti), extraer
+  centroides de CIFAR-100 (minutos) y pasar `iclr2027/tool/calibrated_delta.py --labels` (minutos). Guardar esta vez los
+  centroides (`results/centroids/cifar100_ft/{m}.npy`). Es el único control positivo en datos reales disponible para el test
+  de profundidad.
+- **Semillas de la null Haar**: el brief de la respuesta fija `300+rep` para los censos nuevos (expR52–54, 57, 59); `expR46`
+  (la fuente de la construcción Haar) usaba `700+rep`. Anotado en los docstrings.
+- **Marcos K de CIFAR-100 (K = 10, 5)** para el barrido del test de profundidad: clustering aglomerativo (enlace promedio) de
+  los 20 hubs de superclase sobre la matriz de distancias consenso de los 12 backbones (`expR56_frames_cifar100.csv`);
+  es determinista y compartido por todos los modelos, pero no proviene de etiquetas humanas. Los cortes de ImageNet (10/30/60)
+  sí son de WordNet.

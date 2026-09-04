@@ -380,3 +380,26 @@ chk("p99.9@200 ImageNet: DINO/DINOv2 genuine, ViT-T not", all(p40[(m,"imagenet")
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-2:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det else ""))
 print(f"[p999 re-total] {len(checks)-n_fail}/{len(checks)}")
+
+
+# ---------- Review-response Phase A files: existence + internal consistency (values checked in Phase B) ----------
+def phaseA_checks():
+    import numpy as np
+    def bh_(p):
+        p = np.asarray(p, dtype=float); n = len(p); order = np.argsort(p); ranked = p[order]*n/np.arange(1, n+1)
+        adj = np.minimum.accumulate(ranked[::-1])[::-1]; out = np.empty(n); out[order] = np.minimum(adj, 1.0); return out
+    for f, nrows, key in [("expR52_census_haar_p999_200.csv", 72, "vision record"), ("expR54_census_haar_sup_200.csv", 72, "vision haar x sup"),
+                          ("expR53_text_haar_p999_200.csv", 15, "text record"), ("expR53_text_haar_sup_200.csv", 15, "text haar x sup"),
+                          ("expR53_text_gauss_p999_200.csv", 15, "text gauss x p999"), ("expR57_census_cosine_haar_p999_200.csv", 72, "cosine vision"),
+                          ("expR57_text_cosine_haar_p999_200.csv", 15, "cosine text")]:
+        if not (R/f).exists(): chk(f"phaseA {key}: {f} present", False, "missing"); continue
+        rows = load(f); p = [float(r["p_left"]) for r in rows]; ra = [int(r["r_above"]) for r in rows]
+        chk(f"phaseA {key}: {nrows} rows, r/p consistent, BH monotone, genuine flags", len(rows)==nrows
+            and all(abs(pp-(1+200-r)/201)<1e-9 for pp, r in zip(p, ra)) and all(abs(float(r["p_bh"])-b)<1e-9 for r, b in zip(rows, bh_(p)))
+            and all((float(r["p_left"])<=0.05)==(str(r["genuine"])=="True") and (float(r["p_bh"])<=0.05)==(str(r["genuine_bh"])=="True") for r in rows))
+    for f, key in [("expR55_depth_power.csv","depth power"), ("expR56_depth_variants.csv","depth variants"), ("expR58_treemap_cutfree_summary.csv","cut-free tree map"), ("expR59_imagenet_bootstrap_summary.csv","ImageNet bootstrap")]:
+        chk(f"phaseA {key}: {f} present", (R/f).exists(), "missing")
+phaseA_checks()
+n_fail = sum(1 for _,ok,_ in checks if not ok)
+for name, ok, det in checks[-11:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
+print(f"[phaseA re-total] {len(checks)-n_fail}/{len(checks)}")
