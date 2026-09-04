@@ -58,6 +58,77 @@
 | Gauss x p99.9 | 7 | 7 | gpt2, gpt2_l, gpt2_xl, pythia_410m, pythia_1b, pythia_2b8, olmo_1b | -0.013 (0.010) / -0.005 (0.149) / -0.025 (0.005) / -0.028 (0.005) |
 | Gauss x sup | 6 | 6 | gpt2_l, gpt2_xl, pythia_410m, pythia_1b, pythia_2b8, olmo_1b | -0.013 (0.090) / -0.009 (0.139) / -0.039 (0.005) / -0.047 (0.005) |
 
+## A1. ImageNet centroid bootstrap under the record (30 resamples, 20 Haar replicates each)
+
+| model | excess (reference) | bootstrap mean | bootstrap s.d. | fraction negative |
+|---|---|---|---|---|
+| ViT-T | -0.0055 | -0.0051 | 0.0011 | 1.00 |
+| ViT-S | -0.0126 | -0.0122 | 0.0007 | 1.00 |
+| ViT-B | -0.0165 | -0.0160 | 0.0006 | 1.00 |
+| ViT-L | -0.0160 | -0.0160 | 0.0004 | 1.00 |
+| DINO-B | -0.0209 | -0.0208 | 0.0003 | 1.00 |
+| DINOv2-S | -0.0164 | -0.0162 | 0.0004 | 1.00 |
+| DINOv2-B | -0.0167 | -0.0164 | 0.0002 | 1.00 |
+| DINOv2-L | -0.0136 | -0.0134 | 0.0001 | 1.00 |
+| DINOv2-G | -0.0080 | -0.0083 | 0.0004 | 1.00 |
+| CLIP-B | -0.0068 | -0.0069 | 0.0009 | 1.00 |
+| CLIP-L | -0.0094 | -0.0095 | 0.0006 | 1.00 |
+| SigLIP-B | -0.0080 | -0.0081 | 0.0006 | 1.00 |
+
+## A2. Depth-test power (synthetic; z<=-2 on hierarchies) and star false alarms (|z|>=2)
+
+| n | K | power @ ratio 0.1 / 0.3 / 0.6 | hier2 / hier3 | iso / aniso | star false alarms (z<=-2 / z>=+2) |
+|---|---|---|---|---|---|
+| 100 | 6 | 0.00 / 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.17 |
+| 100 | 12 | 0.00 / 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.13 |
+| 100 | 20 | 0.00 / 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.17 |
+| 100 | 30 | 0.00 / 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.17 |
+| 1000 | 6 | 0.00 / 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.17 |
+| 1000 | 12 | 0.00 / 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.17 |
+| 1000 | 20 | 0.00 / 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.17 |
+| 1000 | 30 | 0.00 / 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.17 |
+
+## A2. Matched-star depth test on the real backbones: isotropic (a) vs anisotropic (b) star, 10 star seeds, K sweep
+
+| dataset | K | variant | mean depth | z<=-2 (depth) | z>=+2 (less tree-like than star) | max z | min z |
+|---|---|---|---|---|---|---|---|
+| cifar100 | 5 | aniso | -0.0025 | 0/12 | 0/12 | +1.0 | -1.8 |
+| cifar100 | 5 | iso | +0.0198 | 0/12 | 7/12 | +4.4 | -0.3 |
+| cifar100 | 10 | aniso | -0.0085 | 1/12 | 0/12 | +1.5 | -2.9 |
+| cifar100 | 10 | iso | +0.0312 | 0/12 | 9/12 | +7.6 | +0.9 |
+| cifar100 | 20 | aniso | -0.0122 | 3/12 | 0/12 | +1.2 | -4.2 |
+| cifar100 | 20 | iso | +0.0287 | 0/12 | 8/12 | +6.8 | +0.0 |
+| imagenet | 10 | aniso | -0.0145 | 2/12 | 0/12 | +0.3 | -2.7 |
+| imagenet | 10 | iso | -0.0019 | 0/12 | 0/12 | +1.4 | -1.1 |
+| imagenet | 30 | aniso | -0.0184 | 4/12 | 0/12 | +0.7 | -4.0 |
+| imagenet | 30 | iso | -0.0114 | 3/12 | 0/12 | +0.9 | -3.2 |
+| imagenet | 60 | aniso | -0.0150 | 4/12 | 0/12 | +0.6 | -4.7 |
+| imagenet | 60 | iso | -0.0120 | 3/12 | 0/12 | +0.8 | -4.3 |
+
+Per model at the paper's frames (CIFAR-100 K=20, ImageNet K=30): depth (z), iso -> aniso
+
+| model | CIFAR-100 iso | CIFAR-100 aniso | ImageNet iso | ImageNet aniso |
+|---|---|---|---|---|
+| ViT-T | +0.000 (+0.0) | -0.025 (-1.4) | -0.015 (-1.5) | -0.018 (-1.5) |
+| ViT-S | +0.036 (+2.3) | -0.008 (-0.5) | -0.021 (-1.9) | -0.028 (-2.4) |
+| ViT-B | +0.063 (+4.5) | +0.003 (+0.2) | -0.026 (-2.9) | -0.033 (-3.6) |
+| ViT-L | +0.040 (+4.2) | -0.017 (-1.5) | -0.024 (-3.2) | -0.033 (-4.0) |
+| DINO-B | +0.008 (+0.9) | -0.038 (-4.2) | -0.002 (-0.2) | -0.009 (-0.9) |
+| DINOv2-S | +0.006 (+0.6) | -0.020 (-1.6) | +0.011 (+0.9) | +0.008 (+0.7) |
+| DINOv2-B | +0.041 (+5.4) | +0.010 (+0.9) | -0.011 (-0.9) | -0.016 (-1.2) |
+| DINOv2-L | +0.042 (+6.8) | +0.013 (+1.2) | -0.024 (-2.3) | -0.028 (-2.4) |
+| DINOv2-G | +0.026 (+3.8) | -0.007 (-0.7) | -0.024 (-1.6) | -0.029 (-1.8) |
+| CLIP-B | +0.019 (+1.8) | -0.024 (-2.0) | -0.006 (-0.7) | -0.016 (-2.0) |
+| CLIP-L | +0.036 (+5.7) | -0.013 (-2.3) | +0.004 (+0.5) | -0.008 (-0.8) |
+| SigLIP-B | +0.027 (+2.8) | -0.021 (-2.2) | +0.001 (+0.0) | -0.011 (-0.9) |
+
+## A3. Cosine census (geodesic on L2-normalized centroids; Haar x p99.9; 200 replicates)
+
+Vision: sign-negative 70/72; genuine 59/72; BH 56/72; ImageNet+CIFAR-100 BH 22/24; other four BH 34/48.
+Verdict agreement with the Euclidean record (BH-genuine): 65/72 cells.
+DINOv2 on ImageNet under cosine: DINOv2-S -0.014 (r 200, p 0.005, G); DINOv2-B -0.013 (r 200, p 0.005, G); DINOv2-L -0.010 (r 200, p 0.005, G); DINOv2-G -0.006 (r 200, p 0.005, G)
+Text under cosine: genuine 8/15 (BH 8): gpt2_m, gpt2_l, gpt2_xl, pythia_410m, pythia_1b, pythia_2b8, olmo_1b, gte_qwen2.
+
 ## A4. Tree map with and without a cut (DINOv2-B/L/G vs block / within block)
 
 | dataset | configuration | ARI at cut | cophenetic corr. | triplet agreement |

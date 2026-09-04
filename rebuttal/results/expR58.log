@@ -1,0 +1,13 @@
+imagenet  euclid-average : ARI@cut big/blk 0.03/0.64 | coph-corr 0.36/0.80 | triplets 0.47/0.74
+imagenet  euclid-complete: ARI@cut big/blk 0.03/0.44 | coph-corr 0.20/0.66 | triplets 0.41/0.65
+imagenet  euclid-ward    : ARI@cut big/blk 0.16/0.53 | coph-corr 0.62/0.84 | triplets 0.67/0.85
+imagenet  cosine-average : ARI@cut big/blk 0.39/0.48 | coph-corr 0.48/0.78 | triplets 0.77/0.76
+imagenet  cosine-complete: ARI@cut big/blk 0.13/0.49 | coph-corr 0.18/0.72 | triplets 0.36/0.71
+imagenet  cosine-ward    : ARI@cut big/blk 0.17/0.55 | coph-corr 0.59/0.85 | triplets 0.69/0.86
+cifar100  euclid-average : ARI@cut big/blk 0.00/0.57 | coph-corr 0.15/0.78 | triplets 0.41/0.74
+cifar100  euclid-complete: ARI@cut big/blk 0.17/0.54 | coph-corr 0.23/0.72 | triplets 0.41/0.66
+cifar100  euclid-ward    : ARI@cut big/blk 0.37/0.63 | coph-corr 0.63/0.77 | triplets 0.70/0.79
+cifar100  cosine-average : ARI@cut big/blk 0.30/0.58 | coph-corr 0.42/0.72 | triplets 0.51/0.64
+cifar100  cosine-complete: ARI@cut big/blk 0.39/0.63 | coph-corr 0.46/0.64 | triplets 0.50/0.61
+cifar100  cosine-ward    : ARI@cut big/blk 0.56/0.61 | coph-corr 0.74/0.73 | triplets 0.76/0.76
+Done expR58

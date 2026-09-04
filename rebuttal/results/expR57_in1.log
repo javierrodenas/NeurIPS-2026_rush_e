@@ -1,0 +1,7 @@
+i21k_t    imagenet     cos exc -0.0122 r 200/200 p 0.0050 (194s)
+i21k_s    imagenet     cos exc -0.0174 r 200/200 p 0.0050 (180s)
+i21k_b    imagenet     cos exc -0.0219 r 200/200 p 0.0050 (295s)
+i21k_l    imagenet     cos exc -0.0210 r 200/200 p 0.0050 (463s)
+dinov1_b  imagenet     cos exc -0.0212 r 200/200 p 0.0050 (259s)
+dinov2_s  imagenet     cos exc -0.0140 r 200/200 p 0.0050 (172s)
+Done vision part in1

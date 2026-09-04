@@ -1,0 +1,8 @@
+bge_base     gauss/p999 delta 0.0776 null 0.0769 exc +0.0006 r 92/200 p 0.5423 (189s)
+bge_large    gauss/p999 delta 0.0778 null 0.0779 exc -0.0001 r 111/200 p 0.4478 (265s)
+gte_base     gauss/p999 delta 0.0756 null 0.0747 exc +0.0009 r 79/200 p 0.6070 (189s)
+gte_large    gauss/p999 delta 0.0746 null 0.0752 exc -0.0006 r 121/200 p 0.3980 (269s)
+gte_qwen2    gauss/p999 delta 0.0777 null 0.0776 exc +0.0001 r 100/200 p 0.5025 (424s)
+e5_base      gauss/p999 delta 0.0743 null 0.0731 exc +0.0012 r 71/200 p 0.6468 (215s)
+e5_large     gauss/p999 delta 0.0709 null 0.0717 exc -0.0008 r 124/200 p 0.3831 (280s)
+Done part b (gauss/p999)

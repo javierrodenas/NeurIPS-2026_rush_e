@@ -377,3 +377,52 @@ embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust acro
    a B25/B29 (n = 100–1000) para la calibración. `tool/README.md`: uso, check de reproducción de dos celdas, demo.
 - Verificación: `sweep_freeze.py` **73/73 PASS**; compila con 30 páginas, 0 warnings, 0 `??`; el texto principal (Limitations incluidas)
   termina en p9 y el Ethics Statement abre p10. PDF: `iclr2027/main_iclr2027_final.pdf`.
+
+## 14. Respuesta a la revisión — FASE A (experimentos y memo; sin ediciones de prosa) — CHECKPOINT
+
+Todo lo que sigue está fijado antes de las ejecuciones; ningún ajuste se eligió mirando los números. Memo con solo números:
+`iclr2027/MEMO_phaseA.md` (generado por `rebuttal/scripts/make_memo_phaseA.py`).
+
+**A1 — 2×2 {null} × {estadístico}, 200 réplicas, caché del censo, BH (FDR 0.05) por 72 celdas / 15 modelos.**
+Scripts: `expR52_census_haar_p999_200.py` (motor de visión; `--null gauss|haar --stat sup|p999`), `expR54_census_haar_sup_200.py`
+(wrapper Haar × sup), `expR53_text_haar_p999_200.py` (motor de texto; embeddings extraídos una vez y cacheados en
+`Platonic/results/text_cache`). Ficheros: `expR52_census_haar_p999_200.csv` (registro propuesto), `expR54_census_haar_sup_200.csv`,
+`expR53_text_{haar_p999,haar_sup,gauss_p999}_200.csv`; los cuadrantes Gauss × sup/p99.9 de visión son expR39c/expR40b.
+Semillas: null `300+rep` en ambas construcciones (expR46 usaba `700+rep` para Haar); real 10 semillas de cuádruplas; réplica 5 (visión) /
+3 (texto). Bootstrap ImageNet bajo el registro: `expR59_imagenet_bootstrap.py` (30 remuestreos × 12 modelos; **20** réplicas Haar por
+remuestreo en vez de 200 — basta para la s.d. del exceso; documentado).
+
+**A2 — test de profundidad.** `expR55_depth_power.py` (barrido sintético: {estrella, 2 niveles, 3 niveles} × K {6,12,20,30} ×
+ratio {0.1,0.3,0.6} × {iso, aniso} × n {100,1000}, d = 768, 5 semillas; protocolo exacto de B29 con estrella **isotrópica**; 720 runs)
+→ `expR55_depth_power.csv` y `figures/fig_depth_power.pdf`. `expR56_depth_variants.py` (backbones reales: estrella isotrópica (a) vs
+anisotrópica (b) = muestra Haar con el espectro real de cada superclase; **10** semillas de estrella; K: CIFAR-100 {20,10,5} — los marcos
+10/5 son un clustering aglomerativo consenso de los 20 hubs, `expR56_frames_cifar100.csv` —, ImageNet cortes WordNet {30,10,60})
+→ `expR56_depth_variants.csv`. Control con checkpoints fine-tuned: **no disponible** (sin pesos ni features guardados; coste en
+`TODO_author.md`). Hueco anotado: la potencia sintética se barrió solo con la estrella isotrópica (la de B29), no con la anisotrópica.
+
+**A3 — censo coseno.** `expR57_census_cosine.py`: centroides L2-normalizados, distancia geodésica esférica (arccos), null Haar
+construida sobre la nube normalizada y renormalizada (como expR38), p99.9, 200 réplicas, BH → `expR57_census_cosine_haar_p999_200.csv`,
+`expR57_text_cosine_haar_p999_200.csv`.
+
+**A4 — tree map sin corte.** `expR58_treemap_cutfree.py`: dendrogramas reconstruidos desde la caché del censo (exp22/23 solo guardan
+resúmenes), 6 configuraciones, correlación cofenética entre modelos y acuerdo en 10⁴ tripletes (`RandomState(0)`), más ARI en el corte
+→ `expR58_treemap_cutfree{,_summary}.csv`.
+
+**A5.** Semillas de estrella 3 → 10 en expR56. Bib: `he2026helm` y `yang2025hyperbolic` son NeurIPS **2025** (39.ª edición; verificado
+en dblp) → `year={2025}`. Añadidos `narayan2011curvature` (Phys. Rev. E 84, 066108, 2011; arXiv 0907.1478), `kennedy2013hyperbolicity`
+(arXiv:1307.0031, 2013) y `adcock2013treelike` (ICDM 2013, pp. 1–10; Crossref DOI 10.1109/ICDM.2013.77). Sin usar aún en el texto.
+
+**Números clave (detalle en el memo).** Registro (Haar × p99.9, BH): visión sign-negativas 70/72, genuinas 49/72 (51 sin BH),
+ImageNet+CIFAR-100 18/24, otros cuatro 31/48; texto 7/15 (GPT-2 S, L, XL, Pythia ×3, OLMo-1B; GPT-2 M p = 0.15). Otras construcciones:
+Haar × sup 66/72, 46/72, 15/24, 31/48; Gauss × p99.9 70, 52, 19, 33; Gauss × sup 68, 52, 19, 33. DINOv2-S/B/L/G en ImageNet: genuinos bajo
+las dos construcciones p99.9, por encima de todas las réplicas (r = 0) bajo las dos supremo. Bootstrap ImageNet: s.d. del exceso
+≤ 0.0011, 30/30 remuestreos negativos en los 12 modelos. Potencia del test de profundidad (estrella isotrópica, sintético): **0.00**
+en las 360 jerarquías (2 y 3 niveles, todo K, ratio, anisotropía, n); falsas alarmas en estrellas puras: z ≥ +2 en 16 %, z ≤ −2 nunca.
+Backbones reales: la estrella isotrópica da z ≥ +2 en 8/12 (CIFAR-100, K = 20; máx. +6.8); la anisotrópica lo elimina (0/12) y da
+z ≤ −2 en 3/12 (CIFAR-100) y 4/12 (ImageNet, K = 30). Coseno: 70/72, BH 56/72, IN+C100 22/24; acuerdo de veredictos con el registro
+euclídeo 65/72; DINOv2 ImageNet genuino; texto 8/15 (incl. GPT-2 M y GTE-Qwen2; no GPT-2 S). Tree map: la isla naive aparece también sin
+corte (ImageNet euclid-average: cofenética 0.36 vs 0.80 dentro del bloque, tripletes 0.47 vs 0.74); bajo cosine-average tripletes 0.77 vs
+0.76 y cofenética 0.48 vs 0.78.
+
+**Verificación.** `sweep_freeze.py` con la sección de Fase A (existencia, consistencia r↔p, BH monótono, flags): **84/84 PASS**.
+No se ha tocado el .tex ni el PDF en esta fase.

@@ -1,0 +1,7 @@
+i21k_t    imagenet     haar/sup exc -0.0198 r 199/200 p 0.0100 (316s)
+i21k_s    imagenet     haar/sup exc -0.0202 r 200/200 p 0.0050 (368s)
+i21k_b    imagenet     haar/sup exc -0.0221 r 200/200 p 0.0050 (589s)
+i21k_l    imagenet     haar/sup exc -0.0273 r 200/200 p 0.0050 (754s)
+dinov1_b  imagenet     haar/sup exc +0.0004 r 96/200 p 0.5224 (573s)
+dinov2_s  imagenet     haar/sup exc +0.0171 r 0/200 p 1.0000 (364s)
+Done part in1 (haar/sup)

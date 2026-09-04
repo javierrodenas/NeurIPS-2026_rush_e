@@ -1,0 +1,7 @@
+dinov2_b  imagenet     haar/sup exc +0.0182 r 0/200 p 1.0000 (543s)
+dinov2_l  imagenet     haar/sup exc +0.0063 r 0/200 p 1.0000 (737s)
+dinov2_g  imagenet     haar/sup exc +0.0202 r 0/200 p 1.0000 (1064s)
+clip_b    imagenet     haar/sup exc -0.0232 r 199/200 p 0.0100 (422s)
+clip_l    imagenet     haar/sup exc -0.0164 r 198/200 p 0.0149 (477s)
+siglip_b  imagenet     haar/sup exc -0.0148 r 194/200 p 0.0348 (410s)
+Done part in2 (haar/sup)

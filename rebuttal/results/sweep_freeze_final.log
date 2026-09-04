@@ -69,3 +69,15 @@ PASS tool == B29 (DINOv2-L/ImageNet, store centroids as expR50): depth 3dp, z 1d
 PASS p99.9@200: 70/72 sign-neg, 56/72 genuine, 44/48 hier genuine 
 PASS p99.9@200 ImageNet: DINO/DINOv2 genuine, ViT-T not 
 [p999 re-total] 73/73
+PASS phaseA vision record: 72 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA vision haar x sup: 72 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA text record: 15 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA text haar x sup: 15 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA text gauss x p999: 15 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA cosine vision: 72 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA cosine text: 15 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA depth power: expR55_depth_power.csv present 
+PASS phaseA depth variants: expR56_depth_variants.csv present 
+PASS phaseA cut-free tree map: expR58_treemap_cutfree_summary.csv present 
+PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present 
+[phaseA re-total] 84/84

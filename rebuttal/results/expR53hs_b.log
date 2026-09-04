@@ -1,0 +1,8 @@
+bge_base     haar/sup delta 0.1213 null 0.1127 exc +0.0086 r 9/200 p 0.9552 (444s)
+bge_large    haar/sup delta 0.1205 null 0.1140 exc +0.0066 r 14/200 p 0.9303 (633s)
+gte_base     haar/sup delta 0.1242 null 0.1077 exc +0.0165 r 0/200 p 1.0000 (475s)
+gte_large    haar/sup delta 0.1203 null 0.1092 exc +0.0110 r 1/200 p 0.9950 (657s)
+gte_qwen2    haar/sup delta 0.1224 null 0.1164 exc +0.0060 r 30/200 p 0.8507 (879s)
+e5_base      haar/sup delta 0.1152 null 0.1076 exc +0.0077 r 9/200 p 0.9552 (385s)
+e5_large     haar/sup delta 0.1139 null 0.1052 exc +0.0086 r 7/200 p 0.9652 (429s)
+Done part b (haar/sup)

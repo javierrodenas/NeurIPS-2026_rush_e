@@ -1,0 +1,7 @@
+dinov2_b  imagenet     cos exc -0.0131 r 200/200 p 0.0050 (330s)
+dinov2_l  imagenet     cos exc -0.0100 r 200/200 p 0.0050 (436s)
+dinov2_g  imagenet     cos exc -0.0065 r 200/200 p 0.0050 (538s)
+clip_b    imagenet     cos exc -0.0170 r 200/200 p 0.0050 (264s)
+clip_l    imagenet     cos exc -0.0174 r 200/200 p 0.0050 (200s)
+siglip_b  imagenet     cos exc -0.0127 r 200/200 p 0.0050 (201s)
+Done vision part in2

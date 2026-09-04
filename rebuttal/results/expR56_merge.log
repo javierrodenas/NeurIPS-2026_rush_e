@@ -1,0 +1,12 @@
+cifar100  K 5 aniso: depth mean -0.0025 | z<=-2 0/12 | z>=+2 0/12 | max z +1.0
+cifar100  K 5 iso  : depth mean +0.0198 | z<=-2 0/12 | z>=+2 7/12 | max z +4.4
+cifar100  K10 aniso: depth mean -0.0085 | z<=-2 1/12 | z>=+2 0/12 | max z +1.5
+cifar100  K10 iso  : depth mean +0.0312 | z<=-2 0/12 | z>=+2 9/12 | max z +7.6
+cifar100  K20 aniso: depth mean -0.0122 | z<=-2 3/12 | z>=+2 0/12 | max z +1.2
+cifar100  K20 iso  : depth mean +0.0287 | z<=-2 0/12 | z>=+2 8/12 | max z +6.8
+imagenet  K10 aniso: depth mean -0.0145 | z<=-2 2/12 | z>=+2 0/12 | max z +0.3
+imagenet  K10 iso  : depth mean -0.0019 | z<=-2 0/12 | z>=+2 0/12 | max z +1.4
+imagenet  K30 aniso: depth mean -0.0184 | z<=-2 4/12 | z>=+2 0/12 | max z +0.7
+imagenet  K30 iso  : depth mean -0.0114 | z<=-2 3/12 | z>=+2 0/12 | max z +0.9
+imagenet  K60 aniso: depth mean -0.0150 | z<=-2 4/12 | z>=+2 0/12 | max z +0.6
+imagenet  K60 iso  : depth mean -0.0120 | z<=-2 3/12 | z>=+2 0/12 | max z +0.8

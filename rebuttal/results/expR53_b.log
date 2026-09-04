@@ -1,0 +1,9 @@
+bge_base     haar/p999 delta 0.0776 null 0.0744 exc +0.0031 r 26/200 p 0.8706 (454s)
+bge_large    haar/p999 delta 0.0778 null 0.0753 exc +0.0025 r 49/200 p 0.7562 (642s)
+gte_base     haar/p999 delta 0.0756 null 0.0716 exc +0.0040 r 11/200 p 0.9453 (465s)
+gte_large    haar/p999 delta 0.0746 null 0.0721 exc +0.0025 r 36/200 p 0.8209 (613s)
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:36<00:36, 36.01s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:45<00:00, 20.12s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:45<00:00, 22.51s/it]gte_qwen2    haar/p999 delta 0.0777 null 0.0754 exc +0.0023 r 58/200 p 0.7114 (914s)
+e5_base      haar/p999 delta 0.0743 null 0.0702 exc +0.0041 r 15/200 p 0.9254 (367s)
+e5_large     haar/p999 delta 0.0709 null 0.0686 exc +0.0023 r 44/200 p 0.7811 (410s)
+Done part b (haar/p999)
+

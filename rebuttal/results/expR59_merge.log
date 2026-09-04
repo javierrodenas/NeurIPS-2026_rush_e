@@ -1,0 +1,13 @@
+i21k_t    ref -0.0055 | boot mean -0.0051 sd 0.0011 | frac neg 1.00
+i21k_s    ref -0.0126 | boot mean -0.0122 sd 0.0007 | frac neg 1.00
+i21k_b    ref -0.0165 | boot mean -0.0160 sd 0.0006 | frac neg 1.00
+i21k_l    ref -0.0160 | boot mean -0.0160 sd 0.0004 | frac neg 1.00
+dinov1_b  ref -0.0209 | boot mean -0.0208 sd 0.0003 | frac neg 1.00
+dinov2_s  ref -0.0164 | boot mean -0.0162 sd 0.0004 | frac neg 1.00
+dinov2_b  ref -0.0167 | boot mean -0.0164 sd 0.0002 | frac neg 1.00
+dinov2_l  ref -0.0136 | boot mean -0.0134 sd 0.0001 | frac neg 1.00
+dinov2_g  ref -0.0080 | boot mean -0.0083 sd 0.0004 | frac neg 1.00
+clip_b    ref -0.0068 | boot mean -0.0069 sd 0.0009 | frac neg 1.00
+clip_l    ref -0.0094 | boot mean -0.0095 sd 0.0006 | frac neg 1.00
+siglip_b  ref -0.0080 | boot mean -0.0081 sd 0.0006 | frac neg 1.00
+Done expR59 merge
