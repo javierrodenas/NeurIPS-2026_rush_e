@@ -1,0 +1,3 @@
+SUMMARY expR53_text_haar_p999_200: 15 models; genuine 7 (BH 7); genuine_bh: ['gpt2', 'gpt2_l', 'gpt2_xl', 'pythia_410m', 'pythia_1b', 'pythia_2b8', 'olmo_1b']
+SUMMARY expR53_text_haar_sup_200: 15 models; genuine 6 (BH 6); genuine_bh: ['gpt2_l', 'gpt2_xl', 'pythia_410m', 'pythia_1b', 'pythia_2b8', 'olmo_1b']
+SUMMARY expR53_text_gauss_p999_200: 15 models; genuine 7 (BH 7); genuine_bh: ['gpt2', 'gpt2_l', 'gpt2_xl', 'pythia_410m', 'pythia_1b', 'pythia_2b8', 'olmo_1b']
