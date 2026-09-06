@@ -5,8 +5,8 @@
   star      : 6 Gaussian hubs, 10 points around each            -> expected: genuine, no depth beyond a matched star
   hierarchy : 6 superclusters x 5 subclusters x 2 points        -> expected: genuine, more tree-like than its matched star
 
-Runs calibrated_delta.run with 50 spectrum-null replicates (the paper uses 200) and, for the two
-clustered clouds, the matched-star depth test with the 6 (super)cluster labels.
+Runs calibrated_delta.run with 50 Haar spectrum-null replicates and the 99.9th-percentile statistic (the paper uses
+200) and, for the two clustered clouds, the anisotropic matched-star depth test with the 6 (super)cluster labels.
 
     python demo.py
 """
@@ -37,7 +37,7 @@ def hierarchy(seed=2, K=6, S=5):
 
 def report(name, C, lab):
     t0 = time.time(); out = cd.run(C, lab, n_rep=REPS); c = out["census"]
-    verdict = "GENUINE" if c["genuine"] else "not genuine"
+    verdict = "below the null (p <= 0.05)" if c["genuine_uncorrected"] else "not below the null"
     line = (f"{name:10s} raw delta_norm {c['delta']:.3f} | excess {c['excess']:+.3f} "
             f"r={c['r_above']}/{REPS} p={c['p_left']:.3f} -> {verdict}")
     if "depth" in out:
@@ -47,7 +47,7 @@ def report(name, C, lab):
     print(line + f"  ({time.time()-t0:.0f}s)")
 
 if __name__ == "__main__":
-    print(f"n={N}, d={D}, {REPS} spectrum-null replicates; genuine := p <= 0.05\n")
+    print(f"n={N}, d={D}, {REPS} Haar spectrum-null replicates, 99.9th-percentile statistic (the record protocol); uncorrected p\n")
     report("random", *random_cloud())
     report("star", *star())
     report("hierarchy", *hierarchy())

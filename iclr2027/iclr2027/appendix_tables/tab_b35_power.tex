@@ -1,0 +1,22 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcccccc}
+\toprule
+frame & $n$ & $K$ & power @ ratio 0.1 & 0.3 & 0.6 & star $z\le-2$ & star $z\ge+2$ \\
+\midrule
+top-level, isotropic star & 100 & 6 & 0.00 & 0.00 & 0.00 & 0.00 & 0.17 \\
+top-level, isotropic star & 100 & 12 & 0.00 & 0.00 & 0.00 & 0.00 & 0.13 \\
+top-level, isotropic star & 100 & 20 & 0.00 & 0.00 & 0.00 & 0.00 & 0.17 \\
+top-level, isotropic star & 100 & 30 & 0.00 & 0.00 & 0.00 & 0.00 & 0.17 \\
+top-level, isotropic star & 1000 & 6 & 0.00 & 0.00 & 0.00 & 0.00 & 0.17 \\
+top-level, isotropic star & 1000 & 12 & 0.00 & 0.00 & 0.00 & 0.00 & 0.17 \\
+top-level, isotropic star & 1000 & 20 & 0.00 & 0.00 & 0.00 & 0.00 & 0.17 \\
+top-level, isotropic star & 1000 & 30 & 0.00 & 0.00 & 0.00 & 0.00 & 0.17 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Power of the matched-star depth test on synthetic hierarchies.} Two- and three-level hierarchies (pooled) and pure stars, $d{=}768$, within/between noise ratios $0.1/0.3/0.6$, isotropic and anisotropic clusters pooled, 5 seeds. Power = fraction of hierarchy runs with $z\le-2$; star columns = false-alarm rates in each direction. Top-level frame: the test receives the $K$ super-cluster labels, as the isotropic test of expR50 did on the real backbones; its hub null keeps every frame cluster intact and only rearranges the $K$ hubs, so hierarchy below the frame is invisible by construction. Leaf frame: the test receives the finest cluster labels with the anisotropic matched star of Table~\ref{tab:b34-depthvariants} (configurations with more leaves than points are infeasible and omitted). % expR55_depth_power.csv, expR55b_depth_power_leafframe.csv
+}
+\label{tab:b35-power}
+\end{table}

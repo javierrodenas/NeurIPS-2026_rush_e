@@ -1,0 +1,30 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcc@{\hspace{8pt}}cc}
+\toprule
+ & \multicolumn{2}{c}{CIFAR-100 ($K{=}20$)} & \multicolumn{2}{c}{ImageNet ($K{=}30$)} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+model & isotropic star & anisotropic star & isotropic star & anisotropic star \\
+\midrule
+ViT-T & $+0.000$ (+0.0) & $-0.025$ (-1.4) & $-0.015$ (-1.5) & $-0.018$ (-1.5) \\
+ViT-S & $+0.036$ (+2.3) & $-0.008$ (-0.5) & $-0.021$ (-1.9) & $-0.028$ (-2.4) \\
+ViT-B & $+0.063$ (+4.5) & $+0.003$ (+0.2) & $-0.026$ (-2.9) & $-0.033$ (-3.6) \\
+ViT-L & $+0.040$ (+4.2) & $-0.017$ (-1.5) & $-0.024$ (-3.2) & $-0.033$ (-4.0) \\
+\midrule
+DINO-B & $+0.008$ (+0.9) & $-0.038$ (-4.2) & $-0.002$ (-0.2) & $-0.009$ (-0.9) \\
+DINOv2-S & $+0.006$ (+0.6) & $-0.020$ (-1.6) & $+0.011$ (+0.9) & $+0.008$ (+0.7) \\
+DINOv2-B & $+0.041$ (+5.4) & $+0.010$ (+0.9) & $-0.011$ (-0.9) & $-0.016$ (-1.2) \\
+DINOv2-L & $+0.042$ (+6.8) & $+0.013$ (+1.2) & $-0.024$ (-2.3) & $-0.028$ (-2.4) \\
+DINOv2-G & $+0.026$ (+3.8) & $-0.007$ (-0.7) & $-0.024$ (-1.6) & $-0.029$ (-1.8) \\
+\midrule
+CLIP-B & $+0.019$ (+1.8) & $-0.024$ (-2.0) & $-0.006$ (-0.7) & $-0.016$ (-2.0) \\
+CLIP-L & $+0.036$ (+5.7) & $-0.013$ (-2.3) & $+0.004$ (+0.5) & $-0.008$ (-0.8) \\
+SigLIP-B & $+0.027$ (+2.8) & $-0.021$ (-2.2) & $+0.001$ (+0.0) & $-0.011$ (-0.9) \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{The matched-star depth test on the real backbones: the star's shape decides the verdict.} Depth = excess B of the real centroids minus that of a matched star (negative = more hierarchical above the frame than the star), with $z$ against the combined spread; 10 star seeds; hub-randomizing Haar null. Isotropic star: Gaussian clouds with each superclass's RMS spread (the construction of expR50). Anisotropic star: within each superclass a Haar sample with the cloud's own covariance. Frames: CIFAR-100 coarse labels; ImageNet WordNet cut. K sweep: CIFAR-100 $K{=}5$: iso 0/12 at $z\le-2$, 7/12 at $z\ge+2$; aniso 0/12 at $z\le-2$, 0/12 at $z\ge+2$. CIFAR-100 $K{=}10$: iso 0/12 at $z\le-2$, 9/12 at $z\ge+2$; aniso 1/12 at $z\le-2$, 0/12 at $z\ge+2$. CIFAR-100 $K{=}20$: iso 0/12 at $z\le-2$, 8/12 at $z\ge+2$; aniso 3/12 at $z\le-2$, 0/12 at $z\ge+2$. ImageNet $K{=}10$: iso 0/12 at $z\le-2$, 0/12 at $z\ge+2$; aniso 2/12 at $z\le-2$, 0/12 at $z\ge+2$. ImageNet $K{=}30$: iso 3/12 at $z\le-2$, 0/12 at $z\ge+2$; aniso 4/12 at $z\le-2$, 0/12 at $z\ge+2$. ImageNet $K{=}60$: iso 3/12 at $z\le-2$, 0/12 at $z\ge+2$; aniso 4/12 at $z\le-2$, 0/12 at $z\ge+2$. % expR56_depth_variants.csv
+}
+\label{tab:b34-depthvariants}
+\end{table}

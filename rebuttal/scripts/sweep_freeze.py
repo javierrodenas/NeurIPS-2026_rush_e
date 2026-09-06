@@ -344,31 +344,27 @@ n_fail = sum(1 for _,ok,_ in checks if not ok)
 print(f"[round4 re-total] {len(checks)-n_fail}/{len(checks)}")
 
 
-# ---------- TOOL: calibrated_delta.py reproduces Table 1 / B29 on two cells ----------
+# ---------- TOOL: calibrated_delta.py reproduces Table 1 (record) / B34 on two cells ----------
 def tool_check():
     import json, subprocess
     jf = R/"tool_check.json"
     if not jf.exists():   # ~15 CPU-min: run once, then compare the saved output
         subprocess.run([sys.executable, str(Path(__file__).resolve().parents[2]/"iclr2027/tool/run_checks.py")], check=True)
     J = json.load(open(jf))
-    e39 = {(r["model"],r["dataset"]): r for r in load("expR39c_census200_cache.csv")}
-    e50 = {(r["model"],r["dataset"]): r for r in load("expR50_depth_test.csv")}
-    for cell in ["i21k_l/cifar100", "dinov2_l/imagenet"]:
-        m, d = cell.split("/"); c = J[cell]["census"]; ref = e39[(m,d)]
-        chk(f"tool == Table 1 ({cell}): excess 3dp, r, p", round(c["excess"],3)==round(float(ref["excess"]),3)
+    e52 = {(r["model"],r["dataset"]): r for r in load("expR52_census_haar_p999_200.csv")}
+    e56 = {(r["model"],r["dataset"],int(r["K"]),r["variant"]): r for r in load("expR56_depth_variants.csv")}
+    for cell, K in [("i21k_l/cifar100", 20), ("dinov2_l/imagenet", 30)]:
+        m, d = cell.split("/"); c = J[cell]["census"]; ref = e52[(m,d)]
+        chk(f"tool == Table 1 record ({cell}): excess 3dp, r, p", round(c["excess"],3)==round(float(ref["excess"]),3)
             and c["r_above"]==int(ref["r_above"]) and abs(c["p_left"]-float(ref["p_left"]))<1e-9,
             f"tool {c['excess']:+.4f} r{c['r_above']} p{c['p_left']:.4f} | table {float(ref['excess']):+.4f} r{ref['r_above']} p{float(ref['p_left']):.4f}")
-    dd = J["i21k_l/cifar100"]["depth"]; ref = e50[("i21k_l","cifar100")]
-    chk("tool == B29 (ViT-L/CIFAR-100): depth 3dp, z 1dp", round(dd["depth_excess"],3)==round(float(ref["depth_excess"]),3)
-        and round(dd["z_depth"],1)==round(float(ref["z_depth"]),1), f"tool {dd['depth_excess']:+.4f} z{dd['z_depth']:+.2f} | table {float(ref['depth_excess']):+.4f} z{float(ref['z_depth']):+.2f}")
-    dd = J["dinov2_l/imagenet_store_depth"]["depth"]; ref = e50[("dinov2_l","imagenet")]
-    chk("tool == B29 (DINOv2-L/ImageNet, store centroids as expR50): depth 3dp, z 1dp", round(dd["depth_excess"],3)==round(float(ref["depth_excess"]),3)
-        and round(dd["z_depth"],1)==round(float(ref["z_depth"]),1), f"tool {dd['depth_excess']:+.4f} z{dd['z_depth']:+.2f} | table {float(ref['depth_excess']):+.4f} z{float(ref['z_depth']):+.2f}")
+        dd = J[cell]["depth"]; rf = e56[(m,d,K,"aniso")]
+        chk(f"tool == B34 aniso ({cell}): depth 3dp, z 1dp", round(dd["depth_excess"],3)==round(float(rf["depth_excess"]),3) and round(dd["z_depth"],1)==round(float(rf["z_depth"]),1),
+            f"tool {dd['depth_excess']:+.4f} z{dd['z_depth']:+.2f} | table {float(rf['depth_excess']):+.4f} z{float(rf['z_depth']):+.2f}")
 tool_check()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-4:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det else ""))
 print(f"[tool re-total] {len(checks)-n_fail}/{len(checks)}")
-
 
 # ---------- p99.9 robustness census at 200 replicates (expR40b, census cache) ----------
 e40 = load("expR40b_p999census200.csv")
@@ -403,3 +399,57 @@ phaseA_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-11:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseA re-total] {len(checks)-n_fail}/{len(checks)}")
+
+
+# ---------- Phase B: the census of record and the numbers stated in the main text ----------
+def phaseB_checks():
+    import numpy as np
+    def bh_(p):
+        p = np.asarray(p, dtype=float); n = len(p); order = np.argsort(p); ranked = p[order]*n/np.arange(1, n+1)
+        adj = np.minimum.accumulate(ranked[::-1])[::-1]; out = np.empty(n); out[order] = np.minimum(adj, 1.0); return out
+    rec = load("expR52_census_haar_p999_200.csv"); G = {(r["model"],r["dataset"]): str(r["genuine_bh"])=="True" for r in rec}
+    X = {(r["model"],r["dataset"]): float(r["excess"]) for r in rec}
+    TOP = {"imagenet","cifar100"}
+    chk("record: 70/72 sign-neg, 49/72 genuine, 18/24 IN+C100", sum(v<0 for v in X.values())==70 and sum(G.values())==49 and sum(v for (m,d),v in G.items() if d in TOP)==18)
+    chk("record: every family genuine somewhere; ViT-T genuine only on DTD", all(any(G[(m,d)] for d in ["imagenet","cifar100","cifar10","dtd","fashionmnist","mnist"]) for m in set(m for m,_ in G))
+        and [d for d in ["imagenet","cifar100","cifar10","dtd","fashionmnist","mnist"] if G[("i21k_t",d)]]==["dtd"])
+    chk("record: non-genuine IN/C100 = ViT-T (both), CLIP-B IN, SigLIP-B IN, ViT-S/B C100",
+        {k for k,v in G.items() if k[1] in TOP and not v}=={("i21k_t","imagenet"),("i21k_t","cifar100"),("clip_b","imagenet"),("siglip_b","imagenet"),("i21k_s","cifar100"),("i21k_b","cifar100")})
+    vit=[X[(m,"imagenet")] for m in ["i21k_s","i21k_b","i21k_l"]]; dn=[X[(m,"imagenet")] for m in ["dinov1_b","dinov2_s","dinov2_b","dinov2_l","dinov2_g"]]
+    chk("record IN ranges: ViT-S/B/L -0.012..-0.016, DINO/DINOv2 -0.008..-0.020, CLIP-L -0.009", abs(max(vit)+0.012)<0.0015 and abs(min(vit)+0.016)<0.0015
+        and abs(max(dn)+0.008)<0.0015 and abs(min(dn)+0.020)<0.0015 and abs(X[("clip_l","imagenet")]+0.009)<0.0015)
+    chk("record: DINOv2 S->G CIFAR-10 -0.071->-0.130, CIFAR-100 -0.031->-0.040, both monotone",
+        abs(X[("dinov2_s","cifar10")]+0.071)<0.0015 and abs(X[("dinov2_g","cifar10")]+0.130)<0.0015 and abs(X[("dinov2_s","cifar100")]+0.031)<0.0015 and abs(X[("dinov2_g","cifar100")]+0.040)<0.0015
+        and all(X[(b,ds)]<X[(a,ds)] for ds in ("cifar10","cifar100") for a,b in [("dinov2_s","dinov2_b"),("dinov2_b","dinov2_l"),("dinov2_l","dinov2_g")]))
+    four = {"Hp":"expR52_census_haar_p999_200.csv","Hs":"expR54_census_haar_sup_200.csv","Gp":"expR40b_p999census200.csv","Gs":"expR39c_census200_cache.csv"}
+    V = {}
+    for tag,f in four.items():
+        rows=load(f); pb=bh_([float(r["p_left"]) for r in rows]); V[tag]={(r["model"],r["dataset"]):(pb[i]<=0.05, int(r["r_above"])) for i,r in enumerate(rows)}
+    chk("DINOv2-S/B/G ImageNet: genuine under both p99.9, r<=1 under both supremum", all(V[t][(m,"imagenet")][0] for t in ("Hp","Gp") for m in ["dinov2_s","dinov2_b","dinov2_g"])
+        and all(V[t][(m,"imagenet")][1]<=1 for t in ("Hs","Gs") for m in ["dinov2_s","dinov2_b","dinov2_g"]))
+    chk("2x2 genuine counts 49/46/52/52", [sum(v[0] for v in V[t].values()) for t in ("Hp","Hs","Gp","Gs")]==[49,46,52,52])
+    bs = load("expR59_imagenet_bootstrap_summary.csv"); chk("bootstrap: excess s.d. <= 0.001 (3dp), all resamples negative", max(float(r["excess_boot_sd"]) for r in bs)<0.0015 and all(float(r["frac_boot_negative"])==1.0 for r in bs))
+    cv = load("expR57_census_cosine_haar_p999_200.csv"); GC={(r["model"],r["dataset"]): str(r["genuine_bh"])=="True" for r in cv}
+    chk("cosine: 56/72 genuine, 22/24 IN+C100, agreement 65/72, DINOv2 IN genuine", sum(GC.values())==56 and sum(v for k,v in GC.items() if k[1] in TOP)==22
+        and sum(GC[k]==G[k] for k in GC)==65 and all(GC[(m,"imagenet")] for m in ["dinov2_s","dinov2_b","dinov2_l","dinov2_g"]))
+    tx = {r["model"]: r for r in load("expR53_text_haar_p999_200.csv")}
+    chk("text record: 7/15 genuine; GPT-2 S p~0.02 genuine, M p~0.15 not; L/XL, Pythia x3, OLMo-1B genuine; embedders +0.002..+0.004",
+        sum(str(r["genuine_bh"])=="True" for r in tx.values())==7 and abs(float(tx["gpt2"]["p_left"])-0.020)<0.002 and abs(float(tx["gpt2_m"]["p_left"])-0.154)<0.002
+        and all(str(tx[m]["genuine_bh"])=="True" for m in ["gpt2","gpt2_l","gpt2_xl","pythia_410m","pythia_1b","pythia_2b8","olmo_1b"])
+        and all(0.0015<float(tx[m]["excess"])<0.0045 for m in ["bge_base","bge_large","gte_base","gte_large","gte_qwen2","e5_base","e5_large"]))
+    tfour = ["expR53_text_haar_p999_200.csv","expR53_text_haar_sup_200.csv","expR53_text_gauss_p999_200.csv","expR48b_text_census200_bs1.csv","expR57_text_cosine_haar_p999_200.csv"]
+    ok=True
+    for f in tfour:
+        rows=load(f); pb=bh_([float(r["p_left"]) for r in rows]); gg={r["model"]: pb[i]<=0.05 for i,r in enumerate(rows)}
+        ok = ok and all(gg[m] for m in ["gpt2_l","gpt2_xl","pythia_410m","pythia_1b","pythia_2b8","olmo_1b"])
+    chk("text: GPT-2 L/XL, Pythia x3, OLMo-1B genuine under all four constructions and cosine", ok)
+    tm = {(r["dataset"],r["metric"],r["linkage"]): r for r in load("expR58_treemap_cutfree_summary.csv")}
+    na=tm[("imagenet","euclid","average")]; ca=tm[("imagenet","cosine","average")]
+    chk("tree map: naive coph 0.36/0.80, triplets 0.47/0.74; cosine-average triplets 0.77/0.76, coph 0.48/0.78, ARI 0.38/0.48",
+        abs(float(na["coph_corr_big_vs_block"])-0.36)<0.005 and abs(float(na["coph_corr_within_block"])-0.80)<0.005 and abs(float(na["triplet_agree_big_vs_block"])-0.47)<0.005 and abs(float(na["triplet_agree_within_block"])-0.74)<0.005
+        and abs(float(ca["triplet_agree_big_vs_block"])-0.77)<0.005 and abs(float(ca["triplet_agree_within_block"])-0.76)<0.005 and abs(float(ca["coph_corr_big_vs_block"])-0.48)<0.005 and abs(float(ca["coph_corr_within_block"])-0.78)<0.005
+        and abs(float(ca["ari_cut_big_vs_block"])-0.38)<0.01 and abs(float(ca["ari_cut_within_block"])-0.48)<0.01)
+phaseB_checks()
+n_fail = sum(1 for _,ok,_ in checks if not ok)
+for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
+print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

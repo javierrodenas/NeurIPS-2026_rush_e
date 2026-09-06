@@ -4,25 +4,25 @@
 \setlength{\tabcolsep}{4.5pt}
 \begin{tabular}{l c c c c c c}
 \toprule
-model & p99.9 IN & exc.\ DTD & exc.\ FMNIST & exc.\ MNIST & best$-$R (pp) & metric \\
+model & sup.\ IN ($r$) & exc.\ DTD & exc.\ FMNIST & exc.\ MNIST & best$-$R (pp) & metric \\
 \midrule
-ViT-T & $-0.006$ & $-0.046$ & $+0.001$ & $-0.033$ & $+0.58$ & either \\
-ViT-S & $-0.014$ & $-0.058$ & $-0.050$ & $-0.044$ & $+0.49$ & either \\
-ViT-B & $-0.019$ & $-0.063$ & $-0.060$ & $-0.030$ & $+0.51$ & either \\
-ViT-L & $-0.018$ & $-0.085$ & $-0.070$ & $-0.052$ & $+0.87$ & either \\
+ViT-T & $-0.020$ (199) & $-0.014$ & $+0.018^{\circ}$ & $-0.026^{\circ}$ & $+0.58$ & either \\
+ViT-S & $-0.020$ (200) & $-0.019$ & $-0.033$ & $-0.037^{\circ}$ & $+0.49$ & either \\
+ViT-B & $-0.022$ (200) & $-0.021$ & $-0.042$ & $-0.013^{\circ}$ & $+0.51$ & either \\
+ViT-L & $-0.027$ (200) & $-0.031$ & $-0.051$ & $-0.040^{\circ}$ & $+0.87$ & either \\
 \midrule
-DINO-B & $-0.023$ & $-0.060$ & $-0.022$ & $-0.045$ & --- & --- \\
-DINOv2-S & $-0.020$ & $-0.049$ & $-0.049$ & $-0.020$ & $+0.68$ & H \\
-DINOv2-B & $-0.024$ & $-0.073$ & $-0.078$ & $-0.028$ & $+1.17$ & cos \\
-DINOv2-L & $-0.023$ & $-0.083$ & $-0.058$ & $-0.024$ & $+1.84$ & cos \\
-DINOv2-G & $-0.019$ & $-0.076$ & $-0.066$ & $-0.028$ & $+2.54$ & cos \\
+DINO-B & $+0.000$ (96) & $-0.027$ & $-0.007^{\circ}$ & $-0.034^{\circ}$ & --- & --- \\
+DINOv2-S & $+0.017$ (0) & $-0.018$ & $-0.031^{\circ}$ & $-0.004^{\circ}$ & $+0.68$ & H \\
+DINOv2-B & $+0.018$ (0) & $-0.035$ & $-0.062$ & $-0.017^{\circ}$ & $+1.17$ & cos \\
+DINOv2-L & $+0.006$ (0) & $-0.042$ & $-0.035$ & $-0.014^{\circ}$ & $+1.84$ & cos \\
+DINOv2-G & $+0.020$ (0) & $-0.039$ & $-0.046$ & $-0.022^{\circ}$ & $+2.54$ & cos \\
 \midrule
-CLIP-B & $-0.007$ & $-0.065$ & $-0.037$ & $-0.015$ & $+0.67$ & H \\
-CLIP-L & $-0.010$ & $-0.059$ & $-0.047$ & $-0.017$ & $+0.65$ & H \\
-SigLIP-B & $-0.009$ & $-0.066$ & $-0.058$ & $-0.064$ & --- & --- \\
+CLIP-B & $-0.023$ (199) & $-0.024$ & $-0.035^{\circ}$ & $-0.001^{\circ}$ & $+0.67$ & H \\
+CLIP-L & $-0.016$ (198) & $-0.027$ & $-0.037^{\circ}$ & $-0.008^{\circ}$ & $+0.65$ & H \\
+SigLIP-B & $-0.015$ (194) & $-0.023$ & $-0.042$ & $-0.044$ & --- & --- \\
 \bottomrule
 \end{tabular}
-\caption{Census columns moved out of Table~\ref{tab:census}. p99.9 IN: ImageNet excess under the supremum-robust statistic (200 replicates, census cache; Table~\ref{tab:b21-p999census}); exc.\ DTD/FMNIST/MNIST: per-dataset excess on the remaining sets; best$-$R: few-shot advantage of the best zero-cost metric over Euclidean, mean over the four hierarchical datasets; metric: which of Poincar\'e (H) or cosine collects it (either: within $0.15$pp; ---: outside the 10-model task grid). % expR40b_p999census200.csv, exp2_metric_controls.csv, expR39c_census200_cache.csv
+\caption{Census columns moved out of Table~\ref{tab:census}. sup.\ IN: ImageNet excess of the supremum statistic under the same Haar null (200 replicates; $r$ = replicates above the real value; Table~\ref{tab:b21-2x2}); exc.\ DTD/FMNIST/MNIST: per-dataset record excess on the remaining sets; best$-$R: few-shot advantage of the best zero-cost metric over Euclidean, mean over the four hierarchical datasets; metric: which of Poincar\'e (H) or cosine collects it (either: within $0.15$pp; ---: outside the 10-model task grid). % expR54_census_haar_sup_200.csv, exp2_metric_controls.csv, expR52_census_haar_p999_200.csv
 }
 \label{tab:census-extra}
 \end{table}

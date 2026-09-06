@@ -2,12 +2,10 @@
 """Reproduction check for calibrated_delta.py against the paper's tables (used by sweep_freeze.py).
 
 Two cells: ViT-L / CIFAR-100 and DINOv2-L / ImageNet.
-  * Table 1 (census of record, expR39c_census200_cache.csv): centroids from the census cache
-    ({m}_{ds}_train.npz); the tool must reproduce excess (3 dp), r and p exactly.
-  * Table B29 (expR50_depth_test.csv): same superclass frames as expR50 (CIFAR-100 coarse-20;
-    ImageNet WordNet-30). expR50 read ImageNet centroids from the centroid STORE
-    (results/centroids/imagenet_train), so the ImageNet depth check runs the tool on the store
-    centroids; the CIFAR-100 depth check uses the cache like the table did.
+  * Table 1 (census of record, expR52_census_haar_p999_200.csv: Haar null x p99.9 statistic): centroids from
+    the census cache ({m}_{ds}_train.npz); the tool must reproduce excess (3 dp), r and p exactly.
+  * Table B34 (expR56_depth_variants.csv, anisotropic star, 10 seeds, census cache for both datasets):
+    same frames (CIFAR-100 coarse-20; ImageNet WordNet-30); depth (3 dp) and z (1 dp) must match.
 Writes rebuttal/results/tool_check.json; sweep_freeze.py compares it with the CSVs and re-runs this
 script only if the JSON is missing (the 200-replicate ImageNet cell takes ~10 CPU-minutes).
 """
@@ -35,11 +33,9 @@ def main():
     np.save(HERE/"example_labels_cifar100_coarse20.npy", SUP100); np.save(HERE/"example_labels_imagenet_wn30.npy", WN30)
     res = {}
     C = cache_centroids("i21k_l", "cifar100")
-    res["i21k_l/cifar100"] = cd.run(C, SUP100)                                 # Table 1 + B29 (both cache-based)
+    res["i21k_l/cifar100"] = cd.run(C, SUP100)                                 # Table 1 + B34 (cache)
     C = cache_centroids("dinov2_l", "imagenet")
-    res["dinov2_l/imagenet"] = cd.run(C, None)                                 # Table 1 (cache)
-    Cs = np.load(ROOT/"results/centroids/imagenet_train/dinov2_l.npy").astype(np.float32)
-    res["dinov2_l/imagenet_store_depth"] = {"depth": cd.depth_test(Cs, WN30)}  # B29 (store, as expR50)
+    res["dinov2_l/imagenet"] = cd.run(C, WN30)                                 # Table 1 + B34 (cache)
     json.dump(res, open(OUT/"tool_check.json", "w"), indent=1)
     for k, v in res.items(): print(k, json.dumps(v))
 

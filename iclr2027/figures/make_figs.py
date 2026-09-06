@@ -24,8 +24,8 @@ ORDER = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b",
 
 def para(m): return PARA[m[:4]] if m.startswith("i21k") else PARA[m[:5]]
 
-_src = RES/"expR39c_census200_cache.csv"                              # R6: census of record (200 replicates)
-if not _src.exists(): _src = RES/"expR39b_census20_cache.csv"
+_src = RES/"expR52_census_haar_p999_200.csv"                            # census of record (Phase B): Haar x p99.9, BH
+if not _src.exists(): _src = RES/"expR39c_census200_cache.csv"
 if not _src.exists(): _src = RES/"exp20_null_ztable.csv"
 print("census source:", _src.name)
 d20 = list(csv.DictReader(open(_src)))
@@ -34,11 +34,11 @@ def _p(r):
     if "p_left" in r: return float(r["p_left"])
     if "frac_null_above" in r: return (1 + 20 - round(20*float(r["frac_null_above"]))) / 21
     return 0.0
-gen = {(r["model"], r["dataset"]): _p(r) <= 0.05 for r in d20}   # genuine = p <= 0.05
+gen = {(r["model"], r["dataset"]): (str(r["genuine_bh"]) == "True" if "genuine_bh" in r else _p(r) <= 0.05) for r in d20}   # genuine = BH-corrected p <= 0.05
 dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
 # ---------- Figure A: excess panel ----------
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.7),
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.6),
                                gridspec_kw={"width_ratios": [1.55, 1]})
 xs = np.arange(len(ORDER))
 for k, m in enumerate(ORDER):
@@ -50,9 +50,9 @@ for k, m in enumerate(ORDER):
                         alpha=0.45 if ds == "imagenet" else 0.9, zorder=3)   # hollow = not genuine (p > 0.05)
 ax1.axhline(0, color="k", lw=0.8, zorder=1)
 ax1.set_xticks(xs); ax1.set_xticklabels([NAME[m] for m in ORDER], rotation=60, ha="right", fontsize=6.5)
-ax1.set_ylabel(r"tree excess  $\hat\delta_{\rm real}-\hat\delta_{\rm null}$", fontsize=8)
-_neg = sum(1 for r in d20 if float(r["excess"]) < 0)
-ax1.set_title(f"(a) {_neg}/72 cells below their matched null", fontsize=7.5)
+ax1.set_ylabel(r"excess  $\hat\delta_{99.9}^{\rm real}-\hat\delta_{99.9}^{\rm null}$", fontsize=8)
+_neg = sum(1 for r in d20 if float(r["excess"]) < 0); _gen = sum(gen.values())
+ax1.set_title(f"(a) beyond-null structure: {_neg}/72 sign-negative, {_gen} genuine", fontsize=7.5)
 ax1.tick_params(labelsize=7)
 hd = [plt.Line2D([], [], marker=mk, ls="", color="gray", ms=4.5, label=ds)
       for ds, mk in MARK.items()]

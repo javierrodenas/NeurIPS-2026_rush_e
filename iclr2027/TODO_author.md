@@ -100,3 +100,15 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   los 20 hubs de superclase sobre la matriz de distancias consenso de los 12 backbones (`expR56_frames_cifar100.csv`);
   es determinista y compartido por todos los modelos, pero no proviene de etiquetas humanas. Los cortes de ImageNet (10/30/60)
   sí son de WordNet.
+
+## Añadido en la respuesta a la revisión (Fase B)
+
+- **DBpedia bajo el protocolo de registro**: el rango −0.020..−0.028 de §4 sigue siendo el de `exp14` (supremo, null gaussiana,
+  3 réplicas); el texto lo dice explícitamente. Para cerrarlo: re-extraer los embeddings de DBpedia (exp14, minutos) y pasar
+  `expR53` en modo Haar × p99.9 (≈10 min de CPU). Lo mismo para HierarCaps (A8) si se quiere homogeneizar del todo.
+- **Control positivo fine-tuned (Fig. 5a)**: no pudo correrse (sin checkpoints ni features guardados); coste en la sección anterior. El
+  párrafo del test de profundidad lo dice.
+- **B29 (estrella isotrópica, 3 semillas)**: retirada del apéndice y del texto principal (el fichero `tab_b29_depth.tex` y `expR50_depth_test.csv`
+  se conservan como histórico); B34 (estrella iso/aniso, 10 semillas, barrido K) y B35 (potencia) la sustituyen.
+- **El tool** (`iclr2027/tool/calibrated_delta.py`) sigue ahora el protocolo de registro (Haar × p99.9; estrella anisotrópica con 10
+  semillas); `--null gauss --stat sup --star iso` reproducen las lecturas antiguas. Reporta la p sin corregir (BH requiere un censo).

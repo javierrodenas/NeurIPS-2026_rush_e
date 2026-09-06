@@ -1,0 +1,26 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llccc}
+\toprule
+dataset & configuration & ARI at the cut & cophenetic corr. & triplet agreement \\
+\midrule
+ImageNet & euclid-average & 0.03 / 0.64 & 0.36 / 0.80 & 0.47 / 0.74 \\
+ImageNet & euclid-complete & 0.03 / 0.44 & 0.20 / 0.66 & 0.41 / 0.65 \\
+ImageNet & euclid-ward & 0.16 / 0.53 & 0.62 / 0.84 & 0.67 / 0.85 \\
+ImageNet & cosine-average & 0.39 / 0.48 & 0.48 / 0.78 & 0.77 / 0.76 \\
+ImageNet & cosine-complete & 0.13 / 0.49 & 0.18 / 0.72 & 0.36 / 0.71 \\
+ImageNet & cosine-ward & 0.17 / 0.55 & 0.59 / 0.85 & 0.69 / 0.86 \\
+CIFAR-100 & euclid-average & 0.00 / 0.57 & 0.15 / 0.78 & 0.41 / 0.74 \\
+CIFAR-100 & euclid-complete & 0.17 / 0.54 & 0.23 / 0.72 & 0.41 / 0.66 \\
+CIFAR-100 & euclid-ward & 0.37 / 0.63 & 0.63 / 0.77 & 0.70 / 0.79 \\
+CIFAR-100 & cosine-average & 0.30 / 0.58 & 0.42 / 0.72 & 0.51 / 0.64 \\
+CIFAR-100 & cosine-complete & 0.39 / 0.63 & 0.46 / 0.64 & 0.50 / 0.61 \\
+CIFAR-100 & cosine-ward & 0.56 / 0.61 & 0.74 / 0.73 & 0.76 / 0.76 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{The island is a property of the cut and of the Euclidean configurations.} Each entry: DINOv2-B/L/G vs the supervised+contrastive block / within the block. ARI between cuts at 30 (ImageNet) or 20 (CIFAR-100) clusters; Pearson correlation between the two trees' cophenetic distance vectors; agreement on which pair merges first over $10^4$ random class triplets. Dendrograms rebuilt from the census cache with the six configurations of Table~\ref{tab:b7-treemapcontrols}. % expR58_treemap_cutfree_summary.csv
+}
+\label{tab:b33-cutfree}
+\end{table}

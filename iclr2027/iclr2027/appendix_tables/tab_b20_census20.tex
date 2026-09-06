@@ -1,28 +1,28 @@
 \begin{table}[H]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{1.8pt}
+\setlength{\tabcolsep}{1.4pt}
 \begin{tabular}{lcccccccccccccccccc}
 \toprule
  & \multicolumn{3}{c}{IN} & \multicolumn{3}{c}{C100} & \multicolumn{3}{c}{C10} & \multicolumn{3}{c}{DTD} & \multicolumn{3}{c}{FMNIST} & \multicolumn{3}{c}{MNIST} \\
 model & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ \\
 \midrule
-ViT-T & $-0.020$ & 199 & .010 & $-0.038$ & 200 & .005 & $-0.042$ & 191 & .050 & $-0.046$ & 200 & .005 & $+0.001$ & 95 & .527 & $-0.033$ & 178 & .114 \\
-ViT-S & $-0.022$ & 200 & .005 & $-0.031$ & 199 & .010 & $-0.081$ & 200 & .005 & $-0.058$ & 200 & .005 & $-0.050$ & 198 & .015 & $-0.044$ & 186 & .075 \\
-ViT-B & $-0.025$ & 200 & .005 & $-0.016$ & 187 & .070 & $-0.073$ & 200 & .005 & $-0.063$ & 200 & .005 & $-0.060$ & 199 & .010 & $-0.030$ & 181 & .100 \\
-ViT-L & $-0.030$ & 200 & .005 & $-0.044$ & 200 & .005 & $-0.088$ & 200 & .005 & $-0.085$ & 200 & .005 & $-0.070$ & 200 & .005 & $-0.052$ & 196 & .025 \\
+ViT-T & $-0.005^{\circ}$ & 169 & .159 & $-0.006^{\circ}$ & 151 & .249 & $-0.021^{\circ}$ & 172 & .144 & $-0.014$ & 197 & .020 & $+0.018^{\circ}$ & 34 & .831 & $-0.026^{\circ}$ & 168 & .164 \\
+ViT-S & $-0.012$ & 200 & .005 & $-0.000^{\circ}$ & 111 & .448 & $-0.056$ & 200 & .005 & $-0.019$ & 199 & .010 & $-0.033$ & 196 & .025 & $-0.037^{\circ}$ & 181 & .100 \\
+ViT-B & $-0.016$ & 200 & .005 & $+0.006^{\circ}$ & 43 & .786 & $-0.050$ & 200 & .005 & $-0.021$ & 200 & .005 & $-0.042$ & 200 & .005 & $-0.013^{\circ}$ & 142 & .294 \\
+ViT-L & $-0.016$ & 200 & .005 & $-0.020$ & 200 & .005 & $-0.060$ & 200 & .005 & $-0.031$ & 200 & .005 & $-0.051$ & 200 & .005 & $-0.040^{\circ}$ & 193 & .040 \\
 \midrule
-DINO-B & $-0.003$ & 162 & .194 & $-0.064$ & 200 & .005 & $-0.085$ & 200 & .005 & $-0.060$ & 200 & .005 & $-0.022$ & 164 & .184 & $-0.045$ & 193 & .040 \\
-DINOv2-S & $+0.011$ & 0 & 1 & $-0.052$ & 200 & .005 & $-0.095$ & 200 & .005 & $-0.049$ & 200 & .005 & $-0.049$ & 196 & .025 & $-0.020$ & 154 & .234 \\
-DINOv2-B & $+0.007$ & 0 & 1 & $-0.042$ & 200 & .005 & $-0.135$ & 200 & .005 & $-0.073$ & 200 & .005 & $-0.078$ & 200 & .005 & $-0.028$ & 162 & .194 \\
-DINOv2-L & $-0.008$ & 200 & .005 & $-0.051$ & 200 & .005 & $-0.153$ & 200 & .005 & $-0.083$ & 200 & .005 & $-0.058$ & 199 & .010 & $-0.024$ & 163 & .189 \\
-DINOv2-G & $+0.005$ & 1 & .995 & $-0.079$ & 200 & .005 & $-0.155$ & 200 & .005 & $-0.076$ & 200 & .005 & $-0.066$ & 200 & .005 & $-0.028$ & 162 & .194 \\
+DINO-B & $-0.020$ & 200 & .005 & $-0.032$ & 200 & .005 & $-0.061$ & 200 & .005 & $-0.027$ & 200 & .005 & $-0.007^{\circ}$ & 127 & .368 & $-0.034^{\circ}$ & 188 & .065 \\
+DINOv2-S & $-0.016$ & 200 & .005 & $-0.031$ & 200 & .005 & $-0.071$ & 200 & .005 & $-0.018$ & 200 & .005 & $-0.031^{\circ}$ & 193 & .040 & $-0.004^{\circ}$ & 112 & .443 \\
+DINOv2-B & $-0.017$ & 200 & .005 & $-0.031$ & 200 & .005 & $-0.112$ & 200 & .005 & $-0.035$ & 200 & .005 & $-0.062$ & 200 & .005 & $-0.017^{\circ}$ & 147 & .269 \\
+DINOv2-L & $-0.014$ & 200 & .005 & $-0.035$ & 200 & .005 & $-0.128$ & 200 & .005 & $-0.042$ & 200 & .005 & $-0.035$ & 197 & .020 & $-0.014^{\circ}$ & 132 & .343 \\
+DINOv2-G & $-0.008$ & 200 & .005 & $-0.040$ & 200 & .005 & $-0.130$ & 200 & .005 & $-0.039$ & 200 & .005 & $-0.046$ & 199 & .010 & $-0.022^{\circ}$ & 158 & .214 \\
 \midrule
-CLIP-B & $-0.025$ & 200 & .005 & $-0.044$ & 200 & .005 & $-0.062$ & 200 & .005 & $-0.065$ & 200 & .005 & $-0.037$ & 177 & .119 & $-0.015$ & 137 & .318 \\
-CLIP-L & $-0.018$ & 200 & .005 & $-0.039$ & 200 & .005 & $-0.072$ & 200 & .005 & $-0.059$ & 200 & .005 & $-0.047$ & 191 & .050 & $-0.017$ & 144 & .284 \\
-SigLIP-B & $-0.016$ & 199 & .010 & $-0.038$ & 200 & .005 & $-0.080$ & 200 & .005 & $-0.066$ & 200 & .005 & $-0.058$ & 200 & .005 & $-0.064$ & 200 & .005 \\
+CLIP-B & $-0.007^{\circ}$ & 172 & .144 & $-0.019$ & 200 & .005 & $-0.036$ & 195 & .030 & $-0.024$ & 200 & .005 & $-0.035^{\circ}$ & 181 & .100 & $-0.001^{\circ}$ & 104 & .483 \\
+CLIP-L & $-0.009$ & 197 & .020 & $-0.018$ & 200 & .005 & $-0.043$ & 199 & .010 & $-0.027$ & 200 & .005 & $-0.037^{\circ}$ & 188 & .065 & $-0.008^{\circ}$ & 126 & .373 \\
+SigLIP-B & $-0.008^{\circ}$ & 189 & .060 & $-0.022$ & 200 & .005 & $-0.050$ & 199 & .010 & $-0.023$ & 200 & .005 & $-0.042$ & 198 & .015 & $-0.044$ & 198 & .015 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{The census of record: excess, percentile rank and left-tail $p$ per cell.} Excess over the spectrum-matched null; $r$ = number of the 200 null replicates above the real value; $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine = $p\le0.05$ ($r\ge191$). Genuine cells: 55/72 overall, 43/48 on the hierarchical-label datasets. Secondary $z$ summary (excess over the combined null and estimator s.d.): $|z|\ge2$ in 49/72 cells, $z\le-3$ in 32/48 hierarchical cells. Sign agreement with the 5-replicate census (Table~\ref{tab:b2-ztable}): 71/72. Every cell is computed on the census cache (one centroid source; the ImageNet cache regenerated with the original extraction pipeline).}
+\caption{\textbf{The census of record per cell: Haar-rotated spectrum-matched null, 99.9th-percentile statistic, 200 replicates.} Excess over the null mean; $r$ = replicates above the real value; $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine = Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells ($^{\circ}$: not genuine). Genuine cells: 49/72 overall, 18/24 on ImageNet+CIFAR-100. Sign agreement with the original 5-replicate Gaussian$\times$supremum census on the 72 comparable cells: 67/72. Every cell on the census cache (one centroid source). The four null$\times$statistic verdicts per cell are in Table~\ref{tab:b21-2x2}.}
 \label{tab:b20-census200}
 \end{table}

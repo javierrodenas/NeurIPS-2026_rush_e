@@ -1,30 +1,30 @@
 \begin{table}[H]
 \centering
-\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lcccc|ccc}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lccccc|cc}
 \toprule
-& \multicolumn{4}{c|}{padding-free re-extraction, 200 replicates} & \multicolumn{3}{c}{original extraction, 3 replicates (Table~\ref{tab:b1-textnulls})} \\
-model & $\hat\delta$ & excess & $r$/200 & $p$ & $\hat\delta$ & excess & $\Delta\hat\delta$ \\
+& \multicolumn{5}{c|}{padding-free extraction, record (Haar$\times$p99.9, 200 replicates)} & \multicolumn{2}{c}{original extraction (Table~\ref{tab:b1-textnulls})} \\
+model & $\hat\delta_{99.9}$ & excess & $r$/200 & $p$ & 2$\times$2 & $\hat\delta$ & excess \\
 \midrule
-GPT-2 S & $0.128$ & $-0.013$ & 183 & .090 & $0.131$ & $+0.048$ & $-0.003$ \\
-GPT-2 M & $0.082$ & $-0.009$ & 173 & .139 & $0.091$ & $-0.013$ & $-0.009$ \\
-GPT-2 L & $0.082$ & $-0.039$ & 200 & .005 & $0.095$ & $-0.034$ & $-0.013$ \\
-GPT-2 XL & $0.072$ & $-0.047$ & 200 & .005 & $0.083$ & $-0.048$ & $-0.011$ \\
-Pythia-410M & $0.098$ & $-0.035$ & 200 & .005 & $0.098$ & $-0.037$ & $+0.000$ \\
-Pythia-1B & $0.096$ & $-0.031$ & 200 & .005 & $0.096$ & $-0.035$ & $+0.000$ \\
-Pythia-2.8B & $0.098$ & $-0.035$ & 200 & .005 & $0.098$ & $-0.041$ & $-0.000$ \\
-OLMo-1B & $0.082$ & $-0.038$ & 200 & .005 & $0.100$ & $-0.001$ & $-0.018$ \\
-OLMo-7B & -- & -- & -- & -- & $0.093$ & $-0.015$ & -- \\
-BGE-base & $0.121$ & $+0.005$ & 23 & .886 & $0.121$ & $+0.005$ & $+0.000$ \\
-BGE-large & $0.121$ & $+0.003$ & 53 & .736 & $0.121$ & $+0.001$ & $-0.000$ \\
-GTE-base & $0.124$ & $+0.012$ & 2 & .990 & $0.124$ & $+0.011$ & $+0.000$ \\
-GTE-large & $0.120$ & $+0.007$ & 11 & .945 & $0.120$ & $+0.004$ & $-0.000$ \\
-GTE-Qwen2-1.5B & $0.122$ & $+0.003$ & 63 & .687 & $0.107$ & $-0.019$ & $+0.015$ \\
-E5-base & $0.115$ & $+0.004$ & 39 & .806 & $0.115$ & $+0.003$ & $-0.000$ \\
-E5-large & $0.114$ & $+0.005$ & 28 & .861 & $0.114$ & $+0.001$ & $+0.000$ \\
+GPT-2 S & $0.077$ & $-0.013$ & 197 & .020 & $\bullet$$\circ$$\bullet$$\circ$ & $0.131$ & $+0.048$ \\
+GPT-2 M & $0.052$ & $-0.005$ & 170 & .154 & $\circ$$\circ$$\circ$$\circ$ & $0.091$ & $-0.013$ \\
+GPT-2 L & $0.053$ & $-0.023$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $0.095$ & $-0.034$ \\
+GPT-2 XL & $0.048$ & $-0.027$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $0.083$ & $-0.048$ \\
+Pythia-410M & $0.067$ & $-0.018$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $0.098$ & $-0.037$ \\
+Pythia-1B & $0.066$ & $-0.015$ & 199 & .010 & $\bullet$$\bullet$$\bullet$$\bullet$ & $0.096$ & $-0.035$ \\
+Pythia-2.8B & $0.066$ & $-0.017$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $0.098$ & $-0.041$ \\
+OLMo-1B & $0.051$ & $-0.024$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $0.100$ & $-0.001$ \\
+OLMo-7B & -- & -- & -- & -- & -- & $0.093$ & $-0.015$ \\
+BGE-base & $0.078$ & $+0.003$ & 26 & .871 & $\circ$$\circ$$\circ$$\circ$ & $0.121$ & $+0.005$ \\
+BGE-large & $0.078$ & $+0.002$ & 49 & .756 & $\circ$$\circ$$\circ$$\circ$ & $0.121$ & $+0.001$ \\
+GTE-base & $0.076$ & $+0.004$ & 11 & .945 & $\circ$$\circ$$\circ$$\circ$ & $0.124$ & $+0.011$ \\
+GTE-large & $0.075$ & $+0.003$ & 36 & .821 & $\circ$$\circ$$\circ$$\circ$ & $0.120$ & $+0.004$ \\
+GTE-Qwen2-1.5B & $0.078$ & $+0.002$ & 58 & .711 & $\circ$$\circ$$\circ$$\circ$ & $0.107$ & $-0.019$ \\
+E5-base & $0.074$ & $+0.004$ & 15 & .925 & $\circ$$\circ$$\circ$$\circ$ & $0.115$ & $+0.003$ \\
+E5-large & $0.071$ & $+0.002$ & 44 & .781 & $\circ$$\circ$$\circ$$\circ$ & $0.114$ & $+0.001$ \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{The text census of record: padding-free extraction scored against 200 spectrum-null replicates.} $r$ = replicates above the real value, $p$ the left-tail add-one $p$-value (genuine = $p\le0.05$, $r\ge191$); OLMo-7B not re-run (exceeds the local GPU). Raw $\hat\delta$ differs from the original extraction because the embeddings were re-extracted, not because of the replicate count; $\Delta\hat\delta$ is that extraction-to-extraction difference. Sign agreement with the 3-replicate original: 13/15. Three verdicts change between extractions, each with a known cause: GPT-2 S (above null in the left-padded original; Table~\ref{tab:b28-extraction}), OLMo-1B (the original used a different checkpoint revision), and GTE-Qwen2 (genuine in the original with 3 replicates, $-0.019$; here excess $+0.003$, $r=63$, $p=.687$; not used as evidence).}
+\caption{\textbf{The text census of record: padding-free extraction, Haar null, 99.9th-percentile statistic, 200 replicates.} $r$ = replicates above the real value, $p$ the left-tail add-one $p$-value; genuine = BH-corrected $p\le0.05$ over the 15 models. The 2$\times$2 column gives the verdicts under Haar$\times$p99.9, Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum ($\bullet$ genuine). OLMo-7B not re-run (exceeds the local GPU). The original extraction (left-padded batches, supremum statistic) is kept for comparison and is not directly comparable. Sign agreement with the 3-replicate original: 13/15. Three verdicts change between extractions, each with a known cause: GPT-2 S (above null in the left-padded original; Table~\ref{tab:b28-extraction}), OLMo-1B (the original used a different checkpoint revision), and GTE-Qwen2 (genuine in the original with 3 replicates, $-0.019$; here excess $+0.002$, $r=58$, $p=.711$; not used as evidence).}
 \label{tab:b23-text200}
 \end{table}

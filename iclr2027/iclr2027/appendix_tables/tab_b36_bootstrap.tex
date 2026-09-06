@@ -1,0 +1,25 @@
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+model & excess (reference) & bootstrap mean & bootstrap s.d. & fraction negative \\
+\midrule
+ViT-T & $-0.0055$ & $-0.0051$ & $0.0011$ & 1.00 \\
+ViT-S & $-0.0126$ & $-0.0122$ & $0.0007$ & 1.00 \\
+ViT-B & $-0.0165$ & $-0.0160$ & $0.0006$ & 1.00 \\
+ViT-L & $-0.0160$ & $-0.0160$ & $0.0004$ & 1.00 \\
+DINO-B & $-0.0209$ & $-0.0208$ & $0.0003$ & 1.00 \\
+DINOv2-S & $-0.0164$ & $-0.0162$ & $0.0004$ & 1.00 \\
+DINOv2-B & $-0.0167$ & $-0.0164$ & $0.0002$ & 1.00 \\
+DINOv2-L & $-0.0136$ & $-0.0134$ & $0.0001$ & 1.00 \\
+DINOv2-G & $-0.0080$ & $-0.0083$ & $0.0004$ & 1.00 \\
+CLIP-B & $-0.0068$ & $-0.0069$ & $0.0009$ & 1.00 \\
+CLIP-L & $-0.0094$ & $-0.0095$ & $0.0006$ & 1.00 \\
+SigLIP-B & $-0.0080$ & $-0.0081$ & $0.0006$ & 1.00 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{The ImageNet excess is stable under resampling of the 100 training images per class.} 30 bootstrap resamples per backbone under the record protocol (Haar null, 99.9th-percentile statistic; 20 null replicates per resample). The bootstrap s.d. of the excess is at most 0.0011; every resample of every backbone is sign-negative. % expR59_imagenet_bootstrap_summary.csv
+}
+\label{tab:b36-bootstrap}
+\end{table}

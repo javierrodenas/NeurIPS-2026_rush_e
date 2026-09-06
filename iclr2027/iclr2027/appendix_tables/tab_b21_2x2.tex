@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcccccc}
+\toprule
+model & IN & C100 & C10 & DTD & FMNIST & MNIST \\
+\midrule
+ViT-T & $\circ$$\bullet$$\circ$$\bullet$ & $\circ$$\bullet$$\circ$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ & $\circ$$\circ$$\circ$$\circ$ \\
+ViT-S & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\bullet$$\circ$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ \\
+ViT-B & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ \\
+ViT-L & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\bullet$$\bullet$ \\
+\midrule
+DINO-B & $\bullet$$\circ$$\bullet$$\circ$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ & $\circ$$\circ$$\circ$$\circ$ \\
+DINOv2-S & $\bullet$$\circ$$\bullet$$\circ$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ \\
+DINOv2-B & $\bullet$$\circ$$\bullet$$\circ$ & $\bullet$$\circ$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ \\
+DINOv2-L & $\bullet$$\circ$$\bullet$$\bullet$ & $\bullet$$\circ$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ \\
+DINOv2-G & $\bullet$$\circ$$\bullet$$\circ$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ \\
+\midrule
+CLIP-B & $\circ$$\bullet$$\circ$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ & $\circ$$\circ$$\circ$$\circ$ \\
+CLIP-L & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\circ$$\circ$$\circ$$\circ$ & $\circ$$\circ$$\circ$$\circ$ \\
+SigLIP-B & $\circ$$\circ$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ & $\bullet$$\bullet$$\bullet$$\bullet$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Verdicts under all four null$\times$statistic constructions, per cell.} Each cell shows four symbols in the order Haar$\times$p99.9 (the record), Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum; $\bullet$ = genuine (BH-corrected $p\le0.05$ over the 72 cells of that construction), $\circ$ = not. Genuine counts: 49/72, 46/72, 52/72, 52/72. The Haar construction reproduces the sample spectrum exactly; the Gaussian one does not at small $n$ and inflates excesses for low-rank clouds (Table~\ref{tab:b27-nullvariants}). The supremum is decided by a few extreme quadruples and disagrees with the 99.9th percentile in both directions on DINOv2-S/B/G ImageNet (genuine under both p99.9 constructions, above every replicate under both supremum constructions); the 99.9th percentile is decided by the bulk. % expR52, expR54, expR40b, expR39c
+}
+\label{tab:b21-2x2}
+\end{table}

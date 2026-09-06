@@ -17,7 +17,7 @@ RES = Path(os.environ.get("PLATONIC_ABLATIONS", "/media/HDD_4TB_2/javi/Platonic/
 NAME = {"dinov2_s":"Dv2-S","dinov2_b":"Dv2-B","i21k_b":"ViT-B","clip_b":"CLIP-B","clip_b_vision":"CLIP-B"}
 LEG = {"dinov2_b":"DINOv2-B","clip_b_vision":"CLIP-B"}
 
-fig, ax = plt.subplots(1, 2, figsize=(5.5, 1.45))
+fig, ax = plt.subplots(1, 2, figsize=(5.5, 1.3))
 # (b) non-hierarchical fine-tuning
 r = list(csv.DictReader(open(RES/"analysis4_finetuning.csv")))
 ft = {a["model"]: float(a["pct_change"]) for a in r}

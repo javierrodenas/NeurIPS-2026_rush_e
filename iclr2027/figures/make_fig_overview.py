@@ -21,34 +21,33 @@ plt.style.use(str(HERE / "style.mplstyle"))
 sys.path.insert(0, str(HERE))
 from palette import FAMILY_COLORS, color as fam_color
 
-src = RES/"expR39c_census200_cache.csv"
-if not src.exists(): src = RES/"expR39b_census20_cache.csv"
+src = RES/"expR52_census_haar_p999_200.csv"
+if not src.exists(): src = RES/"expR39c_census200_cache.csv"
 if not src.exists(): src = RES/"exp20_null_ztable.csv"
 print("census source:", src.name)
 census = list(csv.DictReader(open(src)))
-d_in = {r["model"]: (float(r["delta"]), float(r["excess"])) for r in census if r["dataset"]=="imagenet"}
+d_in = {r["model"]: (float(r["delta"]), float(r["excess"]), float(r["null_mean"])) for r in census if r["dataset"]=="imagenet"}
 DIMS = {"i21k_t":192,"i21k_s":384,"i21k_b":768,"i21k_l":1024,"dinov1_b":768,"dinov2_s":384,
         "dinov2_b":768,"dinov2_l":1024,"dinov2_g":1536,"clip_b":512,"clip_l":768,"siglip_b":768}
 
 fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.65), gridspec_kw={"width_ratios":[1.2,1,1]})
 # (a) gauss curve + raw deltas
-g = sorted({int(r["d"]): float(r["delta_max"]) for r in csv.DictReader(open(RES/"exp1_delta_controls.csv"))
-            if r["variant"]=="gauss"}.items())
-axes[0].plot([d for d,_ in g], [v for _,v in g], "--", color=FAMILY_COLORS["null"], lw=1.2,
-             label="iid Gaussian")
 for m, d in DIMS.items():
     if m in d_in:
+        axes[0].scatter(d, d_in[m][2], s=14, facecolors="none", edgecolors=FAMILY_COLORS["null"], linewidths=0.8, zorder=2)
+        axes[0].plot([d, d], [d_in[m][2], d_in[m][0]], "-", color=FAMILY_COLORS["null"], lw=0.5, zorder=1)
         axes[0].scatter(d, d_in[m][0], s=16, color=fam_color(m), zorder=3)
-axes[0].set_xlabel("dimension $d$"); axes[0].set_ylabel(r"raw $\delta_{\rm norm}$ (ImageNet)")
-axes[0].set_title("(a) raw readings ride the\ndimension confound")
+axes[0].scatter([], [], s=14, facecolors="none", edgecolors=FAMILY_COLORS["null"], label="matched null")
+axes[0].set_xlabel("dimension $d$"); axes[0].set_ylabel(r"raw $\hat\delta_{99.9}$ (ImageNet)")
+axes[0].set_title("(a) raw readings vs their\nspectrum-matched nulls")
 _fam = [plt.Line2D([], [], marker="o", ls="", color=FAMILY_COLORS[k], ms=4, label=l) for k, l in
         [("supervised", "sup."), ("ssl", "SSL"), ("contrastive", "contr.")]]
 axes[0].set_xlim(80, 2450)
 axes[0].legend(handles=axes[0].get_legend_handles_labels()[0] + _fam, frameon=False, loc="upper right",
                ncol=1, fontsize=6.5, handlelength=1.2, handletextpad=0.3, borderaxespad=0.2, labelspacing=0.25)
 # (b) same raw, opposite verdict
-_t = RES/"expR48b_text_census200_bs1.csv"
-if not _t.exists(): _t = RES/"expR48_text_census_bs1.csv"
+_t = RES/"expR53_text_haar_p999_200.csv"
+if not _t.exists(): _t = RES/"expR48b_text_census200_bs1.csv"
 t48 = {r["model"]: r for r in csv.DictReader(open(_t))}
 bge_d, bge_e = float(t48["bge_base"]["delta"]), float(t48["bge_base"]["excess"])
 cand = min(census, key=lambda r: abs(float(r["delta"]) - bge_d))

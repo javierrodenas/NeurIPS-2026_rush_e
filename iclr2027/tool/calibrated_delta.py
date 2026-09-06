@@ -3,19 +3,21 @@
 
 Input : a centroid matrix (.npy, n x d; one row per class) and, optionally, integer superclass
         labels (.npy, length n).
-Output: raw delta_norm (mean +- s.d. over 10 quadruple seeds), the spectrum-matched excess with its
-        percentile rank r/N and left-tail p-value p = (1 + #{null <= real}) / (N+1) over N = 200
-        spectrum-null replicates (genuine := p <= 0.05), and, when labels are given, the matched-star
-        depth test of Table B29 (excess B under the Haar hub null, for the real centroids and for a
-        matched star, and their difference with a z against the combined spread).
+Output: the raw four-point statistic (default: the 99.9th percentile of the four-point defect over 5e5
+        sampled quadruples per seed, mean +- s.d. over 10 seeds; --stat sup gives the supremum), its
+        excess over the mean of N spectrum-matched null replicates (default: the Haar construction,
+        exact sample spectrum; --null gauss gives Gaussian coefficients), the percentile rank r/N and
+        the left-tail p-value p = (1 + #{null <= real}) / (N+1); in the paper "genuine" is a
+        Benjamini-Hochberg-corrected p <= 0.05 across a census, which a single cell cannot compute, so
+        the tool reports the uncorrected p. With labels: the matched-star depth test of Table B34
+        (excess B under the Haar hub null for the real centroids and for a matched star; default: the
+        anisotropic star, --star iso for the isotropic one; 10 star seeds).
 
 Estimator, null constructions and seed scheme are copied verbatim from the scripts that produced the
-paper's tables: expR39c_census200_cache.py (census: 5e5 quadruples per seed, 10 real seeds, null
-seeds 300+rep with 5 quadruple seeds each) and expR50_depth_test.py (depth test: hub null seeds
-700+rep, 10 replicates x 3 seeds; matched stars seeds 0..2 with 5 real seeds and 5 replicates).
-Deterministic: the same matrix always gives the same numbers.
+paper's tables: expR52_census_haar_p999_200.py (census of record) and expR56_depth_variants.py
+(depth test). Deterministic: the same matrix always gives the same numbers.
 
-    python calibrated_delta.py centroids.npy [--labels sup.npy] [--reps 200] [--json out.json]
+    python calibrated_delta.py centroids.npy [--labels sup.npy] [--reps 200] [--null haar|gauss] [--stat p999|sup] [--star aniso|iso] [--json out.json]
 """
 import argparse, json, sys, time
 import numpy as np
@@ -23,8 +25,8 @@ from scipy.spatial.distance import pdist, squareform
 
 N_QUADS = 500_000
 
-# ---------------- census (expR39c) ----------------
-def delta_norm(X, n_seeds):
+# ---------------- census (expR52: Haar null x p99.9 statistic is the record) ----------------
+def delta_stat(X, n_seeds, stat="p999"):
     D = squareform(pdist(X, "euclidean")); diam = D.max(); n = len(D)
     out = []
     for s in range(n_seeds):
@@ -32,8 +34,16 @@ def delta_norm(X, n_seeds):
         i, j, k, l = (rng.randint(0, n, N_QUADS) for _ in range(4))
         ok = (i!=j)&(i!=k)&(i!=l)&(j!=k)&(j!=l)&(k!=l); i,j,k,l = i[ok],j[ok],k[ok],l[ok]
         S = np.sort(np.stack([D[i,j]+D[k,l], D[i,k]+D[j,l], D[i,l]+D[j,k]], 1), 1)
-        out.append(((S[:,2]-S[:,1])/2).max()/diam)
+        dfc = (S[:,2]-S[:,1])/2
+        out.append((dfc.max() if stat == "sup" else np.percentile(dfc, 99.9))/diam)
     return float(np.mean(out)), float(np.std(out))
+def delta_norm(X, n_seeds): return delta_stat(X, n_seeds, "sup")   # the supremum (used by the depth test, as in expR56)
+
+def haarnull(C, rep):
+    """Spectrum-matched Haar null: random orthogonal coefficients, exact sample spectrum (the record)."""
+    mu = C.mean(0); U, S, Vt = np.linalg.svd(C-mu, full_matrices=False)
+    rng = np.random.RandomState(300+rep); Z = rng.randn(len(C), len(C)); Q, R = np.linalg.qr(Z); Q = Q*np.sign(np.diag(R))
+    return ((Q[:, :len(S)]*S)@Vt + mu).astype(np.float32)
 
 def specnull(C, rep):
     """Spectrum-matched Gaussian null: Gaussian coefficients recombined with the real singular values."""
@@ -44,16 +54,17 @@ def specnull(C, rep):
     G /= G.std(0, keepdims=True) * np.sqrt(len(C))
     return (G*S)@Vt + mu
 
-def census(C, n_rep=200):
-    dr, dr_sd = delta_norm(C, 10)
-    nulls = np.array([delta_norm(specnull(C, r), 5)[0] for r in range(n_rep)])
+def census(C, n_rep=200, null="haar", stat="p999"):
+    nf = haarnull if null == "haar" else specnull
+    dr, dr_sd = delta_stat(C, 10, stat)
+    nulls = np.array([delta_stat(nf(C, r), 5, stat)[0] for r in range(n_rep)])
     nm, nsd = float(nulls.mean()), float(nulls.std(ddof=1))
     r_above = int((nulls > dr).sum()); p_left = (1 + int((nulls <= dr).sum())) / (n_rep + 1)
-    return dict(n=int(C.shape[0]), d=int(C.shape[1]), delta=dr, delta_sd=dr_sd, null_mean=nm, null_sd=nsd,
+    return dict(n=int(C.shape[0]), d=int(C.shape[1]), null=null, stat=stat, delta=dr, delta_sd=dr_sd, null_mean=nm, null_sd=nsd,
                 excess=dr-nm, z=(dr-nm)/max(np.sqrt(nsd**2+dr_sd**2), 1e-9), n_rep=n_rep,
-                r_above=r_above, p_left=p_left, genuine=bool(p_left <= 0.05))
+                r_above=r_above, p_left=p_left, genuine_uncorrected=bool(p_left <= 0.05))
 
-# ---------------- matched-star depth test (expR50) ----------------
+# ---------------- matched-star depth test (expR56: anisotropic star, 10 seeds) ----------------
 def haar_sample(M, rep, seed0=700):
     mu = M.mean(0); Mc = M - mu; U, S, Vt = np.linalg.svd(Mc, full_matrices=False)
     rng = np.random.RandomState(seed0+rep); Z = rng.randn(len(M), len(M)); Q, R = np.linalg.qr(Z); Q = Q*np.sign(np.diag(R))
@@ -66,28 +77,36 @@ def excessB(C, sup, n_real=10, n_rep=10):
     dr, dr_sd = delta_norm(C, n_real); nB = [delta_norm(flatnull(C, sup, r), 3)[0] for r in range(n_rep)]
     return dr, dr_sd, float(dr-np.mean(nB)), float(np.std(nB, ddof=1))
 
-def matched_star(C, sup, seed):
+def matched_star(C, sup, seed, variant="aniso"):
     rng = np.random.RandomState(seed); K = sup.max()+1; n, d = C.shape
     hubs = np.stack([C[sup==s].mean(0) for s in range(K)]); hub_rms = np.sqrt(((hubs-hubs.mean(0))**2).sum(1).mean())
-    off = C - hubs[sup]; wr = np.array([np.sqrt((off[sup==s]**2).sum(1).mean()) for s in range(K)])
+    off = C - hubs[sup]
     H = rng.randn(K, d); H *= hub_rms/np.sqrt((H**2).sum(1).mean())
-    Z = rng.randn(n, d); Z *= (wr[sup]/np.sqrt(d))[:, None]
+    if variant == "iso":
+        wr = np.array([np.sqrt((off[sup==s]**2).sum(1).mean()) for s in range(K)])
+        Z = rng.randn(n, d); Z *= (wr[sup]/np.sqrt(d))[:, None]
+    else:   # anisotropic: within each cluster a centred Haar sample with the cluster's own covariance
+        Z = np.zeros_like(C)
+        for s in range(K):
+            m = sup == s
+            if m.sum() < 2: continue
+            Zs = haar_sample(C[m], 0, seed0=10_000*seed + s); Z[m] = Zs - Zs.mean(0)
     return (H[sup] + Z).astype(np.float32)
 
-def depth_test(C, sup):
+def depth_test(C, sup, variant="aniso", n_star=10):
     dr, dr_sd, exB, nBsd = excessB(C, sup)
-    stars = [excessB(matched_star(C, sup, s), sup, n_real=5, n_rep=5) for s in range(3)]
+    stars = [excessB(matched_star(C, sup, s, variant), sup, n_real=5, n_rep=5) for s in range(n_star)]
     exS = float(np.mean([x[2] for x in stars])); exS_sd = float(np.std([x[2] for x in stars], ddof=1))
     depth = exB - exS; z = depth/max(np.sqrt(exS_sd**2 + nBsd**2 + dr_sd**2), 1e-9)
-    return dict(K=int(sup.max()+1), excessB_real=exB, excessB_star=exS, excessB_star_sd=exS_sd,
+    return dict(K=int(sup.max()+1), star=variant, n_star=n_star, excessB_real=exB, excessB_star=exS, excessB_star_sd=exS_sd,
                 depth_excess=depth, z_depth=z)
 
-def run(C, sup=None, n_rep=200):
+def run(C, sup=None, n_rep=200, null="haar", stat="p999", star="aniso"):
     C = np.asarray(C, dtype=np.float32)
-    out = {"census": census(C, n_rep)}
+    out = {"census": census(C, n_rep, null, stat)}
     if sup is not None:
         sup = np.asarray(sup).astype(int); assert len(sup) == len(C), "labels must have one entry per centroid"
-        out["depth"] = depth_test(C, sup)
+        out["depth"] = depth_test(C, sup, star)
     return out
 
 def main():
@@ -95,18 +114,20 @@ def main():
     ap.add_argument("centroids", help=".npy, n x d")
     ap.add_argument("--labels", default=None, help=".npy, integer superclass label per centroid (enables the depth test)")
     ap.add_argument("--reps", type=int, default=200, help="spectrum-null replicates (default 200)")
+    ap.add_argument("--null", default="haar", choices=["haar", "gauss"]); ap.add_argument("--stat", default="p999", choices=["p999", "sup"])
+    ap.add_argument("--star", default="aniso", choices=["aniso", "iso"], help="matched-star variant for the depth test")
     ap.add_argument("--json", default=None, help="write the results to this file")
     A = ap.parse_args()
     t0 = time.time()
-    out = run(np.load(A.centroids), np.load(A.labels) if A.labels else None, A.reps)
+    out = run(np.load(A.centroids), np.load(A.labels) if A.labels else None, A.reps, A.null, A.stat, A.star)
     c = out["census"]
-    print(f"n={c['n']} d={c['d']}  raw delta_norm {c['delta']:.4f} +- {c['delta_sd']:.4f}")
+    print(f"n={c['n']} d={c['d']}  raw {c['stat']} statistic {c['delta']:.4f} +- {c['delta_sd']:.4f}  ({c['null']} null)")
     print(f"spectrum-matched null: mean {c['null_mean']:.4f} (sd {c['null_sd']:.4f}, {c['n_rep']} replicates)")
-    print(f"excess {c['excess']:+.4f}  r = {c['r_above']}/{c['n_rep']}  p = {c['p_left']:.4f}  -> {'GENUINE (p <= 0.05)' if c['genuine'] else 'not genuine'}")
+    print(f"excess {c['excess']:+.4f}  r = {c['r_above']}/{c['n_rep']}  p = {c['p_left']:.4f}  -> {'below the null (uncorrected p <= 0.05)' if c['genuine_uncorrected'] else 'not below the null'}")
     if "depth" in out:
         dd = out["depth"]
-        print(f"depth test (K={dd['K']} superclasses): excess B real {dd['excessB_real']:+.4f}, matched star {dd['excessB_star']:+.4f}, "
-              f"depth {dd['depth_excess']:+.4f} (z {dd['z_depth']:+.2f}; negative = more tree-like than a matched star)")
+        print(f"depth test (K={dd['K']} clusters, {dd['star']} star, {dd['n_star']} seeds): excess B real {dd['excessB_real']:+.4f}, matched star {dd['excessB_star']:+.4f}, "
+              f"depth {dd['depth_excess']:+.4f} (z {dd['z_depth']:+.2f}; negative = hierarchy above the labelled clusters beyond the star)")
     print(f"({time.time()-t0:.0f}s)")
     if A.json: json.dump(out, open(A.json, "w"), indent=1)
 
