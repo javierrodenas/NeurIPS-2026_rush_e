@@ -1,0 +1,10 @@
+merged 600 runs | power (hier, z<=-2): 0.98 | star false alarms |z|>=2: 0.06 (z>=+2: 0.00, z<=-2: 0.06)
+  n=100 K=6: power [(0.1, 1.0), (0.3, 1.0), (0.6, 1.0)] | star |z|>=2 0.00 | hier2 1.00 hier3 1.00 | iso 1.00 aniso 1.00
+  n=100 K=12: power [(0.1, 1.0), (0.3, 1.0), (0.6, 1.0)] | star |z|>=2 0.17 | hier2 1.00 hier3 nan | iso 1.00 aniso 1.00
+  n=100 K=20: power [(0.1, 1.0), (0.3, 1.0), (0.6, 1.0)] | star |z|>=2 0.17 | hier2 1.00 hier3 nan | iso 1.00 aniso 1.00
+  n=100 K=30: power [(0.1, nan), (0.3, nan), (0.6, nan)] | star |z|>=2 0.17 | hier2 nan hier3 nan | iso nan aniso nan
+  n=1000 K=6: power [(0.1, 1.0), (0.3, 1.0), (0.6, 1.0)] | star |z|>=2 0.00 | hier2 1.00 hier3 1.00 | iso 1.00 aniso 1.00
+  n=1000 K=12: power [(0.1, 1.0), (0.3, 1.0), (0.6, 1.0)] | star |z|>=2 0.00 | hier2 1.00 hier3 1.00 | iso 1.00 aniso 1.00
+  n=1000 K=20: power [(0.1, 1.0), (0.3, 1.0), (0.6, 0.9)] | star |z|>=2 0.00 | hier2 0.93 hier3 1.00 | iso 1.00 aniso 0.93
+  n=1000 K=30: power [(0.1, 1.0), (0.3, 1.0), (0.6, 0.7)] | star |z|>=2 0.00 | hier2 0.87 hier3 0.93 | iso 1.00 aniso 0.80
+fig_depth_power written

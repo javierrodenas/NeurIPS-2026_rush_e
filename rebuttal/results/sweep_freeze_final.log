@@ -81,3 +81,16 @@ PASS phaseA depth variants: expR56_depth_variants.csv present
 PASS phaseA cut-free tree map: expR58_treemap_cutfree_summary.csv present 
 PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present 
 [phaseA re-total] 84/84
+PASS record: 70/72 sign-neg, 49/72 genuine, 18/24 IN+C100 
+PASS record: every family genuine somewhere; ViT-T genuine only on DTD 
+PASS record: non-genuine IN/C100 = ViT-T (both), CLIP-B IN, SigLIP-B IN, ViT-S/B C100 
+PASS record IN ranges: ViT-S/B/L -0.012..-0.016, DINO/DINOv2 -0.008..-0.020, CLIP-L -0.009 
+PASS record: DINOv2 S->G CIFAR-10 -0.071->-0.130, CIFAR-100 -0.031->-0.040, both monotone 
+PASS DINOv2-S/B/G ImageNet: genuine under both p99.9, r<=1 under both supremum 
+PASS 2x2 genuine counts 49/46/52/52 
+PASS bootstrap: excess s.d. <= 0.001 (3dp), all resamples negative 
+PASS cosine: 56/72 genuine, 22/24 IN+C100, agreement 65/72, DINOv2 IN genuine 
+PASS text record: 7/15 genuine; GPT-2 S p~0.02 genuine, M p~0.15 not; L/XL, Pythia x3, OLMo-1B genuine; embedders +0.002..+0.004 
+PASS text: GPT-2 L/XL, Pythia x3, OLMo-1B genuine under all four constructions and cosine 
+PASS tree map: naive coph 0.36/0.80, triplets 0.47/0.74; cosine-average triplets 0.77/0.76, coph 0.48/0.78, ARI 0.38/0.48 
+[phaseB re-total] 96/96

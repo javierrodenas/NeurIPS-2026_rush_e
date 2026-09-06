@@ -449,6 +449,22 @@ def phaseB_checks():
         abs(float(na["coph_corr_big_vs_block"])-0.36)<0.005 and abs(float(na["coph_corr_within_block"])-0.80)<0.005 and abs(float(na["triplet_agree_big_vs_block"])-0.47)<0.005 and abs(float(na["triplet_agree_within_block"])-0.74)<0.005
         and abs(float(ca["triplet_agree_big_vs_block"])-0.77)<0.005 and abs(float(ca["triplet_agree_within_block"])-0.76)<0.005 and abs(float(ca["coph_corr_big_vs_block"])-0.48)<0.005 and abs(float(ca["coph_corr_within_block"])-0.78)<0.005
         and abs(float(ca["ari_cut_big_vs_block"])-0.38)<0.01 and abs(float(ca["ari_cut_within_block"])-0.48)<0.01)
+    # depth test (B3): leaf-frame power sweep against the pre-set bar, and the anisotropic real-data readings
+    import json as _json
+    D = _json.load(open(R/"phaseB_depth_decision.json"))
+    lf = load("expR55b_depth_power_leafframe.csv"); hz=[r for r in lf if r["level"]!="star"]; sz=[r for r in lf if r["level"]=="star"]
+    pw = {(n,lv): np.mean([float(r["z"])<=-2 for r in hz if int(r["n"])==n and r["level"]==lv and float(r["ratio"])<=0.3]) for n in (100,1000) for lv in ("hier2","hier3")}
+    fa_neg = np.mean([float(r["z"])<=-2 for r in sz]); fa_pos = np.mean([float(r["z"])>=2 for r in sz])
+    fa100 = np.mean([float(r["z"])<=-2 for r in sz if int(r["n"])==100 and int(r["K"])>=12]); fa1000 = np.mean([float(r["z"])<=-2 for r in sz if int(r["n"])==1000])
+    chk("depth power (leaf frame): 600 runs; power 1.00 at ratio<=0.3 for hier2/hier3, both n", len(lf)==600 and all(v==1.0 for v in pw.values()))
+    chk("depth false alarms: z>=+2 never; z<=-2 6.2% pooled, 17% at n=100 K>=12, 0% at n=1000 -> bar failed, branch = appendix",
+        fa_pos==0 and abs(fa_neg-0.0625)<0.001 and abs(fa100-1/6)<0.001 and fa1000==0 and D["validated"] is False and abs(D["fa_neg"]-fa_neg)<1e-9)
+    dv = load("expR56_depth_variants.csv"); an={(r["model"],r["dataset"],int(r["K"])): float(r["z_depth"]) for r in dv if r["variant"]=="aniso"}; iso={(r["model"],r["dataset"],int(r["K"])): float(r["z_depth"]) for r in dv if r["variant"]=="iso"}
+    chk("depth real (aniso): 4/12 IN K=30 and 3/12 C100 K=20 with z<=-2, none z>=+2; iso C100 K=20: 8/12 z>=+2, max +6.8",
+        sum(v<=-2 for (m,d,K),v in an.items() if d=="imagenet" and K==30)==4 and sum(v<=-2 for (m,d,K),v in an.items() if d=="cifar100" and K==20)==3
+        and not any(v>=2 for (m,d,K),v in an.items() if (d,K) in {("imagenet",30),("cifar100",20)})
+        and sum(v>=2 for (m,d,K),v in iso.items() if d=="cifar100" and K==20)==8 and abs(max(v for (m,d,K),v in iso.items() if d=="cifar100" and K==20)-6.8)<0.05)
+    tp = load("expR55_depth_power.csv"); chk("depth top frame (iso star): power 0.00, star false alarms 16%", all(float(r["z"])>-2 for r in tp if r["level"]!="star") and abs(np.mean([abs(float(r["z"]))>=2 for r in tp if r["level"]=="star"])-0.1625)<0.001)
 phaseB_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))

@@ -112,3 +112,13 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   se conservan como histórico); B34 (estrella iso/aniso, 10 semillas, barrido K) y B35 (potencia) la sustituyen.
 - **El tool** (`iclr2027/tool/calibrated_delta.py`) sigue ahora el protocolo de registro (Haar × p99.9; estrella anisotrópica con 10
   semillas); `--null gauss --stat sup --star iso` reproducen las lecturas antiguas. Reporta la p sin corregir (BH requiere un censo).
+- **Test de profundidad: la regla falla por una sola dirección y un solo régimen.** Falsas alarmas z ≤ −2 = 6.2 % agregadas, concentradas
+  en n = 100 con K ≥ 12 (17 %; 3–8 puntos por cluster, covarianza de rango bajo); con n = 1000 es 0 % y la potencia ≥ 0.85 en todo ratio;
+  z ≥ +2 nunca. Se aplicó la rama de apéndice tal cual se fijó. Si decides validar **por régimen** (ImageNet, n = 1000: 4/12 con z ≤ −2), la rama
+  "texto principal" (párrafo, figura en el cuerpo, frases de abstract/intro) está en `rebuttal/scripts/phaseB_t3_apply.py`; cambiar la regla
+  después del barrido debería declararse en §3. Alternativa limpia: repetir `expR55b` con covarianza regularizada (shrinkage) en clusters
+  pequeños o con n = 100 solo hasta K = 6 (≈ 2 h de CPU), y re-decidir.
+- `expR55b` tardó 2 h 08 min (4 procesos, 600 runs); logs en `rebuttal/results/expR55b_k{6,12,20,30}.log`.
+- `fig_depth_test.pdf` está en el apéndice A.5; `fig_depth_power.pdf` (solo potencia, generado por expR55b) no se incluye en el .tex.
+- Limitación (i) editada (única edición en Limitations): la frase "against matched stars the residual depth is marginal" afirmaba un
+  resultado retirado (B29).

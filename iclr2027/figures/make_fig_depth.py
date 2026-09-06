@@ -38,7 +38,7 @@ for ax, (ds, K, title) in zip(axes[:2], [("cifar100", 20, "(a) CIFAR-100, $K{=}2
 hd = [plt.Line2D([], [], marker="o", ls="", color="k", ms=4, label="real"),
       plt.Line2D([], [], marker="o", ls="", mfc="none", mec=FAMILY_COLORS["null"], ms=4, label="isotropic star"),
       plt.Line2D([], [], marker="s", ls="", color=FAMILY_COLORS["null"], ms=4, label="anisotropic star ($z$ below)")]
-axes[1].legend(handles=hd, frameon=False, loc="lower right", fontsize=5.2, handletextpad=0.3, labelspacing=0.25)
+fig.legend(handles=hd, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.40, 1.0), fontsize=5.5, handletextpad=0.3, columnspacing=1.2)
 # (c) power
 ax = axes[2]; cols = {6:"#4C72B0", 12:"#55A868", 20:"#DD8452", 30:"#8172B2"}
 for f, ls, lab in [(RES/"expR55b_depth_power_leafframe.csv", "-", "leaf frame"), (RES/"expR55_depth_power.csv", ":", "top frame")]:
@@ -50,9 +50,11 @@ for f, ls, lab in [(RES/"expR55b_depth_power_leafframe.csv", "-", "leaf frame"),
         ax.plot([0.1,0.3,0.6], [(hh[hh.ratio==r].z<=-2).mean() for r in (0.1,0.3,0.6)], ls, marker="o" if ls=="-" else None, ms=3, color=cols[K], lw=1.1,
                 label=f"K={K}" if ls=="-" else None)
     if ls == "-":
-        ax.plot([0.1,0.3,0.6], [(st[st.ratio==r].z.abs()>=2).mean() for r in (0.1,0.3,0.6)], "--", color=FAMILY_COLORS["null"], lw=1.0, label="star false alarms")
+        ax.plot([0.1,0.3,0.6], [(st[st.ratio==r].z<=-2).mean() for r in (0.1,0.3,0.6)], "--", color=FAMILY_COLORS["null"], lw=1.0, label="false alarms, $n{=}1000$")
+        st100 = d[(d.level=="star")&(d.n==100)]
+        ax.plot([0.1,0.3,0.6], [(st100[st100.ratio==r].z<=-2).mean() for r in (0.1,0.3,0.6)], "--", color="k", lw=1.0, label="false alarms, $n{=}100$")
 ax.set_ylim(-0.03, 1.03); ax.set_xticks([0.1,0.3,0.6]); ax.set_xlabel("within/between noise ratio"); ax.set_ylabel("power ($z\\leq-2$), $n{=}1000$")
-ax.set_title("(c) synthetic hierarchies"); ax.legend(frameon=False, fontsize=5.5, loc="center right", handlelength=1.4)
-fig.tight_layout(w_pad=0.6)
+ax.set_title("(c) synthetic hierarchies"); ax.legend(frameon=False, fontsize=5.3, loc="center left", bbox_to_anchor=(0.0, 0.5), handlelength=1.4, labelspacing=0.3)
+fig.tight_layout(w_pad=0.6, rect=[0, 0, 1, 0.93])
 for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_test.pdf"); fig.savefig(o/"fig_depth_test.png", dpi=200)
 print("fig_depth_test written")

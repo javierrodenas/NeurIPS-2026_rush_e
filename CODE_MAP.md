@@ -98,3 +98,13 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
 4. **ξ no mide signo de curvatura**; es un descriptor de estructura de normas (expR43 → B26).
 5. Framing: árboles "**moderately shared, configuration-dependent**"; el exceso certifica clustering, la profundidad residual es marginal (B29) y entrenar en hiperbólico no la crea (B30).
 6. El criterio del tree map se aplica **por dataset** (el elegido en DBpedia es el degenerado en ImageNet).
+
+## Añadido en la respuesta a la revisión (Fase B)
+
+- `rebuttal/scripts/expR55b_depth_power_leafframe.py` → `rebuttal/results/expR55b_depth_power_leafframe.csv` (barrido de potencia del test
+  de profundidad con el marco en las hojas y estrella anisotrópica; alimenta la Tabla B35 y `iclr2027/figures/fig_depth_test.pdf` vía
+  `iclr2027/figures/make_fig_depth.py`, junto con `expR56_depth_variants.csv`). Chain: `rebuttal/scripts/r10_chain.sh`.
+- `rebuttal/scripts/phaseB_t3_apply.py`: aplica la regla de decisión fijada (potencia ≥ 0.8 a ratio ≤ 0.3 para ambos n; falsas alarmas
+  ≤ 5 % por dirección) y escribe la rama correspondiente en el .tex; deja la decisión en `rebuttal/results/phaseB_depth_decision.json`
+  (rama aplicada: apéndice, "not certified").
+- `iclr2027/REVIEWER_CHECKLIST_phaseB.md`: preguntas de revisor con la respuesta tal como está en el texto principal.

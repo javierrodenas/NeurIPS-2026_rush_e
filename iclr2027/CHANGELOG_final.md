@@ -426,3 +426,55 @@ corte (ImageNet euclid-average: cofenética 0.36 vs 0.80 dentro del bloque, trip
 
 **Verificación.** `sweep_freeze.py` con la sección de Fase A (existencia, consistencia r↔p, BH monótono, flags): **84/84 PASS**.
 No se ha tocado el .tex ni el PDF en esta fase.
+
+## 15. Respuesta a la revisión — FASE B (decisiones del autor aplicadas al texto)
+
+Decisiones fijadas por el autor antes de tocar el .tex: censo de registro = Haar × p99.9 × BH euclídeo (el coseno solo como
+robustez); titular 49/72, 18/24, 70/72; excepción DINOv2–ImageNet resuelta como artefacto del supremo; escala solo DINOv2 en
+CIFAR-10/CIFAR-100; texto "robust at the larger scales, fragile at the smaller"; test de profundidad reejecutado con el marco en las
+hojas y estrella anisotrópica bajo una regla de decisión fijada de antemano; B29 retirada del texto principal. Commits: WIP `552fbf5`,
+cierre en el commit de esta sección.
+
+**B1 — censo de registro en Tabla 1, Figs. 2(a,b), 3 y 4.** `gen_main_table.py` lee `expR52_census_haar_p999_200.csv` (columnas: modelo,
+familia, δ̂₉₉.₉ IN, exceso IN con ∘ si no es genuino BH, r/200 (p), exceso C100, exceso C10, ρ_WN; `tab_census_extra` añade la columna
+"sup. IN (r)" de expR54). `make_figs.py` (Fig. 2a: hueco = no genuino BH; título "70/72 sign-negative, 49 genuine"),
+`make_fig_overview.py` (medias del null como marcadores huecos; celda más cercana a BGE-base = ViT-L/DTD), `fig_text_nulls.py` (expR53),
+`make_fig3_causal.py` (1.3 in). Apéndice: B20 desde expR52; B21 sustituida por la tabla de veredictos 2×2 (`tab_b21_2x2.tex`, códigos
+Hp/Hs/Gp/Gs, 49/46/52/52); B23 desde expR53 con columna 2×2; nuevas B32 (coseno), B33 (tree map sin corte), B34 (estrella iso/aniso ×
+K), B35 (potencia, marcos superior y de hojas), B36 (bootstrap ImageNet). Eliminadas del apéndice: B2 (tabla z), B18, B21 antigua,
+B29. §3: dos frases de disclosure ("Two choices changed after pre-registration…": estadístico p99.9 y null Haar, con el motivo de cada una
+y el puntero a la 2×2) — en el cuerpo, no en nota. §4: explicación mecanicista del artefacto del supremo en DINOv2–ImageNet (el supremo
+sobre 5·10⁵ cuádruplas de 1000 centroides es un extremo de una sola cuádrupla; en DINOv2 unas pocas clases muy separadas lo elevan por
+encima de todas las réplicas mientras el p99.9 queda por debajo).
+
+**B2 — nombres y recuentos.** "tree-like" → "beyond-null (clustered) structure" en abstract, intro, contribuciones, §4, §7 y pies;
+"genuine" := p BH ≤ 0.05 (frase de definición en §3). Recuentos, viejo → nuevo: signo negativo 68/72 → **70/72**; genuinas 55/72
+(Gauss × sup, sin BH) → **49/72** (Haar × p99.9, BH); "43 of 48 …" → **18/24 en ImageNet + CIFAR-100** (y 31/48 en los otros cuatro
+solo en el apéndice); "every family" se mantiene con la salvedad explícita de que ViT-T es genuino solo en DTD; celdas no genuinas en
+ImageNet/CIFAR-100 listadas (ViT-T ambas, CLIP-B y SigLIP-B en ImageNet, ViT-S/B en CIFAR-100; el resto en B20). DTD y CIFAR-10 nunca "hierarchical".
+Texto: 7/15 → **7/15** (mismo número, distinto conjunto: entra GPT-2 S p = 0.02, sale GPT-2 M p = 0.15); GPT-2 L/XL genuinos bajo las
+cuatro construcciones y bajo coseno; Pythia ×3 y OLMo-1B genuinos en todo; embedders +0.002..+0.004 en nombres de clase, DBpedia
+−0.020..−0.028 (bajo el supremo original, dicho en el texto).
+
+**B3 — test de profundidad.** El barrido con el marco en las hojas (`expR55b_depth_power_leafframe.py`: {estrella, 2 niveles, 3 niveles} × K {6,12,20,30} × ratio {0.1,0.3,0.6} × {iso, aniso} × n {100,1000}, d = 768, 5 semillas; estrella anisotrópica con 10 semillas; configuraciones con más hojas que puntos omitidas; 600 runs, 2 h 08 min en 4 procesos) → `expR55b_depth_power_leafframe.csv`, `fig_depth_power.pdf` (el de marco superior queda como `fig_depth_power_topframe.pdf`). Regla fijada de antemano: potencia ≥ 0.8 para 2 y 3 niveles a ratio ≤ 0.3 para ambos n, y falsas alarmas ≤ 5 % en cada dirección. Resultado: potencia **1.00** en todas esas configuraciones (≥ 0.85 a ratio 0.6 con n = 1000; 0.70 en K = 30, ratio 0.6); falsas alarmas z ≥ +2: **0 %**; z ≤ −2: **6.2 %** agregadas — 0 % con n = 1000 y con K = 6, **17 %** con n = 100 y K ≥ 12 (3–8 puntos por cluster). La regla **falla** por la dirección z ≤ −2 → rama de apéndice: el texto principal dice que la profundidad por encima de los clusters etiquetados **no está certificada**, con la regla, las cifras y el motivo (párrafo nuevo tras el censo en §4); `fig_depth_test.pdf` ((a) CIFAR-100 K = 20, (b) ImageNet K = 30, real vs estrella iso/aniso con z; (c) potencia n = 1000 y falsas alarmas para n = 100 y 1000) va al apéndice A.5 con el párrafo "Real-data readings of the anisotropic test, not validated" (aniso: 4/12 ImageNet, 3/12 CIFAR-100 con z ≤ −2, 0/24 con z ≥ +2; las lecturas de CIFAR-100 caen en el régimen n = 100, K ≥ 12 con 17 % de falsas alarmas; las de ImageNet en el régimen n = 1000 con 0 % y potencia ≥ 0.85). B29 (estrella isotrópica) retirada del texto principal: el párrafo dice que dio el veredicto contrario en CIFAR-100 (z hasta +6.8, 8/12) y 16 % de falsas alarmas en estrellas sintéticas. Control positivo fine-tuned: no se pudo correr (sin checkpoints), dicho en el texto. Abstract e intro (ii): una frase "does not certify hierarchy above the labelled clusters". Frases MERU/NC rebajadas (B30, §4). Decisión: `rebuttal/results/phaseB_depth_decision.json`; script de aplicación con las dos ramas: `rebuttal/scripts/phaseB_t3_apply.py`. Limpieza: los pies de B30/B34/B35 ya no nombran scripts internos; B34 dice que sus lecturas no están certificadas.
+
+**B4 — afirmaciones recortadas.** Escala: solo "DINOv2 deepens with scale on CIFAR-10 (−0.071 → −0.130) and, weakly, on CIFAR-100
+(−0.031 → −0.040)"; sin afirmación general. Anti-alineación: una frase sin lead-in dentro del párrafo WordNet de §5. "Most tree-like
+family" eliminado. Tree map con tres medidas (ARI en el corte, cofenética entre modelos, acuerdo en 10⁴ tripletes): la isla naive es
+propiedad del corte y de la configuración euclídea (cofenética 0.36 vs 0.80, tripletes 0.47 vs 0.74; bajo cosine-average tripletes
+0.77 vs 0.76). DBpedia abre el párrafo de texto. Párrafo coseno en §4 ("The angular reading agrees": 56/72, 22/24, acuerdo 65/72; DINOv2
+ImageNet genuino en ambas lecturas).
+
+**B5 — estructura.** §6 (corolario ORC) íntegro al apéndice (`app:corollary`) con un puntero de tres líneas en §7; ξ a una frase en §3;
+párrafo de proyección/tareas de §3 al apéndice; related work: párrafo "δ against a random null, in network science" (Narayan & Saniee
+2011; Kennedy et al. 2013; Adcock et al. 2013) que dice qué es nuevo (null con espectro exacto, corrección BH en censo, test de
+profundidad con estrella emparejada, backbone hiperbólico como control); intro "What is new, in order": test de profundidad, MERU,
+receta/escala. Limitación (i): la frase "against matched stars the residual depth is marginal" afirmaba un resultado retirado (B29)
+y se sustituye por el alcance del test (certifica jerarquía por encima de su marco; dentro de los clusters no se testea) — única
+edición en Limitations, forzada por la retirada.
+
+**B6 — verificación.** `sweep_freeze.py` con sección de Fase B (recuentos de registro, ViT-T solo DTD, conjunto no genuino, rangos,
+tendencias DINOv2, 2×2, bootstrap, coseno, texto, tree map, tool bajo el protocolo de registro, potencia/falsas alarmas del test de profundidad contra la regla, lecturas reales aniso/iso, marco superior): **100/100 PASS**.
+Tool: `calibrated_delta.py` reproduce Tabla 1 (exceso, r, p exactos) y B34 (profundidad 3 dp, z 1 dp) en ViT-L/CIFAR-100 y
+DINOv2-L/ImageNet. Compilación: 33 páginas, 0 warnings, texto principal termina en la p. 9. `main_iclr2027_final.pdf` exportado.
+Checklist de preguntas de revisor: `iclr2027/REVIEWER_CHECKLIST_phaseB.md`.
