@@ -108,3 +108,8 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   ≤ 5 % por dirección) y escribe la rama correspondiente en el .tex; deja la decisión en `rebuttal/results/phaseB_depth_decision.json`
   (rama aplicada: apéndice, "not certified").
 - `iclr2027/REVIEWER_CHECKLIST_phaseB.md`: preguntas de revisor con la respuesta tal como está en el texto principal.
+- Pasada final: `rebuttal/scripts/expR60_c_sweep_record.py` (+ `r11_chain.sh`) → `expR60_c_sweep_record.csv` (barrido de clases bajo el
+  registro; alimenta la Tabla B3 vía `gen_appendix2.py`); `rebuttal/scripts/expR61_dbpedia_record.py` → `expR61_dbpedia_record.csv`
+  (DBpedia bajo el registro; Tabla A9 vía `gen_appendix.py`; centroides en `Platonic/results/text_cache/dbpedia_{m}.npz`);
+  `phaseB_t4_apply.py` (test de profundidad acotado por régimen, figuras, §3) y `phaseB_t5_apply.py` (frases de §4 desde expR60/61,
+  `phaseB_final_numbers.json`, que `sweep_freeze.py` contrasta con los CSV).

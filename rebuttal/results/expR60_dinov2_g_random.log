@@ -1,0 +1,29 @@
+dinov2_g  C=  10 random   s0 | d999 0.0332 null 0.1655 exc -0.1324 r=200 p=0.005 | 98s
+dinov2_g  C=  10 random   s1 | d999 0.0282 null 0.1597 exc -0.1315 r=200 p=0.005 | 104s
+dinov2_g  C=  10 random   s2 | d999 0.0191 null 0.1625 exc -0.1434 r=200 p=0.005 | 108s
+dinov2_g  C=  10 random   s3 | d999 0.0373 null 0.1722 exc -0.1349 r=200 p=0.005 | 108s
+dinov2_g  C=  10 random   s4 | d999 0.0288 null 0.1688 exc -0.1400 r=200 p=0.005 | 112s
+dinov2_g  C=  20 random   s0 | d999 0.0824 null 0.1203 exc -0.0379 r=200 p=0.005 | 131s
+dinov2_g  C=  20 random   s1 | d999 0.0247 null 0.1280 exc -0.1033 r=200 p=0.005 | 112s
+dinov2_g  C=  20 random   s2 | d999 0.0225 null 0.1255 exc -0.1030 r=200 p=0.005 | 120s
+dinov2_g  C=  20 random   s3 | d999 0.0288 null 0.1251 exc -0.0963 r=200 p=0.005 | 117s
+dinov2_g  C=  20 random   s4 | d999 0.0268 null 0.1307 exc -0.1039 r=200 p=0.005 | 119s
+dinov2_g  C=  50 random   s0 | d999 0.0755 null 0.0794 exc -0.0039 r=195 p=0.030 | 126s
+dinov2_g  C=  50 random   s1 | d999 0.0259 null 0.0760 exc -0.0501 r=200 p=0.005 | 119s
+dinov2_g  C=  50 random   s2 | d999 0.0278 null 0.0725 exc -0.0447 r=200 p=0.005 | 126s
+dinov2_g  C=  50 random   s3 | d999 0.0281 null 0.0801 exc -0.0520 r=200 p=0.005 | 128s
+dinov2_g  C=  50 random   s4 | d999 0.0358 null 0.0807 exc -0.0450 r=200 p=0.005 | 129s
+dinov2_g  C= 100 random   s0 | d999 0.0581 null 0.0632 exc -0.0051 r=200 p=0.005 | 124s
+dinov2_g  C= 100 random   s1 | d999 0.0341 null 0.0640 exc -0.0299 r=200 p=0.005 | 124s
+dinov2_g  C= 100 random   s2 | d999 0.0373 null 0.0618 exc -0.0245 r=200 p=0.005 | 123s
+dinov2_g  C= 100 random   s3 | d999 0.0408 null 0.0604 exc -0.0195 r=200 p=0.005 | 115s
+dinov2_g  C= 100 random   s4 | d999 0.0332 null 0.0638 exc -0.0305 r=200 p=0.005 | 117s
+dinov2_g  C= 200 random   s0 | d999 0.0440 null 0.0528 exc -0.0088 r=200 p=0.005 | 138s
+dinov2_g  C= 200 random   s1 | d999 0.0306 null 0.0525 exc -0.0219 r=200 p=0.005 | 145s
+dinov2_g  C= 200 random   s2 | d999 0.0344 null 0.0504 exc -0.0160 r=200 p=0.005 | 143s
+dinov2_g  C= 200 random   s3 | d999 0.0379 null 0.0518 exc -0.0138 r=200 p=0.005 | 142s
+dinov2_g  C= 200 random   s4 | d999 0.0340 null 0.0505 exc -0.0165 r=200 p=0.005 | 141s
+dinov2_g  C= 500 random   s0 | d999 0.0340 null 0.0443 exc -0.0103 r=200 p=0.005 | 300s
+dinov2_g  C= 500 random   s1 | d999 0.0346 null 0.0428 exc -0.0082 r=200 p=0.005 | 190s
+dinov2_g  C=1000 random   s0 | d999 0.0326 null 0.0407 exc -0.0080 r=200 p=0.005 | 452s
+PART DONE dinov2_g_random

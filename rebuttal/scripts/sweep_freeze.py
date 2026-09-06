@@ -168,10 +168,34 @@ e19 = load("exp19_c_sweep.csv")
 def agg19(m,C,mode,f):
     v=[float(r[f]) for r in e19 if r["model"]==m and int(r["C"])==C and r["mode"]==mode]
     return mean(v) if v else None
-chk("C50 Dv2-L exc -0.124/-0.093 NC +1.58/+0.53",
+chk("C50 Dv2-L (exp19, supremum) exc -0.124/-0.093 NC +1.58/+0.53 [historical; Table B3 now reads expR60]",
     abs(agg19("dinov2_l",50,"random","excess")+0.124)<0.003 and abs(agg19("dinov2_l",50,"coherent","excess")+0.093)<0.003
     and abs(agg19("dinov2_l",50,"random","nc_adv_pp")-1.58)<0.05 and abs(agg19("dinov2_l",50,"coherent","nc_adv_pp")-0.53)<0.05)
-chk("Dv2-G at-null C>=500", abs(agg19("dinov2_g",500,"random","excess"))<0.01 and abs(agg19("dinov2_g",1000,"random","excess"))<0.01)
+if (R/"expR60_c_sweep_record.csv").exists() and (R/"phaseB_final_numbers.json").exists():
+    import json as _j
+    e60 = load("expR60_c_sweep_record.csv"); FN = _j.load(open(R/"phaseB_final_numbers.json"))
+    def agg60(m,C,mode,f):
+        v=[float(r[f]) for r in e60 if r["model"]==m and int(r["C"])==C and r["mode"]==mode]; return mean(v) if v else None
+    def allbelow(m,C,mode): return all(float(r["p_left"])<=0.05 for r in e60 if r["model"]==m and int(r["C"])==C and r["mode"]==mode)
+    chk("C-sweep record: text numbers (Dv2-L C=50 random/coherent excess) match expR60; every seed has 200 replicates",
+        abs(agg60("dinov2_l",50,"random","excess")-FN["dv2l_c50_random"])<1e-6 and abs(agg60("dinov2_l",50,"coherent","excess")-FN["dv2l_c50_coherent"])<1e-6
+        and len(e60)==165 and all(int(r["r_above"])<=200 for r in e60))
+    def thr60(m):
+        t=0
+        for C in (10,20,50,100,200,500):
+            if agg60(m,C,"random","excess")<agg60(m,C,"coherent","excess"): t=C
+            else: break
+        return t
+    chk("C-sweep record: random-more-than-coherent thresholds per model, NC random>coherent everywhere, C=10 random excess, Dv2-G below null at every C, as stated",
+        all(thr60(m)==FN["random_more_thresholds"][m] for m in ("dinov2_l","dinov2_g","clip_l"))
+        and FN["nc_random_more_everywhere"]==all(agg60(m,C,"random","nc_adv_pp")>agg60(m,C,"coherent","nc_adv_pp") for m in ("dinov2_l","dinov2_g","clip_l") for C in (10,20,50,100,200,500))
+        and all(abs(agg60(m,10,"random","excess")-FN["c10_random_excess"][m])<1e-6 for m in ("dinov2_l","dinov2_g","clip_l"))
+        and FN["dv2g_all_below"]==all(allbelow("dinov2_g",C,"random") for C in (10,20,50,100,200,500,1000))
+        and abs(agg60("dinov2_g",1000,"random","excess")-FN["dv2g_c1000_excess"])<1e-6)
+    d61 = load("expR61_dbpedia_record.csv")
+    chk("DBpedia record: three embedders, excess range and min r as stated in the text",
+        len(d61)==3 and abs(max(float(r["excess"]) for r in d61)-FN["dbpedia_excess_lo"])<1e-6 and abs(min(float(r["excess"]) for r in d61)-FN["dbpedia_excess_hi"])<1e-6
+        and min(int(r["r_above"]) for r in d61)==FN["dbpedia_r_min"] and all(str(r["genuine_bh"])=="True" for r in d61)==FN["dbpedia_bh_all"])
 
 # ORC bridges
 br = load("night/orc_bridges.csv")
@@ -457,8 +481,17 @@ def phaseB_checks():
     fa_neg = np.mean([float(r["z"])<=-2 for r in sz]); fa_pos = np.mean([float(r["z"])>=2 for r in sz])
     fa100 = np.mean([float(r["z"])<=-2 for r in sz if int(r["n"])==100 and int(r["K"])>=12]); fa1000 = np.mean([float(r["z"])<=-2 for r in sz if int(r["n"])==1000])
     chk("depth power (leaf frame): 600 runs; power 1.00 at ratio<=0.3 for hier2/hier3, both n", len(lf)==600 and all(v==1.0 for v in pw.values()))
-    chk("depth false alarms: z>=+2 never; z<=-2 6.2% pooled, 17% at n=100 K>=12, 0% at n=1000 -> bar failed, branch = appendix",
+    chk("depth false alarms: z>=+2 never; z<=-2 6.2% pooled, 17% at n=100 K>=12, 0% at n=1000 -> pooled bar failed (decision JSON)",
         fa_pos==0 and abs(fa_neg-0.0625)<0.001 and abs(fa100-1/6)<0.001 and fa1000==0 and D["validated"] is False and abs(D["fa_neg"]-fa_neg)<1e-9)
+    # regime-scoped certification (final pass): n=1000 meets the bar; n=100 K=6 clean, K>=12 not; ImageNet hits = ViT-S/B/L + DINOv2-L
+    pw1000 = {r: np.mean([float(x["z"])<=-2 for x in hz if int(x["n"])==1000 and float(x["ratio"])==r]) for r in (0.1,0.3,0.6)}
+    fa100_6 = np.mean([float(r["z"])<=-2 for r in sz if int(r["n"])==100 and int(r["K"])==6]); fa1000_pos = np.mean([float(r["z"])>=2 for r in sz if int(r["n"])==1000])
+    G = _json.load(open(R/"phaseB_depth_regime.json"))
+    zin = {r["model"]: float(r["z_depth"]) for r in load("expR56_depth_variants.csv") if r["variant"]=="aniso" and r["dataset"]=="imagenet" and int(r["K"])==30}; hits = sorted(m for m,v in zin.items() if v<=-2)
+    chk("depth regime: n=1000 power 1.00/1.00/0.90 at ratio .1/.3/.6, fa 0/0; n=100 K=6 fa 0%; ImageNet z<=-2 = ViT-S/B/L + DINOv2-L, z -2.4..-4.0",
+        pw1000[0.1]==1.0 and pw1000[0.3]==1.0 and abs(pw1000[0.6]-0.90)<0.011 and fa1000==0 and fa1000_pos==0 and fa100_6==0
+        and hits==["dinov2_l","i21k_b","i21k_l","i21k_s"] and abs(max(zin[m] for m in hits)+2.4)<0.05 and abs(min(zin[m] for m in hits)+4.0)<0.05
+        and G["names"]==["ViT-S","ViT-B","ViT-L","DINOv2-L"] and abs(G["pw06"]-0.90)<0.011)
     dv = load("expR56_depth_variants.csv"); an={(r["model"],r["dataset"],int(r["K"])): float(r["z_depth"]) for r in dv if r["variant"]=="aniso"}; iso={(r["model"],r["dataset"],int(r["K"])): float(r["z_depth"]) for r in dv if r["variant"]=="iso"}
     chk("depth real (aniso): 4/12 IN K=30 and 3/12 C100 K=20 with z<=-2, none z>=+2; iso C100 K=20: 8/12 z>=+2, max +6.8",
         sum(v<=-2 for (m,d,K),v in an.items() if d=="imagenet" and K==30)==4 and sum(v<=-2 for (m,d,K),v in an.items() if d=="cifar100" and K==20)==3

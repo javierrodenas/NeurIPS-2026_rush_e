@@ -122,3 +122,16 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - `fig_depth_test.pdf` está en el apéndice A.5; `fig_depth_power.pdf` (solo potencia, generado por expR55b) no se incluye en el .tex.
 - Limitación (i) editada (única edición en Limitations): la frase "against matched stars the residual depth is marginal" afirmaba un
   resultado retirado (B29).
+
+## Añadido en la pasada final (seis puntos)
+
+- **Acotado por régimen del test de profundidad**: es una decisión posterior al barrido y el texto lo dice ("a scoping adopted after the
+  sweep"; A.5 "The bar was fixed before the sweep; the restriction to the validated regime was adopted after it"). Si prefieres volver a la
+  regla estricta, `rebuttal/scripts/phaseB_t3_apply.py` contiene la rama "not certified" (párrafo, abstract, intro).
+- **Contraste aleatorio vs coherente bajo el registro**: más débil que bajo el supremo. Los aleatorios llevan más exceso solo a C pequeño
+  (DINOv2-L hasta 100, DINOv2-G hasta 20; CLIP-L a todo C); la ventaja de explotabilidad (NC adv) sí se mantiene a todo C. El título
+  "Hierarchy depth, not class count" se conserva; valorar si el argumento del "alcance" de la jerarquía (antes en Limitación (i)) debe
+  reformularse más.
+- **Lecturas que siguen bajo el protocolo original**: A1 (exp11: rejilla supremo × gaussiana) y A8 HierarCaps (exp16); B20 es la rejilla
+  de registro. A9 muestra ahora las dos lecturas. Rehacer A8 bajo el registro: re-extraer HierarCaps (minutos de GPU) + censo (~10 min).
+- Coste: expR60 67 min (6 workers); expR61 ~25 min (GPU para los embeddings + 3 censos × 3 construcciones).

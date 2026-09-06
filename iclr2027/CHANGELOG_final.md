@@ -478,3 +478,52 @@ tendencias DINOv2, 2×2, bootstrap, coseno, texto, tree map, tool bajo el protoc
 Tool: `calibrated_delta.py` reproduce Tabla 1 (exceso, r, p exactos) y B34 (profundidad 3 dp, z 1 dp) en ViT-L/CIFAR-100 y
 DINOv2-L/ImageNet. Compilación: 33 páginas, 0 warnings, texto principal termina en la p. 9. `main_iclr2027_final.pdf` exportado.
 Checklist de preguntas de revisor: `iclr2027/REVIEWER_CHECKLIST_phaseB.md`.
+
+## 16. Pasada final tras la lectura completa (seis puntos del autor)
+
+**(1) Test de profundidad acotado por régimen.** Se mantiene la regla prefijada y su fallo en n = 100 (K ≥ 12: 17 % de falsas alarmas
+z ≤ −2; K = 6: 0 %) y se añade la lectura por régimen: en n = 1000 el test cumple la barra (potencia 1.00 a ratio ≤ 0.3,
+0.90 a 0.6; 0 % de falsas alarmas en ambas direcciones), así que las lecturas de ImageNet (K = 30) quedan **certificadas dentro
+del régimen validado**: profundidad por encima de las superclases WordNet en 4/12 backbones (ViT-S, ViT-B, ViT-L, DINOv2-L;
+z de -2.4 a -4.0), no en los otros ocho, ninguno menos jerárquico que su estrella; CIFAR-100 (n = 100, K = 20: 3/12)
+sigue sin validar. El texto dice que el acotado por régimen se adoptó **después** del barrido (§4 y A.5). Dominio de validez declarado:
+n ≈ 1000, no validado por debajo de ~10 puntos por cluster (Limitación (i)). Actualizados: abstract, intro (ii), contribución 2, frase MERU
+("its depth reading used the withdrawn isotropic star and is not part of the certified result"), frase NC ("answers yes for four ImageNet
+backbones, three of them supervised ViTs"), Limitación (i), §7 (una cláusula), A.5 (párrafo "Real-data readings by regime"). Figuras: la
+nueva figura del cuerpo es `fig_depth_main.pdf` ((a) ImageNet K = 30 real vs estrellas con z; (b) potencia n = 1000 y falsas alarmas
+n = 100/1000) — queda numerada **Figura 4** por orden de aparición (la de texto pasa a ser la 5); `fig_depth_cifar100.pdf` (solo CIFAR-100)
+en A.5; la figura de intervenciones (`fig3_causal.pdf`) pasa al apéndice, nueva subsección "Training interventions" (`app:interventions`),
+con puntero de una línea en "The form tracks training". `phaseB_t4_apply.py` aplica todo esto desde expR56/expR55b
+(`phaseB_depth_regime.json`); la rama estricta anterior sigue en `phaseB_t3_apply.py`.
+
+**(2) §3, párrafo del null.** La construcción Haar descrita como registro ("random orthogonal coefficients recombined with the real
+singular values, so the sample spectrum is exact") y la gaussiana entre paréntesis como alternativa reportada en A.14 (`app:robust`).
+**(3)** Frase de agregación: "the same supremum over the same quadruple budget" → "the same statistic, the 99.9th percentile of the same
+5×10⁵ sampled defects per seed". **(4)** Frase duplicada "A low raw value is not evidence." eliminada al final del párrafo homónimo;
+también la cláusula obsoleta "a 99.9th-percentile variant preserves every sign" de los ajustes del estimador.
+
+**(5) Barrido de clases bajo el registro (`expR60_c_sweep_record.py`, Haar × p99.9 × 200; mismos subconjuntos y semillas que exp19;
+3 modelos de la tabla; 165 celdas, 67 min con 6 workers) → `expR60_c_sweep_record.csv`; NC adv copiado de exp19.** Viejo → nuevo:
+"DINOv2-L at C = 50: excess −0.124 vs −0.093" (supremo) → -0.046 vs -0.042 bajo el registro (solo en la tabla; el
+texto da los umbrales: los subconjuntos aleatorios llevan más exceso que los coherentes en CLIP-L a todo C, DINOv2-L hasta C = 100,
+DINOv2-G hasta C = 20; más allá convergen). "Raw δ rises with C" → falso bajo el registro (δ̂₉₉.₉ plano en C: 0.030–0.034 para
+DINOv2-L aleatorio); sustituido por "random subsets still score -0.08 to -0.14 at C = 10". "DINOv2-G reaches its null
+at C ≥ 500 … reproducing the census exception" → "stays below its null at every C (excess -0.008 at C = 1000, r = 200)"
+(bajo el supremo, +0.0035). §5: "The census exception is consistent with this…" → "This is consistent with the census: DINOv2's ImageNet
+structure is genuine under the record and the least aligned with WordNet's top level". Tabla B3 regenerada (`gen_appendix2.py`, columna
+"below" = semillas con p ≤ 0.05). La ventaja de explotabilidad (NC adv) de los aleatorios se mantiene en todo C.
+
+**(6) DBpedia bajo el registro (`expR61_dbpedia_record.py`; embeddings re-extraídos como exp14, centroides cacheados en
+`Platonic/results/text_cache/dbpedia_{m}.npz`) → `expR61_dbpedia_record.csv`.** −0.028 / −0.024 / −0.020 (supremo, null gaussiana,
+3 réplicas) → -0.021 .. -0.017 (BGE / E5 / GTE), r = 200/200, p = 0.005, genuinos BH los tres; también Haar × sup y
+Gauss × p99.9 en el CSV. Texto: "genuine excess (−0.020 to −0.028 under the original supremum reading)" → "beyond-null excess under the
+record (−0.017 to −0.021, every replicate above the real value; Table A9)". Tabla A9 con las dos lecturas (CI95 fundido en la columna FS).
+
+**Ajuste a 9 páginas.** Recortes: párrafo de profundidad compactado; "Negative curvature concentrates on bridges" fundido en el párrafo NC;
+frases acortadas en §1 (calibración de similitud), §3 (panel, ORC k, resolución), §4 (extracción, anisotropía, coseno), §5 (WordNet, DBpedia,
+Gröger), §7 (disociación, cláusula de profundidad); alturas: Fig. 1 placeholder 0.3 in, overview 1.5 in, panel de exceso 1.45 in, profundidad
+1.5 in, text-nulls 0.75\linewidth, tree map 0.92\linewidth. Limitaciones: solo (i) editada (dominio de validez).
+
+**Verificación.** `sweep_freeze.py`: checks nuevos de régimen (potencia/falsas alarmas por n, hits de ImageNet por nombre y z), de expR60
+(umbrales por modelo, C = 10, DINOv2-G bajo el null a todo C, NC adv) y de expR61 (rango y r): **103/103 PASS**. Compilación: 33 páginas,
+0 warnings, 0 overfull, texto principal termina en la p. 9; ningún nombre de script en el PDF. `main_iclr2027_final.pdf` exportado.

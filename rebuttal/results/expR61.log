@@ -1,0 +1,11 @@
+bge_base: encoded 21900 texts -> (219, 768) (111s)
+bge_base  record: d999 0.0819 null 0.1033 exc -0.0214 r=200 p=0.005 | Hs exc -0.0315 r=200 | Gp exc -0.0263 r=200 (435s)
+e5_base: encoded 21900 texts -> (219, 768) (104s)
+e5_base   record: d999 0.0858 null 0.1031 exc -0.0173 r=200 p=0.005 | Hs exc -0.0280 r=200 | Gp exc -0.0221 r=200 (422s)
+gte_base: encoded 21900 texts -> (219, 768) (103s)
+gte_base  record: d999 0.0879 null 0.1046 exc -0.0167 r=200 p=0.005 | Hs exc -0.0242 r=200 | Gp exc -0.0212 r=200 (445s)
+      model    excess  r_above    p_left      p_bh  genuine_bh
+0  bge_base -0.021438      200  0.004975  0.004975        True
+1   e5_base -0.017320      200  0.004975  0.004975        True
+2  gte_base -0.016674      200  0.004975  0.004975        True
+DONE expR61

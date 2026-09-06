@@ -136,19 +136,25 @@ lines += [r"\bottomrule", r"\end{tabular}",
 
 # ---- A9: DBpedia (exp14) ----
 db = load("exp14_dbpedia.csv")
-lines = [r"\begin{table}[H]", r"\centering", r"\small",
-         r"\begin{tabular}{lcccccc}", r"\toprule",
-         r"model & $\hat\delta$ & excess & trip.\ (cos) & NC H$-$R (pp) & FS H$-$R (pp) & CI95 \\",
+rec = {r["model"]: r for r in load("expR61_dbpedia_record.csv")} if (RES/"expR61_dbpedia_record.csv").exists() else {}
+lines = [r"\begin{table}[H]", r"\centering", r"\footnotesize", r"\setlength{\tabcolsep}{2.5pt}",
+         r"\begin{tabular}{lcc|ccc|ccc}", r"\toprule",
+         r" & \multicolumn{2}{c|}{supremum, Gaussian null} & \multicolumn{3}{c|}{census of record} & & & \\",
+         r"model & $\hat\delta_{\max}$ & excess & $\hat\delta_{99.9}$ & excess & $r/200$ ($p$) & trip.\ (cos) & NC H$-$R (pp) & FS H$-$R (pp) \\",
          r"\midrule"]
 for r in db:
     nc = (float(r["NC_H"]) - float(r["NC_R"])) * 100
+    q = rec.get(r["model"])
+    recc = f'{float(q["delta_999"]):.3f} & {float(q["excess"]):+.3f} & {int(q["r_above"])} ({float(q["p_left"]):.3f})' if q else "--- & --- & ---"
     lines.append(f'{NAME[r["model"]]} & {float(r["delta"]):.3f} & '
-                 f'{float(r["excess"]):+.3f} & {float(r["trip_cos"]):.2f} & {nc:+.2f} & '
-                 f'{float(r["FS_HR_pp"]):+.2f} & $\\pm${float(r["FS_HR_ci"]):.2f} \\\\')
+                 f'{float(r["excess"]):+.3f} & {recc} & {float(r["trip_cos"]):.2f} & {nc:+.2f} & '
+                 f'{float(r["FS_HR_pp"]):+.2f}$\\pm${float(r["FS_HR_ci"]):.2f} \\\\')
 lines += [r"\bottomrule", r"\end{tabular}",
-          r"\caption{DBpedia Classes (219 leaf classes, 3 levels): genuine tree excess and "
-          r"strong sibling alignment, yet $\hat\delta$ above the low-$\delta$ band correctly "
-          r"predicts marginal gains. Source: \texttt{exp14\_dbpedia.csv}.}",
+          r"\caption{DBpedia Classes (219 leaf classes, 3 levels): beyond-null excess under the original "
+          r"supremum reading (3 Gaussian replicates) and under the census of record (Haar null, 99.9th-percentile "
+          r"statistic, 200 replicates; $r$ = replicates above the real value, left-tail $p$), strong sibling alignment, "
+          r"and $\hat\delta$ above the low-$\delta$ band correctly predicting marginal gains. "
+          r"Sources: \texttt{exp14\_dbpedia.csv}, \texttt{expR61\_dbpedia\_record.csv}.}",
           r"\label{tab:a9}", r"\end{table}"]
 (OUT/"tab_a9_dbpedia.tex").write_text("\n".join(lines) + "\n"); print("wrote tab_a9_dbpedia.tex")
 

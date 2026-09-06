@@ -1,0 +1,25 @@
+{
+ "dv2l_c50_random": -0.04622542250252491,
+ "dv2l_c50_coherent": -0.04172449869889445,
+ "d999_rises": false,
+ "dv2g_c1000_excess": -0.008022129613251487,
+ "dv2g_c1000_r": 200,
+ "dv2g_c1000_p": 0.0049751243781094535,
+ "dv2g_all_below": true,
+ "random_more_thresholds": {
+  "dinov2_l": 100,
+  "dinov2_g": 20,
+  "clip_l": 500
+ },
+ "c10_random_excess": {
+  "dinov2_l": -0.13420896868547225,
+  "dinov2_g": -0.13644238917972254,
+  "clip_l": -0.07999469634374808
+ },
+ "nc_random_more_everywhere": true,
+ "dbpedia_excess_lo": -0.016673655276322738,
+ "dbpedia_excess_hi": -0.021437877419130225,
+ "dbpedia_r_min": 200,
+ "dbpedia_p_max": 0.0049751243781094535,
+ "dbpedia_bh_all": true
+}

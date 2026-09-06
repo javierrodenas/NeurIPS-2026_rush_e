@@ -65,29 +65,36 @@ lines += [r"\bottomrule", r"\end{tabular}",
           r"Source: \texttt{exp20\_null\_ztable.csv}.}", r"\label{tab:b2-ztable}", r"\end{table}"]
 (OUT/"tab_b2_ztable.tex").write_text("\n".join(lines)+"\n"); print("b2")
 
-# ---- B3: C-sweep summary (exp19), dinov2_l + clip_l ----
-c19 = load("exp19_c_sweep.csv")
+# ---- B3: C-sweep summary under the census of record (expR60; NC advantages from the unchanged exp19 task pipeline) ----
 from statistics import mean
-def agg(m,C,mode,f):
-    v=[float(r[f]) for r in c19 if r["model"]==m and int(r["C"])==C and r["mode"]==mode]
-    return mean(v) if v else None
-lines = [r"\begin{table}[H]", r"\centering", r"\small",
-         r"\begin{tabular}{lr|ccc|ccc}", r"\toprule",
-         r" & & \multicolumn{3}{c|}{random subsets (span the hierarchy)} & \multicolumn{3}{c}{WordNet-coherent (siblings)} \\",
-         r"model & $C$ & $\delta_{\text{norm}}$ & excess & NC adv & $\delta_{\text{norm}}$ & excess & NC adv \\", r"\midrule"]
-for m in ["dinov2_l","dinov2_g","clip_l"]:
-    for C in [10,20,50,100,200,500,1000]:
-        dr,er,nr = agg(m,C,"random","delta"),agg(m,C,"random","excess"),agg(m,C,"random","nc_adv_pp")
-        dc,ec,nc = agg(m,C,"coherent","delta"),agg(m,C,"coherent","excess"),agg(m,C,"coherent","nc_adv_pp")
-        right = f"{dc:.3f} & {ec:+.3f} & {nc:+.2f}" if dc is not None else "--- & --- & ---"
-        lines.append(f"{NAME[m]} & {C} & {dr:.3f} & {er:+.3f} & {nr:+.2f} & {right} \\\\")
-    lines.append(r"\midrule")
-lines[-1] = r"\bottomrule"
-lines += [r"\end{tabular}",
-          r"\caption{Class-count vs hierarchy-depth deconfound on ImageNet (advantages in pp; "
-          r"means over subset seeds; $C\le30$ uses exact quadruple enumeration). "
-          r"Source: \texttt{exp19\_c\_sweep.csv}.}", r"\label{tab:b3-csweep}", r"\end{table}"]
-(OUT/"tab_b3_csweep.tex").write_text("\n".join(lines)+"\n"); print("b3")
+if (RES/"expR60_c_sweep_record.csv").exists():
+    c60 = load("expR60_c_sweep_record.csv")
+    def agg(m,C,mode,f):
+        v=[float(r[f]) for r in c60 if r["model"]==m and int(r["C"])==C and r["mode"]==mode and r[f] not in ("", "nan")]
+        return mean(v) if v else None
+    def below(m,C,mode):
+        v=[float(r["p_left"])<=0.05 for r in c60 if r["model"]==m and int(r["C"])==C and r["mode"]==mode]
+        return f"{sum(v)}/{len(v)}" if v else "---"
+    lines = [r"\begin{table}[H]", r"\centering", r"\footnotesize", r"\setlength{\tabcolsep}{3.5pt}",
+             r"\begin{tabular}{lr|cccc|cccc}", r"\toprule",
+             r" & & \multicolumn{4}{c|}{random subsets (span the hierarchy)} & \multicolumn{4}{c}{WordNet-coherent (siblings)} \\",
+             r"model & $C$ & $\hat\delta_{99.9}$ & excess & below & NC adv & $\hat\delta_{99.9}$ & excess & below & NC adv \\", r"\midrule"]
+    for m in ["dinov2_l","dinov2_g","clip_l"]:
+        for C in [10,20,50,100,200,500,1000]:
+            dr,er,nr = agg(m,C,"random","delta_999"),agg(m,C,"random","excess"),agg(m,C,"random","nc_adv_pp")
+            dc,ec,nc = agg(m,C,"coherent","delta_999"),agg(m,C,"coherent","excess"),agg(m,C,"coherent","nc_adv_pp")
+            if dr is None: continue
+            right = f"{dc:.3f} & {ec:+.3f} & {below(m,C,'coherent')} & {nc:+.2f}" if dc is not None else "--- & --- & --- & ---"
+            lines.append(f"{NAME[m]} & {C} & {dr:.3f} & {er:+.3f} & {below(m,C,'random')} & {nr:+.2f} & {right} \\\\")
+        lines.append(r"\midrule")
+    lines[-1] = r"\bottomrule"
+    lines += [r"\end{tabular}",
+              r"\caption{Class-count vs hierarchy-depth deconfound on ImageNet under the census of record (Haar spectrum-matched null, 99.9th-percentile statistic, 200 replicates; means over subset seeds: 5 for $C\le200$, 2 for $C{=}500$, 1 for $C{=}1000$). "
+              r"``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp, from the unchanged task pipeline. "
+              r"Sources: \texttt{expR60\_c\_sweep\_record.csv}, \texttt{exp19\_c\_sweep.csv}.}", r"\label{tab:b3-csweep}", r"\end{table}"]
+    (OUT/"tab_b3_csweep.tex").write_text("\n".join(lines)+"\n"); print("b3 (record)")
+else:
+    print("b3 skipped: expR60_c_sweep_record.csv missing")
 
 # ---- B4: t-sweep ----
 ts = load("night/t_sweep.csv")

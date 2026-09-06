@@ -38,7 +38,7 @@ gen = {(r["model"], r["dataset"]): (str(r["genuine_bh"]) == "True" if "genuine_b
 dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
 # ---------- Figure A: excess panel ----------
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.6),
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.45),
                                gridspec_kw={"width_ratios": [1.55, 1]})
 xs = np.arange(len(ORDER))
 for k, m in enumerate(ORDER):

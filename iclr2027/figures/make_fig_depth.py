@@ -58,3 +58,47 @@ ax.set_title("(c) synthetic hierarchies"); ax.legend(frameon=False, fontsize=5.3
 fig.tight_layout(w_pad=0.6, rect=[0, 0, 1, 0.93])
 for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_test.pdf"); fig.savefig(o/"fig_depth_test.png", dpi=200)
 print("fig_depth_test written")
+
+# ---- main-text figure: (a) ImageNet K=30 real vs stars, (b) power; appendix figure: CIFAR-100 K=20 alone ----
+def panel_real(ax, ds, K, title):
+    x = np.arange(len(M))
+    for i, m in enumerate(M):
+        iso = dv[(dv.model==m)&(dv.dataset==ds)&(dv.K==K)&(dv.variant=="iso")].iloc[0]
+        an = dv[(dv.model==m)&(dv.dataset==ds)&(dv.K==K)&(dv.variant=="aniso")].iloc[0]
+        ax.plot([i, i], [iso.excessB_real, iso.excessB_star], "-", color=FAMILY_COLORS["null"], lw=0.6, zorder=1)
+        ax.scatter(i, iso.excessB_real, s=16, color=fam_color(m), zorder=3)
+        ax.scatter(i, iso.excessB_star, s=16, facecolors="none", edgecolors=FAMILY_COLORS["null"], linewidths=0.8, zorder=2)
+        ax.scatter(i, an.excessB_star, s=14, marker="s", color=FAMILY_COLORS["null"], zorder=2)
+    ax.axhline(0, color="k", lw=0.6)
+    lo, hi = ax.get_ylim(); band = lo - 0.18*(hi-lo); ax.set_ylim(band - 0.06*(hi-lo), hi)
+    for i, m in enumerate(M):
+        an = dv[(dv.model==m)&(dv.dataset==ds)&(dv.K==K)&(dv.variant=="aniso")].iloc[0]
+        ax.text(i, band, f"{an.z_depth:+.1f}", ha="center", va="bottom", fontsize=4.8, color="k" if an.z_depth > -2 else "#B22222", fontweight="normal" if an.z_depth > -2 else "bold", rotation=90)
+    ax.set_xticks(x); ax.set_xticklabels([NM[m] for m in M], rotation=90, fontsize=5.5); ax.set_title(title); ax.set_ylabel("excess B (hub null)")
+
+def panel_power(ax, title):
+    for f, ls in [(RES/"expR55b_depth_power_leafframe.csv", "-"), (RES/"expR55_depth_power.csv", ":")]:
+        if not f.exists(): continue
+        d = pd.read_csv(f); h = d[(d.level!="star")&(d.n==1000)]; st = d[(d.level=="star")&(d.n==1000)]
+        for K in (6,12,20,30):
+            hh = h[h.K==K]
+            if len(hh)==0: continue
+            ax.plot([0.1,0.3,0.6], [(hh[hh.ratio==r].z<=-2).mean() for r in (0.1,0.3,0.6)], ls, marker="o" if ls=="-" else None, ms=3, color=cols[K], lw=1.1, label=f"K={K}" if ls=="-" else None)
+        if ls == "-":
+            ax.plot([0.1,0.3,0.6], [(st[st.ratio==r].z<=-2).mean() for r in (0.1,0.3,0.6)], "--", color=FAMILY_COLORS["null"], lw=1.0, label="false alarms, $n{=}1000$")
+            st100 = d[(d.level=="star")&(d.n==100)]
+            ax.plot([0.1,0.3,0.6], [(st100[st100.ratio==r].z<=-2).mean() for r in (0.1,0.3,0.6)], "--", color="k", lw=1.0, label="false alarms, $n{=}100$")
+    ax.set_ylim(-0.03, 1.03); ax.set_xticks([0.1,0.3,0.6]); ax.set_xlabel("within/between noise ratio"); ax.set_ylabel("power ($z\\leq-2$), $n{=}1000$")
+    ax.set_title(title); ax.legend(frameon=False, fontsize=5.3, loc="center left", bbox_to_anchor=(0.0, 0.5), handlelength=1.4, labelspacing=0.3)
+
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.5), gridspec_kw={"width_ratios": [1.25, 1]})
+panel_real(axes[0], "imagenet", 30, "(a) ImageNet, WordNet $K{=}30$ ($n{=}1000$)"); panel_power(axes[1], "(b) synthetic hierarchies, leaf frame")
+fig.legend(handles=hd, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.30, 1.0), fontsize=5.5, handletextpad=0.3, columnspacing=1.2)
+fig.tight_layout(w_pad=0.8, rect=[0, 0, 1, 0.92])
+for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_main.pdf"); fig.savefig(o/"fig_depth_main.png", dpi=200)
+fig, ax = plt.subplots(1, 1, figsize=(3.0, 1.9))
+panel_real(ax, "cifar100", 20, "CIFAR-100, $K{=}20$ ($n{=}100$; unvalidated regime)")
+ax.legend(handles=hd, frameon=False, loc="lower right", fontsize=5.2, handletextpad=0.3, labelspacing=0.25)
+fig.tight_layout()
+for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_cifar100.pdf"); fig.savefig(o/"fig_depth_cifar100.png", dpi=200)
+print("fig_depth_main + fig_depth_cifar100 written")

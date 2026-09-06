@@ -30,7 +30,7 @@ d_in = {r["model"]: (float(r["delta"]), float(r["excess"]), float(r["null_mean"]
 DIMS = {"i21k_t":192,"i21k_s":384,"i21k_b":768,"i21k_l":1024,"dinov1_b":768,"dinov2_s":384,
         "dinov2_b":768,"dinov2_l":1024,"dinov2_g":1536,"clip_b":512,"clip_l":768,"siglip_b":768}
 
-fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.65), gridspec_kw={"width_ratios":[1.2,1,1]})
+fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.5), gridspec_kw={"width_ratios":[1.2,1,1]})
 # (a) gauss curve + raw deltas
 for m, d in DIMS.items():
     if m in d_in:
