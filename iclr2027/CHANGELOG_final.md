@@ -527,3 +527,12 @@ Gröger), §7 (disociación, cláusula de profundidad); alturas: Fig. 1 placehol
 **Verificación.** `sweep_freeze.py`: checks nuevos de régimen (potencia/falsas alarmas por n, hits de ImageNet por nombre y z), de expR60
 (umbrales por modelo, C = 10, DINOv2-G bajo el null a todo C, NC adv) y de expR61 (rango y r): **103/103 PASS**. Compilación: 33 páginas,
 0 warnings, 0 overfull, texto principal termina en la p. 9; ningún nombre de script en el PDF. `main_iclr2027_final.pdf` exportado.
+
+## 17. Hueco para la Figura 1 real (1.2 in)
+
+Placeholder de la Fig. 1 a **1.2 in** (antes 0.3 in tras los recortes de la pasada final). Para que el texto principal vuelva a terminar
+en la p. 9 con ese hueco: (a) el párrafo de §3 "Class count is a measured variable, not a nuisance" se funde en el de §4 "Hierarchy depth,
+not class count" (mismo control; el párrafo de §4 abre ahora con la descripción del barrido: C ∈ {10, …, 1000}, composiciones aleatoria y
+WordNet-coherente); (b) "Local agreement survives calibration" recortado en dos líneas (kNN, CKA y lectura Poincaré en una frase; ningún
+número cambia). (c) No hizo falta reducir la Fig. 3 (sigue a 1.45 in); Figs. 1 y 4 intactas. Comprobado: texto principal termina en la p. 9
+con el placeholder de 1.2 in; 33 páginas, 0 warnings; sweep 103/103 (sin números nuevos). PDF exportado.

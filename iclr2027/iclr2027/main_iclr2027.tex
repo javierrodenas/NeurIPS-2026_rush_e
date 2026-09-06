@@ -60,7 +60,7 @@ Foundation models are often said to converge toward shared representations. We a
 \centering
 \IfFileExists{figures/fig1_concept.pdf}%
 {\includegraphics[width=\textwidth]{figures/fig1_concept.pdf}}%
-{\fbox{\parbox[c][0.3in][c]{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{\centering \texttt{figures/fig1\_concept.pdf} (conceptual figure, drawn by the authors; same-size placeholder)}}}
+{\fbox{\parbox[c][1.2in][c]{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{\centering \texttt{figures/fig1\_concept.pdf} (conceptual figure, drawn by the authors; same-size placeholder)}}}
 \caption{\textbf{Raw tree-likeness cannot tell a random cloud, a star and a tree apart; the calibrated instrument can.} A high-dimensional random cloud, clusters around a hub, and a nested hierarchy all give a low raw $\delta$. The excess over a spectrum-matched null separates the random cloud from the other two; only the matched-star test separates the star from the tree.}
 \label{fig:concept}
 \end{figure}
@@ -120,9 +120,6 @@ Estimator settings: the 99.9th-percentile four-point statistic $\hat\delta_{99.9
 
 \paragraph{$\xi$ reads norm structure, not curvature.} A parallelogram estimator $\xi$, intended as a curvature sign, is driven negative by heterogeneous norms alone, so it is reported only as a norm-structure descriptor (Appendix~\ref{app:xi}). % exp12, expR43_xi_norm_references.csv
 
-\paragraph{Class count is a measured variable, not a nuisance.} Because $C$ sets the quadruple population, we sweep ImageNet subsets $C\in\{10,\dots,1000\}$ with two compositions: random (spanning the full hierarchy) and WordNet-coherent (siblings, effectively \emph{flat}). Results in \S\ref{sec:form}.
-
-
 \section{Findings I: Structure beyond the Null}
 \label{sec:form}
 
@@ -164,7 +161,7 @@ Estimator settings: the 99.9th-percentile four-point statistic $\hat\delta_{99.9
 \label{fig:textnulls}
 \end{figure}
 
-\paragraph{Hierarchy depth, not class count.} At fixed $C$, random ImageNet subsets, which span the full hierarchy, are more exploitable than WordNet-coherent sibling subsets, an effectively flat concept set, and carry more beyond-null structure at small $C$ (CLIP-L at every $C$, DINOv2-L up to $C{=}100$, DINOv2-G up to $C{=}20$; beyond that the two compositions converge; Table~\ref{tab:b3-csweep}). Random subsets still score $-0.08$ to $-0.14$ at $C{=}10$, so MNIST's flat verdict is not a class-count artifact. DINOv2-G stays below its null at every $C$ (excess $-0.008$ at $C{=}1000$, $r{=}200$), where the supremum had placed it at the null. % expR60_c_sweep_record.csv, exp19_c_sweep.csv
+\paragraph{Hierarchy depth, not class count.} Because $C$ sets the quadruple population, we sweep ImageNet subsets $C\in\{10,\dots,1000\}$ in two compositions: random (spanning the full hierarchy) and WordNet-coherent (siblings, effectively \emph{flat}). At fixed $C$, random subsets are more exploitable than coherent ones and carry more beyond-null structure at small $C$ (CLIP-L at every $C$, DINOv2-L up to $C{=}100$, DINOv2-G up to $C{=}20$; beyond that the two compositions converge; Table~\ref{tab:b3-csweep}). Random subsets still score $-0.08$ to $-0.14$ at $C{=}10$, so MNIST's flat verdict is not a class-count artifact, and DINOv2-G stays below its null at every $C$ (excess $-0.008$ at $C{=}1000$, $r{=}200$), where the supremum had placed it at the null. % expR60_c_sweep_record.csv, exp19_c_sweep.csv
 
 \paragraph{The form tracks training.} Two interventions move it (Figure~\ref{fig:causal}, Appendix~\ref{app:interventions}; raw $\delta$, within architecture): fine-tuning on a task with no class hierarchy raises $\delta$ by 19--91\%, and $\delta$ falls across transformer depth. Shuffling the embedding-to-label correspondence leaves it unchanged, as a null-invariant quantity should. Random-weight networks give higher raw $\delta$ but near-Gaussian features, so they are not counted as evidence; excess-based versions of these interventions await stored point clouds. On matched architecture (ViT-B supervised/DINO/CLIP) all three objectives yield genuine form on most datasets, and the family separations emerge with scale rather than at fixed size. % analysis4_finetuning.csv, e1_delta_by_layer.csv, e5_random_control.csv, night/arch_matched_triplet.csv
 
@@ -197,7 +194,7 @@ DINOv2's semantics concentrate in the angular component (sibling-triplet agreeme
 
 \paragraph{The recovery is not WordNet circularity.} ImageNet classes are WordNet synsets, so recovering WordNet there could be circular. Repeating the tree map on DBpedia Classes, a three-level ontology independent of WordNet (219 leaf classes; the three text embedders), closes this door: no configuration degenerates, the embedders recover the true 70-way level-2 partition at ARI $0.21$--$0.29$ in all six configurations and agree with each other at cross-model ARI $0.65$--$0.82$. The recovered hierarchy is real, shared and configuration-robust; the fragility above is a property of the (family, concept set) pair. % exp27_dbpedia_treemap.json
 
-\paragraph{Local agreement survives calibration.} We apply the permutation calibration of \citet{groger2026aristotelian}: for each of the 66 model pairs, $K{=}200$ permutations of the class correspondence give the null distribution, the threshold $\tau_{0.05}$ is its $\lceil 0.95(K{+}1)\rceil$-th order statistic, and the calibrated score is $\max\{(s-\tau_{0.05})/(1-\tau_{0.05}),0\}$. Local neighborhood agreement survives: mutual-kNN is $0.472$ raw and $0.464$ calibrated, with every pair at $p=1/201$, and the null mean $0.010$ equals the chance level $10/999$. Centroid CKA survives too ($0.633$ raw, $0.577$ calibrated, null mean $0.108$). The Poincar\'{e} reading improves neither agreement (kNN $0.472\to0.425$; CKA $0.633\to0.640$): hyperbolic distances buy no alignment (Table~\ref{tab:b31-groger}). % exp21b_local_global_K200.csv
+\paragraph{Local agreement survives calibration.} We apply the permutation calibration of \citet{groger2026aristotelian}: for each of the 66 model pairs, $K{=}200$ permutations of the class correspondence give the null distribution, the threshold $\tau_{0.05}$ is its $\lceil 0.95(K{+}1)\rceil$-th order statistic, and the calibrated score is $\max\{(s-\tau_{0.05})/(1-\tau_{0.05}),0\}$. Mutual-kNN agreement survives ($0.472$ raw, $0.464$ calibrated, every pair at $p=1/201$, null mean $0.010$ = chance $10/999$), and so does centroid CKA ($0.633$ raw, $0.577$ calibrated, null mean $0.108$); the Poincar\'{e} reading improves neither (kNN $0.472\to0.425$, CKA $0.633\to0.640$; Table~\ref{tab:b31-groger}). % exp21b_local_global_K200.csv
 
 \section{Discussion and Limitations}
 \label{sec:discussion}
