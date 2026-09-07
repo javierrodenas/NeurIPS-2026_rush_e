@@ -58,7 +58,7 @@ if _dec.exists() and _json.load(open(_dec)).get("mode") == "sample":
     s_m, s_ds = D["sample_cell"]; c_m, c_ds = D["class_cell"]
     a_d, a_e = float(sl[(s_m, s_ds)]["delta_999"]), float(sl[(s_m, s_ds)]["excess"])
     cc = {(r["model"], r["dataset"]): r for r in census}[(c_m, c_ds)]; v_name, v_ds, v_d, v_e = c_m, c_ds, float(cc["delta"]), float(cc["excess"])
-    a_col, a_lab = fam_color(s_m), f"{NM[s_m]} ({DSN[s_ds]})\nimages"; v_lab = f"{NM[v_name]} ({DSN[v_ds]})\ncentroids"
+    a_col, a_lab = fam_color(s_m), f"{NM[s_m]} {DSN[s_ds]}\nimages"; v_lab = f"{NM[v_name]} {DSN[v_ds]}\ncentroids"
     print(f"(b) sample-level pair: {s_m}/{s_ds} raw {a_d:.3f} exc {a_e:+.3f} vs class {c_m}/{c_ds} raw {v_d:.3f} exc {v_e:+.3f}")
 else:
     _t = RES/"expR53_text_haar_p999_200.csv"
@@ -75,10 +75,9 @@ axes[1].bar(X-0.16, [a_d, v_d], width=0.3, color="white",
 axes[1].bar(X+0.16, [a_e, v_e], width=0.3,
             color=[a_col, fam_color(v_name)], label="excess")
 axes[1].axhline(0, color="k", lw=0.8)
-axes[1].set_xticks(X); axes[1].set_xticklabels([a_lab, v_lab], fontsize=6)
+axes[1].set_xticks(X); axes[1].set_xticklabels([a_lab, v_lab], fontsize=5.5)
 axes[1].set_title("(b) same raw value,\nopposite verdict")
-axes[1].legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=2, handlelength=1.2,
-               columnspacing=1.0, borderaxespad=0.0)
+axes[1].legend(frameon=False, loc="lower left", fontsize=6, handlelength=1.0, handletextpad=0.4, labelspacing=0.2, borderaxespad=0.2)
 # (c) the map before/after
 z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True)
 zi, zc = z["summary_in"].item(), z["summary_c1"].item()

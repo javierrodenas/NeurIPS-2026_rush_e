@@ -517,6 +517,28 @@ def r7r8_checks():
     chk("R8 MERU: no MERU model is more hierarchical than its twin on ImageNet (memo stop condition (b) false)",
         M["stop_b_meru_depth_beyond_twin"] is False and all(not (float(im[f"meru_{sz}"]["z_depth"])<=-2 and float(im[f"clip_{sz}"]["z_depth"])>-2) for sz in ("s","b","l") if f"meru_{sz}" in im))
 r7r8_checks()
+# ---------- Restructured main text: the numbers it states vs the files ----------
+def phaseC_text_checks():
+    import json as _j, numpy as np
+    if not (R/"phaseC_memo.json").exists(): return
+    T = open(Path(__file__).resolve().parents[2]/"iclr2027"/"iclr2027"/"main_iclr2027.tex").read(); main = T[:T.index("\\appendix")]
+    M = _j.load(open(R/"phaseC_memo.json"))
+    chk("text: sample-level sentence states the memo counts and names", f"not genuine in {M['sl_within']} of 24 cells" in main and "DINOv2-S/B/L/G and SigLIP-B on CIFAR-100; ViT-S/B/L and DINOv2-L/G on DTD" in main
+        and f"({M['sl_sup_lo']:.3f}--{M['sl_sup_hi']:.3f})" in main)
+    chk("text: MERU sentence states the ImageNet-image excess ranges, native gap and depth-z ranges of the memo",
+        f"MERU ${M['meru_in_exc_range'][1]:+.3f}$ to ${M['meru_in_exc_range'][0]:+.3f}$" in main and f"by at most ${M['meru_in_nat_vs_euc_maxgap']:.4f}$" in main
+        and f"${M['meru_in_z_range'][0]:+.1f}$ to ${M['meru_in_z_range'][1]:+.1f}$ for MERU" in main and f"${M['clip_in_z_range'][0]:+.1f}$ to ${M['clip_in_z_range'][1]:+.1f}$ for CLIP" in main)
+    b = load("exp2b_normalized_stack.csv"); H = [r for r in b if r["dataset"] in ("imagenet","cifar100","cifar10","dtd")]
+    gc = [100*float(r["FS_HN_COS_diff"]) for r in H if r["paradigm"].lower().startswith("contr")]; go = [100*float(r["FS_HN_COS_diff"]) for r in H if not r["paradigm"].lower().startswith("contr")]
+    chk("text: Poincare-over-cosine gains (exp2b, few-shot, hierarchical sets) as stated", f"adds ${min(gc):+.1f}$ to ${max(gc):+.1f}$ pp" in main and f"(${min(go):+.1f}$ to ${max(go):+.1f}$ pp)" in main)
+    e1 = load("exp1_delta_controls.csv"); ga = sorted({int(r["d"]): float(r["delta_max"]) for r in e1 if r["variant"]=="gauss"}.items())
+    c_lo, c_hi = (0.144/(2*ga[0][1]))**2, (0.144/(2*ga[-1][1]))**2
+    chk("text: Khrulkov curvature on the Gaussian band (c=(0.144/delta_rel)^2, delta_rel=2 delta_norm; exp1 gauss d=192/1536)", f"${c_lo:.2f}$ at $d{{=}}{ga[0][0]}$ to ${c_hi:.1f}$ at $d{{=}}{ga[-1][0]}$" in main)
+    im = [float(r["excess"]) for r in load("expR52_census_haar_p999_200.csv") if r["dataset"]=="imagenet"]
+    chk("text: ImageNet class-level excess range as stated", f"${max(im):+.3f}$ to ${min(im):+.3f}$ on ImageNet centroids" in main)
+    D = _j.load(open(R/"phaseC_fig2b.json")); chk("fig2b: decision recorded and consistent with the caption", (D["mode"]=="sample") == ("images) and a class-level cell" in main) and D["gap_sample"] <= D["gap_bge"] if D["mode"]=="sample" else True)
+    for w in ("tool", "we believe", "nterestingly"): chk(f"text: no '{w}' in the main text", w not in main)
+phaseC_text_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

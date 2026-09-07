@@ -556,3 +556,74 @@ Genuinas BH en total 12/24.
 **Condiciones de parada del brief.** (a) exceso a nivel de muestra ya no dentro del ruido: no; (b) MERU con profundidad
 más allá del gemelo: no. → GO: la lectura cualitativa se mantiene; sigue la fase de texto.
 Checks en `sweep_freeze.py` (sección R7/R8) contra `phaseC_memo.json`.
+
+## 18. Reestructuración: una tesis, tres actos (fase de texto)
+
+Sin cambios en censo, test de profundidad, tree map ni texto; cambia el orden y la historia. Dos resultados suben del apéndice al cuerpo y por eso se
+rehicieron bajo el registro (memo en §18a). Decisiones del autor aplicadas: subtítulo sin cambiar (pendiente); nivel de muestra al cuerpo (R7);
+MERU al abstract (R8); "tool" eliminado del texto (el script queda en el repositorio y en una frase del Reproducibility Statement); corolario en el
+apéndice, §6 lleva solo su consecuencia. Scripts: `rebuttal/scripts/phaseC_main_body.tex.tmpl` (cuerpo nuevo con marcadores) y
+`phaseC_restructure.py` (rellena desde los ficheros, empalma, mueve los párrafos al apéndice, decide la Fig. 2(b), comprueba etiquetas y palabras
+prohibidas); el cuerpo anterior queda en `rebuttal/results/phaseC_old_main_body.tex`.
+
+**Mapa de secciones (párrafo antiguo → destino).**
+- Abstract, caja, §1 (4 párrafos + 4 contribuciones): reescritos según el brief; "What is new, in order" → §2(b).
+- §2 antiguo (5 párrafos) → 3: (a) "Latent hyperbolicity, the target claim" (hyperbolic DL + lecturas de latent hyperbolicity); (b) "Calibrating δ and
+  geometry against nulls" (network science + Kornblith/Ansuini/Pope/NC + PRH/Koepke/Gröger/Park + qué es nuevo); (c) "Background" (cuatro puntos, ln 2,
+  δ_norm, orden, caveats de Fournier, ORC en una frase con puntero a A.16).
+- §3: "Classes are centroids…" → "Where the premise is read, and where hierarchy is measured" (misma prosa + frase nivel de muestra/nivel de clase);
+  "A low raw value…", "The reading is an excess…" (sin la frase "The instrument is a single script"); nuevo "Projection and tasks" (dos frases, puntero A.10);
+  párrafo ξ → A.21; "Class count…" ya estaba fundido en §4 → ahora A.7.
+- §4 (7 párrafos): 1 "Sample-level readings sit within null noise in most cells" (nuevo, R7); 2 censo (antiguo "Vision: beyond-null…", + puntero al
+  control de clases en A.7); 3 "The excess certifies clustering, not depth" (sin la frase MERU); 4 profundidad (sin cambios); 5 "Imposing the geometry
+  does not create depth" (nuevo, R8; sustituye la frase MERU y la mención B30); 6 NC (−2 líneas: cláusula ORC → puntero); 7 "Scale and training"
+  (afirmación de escala DINOv2 + una frase de intervenciones con puntero A.6). Salen de §4: "The angular reading agrees" → §5.3; "Text: recipe and
+  scale…" → §5.6 (8 líneas); "Hierarchy depth, not class count" → A.7 (`app:csweep`); "The form tracks training" → A.6 (`app:interventions`);
+  figura text-nulls → apéndice "Text census" (`app:textcensus`).
+- §5 (7 párrafos): 1 isla naive (fundido: extracción, mapa, cortes degenerados, criterio); 2 "The island is an artifact; sharing is graded" (tres medidas,
+  una frase cada una; cierre total bajo tripletes angulares); 3 "The self-supervised tree lives in angles" (nuevo párrafo unificado: tripletes cos/eucl
+  DINOv2-L + censo coseno 56/72, 22/24, 65/72 + mecanismo de la isla; puente a §6); 4 WordNet (+ ARI 0.61; anti-alineación como última frase); 5 DBpedia
+  (+ los tres controles de circularidad); 6 texto (movido de §4); 7 acuerdo local (5 líneas). HierarCaps → A.19 (`app:hierarcaps`).
+- §6 "Consequences for imposing curvature" (nuevo, 3 párrafos): regla de Khrulkov, "measure before imposing", métrica de coste cero. Sustituye a
+  "A corollary, in the appendix".
+- §7: "What the paper establishes" (caja + tres actos), "Open questions" (nuevo), Limitaciones (i)–(vii) literales + (viii).
+- Apéndice recibe, con puntero de una línea desde el cuerpo: ξ (A.21), intervenciones (A.6), ORC (A.16), censo coseno (B32), medidas sin corte (B33),
+  corolario (A.10), barrido de clases (A.7, párrafo + B3), HierarCaps (A.19), 2×2 (B21), potencia (B35), A.18 (B17 reescrita desde R7), texto (frases
+  de extracción/anisotropía/GTE-Qwen2/plantillas + figura text-nulls).
+
+**Números que suben del apéndice al cuerpo (fuente).** Nivel de muestra (`expR62_samplelevel_record.csv`): supremo crudo 0.087–0.145;
+no genuinas 14/24, genuinas 10/24 (DINOv2-S/CIFAR-100, DINOv2-B/CIFAR-100, DINOv2-L/CIFAR-100, DINOv2-G/CIFAR-100, SigLIP-B/CIFAR-100, ViT-S/DTD, ViT-B/DTD, ViT-L/DTD, DINOv2-L/DTD, DINOv2-G/DTD); exceso genuino hasta -0.023; columnas nuevas de la Tabla 1
+(exc. C100 / exc. DTD a nivel de muestra, BH sobre 24). MERU (`expR63_meru_record.csv`, imágenes de ImageNet): exceso MERU -0.007..-0.010 vs
+CLIP -0.006..-0.010; |nativo − euclídeo| ≤ 0.0002; z de profundidad MERU -1.5..-0.5, CLIP -1.8..-1.0.
+Censo coseno (`expR57_census_cosine_haar_p999_200.csv`): 56/72, 22/24, acuerdo 65/72 (ya estaba en §4; ahora en §5.3). Ganancias
+(`exp2b_normalized_stack.csv`, FS, Poincaré − coseno tras L2, conjuntos jerárquicos): contrastivos +0.1..+1.3 pp; resto −1.7..+1.1 pp. Regla de Khrulkov
+(verificada en el PDF, ec. 5: c = (0.144/δ_rel)², δ_rel = 2δ/diam, c ≈ 0.33 en sus datos): sobre la banda gaussiana de `exp1_delta_controls.csv`
+(δ_norm 0.104 en d = 192, 0.046 en d = 1536) da c de 0.48 a 2.5. Rango de exceso ImageNet a nivel de clase (`expR52`): −0.005..−0.020.
+
+**Frases eliminadas del cuerpo y destino.** "The instrument is a single script…" (§3) → eliminada (queda la frase del Reproducibility Statement).
+"Comparing the resulting trees…" (§1) → §1 párrafo 3, reformulada. Párrafo "Geometric analyses of representations" → fundido en §2(b). Párrafo
+"Representational convergence" → fundido en §2(b). Frase "Those readings are sample-level and uncalibrated; transplanted…" (§2) → §2(a), reformulada.
+Frase MERU de "The excess certifies…" → §4.5. Cláusula ORC del párrafo NC → puntero. Frase "Whether there is hierarchy above…" → §4.3 reformulada.
+"Hierarchy depth, not class count" → A.7. "The form tracks training" → A.6 (una frase resumida queda en §4.7). Frases de extracción, anisotropía,
+GTE-Qwen2 y plantillas del párrafo de texto → A "Text census". Frase HierarCaps → A.19. Controles de circularidad → §5.5. "A corollary, in the
+appendix" → §6.3. "What the census establishes" → "What the paper establishes" (reescrito). Figura text-nulls → apéndice.
+
+**Figura 2(b).** Decidido por los números: par a nivel de muestra ViT-T/DTD (imágenes; crudo 0.0873, exceso -0.0004) vs
+SigLIP-B/CIFAR-10 (centroides; crudo 0.0874, exceso -0.050), diferencia de crudo 6.4e-05 frente a 2.4e-04 del par BGE/ViT-L;
+`phaseC_fig2b.json` lo registra y `make_fig_overview.py` lo lee. (a) y (c) sin cambios.
+
+**Lo que no se hizo y por qué.** Survey de Mettes et al. (IJCV 2024): el texto accesible (arXiv 2305.06611) define la hiperbolicidad de Gromov como
+propiedad de espacios pero no enuncia la premisa de que las redes estándar sean latentemente hiperbólicas → no se cita, como pedía el brief.
+Subtítulo: sin cambiar hasta decisión del autor.
+
+**Matices respecto al borrador del brief.** (1) A nivel de muestra no son "dos o tres" celdas genuinas sino 10/24 (la familia DINOv2 en
+CIFAR-100 y DTD, SigLIP-B en CIFAR-100 y los ViT S/B/L en DTD), con excesos pequeños (≥ -0.023); el abstract, §1, §4.1, §6.1 y §7 dicen
+"dentro del ruido en la mayoría de las celdas; pequeño donde sobrevive" en lugar de "dentro del ruido". La condición de parada (a) no se disparó
+(umbral fijado en > 12/24). (2) Las ganancias Poincaré − coseno no son "nada para el resto": DINOv2-S en CIFAR-10 da +1.1 pp y ViT-L en DTD +1.0 pp
+(y DINOv2-G −1.7); §6.3 dice "inconsistente para el resto (−1.7 a +1.1 pp)". (3) Las celdas MERU/CLIP de imágenes de ImageNet no son todas genuinas
+BH (r 171–197); el párrafo habla de "the same clustering excess" sin llamarlas genuinas.
+
+**Verificación.** `sweep_freeze.py`: sección R7/R8 (4 checks) y sección de texto reestructurado (10 checks: frases con recuentos/rangos/ganancias/
+curvatura, decisión Fig. 2(b), sin "tool"/"we believe"/"interestingly"): **116/116 PASS**. Compilación: 34 páginas, 0 warnings, 0 overfull, texto
+principal termina en la p. 9 con el hueco de 1.2 in de la Fig. 1 (Ethics abre en la p. 9); sin nombres de scripts en el PDF. PDF exportado.
+Entregables: `iclr2027/REVIEWER_CHECKLIST_restructure.md`, `iclr2027/SUMMARY_plain.md`.

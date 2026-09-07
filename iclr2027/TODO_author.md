@@ -135,3 +135,17 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - **Lecturas que siguen bajo el protocolo original**: A1 (exp11: rejilla supremo × gaussiana) y A8 HierarCaps (exp16); B20 es la rejilla
   de registro. A9 muestra ahora las dos lecturas. Rehacer A8 bajo el registro: re-extraer HierarCaps (minutos de GPU) + censo (~10 min).
 - Coste: expR60 67 min (6 workers); expR61 ~25 min (GPU para los embeddings + 3 censos × 3 construcciones).
+
+## Añadido en la reestructuración
+
+- **Subtítulo**: sigue "Calibrated Class Geometry in Foundation Models"; el candidato "Calibrating Latent Hyperbolicity in Foundation Models" espera tu decisión
+  (una línea en `\title`).
+- **Nivel de muestra**: 10/24 celdas genuinas bajo el registro (no 2–3): DINOv2 en CIFAR-100 y DTD, SigLIP-B en CIFAR-100, ViT-S/B/L en DTD, con excesos
+  ≤ 0.023. El texto dice "dentro del ruido en la mayoría; pequeño donde sobrevive". Si prefieres la frase fuerte del brief, no la sostienen los datos.
+- **Ganancias Poincaré − coseno**: no son "nada para el resto" (DINOv2-S CIFAR-10 +1.1, ViT-L DTD +1.0, DINOv2-G −1.7 pp); §6.3 lo dice como "inconsistente".
+- **MERU/CLIP en ImageNet (imágenes)**: r 171–197, no todas genuinas BH sobre las 24 celdas; el párrafo no las llama genuinas. Con prompts de texto en
+  ImageNet los CLIP dan exceso positivo (r 2–15) y MERU ~0: dato colateral, solo en B30.
+- **Lecturas aún bajo el protocolo original**: A1 (exp11) y A8 HierarCaps (exp16). Coste de A8: re-extraer HierarCaps + censo (~15 min).
+- **Mettes et al. (IJCV 2024)**: no citado; el texto de arXiv no enuncia la premisa.
+- Costes: R7 ≈ 1 h 10 min (4 workers, ~7 min/celda); R8 ≈ 40 min (3 workers).
+- Página 9 tiene ~8 líneas de holgura con el hueco de 1.2 in; si la Fig. 1 real es más alta, hay margen.

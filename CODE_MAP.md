@@ -113,3 +113,8 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   (DBpedia bajo el registro; Tabla A9 vía `gen_appendix.py`; centroides en `Platonic/results/text_cache/dbpedia_{m}.npz`);
   `phaseB_t4_apply.py` (test de profundidad acotado por régimen, figuras, §3) y `phaseB_t5_apply.py` (frases de §4 desde expR60/61,
   `phaseB_final_numbers.json`, que `sweep_freeze.py` contrasta con los CSV).
+- Reestructuración: `rebuttal/scripts/expR62_samplelevel_record.py` → `expR62_samplelevel_record.csv` (nivel de muestra bajo el registro; Tabla 1
+  columnas nuevas vía `gen_main_table.py`, B17 vía `gen_review_tables.py`, Fig. 2(b) vía `make_fig_overview.py` + `phaseC_fig2b.json`);
+  `expR63_meru_record.py` → `expR63_meru_record.csv` (MERU bajo el registro; B30); chain `r12_chain.sh`; `make_memo_R7R8.py` → `phaseC_memo.json` +
+  memo en CHANGELOG §18a; `phaseC_main_body.tex.tmpl` + `phaseC_restructure.py` (cuerpo nuevo, apéndice, decisión de Fig. 2(b)); el cuerpo anterior en
+  `rebuttal/results/phaseC_old_main_body.tex`. Checks: secciones R7/R8 y "texto reestructurado" de `sweep_freeze.py`.

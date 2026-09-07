@@ -2,20 +2,28 @@
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
-\begin{tabular}{lccc@{\hspace{8pt}}ccc}
+\begin{tabular}{llccc@{\hspace{8pt}}ccc}
 \toprule
- & \multicolumn{3}{c}{CIFAR-100 images ($K{=}20$)} & \multicolumn{3}{c}{ImageNet images ($K{=}30$)} \\
-\cmidrule(lr){2-4}\cmidrule(lr){5-7}
-model & exc.\ ($z$) & depth ($z$) & $\hat\delta$ nat./Eucl. & exc.\ ($z$) & depth ($z$) & $\hat\delta$ nat./Eucl. \\
+ & & \multicolumn{3}{c}{CIFAR-100 ($K{=}20$, $n{=}100$: depth unvalidated)} & \multicolumn{3}{c}{ImageNet ($K{=}30$, $n{=}1000$: depth validated)} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}
+model & input & exc.\ ($r$) & $\hat\delta_{99.9}$ nat./Eucl. & depth $z$ & exc.\ ($r$) & $\hat\delta_{99.9}$ nat./Eucl. & depth $z$ \\
 \midrule
-MERU ViT-S & $-0.040$ (-3.0) & $+0.023$ (+1.7) & $0.163$/$0.163$ & $-0.024$ (-2.5) & $-0.004$ (-0.4) & $0.128$/$0.128$ \\
-CLIP ViT-S & $-0.059$ (-4.9) & $-0.001$ (-0.1) & $0.140$/$0.141$ & $-0.025$ (-2.7) & $-0.005$ (-0.5) & $0.151$/$0.126$ \\
-MERU ViT-B & $-0.042$ (-3.4) & $+0.023$ (+2.5) & $0.156$/$0.156$ & $-0.022$ (-2.4) & $+0.000$ (+0.0) & $0.129$/$0.129$ \\
-CLIP ViT-B & $-0.056$ (-4.4) & $+0.010$ (+0.9) & $0.146$/$0.141$ & $-0.025$ (-2.3) & $-0.001$ (-0.1) & $0.151$/$0.124$ \\
-MERU ViT-L & $-0.023$ (-1.5) & $+0.043$ (+3.1) & $0.170$/$0.171$ & $-0.021$ (-2.2) & $+0.004$ (+0.4) & $0.128$/$0.128$ \\
-CLIP ViT-L & $-0.037$ (-2.9) & $+0.025$ (+2.1) & $0.170$/$0.155$ & $-0.025$ (-2.5) & $-0.003$ (-0.3) & $0.150$/$0.123$ \\
+MERU ViT-S & images & $-0.020$ (199) & $0.117$/$0.117$ & $-1.5$ & $-0.008^{\circ}$ (186) & $0.088$/$0.088$ & $-1.5$ \\
+CLIP ViT-S & images & $-0.028$ (200) & $0.106$/$0.107$ & $-3.9$ & $-0.006^{\circ}$ (171) & $0.110$/$0.088$ & $-1.8$ \\
+MERU ViT-B & images & $-0.020$ (200) & $0.114$/$0.114$ & $-2.2$ & $-0.010$ (196) & $0.087$/$0.087$ & $-0.9$ \\
+CLIP ViT-B & images & $-0.030$ (200) & $0.105$/$0.103$ & $-3.3$ & $-0.009^{\circ}$ (187) & $0.107$/$0.085$ & $-1.0$ \\
+MERU ViT-L & images & $-0.012^{\circ}$ (195) & $0.118$/$0.118$ & $-0.3$ & $-0.007^{\circ}$ (184) & $0.088$/$0.088$ & $-0.5$ \\
+CLIP ViT-L & images & $-0.016$ (199) & $0.123$/$0.112$ & $-1.7$ & $-0.010$ (197) & $0.104$/$0.084$ & $-1.2$ \\
+\midrule
+MERU ViT-S & prompts & $-0.022$ (200) & $0.086$/$0.086$ & $-0.7$ & $-0.003^{\circ}$ (155) & $0.085$/$0.086$ & $+0.0$ \\
+CLIP ViT-S & prompts & $-0.023$ (200) & $0.085$/$0.082$ & $-0.8$ & $+0.006^{\circ}$ (15) & $0.093$/$0.087$ & $+0.8$ \\
+MERU ViT-B & prompts & $-0.012$ (200) & $0.096$/$0.096$ & $-0.7$ & $-0.001^{\circ}$ (132) & $0.089$/$0.090$ & $+0.8$ \\
+CLIP ViT-B & prompts & $-0.017$ (200) & $0.094$/$0.088$ & $+0.3$ & $+0.008^{\circ}$ (2) & $0.100$/$0.092$ & $+0.2$ \\
+MERU ViT-L & prompts & $-0.006^{\circ}$ (190) & $0.102$/$0.102$ & $+0.6$ & $+0.001^{\circ}$ (75) & $0.093$/$0.093$ & $+0.5$ \\
+CLIP ViT-L & prompts & $-0.012$ (200) & $0.098$/$0.092$ & $+0.5$ & $+0.006^{\circ}$ (5) & $0.101$/$0.092$ & $+0.4$ \\
 \bottomrule
 \end{tabular}
-\caption{Hyperbolic-backbone control. MERU \citep{desai2023meru} embeds images on the Lorentz hyperboloid with an entailment objective; its released Euclidean twin (a CLIP baseline: same ViT, same RedCaps data and recipe, minus the hyperbolic lift and entailment loss) differs only in geometry. Both pass through the paper's instrument unchanged (class centroids of the projected embeddings; ``exc.'' is the excess over the spectrum-matched null, ``depth'' the star-calibrated test of Table~\ref{tab:b34-depthvariants}, ``nat.'' the Gromov $\hat\delta$ computed with the model's own metric: Lorentz distance between tangent-space-mean centroids for MERU, angular for CLIP). Training in hyperbolic space changes nothing at the class level: MERU shows the same clustering excess as its twin and its Lorentz-metric $\hat\delta$ is indistinguishable from the Euclidean one. The depth columns use the earlier isotropic matched star (withdrawn) at the superclass frame, a construction whose power for hierarchy below its frame is zero (Table~\ref{tab:b35-power}); they are reported for completeness, not as evidence about depth. MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy; the class-tree depth that no standard backbone shows is not present in a hyperbolic one either. The synthetic two-level tree of Table~\ref{tab:b25-star} remains the existence proof that the depth test fires when depth is present.}
+\caption{\textbf{Imposing the geometry does not create depth: MERU and its Euclidean twin under the census of record.} MERU \citep{desai2023meru} embeds images and text on the Lorentz hyperboloid with an entailment objective; its released Euclidean twin is a CLIP baseline with the same ViT, RedCaps data and recipe minus the hyperbolic lift and entailment loss. Both pass through the instrument unchanged: class centroids of the projected embeddings (MERU: space-like hyperboloid coordinates; CLIP: unit vectors), Euclidean distances; exc.\ ($r$): excess of $\hat\delta_{99.9}$ over the Haar spectrum-matched null with the number of 200 replicates above the real value ($^{\circ}$: not genuine under Benjamini--Hochberg over the 24 cells); nat./Eucl.: the same statistic in the model's own metric (Lorentz distance between tangent-space-mean centroids for MERU, angular for CLIP) against the Euclidean one; depth $z$: the anisotropic matched-star test of Table~\ref{tab:b34-depthvariants} (10 star seeds; negative = more hierarchical above the frame than a star), validated at $n{=}1000$ only (Table~\ref{tab:b35-power}). MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy. % expR63_meru_record.csv
+}
 \label{tab:b30-meru}
 \end{table}

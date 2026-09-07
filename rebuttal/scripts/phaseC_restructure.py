@@ -39,9 +39,11 @@ else:
 # --- gains (exp2b, normalized stack): Poincare over cosine, few-shot, contrastive VLMs vs the rest on the hierarchical sets ---
 b = pd.read_csv(R + 'exp2b_normalized_stack.csv'); H = b[b.dataset.isin(['imagenet', 'cifar100', 'cifar10', 'dtd'])]
 g = H.FS_HN_COS_diff * 100; contr = H.paradigm.str.lower().str.startswith('contr')
-gmax_c, gmax_o = float(g[contr].max()), float(g[~contr].max())
-F['GAIN_MAX'] = f"$+{gmax_c:.1f}$"
-assert gmax_o < 0.5, f"non-contrastive Poincare-over-cosine gain {gmax_o:.2f} pp is not 'nothing'; reword by hand"
+gmax_c, gmin_c, gmax_o, gmin_o = float(g[contr].max()), float(g[contr].min()), float(g[~contr].max()), float(g[~contr].min())
+F['GAIN_MAX'] = f"${gmin_c:+.1f}$ to ${gmax_c:+.1f}$"
+F['GAIN_OTHER_CLAUSE'] = " and nothing for the others" if gmax_o < 0.5 else f" and is inconsistent for the others (${gmin_o:+.1f}$ to ${gmax_o:+.1f}$ pp)"
+assert gmin_c > 0, "contrastive gain not uniformly positive; reword"
+print(f"gains: contrastive {gmin_c:+.2f}..{gmax_c:+.2f} pp; others {gmin_o:+.2f}..{gmax_o:+.2f} pp")
 # --- Khrulkov rule on the Gaussian band (exp1: variant gauss, deduplicated by d) ---
 e1 = pd.read_csv(R + 'exp1_delta_controls.csv'); ga = e1[e1.variant == 'gauss'].drop_duplicates('d').sort_values('d')
 d_lo, d_hi = int(ga.d.iloc[0]), int(ga.d.iloc[-1]); dl_lo, dl_hi = float(ga.delta_max.iloc[0]), float(ga.delta_max.iloc[-1])

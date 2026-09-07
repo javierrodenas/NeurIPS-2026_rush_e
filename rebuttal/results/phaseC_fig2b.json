@@ -1,0 +1,21 @@
+{
+ "mode": "sample",
+ "sample_cell": [
+  "i21k_t",
+  "dtd"
+ ],
+ "class_cell": [
+  "siglip_b",
+  "cifar10"
+ ],
+ "gap_sample": 6.378867485611062e-05,
+ "gap_bge": 0.0002442311065582736,
+ "bge_class_cell": [
+  "i21k_l",
+  "dtd"
+ ],
+ "sample_raw": 0.08731984473665974,
+ "sample_exc": -0.0003870649858752628,
+ "class_raw": 0.08738363341151585,
+ "class_exc": -0.05018437807244607
+}
