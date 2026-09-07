@@ -627,3 +627,8 @@ BH (r 171–197); el párrafo habla de "the same clustering excess" sin llamarla
 curvatura, decisión Fig. 2(b), sin "tool"/"we believe"/"interestingly"): **116/116 PASS**. Compilación: 34 páginas, 0 warnings, 0 overfull, texto
 principal termina en la p. 9 con el hueco de 1.2 in de la Fig. 1 (Ethics abre en la p. 9); sin nombres de scripts en el PDF. PDF exportado.
 Entregables: `iclr2027/REVIEWER_CHECKLIST_restructure.md`, `iclr2027/SUMMARY_plain.md`.
+
+## 19. Título
+
+Decisión del autor: `\title{Is There a Platonic Tree? \\ Calibrating Latent Hyperbolicity in Foundation Models}` (antes "Calibrated Class Geometry in
+Foundation Models"). Recompilado: 34 páginas, texto principal en la p. 9, 0 warnings; sweep sin cambios. PDF exportado.
