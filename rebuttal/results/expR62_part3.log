@@ -1,0 +1,7 @@
+clip_b    cifar100  n=1000 d999 0.0805 null 0.0865 exc -0.0060 r=184 p=0.085 | sup 0.1174 (505s)
+clip_b    dtd       n=1034 d999 0.0887 null 0.0867 exc +0.0021 r=71 p=0.647 | sup 0.1250 (505s)
+clip_l    cifar100  n=1000 d999 0.0844 null 0.0807 exc +0.0037 r=35 p=0.826 | sup 0.1319 (655s)
+clip_l    dtd       n=1034 d999 0.0824 null 0.0832 exc -0.0008 r=124 p=0.383 | sup 0.1203 (720s)
+siglip_b  cifar100  n=1000 d999 0.0781 null 0.0855 exc -0.0074 r=199 p=0.010 | sup 0.1134 (632s)
+siglip_b  dtd       n=1034 d999 0.0785 null 0.0829 exc -0.0044 r=184 p=0.085 | sup 0.1142 (357s)
+PART DONE 3

@@ -45,25 +45,37 @@ _fam = [plt.Line2D([], [], marker="o", ls="", color=FAMILY_COLORS[k], ms=4, labe
 axes[0].set_xlim(80, 2450)
 axes[0].legend(handles=axes[0].get_legend_handles_labels()[0] + _fam, frameon=False, loc="upper right",
                ncol=1, fontsize=6.5, handlelength=1.2, handletextpad=0.3, borderaxespad=0.2, labelspacing=0.25)
-# (b) same raw, opposite verdict
-_t = RES/"expR53_text_haar_p999_200.csv"
-if not _t.exists(): _t = RES/"expR48b_text_census200_bs1.csv"
-t48 = {r["model"]: r for r in csv.DictReader(open(_t))}
-bge_d, bge_e = float(t48["bge_base"]["delta"]), float(t48["bge_base"]["excess"])
-cand = min(census, key=lambda r: abs(float(r["delta"]) - bge_d))
-v_name, v_ds, v_d, v_e = cand["model"], cand["dataset"], float(cand["delta"]), float(cand["excess"])
-print(f"closest vision cell to BGE-base raw {bge_d:.3f}: {v_name}/{v_ds} raw {v_d:.3f} exc {v_e:+.3f}")
-X = np.arange(2)
-axes[1].bar(X-0.16, [bge_d, v_d], width=0.3, color="white",
-            edgecolor=[fam_color("bge_base"), fam_color(v_name)], linewidth=1.2, label="raw")
-axes[1].bar(X+0.16, [bge_e, v_e], width=0.3,
-            color=[fam_color("bge_base"), fam_color(v_name)], label="excess")
-axes[1].axhline(0, color="k", lw=0.8)
+# (b) same raw, opposite verdict: BGE-base vs the closest vision cell, or (restructuring, decided by the numbers in
+#     phaseC_fig2b.json) a sample-level cell within null noise vs the class-level cell with the same raw value
+import json as _json
 NM = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
       "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
       "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
 DSN = {"imagenet":"IN","cifar100":"C100","cifar10":"C10","dtd":"DTD","fashionmnist":"FMN","mnist":"MN"}
-axes[1].set_xticks(X); axes[1].set_xticklabels(["BGE-base", f"{NM[v_name]} ({DSN[v_ds]})"])
+_dec = RES/"phaseC_fig2b.json"
+if _dec.exists() and _json.load(open(_dec)).get("mode") == "sample":
+    D = _json.load(open(_dec)); sl = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_samplelevel_record.csv"))}
+    s_m, s_ds = D["sample_cell"]; c_m, c_ds = D["class_cell"]
+    a_d, a_e = float(sl[(s_m, s_ds)]["delta_999"]), float(sl[(s_m, s_ds)]["excess"])
+    cc = {(r["model"], r["dataset"]): r for r in census}[(c_m, c_ds)]; v_name, v_ds, v_d, v_e = c_m, c_ds, float(cc["delta"]), float(cc["excess"])
+    a_col, a_lab = fam_color(s_m), f"{NM[s_m]} ({DSN[s_ds]})\nimages"; v_lab = f"{NM[v_name]} ({DSN[v_ds]})\ncentroids"
+    print(f"(b) sample-level pair: {s_m}/{s_ds} raw {a_d:.3f} exc {a_e:+.3f} vs class {c_m}/{c_ds} raw {v_d:.3f} exc {v_e:+.3f}")
+else:
+    _t = RES/"expR53_text_haar_p999_200.csv"
+    if not _t.exists(): _t = RES/"expR48b_text_census200_bs1.csv"
+    t48 = {r["model"]: r for r in csv.DictReader(open(_t))}
+    a_d, a_e = float(t48["bge_base"]["delta"]), float(t48["bge_base"]["excess"])
+    cand = min(census, key=lambda r: abs(float(r["delta"]) - a_d))
+    v_name, v_ds, v_d, v_e = cand["model"], cand["dataset"], float(cand["delta"]), float(cand["excess"])
+    a_col, a_lab, v_lab = fam_color("bge_base"), "BGE-base", f"{NM[v_name]} ({DSN[v_ds]})"
+    print(f"closest vision cell to BGE-base raw {a_d:.3f}: {v_name}/{v_ds} raw {v_d:.3f} exc {v_e:+.3f}")
+X = np.arange(2)
+axes[1].bar(X-0.16, [a_d, v_d], width=0.3, color="white",
+            edgecolor=[a_col, fam_color(v_name)], linewidth=1.2, label="raw")
+axes[1].bar(X+0.16, [a_e, v_e], width=0.3,
+            color=[a_col, fam_color(v_name)], label="excess")
+axes[1].axhline(0, color="k", lw=0.8)
+axes[1].set_xticks(X); axes[1].set_xticklabels([a_lab, v_lab], fontsize=6)
 axes[1].set_title("(b) same raw value,\nopposite verdict")
 axes[1].legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=2, handlelength=1.2,
                columnspacing=1.0, borderaxespad=0.0)

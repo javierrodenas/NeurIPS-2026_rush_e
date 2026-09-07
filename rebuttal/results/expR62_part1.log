@@ -1,0 +1,7 @@
+i21k_l    cifar100  n=1000 d999 0.0674 null 0.0715 exc -0.0041 r=185 p=0.080 | sup 0.0999 (843s)
+i21k_l    dtd       n=1034 d999 0.0558 null 0.0631 exc -0.0073 r=200 p=0.005 | sup 0.0923 (890s)
+dinov1_b  cifar100  n=1000 d999 0.0700 null 0.0742 exc -0.0042 r=194 p=0.035 | sup 0.1035 (619s)
+dinov1_b  dtd       n=1034 d999 0.0752 null 0.0744 exc +0.0008 r=80 p=0.602 | sup 0.1097 (677s)
+dinov2_s  cifar100  n=1000 d999 0.0652 null 0.0701 exc -0.0049 r=200 p=0.005 | sup 0.1001 (213s)
+dinov2_s  dtd       n=1034 d999 0.0905 null 0.0846 exc +0.0058 r=0 p=1.000 | sup 0.1453 (232s)
+PART DONE 1

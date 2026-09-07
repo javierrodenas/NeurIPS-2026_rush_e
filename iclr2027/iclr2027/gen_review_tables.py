@@ -140,9 +140,34 @@ if f.exists():
       r"\label{tab:b16-kmhubs}",r"\end{table}"]
     (OUT/"tab_b16_kmhubs.tex").write_text("\n".join(lines)+"\n"); print(f"b16 written ({len(rows)} cells)")
 
-# ---- B17: sample-level census (expR37) ----
+# ---- B17: sample-level census under the census of record (expR62; the expR37 Gaussian/supremum reading is the fallback) ----
+f62 = RES/"expR62_samplelevel_record.csv"
+if f62.exists():
+    rows=list(csv.DictReader(open(f62)))
+    NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
+          "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
+          "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+    by={(a['model'],a['dataset']):a for a in rows}
+    lines=[r"\begin{table}[H]",r"\centering",r"\footnotesize",r"\setlength{\tabcolsep}{3.5pt}",
+      r"\begin{tabular}{lcccc|cccc}",r"\toprule",
+      r"& \multicolumn{4}{c|}{CIFAR-100 (10 images/class, $n{=}1000$)} & \multicolumn{4}{c}{DTD (22 images/class, $n{=}1034$)} \\",
+      r"model & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & $r/200$ ($p$) & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & $r/200$ ($p$) \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        cs=[]
+        for ds in ("cifar100","dtd"):
+            a=by.get((m,ds))
+            if a is None: cs += ["--"]*4; continue
+            g = str(a["genuine_bh"])=="True"
+            cs += [f"${float(a['delta_sup']):.3f}$", f"${float(a['delta_999']):.3f}$", f"${float(a['excess']):+.4f}" + ("" if g else r"^{\circ}") + "$", f"{int(a['r_above'])} ({float(a['p_left']):.3f})"]
+        lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
+    n_gen = sum(str(a["genuine_bh"])=="True" for a in rows)
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{\textbf{The sample-level reading, the object of prior latent-hyperbolicity claims, under the census of record.} The instrument on $\approx$1000 stratified training images per cell (the per-image features, not class centroids): sup.\ $\hat\delta$ is the raw supremum $\delta_{\text{norm}}$ the literature reports; $\hat\delta_{99.9}$, excess, $r$/200 and $p$ follow Table~\ref{tab:census} (Haar spectrum-matched null on the sample cloud, 99.9th-percentile statistic, 200 replicates); $^{\circ}$: not genuine under Benjamini--Hochberg over the 24 cells (" + f"{n_gen} of {len(rows)} genuine" + r"). Raw values sit in the same low band as the class-level readings; the calibrated excess is within null noise in most cells. % expR62_samplelevel_record.csv" + "\n}",
+      r"\label{tab:b17-samplelevel}",r"\end{table}"]
+    (OUT/"tab_b17_samplelevel.tex").write_text("\n".join(lines)+"\n"); print(f"b17 written from expR62 ({len(rows)} cells, {n_gen} genuine)")
 f = RES/"expR37_sample_level.csv"
-if f.exists():
+if f.exists() and not f62.exists():
     rows=list(csv.DictReader(open(f)))
     NAME={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B",
           "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
@@ -460,9 +485,32 @@ if f.exists():
           r"\label{tab:b29-depth}",r"\end{table}"]
         (OUT/"tab_b29_depth.tex").write_text("\n".join(lines)+"\n"); print(f"b29 written ({len(rows)} rows)")
 
-# ---- B30: hyperbolic-backbone control (expR51, MERU vs CLIP twins) ----
+# ---- B30: hyperbolic-backbone control under the census of record (expR63; expR51 is the fallback) ----
+f63 = RES/"expR63_meru_record.csv"
+if f63.exists():
+    rows=list(csv.DictReader(open(f63)))
+    by={(a['model'],a['dataset'],a['modality']):a for a in rows}
+    M=[m for m in ["meru_s","clip_s","meru_b","clip_b","meru_l","clip_l"] if any(a['model']==m for a in rows)]
+    MN={"meru_s":"MERU ViT-S","clip_s":"CLIP ViT-S","meru_b":"MERU ViT-B","clip_b":"CLIP ViT-B","meru_l":"MERU ViT-L","clip_l":"CLIP ViT-L"}
+    def cell(a):
+        if a is None: return "-- & -- & --"
+        g = str(a["genuine_bh"])=="True"
+        return f"${float(a['excess']):+.3f}" + ("" if g else r"^{\circ}") + f"$ ({int(a['r_above'])}) & ${float(a['delta_999_native']):.3f}$/${float(a['delta_999']):.3f}$ & ${float(a['z_depth']):+.1f}$"
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.6pt}",
+      r"\begin{tabular}{llccc@{\hspace{8pt}}ccc}",r"\toprule",
+      r" & & \multicolumn{3}{c}{CIFAR-100 ($K{=}20$, $n{=}100$: depth unvalidated)} & \multicolumn{3}{c}{ImageNet ($K{=}30$, $n{=}1000$: depth validated)} \\",
+      r"\cmidrule(lr){3-5}\cmidrule(lr){6-8}",
+      r"model & input & exc.\ ($r$) & $\hat\delta_{99.9}$ nat./Eucl. & depth $z$ & exc.\ ($r$) & $\hat\delta_{99.9}$ nat./Eucl. & depth $z$ \\",r"\midrule"]
+    for mod, lab in (("image","images"),("text","prompts")):
+        for m in M:
+            lines.append(MN[m]+f" & {lab} & "+cell(by.get((m,'cifar100',mod)))+" & "+cell(by.get((m,'imagenet',mod)))+r" \\")
+        if mod=="image": lines.append(r"\midrule")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{\textbf{Imposing the geometry does not create depth: MERU and its Euclidean twin under the census of record.} MERU \citep{desai2023meru} embeds images and text on the Lorentz hyperboloid with an entailment objective; its released Euclidean twin is a CLIP baseline with the same ViT, RedCaps data and recipe minus the hyperbolic lift and entailment loss. Both pass through the instrument unchanged: class centroids of the projected embeddings (MERU: space-like hyperboloid coordinates; CLIP: unit vectors), Euclidean distances; exc.\ ($r$): excess of $\hat\delta_{99.9}$ over the Haar spectrum-matched null with the number of 200 replicates above the real value ($^{\circ}$: not genuine under Benjamini--Hochberg over the 24 cells); nat./Eucl.: the same statistic in the model's own metric (Lorentz distance between tangent-space-mean centroids for MERU, angular for CLIP) against the Euclidean one; depth $z$: the anisotropic matched-star test of Table~\ref{tab:b34-depthvariants} (10 star seeds; negative = more hierarchical above the frame than a star), validated at $n{=}1000$ only (Table~\ref{tab:b35-power}). MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy. % expR63_meru_record.csv" + "\n}",
+      r"\label{tab:b30-meru}",r"\end{table}"]
+    (OUT/"tab_b30_meru.tex").write_text("\n".join(lines)+"\n"); print(f"b30 written from expR63 ({len(rows)} rows)")
 f = RES/"expR51_meru_control.csv"
-if f.exists():
+if f.exists() and not f63.exists():
     rows=list(csv.DictReader(open(f)))
     by={(a['model'],a['dataset'],a['modality']):a for a in rows}
     M=[m for m in ["meru_s","clip_s","meru_b","clip_b","meru_l","clip_l"] if any(a['model']==m for a in rows)]

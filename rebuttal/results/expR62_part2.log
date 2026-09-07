@@ -1,0 +1,7 @@
+dinov2_b  cifar100  n=1000 d999 0.0497 null 0.0586 exc -0.0090 r=200 p=0.005 | sup 0.0893 (661s)
+dinov2_b  dtd       n=1034 d999 0.0726 null 0.0744 exc -0.0019 r=162 p=0.194 | sup 0.1387 (685s)
+dinov2_l  cifar100  n=1000 d999 0.0425 null 0.0557 exc -0.0131 r=200 p=0.005 | sup 0.0869 (833s)
+dinov2_l  dtd       n=1034 d999 0.0640 null 0.0700 exc -0.0060 r=200 p=0.005 | sup 0.1307 (854s)
+dinov2_g  cifar100  n=1000 d999 0.0358 null 0.0591 exc -0.0232 r=200 p=0.005 | sup 0.1021 (518s)
+dinov2_g  dtd       n=1034 d999 0.0645 null 0.0724 exc -0.0079 r=200 p=0.005 | sup 0.1360 (460s)
+PART DONE 2

@@ -1,0 +1,13 @@
+merged 24 cells; genuine BH 12/24
+  cifar100  image s: MERU exc -0.0197 (r=199) native 0.1171/eucl 0.1171 depth z -1.52 | CLIP exc -0.0276 (r=200) native 0.1059/eucl 0.1070 depth z -3.95 | exc diff +0.0078 depth z diff +2.43
+  cifar100  image b: MERU exc -0.0196 (r=200) native 0.1139/eucl 0.1139 depth z -2.16 | CLIP exc -0.0297 (r=200) native 0.1051/eucl 0.1032 depth z -3.28 | exc diff +0.0101 depth z diff +1.13
+  cifar100  image l: MERU exc -0.0121 (r=195) native 0.1180/eucl 0.1181 depth z -0.29 | CLIP exc -0.0164 (r=199) native 0.1233/eucl 0.1123 depth z -1.68 | exc diff +0.0042 depth z diff +1.39
+  cifar100  text  s: MERU exc -0.0224 (r=200) native 0.0859/eucl 0.0860 depth z -0.67 | CLIP exc -0.0227 (r=200) native 0.0846/eucl 0.0822 depth z -0.78 | exc diff +0.0003 depth z diff +0.11
+  cifar100  text  b: MERU exc -0.0124 (r=200) native 0.0958/eucl 0.0959 depth z -0.70 | CLIP exc -0.0167 (r=200) native 0.0935/eucl 0.0884 depth z +0.31 | exc diff +0.0043 depth z diff -1.01
+  cifar100  text  l: MERU exc -0.0063 (r=190) native 0.1023/eucl 0.1024 depth z +0.58 | CLIP exc -0.0120 (r=200) native 0.0981/eucl 0.0920 depth z +0.48 | exc diff +0.0057 depth z diff +0.10
+  imagenet  image s: MERU exc -0.0083 (r=186) native 0.0883/eucl 0.0884 depth z -1.54 | CLIP exc -0.0064 (r=171) native 0.1103/eucl 0.0883 depth z -1.85 | exc diff -0.0018 depth z diff +0.31
+  imagenet  image b: MERU exc -0.0101 (r=196) native 0.0868/eucl 0.0870 depth z -0.86 | CLIP exc -0.0086 (r=187) native 0.1065/eucl 0.0854 depth z -0.99 | exc diff -0.0015 depth z diff +0.13
+  imagenet  image l: MERU exc -0.0075 (r=184) native 0.0878/eucl 0.0880 depth z -0.52 | CLIP exc -0.0100 (r=197) native 0.1039/eucl 0.0841 depth z -1.21 | exc diff +0.0025 depth z diff +0.68
+  imagenet  text  s: MERU exc -0.0026 (r=155) native 0.0854/eucl 0.0855 depth z +0.02 | CLIP exc +0.0056 (r=15) native 0.0929/eucl 0.0872 depth z +0.82 | exc diff -0.0082 depth z diff -0.80
+  imagenet  text  b: MERU exc -0.0011 (r=132) native 0.0895/eucl 0.0896 depth z +0.76 | CLIP exc +0.0076 (r=2) native 0.1000/eucl 0.0920 depth z +0.18 | exc diff -0.0087 depth z diff +0.59
+  imagenet  text  l: MERU exc +0.0011 (r=75) native 0.0929/eucl 0.0931 depth z +0.52 | CLIP exc +0.0063 (r=5) native 0.1012/eucl 0.0922 depth z +0.39 | exc diff -0.0051 depth z diff +0.12

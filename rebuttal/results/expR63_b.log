@@ -1,0 +1,10 @@
+meru_b  cifar100  image K=20 n=100 d999 0.1139 null 0.1335 exc -0.0196 r=200 p=0.005 | native 0.1139 | depth -0.0195 z -2.16 (180s)
+meru_b  cifar100  text  K=20 n=100 d999 0.0959 null 0.1083 exc -0.0124 r=200 p=0.005 | native 0.0958 | depth -0.0078 z -0.70 (171s)
+meru_b  imagenet  image K=30 n=1000 d999 0.0870 null 0.0971 exc -0.0101 r=196 p=0.025 | native 0.0868 | depth -0.0116 z -0.86 (579s)
+meru_b  imagenet  text  K=30 n=1000 d999 0.0896 null 0.0907 exc -0.0011 r=132 p=0.343 | native 0.0895 | depth +0.0086 z +0.76 (545s)
+PART DONE meru_b
+clip_b  cifar100  image K=20 n=100 d999 0.1032 null 0.1330 exc -0.0297 r=200 p=0.005 | native 0.1051 | depth -0.0371 z -3.28 (167s)
+clip_b  cifar100  text  K=20 n=100 d999 0.0884 null 0.1051 exc -0.0167 r=200 p=0.005 | native 0.0935 | depth +0.0030 z +0.31 (170s)
+clip_b  imagenet  image K=30 n=1000 d999 0.0854 null 0.0939 exc -0.0086 r=187 p=0.070 | native 0.1065 | depth -0.0114 z -0.99 (583s)
+clip_b  imagenet  text  K=30 n=1000 d999 0.0920 null 0.0844 exc +0.0076 r=2 p=0.990 | native 0.1000 | depth +0.0018 z +0.18 (572s)
+PART DONE clip_b

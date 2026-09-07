@@ -499,6 +499,24 @@ def phaseB_checks():
         and sum(v>=2 for (m,d,K),v in iso.items() if d=="cifar100" and K==20)==8 and abs(max(v for (m,d,K),v in iso.items() if d=="cifar100" and K==20)-6.8)<0.05)
     tp = load("expR55_depth_power.csv"); chk("depth top frame (iso star): power 0.00, star false alarms 16%", all(float(r["z"])>-2 for r in tp if r["level"]!="star") and abs(np.mean([abs(float(r["z"]))>=2 for r in tp if r["level"]=="star"])-0.1625)<0.001)
 phaseB_checks()
+# ---------- Restructuring reruns R7 (expR62 sample-level) and R8 (expR63 MERU) against the memo ----------
+def r7r8_checks():
+    import json as _j, numpy as np
+    if not (R/"phaseC_memo.json").exists(): return
+    M = _j.load(open(R/"phaseC_memo.json")); s = load("expR62_samplelevel_record.csv"); m = load("expR63_meru_record.csv")
+    gen = [r for r in s if str(r["genuine_bh"])=="True"]
+    chk("R7 sample-level: 24 cells, 200 replicates each; genuine count and names match the memo; raw supremum band matches",
+        len(s)==24 and all(int(r["r_above"])<=200 for r in s) and len(gen)==M["sl_genuine"] and abs(min(float(r["delta_sup"]) for r in s)-M["sl_sup_lo"])<1e-9 and abs(max(float(r["delta_sup"]) for r in s)-M["sl_sup_hi"])<1e-9)
+    chk("R7 sample-level: the reading stays within null noise in most cells (genuine BH <= 12 of 24; memo stop condition (a) false)",
+        M["sl_genuine"]<=12 and M["stop_a_samplelevel_mostly_genuine"] is False and M["sl_within"]==24-M["sl_genuine"])
+    im = {(r["model"]): r for r in m if r["dataset"]=="imagenet" and r["modality"]=="image"}
+    chk("R8 MERU: 24 cells; ImageNet-image excess ranges, depth-z ranges and native-vs-Euclidean gap match the memo",
+        len(m)==24 and abs(min(float(im[k]["excess"]) for k in im if k.startswith("meru"))-M["meru_in_exc_range"][0])<1e-9 and abs(max(float(im[k]["excess"]) for k in im if k.startswith("clip"))-M["clip_in_exc_range"][1])<1e-9
+        and abs(min(float(im[k]["z_depth"]) for k in im if k.startswith("meru"))-M["meru_in_z_range"][0])<1e-9 and abs(max(float(im[k]["z_depth"]) for k in im if k.startswith("clip"))-M["clip_in_z_range"][1])<1e-9
+        and abs(max(abs(float(im[k]["delta_999_native"])-float(im[k]["delta_999"])) for k in im if k.startswith("meru"))-M["meru_in_nat_vs_euc_maxgap"])<1e-9)
+    chk("R8 MERU: no MERU model is more hierarchical than its twin on ImageNet (memo stop condition (b) false)",
+        M["stop_b_meru_depth_beyond_twin"] is False and all(not (float(im[f"meru_{sz}"]["z_depth"])<=-2 and float(im[f"clip_{sz}"]["z_depth"])>-2) for sz in ("s","b","l") if f"meru_{sz}" in im))
+r7r8_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

@@ -536,3 +536,23 @@ not class count" (mismo control; el párrafo de §4 abre ahora con la descripci�
 WordNet-coherente); (b) "Local agreement survives calibration" recortado en dos líneas (kNN, CKA y lectura Poincaré en una frase; ningún
 número cambia). (c) No hizo falta reducir la Fig. 3 (sigue a 1.45 in); Figs. 1 y 4 intactas. Comprobado: texto principal termina en la p. 9
 con el placeholder de 1.2 in; 33 páginas, 0 warnings; sweep 103/103 (sin números nuevos). PDF exportado.
+
+## 18a. Reestructuración — memo de los reruns R7 y R8 (antes de tocar el texto)
+
+**R7 — lectura a nivel de muestra bajo el registro** (`expR62_samplelevel_record.py` → `expR62_samplelevel_record.csv`; mismos subconjuntos que
+expR37: CIFAR-100 10 img/clase, DTD 22 img/clase, semilla 0; Haar × p99.9 × 200, BH sobre 24 celdas; supremo crudo de la misma nube al lado).
+Supremo crudo 0.087–0.145 (expR37: 0.087–0.145); δ̂₉₉.₉ 0.036–0.093;
+exceso -0.0232..+0.0058, signo negativo en 18/24; |z| < 2 en 12/24; **genuinas BH 10/24**
+(DINOv2-S/CIFAR-100, DINOv2-B/CIFAR-100, DINOv2-L/CIFAR-100, DINOv2-G/CIFAR-100, SigLIP-B/CIFAR-100, ViT-S/DTD, ViT-B/DTD, ViT-L/DTD, DINOv2-L/DTD, DINOv2-G/DTD); dentro del ruido (no genuinas) 14/24.
+
+**R8 — control MERU bajo el registro** (`expR63_meru_record.py` → `expR63_meru_record.csv`; 6 modelos × 2 datasets × 2 modalidades; censo Haar ×
+p99.9 × 200 con BH sobre 24 celdas; δ̂₉₉.₉ nativo (Lorentz/angular) vs euclídeo; test de profundidad anisotrópico, 10 semillas: ImageNet K = 30
+validado, CIFAR-100 K = 20 no validado). Imágenes de ImageNet: exceso MERU -0.0101..-0.0075 vs CLIP
+-0.0100..-0.0064 (r = 200 en todas: False); |nativo − euclídeo| ≤ 0.0002;
+profundidad z MERU -1.54..-0.52 vs CLIP -1.85..-0.99;
+celdas con z ≤ −2 en ImageNet: ninguna; MERU con profundidad más allá de su gemelo: ninguno.
+Genuinas BH en total 12/24.
+
+**Condiciones de parada del brief.** (a) exceso a nivel de muestra ya no dentro del ruido: no; (b) MERU con profundidad
+más allá del gemelo: no. → GO: la lectura cualitativa se mantiene; sigue la fase de texto.
+Checks en `sweep_freeze.py` (sección R7/R8) contra `phaseC_memo.json`.
