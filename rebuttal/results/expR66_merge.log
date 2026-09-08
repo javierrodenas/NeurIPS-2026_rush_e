@@ -1,0 +1,4 @@
+cells: 72; record genuine 49/72 (18/24)
+z_joint <= -2: 42/72 (18/24); record-genuine cells that drop: ['clip_b/cifar10', 'clip_l/cifar10', 'i21k_t/dtd', 'dinov2_l/fashionmnist', 'i21k_s/fashionmnist', 'siglip_b/fashionmnist', 'siglip_b/mnist']
+bootstrap-BH genuine in >= 27/30: 47/72 (17/24); record-genuine cells that drop: ['clip_b/cifar10', 'i21k_t/dtd', 'clip_l/imagenet']; newly genuine: ['dinov2_s/fashionmnist']
+sd_boot: max 0.0026 (ImageNet max 0.0011); sd_null max 0.0282

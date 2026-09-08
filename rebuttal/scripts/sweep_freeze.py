@@ -603,6 +603,41 @@ def prose_checks():
     for tok in missing: print("   NUMBER LOST:", tok)
     chk("prose: no number that left the main text disappeared from the paper (tables, captions or appendix prose keep it)", not missing)
 prose_checks()
+
+# ---------- Positive-control pass (Phase A): R9 = expR64 implanted depth, R11 = expR66 joint sensitivity, R10 = expR65 (optional) ----------
+def positive_control_checks():
+    import json as _j, numpy as np
+    if not (R/"positive_control_memo.json").exists(): return
+    M = _j.load(open(R/"positive_control_memo.json"))
+    D = load("expR64_implanted_depth.csv"); dep = [r for r in D if r["kind"]=="depth" and r["partition"]=="rand6" and r["s"]!="real"]
+    chk("R9: 12 backbones x 5 strengths x 5 seeds depth runs, every run n=1000 with the real hub RMS preserved (hub_rms equal across s per backbone)",
+        len(dep)==300 and all(int(r["n"])==1000 for r in dep)
+        and all(max(float(r["hub_rms"]) for r in dep if r["model"]==m)-min(float(r["hub_rms"]) for r in dep if r["model"]==m) < 1e-2*float(next(r["hub_rms"] for r in dep if r["model"]==m)) for m in {r["model"] for r in dep}))
+    s0 = [float(r["z"]) for r in dep if float(r["s"])==0.0]; s1 = [float(r["z"]) for r in dep if float(r["s"])==1.0]
+    chk("R9: no backbone declared hierarchical at s=0 (the memo's count), and the memo's s=1 verdict matches the file",
+        sum(z<=-2 for z in s0)==0 and M["r9_s0_any_hit"]==0 and (all(z<=-2 for z in s1) == M["r9_s1_all_certified"]) and abs(max(s0)-M["r9_s0_max_z"])<1e-9)
+    S = {r["model"]: r for r in load("expR64_implanted_depth_summary.csv")}
+    chk("R9: s* per backbone in the memo equals the summary file; the untouched cloud reproduces Table B34 (|dz| <= 0.05)",
+        all((S[m]["s_star"]=="" and v is None) or (S[m]["s_star"]!="" and abs(float(S[m]["s_star"])-v)<1e-9) for m, v in M["r9_s_star"].items()) and M["r9_real_z_match"] <= 0.05)
+    cen = [r for r in D if r["kind"]=="census"]
+    chk("R9: census excess on the implanted clouds (5 strengths x 12 backbones, 200 replicates): every cloud below its null mean, minimum rank equals the memo's",
+        len(cen)==60 and all(float(r["excess"])<0 for r in cen) and min(int(float(r["r_above"])) for r in cen)==M["r9_census_r_min"])
+    tg = [r for r in D if r["kind"]=="depth" and r["partition"]=="rand6_t06"]
+    if tg: chk("R9 tight variant: 12 backbones x 3 strengths x 2 seeds; memo's per-backbone z and hit counts match the file",
+        len(tg)==72 and all(abs(np.mean([float(r["z"]) for r in tg if r["model"]==m and float(r["s"])==1.0])-v["z_s1"])<1e-9 and sum(float(r["z"])<=-2 for r in tg if r["model"]==m and float(r["s"])==0.0)==v["hits_s0"] for m, v in M["r9_tight"].items()))
+    J = load("expR66_joint_sensitivity_summary.csv"); top = lambda r: r["dataset"] in ("imagenet","cifar100")
+    chk("R11: 72 cells x 30 resamples; record 49/72 & 18/24 reproduced from the summary; joint and bootstrap-BH counts equal the memo",
+        len(J)==72 and all(int(r["n_boot"])==30 for r in J) and sum(r["genuine_bh_record"]=="True" for r in J)==49 and sum(r["genuine_bh_record"]=="True" and top(r) for r in J)==18
+        and [sum(r["joint_genuine"]=="True" for r in J), sum(r["joint_genuine"]=="True" and top(r) for r in J)]==M["r11_joint"]
+        and [sum(r["boot_bh_genuine"]=="True" for r in J), sum(r["boot_bh_genuine"]=="True" and top(r) for r in J)]==M["r11_bootbh"])
+    zj = [float(r["excess"])/np.sqrt(float(r["sd_null"])**2+float(r["sd_boot"])**2+float(r["sd_est"])**2) for r in J]
+    chk("R11: z_joint recomputed from the stored s.d.s matches the file", all(abs(z-float(r["z_joint"]))<1e-6 for z, r in zip(zj, J)))
+    if M.get("r10"):
+        F = {r["obj"]: r for r in load("expR65_hier_finetune.csv")}
+        chk("R10: frozen/ce/hier rows present; memo values equal the file; frozen census excess equals the record cell to 3 dp",
+            all(o in F for o in ("frozen","ce","hier")) and all(abs(float(F[o]["z_depth"])-M["r10"][o]["z"])<1e-9 and abs(float(F[o]["excess"])-M["r10"][o]["excess"])<1e-9 for o in F)
+            and abs(float(F["frozen"]["excess"])-float(next(r["excess"] for r in load("expR52_census_haar_p999_200.csv") if r["model"]=="i21k_b" and r["dataset"]=="imagenet")))<0.0015)
+positive_control_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

@@ -1,0 +1,8 @@
+dinov2_l  tight06 s=real  seed 0 depth: real -0.1104 star -0.0490 depth -0.0613 z -6.13 (107s)
+dinov2_l  rand6_t06 s=0.0   seed 0 depth: real -0.0445 star -0.0490 depth +0.0045 z +0.38 (82s)
+dinov2_l  rand6_t06 s=0.0   seed 1 depth: real -0.0487 star -0.0491 depth +0.0004 z +0.03 (89s)
+dinov2_l  rand6_t06 s=0.5   seed 0 depth: real -0.1078 star -0.0490 depth -0.0588 z -8.22 (102s)
+dinov2_l  rand6_t06 s=0.5   seed 1 depth: real -0.1044 star -0.0491 depth -0.0553 z -6.58 (101s)
+dinov2_l  rand6_t06 s=1.0   seed 0 depth: real -0.1873 star -0.0490 depth -0.1383 z -11.41 (74s)
+dinov2_l  rand6_t06 s=1.0   seed 1 depth: real -0.1836 star -0.0491 depth -0.1345 z -10.43 (71s)
+PART DONE dinov2_l

@@ -1,0 +1,8 @@
+siglip_b  tight06 s=real  seed 0 depth: real -0.0149 star -0.0043 depth -0.0106 z -1.06 (87s)
+siglip_b  rand6_t06 s=0.0   seed 0 depth: real -0.0260 star -0.0043 depth -0.0217 z -2.06 (85s)
+siglip_b  rand6_t06 s=0.0   seed 1 depth: real -0.0275 star -0.0043 depth -0.0232 z -2.13 (90s)
+siglip_b  rand6_t06 s=0.5   seed 0 depth: real -0.0848 star -0.0043 depth -0.0805 z -8.79 (82s)
+siglip_b  rand6_t06 s=0.5   seed 1 depth: real -0.0898 star -0.0043 depth -0.0856 z -9.10 (61s)
+siglip_b  rand6_t06 s=1.0   seed 0 depth: real -0.1513 star -0.0043 depth -0.1471 z -11.44 (47s)
+siglip_b  rand6_t06 s=1.0   seed 1 depth: real -0.1520 star -0.0043 depth -0.1477 z -12.24 (42s)
+PART DONE siglip_b

@@ -1,0 +1,52 @@
+decoded 0/100000 (5s)
+decoded 10000/100000 (191s)
+decoded 20000/100000 (364s)
+decoded 30000/100000 (544s)
+decoded 40000/100000 (738s)
+decoded 50000/100000 (917s)
+decoded 60000/100000 (1091s)
+decoded 70000/100000 (1273s)
+decoded 80000/100000 (1455s)
+decoded 90000/100000 (1640s)
+decoded 100000 images -> /media/HDD_4TB_2/javi/Platonic/results/imagenet_train100_224_uint8.npy (1822s); mean/std (0.5, 0.5, 0.5) (0.5, 0.5, 0.5)
+100000 images in RAM, (224, 224, 3) uint8; K=30
+ep 0 step 1/1562 | ce: cls 8.636 acc 0.00 | hier: cls 8.636 sup 4.749 acc 0.00 | 3s
+ep 0 step 50/1562 | ce: cls 5.899 acc 0.14 | hier: cls 5.992 sup 1.196 acc 0.09 | 83s
+ep 0 step 100/1562 | ce: cls 1.130 acc 0.79 | hier: cls 1.197 sup 0.462 acc 0.79 | 159s
+ep 0 step 150/1562 | ce: cls 1.001 acc 0.78 | hier: cls 1.076 sup 0.291 acc 0.77 | 233s
+ep 0 step 200/1562 | ce: cls 0.972 acc 0.80 | hier: cls 1.027 sup 0.267 acc 0.80 | 305s
+ep 0 step 250/1562 | ce: cls 0.828 acc 0.84 | hier: cls 0.814 sup 0.200 acc 0.84 | 376s
+ep 0 step 300/1562 | ce: cls 1.363 acc 0.75 | hier: cls 1.482 sup 0.334 acc 0.70 | 446s
+ep 0 step 350/1562 | ce: cls 0.950 acc 0.81 | hier: cls 0.985 sup 0.303 acc 0.81 | 517s
+ep 0 step 400/1562 | ce: cls 1.028 acc 0.80 | hier: cls 0.923 sup 0.334 acc 0.82 | 585s
+ep 0 step 450/1562 | ce: cls 0.958 acc 0.77 | hier: cls 0.981 sup 0.181 acc 0.79 | 654s
+ep 0 step 500/1562 | ce: cls 0.751 acc 0.84 | hier: cls 0.670 sup 0.178 acc 0.84 | 722s
+ep 0 step 550/1562 | ce: cls 1.022 acc 0.73 | hier: cls 1.042 sup 0.192 acc 0.76 | 789s
+ep 0 step 600/1562 | ce: cls 0.631 acc 0.84 | hier: cls 0.680 sup 0.227 acc 0.86 | 856s
+ep 0 step 650/1562 | ce: cls 0.780 acc 0.83 | hier: cls 0.661 sup 0.150 acc 0.87 | 923s
+ep 0 step 700/1562 | ce: cls 0.764 acc 0.84 | hier: cls 0.797 sup 0.122 acc 0.85 | 989s
+ep 0 step 750/1562 | ce: cls 0.579 acc 0.88 | hier: cls 0.587 sup 0.106 acc 0.86 | 1055s
+ep 1 step 800/1562 | ce: cls 0.331 acc 0.91 | hier: cls 0.384 sup 0.078 acc 0.91 | 1119s
+ep 1 step 850/1562 | ce: cls 0.145 acc 0.95 | hier: cls 0.128 sup 0.135 acc 0.97 | 1182s
+ep 1 step 900/1562 | ce: cls 0.102 acc 0.97 | hier: cls 0.096 sup 0.039 acc 0.98 | 1245s
+ep 1 step 950/1562 | ce: cls 0.239 acc 0.92 | hier: cls 0.268 sup 0.053 acc 0.91 | 1307s
+ep 1 step 1000/1562 | ce: cls 0.226 acc 0.93 | hier: cls 0.207 sup 0.032 acc 0.95 | 1370s
+ep 1 step 1050/1562 | ce: cls 0.184 acc 0.95 | hier: cls 0.237 sup 0.057 acc 0.95 | 1432s
+ep 1 step 1100/1562 | ce: cls 0.144 acc 0.96 | hier: cls 0.167 sup 0.159 acc 0.96 | 1494s
+ep 1 step 1150/1562 | ce: cls 0.264 acc 0.93 | hier: cls 0.291 sup 0.071 acc 0.92 | 1556s
+ep 1 step 1200/1562 | ce: cls 0.109 acc 0.97 | hier: cls 0.112 sup 0.053 acc 0.96 | 1620s
+ep 1 step 1250/1562 | ce: cls 0.166 acc 0.95 | hier: cls 0.177 sup 0.046 acc 0.94 | 1682s
+ep 1 step 1300/1562 | ce: cls 0.105 acc 0.96 | hier: cls 0.112 sup 0.034 acc 0.95 | 1745s
+ep 1 step 1350/1562 | ce: cls 0.149 acc 0.95 | hier: cls 0.138 sup 0.053 acc 0.95 | 1807s
+ep 1 step 1400/1562 | ce: cls 0.153 acc 0.95 | hier: cls 0.168 sup 0.040 acc 0.94 | 1868s
+ep 1 step 1450/1562 | ce: cls 0.096 acc 0.95 | hier: cls 0.101 sup 0.022 acc 0.95 | 1931s
+ep 1 step 1500/1562 | ce: cls 0.084 acc 0.98 | hier: cls 0.069 sup 0.051 acc 0.98 | 1994s
+ep 1 step 1550/1562 | ce: cls 0.225 acc 0.96 | hier: cls 0.214 sup 0.079 acc 0.94 | 2058s
+ce    : census exc -0.0153 r=200 p=0.005 | depth -0.0303 z -2.33
+hier  : census exc -0.0162 r=200 p=0.005 | depth -0.0295 z -2.77
+frozen: census exc -0.0162 r=200 p=0.005 | depth -0.0335 z -3.62
+DONE expR65
+/home/javi/anaconda3/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+rebuttal/scripts/expR65_hier_finetune.py:125: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at ../torch/csrc/utils/tensor_numpy.cpp:206.)
+  xb = torch.from_numpy(X[i:i + 256]).permute(0, 3, 1, 2).float().div_(255); xb = ((xb - mean) / std).to(dev); feats.append(m(xb).float().cpu().numpy())

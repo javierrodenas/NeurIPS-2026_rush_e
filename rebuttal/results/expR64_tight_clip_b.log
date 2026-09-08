@@ -1,0 +1,8 @@
+clip_b    tight06 s=real  seed 0 depth: real -0.0167 star -0.0018 depth -0.0149 z -1.48 (80s)
+clip_b    rand6_t06 s=0.0   seed 0 depth: real -0.0151 star -0.0018 depth -0.0133 z -1.49 (78s)
+clip_b    rand6_t06 s=0.0   seed 1 depth: real -0.0200 star -0.0018 depth -0.0182 z -1.84 (79s)
+clip_b    rand6_t06 s=0.5   seed 0 depth: real -0.0677 star -0.0018 depth -0.0659 z -6.50 (71s)
+clip_b    rand6_t06 s=0.5   seed 1 depth: real -0.0688 star -0.0018 depth -0.0670 z -6.56 (68s)
+clip_b    rand6_t06 s=1.0   seed 0 depth: real -0.1431 star -0.0018 depth -0.1413 z -11.94 (56s)
+clip_b    rand6_t06 s=1.0   seed 1 depth: real -0.1411 star -0.0018 depth -0.1393 z -12.96 (75s)
+PART DONE clip_b

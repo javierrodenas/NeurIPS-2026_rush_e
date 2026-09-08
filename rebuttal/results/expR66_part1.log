@@ -1,0 +1,9 @@
+i21k_b    imagenet     b= -1 exc -0.0163 r=50/50 (118s)
+i21k_b    imagenet     b=  0 exc -0.0153 r=50/50 (113s)
+i21k_b    imagenet     b= 10 exc -0.0159 r=50/50 (146s)
+i21k_b    imagenet     b= 20 exc -0.0151 r=50/50 (150s)
+i21k_l    imagenet     b= -1 exc -0.0158 r=50/50 (188s)
+i21k_l    imagenet     b=  0 exc -0.0157 r=50/50 (193s)
+i21k_l    imagenet     b= 10 exc -0.0153 r=50/50 (175s)
+i21k_l    imagenet     b= 20 exc -0.0168 r=50/50 (183s)
+PART DONE 1

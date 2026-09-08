@@ -1,0 +1,8 @@
+i21k_t    tight06 s=real  seed 0 depth: real -0.0362 star -0.0091 depth -0.0271 z -1.97 (56s)
+i21k_t    rand6_t06 s=0.0   seed 0 depth: real -0.0096 star -0.0092 depth -0.0004 z -0.05 (58s)
+i21k_t    rand6_t06 s=0.0   seed 1 depth: real -0.0198 star -0.0092 depth -0.0106 z -1.16 (59s)
+i21k_t    rand6_t06 s=0.5   seed 0 depth: real -0.0606 star -0.0092 depth -0.0514 z -5.71 (59s)
+i21k_t    rand6_t06 s=0.5   seed 1 depth: real -0.0549 star -0.0092 depth -0.0457 z -3.76 (58s)
+i21k_t    rand6_t06 s=1.0   seed 0 depth: real -0.1380 star -0.0092 depth -0.1288 z -10.85 (58s)
+i21k_t    rand6_t06 s=1.0   seed 1 depth: real -0.1357 star -0.0092 depth -0.1265 z -9.56 (58s)
+PART DONE i21k_t

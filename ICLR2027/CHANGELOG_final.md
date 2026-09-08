@@ -716,3 +716,26 @@ grafo (y las redes de carreteras como control negativo); Adcock et al. (2013) mi
 valor de δ a secas, "the simplest and most popular metrics", no basta para caracterizar la estructura arbórea. Se retira la atribución
 "found long ago that the raw reading does not certify tree-likeness"; queda "Reading δ against a reference is therefore not new". Recompilado:
 texto principal en la p. 9, 35 páginas, 0 warnings; sweep sin cambios, 119/119. PDF exportado.
+
+## 23a. Positive-control pass — memo de la Fase A (sin prosa; `ICLR2027/MEMO_positive_control.md`)
+
+**R9 — profundidad implantada en centroides reales de ImageNet** (`expR64_implanted_depth.py` → `expR64_implanted_depth.csv`, `_summary.csv`,
+`fig_implanted_depth.pdf`; 12 backbones × s ∈ {0, 0.25, 0.5, 0.75, 1} × 5 semillas de implante = 300 tests de profundidad con el
+protocolo exacto de B34, más censo Haar × p99.9 × 200 en la semilla 0; partición rand6 = 6 super-hubs de 5 (RandomState(0)); el 6-corte
+WordNet existe y está anidado pero es 10/5/11/2/1/1, corrido como `wn6` para la semilla 0). Falsas alarmas a s = 0: **0** backbones
+(z máx. +0.50). Potencia por s: s=0.0: 0.00, s=0.25: 0.00, s=0.5: 0.00, s=0.75: 0.10, s=1.0: 0.32. s* (primer s con z ≤ −2 en ≥ 4/5 semillas): i21k_t None, i21k_s None, i21k_b None, i21k_l 1.0, dinov1_b None, dinov2_s None, dinov2_b None, dinov2_l None, dinov2_g None, clip_b None, clip_l 0.75, siglip_b 1.0.
+Censo sobre las mismas nubes: dispersión máxima entre s de 0.0076 (≤ 1.85 s.d. del null), r mínimo 172/200. Nube real por el
+mismo código = B34 (|Δz| máx. 0.00). Cociente intra/entre de las nubes reales a K = 30 (el barrido sintético cubrió 0.1–0.6):
+i21k_t 1.55, i21k_s 1.93, i21k_b 1.96, i21k_l 1.88, dinov1_b 2.12, dinov2_s 3.0, dinov2_b 3.71, dinov2_l 3.88, dinov2_g 3.92, clip_b 1.33, clip_l 1.49, siglip_b 1.54. Tamaños de cluster del marco WordNet-30: [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 10, 11, 12, 13, 16, 17, 18, 22, 23, 31, 67, 71, 158, 175, 316].
+**Variante tight** (offsets reales encogidos a cociente 0.6, mismo implante, s ∈ {0, 0.5, 1}, 2 semillas; `--tight`, chain r14): i21k_t z(s=0/0.5/1) -0.6/-4.7/-10.2, s=0 hits 0/2; i21k_s z(s=0/0.5/1) -0.2/-7.0/-10.5, s=0 hits 0/2; i21k_b z(s=0/0.5/1) -1.0/-7.7/-11.1, s=0 hits 0/2; i21k_l z(s=0/0.5/1) -1.6/-8.7/-12.3, s=0 hits 0/2; dinov1_b z(s=0/0.5/1) -1.6/-9.4/-11.4, s=0 hits 0/2; dinov2_s z(s=0/0.5/1) -0.2/-6.6/-11.9, s=0 hits 0/2; dinov2_b z(s=0/0.5/1) -0.0/-8.5/-11.0, s=0 hits 0/2; dinov2_l z(s=0/0.5/1) +0.2/-7.4/-10.9, s=0 hits 0/2; dinov2_g z(s=0/0.5/1) +0.2/-9.1/-10.7, s=0 hits 0/2; clip_b z(s=0/0.5/1) -1.7/-6.5/-12.5, s=0 hits 0/2; clip_l z(s=0/0.5/1) -2.4/-9.8/-13.4, s=0 hits 2/2; siglip_b z(s=0/0.5/1) -2.1/-8.9/-11.8, s=0 hits 2/2.
+
+**R11 — sensibilidad conjunta** (`expR66_joint_sensitivity.py` → `expR66_joint_sensitivity{,_summary}.csv`; 72 celdas × 30 remuestreos × 50 réplicas
+Haar). Registro 49/72, 18/24. z_joint ≤ −2: **42/72**, 18/24 (caen: CLIP-B/cifar10, CLIP-L/cifar10, ViT-T/dtd, DINOv2-L/fashionmnist, ViT-S/fashionmnist, SigLIP-B/fashionmnist, SigLIP-B/mnist). BH por remuestreo, genuina en ≥ 27/30:
+**47/72**, 17/24 (caen: CLIP-B/cifar10, ViT-T/dtd, CLIP-L/imagenet; entra: DINOv2-S/fashionmnist). s.d. bootstrap máx. 0.0026 (0.0011 en ImageNet).
+
+**R10 — ViT-B/16 fine-tuned** (`expR65_hier_finetune.py` → `expR65_hier_finetune.csv`, `expR65_train_log.csv`; subconjunto del censo de 100 img/clase,
+2 épocas, mismos batches para (a) CE y (b) CE + CE jerárquica sobre el 30-corte WordNet; el train completo no es legible a velocidad de
+entrenamiento desde el disco): frozen exceso -0.0162 z -3.62; CE -0.0153 z -2.33; jerárquico -0.0162 z -2.77.
+Criterio del brief (b certificado y a no, o z de b claramente por debajo de a, umbral 1): **False**.
+
+Checks en `sweep_freeze.py` (sección positive-control) contra `positive_control_memo.json`. Sin ediciones de prosa.
