@@ -703,3 +703,16 @@ referencias a la ruta exterior en `rebuttal/scripts/*.py` (sweep, phase*, expR55
 `CODE_MAP.md` y los .md de la carpeta; las referencias interiores (`HERE.parent/"iclr2027"/"figures"` en los scripts de figuras) no cambian.
 Verificado tras el renombrado: generadores de tablas y figuras, sweep 119/119, compilación (35 páginas, texto principal en la p. 9, 0 warnings),
 PDF exportado a `ICLR2027/main_iclr2027_final.pdf`. Ninguna línea de contenido cambia.
+
+## 22. Cuatro arreglos de prosa (sin cambio de contenido)
+
+(1) §1, párrafo 3: la frase encadenada se divide en "…what survives calibration, and is it shared? In the words of the title: is there a
+Platonic tree?", con las dos citas tras "convergence work". (2) §1, párrafo 2: "(Gromov, 1987)" pasa a seguir a "Gromov δ assigns zero to
+trees". (3) §4.1: tras "concentrated in the self-supervised family" se añade "and that family's structure is the angular tree of Section 5,
+which cosine collects". (4) §2 "Calibrating geometry against nulls": la frase de network science se reescribe según lo que afirman los tres
+trabajos, comprobados en sus textos: Narayan & Saniee (2011) y Kennedy et al. (2013) comparan la curvatura (δ) de redes de comunicación y
+sociales con retículos, rejillas hiperbólicas y grafos aleatorios de Erdős–Rényi de tamaño comparable, leyendo δ respecto al diámetro del
+grafo (y las redes de carreteras como control negativo); Adcock et al. (2013) miden δ junto con descomposiciones en árbol y concluyen que el
+valor de δ a secas, "the simplest and most popular metrics", no basta para caracterizar la estructura arbórea. Se retira la atribución
+"found long ago that the raw reading does not certify tree-likeness"; queda "Reading δ against a reference is therefore not new". Recompilado:
+texto principal en la p. 9, 35 páginas, 0 warnings; sweep sin cambios, 119/119. PDF exportado.
