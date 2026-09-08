@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Memo of the restructuring reruns (R7 = expR62 sample-level under the record; R8 = expR63 MERU under the record):
 prints the numbers, writes rebuttal/results/phaseC_memo.json (what sweep_freeze.py checks) and appends the memo to
-iclr2027/CHANGELOG_final.md. Also evaluates the two stop conditions of the brief:
+ICLR2027/CHANGELOG_final.md. Also evaluates the two stop conditions of the brief:
   (a) sample-level excess no longer within noise (most cells genuine)  -> stop;
   (b) MERU showing depth beyond its twin on ImageNet (validated regime) -> stop."""
 import json, sys
@@ -57,4 +57,4 @@ Genuinas BH en total {memo['meru_genuine_total']}/{memo['meru_rows']}.
 más allá del gemelo: {'SÍ — STOP' if stop_b else 'no'}. → {'STOP: se informa antes de la fase de texto.' if (stop_a or stop_b) else 'GO: la lectura cualitativa se mantiene; sigue la fase de texto.'}
 Checks en `sweep_freeze.py` (sección R7/R8) contra `phaseC_memo.json`.
 """
-    open('iclr2027/CHANGELOG_final.md', 'a').write(cl); print("memo appended to CHANGELOG")
+    open('ICLR2027/CHANGELOG_final.md', 'a').write(cl); print("memo appended to CHANGELOG")

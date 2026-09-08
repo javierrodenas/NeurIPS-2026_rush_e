@@ -4,7 +4,7 @@
 current main text and the generated tables. Prints a Markdown table."""
 import re, glob
 from pathlib import Path
-TEX = Path('iclr2027/iclr2027'); R = Path('rebuttal/results')
+TEX = Path('ICLR2027/iclr2027'); R = Path('rebuttal/results')
 def strip(s):
     s = re.sub(r"(?m)(?<!\\)%.*$", "", s); s = re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", s); s = re.sub(r"\\(S)?\\?ref\{[^}]*\}", "", s); return re.sub(r"\\label\{[^}]*\}", "", s)
 old = strip(open(R/'phaseD_old_main_body.tex').read()); T = open(TEX/'main_iclr2027.tex').read()

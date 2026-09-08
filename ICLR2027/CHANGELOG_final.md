@@ -220,7 +220,7 @@ Poincaré "0.472→0.425; 0.633→0.640". La frase de Poincaré se conserva.
 - `sweep_freeze.py` (sección 2 → expR39b, sección 5 → exp21b, check de fidelidad R1 añadido): **67/67 PASS**
   (`rebuttal/results/sweep_freeze_final.log`).
 - Compilación tectonic: 30 páginas, 0 warnings (undefined/overfull), 0 `??`; Ethics Statement en p9,
-  p10 abre con Reproducibility Statement. PDF: `iclr2027/main_iclr2027_final.pdf`.
+  p10 abre con Reproducibility Statement. PDF: `ICLR2027/main_iclr2027_final.pdf`.
 - Generadores ejecutados en orden: gen_main_table, gen_appendix, gen_appendix2, gen_review_tables,
   gen_provenance (`tab_z_provenance.tex` en sincronía; no se incluye en el PDF por decisión previa del autor).
 
@@ -248,7 +248,7 @@ Poincaré "0.472→0.425; 0.633→0.640". La frase de Poincaré se conserva.
    puntero a la Tabla A7); el detalle GTE-Qwen2 (−0.019 con 3 réplicas; +0.002, rango 8/20 con 20) → leyenda
    de B23. El bloque queda en tres párrafos cortos con una frase-puntero a A.templates.
 - Verificación: `sweep_freeze.py` **67/67 PASS**; compilación 30 páginas, warnings = 0, `??` = 0; Ethics en
-  p9 (1); p10 abre con "R EPRODUCIBILITY S TATEMENT". PDF actualizado en `iclr2027/main_iclr2027_final.pdf`.
+  p9 (1); p10 abre con "R EPRODUCIBILITY S TATEMENT". PDF actualizado en `ICLR2027/main_iclr2027_final.pdf`.
 
 ## 11. R6 — censo a 200 réplicas (resolución Gröger): censo de registro
 
@@ -322,7 +322,7 @@ embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust acro
 
 ### Verificación
 - `sweep_freeze.py` (sección 2 → expR39c; sección 3 → expR48b): **67/67 PASS**.
-- Compilación: 30 páginas, warnings = 0 (Overfull de B20 corregido con tabcolsep 1.8 pt), `??` = 0; Ethics en p9; p10 abre con Reproducibility Statement. PDF: `iclr2027/main_iclr2027_final.pdf`.
+- Compilación: 30 páginas, warnings = 0 (Overfull de B20 corregido con tabcolsep 1.8 pt), `??` = 0; Ethics en p9; p10 abre con Reproducibility Statement. PDF: `ICLR2027/main_iclr2027_final.pdf`.
 
 ## 12. Pasada de contribución (cuatro ediciones de texto + el instrumento como herramienta)
 
@@ -335,9 +335,9 @@ embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust acro
    pregunta lo que neural collapse no pregunta. §2: "…without testing tree-likeness" + "; §4 relates our excess to the collapsed simplex".
 3. **Intro**: al final del párrafo del instrumento, dos frases de posicionamiento: Gröger et al. calibran similitud entre modelos; nosotros
    geometría dentro de un modelo, y comparar los árboles resultantes entre modelos necesita su propia calibración (§5).
-4. **El instrumento como herramienta**: `iclr2027/tool/calibrated_delta.py` (entrada: matriz de centroides n×d `.npy` + etiquetas de superclase
+4. **El instrumento como herramienta**: `ICLR2027/tool/calibrated_delta.py` (entrada: matriz de centroides n×d `.npy` + etiquetas de superclase
    opcionales; salida: δ_norm cruda, exceso espectral con rango r/200 y p de cola izquierda, y el test de profundidad con estrella emparejada de
-   B29; funciones y semillas copiadas verbatim de `expR39c_census200_cache.py` y `expR50_depth_test.py`). `iclr2027/tool/run_checks.py`
+   B29; funciones y semillas copiadas verbatim de `expR39c_census200_cache.py` y `expR50_depth_test.py`). `ICLR2027/tool/run_checks.py`
    lo ejecuta en ViT-L/CIFAR-100 y DINOv2-L/ImageNet y escribe `rebuttal/results/tool_check.json`; `sweep_freeze.py` (sección TOOL) compara con
    la Tabla 1 (exceso 3 dp, r, p) y con B29 (profundidad 3 dp, z 1 dp; en ImageNet con los centroides del store, como expR50).
    **Resultado: reproducción exacta** — ViT-L/C100 exceso −0.0441, r 200, p 0.005; DINOv2-L/IN −0.0079, r 200, p 0.005; profundidad
@@ -348,7 +348,7 @@ embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust acro
    ("a PC-permutation null confirms every verdict": los veredictos son ahora por rango), cláusula de Poincaré acortada en §5, frase de las
    ResNet-50 acortada en el censo, Figura 1 a 0.95 in, overview 1.65 in, excesos 1.7 in, tree map 1.95 in.
 - Verificación: `sweep_freeze.py` **71/71 PASS** (67 + 4 checks del tool); compila con 30 páginas, 0 warnings, 0 `??`; el texto principal
-  (Limitations incluidas) termina en p9 y el Ethics Statement abre p10. PDF: `iclr2027/main_iclr2027_final.pdf`.
+  (Limitations incluidas) termina en p9 y el Ethics Statement abre p10. PDF: `ICLR2027/main_iclr2027_final.pdf`.
 
 ## 13. Pasada final de consistencia
 
@@ -370,18 +370,18 @@ embedders "sit at their nulls" → "are not genuine"; GTE-Qwen2 "not robust acro
    ("…44/48 hierarchical cells genuine under the same protocol (200 replicates)…"); B21 regenerada desde expR40b (exc/r/p por celda, recuentos
    en la leyenda); la columna p99.9 de `tab_census_extra` pasa de expR34 (20 réplicas) a expR40b (200). Check nuevo en el sweep.
    Sign-positivas bajo p99.9: ViT-B/CIFAR-100 (+0.001, p 0.56) y ViT-T/FMNIST (+0.001, p 0.53).
-6. **`iclr2027/tool/demo.py`** (n = 60, d = 32, 50 réplicas, semillas fijas): nube aleatoria → exceso −0.014, r 47/50, p 0.078 → no genuino;
+6. **`ICLR2027/tool/demo.py`** (n = 60, d = 32, 50 réplicas, semillas fijas): nube aleatoria → exceso −0.014, r 47/50, p 0.078 → no genuino;
    estrella de 6 clusters → exceso −0.054, p 0.020 → genuino, profundidad +0.039 (z +0.9) → sin profundidad; jerarquía 6×5 → exceso −0.115,
    p 0.020 → genuino, profundidad −0.025 (z −0.6) → más arbóreo que su estrella. A n = 60 con K = 6 hubs el test de profundidad está
    infra-potenciado (probé cuatro parametrizaciones; |z| ≤ 0.6 en todas), así que el demo y el README leen el signo de la profundidad y remiten
    a B25/B29 (n = 100–1000) para la calibración. `tool/README.md`: uso, check de reproducción de dos celdas, demo.
 - Verificación: `sweep_freeze.py` **73/73 PASS**; compila con 30 páginas, 0 warnings, 0 `??`; el texto principal (Limitations incluidas)
-  termina en p9 y el Ethics Statement abre p10. PDF: `iclr2027/main_iclr2027_final.pdf`.
+  termina en p9 y el Ethics Statement abre p10. PDF: `ICLR2027/main_iclr2027_final.pdf`.
 
 ## 14. Respuesta a la revisión — FASE A (experimentos y memo; sin ediciones de prosa) — CHECKPOINT
 
 Todo lo que sigue está fijado antes de las ejecuciones; ningún ajuste se eligió mirando los números. Memo con solo números:
-`iclr2027/MEMO_phaseA.md` (generado por `rebuttal/scripts/make_memo_phaseA.py`).
+`ICLR2027/MEMO_phaseA.md` (generado por `rebuttal/scripts/make_memo_phaseA.py`).
 
 **A1 — 2×2 {null} × {estadístico}, 200 réplicas, caché del censo, BH (FDR 0.05) por 72 celdas / 15 modelos.**
 Scripts: `expR52_census_haar_p999_200.py` (motor de visión; `--null gauss|haar --stat sup|p999`), `expR54_census_haar_sup_200.py`
@@ -477,7 +477,7 @@ edición en Limitations, forzada por la retirada.
 tendencias DINOv2, 2×2, bootstrap, coseno, texto, tree map, tool bajo el protocolo de registro, potencia/falsas alarmas del test de profundidad contra la regla, lecturas reales aniso/iso, marco superior): **100/100 PASS**.
 Tool: `calibrated_delta.py` reproduce Tabla 1 (exceso, r, p exactos) y B34 (profundidad 3 dp, z 1 dp) en ViT-L/CIFAR-100 y
 DINOv2-L/ImageNet. Compilación: 33 páginas, 0 warnings, texto principal termina en la p. 9. `main_iclr2027_final.pdf` exportado.
-Checklist de preguntas de revisor: `iclr2027/REVIEWER_CHECKLIST_phaseB.md`.
+Checklist de preguntas de revisor: `ICLR2027/REVIEWER_CHECKLIST_phaseB.md`.
 
 ## 16. Pasada final tras la lectura completa (seis puntos del autor)
 
@@ -626,7 +626,7 @@ BH (r 171–197); el párrafo habla de "the same clustering excess" sin llamarla
 **Verificación.** `sweep_freeze.py`: sección R7/R8 (4 checks) y sección de texto reestructurado (10 checks: frases con recuentos/rangos/ganancias/
 curvatura, decisión Fig. 2(b), sin "tool"/"we believe"/"interestingly"): **116/116 PASS**. Compilación: 34 páginas, 0 warnings, 0 overfull, texto
 principal termina en la p. 9 con el hueco de 1.2 in de la Fig. 1 (Ethics abre en la p. 9); sin nombres de scripts en el PDF. PDF exportado.
-Entregables: `iclr2027/REVIEWER_CHECKLIST_restructure.md`, `iclr2027/SUMMARY_plain.md`.
+Entregables: `ICLR2027/REVIEWER_CHECKLIST_restructure.md`, `ICLR2027/SUMMARY_plain.md`.
 
 ## 19. Título
 
@@ -694,3 +694,12 @@ substantially/somewhat/interestingly/notably/importantly/we believe/we note), im
 literal decimal del cuerpo anterior sigue en cuerpo, apéndice o tablas, con tolerancia de redondeo; única excepción declarada: ≈−0.11 →
 −0.103 en B25). **119/119 PASS.** Compilación: 35 páginas, 0 warnings, texto principal en la p. 9 con el hueco de 1.2 in de la Fig. 1;
 alturas: Fig. 2 1.35 in, Fig. 3 1.28 in, Fig. 5 0.86\linewidth (Figs. 1 y 4 intactas). `SUMMARY_plain.md` regenerado del texto nuevo.
+
+## 21. Carpeta renombrada a `ICLR2027/`
+
+Decisión del autor (2026-09-08) tras dos syncs de Overleaf que renombraban la carpeta y provocaban conflictos: la carpeta exterior pasa de
+`iclr2027/` a `ICLR2027/` en el repo (`git mv`); la carpeta interior del paper sigue siendo `ICLR2027/iclr2027/`. Actualizadas todas las
+referencias a la ruta exterior en `rebuttal/scripts/*.py` (sweep, phase*, expR55/55b/60/61/62/63, memos), `ICLR2027/iclr2027/fig_text_nulls.py`,
+`CODE_MAP.md` y los .md de la carpeta; las referencias interiores (`HERE.parent/"iclr2027"/"figures"` en los scripts de figuras) no cambian.
+Verificado tras el renombrado: generadores de tablas y figuras, sweep 119/119, compilación (35 páginas, texto principal en la p. 9, 0 warnings),
+PDF exportado a `ICLR2027/main_iclr2027_final.pdf`. Ninguna línea de contenido cambia.

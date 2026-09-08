@@ -10,7 +10,7 @@
 - 9 páginas de texto principal en submission (10 en camera-ready). Referencias y apéndice ilimitados.
 - Doble ciego estricto; `\iclrfinalcopy` comentado.
 - Declaración de uso de IA/LLM **obligatoria**. Reproducibility y Ethics statements recomendados (no cuentan páginas).
-- Plantilla oficial en `iclr2027/` (bajada de media.iclr.cc, ago 2026).
+- Plantilla oficial en `ICLR2027/` (bajada de media.iclr.cc, ago 2026).
 
 ## Título (compromiso público en OpenReview, respuesta a Xbn5)
 "Tree-Like Class Geometry in Foundation Models: A Zero-Cost Diagnostic for Metric Selection"

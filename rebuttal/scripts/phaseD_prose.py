@@ -38,7 +38,7 @@ print("fills:", F)
 body = open(S + 'phaseD_main_body.tex.tmpl').read()
 for k, v in F.items(): body = body.replace("{{" + k + "}}", v)
 assert not re.findall(r"\{\{[A-Z0-9_]+\}\}", body)
-p = 'iclr2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
+p = 'ICLR2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
 i = T.index("\\begin{abstract}"); j = T.index("\\subsubsection*{Ethics Statement}")
 import os
 if not os.path.exists(R + 'phaseD_old_main_body.tex'): open(R + 'phaseD_old_main_body.tex', 'w').write(T[i:j])   # keep the pre-prose body for the number-preservation check

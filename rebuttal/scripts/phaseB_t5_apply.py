@@ -32,7 +32,7 @@ json.dump(dict(dv2l_c50_random=er, dv2l_c50_coherent=ec, d999_rises=bool(rises),
                dbpedia_excess_lo=float(lo), dbpedia_excess_hi=float(hi), dbpedia_r_min=rmin, dbpedia_p_max=pmax, dbpedia_bh_all=allbh),
           open(R + 'phaseB_final_numbers.json', 'w'), indent=1)
 
-p = 'iclr2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
+p = 'ICLR2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
 def rep(old, new):
     global T
     assert T.count(old) == 1, f"{T.count(old)} matches: {old[:90]!r}"; T = T.replace(old, new)

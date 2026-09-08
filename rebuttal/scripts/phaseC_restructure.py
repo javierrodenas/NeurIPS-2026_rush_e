@@ -76,7 +76,7 @@ else:
 body = open(S + 'phaseC_main_body.tex.tmpl').read()
 for k, v in F.items(): body = body.replace("{{" + k + "}}", v)
 left = re.findall(r"\{\{[A-Z0-9_]+\}\}", body); assert not left, left
-p = 'iclr2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
+p = 'ICLR2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
 i = T.index("\\begin{abstract}"); j = T.index("\\subsubsection*{Ethics Statement}")
 old_main = T[i:j]; T = T[:i] + body + T[j:]
 def rep(old, new):
@@ -94,7 +94,7 @@ main = T[:T.index("\\appendix")]
 for w in ["tool", "we believe", "nterestingly"]: assert w not in main, w
 labels = set(re.findall(r"\\label\{([^}]*)\}", T))
 import glob
-for f in glob.glob('iclr2027/iclr2027/appendix_tables/*.tex') + ['iclr2027/iclr2027/tab_census.tex']: labels |= set(re.findall(r"\\label\{([^}]*)\}", open(f).read()))
+for f in glob.glob('ICLR2027/iclr2027/appendix_tables/*.tex') + ['ICLR2027/iclr2027/tab_census.tex']: labels |= set(re.findall(r"\\label\{([^}]*)\}", open(f).read()))
 refs = set(re.findall(r"\\ref\{([^}]*)\}", T)); missing = sorted(refs - labels); print("missing labels:", missing)
 assert not missing
 print("restructure applied; fills:", json.dumps({k: v for k, v in F.items() if not k.startswith('FIG2B')}))

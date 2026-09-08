@@ -7,7 +7,7 @@ import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from pathlib import Path
 import sys
-_FIGDIR = Path(__file__).resolve().parents[2] / "iclr2027" / "figures"
+_FIGDIR = Path(__file__).resolve().parents[2] / "ICLR2027" / "figures"
 plt.style.use(str(_FIGDIR / "style.mplstyle"))
 sys.path.insert(0, str(_FIGDIR))
 from palette import FAMILY_COLORS, color as fam_color

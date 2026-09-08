@@ -1,4 +1,4 @@
-# Revisión del borrador ICLR 2027 (`iclr2027/iclr2027/main_iclr2027.tex`) — 31 ago 2026
+# Revisión del borrador ICLR 2027 (`ICLR2027/iclr2027/main_iclr2027.tex`) — 31 ago 2026
 
 Compilado con tectonic sobre una copia (la máquina no tiene TeX): **compila sin errores, 21 páginas**.
 Cifras del texto principal contrastadas una a una con `rebuttal/results/*.csv` (lista al final): **todas cuadran**.
@@ -118,7 +118,7 @@ H 0.427/0.644.
 ## Cómo compilar en local
 
 No hay TeX en la máquina. Funciona `conda create -p <dir> -c conda-forge tectonic` y luego
-`tectonic main_iclr2027.tex` dentro de `iclr2027/iclr2027/` (descarga paquetes la primera vez).
+`tectonic main_iclr2027.tex` dentro de `ICLR2027/iclr2027/` (descarga paquetes la primera vez).
 
 ---
 
@@ -151,7 +151,7 @@ Todo compilado con tectonic: **20 páginas, texto principal termina en la 9, cer
 - **A3 tabla resumen en el texto principal**: ✅ nueva Tabla 2 (`tab_census.tex`, generada por `gen_main_table.py` desde exp20/exp26/exp3/exp28/exp2): 12 backbones × {δ̂ IN, exceso IN (z), exceso transfer, ξ-exceso, ρ_WN, ARI₂₀, mejor métrica − R (FS), métrica}. Referenciada desde §4, §5 y §6.
 - **A4 Fig. 1 (artwork viejo)**: ✅ retirada del paper (opción B de COAUTHOR_TASKS); el fichero sigue en `figures/` por si se re-etiqueta. La frase de la intro que la citaba se reescribió.
 - **B8 §6 / contribución 4**: ✅ reformulado como *diagnóstico + política*: contribución 4, abstract (3), frase de la intro, título de §6 ("A Diagnostic of Exploitability, and a Modest Policy"), párrafo de apertura, y "Which metric collects the gain" reordenado (abre con validation pick / objective rule, cierra con el negativo δ-gated en un párrafo propio "What the diagnostic is, and is not"). Ninguna cifra cambia.
-- **B9 Fig. 5 naive vs. corregida**: ✅ nueva `fig_treemap_controls.pdf` (`iclr2027/figures/make_treemap_fig.py`, desde las matrices ARI por configuración de exp23): (a) ImageNet naive, (b) ImageNet cosine-average, (c) CIFAR-100 naive, (d) CIFAR-100 cosine-complete, con el ARI medio DINOv2-B/L/G vs bloque sobre cada panel (0.03 → 0.38; 0.00 → 0.39). Sustituye a la figura naive; caption nuevo. Además la sensibilidad del umbral ya estaba en A.5.
+- **B9 Fig. 5 naive vs. corregida**: ✅ nueva `fig_treemap_controls.pdf` (`ICLR2027/figures/make_treemap_fig.py`, desde las matrices ARI por configuración de exp23): (a) ImageNet naive, (b) ImageNet cosine-average, (c) CIFAR-100 naive, (d) CIFAR-100 cosine-complete, con el ARI medio DINOv2-B/L/G vs bloque sobre cada panel (0.03 → 0.38; 0.00 → 0.39). Sustituye a la figura naive; caption nuevo. Además la sensibilidad del umbral ya estaba en A.5.
 - **B11 OpenCLIP/MetaCLIP**: ✅ fuera de la Tabla A.1 y de la frase de §3 (no hay resultados calibrados); el TODO-coauthors queda resuelto: censo 12 visión × 6 + 16 texto; malla de tareas 10 visión (sin DINO-B ni SigLIP-B).
 - **C legibilidad**: ✅ Figs. 2, 3 y 6 regeneradas a 5.5 in de ancho con fuentes 6.5-8 pt (`make_figs.py`, `fig_text_nulls.py`; rutas ahora relativas al repo, con `PLATONIC_RESULTS` como override). ⚠️ **Fig. 4 (ablaciones) no se puede regenerar aquí**: el script de 4 paneles y los datos de la curva por capas no están en el repo (`figures_archive/gen_fig3_causal.py` es una versión antigua de 3 paneles). Queda para coautores: regenerar a `figsize=(5.5, 1.7)` con fuentes ≥ 7 pt.
 - **14 Fig. 3 anotación**: ✅ reubicada (ya no tapa Pythia). **15 Fig. 2b**: ✅ caption dice "mean over the three hierarchical transfer datasets"; el texto cita también la media de transfer (−0.063 → −0.103).
@@ -274,7 +274,7 @@ Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??` (verifica
 ## Ronda 6 (seguimiento, nota 6 "sin asteriscos"): lo cerrado
 
 - **Frase form-vs-content con números en §7** → añadida ("the models with the most WordNet content (supervised ViTs, CLIP) carry the most fragile form (supremum-borne), while the family with the most robust form (DINOv2) is the least WordNet-aligned").
-- **Barras del FT jerárquico en la Fig. 3b** → **Fig. 3 regenerada desde los CSV de resultados** (`iclr2027/figures/make_fig3_causal.py`, a 5.5 in y fuentes legibles, lo que además cierra el pendiente de legibilidad de esta figura): (a) pesos aleatorios (`e5_random_control.csv`: +65/+134/+144 %), (b) FT no-jerárquico (`analysis4_finetuning.csv`: +19/+69/+91 %), (c) profundidad (`e1_delta_by_layer.csv`). Sin el brazo jerárquico. El panel del shuffle no tiene CSV en disco → fuera de la figura, se mantiene en texto (p>0.12). ⚠️ **Cambio de cifras**: la caída con la profundidad sale del CSV como DINOv2-B −61 % / CLIP-B −46 % (la figura antigua, de una corrida no rastreada, decía −51/−29); el texto adopta el CSV por el estándar de trazabilidad del paper. Coautores: confirmar cuál es la corrida canónica. La figura vieja queda en `figures/fig3_causal_old4panel.pdf`.
+- **Barras del FT jerárquico en la Fig. 3b** → **Fig. 3 regenerada desde los CSV de resultados** (`ICLR2027/figures/make_fig3_causal.py`, a 5.5 in y fuentes legibles, lo que además cierra el pendiente de legibilidad de esta figura): (a) pesos aleatorios (`e5_random_control.csv`: +65/+134/+144 %), (b) FT no-jerárquico (`analysis4_finetuning.csv`: +19/+69/+91 %), (c) profundidad (`e1_delta_by_layer.csv`). Sin el brazo jerárquico. El panel del shuffle no tiene CSV en disco → fuera de la figura, se mantiene en texto (p>0.12). ⚠️ **Cambio de cifras**: la caída con la profundidad sale del CSV como DINOv2-B −61 % / CLIP-B −46 % (la figura antigua, de una corrida no rastreada, decía −51/−29); el texto adopta el CSV por el estándar de trazabilidad del paper. Coautores: confirmar cuál es la corrida canónica. La figura vieja queda en `figures/fig3_causal_old4panel.pdf`.
 - **Recuento 16 vs 17 en B22** → el 16 es correcto a precisión completa (CLIP-L/ImageNet z_B=−1.951 se mostraba como −2.0). B13/B16/B22 muestran ahora z con dos decimales, para que el recuento visible cuadre.
 - Ajuste de páginas: Fig. 5 (scatter) 2.3→1.95 in de alto; recortes menores. Compila: 26 páginas, texto principal hasta la 9, 0 warnings, sin `??`.
 
@@ -347,8 +347,8 @@ Prioridad del revisor: "moderadamente compartido" en abstract/§7 y pasar la cal
 
 ## Pasada de versión final (2026-09-03) — brief "final-version pass"
 
-Ejecutada íntegra; detalle en `iclr2027/CHANGELOG_final.md` (números viejo→nuevo con fuente) y
-`iclr2027/TODO_author.md` (vetos pendientes: centroides de R2, figura best-metric al apéndice, tamaño de la
+Ejecutada íntegra; detalle en `ICLR2027/CHANGELOG_final.md` (números viejo→nuevo con fuente) y
+`ICLR2027/TODO_author.md` (vetos pendientes: centroides de R2, figura best-metric al apéndice, tamaño de la
 Fig. 1 de Canva; filas de calibración sin CSV; Fig. 6 sin script). Hitos: cachés de ImageNet regeneradas en
 local con el pipeline original (fidelidad 4 decimales en los 12 modelos); censo homogéneo de 20 réplicas
 `expR39b` (69/72 · 57/72 · 43/48); calibración Gröger K=200 `exp21b` (mKNN 0.472→0.464, CKA 0.633→0.577,

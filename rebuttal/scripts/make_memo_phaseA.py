@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Writes iclr2027/MEMO_phaseA.md from the Phase-A result files. Numbers only; no recommendations."""
+"""Writes ICLR2027/MEMO_phaseA.md from the Phase-A result files. Numbers only; no recommendations."""
 import os, sys
 import numpy as np, pandas as pd
 from pathlib import Path
 R = Path(os.environ.get("PLATONIC_RESULTS", str(Path(__file__).resolve().parents[1]/"results")))
-OUTMD = Path(__file__).resolve().parents[2]/"iclr2027"/"MEMO_phaseA.md"
+OUTMD = Path(__file__).resolve().parents[2]/"ICLR2027"/"MEMO_phaseA.md"
 M = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b","dinov2_l","dinov2_g","clip_b","clip_l","siglip_b"]
 NM = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B","dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B",
       "dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G","clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}

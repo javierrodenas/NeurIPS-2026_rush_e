@@ -120,7 +120,7 @@ def merge():
 
 def figure():
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-    FIG = Path(__file__).resolve().parents[2]/"iclr2027"/"figures"
+    FIG = Path(__file__).resolve().parents[2]/"ICLR2027"/"figures"
     try: plt.style.use(str(FIG/"style.mplstyle"))
     except Exception: pass
     df = pd.read_csv(OUT/"expR55b_depth_power_leafframe.csv"); h = df[df.level!="star"]; st = df[df.level=="star"]

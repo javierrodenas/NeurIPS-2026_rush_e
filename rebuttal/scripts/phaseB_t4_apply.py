@@ -21,7 +21,7 @@ print(f"ImageNet K=30 aniso z<=-2: {names} z {zmin:+.1f}..{zmax:+.1f}; C100 {n_c
 json.dump(dict(names=names, z_min=float(zmin), z_max=float(zmax), n_c=n_c, pw03=float(pw03), pw06=float(pw06), fa1000=list(map(float, fa1000)), fa100_kge12=float(fa100), fa100_k6=float(fa100_6)),
           open(R + 'phaseB_depth_regime.json', 'w'), indent=1)
 
-p = 'iclr2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
+p = 'ICLR2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
 def rep(old, new, count=1):
     global T
     assert T.count(old) == count, f"{T.count(old)} matches: {old[:90]!r}"; T = T.replace(old, new)

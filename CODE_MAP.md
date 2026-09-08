@@ -1,7 +1,7 @@
 # CODE_MAP — qué hay en este repo y de dónde sale cada número
 
 Actualizado: 2026-09-03. Dos "papers" conviven aquí: la sumisión **NeurIPS 2026** (raíz, congelada,
-decisión 2026-09-24) y la resumisión **ICLR 2027** (`iclr2027/`, activa). Todo número del paper ICLR
+decisión 2026-09-24) y la resumisión **ICLR 2027** (`ICLR2027/`, activa). Todo número del paper ICLR
 sale de un CSV en `rebuttal/results/` vía un generador; nada se teclea a mano.
 
 ## Raíz (versión NeurIPS 2026 — congelada)
@@ -14,21 +14,21 @@ sale de un CSV en `rebuttal/results/` vía un generador; nada se teclea a mano.
 - `rebuttal/` (fuera de `scripts/` y `results/`) — respuestas OpenReview a los 4 revisores de NeurIPS,
   estrategia y checklist de cobertura.
 
-## El paper ICLR 2027 (`iclr2027/`)
+## El paper ICLR 2027 (`ICLR2027/`)
 
-- **`iclr2027/iclr2027/main_iclr2027.tex`** — el draft. Título actual: *Is There a Platonic Tree?
+- **`ICLR2027/iclr2027/main_iclr2027.tex`** — el draft. Título actual: *Is There a Platonic Tree?
   Calibrated Class Geometry in Foundation Models*. 9 págs. de texto principal + apéndice.
 - Estilos ICLR: `iclr2027_conference.{sty,bst}`, `math_commands.tex`, `fancyhdr.sty`, `natbib.sty`.
 - `references.bib` — bibliografía de esta versión (no confundir con el de la raíz).
 - `archive_draft_v0.tex` — borrador inicial, solo histórico.
 - **Compilar**: Overleaf (vía normal). En local no hay TeX: instalar `tectonic` con conda en un
-  directorio scratch, copiar `iclr2027/iclr2027/` allí y compilar (los artefactos de build no van al repo).
-- Documentos de trabajo en `iclr2027/`: **`REVIEW_31ago.md`** (log completo de las 10 rondas de
+  directorio scratch, copiar `ICLR2027/iclr2027/` allí y compilar (los artefactos de build no van al repo).
+- Documentos de trabajo en `ICLR2027/`: **`REVIEW_31ago.md`** (log completo de las 10 rondas de
   revisión simulada + experimentos expR29–51 — la fuente de verdad de qué se hizo y por qué),
   `PLAN.md` (fechas/reglas ICLR), `COAUTHOR_TASKS.md`, `ATTACK_PLAN.md`, `MORNING_REPORT.md`,
   `HEADLINE_CHANGES.md`, `fig3_recaption.md`.
 
-### Generadores de tablas (en `iclr2027/iclr2027/`)
+### Generadores de tablas (en `ICLR2027/iclr2027/`)
 
 | script | produce | fuentes |
 |---|---|---|
@@ -40,7 +40,7 @@ sale de un CSV en `rebuttal/results/` vía un generador; nada se teclea a mano.
 | `fig_text_nulls.py` | `figures/fig_text_nulls.pdf` (censo texto con barras de error) | `expR48_text_census_bs1.csv` |
 | `sweep_freeze.py` (en `rebuttal/scripts/`) | verificador: coteja los números de la prosa del .tex contra los CSVs | todos |
 
-### Figuras (en `iclr2027/figures/`, se copian a `iclr2027/iclr2027/figures/`)
+### Figuras (en `ICLR2027/figures/`, se copian a `ICLR2027/iclr2027/figures/`)
 
 - `make_figs.py` — Fig. panel de excesos (a/b) y scatter best-metric (`exp20`, `exp2`).
 - `make_treemap_fig.py` — Fig. tree map naive vs criterio (`exp23`, `exp22`).
@@ -102,12 +102,12 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
 ## Añadido en la respuesta a la revisión (Fase B)
 
 - `rebuttal/scripts/expR55b_depth_power_leafframe.py` → `rebuttal/results/expR55b_depth_power_leafframe.csv` (barrido de potencia del test
-  de profundidad con el marco en las hojas y estrella anisotrópica; alimenta la Tabla B35 y `iclr2027/figures/fig_depth_test.pdf` vía
-  `iclr2027/figures/make_fig_depth.py`, junto con `expR56_depth_variants.csv`). Chain: `rebuttal/scripts/r10_chain.sh`.
+  de profundidad con el marco en las hojas y estrella anisotrópica; alimenta la Tabla B35 y `ICLR2027/figures/fig_depth_test.pdf` vía
+  `ICLR2027/figures/make_fig_depth.py`, junto con `expR56_depth_variants.csv`). Chain: `rebuttal/scripts/r10_chain.sh`.
 - `rebuttal/scripts/phaseB_t3_apply.py`: aplica la regla de decisión fijada (potencia ≥ 0.8 a ratio ≤ 0.3 para ambos n; falsas alarmas
   ≤ 5 % por dirección) y escribe la rama correspondiente en el .tex; deja la decisión en `rebuttal/results/phaseB_depth_decision.json`
   (rama aplicada: apéndice, "not certified").
-- `iclr2027/REVIEWER_CHECKLIST_phaseB.md`: preguntas de revisor con la respuesta tal como está en el texto principal.
+- `ICLR2027/REVIEWER_CHECKLIST_phaseB.md`: preguntas de revisor con la respuesta tal como está en el texto principal.
 - Pasada final: `rebuttal/scripts/expR60_c_sweep_record.py` (+ `r11_chain.sh`) → `expR60_c_sweep_record.csv` (barrido de clases bajo el
   registro; alimenta la Tabla B3 vía `gen_appendix2.py`); `rebuttal/scripts/expR61_dbpedia_record.py` → `expR61_dbpedia_record.csv`
   (DBpedia bajo el registro; Tabla A9 vía `gen_appendix.py`; centroides en `Platonic/results/text_cache/dbpedia_{m}.npz`);
@@ -122,3 +122,6 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   cuerpo anterior en `rebuttal/results/phaseD_old_main_body.tex`), `phaseD_changelog.py` (números que salieron de la prosa y su destino);
   checks "prose" en `sweep_freeze.py` (métricas por párrafo, tesis ×5, conservación de números). Los pies de B7/B11/B17/B30/B32/B34/B35/A9
   y de la Tabla 1 llevan ahora los números que antes estaban en la prosa (todos calculados en los generadores).
+- **2026-09-08: la carpeta exterior es `ICLR2027/`** (antes `iclr2027/`; la interior del paper sigue siendo `ICLR2027/iclr2027/`). Toda mención
+  anterior a `iclr2027/...` en este fichero y en los CHANGELOG/TODO se lee como `ICLR2027/...`. Compilar: copiar `ICLR2027/iclr2027/` al build y
+  `tectonic main_iclr2027.tex`; exportar a `ICLR2027/main_iclr2027_final.pdf`.

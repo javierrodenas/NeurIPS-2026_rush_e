@@ -21,7 +21,7 @@ print("DECISION:", "MAIN (validated)" if validated else "APPENDIX (not validated
 json.dump(dict(validated=bool(validated), power=dict((f"{n}_{lv}", float(v)) for (n, lv), v in pw.items()), fa_neg=float(fa_neg), fa_pos=float(fa_pos), n_in=n_in, n_c=n_c, pos_any=pos_any, iso_max=float(iso_max), iso_pos=iso_pos, top_pw=float(top_pw), top_fa=float(top_fa)), open('rebuttal/results/phaseB_depth_decision.json', 'w'), indent=1)
 if '--dry' in sys.argv: sys.exit(0)
 
-p = 'iclr2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
+p = 'ICLR2027/iclr2027/main_iclr2027.tex'; T = open(p).read()
 def rep(old, new):
     global T
     assert T.count(old) == 1, f"{T.count(old)} matches: {old[:80]!r}"; T = T.replace(old, new)

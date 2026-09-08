@@ -26,7 +26,7 @@ Tres viñetas horizontales, mismo estilo: (a) nube aleatoria en alta dimensión,
 hub (estrella), (c) jerarquía anidada. Bajo cada una, la lectura del instrumento: δ cruda baja en las tres;
 exceso sobre la null espectral: nulo en (a), genuino en (b) y (c); test de estrella emparejada: sin
 profundidad en (b), profundidad en (c). Paleta de `figures/palette.py`; null en gris discontinuo. Guardar
-como `iclr2027/iclr2027/figures/fig1_concept.pdf` (vectorial), ancho de texto, ≤ 1.3 in de alto.
+como `ICLR2027/iclr2027/figures/fig1_concept.pdf` (vectorial), ancho de texto, ≤ 1.3 in de alto.
 
 ## Números sin fichero de resultados (tecleados, verificados en vivo)
 
@@ -78,8 +78,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 ## Añadido en la pasada de contribución
 
 - **`\url{ANONYMIZED-REPO}`** en el Reproducibility Statement: sustituir por la URL del repositorio anónimo. El tool está en
-  `iclr2027/tool/calibrated_delta.py` (uso: `python calibrated_delta.py centroids.npy [--labels sup.npy] [--reps 200] [--json out.json]`);
-  `iclr2027/tool/run_checks.py` reproduce dos celdas de la Tabla 1 y de B29 y escribe `rebuttal/results/tool_check.json`, que
+  `ICLR2027/tool/calibrated_delta.py` (uso: `python calibrated_delta.py centroids.npy [--labels sup.npy] [--reps 200] [--json out.json]`);
+  `ICLR2027/tool/run_checks.py` reproduce dos celdas de la Tabla 1 y de B29 y escribe `rebuttal/results/tool_check.json`, que
   `sweep_freeze.py` compara en cada freeze (re-ejecuta el check solo si falta el JSON; ~15 min de CPU).
 - Para el check de B29 en DINOv2-L/ImageNet el tool recibe los centroides del **store** (como hizo expR50); con los de la caché del censo
   el test de profundidad da un valor ligeramente distinto (store ≠ caché, ver CHANGELOG §0). Si en algún momento se rehace B29 sobre la caché,
@@ -91,7 +91,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   `Platonic/` (solo `analysis4_finetuning.csv`, `hierarchical_finetuning.csv` y logs; `run_finetune_ablation.py` y
   `exp_hierarchical_finetuning.py` no guardan nada). Coste de rehacerlo: re-entrenar ViT-B, DINOv2-S y CLIP-B con el objetivo
   jerárquico de CIFAR-100 (el log original da ~1.8 h de GPU para ViT-B; ~4–5 h para los tres en una 2080 Ti), extraer
-  centroides de CIFAR-100 (minutos) y pasar `iclr2027/tool/calibrated_delta.py --labels` (minutos). Guardar esta vez los
+  centroides de CIFAR-100 (minutos) y pasar `ICLR2027/tool/calibrated_delta.py --labels` (minutos). Guardar esta vez los
   centroides (`results/centroids/cifar100_ft/{m}.npy`). Es el único control positivo en datos reales disponible para el test
   de profundidad.
 - **Semillas de la null Haar**: el brief de la respuesta fija `300+rep` para los censos nuevos (expR52–54, 57, 59); `expR46`
@@ -110,7 +110,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   párrafo del test de profundidad lo dice.
 - **B29 (estrella isotrópica, 3 semillas)**: retirada del apéndice y del texto principal (el fichero `tab_b29_depth.tex` y `expR50_depth_test.csv`
   se conservan como histórico); B34 (estrella iso/aniso, 10 semillas, barrido K) y B35 (potencia) la sustituyen.
-- **El tool** (`iclr2027/tool/calibrated_delta.py`) sigue ahora el protocolo de registro (Haar × p99.9; estrella anisotrópica con 10
+- **El tool** (`ICLR2027/tool/calibrated_delta.py`) sigue ahora el protocolo de registro (Haar × p99.9; estrella anisotrópica con 10
   semillas); `--null gauss --stat sup --star iso` reproducen las lecturas antiguas. Reporta la p sin corregir (BH requiere un censo).
 - **Test de profundidad: la regla falla por una sola dirección y un solo régimen.** Falsas alarmas z ≤ −2 = 6.2 % agregadas, concentradas
   en n = 100 con K ≥ 12 (17 %; 3–8 puntos por cluster, covarianza de rango bajo); con n = 1000 es 0 % y la potencia ≥ 0.85 en todo ratio;

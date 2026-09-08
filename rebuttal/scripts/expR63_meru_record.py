@@ -19,7 +19,7 @@ import numpy as np, pandas as pd, torch
 from pathlib import Path
 from scipy.spatial.distance import pdist, squareform
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parents[1] / "iclr2027" / "tool")); sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(HERE.parents[1] / "ICLR2027" / "tool")); sys.path.insert(0, str(HERE))
 import calibrated_delta as cd
 import expR51_meru_control as R51          # frames (coarse-20, WordNet-30), meru path, cache location
 from meru import lorentz as L

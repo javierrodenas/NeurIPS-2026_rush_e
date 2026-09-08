@@ -13,7 +13,7 @@ sys.stdout.reconfigure(line_buffering=True)
 import numpy as np, pandas as pd
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parents[1] / "iclr2027" / "tool"))
+sys.path.insert(0, str(HERE.parents[1] / "ICLR2027" / "tool"))
 import calibrated_delta as cd
 ROOT = Path(os.environ.get("PLATONIC_ROOT", "/media/HDD_4TB_2/javi/Platonic"))
 OUT = Path(os.environ.get("PLATONIC_RESULTS", str(HERE.parents[1] / "rebuttal/results")))

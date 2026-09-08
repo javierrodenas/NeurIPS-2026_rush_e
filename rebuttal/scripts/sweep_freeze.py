@@ -373,7 +373,7 @@ def tool_check():
     import json, subprocess
     jf = R/"tool_check.json"
     if not jf.exists():   # ~15 CPU-min: run once, then compare the saved output
-        subprocess.run([sys.executable, str(Path(__file__).resolve().parents[2]/"iclr2027/tool/run_checks.py")], check=True)
+        subprocess.run([sys.executable, str(Path(__file__).resolve().parents[2]/"ICLR2027/tool/run_checks.py")], check=True)
     J = json.load(open(jf))
     e52 = {(r["model"],r["dataset"]): r for r in load("expR52_census_haar_p999_200.csv")}
     e56 = {(r["model"],r["dataset"],int(r["K"]),r["variant"]): r for r in load("expR56_depth_variants.csv")}
@@ -521,7 +521,7 @@ r7r8_checks()
 def phaseC_text_checks():
     import json as _j, numpy as np
     if not (R/"phaseC_memo.json").exists(): return
-    TEX = Path(__file__).resolve().parents[2]/"iclr2027"/"iclr2027"
+    TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"
     T = open(TEX/"main_iclr2027.tex").read(); main = T[:T.index("\\appendix")]
     b17 = open(TEX/"appendix_tables"/"tab_b17_samplelevel.tex").read(); b30 = open(TEX/"appendix_tables"/"tab_b30_meru.tex").read()
     M = _j.load(open(R/"phaseC_memo.json"))
@@ -546,7 +546,7 @@ phaseC_text_checks()
 # ---------- Prose pass (style of Groger et al.): metrics per paragraph, fixed vocabulary, thesis x5, numbers preserved ----------
 def prose_checks():
     import re as _re
-    TEX = Path(__file__).resolve().parents[2]/"iclr2027"/"iclr2027"
+    TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"
     T = open(TEX/"main_iclr2027.tex").read(); body = T[T.index("\\begin{abstract}"):T.index("\\subsubsection*{Ethics Statement}")]
     THESIS = "Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."
     chk("prose: the thesis appears verbatim five times (abstract, box, end of S1, end of S5, S7)", body.count(THESIS) == 5)
