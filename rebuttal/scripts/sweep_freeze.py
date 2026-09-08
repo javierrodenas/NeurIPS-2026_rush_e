@@ -521,16 +521,19 @@ r7r8_checks()
 def phaseC_text_checks():
     import json as _j, numpy as np
     if not (R/"phaseC_memo.json").exists(): return
-    T = open(Path(__file__).resolve().parents[2]/"iclr2027"/"iclr2027"/"main_iclr2027.tex").read(); main = T[:T.index("\\appendix")]
+    TEX = Path(__file__).resolve().parents[2]/"iclr2027"/"iclr2027"
+    T = open(TEX/"main_iclr2027.tex").read(); main = T[:T.index("\\appendix")]
+    b17 = open(TEX/"appendix_tables"/"tab_b17_samplelevel.tex").read(); b30 = open(TEX/"appendix_tables"/"tab_b30_meru.tex").read()
     M = _j.load(open(R/"phaseC_memo.json"))
-    chk("text: sample-level sentence states the memo counts and names", f"not genuine in {M['sl_within']} of 24 cells" in main and "DINOv2-S/B/L/G and SigLIP-B on CIFAR-100; ViT-S/B/L and DINOv2-L/G on DTD" in main
-        and f"({M['sl_sup_lo']:.3f}--{M['sl_sup_hi']:.3f})" in main)
-    chk("text: MERU sentence states the ImageNet-image excess ranges, native gap and depth-z ranges of the memo",
-        f"MERU ${M['meru_in_exc_range'][1]:+.3f}$ to ${M['meru_in_exc_range'][0]:+.3f}$" in main and f"by at most ${M['meru_in_nat_vs_euc_maxgap']:.4f}$" in main
-        and f"${M['meru_in_z_range'][0]:+.1f}$ to ${M['meru_in_z_range'][1]:+.1f}$ for MERU" in main and f"${M['clip_in_z_range'][0]:+.1f}$ to ${M['clip_in_z_range'][1]:+.1f}$ for CLIP" in main)
+    chk("text: sample-level count in the prose; names, band and max excess in the B17 caption", f"not genuine in {M['sl_within']} of 24 cells" in main
+        and f"not genuine in {M['sl_within']} of 24 cells and genuine in {M['sl_genuine']}" in b17 and "DINOv2-S, DINOv2-B, DINOv2-L, DINOv2-G, SigLIP-B on CIFAR-100; ViT-S, ViT-B, ViT-L, DINOv2-L, DINOv2-G on DTD" in b17
+        and f"{M['sl_sup_lo']:.3f}--{M['sl_sup_hi']:.3f}" in b17 and f"${M['sl_exc_lo']:+.3f}$" in b17)
+    chk("text: MERU ranges (ImageNet-image excess, native gap, depth z) live in the B30 caption and match the memo",
+        f"from ${M['meru_in_exc_range'][1]:+.3f}$ to ${M['meru_in_exc_range'][0]:+.3f}$ for MERU" in b30 and f"by at most ${M['meru_in_nat_vs_euc_maxgap']:.4f}$" in b30
+        and f"from ${M['meru_in_z_range'][0]:+.1f}$ to ${M['meru_in_z_range'][1]:+.1f}$ for MERU" in b30 and f"from ${M['clip_in_z_range'][0]:+.1f}$ to ${M['clip_in_z_range'][1]:+.1f}$ for CLIP" in b30)
     b = load("exp2b_normalized_stack.csv"); H = [r for r in b if r["dataset"] in ("imagenet","cifar100","cifar10","dtd")]
     gc = [100*float(r["FS_HN_COS_diff"]) for r in H if r["paradigm"].lower().startswith("contr")]; go = [100*float(r["FS_HN_COS_diff"]) for r in H if not r["paradigm"].lower().startswith("contr")]
-    chk("text: Poincare-over-cosine gains (exp2b, few-shot, hierarchical sets) as stated", f"adds ${min(gc):+.1f}$ to ${max(gc):+.1f}$ pp" in main and f"(${min(go):+.1f}$ to ${max(go):+.1f}$ pp)" in main)
+    chk("text: Poincare-over-cosine gains (exp2b, few-shot, hierarchical sets) as stated", f"adds from ${min(gc):+.1f}$ to ${max(gc):+.1f}$ pp" in main and f"from ${min(go):+.1f}$ to ${max(go):+.1f}$ pp" in main)
     e1 = load("exp1_delta_controls.csv"); ga = sorted({int(r["d"]): float(r["delta_max"]) for r in e1 if r["variant"]=="gauss"}.items())
     c_lo, c_hi = (0.144/(2*ga[0][1]))**2, (0.144/(2*ga[-1][1]))**2
     chk("text: Khrulkov curvature on the Gaussian band (c=(0.144/delta_rel)^2, delta_rel=2 delta_norm; exp1 gauss d=192/1536)", f"${c_lo:.2f}$ at $d{{=}}{ga[0][0]}$ to ${c_hi:.1f}$ at $d{{=}}{ga[-1][0]}$" in main)
@@ -539,6 +542,67 @@ def phaseC_text_checks():
     D = _j.load(open(R/"phaseC_fig2b.json")); chk("fig2b: decision recorded and consistent with the caption", (D["mode"]=="sample") == ("images) and a class-level cell" in main) and D["gap_sample"] <= D["gap_bge"] if D["mode"]=="sample" else True)
     for w in ("tool", "we believe", "nterestingly"): chk(f"text: no '{w}' in the main text", w not in main)
 phaseC_text_checks()
+
+# ---------- Prose pass (style of Groger et al.): metrics per paragraph, fixed vocabulary, thesis x5, numbers preserved ----------
+def prose_checks():
+    import re as _re
+    TEX = Path(__file__).resolve().parents[2]/"iclr2027"/"iclr2027"
+    T = open(TEX/"main_iclr2027.tex").read(); body = T[T.index("\\begin{abstract}"):T.index("\\subsubsection*{Ethics Statement}")]
+    THESIS = "Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."
+    chk("prose: the thesis appears verbatim five times (abstract, box, end of S1, end of S5, S7)", body.count(THESIS) == 5)
+    # strip floats, comments, the enumerate; keep section markers
+    src = _re.sub(r"(?m)(?<!\\)%.*$", "", body)
+    src = _re.sub(r"\\begin\{(figure|table|tcolorbox)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
+    secs = _re.split(r"\\section\{([^}]*)\}", src); secs = [("Abstract", secs[0])] + [(secs[i], secs[i+1]) for i in range(1, len(secs), 2)]
+    def clean(par):
+        p = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", par); p = _re.sub(r"\\(S)?\\?ref\{[^}]*\}", "REF", p); p = _re.sub(r"\\label\{[^}]*\}", "", p)
+        p = _re.sub(r"\$([A-Za-z])\{=\}(\d+)\$", r"\1=\2", p)    # $d{=}192$ is a parameter value, not a formula
+        p = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if "=" in m.group(1) else m.group(0), p)   # inline equations (definitions) are not result numbers
+        return p
+    GROUP = r"(?<![A-Za-z\-^_{\d.])[-+]?\d+(?:\.\d+)?(?![A-Za-z\-\d])"   # digits glued to names (CIFAR-100, GPT-2, DINOv2, L2, 5-way) are not numbers
+    RANGE = _re.compile(rf"(?:from\s+)?\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?(?:\s*(?:of the|of|to|against|vs|and|--)\s+\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?)?(?:\\%)?")
+    def groups(s):
+        s = clean(s).replace("{=}", "="); s = _re.sub(r"\\begin\{enumerate\}.*?\\end\{enumerate\}", " ", s, flags=_re.S); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
+        return [m.group(0) for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
+    BANNED = ["tool", "beyond-null", "tree-like structure", "hierarchical structure", "the form ", "reading of record", "our approach", "the method", "essentially", "largely", "substantially", "somewhat", "nterestingly", "notably", "importantly", "we believe", "we note"]
+    ALLOW17 = {"49 of 72", "18 of 24", "4 of 12", "49 of the 72"}
+    bad = []
+    for name, text in secs:
+        sec_no = {"Introduction": 1, "Related Work and Background": 2, "The Instrument": 3, "Findings I: Latent Hyperbolicity, Calibrated": 4, "Findings II: Whose Tree": 5, "Consequences for Imposing Curvature": 6, "Discussion and Limitations": 7}.get(name, 0)
+        for par in [q.strip() for q in _re.split(r"\n\s*\n", text) if q.strip() and not q.strip().startswith(("\\begin{enumerate}", "\\end{enumerate}", "\\item", "\\end{abstract}"))]:
+            if par.startswith("\\label") or par.startswith("\\item"): continue
+            head = par[:60].replace("\n", " ")
+            gs = groups(par)
+            if sec_no in (4, 5, 6):
+                if len(gs) > 2: bad.append(f"S{sec_no} >2 numbers {gs}: {head}")
+                for sent in _re.split(r"(?<=[.!?])\s+", clean(par)):
+                    sg = groups(sent)
+                    if len(sg) > 1: bad.append(f"S{sec_no} >1 number per sentence {sg}: {sent[:80]}")
+                if ";" in par.replace(THESIS, "") and "\\paragraph{Limitations" not in par: bad.append(f"S{sec_no} semicolon: {head}")
+            if sec_no in (1, 7):
+                extra = [g for g in gs if g.strip() not in ALLOW17]
+                if extra: bad.append(f"S{sec_no} numbers beyond the allowed three {extra}: {head}")
+            n_par = len(_re.findall(r"\((?!(?:i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])\))", clean(par)))   # (i)...(viii) and (a)-(c) are enumeration marks
+            if sec_no in (1, 3, 4, 5, 6, 7) and n_par > 1: bad.append(f"S{sec_no} >1 parenthetical: {head}")
+            low = clean(par).lower()
+            for w in BANNED:
+                if w in low: bad.append(f"S{sec_no} banned '{w}': {head}")
+    for line in bad: print("   PROSE:", line[:200])
+    chk("prose: <=2 number groups per paragraph and <=1 per sentence in S4-S6; only 49/72, 18/24, 4/12 in S1 and S7; <=1 parenthetical; no semicolons in S4-S6; no banned words", not bad)
+    # every number that left the prose still lives in the paper (main text, appendix prose or generated tables/captions)
+    old = open(R/"phaseD_old_main_body.tex").read(); old = _re.sub(r"(?m)(?<!\\)%.*$", "", old); old = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", old); old = _re.sub(r"\\(S)?\\?ref\{[^}]*\}", "", old); old = _re.sub(r"\\label\{[^}]*\}", "", old)
+    new_all = T + "".join(open(f).read() for f in list((TEX/"appendix_tables").glob("*.tex")) + [TEX/"tab_census.tex"])
+    new_nums = [float(x) for x in _re.findall(r"(?<![\w.])[-+]?\d+\.\d+|(?<![\w.])\d+(?![\w.])", new_all.replace("{=}", "="))]
+    missing = []
+    for tok in sorted(set(_re.findall(r"[-+]?\d+\.\d+", old))):
+        v = float(tok); prec = len(tok.split(".")[1]); tol = 0.5 * 10 ** (-prec) + 1e-12
+        if tok in new_all: continue
+        if any(abs(abs(v) - abs(u)) <= tol or (abs(v) > 0 and abs(round(u, prec) - abs(v)) <= tol) for u in new_nums): continue
+        if tok in ("0.11",) and "-0.103" in new_all: continue     # the mid star's Haar excess, stated approx in the old prose, is -0.103 in Table B25
+        missing.append(tok)
+    for tok in missing: print("   NUMBER LOST:", tok)
+    chk("prose: no number that left the main text disappeared from the paper (tables, captions or appendix prose keep it)", not missing)
+prose_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

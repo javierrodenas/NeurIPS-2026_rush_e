@@ -57,14 +57,16 @@ for i, (n, f, dl, ex, rk, pv, g, e100, g100, e10, g10, rho) in enumerate(rows):
             cells.append(f"${v:+.3f}" + ("" if gg else r"^{\circ}") + "$")
         slc = " & " + " & ".join(cells)
     lines.append(f"{n} & {f} & ${dl:.3f}$ & {exs} & {rp} & {c100} & {c10} & ${rho:+.2f}${slc} \\\\")
+sl_n = sum(1 for k, a in SL.items() if str(a["genuine_bh"]) == "True")
+sl_txt = (f"Sample level: the same reading on $\\approx$1000 stratified training images per cell, BH over those 24 cells: genuine in {sl_n} of 24 (full table in Appendix~\\ref{{app:sample}}). " if SL else "")
 lines += [r"\bottomrule", r"\end{tabular}",
-  r"\caption{\textbf{The census of record: beyond-null (clustered) structure in most cells and every family at the class level; the sample-level reading sits within null noise.} "
+  r"\caption{\textbf{Clustered structure is the rule at the class level; the sample-level reading sits within null noise in most cells.} "
   r"One row per backbone (supervised / self-supervised / contrastive blocks). $\hat\delta_{99.9}$: raw ImageNet reading of the 99.9th-percentile "
   r"four-point statistic; excess: $\hat\delta_{99.9}$ minus the mean of 200 Haar-rotated spectrum-matched null replicates; $r$/200: replicates above "
   r"the real value, with the left-tail $p=(1+\#\{\text{null}\le\text{real}\})/201$; a cell is \emph{genuine} when its Benjamini--Hochberg-corrected "
   r"$p\le0.05$ over the 72 cells; $^{\circ}$: not genuine; bold: sign-positive, i.e.\ less clustered than the null. "
   r"$\rho_{\text{WN}}$: Spearman correlation of inter-centroid and WordNet distances. "
-  + (r"Sample level: the same reading on $\approx$1000 stratified training images per cell (BH over those 24 cells; full table in Appendix~\ref{app:sample}). " if SL else "")
+  + sl_txt
   + r"Cross-dataset magnitudes are not comparable (\S\ref{sec:form}). DTD, the flat datasets, the supremum reading and the task columns are in "
   r"Appendix~\ref{app:tables} (Table~\ref{tab:census-extra}); all four null$\times$statistic verdicts per cell in Table~\ref{tab:b21-2x2}. % " + src + ", exp3_alignment.csv" + (", expR62_samplelevel_record.csv" if SL else "") + "\n}",
   r"\label{tab:census}", r"\end{table}"]

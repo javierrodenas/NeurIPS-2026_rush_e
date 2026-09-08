@@ -118,3 +118,7 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   `expR63_meru_record.py` → `expR63_meru_record.csv` (MERU bajo el registro; B30); chain `r12_chain.sh`; `make_memo_R7R8.py` → `phaseC_memo.json` +
   memo en CHANGELOG §18a; `phaseC_main_body.tex.tmpl` + `phaseC_restructure.py` (cuerpo nuevo, apéndice, decisión de Fig. 2(b)); el cuerpo anterior en
   `rebuttal/results/phaseC_old_main_body.tex`. Checks: secciones R7/R8 y "texto reestructurado" de `sweep_freeze.py`.
+- Pasada de prosa: `rebuttal/scripts/phaseD_main_body.tex.tmpl` + `phaseD_prose.py` (cuerpo del texto principal, rellenado desde los CSV;
+  cuerpo anterior en `rebuttal/results/phaseD_old_main_body.tex`), `phaseD_changelog.py` (números que salieron de la prosa y su destino);
+  checks "prose" en `sweep_freeze.py` (métricas por párrafo, tesis ×5, conservación de números). Los pies de B7/B11/B17/B30/B32/B34/B35/A9
+  y de la Tabla 1 llevan ahora los números que antes estaban en la prosa (todos calculados en los generadores).

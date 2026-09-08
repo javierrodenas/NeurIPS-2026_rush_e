@@ -38,7 +38,7 @@ gen = {(r["model"], r["dataset"]): (str(r["genuine_bh"]) == "True" if "genuine_b
 dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
 # ---------- Figure A: excess panel ----------
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.45),
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.28),
                                gridspec_kw={"width_ratios": [1.55, 1]})
 xs = np.arange(len(ORDER))
 for k, m in enumerate(ORDER):
@@ -52,7 +52,7 @@ ax1.axhline(0, color="k", lw=0.8, zorder=1)
 ax1.set_xticks(xs); ax1.set_xticklabels([NAME[m] for m in ORDER], rotation=60, ha="right", fontsize=6.5)
 ax1.set_ylabel(r"excess  $\hat\delta_{99.9}^{\rm real}-\hat\delta_{99.9}^{\rm null}$", fontsize=8)
 _neg = sum(1 for r in d20 if float(r["excess"]) < 0); _gen = sum(gen.values())
-ax1.set_title(f"(a) beyond-null structure: {_neg}/72 sign-negative, {_gen} genuine", fontsize=7.5)
+ax1.set_title(f"(a) clustered structure: {_neg}/72 below the null, {_gen} genuine", fontsize=7.5)
 ax1.tick_params(labelsize=7)
 hd = [plt.Line2D([], [], marker=mk, ls="", color="gray", ms=4.5, label=ds)
       for ds, mk in MARK.items()]

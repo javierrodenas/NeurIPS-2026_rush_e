@@ -632,3 +632,65 @@ Entregables: `iclr2027/REVIEWER_CHECKLIST_restructure.md`, `iclr2027/SUMMARY_pla
 
 Decisión del autor: `\title{Is There a Platonic Tree? \\ Calibrating Latent Hyperbolicity in Foundation Models}` (antes "Calibrated Class Geometry in
 Foundation Models"). Recompilado: 34 páginas, texto principal en la p. 9, 0 warnings; sweep sin cambios. PDF exportado.
+
+## 20. Pasada de prosa (estilo Gröger et al.) — la §19 del brief; la 19 de este fichero ya era el título
+
+Cambia cómo se lee, no lo que dice: estructura, secciones, figuras, tablas, números y afirmaciones congelados. Se reescribe la prosa del texto
+principal (abstract, caja, §1–§7, pies de figura) con el vocabulario fijo del brief y las reglas de números, ritmo y frase. Scripts:
+`rebuttal/scripts/phaseD_main_body.tex.tmpl` (cuerpo nuevo con marcadores para los números que quedan en la prosa) y `phaseD_prose.py`
+(rellena desde los ficheros de resultados, empalma, aplica los renombrados del apéndice y da casa en el apéndice a los números que no la
+tenían); el cuerpo anterior queda en `rebuttal/results/phaseD_old_main_body.tex`; `phaseD_changelog.py` lista los números que salieron de la
+prosa y dónde están.
+
+**Vocabulario fijo aplicado (renombrado en cuerpo, pies, títulos de figura y apéndice).** the premise (latent hyperbolicity) · the raw reading
+(δ̂₉₉.₉ sin calibrar; sustituye a "the reading of record") · the instrument (nunca tool/method/approach) · the excess · clustered structure
+(sustituye a "beyond-null (clustered) structure", "tree-like structure", "form": Tabla 1, Fig. 3 y su título de panel `make_figs.py`, A.6
+"Clustered structure tracks training", pie de la figura text-nulls, párrafo A.7) · genuine (definido una vez en §3) · the star caveat · the
+depth test ("certified" solo para sus veredictos positivos) · the island · the angular tree · la tesis, literal cinco veces (abstract, caja,
+final de §1, final de §5, §7). Ideas bautizadas una vez y reutilizadas: dimension / spectrum / statistic confound (§1 → §3, §6).
+
+**Mapa párrafo a párrafo (viejo → nuevo).** Abstract: mismo contenido, una cifra por frase, cierra con la tesis. Caja: la tesis literal.
+§1: P1 premisa y quién la cita (citas al final de frase, no encadenadas) → pregunta; P2 "The raw reading is confounded" (bautiza los tres
+confounds); P3 el instrumento y la pregunta del título; P4 "The answer has three parts" (49/72, 4/12; cierra con la tesis); contribuciones
+sin números; puente a §2. §2: "The premise" / "Calibrating geometry against nulls" / "Background", mismas citas, puente a §3.
+§3: apertura en tensión (dos frases) + "The premise lives at the sample level; hierarchy lives at the class level" (antes "Where the premise
+is read…"; sin los tamaños 80–6,000, ahora en la nota del panel de modelos) / "A low raw reading is not evidence" (esferas 0.14–0.18 →
+Tabla 5; queda el par de extremos gaussianos) / "The reading is an excess over a matched null" (define excess, rank, genuine, clustered
+structure; sin la frase del script) / "Two choices changed after pre-registration" (nuevo párrafo, separado del anterior) / "Projection and
+tasks"; puente a §4. §4: apertura en tensión; 4.1 "The premise does not survive calibration" (antes "Sample-level readings sit within null
+noise in most cells"; 14/24 queda, banda/nombres/máximo → pie B17); 4.2 "Clustered structure is the rule" (el ejemplo del brief, + 18/24;
+70/72 → título del panel Fig. 3a, 0.001 → pie B36, lista de celdas no genuinas → marcas ° de la Tabla 1); 4.3 "A star passes the census"
+(−0.11 → B25); 4.4 "Depth is certified on ImageNet and not on CIFAR-100" (17 % y 4/12 quedan; barra, potencias, z, +6.8, 16 % → pies
+B35/B34); 4.5 "Imposing the geometry does not create depth" (rangos → pie B30); 4.6 "Neural collapse is the flat limit, not the reading"
+(−2 líneas); 4.7 "Scale deepens the excess for one family only" (−0.071→−0.130 etc. → Tabla 1 columnas C10/C100; 19–91 % → A.6); cierre
+puente a §5. §5: 5.1 "The naive map manufactures an island" (0.82, ≤0.06, 97 % → pie B7; 0.13–0.38 → prosa A.9); 5.2 "The island is an
+artifact, and sharing is graded" (0.38 vs 0.48 y 11/12 quedan; cofenética/tripletes → B33; 0.2–0.5 → pie B11); 5.3 "The self-supervised
+tree lives in angles" (65/72 queda; 0.91/0.71 → pie B32; 56/72, 22/24 → pie B32); 5.4 "WordNet alignment follows supervision, not
+tree-likeness" (0.61 queda; ρ por familia → columna ρ_WN de la Tabla 1); 5.5 "The recovery is not WordNet circularity" (11/12 y +0.26
+quedan; 219, 70-way, 0.21–0.29, 0.65–0.82 → pie A9); 5.6 "In text, clustered structure depends on recipe, scale and probe" (rangos y p →
+A9/B23); 5.7 "Local agreement survives calibration" (66 queda; 0.472/0.464/0.633/0.577/0.108/0.425/0.640/1/201/10/999 → B31); cierra con
+la tesis. §6: apertura en tensión; 6.1 "The raw reading cannot select a curvature" (regla de Khrulkov, 0.48→2.5 y −0.005..−0.020 quedan;
+c≈0.33 → A.10 "A diagnostic, not a policy"; −0.023 → B17); 6.2 "Measure before imposing"; 6.3 "A zero-cost readout collects what is
+there" (+0.1..+1.3 y −1.7..+1.1 quedan). §7: tesis + tres actos (49/72, 18/24, 4/12), "Open questions", Limitaciones (i)–(viii) sin cifras
+(n≈1000 y "ten points" → "class sets of ImageNet's size"; 0.018 → "of the order of the fragile excesses", vive en B28; "six datasets" →
+"the datasets of Table 1"). Pies de figura: primera frase en negrita = conclusión, segunda = qué se dibuja (Figs. 1–5).
+
+**Números que salieron de la prosa y dónde viven ahora** (`phaseD_changelog.py` los contrasta; el check del sweep exige que ninguno
+desaparezca). Tabla 1: ρ_WN por familia (+0.57..+0.59, +0.49..+0.53, +0.36, +0.18..+0.22), C10/C100 de DINOv2 (−0.071→−0.130,
+−0.031→−0.040), exceso IN (−0.005..−0.020), 10/24 genuinas a nivel de muestra. Fig. 3a (título): 70/72. B17: banda 0.087–0.145, 14/24,
+nombres de las 10 genuinas, −0.023. B25: estrella de 30 clusters −0.103/−0.104 (la prosa decía ≈−0.11). B30: MERU −0.007..−0.010, CLIP
+−0.006..−0.010, 0.0002, z −1.5..−0.5 / −1.8..−1.0. B34: z −2.4..−4.0 de los cuatro certificados, +6.8 iso. B35: barra (0.8, 0.3, 5 %),
+1.00/0.90, 0 %, 17 %, marco superior 0.00 y 16 %. B36: 0.0011. B7: 0.82 (ViT-T vs CLIP-B), ≤0.06, 97 %. B11: 11/12 emparejados, 0.19–0.52.
+B32: 56/72, 22/24, 65/72, tripletes 0.91/0.71. B33: 0.48/0.78, 0.77/0.76, 0.47/0.74, 0.36/0.80. A9: 219, 70-way, ≤10 %, 0.21–0.29,
+0.65–0.82, −0.017..−0.021. B23: +0.002..+0.004, p 0.02/0.15. B31: todos los de acuerdo local. A.6: 19–91 %. A.9 (prosa): 0.13–0.38, 50 %.
+A.10 (prosa): c≈0.33. A.3 (nota del panel): 100 imágenes/clase, 80–6,000. Tabla 5: esferas 0.14–0.18. B28: 0.018.
+
+**Verificación.** `sweep_freeze.py`: los checks numéricos no cambian; los checks de texto de la §18 se reanclan a los pies B17/B30
+(donde viven ahora los rangos) y se añaden tres checks de prosa: tesis literal ×5; métricas por párrafo (≤2 grupos numéricos por párrafo y
+≤1 por frase en §4–§6, "X of Y" / "from A at d=B to C at d=D" cuentan como un grupo, dígitos pegados a nombres (CIFAR-100, GPT-2, DINOv2,
+L2) y fórmulas con "=" no cuentan; solo 49/72, 18/24, 4/12 en §1 y §7; ≤1 paréntesis por párrafo, (i)–(viii) exentos; sin punto y coma en
+§4–§6 salvo la tesis; sin tool/beyond-null/tree-like structure/form/reading of record/our approach/the method/essentially/largely/
+substantially/somewhat/interestingly/notably/importantly/we believe/we note), imprime la frase infractora; conservación de números (todo
+literal decimal del cuerpo anterior sigue en cuerpo, apéndice o tablas, con tolerancia de redondeo; única excepción declarada: ≈−0.11 →
+−0.103 en B25). **119/119 PASS.** Compilación: 35 páginas, 0 warnings, texto principal en la p. 9 con el hueco de 1.2 in de la Fig. 1;
+alturas: Fig. 2 1.35 in, Fig. 3 1.28 in, Fig. 5 0.86\linewidth (Figs. 1 y 4 intactas). `SUMMARY_plain.md` regenerado del texto nuevo.

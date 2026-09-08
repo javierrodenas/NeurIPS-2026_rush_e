@@ -162,8 +162,13 @@ if f62.exists():
             cs += [f"${float(a['delta_sup']):.3f}$", f"${float(a['delta_999']):.3f}$", f"${float(a['excess']):+.4f}" + ("" if g else r"^{\circ}") + "$", f"{int(a['r_above'])} ({float(a['p_left']):.3f})"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     n_gen = sum(str(a["genuine_bh"])=="True" for a in rows)
+    DSL={"cifar100":"CIFAR-100","dtd":"DTD"}
+    gen_names = "; ".join(", ".join(NAME[a["model"]] for a in rows if a["dataset"]==ds and str(a["genuine_bh"])=="True") + f" on {DSL[ds]}" for ds in ("cifar100","dtd") if any(a["dataset"]==ds and str(a["genuine_bh"])=="True" for a in rows))
+    sup_lo, sup_hi = min(float(a["delta_sup"]) for a in rows), max(float(a["delta_sup"]) for a in rows)
+    exc_gen = min(float(a["excess"]) for a in rows if str(a["genuine_bh"])=="True") if n_gen else 0.0
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{\textbf{The sample-level reading, the object of prior latent-hyperbolicity claims, under the census of record.} The instrument on $\approx$1000 stratified training images per cell (the per-image features, not class centroids): sup.\ $\hat\delta$ is the raw supremum $\delta_{\text{norm}}$ the literature reports; $\hat\delta_{99.9}$, excess, $r$/200 and $p$ follow Table~\ref{tab:census} (Haar spectrum-matched null on the sample cloud, 99.9th-percentile statistic, 200 replicates); $^{\circ}$: not genuine under Benjamini--Hochberg over the 24 cells (" + f"{n_gen} of {len(rows)} genuine" + r"). Raw values sit in the same low band as the class-level readings; the calibrated excess is within null noise in most cells. % expR62_samplelevel_record.csv" + "\n}",
+      r"\caption{\textbf{The sample-level reading, the object of prior latent-hyperbolicity claims, sits within null noise in most cells.} The instrument on $\approx$1000 stratified training images per cell (the per-image features, not class centroids): sup.\ $\hat\delta$ is the raw supremum $\delta_{\text{norm}}$ the literature reports; $\hat\delta_{99.9}$, excess, $r$/200 and $p$ follow Table~\ref{tab:census} (Haar spectrum-matched null on the sample cloud, 99.9th-percentile statistic, 200 replicates); $^{\circ}$: not genuine under Benjamini--Hochberg over the 24 cells. "
+      + f"The raw supremum lies in the band {sup_lo:.3f}--{sup_hi:.3f}; the excess is not genuine in {len(rows)-n_gen} of {len(rows)} cells and genuine in {n_gen} ({gen_names}), where it reaches at most ${exc_gen:+.3f}$." + r" % expR62_samplelevel_record.csv" + "\n}",
       r"\label{tab:b17-samplelevel}",r"\end{table}"]
     (OUT/"tab_b17_samplelevel.tex").write_text("\n".join(lines)+"\n"); print(f"b17 written from expR62 ({len(rows)} cells, {n_gen} genuine)")
 f = RES/"expR37_sample_level.csv"
@@ -505,8 +510,14 @@ if f63.exists():
         for m in M:
             lines.append(MN[m]+f" & {lab} & "+cell(by.get((m,'cifar100',mod)))+" & "+cell(by.get((m,'imagenet',mod)))+r" \\")
         if mod=="image": lines.append(r"\midrule")
+    im_ = [a for a in rows if a["dataset"]=="imagenet" and a["modality"]=="image"]
+    mer = [a for a in im_ if a["family"]=="meru"]; cli = [a for a in im_ if a["family"]=="clip"]
+    rng = lambda L, k: (max(float(a[k]) for a in L), min(float(a[k]) for a in L))
+    me, ce, mz, cz = rng(mer,"excess"), rng(cli,"excess"), rng(mer,"z_depth"), rng(cli,"z_depth")
+    natgap = max(abs(float(a["delta_999_native"])-float(a["delta_999"])) for a in mer)
+    summ_ = (f"On ImageNet images, the validated regime, the excess runs from ${me[0]:+.3f}$ to ${me[1]:+.3f}$ for MERU and from ${ce[0]:+.3f}$ to ${ce[1]:+.3f}$ for its twin across ViT-S/B/L; MERU's Lorentz-metric $\\hat\\delta_{{99.9}}$ differs from its Euclidean value by at most ${natgap:.4f}$; depth $z$ runs from ${min(mz):+.1f}$ to ${max(mz):+.1f}$ for MERU and from ${min(cz):+.1f}$ to ${max(cz):+.1f}$ for CLIP, so neither is more hierarchical than a matched star and MERU is never ahead of its twin.")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{\textbf{Imposing the geometry does not create depth: MERU and its Euclidean twin under the census of record.} MERU \citep{desai2023meru} embeds images and text on the Lorentz hyperboloid with an entailment objective; its released Euclidean twin is a CLIP baseline with the same ViT, RedCaps data and recipe minus the hyperbolic lift and entailment loss. Both pass through the instrument unchanged: class centroids of the projected embeddings (MERU: space-like hyperboloid coordinates; CLIP: unit vectors), Euclidean distances; exc.\ ($r$): excess of $\hat\delta_{99.9}$ over the Haar spectrum-matched null with the number of 200 replicates above the real value ($^{\circ}$: not genuine under Benjamini--Hochberg over the 24 cells); nat./Eucl.: the same statistic in the model's own metric (Lorentz distance between tangent-space-mean centroids for MERU, angular for CLIP) against the Euclidean one; depth $z$: the anisotropic matched-star test of Table~\ref{tab:b34-depthvariants} (10 star seeds; negative = more hierarchical above the frame than a star), validated at $n{=}1000$ only (Table~\ref{tab:b35-power}). MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy. % expR63_meru_record.csv" + "\n}",
+      r"\caption{\textbf{Imposing the geometry does not create depth: MERU and its Euclidean twin under the census of record.} MERU \citep{desai2023meru} embeds images and text on the Lorentz hyperboloid with an entailment objective; its released Euclidean twin is a CLIP baseline with the same ViT, RedCaps data and recipe minus the hyperbolic lift and entailment loss. Both pass through the instrument unchanged: class centroids of the projected embeddings (MERU: space-like hyperboloid coordinates; CLIP: unit vectors), Euclidean distances; exc.\ ($r$): excess of $\hat\delta_{99.9}$ over the Haar spectrum-matched null with the number of 200 replicates above the real value ($^{\circ}$: not genuine under Benjamini--Hochberg over the 24 cells); nat./Eucl.: the same statistic in the model's own metric (Lorentz distance between tangent-space-mean centroids for MERU, angular for CLIP) against the Euclidean one; depth $z$: the anisotropic matched-star test of Table~\ref{tab:b34-depthvariants} (10 star seeds; negative = more hierarchical above the frame than a star), validated at $n{=}1000$ only (Table~\ref{tab:b35-power}). " + summ_ + r" MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy. % expR63_meru_record.csv" + "\n}",
       r"\label{tab:b30-meru}",r"\end{table}"]
     (OUT/"tab_b30_meru.tex").write_text("\n".join(lines)+"\n"); print(f"b30 written from expR63 ({len(rows)} rows)")
 f = RES/"expR51_meru_control.csv"
@@ -573,9 +584,13 @@ if f.exists() and frec.exists():
     txt=""
     if ft.exists():
         ct=list(csv.DictReader(open(ft))); txt=f" Text (same protocol on the padding-free embeddings): genuine {sum(gb(a) for a in ct)}/15: " + ", ".join(a['model'].replace('_','-') for a in ct if gb(a)) + "."
+    trip=""
+    if (RES/"exp10_local_vs_global.csv").exists():
+        e10={a["model"]:a for a in csv.DictReader(open(RES/"exp10_local_vs_global.csv"))}
+        trip=f" The angular tree: sibling-triplet agreement on CIFAR-100 for DINOv2-L is {float(e10['dinov2_l']['c100_sibtrip_c']):.2f} under cosine against {float(e10['dinov2_l']['c100_sibtrip_e']):.2f} under Euclidean distance."
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{\textbf{Cosine census (robustness reading, not the record).} Centroids L2-normalized, spherical geodesic distances, Haar null built on the normalized cloud and re-normalized, 99.9th-percentile statistic, 200 replicates, BH over 72 cells ($^{\circ}$: not genuine). "
-      f"Sign-negative {sum(float(a['excess'])<0 for a in cv)}/{n}; genuine {gen}/{n}, {top}/24 on ImageNet+CIFAR-100; verdict agreement with the Euclidean record {agree}/{n} cells." + txt + r" % expR57_census_cosine_haar_p999_200.csv, expR57_text_cosine_haar_p999_200.csv" + "\n}",
+      r"\caption{\textbf{The angular reading agrees with the Euclidean census.} Centroids L2-normalized, spherical geodesic distances, Haar null built on the normalized cloud and re-normalized, 99.9th-percentile statistic, 200 replicates, BH over 72 cells ($^{\circ}$: not genuine); a robustness reading, not the record. "
+      f"Sign-negative {sum(float(a['excess'])<0 for a in cv)}/{n}; genuine {gen}/{n}, {top}/24 on ImageNet+CIFAR-100; verdict agreement with the Euclidean record {agree}/{n} cells." + txt + trip + r" % expR57_census_cosine_haar_p999_200.csv, expR57_text_cosine_haar_p999_200.csv, exp10_local_vs_global.csv" + "\n}",
       r"\label{tab:b32-cosine}",r"\end{table}"]
     (OUT/"tab_b32_cosine.tex").write_text("\n".join(lines)+"\n"); print(f"b32 written (cosine: genuine {gen}/{n}, agree {agree})")
 
@@ -608,8 +623,11 @@ if f.exists():
         rows_=[a for a in dv if a['dataset']==ds and int(a['K'])==K and a['variant']==v]
         return f"{sum(float(a['z_depth'])<=-2 for a in rows_)}/{len(rows_)} at $z\\le-2$, {sum(float(a['z_depth'])>=2 for a in rows_)}/{len(rows_)} at $z\\ge+2$"
     ks=" ".join(f"CIFAR-100 $K{{=}}{K}$: iso {summ('cifar100',K,'iso')}; aniso {summ('cifar100',K,'aniso')}." for K in (5,10,20)) + " " + " ".join(f"ImageNet $K{{=}}{K}$: iso {summ('imagenet',K,'iso')}; aniso {summ('imagenet',K,'aniso')}." for K in (10,30,60))
+    hits_=[a for a in dv if a['dataset']=='imagenet' and int(a['K'])==30 and a['variant']=='aniso' and float(a['z_depth'])<=-2]
+    iso_c=[float(a['z_depth']) for a in dv if a['dataset']=='cifar100' and int(a['K'])==20 and a['variant']=='iso']
+    cert_=(f" Certified on ImageNet ($n{{=}}1000$, the validated regime): {len(hits_)} of 12 backbones ({', '.join(NAME[a['model']] for a in hits_)}) with $z$ from ${max(float(a['z_depth']) for a in hits_):+.1f}$ to ${min(float(a['z_depth']) for a in hits_):+.1f}$; the withdrawn isotropic star reached $z{{=}}{max(iso_c):+.1f}$ on CIFAR-100.") if hits_ else ""
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{\textbf{The matched-star depth test on the real backbones: the star's shape decides the verdict.} Readings are reported without certification: the test fails its pre-set validation bar in the $n{=}100$, $K\ge12$ regime (Table~\ref{tab:b35-power}). Depth = excess B of the real centroids minus that of a matched star (negative = more hierarchical above the frame than the star), with $z$ against the combined spread; 10 star seeds; hub-randomizing Haar null. Isotropic star: Gaussian clouds with each superclass's RMS spread (the earlier, withdrawn construction). Anisotropic star: within each superclass a Haar sample with the cloud's own covariance. Frames: CIFAR-100 coarse labels; ImageNet WordNet cut. K sweep: " + ks + r" % expR56_depth_variants.csv" + "\n}",
+      r"\caption{\textbf{The matched-star depth test on the real backbones: the star's shape decides the verdict.} The test is validated at $n{=}1000$ only (Table~\ref{tab:b35-power}); CIFAR-100 readings ($n{=}100$) are reported without certification." + cert_ + r" Depth = excess B of the real centroids minus that of a matched star (negative = more hierarchical above the frame than the star), with $z$ against the combined spread; 10 star seeds; hub-randomizing Haar null. Isotropic star: Gaussian clouds with each superclass's RMS spread (the earlier, withdrawn construction). Anisotropic star: within each superclass a Haar sample with the cloud's own covariance. Frames: CIFAR-100 coarse labels; ImageNet WordNet cut. K sweep: " + ks + r" % expR56_depth_variants.csv" + "\n}",
       r"\label{tab:b34-depthvariants}",r"\end{table}"]
     (OUT/"tab_b34_depthvariants.tex").write_text("\n".join(lines)+"\n"); print("b34 written")
 
@@ -633,8 +651,15 @@ if f1.exists():
             lines.append(f"{label} & {n} & {K} & " + " & ".join("--" if p!=p else f"{p:.2f}" for p in pw) + f" & {fa1:.2f} & {fa2:.2f} \\\\")
         lines.append(r"\midrule")
     lines=lines[:-1]
+    bar_=""
+    if f2.exists():
+        d2_=_pd.read_csv(f2); h2_=d2_[d2_.level!="star"]; s2_=d2_[d2_.level=="star"]; d1_=_pd.read_csv(f1)
+        p03=(h2_[(h2_.n==1000)&(h2_.ratio<=0.3)].z<=-2).mean(); p06=(h2_[(h2_.n==1000)&(h2_.ratio==0.6)].z<=-2).mean()
+        fa1000=((s2_[s2_.n==1000].z<=-2).mean(), (s2_[s2_.n==1000].z>=2).mean()); fa100=(s2_[(s2_.n==100)&(s2_.K>=12)].z<=-2).mean()
+        top_fa=(d1_[d1_.level=="star"].z.abs()>=2).mean(); top_pw=(d1_[d1_.level!="star"].z<=-2).mean()
+        bar_=(f" Pre-set bar: power $\\ge0.8$ for two- and three-level hierarchies at noise ratios $\\le0.3$ for both $n$, and false alarms $\\le5$\\% in each direction. Leaf frame: met at $n{{=}}1000$ (power {p03:.2f} at ratios $\\le0.3$ and {p06:.2f} at $0.6$; false alarms {100*fa1000[0]:.0f}\\% and {100*fa1000[1]:.0f}\\%), failed at $n{{=}}100$, where $K\\ge12$ (under ten points per cluster) gives {100*fa100:.0f}\\% false alarms at $z\\le-2$. Top-level frame: power {top_pw:.2f}, false alarms {100*top_fa:.0f}\\% pooled.")
     lines+=[r"\bottomrule",r"\end{tabular}",
-      r"\caption{\textbf{Power of the matched-star depth test on synthetic hierarchies.} Two- and three-level hierarchies (pooled) and pure stars, $d{=}768$, within/between noise ratios $0.1/0.3/0.6$, isotropic and anisotropic clusters pooled, 5 seeds. Power = fraction of hierarchy runs with $z\le-2$; star columns = false-alarm rates in each direction. Top-level frame: the test receives the $K$ super-cluster labels, as the earlier isotropic test (withdrawn) did on the real backbones; its hub null keeps every frame cluster intact and only rearranges the $K$ hubs, so hierarchy below the frame is invisible by construction. Leaf frame: the test receives the finest cluster labels with the anisotropic matched star of Table~\ref{tab:b34-depthvariants} (configurations with more leaves than points are infeasible and omitted). % expR55_depth_power.csv, expR55b_depth_power_leafframe.csv" + "\n}",
+      r"\caption{\textbf{Power of the matched-star depth test on synthetic hierarchies.} Two- and three-level hierarchies (pooled) and pure stars, $d{=}768$, within/between noise ratios $0.1/0.3/0.6$, isotropic and anisotropic clusters pooled, 5 seeds. Power = fraction of hierarchy runs with $z\le-2$; star columns = false-alarm rates in each direction." + bar_ + r" Top-level frame: the test receives the $K$ super-cluster labels, as the earlier isotropic test (withdrawn) did on the real backbones; its hub null keeps every frame cluster intact and only rearranges the $K$ hubs, so hierarchy below the frame is invisible by construction. Leaf frame: the test receives the finest cluster labels with the anisotropic matched star of Table~\ref{tab:b34-depthvariants} (configurations with more leaves than points are infeasible and omitted). % expR55_depth_power.csv, expR55b_depth_power_leafframe.csv" + "\n}",
       r"\label{tab:b35-power}",r"\end{table}"]
     (OUT/"tab_b35_power.tex").write_text("\n".join(lines)+"\n"); print("b35 written", "(leaf frame included)" if f2.exists() else "(top frame only so far)")
 

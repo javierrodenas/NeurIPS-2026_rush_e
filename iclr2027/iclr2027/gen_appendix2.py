@@ -183,13 +183,19 @@ for ds, tag in [("imagenet","summary_in"), ("cifar100","summary_c1")]:
                      f"{v['big_vs_sup']:.2f} & {v['small_vs_sup']:.2f} & {v['sup_vs_sup']:.2f} \\\\")
     lines.append(r"\midrule")
 lines[-1] = r"\bottomrule"
+z22 = np.load(RES/"exp22_tree_similarity_imagenet.npz", allow_pickle=True); ari22 = z22["ari"]; nm22 = list(z22["models"]); ix22 = {m: i for i, m in enumerate(nm22)}
+_SUP = ["i21k_t","i21k_s","i21k_b","i21k_l","clip_b","clip_l","siglip_b"]; _D2 = ["dinov2_s","dinov2_b","dinov2_l","dinov2_g"]
+_VIT = ["i21k_t","i21k_s","i21k_b","i21k_l"]; _CON = ["clip_b","clip_l","siglip_b"]
+naive_max = max(ari22[ix22[a], ix22[b]] for a in _VIT for b in _CON); island_max = max(ari22[ix22[a], ix22[b]] for a in _D2 for b in _SUP)
+chain = diag["imagenet|euclid|average"]["maxfrac"]
+naive_txt = (f" Under the naive ImageNet configuration, cross-family ARI between the supervised ViTs and the contrastive VLMs reaches {naive_max:.2f} while every DINOv2-vs-block pair stays at or below {island_max:.2f}, and the worst model's largest cluster holds {100*chain:.0f}\\% of the classes: the island is made by chaining.")
 lines += [r"\end{tabular}",
           r"\caption{Tree-map configurations with the two quantities that drive the selection "
           r"criterion of \S5: the degeneracy diagnostic (largest-cluster fraction at the reference "
           r"cut, worst model) and the mean cophenetic fidelity (CPCC) of each model's dendrogram to "
           r"its own distance matrix. Configurations with max-cluster fraction $>0.5$ are excluded; "
           r"among the rest, highest CPCC selects the marked row. Mean pairwise ARIs at the reference "
-          r"cut shown for all configurations. Sources: \texttt{exp23\_treemap\_controls.npz}, "
+          r"cut shown for all configurations." + naive_txt + r" Sources: \texttt{exp22\_tree\_similarity\_imagenet.npz}, \texttt{exp23\_treemap\_controls.npz}, "
           r"\texttt{exp23\_config\_diagnostics.json}.}",
           r"\label{tab:b7-treemapcontrols}", r"\end{table}"]
 (OUT/"tab_b7_treemap.tex").write_text("\n".join(lines)+"\n"); print("b7")
@@ -265,10 +271,14 @@ lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize",
          "model & " + " & ".join(HEAD) + r" \\", r"\midrule"]
 for r in r28:
     lines.append(NAME[r["model"]] + " & " + " & ".join(f'{float(r[c]):.2f}' for c in CONFS) + r" \\")
+_r28 = {r["model"]: r for r in r28}; _ADM = ["euclid-ward", "cosine-complete", "cosine-ward"]; _D2 = ["dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"]
+_wins = sum(float(_r28["i21k_b"][c]) > float(_r28[m][c]) for c in _ADM for m in _D2)
+_d2v = [float(_r28[m][c]) for c in _ADM for m in _D2]
+_pair = (f" Paired within each of the {len(_ADM)} admissible configurations, the label-supervised ViT-B recovers more than each DINOv2 model in {_wins} of {len(_ADM)*len(_D2)} comparisons; DINOv2 itself recovers the superclasses at ARI {min(_d2v):.2f}--{max(_d2v):.2f}.")
 lines += [r"\bottomrule", r"\end{tabular}",
           r"\caption{Recovery of the true CIFAR-100 superclasses (ARI of the 20-cluster cut) per "
           r"model and configuration, the quantity behind the corrected picture of \S5. Degenerate "
-          r"configurations marked; the criterion-selected configuration is cosine-complete. "
+          r"configurations marked; the criterion-selected configuration is cosine-complete." + _pair + " "
           r"Source: \texttt{exp28\_recovery\_per\_config.csv}.}",
           r"\label{tab:b11-recovery}", r"\end{table}"]
 (OUT/"tab_b11_recovery.tex").write_text("\n".join(lines)+"\n"); print("b11")

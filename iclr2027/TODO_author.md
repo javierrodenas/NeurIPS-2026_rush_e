@@ -148,3 +148,10 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - **Mettes et al. (IJCV 2024)**: no citado; el texto de arXiv no enuncia la premisa.
 - Costes: R7 ≈ 1 h 10 min (4 workers, ~7 min/celda); R8 ≈ 40 min (3 workers).
 - Página 9 tiene ~8 líneas de holgura con el hueco de 1.2 in; si la Fig. 1 real es más alta, hay margen.
+
+## Añadido en la pasada de prosa
+
+- Lee `SUMMARY_plain.md` (diez líneas) y comprueba que la historia tiene una sola voz; la tesis aparece literal cinco veces en el texto.
+- Los números que salieron de la prosa están en los pies de tabla generados (lista completa en CHANGELOG §20); si echas de menos alguno en el
+  cuerpo, el check "prose" del sweep te dirá si al reponerlo se rompe la regla de dos por párrafo.
+- Limitación (i) se reformuló sin cifras ("class sets of ImageNet's size"); las cifras (n ≈ 1000, diez puntos por cluster) siguen en A.5 y B35.

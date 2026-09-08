@@ -21,6 +21,6 @@ cifar100 & cosine-complete (selected) & 0.39 & 0.698 & 0.39 & 0.51 & 0.63 \\
 cifar100 & cosine-ward & 0.14 & 0.584 & 0.56 & 0.62 & 0.61 \\
 \bottomrule
 \end{tabular}
-\caption{Tree-map configurations with the two quantities that drive the selection criterion of \S5: the degeneracy diagnostic (largest-cluster fraction at the reference cut, worst model) and the mean cophenetic fidelity (CPCC) of each model's dendrogram to its own distance matrix. Configurations with max-cluster fraction $>0.5$ are excluded; among the rest, highest CPCC selects the marked row. Mean pairwise ARIs at the reference cut shown for all configurations.}
+\caption{Tree-map configurations with the two quantities that drive the selection criterion of \S5: the degeneracy diagnostic (largest-cluster fraction at the reference cut, worst model) and the mean cophenetic fidelity (CPCC) of each model's dendrogram to its own distance matrix. Configurations with max-cluster fraction $>0.5$ are excluded; among the rest, highest CPCC selects the marked row. Mean pairwise ARIs at the reference cut shown for all configurations. Under the naive ImageNet configuration, cross-family ARI between the supervised ViTs and the contrastive VLMs reaches 0.82 while every DINOv2-vs-block pair stays at or below 0.06, and the worst model's largest cluster holds 97\% of the classes: the island is made by chaining.}
 \label{tab:b7-treemapcontrols}
 \end{table}

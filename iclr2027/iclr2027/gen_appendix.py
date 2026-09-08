@@ -149,12 +149,21 @@ for r in db:
     lines.append(f'{NAME[r["model"]]} & {float(r["delta"]):.3f} & '
                  f'{float(r["excess"]):+.3f} & {recc} & {float(r["trip_cos"]):.2f} & {nc:+.2f} & '
                  f'{float(r["FS_HR_pp"]):+.2f}$\\pm${float(r["FS_HR_ci"]):.2f} \\\\')
+tm = ""
+if (RES/"exp27_dbpedia_treemap.json").exists():
+    import json as _json
+    d27 = _json.load(open(RES/"exp27_dbpedia_treemap.json")); l2 = [a for v in d27.values() for a in v["ari_l2"].values()]; cm = [v["cross_model"] for v in d27.values()]
+    n_l2 = ""
+    try:
+        import numpy as _np; _sup = _np.load(Path(os.environ.get("PLATONIC_ROOT", "/media/HDD_4TB_2/javi/Platonic"))/"results/text_cache/dbpedia_bge_base.npz")["sup"]; n_l2 = f"{len(set(_sup.tolist()))}-way "
+    except Exception: pass
+    tm = (f" Tree map on the same classes: no configuration degenerates (largest cluster $\\le{100*max(v['maxfrac'] for v in d27.values()):.0f}$\\%), the embedders recover the true {n_l2}level-2 partition at ARI {min(l2):.2f}--{max(l2):.2f} in all {len(d27)} configurations and agree with each other at cross-model ARI {min(cm):.2f}--{max(cm):.2f}.")
 lines += [r"\bottomrule", r"\end{tabular}",
-          r"\caption{DBpedia Classes (219 leaf classes, 3 levels): beyond-null excess under the original "
+          r"\caption{DBpedia Classes (219 leaf classes, 3 levels): excess under the original "
           r"supremum reading (3 Gaussian replicates) and under the census of record (Haar null, 99.9th-percentile "
           r"statistic, 200 replicates; $r$ = replicates above the real value, left-tail $p$), strong sibling alignment, "
-          r"and $\hat\delta$ above the low-$\delta$ band correctly predicting marginal gains. "
-          r"Sources: \texttt{exp14\_dbpedia.csv}, \texttt{expR61\_dbpedia\_record.csv}.}",
+          r"and $\hat\delta$ above the low-$\delta$ band correctly predicting marginal gains." + tm + " "
+          r"Sources: \texttt{exp14\_dbpedia.csv}, \texttt{expR61\_dbpedia\_record.csv}, \texttt{exp27\_dbpedia\_treemap.json}.}",
           r"\label{tab:a9}", r"\end{table}"]
 (OUT/"tab_a9_dbpedia.tex").write_text("\n".join(lines) + "\n"); print("wrote tab_a9_dbpedia.tex")
 
