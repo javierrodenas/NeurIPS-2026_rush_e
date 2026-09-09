@@ -37,7 +37,7 @@ F['GAIN_LO'], F['GAIN_HI'], F['GO_LO'], F['GO_HI'] = f"{gg[contr].min():+.1f}", 
 # positive-control pass fills
 import os as _os
 if _os.path.exists(R + 'expR64b_wn30_summary.csv'):
-    S9 = pd.read_csv(R + 'expR64b_wn30_summary.csv'); F['R9B_NDET'] = str(int((S9.hits_s1 >= 4).sum()))
+    S9 = pd.read_csv(R + 'expR64b_wn30_summary.csv'); nd = int((S9.hits_s1 >= 4).sum()); F['R9B_NDET'] = str(nd); F['R9B_NDET_PHRASE'] = ('none of the twelve backbones' if nd == 0 else f'{nd} of 12 backbones')
     F['RATIO_LO'], F['RATIO_HI'] = f"{S9.ratio_real.min():.1f}", f"{S9.ratio_real.max():.1f}"
 J = pd.read_csv(R + 'expR66_joint_sensitivity_summary.csv'); topJ = J.dataset.isin(['imagenet', 'cifar100'])
 cnt = sorted([int(J.joint_genuine.sum()), int(J.boot_bh_genuine.sum())]); cntt = sorted([int((J.joint_genuine & topJ).sum()), int((J.boot_bh_genuine & topJ).sum())])
@@ -57,7 +57,7 @@ if not os.path.exists(R + 'phaseD_old_main_body.tex'): open(R + 'phaseD_old_main
 T = T[:i] + body + T[j:]
 def rep(old, new, count=1):
     global T
-    if T.count(old) == 0 and new in T: return   # already applied
+    if new in T: return   # already applied (also covers insertions where old is a substring of new)
     assert T.count(old) == count, f"{T.count(old)} matches: {old[:80]!r}"; T = T.replace(old, new)
 # fixed-vocabulary renames in the appendix prose and captions
 rep("\\paragraph{The form tracks training.}", "\\paragraph{Clustered structure tracks training.}")

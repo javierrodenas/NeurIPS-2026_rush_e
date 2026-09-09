@@ -1,0 +1,16 @@
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+ViT-B/16 & $\hat\delta_{99.9}$ & excess & $r$/200 & depth & $z$ \\
+\midrule
+frozen (census) & $0.054$ & $-0.0162$ & 200 & $-0.0335$ & $-3.62$ \\
+cross-entropy & $0.048$ & $-0.0153$ & 200 & $-0.0303$ & $-2.33$ \\
+cross-entropy + hierarchical CE (WordNet-30) & $0.048$ & $-0.0162$ & 200 & $-0.0295$ & $-2.77$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{A trained positive control, inconclusive.} The census ViT-B/16 fine-tuned for two passes over the 100 training images per class behind its ImageNet centroids (patch embedding frozen, AdamW, same batches and seed for both objectives), with plain cross-entropy or with an added hierarchical cross-entropy over the WordNet 30-cut; centroids of the same images, census of record and depth test as in Table~\ref{tab:b34-depthvariants}. Both fine-tuned models stay certified and neither reaches the frozen reading; the hierarchical term lowers $z$ relative to plain cross-entropy by less than one unit. % expR65_hier_finetune.csv
+}
+\label{tab:b39-finetune}
+\end{table}

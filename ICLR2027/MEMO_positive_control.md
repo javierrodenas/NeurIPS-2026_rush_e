@@ -35,6 +35,46 @@
 - Bootstrap-BH (genuine under BH in ≥ 27 of 30 resamples): **47/72**, 17/24. Record-genuine cells that drop: CLIP-B/cifar10, ViT-T/dtd, CLIP-L/imagenet; newly genuine: DINOv2-S/fashionmnist.
 - Bootstrap s.d. of the excess: max 0.0026 over all cells, 0.0011 on ImageNet.
 
+## R9b — corrected implant (hub = s·super-hub + (1 − s + 0.4 s)·own draw; siblings never coincide) on the WordNet-30 frame of record (`expR64b_wn30.csv`, 300 depth runs)
+
+| backbone | real z | within/between | s* | mean z at s = 1 | tight z s = 0/0.5/1 (hits s = 1, s = 0) |
+|---|---|---|---|---|---|
+| ViT-T | -1.48 | 1.55 | none | +0.1 | -0.6/-1.9/-9.2 (2/2, 0/2) |
+| ViT-S | -2.36 | 1.93 | none | -1.2 | -0.2/-3.4/-10.1 (2/2, 0/2) |
+| ViT-B | -3.62 | 1.96 | none | +0.4 | -1.0/-3.9/-11.5 (2/2, 0/2) |
+| ViT-L | -4.04 | 1.88 | none | -1.4 | -1.6/-4.4/-12.7 (2/2, 0/2) |
+| DINO-B | -0.94 | 2.12 | none | -0.3 | -1.6/-5.1/-12.1 (2/2, 0/2) |
+| DINOv2-S | +0.66 | 3.00 | none | -0.8 | -0.2/-3.1/-11.5 (2/2, 0/2) |
+| DINOv2-B | -1.19 | 3.71 | none | +0.4 | -0.0/-3.1/-11.2 (2/2, 0/2) |
+| DINOv2-L | -2.39 | 3.88 | none | +0.2 | +0.2/-2.7/-11.4 (2/2, 0/2) |
+| DINOv2-G | -1.78 | 3.92 | none | +1.3 | +0.2/-3.9/-11.6 (2/2, 0/2) |
+| CLIP-B | -1.95 | 1.33 | none | -1.2 | -1.7/-3.8/-11.4 (2/2, 0/2) |
+| CLIP-L | -0.83 | 1.49 | none | -2.2 | -2.4/-5.8/-13.5 (2/2, 2/2) |
+| SigLIP-B | -0.90 | 1.54 | none | -1.6 | -2.1/-5.0/-11.0 (2/2, 2/2) |
+
+- Power by s: s=0.0: 0.00, s=0.25: 0.00, s=0.5: 0.00, s=0.75: 0.00, s=1.0: 0.05; false alarms at s = 0: 0 of 60; detected at s = 1 (≥ 4/5 seeds): 0/12; real-data certified on this frame: 4/12.
+- Census on the same clouds: max spread across s 0.0052, minimum r 188/200.
+
+## R12 — pre-registered balanced WordNet frame (rule: K = 30 cut with minimum size variance among average/complete/single; decision: power at s = 1 ≥ 0.8 and zero hits at s = 0 → frame of record) (`expR64b_wn30bal.csv`, 300 depth runs)
+
+| backbone | real z | within/between | s* | mean z at s = 1 |
+|---|---|---|---|---|
+| ViT-T | -2.08 | 1.40 | none | -1.3 |
+| ViT-S | -1.72 | 1.78 | none | -1.1 |
+| ViT-B | -2.82 | 1.80 | none | -0.1 |
+| ViT-L | -5.57 | 1.74 | none | -0.6 |
+| DINO-B | -0.98 | 1.95 | none | +0.3 |
+| DINOv2-S | +0.12 | 2.85 | none | -0.2 |
+| DINOv2-B | -0.32 | 3.57 | none | -0.4 |
+| DINOv2-L | -1.70 | 3.73 | none | -0.4 |
+| DINOv2-G | -0.93 | 3.81 | none | -0.6 |
+| CLIP-B | -1.29 | 1.20 | none | -0.6 |
+| CLIP-L | -0.68 | 1.36 | none | -0.7 |
+| SigLIP-B | -1.12 | 1.41 | none | -1.0 |
+
+- Power by s: s=0.0: 0.00, s=0.25: 0.00, s=0.5: 0.00, s=0.75: 0.00, s=1.0: 0.02; false alarms at s = 0: 0 of 60; detected at s = 1 (≥ 4/5 seeds): 0/12; real-data certified on this frame: 3/12.
+- Frame: complete linkage, sizes [1, 2, 2, 2, 2, 5, 7, 9, 10, 10, 12, 12, 12, 13, 16, 16, 17, 18, 29, 32, 36, 41, 51, 57, 59, 61, 96, 107, 111, 154] (variances {k: round(v) for k, v in X['frame_choice']['variances'].items()}). Pre-registered rule passed: **False**.
+
 ## R10 — fine-tuned ViT-B/16 with injected hierarchy (`expR65_hier_finetune.csv`; census subset of 100 images/class, 2 epochs, same batches for both objectives)
 
 | model | census excess | r/200 (p) | depth | z |

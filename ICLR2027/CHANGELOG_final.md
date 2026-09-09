@@ -739,3 +739,44 @@ entrenamiento desde el disco): frozen exceso -0.0162 z -3.62; CE -0.0153 z -2.33
 Criterio del brief (b certificado y a no, o z de b claramente por debajo de a, umbral 1): **False**.
 
 Checks en `sweep_freeze.py` (sección positive-control) contra `positive_control_memo.json`. Sin ediciones de prosa.
+
+## 23b. Positive-control pass — Fase B (texto) y las dos ejecuciones nuevas
+
+**R9b — implante corregido** (`expR64b_implanted_depth_v2.py --frame wn30`; hub = s·super-hub + (1 − s + 0.4·s)·sorteo propio, los hermanos nunca
+coinciden; mismos seeds y test que R9; `expR64b_wn30{,_summary}.csv`, `fig_implanted_depth_v2.pdf`). Potencia por s: s=0.0: 0.00, s=0.25: 0.00, s=0.5: 0.00, s=0.75: 0.00, s=1.0: 0.05;
+falsas alarmas a s = 0: 0 de 60; detectado a s = 1 (≥ 4/5 semillas): **0/12**; s* = ninguno en los 12; certificados en datos reales
+en este marco: 4/12 (mismos cuatro). Censo sobre las mismas nubes: dispersión máx. 0.0052, r mín. 188/200.
+Cociente intra/entre real: i21k_t 1.55, i21k_s 1.93, i21k_b 1.96, i21k_l 1.88, dinov1_b 2.12, dinov2_s 3.00, dinov2_b 3.71, dinov2_l 3.88, dinov2_g 3.92, clip_b 1.33, clip_l 1.49, siglip_b 1.54. Variante tight (offsets encogidos a 0.6, s = 0/0.5/1, z medio): i21k_t -0.6/-1.9/-9.2; i21k_s -0.2/-3.4/-10.1; i21k_b -1.0/-3.9/-11.5; i21k_l -1.6/-4.4/-12.7; dinov1_b -1.6/-5.1/-12.1; dinov2_s -0.2/-3.1/-11.5; dinov2_b -0.0/-3.1/-11.2; dinov2_l +0.2/-2.7/-11.4; dinov2_g +0.2/-3.9/-11.6; clip_b -1.7/-3.8/-11.4; clip_l -2.4/-5.8/-13.5; siglip_b -2.1/-5.0/-11.0;
+a s = 1 detectan los 12 (2/2 semillas); a s = 0, CLIP-L y SigLIP-B dan falsas alarmas (2/2).
+
+**R12 — marco WordNet equilibrado, pre-registrado** (`--frame wn30bal`; regla: corte K = 30 de la matriz WordNet con mínima varianza de tamaños entre
+average/complete/single, elegido y registrado en `expR67_frame_choice.json` antes de cualquier test: **complete** linkage, tamaños
+1–154 clases frente a 1–316 del marco de registro; criterio: potencia a s = 1 ≥ 0.8 con cero falsas alarmas a s = 0).
+Resultado: potencia a s = 1 0.02, falsas alarmas 0/60, certificados en datos reales 3/12 (ViT-T, ViT-B, ViT-L; ViT-S y DINOv2-L
+quedan en z −1.7). **Regla no superada → apéndice tal como se corrió** (Tabla B37, columnas de la derecha); el marco de registro no cambia.
+
+**Decisión del panel.** Figura 4 = (a) real vs estrellas (sin cambio) + (b) z frente a la intensidad del implante, colores de familia, variante tight a
+trazos; el barrido sintético pasa al apéndice A.5 como `fig_depth_power_app.pdf` (pie propio). Alturas: Fig. 4 1.3 in, Fig. 3 1.05 in, Fig. 2 1.15 in,
+Fig. 5 0.6\linewidth; Tabla 1 a scriptsize con pie abreviado. Recortes de prosa en §1–§7 para volver a la p. 9 (todos listados en el diff de
+`phaseD_main_body.tex.tmpl`; ningún número ni afirmación cambia).
+
+**Frases añadidas o cambiadas.** §4.4 en dos párrafos: "Depth is certified on ImageNet and not on CIFAR-100" (los cuatro certificados; "the other
+eight are not detected, which is not the same as not hierarchical"; CIFAR-100 fuera del régimen; estrella isotrópica retirada) y nuevo "On real
+clouds the test is conservative and weak" (implante sobre nubes reales; "none of the sixty zero-strength runs hierarchical"; "detected in none of the
+twelve backbones"; cociente 1.3–3.9 frente a "ratios below one" del barrido sintético; con los offsets encogidos "every backbone is detected";
+"conservative and weak at ImageNet's noise level: its positive verdicts stand, and a backbone it does not certify is not thereby flat"; control
+entrenado "inconclusive, as Appendix A.5 reports"). Se retira del cuerpo la afirmación de régimen validado con la potencia sintética (queda en A.5
+y B35). Abstract, §1, §7: "no additional depth" → "no detected depth"; abstract y §1: "The depth test, conservative and weak at ImageNet's noise
+level, certifies…"; MERU: "neither model is detected as more hierarchical than a matched star… neither creates the clustering nor adds detectable
+depth"; §6.2: "a positive verdict certifies and a negative one says nothing"; Limitación (i): "conservative and weak at ImageNet's noise level, leaves
+hierarchy within the clusters untested, and its one trained positive control is inconclusive". R10 al apéndice A.5, un párrafo ("A trained control,
+inconclusive": -3.62 / -2.33 / -2.77) y Tabla B39. R11: nuevo párrafo §4.2 "The count survives resampling" (42–47 de 72;
+17–18 de 24; puntero A.14) y cláusula en el pie de la Tabla 1; Tabla B38. B3: §6.1 dividido, nuevo párrafo "The excess is small in absolute
+terms and large against the null" (1 a 36 veces la s.d. del null en ImageNet). B4: frase del criterio en §5.1 (por dataset, ciego a los acuerdos, no
+transferible; DBpedia/ImageNet). B5: glosa de los dos nulls en §3 y en el pie de la tabla A.1. B6: tesis literal ×3 (abstract, caja, §7) y forma
+corta ×2 (final de §1 y de §5): "Clustered, occasionally hierarchical, moderately shared: not one common tree, and no license for curvature."
+
+**Verificación.** Sweep: checks nuevos (R9/R9b/R10/R11 contra el memo; frases de R9b, R11, B3, B5 y el "no detected depth"; tesis 3+2; el listado
+de fallos ahora imprime todos los checks) → **133/133 PASS**. Compilación: 36 páginas, 0 warnings, texto principal termina en la p. 9 con el hueco
+de 1.2 in (la Ética abre la p. 10). `ICLR2027/REVIEWER_CHECKLIST_positive_control.md` con números de línea del PDF (`make_reviewer_checklist_pc.py`).
+Memo actualizado con R9b y R12: `ICLR2027/MEMO_positive_control.md`.

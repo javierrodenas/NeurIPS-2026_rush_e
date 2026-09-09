@@ -130,3 +130,7 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   `expR66_joint_sensitivity{,_summary}.csv`; `expR65_hier_finetune.py` (R10, GPU) → `expR65_hier_finetune.csv`, `expR65_train_log.csv`,
   centroides en `Platonic/results/centroids/imagenet_ft/`, imágenes decodificadas en `Platonic/results/imagenet_train100_224_uint8.npy` (15 GB);
   `make_memo_positive_control.py` → `ICLR2027/MEMO_positive_control.md` + `rebuttal/results/positive_control_memo.json`.
+- Positive-control pass (Fase B): `rebuttal/scripts/expR64b_implanted_depth_v2.py` (R9b `--frame wn30`, R12 `--frame wn30bal`; chain `r15_chain.sh`) →
+  `expR64b_{wn30,wn30bal}{,_summary}.csv`, `expR67_frame_choice.json` (marco pre-registrado), `ICLR2027/figures/fig_implanted_depth_v2.pdf`; Figura 4 =
+  `make_fig_depth.py` (panel (b) desde expR64b_wn30.csv; `fig_depth_power_app.pdf` al apéndice); tablas B37/B38/B39 en `gen_review_tables.py`;
+  `make_reviewer_checklist_pc.py` → `ICLR2027/REVIEWER_CHECKLIST_positive_control.md`. `phaseD_prose.py` admite `DRY_OUT=<path>` para ensayos de compilación.

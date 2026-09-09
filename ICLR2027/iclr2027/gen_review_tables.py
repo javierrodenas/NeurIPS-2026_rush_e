@@ -685,7 +685,7 @@ if f37.exists():
     import json as _json
     fc = _json.load(open(RES/"expR67_frame_choice.json")) if (RES/"expR67_frame_choice.json").exists() else None
     hb = lambda r: f"{r['hits_s0']}/{r['hits_s05']}/{r['hits_s1']}"
-    lines=[r"\begin{table}[H]",r"\centering",r"\footnotesize",r"\setlength{\tabcolsep}{3pt}",
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2pt}",
       r"\begin{tabular}{lcccccc|ccc}",r"\toprule",
       r" & \multicolumn{6}{c|}{WordNet-30 frame of record} & \multicolumn{3}{c}{balanced frame (pre-registered)} \\",
       r"model & real $z$ & within/between & hits $s{=}0/0.5/1$ & $s^*$ & mean $z$ at $s{=}1$ & tight $z$ at $s{=}0/0.5/1$ & real $z$ & hits $s{=}0/0.5/1$ & $s^*$ \\",r"\midrule"]

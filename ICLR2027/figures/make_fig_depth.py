@@ -106,7 +106,7 @@ def panel_implant(ax, title):
     ax.set_xlabel("implant strength $s$"); ax.set_ylabel("depth test $z$"); ax.set_title(title); ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
 
 if (RES/"expR64b_wn30.csv").exists():
-    fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.38), gridspec_kw={"width_ratios": [1.25, 1]})
+    fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.3), gridspec_kw={"width_ratios": [1.25, 1]})
     panel_real(axes[0], "imagenet", 30, "(a) ImageNet, WordNet $K{=}30$ ($n{=}1000$)"); panel_implant(axes[1], "(b) implanted depth on the real clouds")
     fig.legend(handles=hd, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.30, 1.0), fontsize=5.5, handletextpad=0.3, columnspacing=1.2)
     fig.tight_layout(w_pad=0.8, rect=[0, 0, 1, 0.92])

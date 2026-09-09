@@ -155,3 +155,13 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - Los números que salieron de la prosa están en los pies de tabla generados (lista completa en CHANGELOG §20); si echas de menos alguno en el
   cuerpo, el check "prose" del sweep te dirá si al reponerlo se rompe la regla de dos por párrafo.
 - Limitación (i) se reformuló sin cifras ("class sets of ImageNet's size"); las cifras (n ≈ 1000, diez puntos por cluster) siguen en A.5 y B35.
+
+## Añadido en el positive-control pass
+
+- **El control de profundidad en nubes reales es negativo en potencia**: el árbol implantado (hermanos separados) no se detecta en ningún backbone al
+  nivel de ruido real de ImageNet (cociente intra/entre 1.3–3.9), y sí en los 12 cuando los offsets se encogen a 0.6. El texto lo dice como "conservative
+  and weak" y convierte los ocho no certificados en "not detected". Si prefieres otra lectura, el párrafo es "On real clouds the test is conservative and weak".
+- **R12 (marco equilibrado, complete linkage)** no supera la regla pre-registrada (potencia 0.02 a s = 1) y queda en B37; en ese marco los certificados
+  son ViT-T/B/L (ViT-S y DINOv2-L en z −1.7): el conjunto de cuatro certificados es sensible al marco, no lo dice el cuerpo, sí la tabla.
+- **R10** es inconcluso (frozen -3.62, CE -2.33, CE+jerárquica -2.77) y está en A.5; la limitación del control entrenado se mantiene.
+- Coste: R9b + R12 ≈ 4,5 h con 7 workers; R9 (v1) ≈ 8 h; R10 ≈ 1 h 15 min en dos GPUs.

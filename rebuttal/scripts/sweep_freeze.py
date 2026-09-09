@@ -538,7 +538,7 @@ def phaseC_text_checks():
     c_lo, c_hi = (0.144/(2*ga[0][1]))**2, (0.144/(2*ga[-1][1]))**2
     chk("text: Khrulkov curvature on the Gaussian band (c=(0.144/delta_rel)^2, delta_rel=2 delta_norm; exp1 gauss d=192/1536)", f"${c_lo:.2f}$ at $d{{=}}{ga[0][0]}$ to ${c_hi:.1f}$ at $d{{=}}{ga[-1][0]}$" in main)
     im = [float(r["excess"]) for r in load("expR52_census_haar_p999_200.csv") if r["dataset"]=="imagenet"]
-    chk("text: ImageNet class-level excess range as stated", f"${max(im):+.3f}$ to ${min(im):+.3f}$ on ImageNet centroids" in main)
+    chk("text: ImageNet class-level excess range as stated", f"On ImageNet centroids it runs from ${max(im):+.3f}$ to ${min(im):+.3f}$" in main)
     D = _j.load(open(R/"phaseC_fig2b.json")); chk("fig2b: decision recorded and consistent with the caption", (D["mode"]=="sample") == ("images) and a class-level cell" in main) and D["gap_sample"] <= D["gap_bge"] if D["mode"]=="sample" else True)
     for w in ("tool", "we believe", "nterestingly"): chk(f"text: no '{w}' in the main text", w not in main)
 phaseC_text_checks()
@@ -561,7 +561,7 @@ def prose_checks():
         p = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if "=" in m.group(1) else m.group(0), p)   # inline equations (definitions) are not result numbers
         return p
     GROUP = r"(?<![A-Za-z\-^_{\d.])[-+]?\d+(?:\.\d+)?(?![A-Za-z\-\d])"   # digits glued to names (CIFAR-100, GPT-2, DINOv2, L2, 5-way) are not numbers
-    RANGE = _re.compile(rf"(?:from\s+)?\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?(?:\s*(?:of the|of|to|against|vs|and|--)\s+\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?)?(?:\\%)?")
+    RANGE = _re.compile(rf"(?:from\s+)?\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?(?:\s*(?:of the|of|to|against|vs|and|--)\s+\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?){{0,2}}(?:\\%)?")   # up to two connectors: '42 and 47 of the 72' is one group
     def groups(s):
         s = clean(s).replace("{=}", "="); s = _re.sub(r"\\begin\{enumerate\}.*?\\end\{enumerate\}", " ", s, flags=_re.S); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
         return [m.group(0) for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
@@ -648,7 +648,7 @@ def positive_control_prose_checks():
     ndet = sum(int(r["hits_s1"])>=4 for r in S9); fa0 = sum(float(r["z"])<=-2 for r in dep if float(r["s"])==0.0); n0 = sum(1 for r in dep if float(r["s"])==0.0)
     lo, hi = min(float(r["ratio_real"]) for r in S9), max(float(r["ratio_real"]) for r in S9)
     chk("R9b prose: 'detected in x of 12', the within/between range and 'none of the sixty' match expR64b (0 false alarms in 60)",
-        f"detected in {ndet} of 12 backbones" in main and f"is {lo:.1f} to {hi:.1f} times their between-hub spread" in main and fa0==0 and n0==60 and "none of the sixty zero-strength runs" in main)
+        (f"detected in {ndet} of 12 backbones" if ndet else "detected in none of the twelve backbones") in main and f"is {lo:.1f} to {hi:.1f} times their between-hub spread" in main and fa0==0 and n0==60 and "none of the sixty zero-strength runs" in main)
     J = load("expR66_joint_sensitivity_summary.csv"); top = lambda r: r["dataset"] in ("imagenet","cifar100")
     a, b = sum(r["joint_genuine"]=="True" for r in J), sum(r["boot_bh_genuine"]=="True" for r in J); at, bt = sum(r["joint_genuine"]=="True" and top(r) for r in J), sum(r["boot_bh_genuine"]=="True" and top(r) for r in J)
     chk("R11 prose: the joint-sensitivity ranges in S4.2 and in the Table 1 caption equal the file", f"between {min(a,b)} and {max(a,b)} of the 72 cells" in main and f"between {min(at,bt)} and {max(at,bt)} of the 24" in main and f"{min(a,b)}--{max(a,b)} of 72" in open(TEX/"tab_census.tex").read())
@@ -661,3 +661,5 @@ positive_control_prose_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")
+for name, ok, det in checks:
+    if not ok: print("FAIL(all):", name, ("| "+det if det else ""))
