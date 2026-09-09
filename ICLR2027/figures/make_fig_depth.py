@@ -91,11 +91,35 @@ def panel_power(ax, title):
     ax.set_ylim(-0.03, 1.03); ax.set_xticks([0.1,0.3,0.6]); ax.set_xlabel("within/between noise ratio"); ax.set_ylabel("power ($z\\leq-2$), $n{=}1000$")
     ax.set_title(title); ax.legend(frameon=False, fontsize=5.3, loc="center left", bbox_to_anchor=(0.0, 0.5), handlelength=1.4, labelspacing=0.3)
 
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.5), gridspec_kw={"width_ratios": [1.25, 1]})
-panel_real(axes[0], "imagenet", 30, "(a) ImageNet, WordNet $K{=}30$ ($n{=}1000$)"); panel_power(axes[1], "(b) synthetic hierarchies, leaf frame")
-fig.legend(handles=hd, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.30, 1.0), fontsize=5.5, handletextpad=0.3, columnspacing=1.2)
-fig.tight_layout(w_pad=0.8, rect=[0, 0, 1, 0.92])
-for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_main.pdf"); fig.savefig(o/"fig_depth_main.png", dpi=200)
+def panel_implant(ax, title):
+    """z of the depth test on the real ImageNet clouds with the hub arrangement replaced by an implanted two-level tree of strength s
+    (expR64b, frame of record); dashed: the same clouds with their within-cluster offsets shrunk to within/between = 0.6 (tight variant)."""
+    d = pd.read_csv(RES/"expR64b_wn30.csv"); dep = d[(d.kind=="depth")&(d.partition=="rand6")&(d.s!="real")].copy(); dep["s"] = dep.s.astype(float)
+    tg = d[(d.kind=="depth")&(d.partition=="rand6_t06")].copy(); tg["s"] = tg.s.astype(float)
+    for m in M:
+        g = dep[dep.model==m].groupby("s").z; c = fam_color(m)
+        ax.plot(g.mean().index, g.mean().values, "-o", color=c, ms=2.2, lw=0.8, zorder=3)
+        ax.fill_between(g.min().index, g.min().values, g.max().values, color=c, alpha=0.10, lw=0)
+        if len(tg):
+            t = tg[tg.model==m].groupby("s").z.mean(); ax.plot(t.index, t.values, "--", color=c, lw=0.6, alpha=0.7, zorder=2)
+    ax.axhline(-2, color="k", lw=0.7, ls="--"); ax.axhline(0, color="k", lw=0.5)
+    ax.set_xlabel("implant strength $s$"); ax.set_ylabel("depth test $z$"); ax.set_title(title); ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
+
+if (RES/"expR64b_wn30.csv").exists():
+    fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.38), gridspec_kw={"width_ratios": [1.25, 1]})
+    panel_real(axes[0], "imagenet", 30, "(a) ImageNet, WordNet $K{=}30$ ($n{=}1000$)"); panel_implant(axes[1], "(b) implanted depth on the real clouds")
+    fig.legend(handles=hd, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.30, 1.0), fontsize=5.5, handletextpad=0.3, columnspacing=1.2)
+    fig.tight_layout(w_pad=0.8, rect=[0, 0, 1, 0.92])
+    for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_main.pdf"); fig.savefig(o/"fig_depth_main.png", dpi=200)
+    fig, ax = plt.subplots(1, 1, figsize=(2.8, 1.9)); panel_power(ax, "synthetic hierarchies, leaf frame"); fig.tight_layout()
+    for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_power_app.pdf"); fig.savefig(o/"fig_depth_power_app.png", dpi=200)
+    print("fig_depth_main (real + implant) and fig_depth_power_app written")
+else:
+    fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.5), gridspec_kw={"width_ratios": [1.25, 1]})
+    panel_real(axes[0], "imagenet", 30, "(a) ImageNet, WordNet $K{=}30$ ($n{=}1000$)"); panel_power(axes[1], "(b) synthetic hierarchies, leaf frame")
+    fig.legend(handles=hd, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.30, 1.0), fontsize=5.5, handletextpad=0.3, columnspacing=1.2)
+    fig.tight_layout(w_pad=0.8, rect=[0, 0, 1, 0.92])
+    for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_main.pdf"); fig.savefig(o/"fig_depth_main.png", dpi=200)
 fig, ax = plt.subplots(1, 1, figsize=(3.0, 1.9))
 panel_real(ax, "cifar100", 20, "CIFAR-100, $K{=}20$ ($n{=}100$; unvalidated regime)")
 ax.legend(handles=hd, frameon=False, loc="lower right", fontsize=5.2, handletextpad=0.3, labelspacing=0.25)

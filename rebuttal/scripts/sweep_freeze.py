@@ -549,7 +549,8 @@ def prose_checks():
     TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"
     T = open(TEX/"main_iclr2027.tex").read(); body = T[T.index("\\begin{abstract}"):T.index("\\subsubsection*{Ethics Statement}")]
     THESIS = "Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."
-    chk("prose: the thesis appears verbatim five times (abstract, box, end of S1, end of S5, S7)", body.count(THESIS) == 5)
+    SHORT = "Clustered, occasionally hierarchical, moderately shared: not one common tree, and no license for curvature."
+    chk("prose: the thesis appears verbatim three times (abstract, box, S7) and in its short form twice (end of S1, end of S5)", body.count(THESIS) == 3 and body.count(SHORT) == 2)
     # strip floats, comments, the enumerate; keep section markers
     src = _re.sub(r"(?m)(?<!\\)%.*$", "", body)
     src = _re.sub(r"\\begin\{(figure|table|tcolorbox)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
@@ -638,6 +639,25 @@ def positive_control_checks():
             all(o in F for o in ("frozen","ce","hier")) and all(abs(float(F[o]["z_depth"])-M["r10"][o]["z"])<1e-9 and abs(float(F[o]["excess"])-M["r10"][o]["excess"])<1e-9 for o in F)
             and abs(float(F["frozen"]["excess"])-float(next(r["excess"] for r in load("expR52_census_haar_p999_200.csv") if r["model"]=="i21k_b" and r["dataset"]=="imagenet")))<0.0015)
 positive_control_checks()
+
+def positive_control_prose_checks():
+    import json as _j
+    TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"; T = open(TEX/"main_iclr2027.tex").read(); main = T[:T.index("\\appendix")]
+    if not (R/"expR64b_wn30_summary.csv").exists() or "{{" in main: return
+    S9 = load("expR64b_wn30_summary.csv"); dep = [r for r in load("expR64b_wn30.csv") if r["kind"]=="depth" and r["partition"]=="rand6" and r["s"]!="real"]
+    ndet = sum(int(r["hits_s1"])>=4 for r in S9); fa0 = sum(float(r["z"])<=-2 for r in dep if float(r["s"])==0.0); n0 = sum(1 for r in dep if float(r["s"])==0.0)
+    lo, hi = min(float(r["ratio_real"]) for r in S9), max(float(r["ratio_real"]) for r in S9)
+    chk("R9b prose: 'detected in x of 12', the within/between range and 'none of the sixty' match expR64b (0 false alarms in 60)",
+        f"detected in {ndet} of 12 backbones" in main and f"is {lo:.1f} to {hi:.1f} times their between-hub spread" in main and fa0==0 and n0==60 and "none of the sixty zero-strength runs" in main)
+    J = load("expR66_joint_sensitivity_summary.csv"); top = lambda r: r["dataset"] in ("imagenet","cifar100")
+    a, b = sum(r["joint_genuine"]=="True" for r in J), sum(r["boot_bh_genuine"]=="True" for r in J); at, bt = sum(r["joint_genuine"]=="True" and top(r) for r in J), sum(r["boot_bh_genuine"]=="True" and top(r) for r in J)
+    chk("R11 prose: the joint-sensitivity ranges in S4.2 and in the Table 1 caption equal the file", f"between {min(a,b)} and {max(a,b)} of the 72 cells" in main and f"between {min(at,bt)} and {max(at,bt)} of the 24" in main and f"{min(a,b)}--{max(a,b)} of 72" in open(TEX/"tab_census.tex").read())
+    im = [r for r in load("expR52_census_haar_p999_200.csv") if r["dataset"]=="imagenet"]; u = [abs(float(r["excess"])/float(r["null_sd"])) for r in im]
+    chk("B3 prose: the ImageNet excess in units of the null s.d. as stated", f"is {min(u):.0f} to {max(u):.0f} times the null's standard deviation" in main)
+    chk("B5 prose: the plain-language gloss of the two nulls appears in S3 and in the nulls-table caption", T.count("the spectrum null is a cloud with the same shape as the real one and no structure inside it") == 2)
+    chk("wording: 'no additional depth' replaced by 'no detected depth' everywhere in the main text", "additional depth" not in main and main.count("no detected depth") >= 3)
+    if (R/"expR65_hier_finetune.csv").exists(): chk("R10 in the appendix as an inconclusive control with the file's z values", all(f"${float(r['z_depth']):+.2f}$" in T[T.index("\\appendix"):] for r in load("expR65_hier_finetune.csv")))
+positive_control_prose_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

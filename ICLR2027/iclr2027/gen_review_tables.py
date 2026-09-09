@@ -675,3 +675,66 @@ if f.exists():
       r"\caption{\textbf{The ImageNet excess is stable under resampling of the 100 training images per class.} 30 bootstrap resamples per backbone under the record protocol (Haar null, 99.9th-percentile statistic; 20 null replicates per resample). The bootstrap s.d. of the excess is at most " + f"{max(float(a['excess_boot_sd']) for a in b):.4f}" + r"; every resample of every backbone is sign-negative. % expR59_imagenet_bootstrap_summary.csv" + "\n}",
       r"\label{tab:b36-bootstrap}",r"\end{table}"]
     (OUT/"tab_b36_bootstrap.tex").write_text("\n".join(lines)+"\n"); print("b36 written")
+
+
+# ---- B37: implanted depth on real ImageNet centroids (expR64b, frame of record + pre-registered balanced frame) ----
+NAME12={"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B","dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G","clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
+f37 = RES/"expR64b_wn30_summary.csv"; f37b = RES/"expR64b_wn30bal_summary.csv"
+if f37.exists():
+    A=list(csv.DictReader(open(f37))); B={r["model"]: r for r in csv.DictReader(open(f37b))} if f37b.exists() else {}
+    import json as _json
+    fc = _json.load(open(RES/"expR67_frame_choice.json")) if (RES/"expR67_frame_choice.json").exists() else None
+    hb = lambda r: f"{r['hits_s0']}/{r['hits_s05']}/{r['hits_s1']}"
+    lines=[r"\begin{table}[H]",r"\centering",r"\footnotesize",r"\setlength{\tabcolsep}{3pt}",
+      r"\begin{tabular}{lcccccc|ccc}",r"\toprule",
+      r" & \multicolumn{6}{c|}{WordNet-30 frame of record} & \multicolumn{3}{c}{balanced frame (pre-registered)} \\",
+      r"model & real $z$ & within/between & hits $s{=}0/0.5/1$ & $s^*$ & mean $z$ at $s{=}1$ & tight $z$ at $s{=}0/0.5/1$ & real $z$ & hits $s{=}0/0.5/1$ & $s^*$ \\",r"\midrule"]
+    for i,r in enumerate(A):
+        if i in (4,9): lines.append(r"\midrule")
+        ss = r["s_star"] if r["s_star"] not in ("", "nan") else "--"
+        tz = f"${float(r['tight_z_s0']):+.1f}$/${float(r['tight_z_s05']):+.1f}$/${float(r['tight_z_s1']):+.1f}$" if r.get("tight_z_s1") not in (None, "", "nan") else "--"
+        b = B.get(r["model"]); bb = (f"${float(b['real_z']):+.1f}$ & {hb(b)} & {b['s_star'] if b['s_star'] not in ('', 'nan') else '--'}") if b else "-- & -- & --"
+        lines.append(f"{NAME12[r['model']]} & ${float(r['real_z']):+.1f}$ & {float(r['ratio_real']):.1f} & {hb(r)} & {ss} & ${float(r['z_mean_s1']):+.1f}$ & {tz} & {bb} \\\\")
+    dep=[a for a in csv.DictReader(open(RES/"expR64b_wn30.csv")) if a["kind"]=="depth" and a["partition"]=="rand6" and a["s"]!="real"]
+    pw = {s: sum(float(a["z"])<=-2 for a in dep if float(a["s"])==s)/max(1,sum(1 for a in dep if float(a["s"])==s)) for s in (0.0,0.25,0.5,0.75,1.0)}
+    fa0 = sum(float(a["z"])<=-2 for a in dep if float(a["s"])==0.0); n0 = sum(1 for a in dep if float(a["s"])==0.0)
+    fctxt = (f" Balanced frame: the $K{{=}}30$ agglomerative cut of the WordNet distance matrix ({fc['chosen']} linkage) with the smallest variance of cluster sizes, chosen and logged before any depth run; sizes {fc['chosen_sizes'][0]}--{fc['chosen_sizes'][-1]} classes against {min(fc['sizes']['average'])}--{max(fc['sizes']['average'])} for the frame of record." if fc else "")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{\textbf{Implanted depth on real ImageNet centroids: no false alarms, and low power at the real within/between spread.} The hub arrangement of each real cloud is replaced by an implanted two-level tree of strength $s$ (six super-hubs of five, hub $= s\cdot$super-hub $+ (1-s+0.4s)\cdot$own Gaussian draw, hub cloud rescaled to the real RMS radius) while every within-cluster offset is kept; the depth test of Table~\ref{tab:b34-depthvariants} runs unchanged, 5 implant seeds per $s$. hits: implant seeds with $z\le-2$ (of 5); $s^*$: first $s$ with $\ge4$ of 5. within/between: RMS of the within-cluster offsets over the point-weighted RMS of the hub displacements (the synthetic sweep covered 0.1--0.6). tight: the same implant after shrinking the offsets to within/between $=0.6$ (2 seeds). "
+      + f"Power (fraction of runs with $z\\le-2$) by $s$: " + ", ".join(f"$s{{=}}{s:g}$: {v:.2f}" for s, v in pw.items()) + f"; false alarms at $s{{=}}0$: {fa0} of {n0}." + fctxt + r" % expR64b_wn30.csv, expR64b_wn30_summary.csv, expR64b_wn30bal_summary.csv, expR67_frame_choice.json" + "\n}",
+      r"\label{tab:b37-implanted}",r"\end{table}"]
+    (OUT/"tab_b37_implanted.tex").write_text("\n".join(lines)+"\n"); print("b37 written")
+
+# ---- B38: joint sensitivity of the genuine count (expR66) ----
+f38 = RES/"expR66_joint_sensitivity_summary.csv"
+if f38.exists():
+    J={(r["model"],r["dataset"]): r for r in csv.DictReader(open(f38))}
+    DSH={'imagenet':'IN','cifar100':'C100','cifar10':'C10','dtd':'DTD','fashionmnist':'FMNIST','mnist':'MNIST'}; DS=list(DSH)
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.6pt}",r"\begin{tabular}{l"+"c"*len(DS)+"}",r"\toprule",
+      "model & "+" & ".join(DSH[d] for d in DS)+r" \\",r"\midrule"]
+    for i,m in enumerate(NAME12):
+        if i in (4,9): lines.append(r"\midrule")
+        cs=[]
+        for d in DS:
+            r=J[(m,d)]; g=r["genuine_bh_record"]=="True"; jg=r["joint_genuine"]=="True"; bg=r["boot_bh_genuine"]=="True"
+            cs.append(f"${float(r['z_joint']):+.1f}$ ({r['n_boot_genuine']})" + ("" if g else r"$^{\circ}$") + (r"$^{\dagger}$" if (g and not (jg and bg)) else "") + (r"$^{\ddagger}$" if (not g and (jg or bg)) else ""))
+        lines.append(NAME12[m]+" & "+" & ".join(cs)+r" \\")
+    tot=lambda k: sum(1 for r in J.values() if r[k]=="True"); tot2=lambda k: sum(1 for (m,d),r in J.items() if r[k]=="True" and d in ("imagenet","cifar100"))
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{\textbf{The genuine count survives centroid resampling and estimator noise.} Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ (200-replicate null s.d., bootstrap s.d. of the excess over 30 centroid resamples with replacement of the cached images per class, quadruple-seed s.d.), and in parentheses the number of the 30 resamples in which the cell is genuine under Benjamini--Hochberg over the 72 cells (50 Haar replicates per resample). $^{\circ}$: not genuine in the census of record; $^{\dagger}$: record-genuine but not under one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one of them. "
+      + f"Counts: record {tot('genuine_bh_record')}/72 ({tot2('genuine_bh_record')}/24); $z_{{\\text{{joint}}}}\\le-2$: {tot('joint_genuine')}/72 ({tot2('joint_genuine')}/24); genuine in $\\ge27$ of 30 resamples: {tot('boot_bh_genuine')}/72 ({tot2('boot_bh_genuine')}/24)." + r" % expR66_joint_sensitivity_summary.csv" + "\n}",
+      r"\label{tab:b38-joint}",r"\end{table}"]
+    (OUT/"tab_b38_joint.tex").write_text("\n".join(lines)+"\n"); print("b38 written")
+
+# ---- B39: fine-tuned ViT-B/16 with injected hierarchy (expR65) ----
+f39 = RES/"expR65_hier_finetune.csv"
+if f39.exists():
+    F={r["obj"]: r for r in csv.DictReader(open(f39))}; LB={"frozen":"frozen (census)","ce":"cross-entropy","hier":"cross-entropy + hierarchical CE (WordNet-30)"}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\begin{tabular}{lccccc}",r"\toprule",
+      r"ViT-B/16 & $\hat\delta_{99.9}$ & excess & $r$/200 & depth & $z$ \\",r"\midrule"]
+    for o in ("frozen","ce","hier"):
+        if o in F: r=F[o]; lines.append(f"{LB[o]} & ${float(r['delta_999']):.3f}$ & ${float(r['excess']):+.4f}$ & {int(float(r['r_above']))} & ${float(r['depth']):+.4f}$ & ${float(r['z_depth']):+.2f}$ \\\\")
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{\textbf{A trained positive control, inconclusive.} The census ViT-B/16 fine-tuned for two passes over the 100 training images per class behind its ImageNet centroids (patch embedding frozen, AdamW, same batches and seed for both objectives), with plain cross-entropy or with an added hierarchical cross-entropy over the WordNet 30-cut; centroids of the same images, census of record and depth test as in Table~\ref{tab:b34-depthvariants}. Both fine-tuned models stay certified and neither reaches the frozen reading; the hierarchical term lowers $z$ relative to plain cross-entropy by less than one unit. % expR65_hier_finetune.csv" + "\n}",
+      r"\label{tab:b39-finetune}",r"\end{table}"]
+    (OUT/"tab_b39_finetune.tex").write_text("\n".join(lines)+"\n"); print("b39 written")

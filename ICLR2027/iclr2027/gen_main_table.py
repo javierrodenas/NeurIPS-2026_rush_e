@@ -36,7 +36,7 @@ for m in ORDER:
                  float(cen[(m, "cifar10")]["excess"]), genuine(cen[(m, "cifar10")]),
                  float(d3[m]["spearman_wn"])))
 sl_head = r" & \multicolumn{2}{c}{sample-level exc.} \\" if SL else ""
-lines = [r"\begin{table}[t]", r"\centering", r"\footnotesize" if SL else r"\small", r"\setlength{\tabcolsep}{3pt}" if SL else r"\setlength{\tabcolsep}{3.4pt}",
+lines = [r"\begin{table}[t]", r"\centering", r"\scriptsize" if SL else r"\small", r"\setlength{\tabcolsep}{2.6pt}" if SL else r"\setlength{\tabcolsep}{3.4pt}",
          r"\begin{tabular}{l l c c c c c c" + (" | c c" if SL else "") + "}", r"\toprule"]
 if SL: lines.append(r" & & \multicolumn{6}{c|}{class level (centroids)} & \multicolumn{2}{c}{sample level (images)} \\ \cmidrule(lr){3-8}\cmidrule(lr){9-10}")
 lines += [r"model & family & $\hat\delta_{99.9}$ IN & excess IN & $r$/200 ($p$) & exc.\ C100 & exc.\ C10 & $\rho_{\text{WN}}$" + (r" & exc.\ C100 & exc.\ DTD" if SL else "") + r" \\", r"\midrule"]
@@ -58,17 +58,19 @@ for i, (n, f, dl, ex, rk, pv, g, e100, g100, e10, g10, rho) in enumerate(rows):
         slc = " & " + " & ".join(cells)
     lines.append(f"{n} & {f} & ${dl:.3f}$ & {exs} & {rp} & {c100} & {c10} & ${rho:+.2f}${slc} \\\\")
 sl_n = sum(1 for k, a in SL.items() if str(a["genuine_bh"]) == "True")
+JS = load("expR66_joint_sensitivity_summary.csv") if (RES/"expR66_joint_sensitivity_summary.csv").exists() else []
+js_txt = ""
+if JS:
+    a, b = sum(r["joint_genuine"] == "True" for r in JS), sum(r["boot_bh_genuine"] == "True" for r in JS)
+    js_txt = f"With centroid-resampling and estimator noise folded into the null, or the census repeated on 30 resampled centroid sets, the genuine count is {min(a,b)}--{max(a,b)} of 72 (Table~\\ref{{tab:b38-joint}}). "
 sl_txt = (f"Sample level: the same reading on $\\approx$1000 stratified training images per cell, BH over those 24 cells: genuine in {sl_n} of 24 (full table in Appendix~\\ref{{app:sample}}). " if SL else "")
 lines += [r"\bottomrule", r"\end{tabular}",
   r"\caption{\textbf{Clustered structure is the rule at the class level; the sample-level reading sits within null noise in most cells.} "
-  r"One row per backbone (supervised / self-supervised / contrastive blocks). $\hat\delta_{99.9}$: raw ImageNet reading of the 99.9th-percentile "
-  r"four-point statistic; excess: $\hat\delta_{99.9}$ minus the mean of 200 Haar-rotated spectrum-matched null replicates; $r$/200: replicates above "
-  r"the real value, with the left-tail $p=(1+\#\{\text{null}\le\text{real}\})/201$; a cell is \emph{genuine} when its Benjamini--Hochberg-corrected "
-  r"$p\le0.05$ over the 72 cells; $^{\circ}$: not genuine; bold: sign-positive, i.e.\ less clustered than the null. "
+  r"One row per backbone. $\hat\delta_{99.9}$: raw ImageNet reading; excess: $\hat\delta_{99.9}$ minus the mean of 200 Haar spectrum-matched null replicates; $r$/200: replicates above "
+  r"the real value, with the left-tail $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine: Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells; $^{\circ}$: not genuine; bold: less clustered than the null. "
   r"$\rho_{\text{WN}}$: Spearman correlation of inter-centroid and WordNet distances. "
-  + sl_txt
-  + r"Cross-dataset magnitudes are not comparable (\S\ref{sec:form}). DTD, the flat datasets, the supremum reading and the task columns are in "
-  r"Appendix~\ref{app:tables} (Table~\ref{tab:census-extra}); all four null$\times$statistic verdicts per cell in Table~\ref{tab:b21-2x2}. % " + src + ", exp3_alignment.csv" + (", expR62_samplelevel_record.csv" if SL else "") + "\n}",
+  + sl_txt + js_txt
+  + r"Cross-dataset magnitudes are not comparable. The other datasets, the supremum reading and the task columns are in Table~\ref{tab:census-extra}; all four null$\times$statistic verdicts per cell in Table~\ref{tab:b21-2x2}. % " + src + ", exp3_alignment.csv" + (", expR62_samplelevel_record.csv" if SL else "") + (", expR66_joint_sensitivity_summary.csv" if JS else "") + "\n}",
   r"\label{tab:census}", r"\end{table}"]
 open(HERE/"tab_census.tex", "w").write("\n".join(lines) + "\n")
 for r in rows: print(r[0], f"{r[1]} d={r[2]:.3f} exc={r[3]:+.3f} r={r[4]}/{N} p={r[5]:.3f} G={r[6]} c100={r[7]:+.3f} c10={r[9]:+.3f} rho={r[11]:+.2f}")

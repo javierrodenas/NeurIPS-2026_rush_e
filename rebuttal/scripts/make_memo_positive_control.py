@@ -40,6 +40,20 @@ try:
     M['r10_positive'] = bool(M['r10']['hier']['z'] <= -2 and M['r10']['ce']['z'] > -2) or bool(M['r10']['hier']['z'] < M['r10']['ce']['z'] - 1)
 except FileNotFoundError:
     M['r10'] = None
+# ---- R9b (corrected implant) and R12 (pre-registered balanced frame) ----
+import os as _os
+for fr, key in (('wn30', 'r9b'), ('wn30bal', 'r12')):
+    fs = R + f'expR64b_{fr}_summary.csv'
+    if not _os.path.exists(fs): M[key] = None; continue
+    S2 = pd.read_csv(fs); D2 = pd.read_csv(R + f'expR64b_{fr}.csv'); d2 = D2[(D2.kind == 'depth') & (D2.partition == 'rand6') & (D2.s != 'real')].copy(); d2['s'] = d2.s.astype(float)
+    M[key] = dict(runs=int(len(d2)), power_by_s={str(s): float((d2[d2.s == s].z <= -2).mean()) for s in (0.0, 0.25, 0.5, 0.75, 1.0)}, fa_s0=int((d2[d2.s == 0].z <= -2).sum()), n_s0=int((d2.s == 0).sum()),
+                  s_star={r.model: (None if pd.isna(r.s_star) else float(r.s_star)) for r in S2.itertuples()}, ndet_s1=int((S2.hits_s1 >= 4).sum()),
+                  real_z={r.model: round(float(r.real_z), 2) for r in S2.itertuples()}, real_certified=int((S2.real_z <= -2).sum()), z_mean_s1={r.model: round(float(r.z_mean_s1), 2) for r in S2.itertuples()},
+                  ratio_real={r.model: round(float(r.ratio_real), 2) for r in S2.itertuples()},
+                  tight={r.model: dict(z_s0=float(r.tight_z_s0), z_s05=float(r.tight_z_s05), z_s1=float(r.tight_z_s1), hits_s1=int(r.tight_hits_s1), hits_s0=int(r.tight_hits_s0)) for r in S2.itertuples()} if 'tight_z_s1' in S2.columns else None,
+                  census=dict(spread_max=float(S2.census_exc_spread.max()), r_min=int(S2.census_r_min.min())) if 'census_exc_spread' in S2.columns else None)
+if M.get('r12'):
+    M['r12']['frame_choice'] = json.load(open(R + 'expR67_frame_choice.json')); M['r12']['passes_rule'] = bool(M['r12']['power_by_s']['1.0'] >= 0.8 and M['r12']['fa_s0'] == 0)
 json.dump(M, open(R + 'positive_control_memo.json', 'w'), indent=1)
 fmt = lambda v: "none" if v is None else f"{v:g}"
 lines = ["# Memo — positive-control pass (Phase A). Numbers only.", "",
@@ -61,6 +75,18 @@ lines += ["", f"- Backbones declared hierarchical at s = 0 (any seed): **{M['r9_
           f"- z_joint = excess / sqrt(sd_null² + sd_boot² + sd_est²) ≤ −2: **{M['r11_joint'][0]}/72**, {M['r11_joint'][1]}/24. Record-genuine cells that drop: {', '.join(M['r11_joint_drop']) or 'none'}; non-record cells that pass: {', '.join(M['r11_joint_new']) or 'none'}.",
           f"- Bootstrap-BH (genuine under BH in ≥ 27 of 30 resamples): **{M['r11_bootbh'][0]}/72**, {M['r11_bootbh'][1]}/24. Record-genuine cells that drop: {', '.join(M['r11_bootbh_drop']) or 'none'}; newly genuine: {', '.join(M['r11_bootbh_new']) or 'none'}.",
           f"- Bootstrap s.d. of the excess: max {M['r11_sd_boot_max']:.4f} over all cells, {M['r11_sd_boot_max_in']:.4f} on ImageNet.", ""]
+for fr, key, title in (('wn30', 'r9b', 'R9b — corrected implant (hub = s·super-hub + (1 − s + 0.4 s)·own draw; siblings never coincide) on the WordNet-30 frame of record'), ('wn30bal', 'r12', 'R12 — pre-registered balanced WordNet frame (rule: K = 30 cut with minimum size variance among average/complete/single; decision: power at s = 1 ≥ 0.8 and zero hits at s = 0 → frame of record)')):
+    X = M.get(key)
+    if not X: lines += [f"## {title}", "", "- Not available.", ""]; continue
+    lines += [f"## {title} (`expR64b_{fr}.csv`, {X['runs']} depth runs)", "",
+              "| backbone | real z | within/between | s* | mean z at s = 1 |" + (" tight z s = 0/0.5/1 (hits s = 1, s = 0) |" if X['tight'] else ""), "|---|---|---|---|---|" + ("---|" if X['tight'] else "")]
+    for m in NM:
+        t = X['tight'][m] if X['tight'] else None
+        lines.append(f"| {NM[m]} | {X['real_z'][m]:+.2f} | {X['ratio_real'][m]:.2f} | {fmt(X['s_star'][m])} | {X['z_mean_s1'][m]:+.1f} |" + (f" {t['z_s0']:+.1f}/{t['z_s05']:+.1f}/{t['z_s1']:+.1f} ({t['hits_s1']}/2, {t['hits_s0']}/2) |" if t else ""))
+    lines += ["", f"- Power by s: " + ", ".join(f"s={s}: {v:.2f}" for s, v in X['power_by_s'].items()) + f"; false alarms at s = 0: {X['fa_s0']} of {X['n_s0']}; detected at s = 1 (≥ 4/5 seeds): {X['ndet_s1']}/12; real-data certified on this frame: {X['real_certified']}/12."]
+    if X['census']: lines.append(f"- Census on the same clouds: max spread across s {X['census']['spread_max']:.4f}, minimum r {X['census']['r_min']}/200.")
+    if key == 'r12': lines.append(f"- Frame: {X['frame_choice']['chosen']} linkage, sizes {X['frame_choice']['chosen_sizes']} (variances {{k: round(v) for k, v in X['frame_choice']['variances'].items()}}). Pre-registered rule passed: **{X['passes_rule']}**.")
+    lines.append("")
 if M['r10']:
     lines += ["## R10 — fine-tuned ViT-B/16 with injected hierarchy (`expR65_hier_finetune.csv`; census subset of 100 images/class, 2 epochs, same batches for both objectives)", "",
               "| model | census excess | r/200 (p) | depth | z |", "|---|---|---|---|---|"]
