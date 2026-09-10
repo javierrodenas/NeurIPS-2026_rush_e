@@ -39,6 +39,9 @@ import os as _os
 if _os.path.exists(R + 'expR64b_wn30_summary.csv'):
     S9 = pd.read_csv(R + 'expR64b_wn30_summary.csv'); nd = int((S9.hits_s1 >= 4).sum()); F['R9B_NDET'] = str(nd); F['R9B_NDET_PHRASE'] = ('none of the twelve backbones' if nd == 0 else f'{nd} of 12 backbones')
     F['RATIO_LO'], F['RATIO_HI'] = f"{S9.ratio_real.min():.1f}", f"{S9.ratio_real.max():.1f}"
+    D9 = pd.read_csv(R + 'expR64b_wn30.csv'); cert4 = ['i21k_s', 'i21k_b', 'i21k_l', 'dinov2_l']
+    z0 = D9[(D9.kind == 'depth') & (D9.partition == 'rand6') & (D9.s != 'real') & (D9.model.isin(cert4))].copy(); z0['s'] = z0.s.astype(float); z0 = z0[z0.s == 0]
+    F['CERT_S0'] = f"{int((z0.z <= -2).sum())} of {len(z0)}"
 J = pd.read_csv(R + 'expR66_joint_sensitivity_summary.csv'); topJ = J.dataset.isin(['imagenet', 'cifar100'])
 cnt = sorted([int(J.joint_genuine.sum()), int(J.boot_bh_genuine.sum())]); cntt = sorted([int((J.joint_genuine & topJ).sum()), int((J.boot_bh_genuine & topJ).sum())])
 F['R11_LO'], F['R11_HI'], F['R11T_LO'], F['R11T_HI'] = str(cnt[0]), str(cnt[1]), str(cntt[0]), str(cntt[1])

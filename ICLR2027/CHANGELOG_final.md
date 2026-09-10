@@ -780,3 +780,16 @@ corta ×2 (final de §1 y de §5): "Clustered, occasionally hierarchical, modera
 de fallos ahora imprime todos los checks) → **133/133 PASS**. Compilación: 36 páginas, 0 warnings, texto principal termina en la p. 9 con el hueco
 de 1.2 in (la Ética abre la p. 10). `ICLR2027/REVIEWER_CHECKLIST_positive_control.md` con números de línea del PDF (`make_reviewer_checklist_pc.py`).
 Memo actualizado con R9b y R12: `ICLR2027/MEMO_positive_control.md`.
+
+## 23c. Tres frases en §4.4 (sin otro cambio)
+
+(1) Tras "The other eight are not detected, which is not the same as not hierarchical": "For the four certified backbones the same clusters with
+random hubs raise no alarm in any zero-strength run, 0 of 20, so the verdict comes from their real hub arrangement, which the test reads as deeper
+than the implanted two-level tree, as Appendix A.5 shows. The certified set shifts with the choice of frame, as Table B37 shows." La fracción (0 de
+20 = 4 backbones × 5 semillas a s = 0) y la comparación z real < z medio a s = 1 (ViT-S −2.36 vs −1.22; ViT-B −3.62 vs +0.37; ViT-L −4.04 vs −1.37;
+DINOv2-L −2.39 vs +0.20) salen de `expR64b_wn30.csv` / `_summary.csv`. Respecto al texto del brief, el punto y coma pasa a punto y los dos punteros se
+escriben "as Appendix A.5 shows" / "as Table B37 shows" para cumplir las reglas de prosa (sin punto y coma en §4, un paréntesis por párrafo).
+(2) Tras "once the real offsets are shrunk into that range every backbone is detected": ", and two contrastive backbones also fire at zero strength,
+so the shrunk variant is a diagnostic of power, not a substitute test" (CLIP-L y SigLIP-B, 2/2 semillas a s = 0 en la variante tight).
+Sweep: dos checks nuevos (fracción exacta y z real < z implantado para los cuatro; los dos backbones que disparan a s = 0 son contrastivos) →
+**135/135 PASS**. Compilación: texto principal termina en la p. 9 sin recortar §5.7; 36 páginas, 0 warnings. PDF exportado.

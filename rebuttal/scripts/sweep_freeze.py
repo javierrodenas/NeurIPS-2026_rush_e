@@ -649,6 +649,14 @@ def positive_control_prose_checks():
     lo, hi = min(float(r["ratio_real"]) for r in S9), max(float(r["ratio_real"]) for r in S9)
     chk("R9b prose: 'detected in x of 12', the within/between range and 'none of the sixty' match expR64b (0 false alarms in 60)",
         (f"detected in {ndet} of 12 backbones" if ndet else "detected in none of the twelve backbones") in main and f"is {lo:.1f} to {hi:.1f} times their between-hub spread" in main and fa0==0 and n0==60 and "none of the sixty zero-strength runs" in main)
+    D9 = load("expR64b_wn30.csv"); cert4 = ("i21k_s","i21k_b","i21k_l","dinov2_l")
+    z0 = [float(r["z"]) for r in D9 if r["kind"]=="depth" and r["partition"]=="rand6" and r["s"]!="real" and r["model"] in cert4 and float(r["s"])==0.0]
+    tg0 = {r["model"] for r in D9 if r["kind"]=="depth" and r["partition"]=="rand6_t06" and float(r["s"])==0.0 and float(r["z"])<=-2}
+    chk("S4.4 sentence (1): the certified four raise no alarm at zero strength, exact fraction from expR64b, and their real z is deeper than the implanted tree's",
+        f"raise no alarm in any zero-strength run, {sum(z<=-2 for z in z0)} of {len(z0)}, so the verdict comes from their real hub arrangement" in main and sum(z<=-2 for z in z0)==0 and len(z0)==20
+        and all(float(r["real_z"]) < float(r["z_mean_s1"]) for r in S9 if r["model"] in cert4) and "the certified set shifts with the choice of frame" in main.lower())
+    chk("S4.4 sentence (2): two contrastive backbones fire at zero strength in the shrunk variant, as stated", "two contrastive backbones also fire at zero strength, so the shrunk variant is a diagnostic of power, not a substitute test" in main
+        and len(tg0)==2 and tg0 <= {"clip_b","clip_l","siglip_b"})
     J = load("expR66_joint_sensitivity_summary.csv"); top = lambda r: r["dataset"] in ("imagenet","cifar100")
     a, b = sum(r["joint_genuine"]=="True" for r in J), sum(r["boot_bh_genuine"]=="True" for r in J); at, bt = sum(r["joint_genuine"]=="True" and top(r) for r in J), sum(r["boot_bh_genuine"]=="True" and top(r) for r in J)
     chk("R11 prose: the joint-sensitivity ranges in S4.2 and in the Table 1 caption equal the file", f"between {min(a,b)} and {max(a,b)} of the 72 cells" in main and f"between {min(at,bt)} and {max(at,bt)} of the 24" in main and f"{min(a,b)}--{max(a,b)} of 72" in open(TEX/"tab_census.tex").read())
