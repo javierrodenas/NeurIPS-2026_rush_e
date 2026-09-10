@@ -793,3 +793,33 @@ escriben "as Appendix A.5 shows" / "as Table B37 shows" para cumplir las reglas 
 so the shrunk variant is a diagnostic of power, not a substitute test" (CLIP-L y SigLIP-B, 2/2 semillas a s = 0 en la variante tight).
 Sweep: dos checks nuevos (fracción exacta y z real < z implantado para los cuatro; los dos backbones que disparan a s = 0 son contrastivos) →
 **135/135 PASS**. Compilación: texto principal termina en la p. 9 sin recortar §5.7; 36 páginas, 0 warnings. PDF exportado.
+
+## 24a. Final pass — memo de la Fase A (sin prosa; `ICLR2027/MEMO_final_pass.md`, `rebuttal/results/final_pass_memo.json`)
+
+**A1 — estrella con hubs Haar** (`expR69_depth_haarhubs.py`; `calibrated_delta.matched_star(variant="aniso_haarhubs")`: hubs = remuestreo Haar de los 30
+hubs reales, clusters anisotrópicos Haar como antes; 12 backbones × {estrella gaussiana, estrella Haar} sobre las nubes reales + estrella Haar sobre
+los implantes R9b a s = 0 y s = 1, 5 semillas cada uno; rango r_star = semillas de estrella con exceso B ≤ real, p = (1 + r)/11, resolución 1/11).
+Certificados (z ≤ −2) con estrella gaussiana: ViT-S, ViT-B, ViT-L, DINOv2-L; con estrella Haar: ViT-S, ViT-B, ViT-L, DINOv2-L; intersección
+= los mismos cuatro. z Haar: ViT-S -2.04, ViT-B -3.01, ViT-L -3.73, DINOv2-L -2.21. Rango r_star = 0/10 (p = 0.091) en los cuatro certificados y también en
+4 de los ocho no certificados (el rango no descuenta el ruido de la lectura real). Implantes bajo la estrella Haar: falsas alarmas
+0/60 a s = 0; potencia 1/60 a s = 1.
+
+**A2 — ViTs supervisados solo con etiquetas hoja de IN-1k** (`expR70_inet1k_supervised.py`; extracción con el protocolo del caché del censo, 100
+img/clase; `deit_base_patch16_224.fb_in1k` y `vit_base_patch16_224.augreg_in1k`): DeiT-B: exceso IN -0.0073 (r 200), C100 -0.0257 (r 200), z -1.26/-1.21, ρ_WN +0.079, ARI C100 máx 0.56; ViT-B augreg IN-1k: exceso IN -0.0070 (r 199), C100 -0.0117 (r 187), z -3.03/-2.65, ρ_WN +0.516, ARI C100 máx 0.48; ViT-B: exceso IN -0.0162 (r 200), C100 +0.0057 (r 43), z -3.62/-3.01, ρ_WN +0.480, ARI C100 máx 0.61.
+
+**A3 — correlaciones del corolario sobre la lectura calibrada** (`expR68_corollary_excess.py`; Pearson r con IC95 Fisher-z, n = 10; demeaned por
+familia como en B12). NC H−R sobre el exceso, IC sin 0: imagenet sí, cifar100 sí, cifar10 sí, dtd sí (r = -0.73 ImageNet, -0.80 CIFAR-100,
+-0.67 CIFAR-10, -0.76 DTD; crudo -0.84 ImageNet); FS H−R sobre el exceso: imagenet no, cifar100 sí, cifar10 sí, dtd sí; el z de profundidad no predice
+ninguna ganancia (ningún IC excluye 0). Figura 11 regenerada sobre el exceso.
+
+**A4 — radios de MERU** (`expR71_meru_radii.py`): c = 0.100; ‖x‖·√c mediana 0.258–0.279, p95 0.263–0.287; Lorentz/Euclídeo
+0.9972–0.9991 (centroides 0.9988–0.9997).
+
+**A5 — barrido de presupuesto bajo el registro** (`expR72_budget_record.py`; 9 celdas × 6 presupuestos, Haar × p99.9 × 200 en cada uno; resuelve la
+discrepancia de B15, que usaba supremo × gaussiana): deriva máxima con presupuesto ≥ 10⁵: ImageNet 0.0007 = 0.38 s.d., CIFAR-100
+0.0006 = 0.10 s.d., DTD 0.0003 = 0.06 s.d.; signos estables en todo presupuesto; "budget-stable" en ImageNet: **True**.
+
+**A6 — efecto normalizado exceso/δ_null**: ImageNet -33 % a -5 % (genuinas -33 % a -11 %); nivel de muestra
+-39 % a +7 %; DINOv2-G/CIFAR-100 -57 %. Columnas añadidas en B14/B17/B23 y rejilla nueva B40 (`gen_review_tables.py`).
+
+Sweep con checks A1–A6: **142/142 PASS**. Sin ediciones de prosa.

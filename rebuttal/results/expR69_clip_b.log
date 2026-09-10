@@ -1,0 +1,13 @@
+clip_b    real         aniso           seed 0: real -0.0159 star +0.0005 depth -0.0164 z -1.95 r_star 0/10 (86s)
+clip_b    real         aniso_haarhubs  seed 0: real -0.0159 star +0.0012 depth -0.0171 z -1.48 r_star 1/10 (84s)
+clip_b    implant_s0   aniso_haarhubs  seed 0: real -0.0079 star -0.0013 depth -0.0065 z -0.82 r_star 0/10 (85s)
+clip_b    implant_s0   aniso_haarhubs  seed 1: real -0.0071 star -0.0001 depth -0.0070 z -0.99 r_star 0/10 (83s)
+clip_b    implant_s0   aniso_haarhubs  seed 2: real -0.0039 star +0.0013 depth -0.0053 z -0.76 r_star 0/10 (85s)
+clip_b    implant_s0   aniso_haarhubs  seed 3: real -0.0028 star +0.0004 depth -0.0033 z -0.39 r_star 1/10 (85s)
+clip_b    implant_s0   aniso_haarhubs  seed 4: real -0.0049 star +0.0004 depth -0.0052 z -0.71 r_star 2/10 (86s)
+clip_b    implant_s1   aniso_haarhubs  seed 0: real -0.0117 star -0.0029 depth -0.0088 z -0.69 r_star 1/10 (87s)
+clip_b    implant_s1   aniso_haarhubs  seed 1: real -0.0126 star -0.0038 depth -0.0088 z -0.73 r_star 2/10 (87s)
+clip_b    implant_s1   aniso_haarhubs  seed 2: real -0.0190 star -0.0038 depth -0.0152 z -1.12 r_star 0/10 (88s)
+clip_b    implant_s1   aniso_haarhubs  seed 3: real -0.0168 star -0.0048 depth -0.0120 z -0.88 r_star 1/10 (89s)
+clip_b    implant_s1   aniso_haarhubs  seed 4: real -0.0090 star -0.0062 depth -0.0028 z -0.18 r_star 2/10 (90s)
+PART DONE clip_b

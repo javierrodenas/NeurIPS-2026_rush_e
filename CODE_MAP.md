@@ -134,3 +134,7 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   `expR64b_{wn30,wn30bal}{,_summary}.csv`, `expR67_frame_choice.json` (marco pre-registrado), `ICLR2027/figures/fig_implanted_depth_v2.pdf`; Figura 4 =
   `make_fig_depth.py` (panel (b) desde expR64b_wn30.csv; `fig_depth_power_app.pdf` al apéndice); tablas B37/B38/B39 en `gen_review_tables.py`;
   `make_reviewer_checklist_pc.py` → `ICLR2027/REVIEWER_CHECKLIST_positive_control.md`. `phaseD_prose.py` admite `DRY_OUT=<path>` para ensayos de compilación.
+- Final pass (Fase A): `expR69_depth_haarhubs.py` (estrella con hubs Haar; `calibrated_delta` gana `n_quads`, la variante `aniso_haarhubs` y el rango
+  `r_star`), `expR70_inet1k_supervised.py` (DeiT-B y ViT-B augreg IN-1k por el protocolo del caché; nuevos npz en `practical_tasks_cache`),
+  `expR68_corollary_excess.py` (correlaciones sobre el exceso; Figura 11 desde `make_figs.py`), `expR71_meru_radii.py`, `expR72_budget_record.py`
+  (chain `r16_chain.sh`), `make_memo_final_pass.py` → `ICLR2027/MEMO_final_pass.md` + `rebuttal/results/final_pass_memo.json`; B40 = exceso/δ_null.

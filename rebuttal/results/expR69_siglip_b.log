@@ -1,0 +1,13 @@
+siglip_b  real         aniso           seed 0: real -0.0097 star +0.0008 depth -0.0106 z -0.90 r_star 0/10 (101s)
+siglip_b  real         aniso_haarhubs  seed 0: real -0.0097 star +0.0024 depth -0.0121 z -0.78 r_star 1/10 (99s)
+siglip_b  implant_s0   aniso_haarhubs  seed 0: real -0.0055 star +0.0028 depth -0.0083 z -0.88 r_star 0/10 (100s)
+siglip_b  implant_s0   aniso_haarhubs  seed 1: real -0.0079 star +0.0024 depth -0.0103 z -1.00 r_star 0/10 (98s)
+siglip_b  implant_s0   aniso_haarhubs  seed 2: real -0.0037 star +0.0029 depth -0.0066 z -0.67 r_star 0/10 (100s)
+siglip_b  implant_s0   aniso_haarhubs  seed 3: real -0.0071 star +0.0025 depth -0.0096 z -0.91 r_star 0/10 (99s)
+siglip_b  implant_s0   aniso_haarhubs  seed 4: real -0.0073 star +0.0014 depth -0.0087 z -0.97 r_star 0/10 (100s)
+siglip_b  implant_s1   aniso_haarhubs  seed 0: real -0.0141 star -0.0040 depth -0.0101 z -0.69 r_star 1/10 (102s)
+siglip_b  implant_s1   aniso_haarhubs  seed 1: real -0.0187 star -0.0040 depth -0.0147 z -1.05 r_star 1/10 (106s)
+siglip_b  implant_s1   aniso_haarhubs  seed 2: real -0.0185 star -0.0029 depth -0.0156 z -1.10 r_star 0/10 (110s)
+siglip_b  implant_s1   aniso_haarhubs  seed 3: real -0.0200 star -0.0036 depth -0.0164 z -1.27 r_star 0/10 (109s)
+siglip_b  implant_s1   aniso_haarhubs  seed 4: real -0.0189 star -0.0026 depth -0.0163 z -1.24 r_star 0/10 (94s)
+PART DONE siglip_b

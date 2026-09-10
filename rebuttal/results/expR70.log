@@ -1,2 +1,25 @@
 >>> deit_b n=100000
-  batch 100/782 (295s, 43 img/s)
+  batch 100/782 (244s, 52 img/s)
+  batch 200/782 (440s, 58 img/s)
+  batch 300/782 (625s, 61 img/s)
+  batch 400/782 (807s, 63 img/s)
+  batch 500/782 (971s, 66 img/s)
+  batch 600/782 (1169s, 66 img/s)
+  batch 700/782 (1366s, 66 img/s)
+  saved deit_b_imagenet_train.npz (1551s)
+  saved deit_b_cifar100_train.npz (184s)
+>>> vit_b_in1k n=100000
+  batch 100/782 (105s, 122 img/s)
+  batch 200/782 (150s, 170 img/s)
+  batch 300/782 (196s, 196 img/s)
+  batch 400/782 (242s, 212 img/s)
+  batch 500/782 (288s, 222 img/s)
+  batch 600/782 (333s, 230 img/s)
+  batch 700/782 (378s, 237 img/s)
+  saved vit_b_in1k_imagenet_train.npz (428s)
+  saved vit_b_in1k_cifar100_train.npz (180s)
+EXTRACT DONE
+deit_b    : IN exc -0.0073 (r=200) | C100 exc -0.0257 (r=200) | depth z gauss -1.26 haar -1.21 | rho_WN +0.079 (shuf +0.008) | ARI max 0.56 (400s)
+vit_b_in1k: IN exc -0.0070 (r=199) | C100 exc -0.0117 (r=187) | depth z gauss -3.03 haar -2.65 | rho_WN +0.516 (shuf +0.010) | ARI max 0.48 (404s)
+i21k_b    : IN exc -0.0162 (r=200) | C100 exc +0.0057 (r=43) | depth z gauss -3.62 haar -3.01 | rho_WN +0.480 (shuf -0.003) | ARI max 0.61 (405s)
+ANALYSE DONE

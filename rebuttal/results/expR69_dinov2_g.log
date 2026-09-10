@@ -1,0 +1,13 @@
+dinov2_g  real         aniso           seed 0: real -0.0284 star +0.0006 depth -0.0290 z -1.78 r_star 0/10 (148s)
+dinov2_g  real         aniso_haarhubs  seed 0: real -0.0284 star -0.0021 depth -0.0263 z -1.50 r_star 0/10 (146s)
+dinov2_g  implant_s0   aniso_haarhubs  seed 0: real -0.0025 star +0.0009 depth -0.0034 z -0.22 r_star 4/10 (143s)
+dinov2_g  implant_s0   aniso_haarhubs  seed 1: real -0.0057 star +0.0002 depth -0.0059 z -0.36 r_star 1/10 (142s)
+dinov2_g  implant_s0   aniso_haarhubs  seed 2: real -0.0024 star +0.0012 depth -0.0035 z -0.20 r_star 4/10 (141s)
+dinov2_g  implant_s0   aniso_haarhubs  seed 3: real -0.0044 star +0.0009 depth -0.0052 z -0.32 r_star 1/10 (142s)
+dinov2_g  implant_s0   aniso_haarhubs  seed 4: real -0.0018 star +0.0004 depth -0.0021 z -0.14 r_star 7/10 (144s)
+dinov2_g  implant_s1   aniso_haarhubs  seed 0: real +0.0174 star -0.0019 depth +0.0193 z +1.29 r_star 10/10 (146s)
+dinov2_g  implant_s1   aniso_haarhubs  seed 1: real +0.0159 star -0.0011 depth +0.0169 z +1.13 r_star 10/10 (145s)
+dinov2_g  implant_s1   aniso_haarhubs  seed 2: real +0.0152 star -0.0021 depth +0.0173 z +1.13 r_star 10/10 (159s)
+dinov2_g  implant_s1   aniso_haarhubs  seed 3: real +0.0186 star -0.0020 depth +0.0207 z +1.40 r_star 10/10 (146s)
+dinov2_g  implant_s1   aniso_haarhubs  seed 4: real +0.0156 star -0.0021 depth +0.0177 z +1.21 r_star 9/10 (124s)
+PART DONE dinov2_g

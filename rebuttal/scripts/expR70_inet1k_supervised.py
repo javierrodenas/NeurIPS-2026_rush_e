@@ -28,7 +28,8 @@ def extract(device):
     import torch, timm, torchvision
     import extract_imagenet_cache_local as E
     E.MODEL_DEFS.update(NEW)
-    train_files, _ = E.build_indices(); union = sorted({p for p, _ in train_files}, key=str)
+    train_files, exp5_files = E.build_indices(); union = sorted({p for p, _ in train_files}, key=str)
+    E.TRAIN_FILES, E.EXP5_FILES, E.TRAIN_LABEL = train_files, exp5_files, {f: l for f, l in train_files}   # module globals that extract_union expects
     torch.cuda.set_device(device)
     for m in NEW:
         E.extract_union(m, union, device, sets=("train",))
