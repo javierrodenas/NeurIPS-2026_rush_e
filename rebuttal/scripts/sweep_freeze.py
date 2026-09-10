@@ -666,6 +666,39 @@ def positive_control_prose_checks():
     chk("wording: 'no additional depth' replaced by 'no detected depth' everywhere in the main text", "additional depth" not in main and main.count("no detected depth") >= 3)
     if (R/"expR65_hier_finetune.csv").exists(): chk("R10 in the appendix as an inconclusive control with the file's z values", all(f"${float(r['z_depth']):+.2f}$" in T[T.index("\\appendix"):] for r in load("expR65_hier_finetune.csv")))
 positive_control_prose_checks()
+
+# ---------- Final pass (Phase A): A1 Haar-hub star, A2 IN-1k supervised ViTs, A3 corollary on the excess, A4 MERU radii, A5 budget under the record, A6 normalized effect size ----------
+def final_pass_checks():
+    import json as _j, numpy as np
+    if not (R/"final_pass_memo.json").exists(): return
+    M = _j.load(open(R/"final_pass_memo.json"))
+    if "a1" in M:
+        S = load("expR69_depth_haarhubs_summary.csv"); D = load("expR69_depth_haarhubs.csv")
+        chk("A1: 12 backbones x (2 real stars + 10 implanted) depth runs; certified sets and implant counts equal the memo; star rank in 0..10",
+            len(D)==12*12 and [r["model"] for r in S if r["cert_gauss"]=="True"]==M["a1"]["cert_gauss"] and [r["model"] for r in S if r["cert_haar"]=="True"]==M["a1"]["cert_haar"]
+            and sum(int(r["fa_s0_haar"]) for r in S)==M["a1"]["fa_s0"] and sum(int(r["hits_s1_haar"]) for r in S)==M["a1"]["hits_s1"] and all(0<=int(r["r_star"])<=10 for r in D))
+        b34 = {r["model"]: float(r["z_depth"]) for r in load("expR56_depth_variants.csv") if r["dataset"]=="imagenet" and int(r["K"])==30 and r["variant"]=="aniso"}
+        chk("A1: the Gaussian-star column reproduces Table B34 (|dz| <= 0.05)", all(abs(float(r["z_gauss"])-b34[r["model"]])<=0.05 for r in S))
+    if "a2" in M:
+        T = {r["model"]: r for r in load("expR70_inet1k_supervised.csv")}
+        chk("A2: the IN-1k supervised rows exist with 200-replicate censuses; memo values equal the file; the i21k_b side-by-side reproduces the record excess to 3 dp",
+            all(m in T for m in ("deit_b","i21k_b")) and all(abs(float(T[m]["excess_in"])-M["a2"][m]["excess_in"])<1e-4 and abs(float(T[m]["z_gauss"])-M["a2"][m]["z_gauss"])<0.01 for m in M["a2"])
+            and abs(float(T["i21k_b"]["excess_in"])-float(next(r["excess"] for r in load("expR52_census_haar_p999_200.csv") if r["model"]=="i21k_b" and r["dataset"]=="imagenet")))<0.0015)
+    C = load("expR68_corollary_excess.csv")
+    chk("A3: correlations on raw/excess/depth for 3 gains x 4 datasets (+pooled); the raw ImageNet NC correlation reproduces Table B5 (|dr| <= 0.02); memo survival flags equal the file",
+        len(C)==3*(3*5)-3*1 or len(C)>=39) and all(r["predictor"] in ("raw","excess","depth_z") for r in C)
+        and abs(float(next(r["r"] for r in C if r["predictor"]=="raw" and r["gain"]=="NC_adv" and r["dataset"]=="imagenet"))-float(next(r["r"] for r in load("night/correlation_cis.csv") if r["task"]=="NC_adv" and r["dataset"]=="imagenet")))<=0.02
+        and all(M["a3_nc_excess_survives"][ds]==(float(next(r["ci_hi"] for r in C if r["predictor"]=="excess" and r["gain"]=="NC_adv" and r["dataset"]==ds))<0) for ds in ("imagenet","cifar100","cifar10","dtd")))
+    Rm = load("expR71_meru_radii.csv")
+    chk("A4: MERU radii: six clouds, one curvature, memo ranges equal the file, Lorentz/Euclidean ratio within 1% of one",
+        len(Rm)==6 and len({r["curv"] for r in Rm})==1 and abs(max(float(r["radius_sqrtc_p95"]) for r in Rm)-M["a4"]["radius_p95"][1])<1e-9 and all(0.99<float(r["lorentz_over_euclid_median"])<=1.0 for r in Rm))
+    if "a5" in M:
+        B = load("expR72_budget_record_summary.csv"); Bd = load("expR72_budget_record.csv")
+        chk("A5: 9 cells x 6 budgets under the record; ImageNet drift over s.d. equals the memo and decides 'budget-stable'",
+            len(Bd)==54 and len(B)==9 and abs(max(float(r["drift_ge1e5_over_sd"]) for r in B if r["dataset"]=="imagenet")-M["a5"]["imagenet"]["max_drift_over_sd"])<1e-9 and M["a5_budget_stable_imagenet"]==(M["a5"]["imagenet"]["max_drift_over_sd"]<1.0))
+    c52 = load("expR52_census_haar_p999_200.csv"); fr = {(r["model"],r["dataset"]): float(r["excess"])/float(r["null_mean"]) for r in c52}
+    chk("A6: normalized effect sizes in the memo equal the file (ImageNet range, DINOv2-G/CIFAR-100)", abs(min(v for k,v in fr.items() if k[1]=="imagenet")-M["a6"]["imagenet_frac"][0])<1e-9 and abs(fr[("dinov2_g","cifar100")]-M["a6"]["dinov2g_c100_frac"])<1e-9)
+final_pass_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

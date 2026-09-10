@@ -1,0 +1,4 @@
+i21k_b    real         aniso           seed 0: real -0.0335 star -0.0000 depth -0.0335 z -3.62 r_star 0/10 (123s)
+i21k_b    real         aniso_haarhubs  seed 0: real -0.0335 star +0.0012 depth -0.0347 z -3.01 r_star 0/10 (122s)
+i21k_b    implant_s0   aniso_haarhubs  seed 0: real -0.0007 star -0.0010 depth +0.0003 z +0.03 r_star 7/10 (103s)
+i21k_b    implant_s0   aniso_haarhubs  seed 1: real -0.0025 star +0.0003 depth -0.0028 z -0.22 r_star 1/10 (103s)

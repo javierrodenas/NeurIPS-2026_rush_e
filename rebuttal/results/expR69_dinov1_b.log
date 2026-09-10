@@ -1,0 +1,4 @@
+dinov1_b  real         aniso           seed 0: real -0.0091 star -0.0002 depth -0.0089 z -0.94 r_star 0/10 (122s)
+dinov1_b  real         aniso_haarhubs  seed 0: real -0.0091 star +0.0002 depth -0.0092 z -1.02 r_star 0/10 (117s)
+dinov1_b  implant_s0   aniso_haarhubs  seed 0: real -0.0031 star +0.0011 depth -0.0042 z -0.35 r_star 2/10 (100s)
+dinov1_b  implant_s0   aniso_haarhubs  seed 1: real -0.0039 star +0.0006 depth -0.0045 z -0.38 r_star 0/10 (98s)

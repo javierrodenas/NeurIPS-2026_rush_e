@@ -79,6 +79,10 @@ if f.exists():
             a=by.get((m,t))
             cs.append("--" if a is None else f"${float(a['excess']):+.3f}$"+(r"\rlap{$^*$}" if abs(float(a['z']))>=2 else ""))
         lines.append(t.replace("_",r"\_")+" & "+" & ".join(cs)+r" \\")
+    lines.append(r"\midrule"); lines.append(r"\multicolumn{" + str(1+len(M)) + r"}{l}{\emph{excess as a fraction of the null reading}} \\")
+    for t in T:
+        cs=["--" if by.get((m,t)) is None else f"${100*float(by[(m,t)]['excess'])/float(by[(m,t)]['null_mean']):+.0f}\\%$" for m in M]
+        lines.append(t.replace("_",r"\_")+" & "+" & ".join(cs)+r" \\")
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{Template-conditioned excess over the spectrum-matched null for the four GPT-2 sizes (10 templates; $^*$: $|z|\ge2$ against combined null and estimator noise). The scale trend of \S\ref{sec:form} is assessed on every template, not only on the paper's baseline. "+("Padding-free extraction (one prompt at a time, the canonical protocol of Table~\\ref{tab:b23-text200}). Mean excess over templates: $-0.012$ (S), $-0.023$ (M), $-0.040$ (L), $-0.041$ (XL); cells at $|z|\\ge2$: 5, 8, 9 and 10 of 10. Only 3 null replicates per cell here, so the $z$ are coarser than the census's 20-replicate values: on the baseline template the 200-replicate census (Table~\\ref{tab:b23-text200}) finds S and M not genuine (excess $-0.013$/$-0.009$, $p=0.09$/$0.14$), so their starred cells are borderline, whereas the L/XL cells ($z$ from $-4$ to $-9$) are not in doubt. Template sensitivity of raw $\\hat\\delta$: range up to $0.065$ for causal LMs and $\\le0.012$ for embedders (prompt table in Appendix~\\ref{tab:a7})." if b14_pf else "Batched (batch 16, left-padded) extraction: padding raises GPT-2's $\\hat\\delta$ (Table~\\ref{tab:b28-extraction}), so the L/XL verdicts are conservative while S's sign-positive cells are not robust.")+"}",
       r"\label{tab:b14-templates}",r"\end{table}"]
@@ -148,18 +152,18 @@ if f62.exists():
           "dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
           "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
     by={(a['model'],a['dataset']):a for a in rows}
-    lines=[r"\begin{table}[H]",r"\centering",r"\footnotesize",r"\setlength{\tabcolsep}{3.5pt}",
-      r"\begin{tabular}{lcccc|cccc}",r"\toprule",
-      r"& \multicolumn{4}{c|}{CIFAR-100 (10 images/class, $n{=}1000$)} & \multicolumn{4}{c}{DTD (22 images/class, $n{=}1034$)} \\",
-      r"model & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & $r/200$ ($p$) & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & $r/200$ ($p$) \\",r"\midrule"]
+    lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.4pt}",
+      r"\begin{tabular}{lccccc|ccccc}",r"\toprule",
+      r"& \multicolumn{5}{c|}{CIFAR-100 (10 images/class, $n{=}1000$)} & \multicolumn{5}{c}{DTD (22 images/class, $n{=}1034$)} \\",
+      r"model & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & exc./null & $r/200$ ($p$) & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & exc./null & $r/200$ ($p$) \\",r"\midrule"]
     for i,m in enumerate(NAME):
         if i in (4,9): lines.append(r"\midrule")
         cs=[]
         for ds in ("cifar100","dtd"):
             a=by.get((m,ds))
-            if a is None: cs += ["--"]*4; continue
+            if a is None: cs += ["--"]*5; continue
             g = str(a["genuine_bh"])=="True"
-            cs += [f"${float(a['delta_sup']):.3f}$", f"${float(a['delta_999']):.3f}$", f"${float(a['excess']):+.4f}" + ("" if g else r"^{\circ}") + "$", f"{int(a['r_above'])} ({float(a['p_left']):.3f})"]
+            cs += [f"${float(a['delta_sup']):.3f}$", f"${float(a['delta_999']):.3f}$", f"${float(a['excess']):+.4f}" + ("" if g else r"^{\circ}") + "$", f"${100*float(a['excess'])/float(a['null_mean']):+.0f}\\%$", f"{int(a['r_above'])} ({float(a['p_left']):.3f})"]
         lines.append(NAME[m]+" & "+" & ".join(cs)+r" \\")
     n_gen = sum(str(a["genuine_bh"])=="True" for a in rows)
     DSL={"cifar100":"CIFAR-100","dtd":"DTD"}
@@ -278,6 +282,19 @@ if f.exists():
       r"Every cell on the census cache (one centroid source). The four null$\times$statistic verdicts per cell are in Table~\ref{tab:b21-2x2}.}",
       r"\label{tab:b20-census200}",r"\end{table}"]
     (OUT/"tab_b20_census20.tex").write_text("\n".join(lines)+"\n"); print(f"b20 written ({n} cells, N={N20}; genuine {gen}/{n})")
+    # ---- B40: the same census as a fraction of the null reading (excess / delta_null), the normalized effect size ----
+    fr = {k: float(a['excess'])/float(a['null_mean']) for k, a in by.items()}
+    lines=[r"\begin{table}[H]",r"\centering",r"\small",r"\setlength{\tabcolsep}{4pt}",r"\begin{tabular}{l"+"c"*len(DS)+"}",r"\toprule",
+      "model & "+" & ".join(DSH[d] for d in DS)+r" \\",r"\midrule"]
+    for i,m in enumerate(NAME):
+        if i in (4,9): lines.append(r"\midrule")
+        lines.append(NAME[m]+" & "+" & ".join((f"${100*fr[(m,d)]:+.0f}\\%$" + ("" if gbh(by[(m,d)]) else r"$^{\circ}$")) if (m,d) in fr else "--" for d in DS)+r" \\")
+    im_ = [fr[k] for k in fr if k[1]=="imagenet"]
+    lines+=[r"\bottomrule",r"\end{tabular}",
+      r"\caption{\textbf{The census excess as a fraction of the null reading.} Each cell of Table~\ref{tab:b20-census200} divided by the mean of its 200 null replicates ($^{\circ}$: not genuine). "
+      + f"ImageNet: {100*min(im_):+.0f}\\% to {100*max(im_):+.0f}\\%; all cells: {100*min(fr.values()):+.0f}\\% to {100*max(fr.values()):+.0f}\\%." + r" % expR52_census_haar_p999_200.csv" + "\n}",
+      r"\label{tab:b40-normalized}",r"\end{table}"]
+    (OUT/"tab_b40_normalized.tex").write_text("\n".join(lines)+"\n"); print("b40 written")
 
 # ---- B21: the 2x2 {null} x {statistic} verdicts per cell (Phase B) ----
 _four = [("Hp", "expR52_census_haar_p999_200.csv"), ("Hs", "expR54_census_haar_sup_200.csv"), ("Gp", "expR40b_p999census200.csv"), ("Gs", "expR39c_census200_cache.csv")]
@@ -362,13 +379,13 @@ if rows is not None:
     by={a['model']:a for a in rows}; agree=0; comp=0
     lines=[r"\begin{table}[H]",r"\centering",r"\scriptsize",r"\setlength{\tabcolsep}{2.5pt}",r"\begin{tabular}{lccccc|cc}",r"\toprule",
       r"& \multicolumn{5}{c|}{padding-free extraction, record (Haar$\times$p99.9, 200 replicates)} & \multicolumn{2}{c}{original extraction (Table~\ref{tab:b1-textnulls})} \\",
-      r"model & $\hat\delta_{99.9}$ & excess & $r$/200 & $p$ & 2$\times$2 & $\hat\delta$ & excess \\",r"\midrule"]
+      r"model & $\hat\delta_{99.9}$ & excess & exc./null & $r$/200 & $p$ & 2$\times$2 & $\hat\delta$ & excess \\",r"\midrule"]
     for m in TN:
         a=by.get(m); b=r18.get(m)
         if a is None and b is None: continue
-        if a is None: lines.append(f"{TN[m]} & -- & -- & -- & -- & -- & ${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$ \\\\"); continue
+        if a is None: lines.append(f"{TN[m]} & -- & -- & -- & -- & -- & -- & ${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$ \\\\"); continue
         if b: comp+=1; agree += ((float(a['excess'])<0)==(float(b['excess'])<0))
-        lines.append(f"{TN[m]} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}$ & {rk(a)} & {pfmt(pl(a))} & {tcode(m)} & " + (f"${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$" if b else "-- & --") + r" \\")
+        lines.append(f"{TN[m]} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}$ & ${100*float(a['excess'])/float(a['null_mean']):+.0f}\\%$ & {rk(a)} & {pfmt(pl(a))} & {tcode(m)} & " + (f"${float(b['delta']):.3f}$ & ${float(b['excess']):+.3f}$" if b else "-- & --") + r" \\")
     q=by.get("gte_qwen2")
     lines+=[r"\bottomrule",r"\end{tabular}",
       r"\caption{\textbf{The text census of record: padding-free extraction, Haar null, 99.9th-percentile statistic, 200 replicates.} "

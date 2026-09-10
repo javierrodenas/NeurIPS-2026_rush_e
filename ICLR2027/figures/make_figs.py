@@ -90,8 +90,8 @@ for r in m2:
     if k not in dlt: continue
     fsR, fsH, fsC = (float(r[f"FS_{a}"]) for a in ["R","H","COS"])
     ncR, ncH, ncC = (float(r[f"NC_{a}"]) for a in ["R","H","COS"])
-    pts.append(dict(m=r["model"], ds=r["dataset"], delta=dlt[k],
-                    fs=(max(fsH, fsC)-fsR)*100, nc=(max(ncH, ncC)-ncR)*100))
+    pts.append(dict(m=r["model"], ds=r["dataset"], delta=exc[k],
+                    fs=(max(fsH, fsC)-fsR)*100, nc=(max(ncH, ncC)-ncR)*100))   # x = the record excess (A3 of the final pass); the raw reading is in expR68
 
 def pear(x, y):
     x, y = np.asarray(x), np.asarray(y)
@@ -107,7 +107,7 @@ for ax, key, lab in [(axes[0], "fs", "FS"), (axes[1], "nc", "NC")]:
     ph = [p for p in pts if p["ds"] in HIER]
     r_h = pear([p["delta"] for p in ph], [p[key] for p in ph])
     r_ds = [pear([p["delta"] for p in ph if p["ds"] == d], [p[key] for p in ph if p["ds"] == d]) for d in HIER]
-    ax.set_xlabel(r"$\hat\delta$ (per model$\times$dataset)", fontsize=7.5)
+    ax.set_xlabel(r"excess over the null (per model$\times$dataset)", fontsize=7.5)
     ax.set_ylabel(f"best $-$ Euclidean (pp), {lab}", fontsize=7)
     ax.set_title(lab, fontsize=8)
     print(f"CAPTION DATA {lab}: within-dataset r {max(r_ds):+.2f}..{min(r_ds):+.2f}; pooled {r_all:+.2f}; hier-only {r_h:+.2f}")
