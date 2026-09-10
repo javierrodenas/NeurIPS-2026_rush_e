@@ -685,9 +685,10 @@ def final_pass_checks():
             all(m in T for m in ("deit_b","i21k_b")) and all(abs(float(T[m]["excess_in"])-M["a2"][m]["excess_in"])<1e-4 and abs(float(T[m]["z_gauss"])-M["a2"][m]["z_gauss"])<0.01 for m in M["a2"])
             and abs(float(T["i21k_b"]["excess_in"])-float(next(r["excess"] for r in load("expR52_census_haar_p999_200.csv") if r["model"]=="i21k_b" and r["dataset"]=="imagenet")))<0.0015)
     C = load("expR68_corollary_excess.csv")
+    raw_in = float(next(r["r"] for r in C if r["predictor"]=="raw" and r["gain"]=="NC_adv" and r["dataset"]=="imagenet"))
+    old_in = float(next(r["r"] for r in load("night/correlation_cis.csv") if r["task"]=="NC_adv" and r["dataset"]=="imagenet"))
     chk("A3: correlations on raw/excess/depth for 3 gains x 4 datasets (+pooled); the raw ImageNet NC correlation reproduces Table B5 (|dr| <= 0.02); memo survival flags equal the file",
-        len(C)==3*(3*5)-3*1 or len(C)>=39) and all(r["predictor"] in ("raw","excess","depth_z") for r in C)
-        and abs(float(next(r["r"] for r in C if r["predictor"]=="raw" and r["gain"]=="NC_adv" and r["dataset"]=="imagenet"))-float(next(r["r"] for r in load("night/correlation_cis.csv") if r["task"]=="NC_adv" and r["dataset"]=="imagenet")))<=0.02
+        len(C) >= 39 and all(r["predictor"] in ("raw","excess","depth_z") for r in C) and abs(raw_in-old_in) <= 0.02
         and all(M["a3_nc_excess_survives"][ds]==(float(next(r["ci_hi"] for r in C if r["predictor"]=="excess" and r["gain"]=="NC_adv" and r["dataset"]==ds))<0) for ds in ("imagenet","cifar100","cifar10","dtd")))
     Rm = load("expR71_meru_radii.csv")
     chk("A4: MERU radii: six clouds, one curvature, memo ranges equal the file, Lorentz/Euclidean ratio within 1% of one",
