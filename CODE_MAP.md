@@ -138,3 +138,8 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   `r_star`), `expR70_inet1k_supervised.py` (DeiT-B y ViT-B augreg IN-1k por el protocolo del caché; nuevos npz en `practical_tasks_cache`),
   `expR68_corollary_excess.py` (correlaciones sobre el exceso; Figura 11 desde `make_figs.py`), `expR71_meru_radii.py`, `expR72_budget_record.py`
   (chain `r16_chain.sh`), `make_memo_final_pass.py` → `ICLR2027/MEMO_final_pass.md` + `rebuttal/results/final_pass_memo.json`; B40 = exceso/δ_null.
+- Final pass (Fase B): `rebuttal/scripts/phaseE_paper.tex.tmpl` + `phaseE_final.py` (cuerpo, statements y apéndice; rellena desde CSV y
+  escribe `main_iclr2027.tex` conservando el preámbulo); `ICLR2027/iclr2027/gen_appendix_final.py` (14 tablas por pregunta, `tab_q*.tex`,
+  con `% prov:` y check de conservación contra `rebuttal/results/final_pass_old_appendix/`); `gen_provenance.py` lee `% prov:`;
+  generadores antiguos en `ICLR2027/iclr2027/legacy_generators/`; `make_reviewer_checklist_third.py`; `ICLR2027/qa_pages/` (100 dpi).
+  Orden de regeneración: gen_appendix_final → gen_main_table → phaseE_final → gen_provenance → figuras → tectonic → sweep_freeze.

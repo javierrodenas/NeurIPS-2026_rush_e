@@ -1,0 +1,73 @@
+% prov: analysis4_finetuning.csv, e1_delta_by_layer.csv, e5_random_control.csv, night/arch_matched_triplet.csv, night/orc_bridges.csv
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\noindent\textbf{(a) Interventions on the raw reading, within architecture.}\par\vspace{1.5pt}
+\begin{tabular}{llccc}
+\toprule
+intervention & model & $\delta$ before & $\delta$ after & change \\
+\midrule
+non-hierarchical fine-tuning & DINOv2-S & $0.095$ & $0.161$ & $+69\%$ \\
+non-hierarchical fine-tuning & ViT-B & $0.097$ & $0.116$ & $+19\%$ \\
+non-hierarchical fine-tuning & CLIP-B & $0.104$ & $0.199$ & $+91\%$ \\
+\midrule
+across depth (layer 1 $\to$ 12) & DINOv2-B & $0.147$ & $0.058$ & $-61\%$ \\
+across depth (layer 1 $\to$ 12) & CLIP-B & $0.161$ & $0.087$ & $-46\%$ \\
+\midrule
+random weights (pretrained $\to$ random) & DINOv2-S & $0.095$ & $0.222$ & $+134\%$ \\
+random weights (pretrained $\to$ random) & DINOv2-B & $0.081$ & $0.198$ & $+144\%$ \\
+random weights (pretrained $\to$ random) & ViT-B & $0.113$ & $0.187$ & $+65\%$ \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\noindent\textbf{(b) Matched architecture, three objectives: excess of ViT-B/16 supervised, DINO and CLIP.}\par\vspace{1.5pt}
+\begin{tabular}{lccc}
+\toprule
+dataset & ViT-B (supervised) & DINO-B & CLIP-B \\
+\midrule
+ImageNet & $-0.027$ & $-0.004$ & $-0.030$ \\
+CIFAR-100 & $-0.019$ & $-0.072$ & $-0.050$ \\
+CIFAR-10 & $-0.081$ & $-0.090$ & $-0.069$ \\
+DTD & $-0.064$ & $-0.053$ & $-0.065$ \\
+FMNIST & $-0.071$ & $-0.037$ & $-0.051$ \\
+MNIST & $-0.044$ & $-0.069$ & $-0.036$ \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\noindent\textbf{(c) Ollivier--Ricci curvature by edge type on the centroid kNN graph (30 WordNet superclasses).}\par\vspace{1.5pt}
+\begin{tabular}{llcccc}
+\toprule
+model & dataset & ORC within & ORC across & \%neg within & \%neg across \\
+\midrule
+ViT-T & IN & 0.35 & 0.27 & 5.2 & 9.4 \\
+ViT-T & C100 & 0.51 & 0.42 & 1.4 & 2.7 \\
+ViT-S & IN & 0.37 & 0.28 & 3.4 & 8.3 \\
+ViT-S & C100 & 0.61 & 0.48 & 0.0 & 3.0 \\
+ViT-B & IN & 0.40 & 0.30 & 2.1 & 5.9 \\
+ViT-B & C100 & 0.61 & 0.48 & 0.0 & 1.7 \\
+ViT-L & IN & 0.40 & 0.31 & 2.1 & 6.8 \\
+ViT-L & C100 & 0.61 & 0.47 & 0.6 & 2.1 \\
+DINO-B & IN & 0.40 & 0.33 & 2.8 & 4.1 \\
+DINO-B & C100 & 0.60 & 0.45 & 0.0 & 1.4 \\
+DINOv2-S & IN & 0.37 & 0.33 & 1.8 & 1.2 \\
+DINOv2-S & C100 & 0.60 & 0.44 & 0.0 & 0.8 \\
+DINOv2-B & IN & 0.58 & 0.64 & 0.3 & 0.1 \\
+DINOv2-B & C100 & 0.66 & 0.54 & 0.0 & 0.1 \\
+DINOv2-L & IN & 0.69 & 0.72 & 0.0 & 0.0 \\
+DINOv2-L & C100 & 0.70 & 0.64 & 0.0 & 0.1 \\
+DINOv2-G & IN & 0.70 & 0.74 & 0.0 & 0.0 \\
+DINOv2-G & C100 & 0.77 & 0.70 & 0.0 & 0.0 \\
+CLIP-B & IN & 0.36 & 0.29 & 4.2 & 7.9 \\
+CLIP-B & C100 & 0.60 & 0.46 & 0.0 & 3.1 \\
+CLIP-L & IN & 0.35 & 0.27 & 4.0 & 8.4 \\
+CLIP-L & C100 & 0.57 & 0.43 & 0.0 & 2.2 \\
+SigLIP-B & IN & 0.34 & 0.26 & 5.0 & 7.5 \\
+SigLIP-B & C100 & 0.59 & 0.43 & 0.0 & 2.3 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\caption{\textbf{The raw reading is learned, and negative curvature lives on the bridges between superclasses.} (a) Fine-tuning on a task with no class hierarchy raises $\delta$, $\delta$ falls across transformer depth, and random-weight networks read a higher raw $\delta$ with near-Gaussian features, so they are not counted as evidence; label shuffling leaves $\delta$ unchanged, as a null-invariant quantity should (Figure~\ref{fig:causal}). (b) The three objectives on one architecture; the family separations emerge with scale rather than at fixed size. (c) Negative curvature concentrates on between-cluster bridges while the mean ORC measures within-cluster compactness; DINOv2 on ImageNet inverts the pattern and recovers it on CIFAR-100. % analysis4_finetuning.csv, e1_delta_by_layer.csv, e5_random_control.csv, night/arch_matched_triplet.csv, night/orc_bridges.csv
+}
+\label{tab:q11-interventions}
+\end{table}

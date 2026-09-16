@@ -1,0 +1,79 @@
+% prov: expR53_text_haar_p999_200.csv, expR53_text_haar_sup_200.csv, expR53_text_gauss_p999_200.csv, expR48b_text_census200_bs1.csv, expR57_text_cosine_haar_p999_200.csv, exp18_text_nulls.csv, exp4_prompt_variation.csv, exp17_wordnet_prompts.csv, expR49_template_nulls_bs1.csv, expR47_extraction_variance.csv
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begingroup
+\noindent\textbf{(a) The census of record on the 1000 ImageNet class prompts: padding-free extraction, Haar null, 99.9th-percentile statistic, 200 replicates.}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrccccccc|cc}
+\toprule
+ & & & \multicolumn{6}{c|}{record} & \multicolumn{2}{c}{cosine} \\
+model & type & $d$ & $\hat\delta_{99.9}$ & excess & exc./null & $r$/200 & $p$ & 2$\times$2 & exc.\ & $r$ \\
+\midrule
+GPT-2 S & causal LM & 768 & $0.077$ & $-0.013$ & $-15\%$ & 197 & .020 & $\bullet$$\circ$$\bullet$$\circ$ & $+0.000^{\circ}$ & 101 \\
+GPT-2 M & causal LM & 1024 & $0.052$ & $-0.005^{\circ}$ & $-9\%$ & 170 & .154 & $\circ$$\circ$$\circ$$\circ$ & $-0.019$ & 200 \\
+GPT-2 L & causal LM & 1280 & $0.053$ & $-0.023$ & $-30\%$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $-0.016$ & 200 \\
+GPT-2 XL & causal LM & 1600 & $0.048$ & $-0.027$ & $-36\%$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $-0.018$ & 200 \\
+\midrule
+Pythia-410M & causal LM & 1024 & $0.067$ & $-0.018$ & $-21\%$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $-0.024$ & 200 \\
+Pythia-1B & causal LM & 2048 & $0.066$ & $-0.015$ & $-18\%$ & 199 & .010 & $\bullet$$\bullet$$\bullet$$\bullet$ & $-0.026$ & 200 \\
+Pythia-2.8B & causal LM & 2560 & $0.066$ & $-0.017$ & $-20\%$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $-0.023$ & 200 \\
+OLMo-1B & causal LM & 2048 & $0.051$ & $-0.024$ & $-32\%$ & 200 & .005 & $\bullet$$\bullet$$\bullet$$\bullet$ & $-0.032$ & 200 \\
+OLMo-7B & causal LM & 4096 & \multicolumn{8}{l}{not re-extracted (exceeds the local GPU)} \\
+\midrule
+BGE-base & embedder & 768 & $0.078$ & $+0.003^{\circ}$ & $+4\%$ & 26 & .871 & $\circ$$\circ$$\circ$$\circ$ & $-0.002^{\circ}$ & 151 \\
+BGE-large & embedder & 1024 & $0.078$ & $+0.002^{\circ}$ & $+3\%$ & 49 & .756 & $\circ$$\circ$$\circ$$\circ$ & $-0.003^{\circ}$ & 170 \\
+GTE-base & embedder & 768 & $0.076$ & $+0.004^{\circ}$ & $+6\%$ & 11 & .945 & $\circ$$\circ$$\circ$$\circ$ & $+0.001^{\circ}$ & 79 \\
+GTE-large & embedder & 1024 & $0.075$ & $+0.003^{\circ}$ & $+3\%$ & 36 & .821 & $\circ$$\circ$$\circ$$\circ$ & $-0.001^{\circ}$ & 131 \\
+GTE-Qwen2-1.5B & embedder & 1536 & $0.078$ & $+0.002^{\circ}$ & $+3\%$ & 58 & .711 & $\circ$$\circ$$\circ$$\circ$ & $-0.006$ & 199 \\
+E5-base & embedder & 768 & $0.074$ & $+0.004^{\circ}$ & $+6\%$ & 15 & .925 & $\circ$$\circ$$\circ$$\circ$ & $+0.000^{\circ}$ & 97 \\
+E5-large & embedder & 1024 & $0.071$ & $+0.002^{\circ}$ & $+3\%$ & 44 & .781 & $\circ$$\circ$$\circ$$\circ$ & $-0.001^{\circ}$ & 119 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\begingroup
+\noindent\textbf{(b) Prompt templates: raw $\hat\delta$ per template and, for the four GPT-2 sizes, the template-conditioned excess over the spectrum null (3 replicates; $^*$: $|z|\ge2$) and its fraction of the null.}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{1.8pt}
+\begin{tabular}{lcccc|cccc|cccc}
+\toprule
+ & \multicolumn{4}{c|}{raw $\hat\delta$} & \multicolumn{4}{c|}{GPT-2 excess (padding-free)} & \multicolumn{4}{c}{GPT-2 excess / null} \\
+template & BGE-b & E5-b & GPT-2 S & GPT-2 M & S & M & L & XL & S & M & L & XL \\
+\midrule
+photo & 0.124 & 0.114 & 0.131 & 0.091 & $-0.016$\rlap{$^*$} & $-0.019$\rlap{$^*$} & $-0.043$\rlap{$^*$} & $-0.050$\rlap{$^*$} & $-11\%$ & $-19\%$ & $-34\%$ & $-41\%$ \\
+name\_only & 0.118 & 0.119 & 0.145 & 0.122 & $-0.006$ & $-0.007$ & $-0.048$\rlap{$^*$} & $-0.051$\rlap{$^*$} & $-6\%$ & $-5\%$ & $-39\%$ & $-43\%$ \\
+image & 0.125 & 0.117 & 0.110 & 0.110 & $-0.018$\rlap{$^*$} & $-0.028$\rlap{$^*$} & $-0.050$\rlap{$^*$} & $-0.049$\rlap{$^*$} & $-13\%$ & $-26\%$ & $-41\%$ & $-41\%$ \\
+closeup & 0.126 & 0.120 & 0.086 & 0.100 & $+0.007$ & $-0.018$\rlap{$^*$} & $-0.044$\rlap{$^*$} & $-0.049$\rlap{$^*$} & $+5\%$ & $-18\%$ & $-36\%$ & $-40\%$ \\
+this\_is & 0.125 & 0.115 & 0.080 & 0.134 & $-0.032$\rlap{$^*$} & $-0.022$\rlap{$^*$} & $-0.042$\rlap{$^*$} & $-0.046$\rlap{$^*$} & $-19\%$ & $-22\%$ & $-34\%$ & $-38\%$ \\
+wild & 0.115 & 0.116 & 0.089 & 0.104 & $-0.023$\rlap{$^*$} & $-0.067$\rlap{$^*$} & $-0.014$ & $-0.010$\rlap{$^*$} & $-16\%$ & $-43\%$ & $-11\%$ & $-8\%$ \\
+def\_pair & 0.119 & 0.108 & 0.105 & 0.081 & $-0.002$ & $-0.019$\rlap{$^*$} & $-0.036$\rlap{$^*$} & $-0.035$\rlap{$^*$} & $-1\%$ & $-21\%$ & $-28\%$ & $-29\%$ \\
+gloss\_only & 0.115 & 0.115 & 0.124 & 0.107 & $-0.020$\rlap{$^*$} & $-0.030$\rlap{$^*$} & $-0.033$\rlap{$^*$} & $-0.036$\rlap{$^*$} & $-14\%$ & $-31\%$ & $-27\%$ & $-29\%$ \\
+concept & 0.119 & 0.120 & 0.112 & 0.112 & $-0.002$ & $-0.003$ & $-0.043$\rlap{$^*$} & $-0.041$\rlap{$^*$} & $-1\%$ & $-3\%$ & $-38\%$ & $-38\%$ \\
+discussion & 0.121 & 0.116 & 0.105 & 0.098 & $-0.010$ & $-0.013$\rlap{$^*$} & $-0.041$\rlap{$^*$} & $-0.040$\rlap{$^*$} & $-7\%$ & $-17\%$ & $-35\%$ & $-35\%$ \\
+\midrule mean over templates & & & & & $-0.012$ & $-0.023$ & $-0.040$ & $-0.041$ &  &  &  &  \\
+templates at $|z|\ge2$ & & & & & 5 of 10 & 8 of 10 & 9 of 10 & 10 of 10 &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\begingroup
+\noindent\textbf{(c) Extraction: the same 1000 prompts, only batch size and precision vary.}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcc|cc}
+\toprule
+& \multicolumn{2}{c|}{GPT-2 M} & \multicolumn{2}{c}{OLMo-1B} \\
+batch size & fp32 $\hat\delta$ & fp16 $\hat\delta$ & fp32 $\hat\delta$ & fp16 $\hat\delta$ \\
+\midrule
+1 (no padding) & $0.0816$ & $0.0817$ & $0.0817$ & $0.0817$ \\
+16 & $0.0996$ & $0.0997$ & $0.0817$ & $0.0816$ \\
+32 & $0.0905$ & $0.0905$ & $0.0817$ & $0.0817$ \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{\textbf{In text, clustered structure depends on recipe and scale: genuine at every Pythia scale and at the larger GPT-2 sizes, at the margin for GPT-2 S, absent for GPT-2 M and for the sentence embedders on this probe.} (a) $r$ = replicates above the real value, $p$ the left-tail add-one $p$-value; genuine = BH-corrected $p\le0.05$ over the 15 models ($^{\circ}$: not genuine); exc./null: excess as a fraction of the null reading; the 2$\times$2 column gives the verdicts under Haar$\times$p99.9, Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum ($\bullet$ genuine); cosine: the same census on cosine geometry. Genuine 7/15; GPT-2 S is genuine at $p=.020$ with excess $-0.013$ and GPT-2 M is not ($p=.154$, $-0.005$), while L and XL are genuine under every construction. GTE-base has the highest effective rank and is not genuine, so genuineness is not a proxy for anisotropy; the only LLM-backboned embedder (GTE-Qwen2-1.5B) is not genuine. (b) Causal-LM values are template-sensitive (range of raw $\hat\delta$ up to 0.065 for causal LMs against $\le0.012$ for embedders; ``gloss only'' contains no class name) but the scale ordering is template-robust: with only 3 null replicates per cell the starred S and M cells are borderline, as the 200-replicate record in (a) shows, whereas the L/XL cells are not in doubt. (c) Precision is irrelevant (fp16 equals fp32 to four decimals); for GPT-2, left-padded batching changes the hidden states (mean cosine to the padding-free extraction $0.98$) and moves $\hat\delta$ by up to $0.018$, while OLMo handles left padding correctly and is invariant, which is why padding-free extraction is the record. % expR53_text_haar_p999_200.csv, expR53_text_haar_sup_200.csv, expR53_text_gauss_p999_200.csv, expR48b_text_census200_bs1.csv, expR57_text_cosine_haar_p999_200.csv, exp18_text_nulls.csv, exp4_prompt_variation.csv, exp17_wordnet_prompts.csv, expR49_template_nulls_bs1.csv, expR47_extraction_variance.csv
+}
+\label{tab:q2-text}
+\end{table}

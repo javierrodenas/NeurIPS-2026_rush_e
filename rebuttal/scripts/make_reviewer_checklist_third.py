@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""REVIEWER_CHECKLIST_third.md: the questions of the third review answered from the main text alone, with the ICLR margin line
+numbers of the sentences that answer them, read from the compiled PDF (pdftotext -layout keeps the margin numbers).
+Usage: python make_reviewer_checklist_third.py <path/to/main_iclr2027.pdf>   (run from the repo root)"""
+import re, subprocess, sys, json
+pdf = sys.argv[1]
+txt = subprocess.run(["pdftotext", "-layout", "-l", "9", pdf, "-"], capture_output=True, text=True).stdout
+lines = txt.split("\n"); numbered = []; last = None
+for l in lines:
+    m = re.match(r"\s*(\d{3})\s+(.*)", l)
+    if m: last = int(m.group(1)); numbered.append((last, m.group(2)))
+    elif l.strip():
+        if re.fullmatch(r"\s*\d{3}\s*", l): last = int(l.strip()); continue
+        numbered.append((last, l.strip()))
+def find(phrase):
+    norm = lambda s: re.sub(r"[^a-z0-9]", "", s.lower().replace("ﬁ", "fi").replace("ﬂ", "fl"))
+    target = norm(phrase)
+    for i in range(len(numbered)):
+        if target in norm("".join(t for _, t in numbered[i:i + 3])): return numbered[i][0]
+    return None
+M = json.load(open("rebuttal/results/final_pass_memo.json")); F = json.load(open("rebuttal/results/phaseE_fills.json")); G = json.load(open("rebuttal/results/final_pass_island_gap.json"))
+a1 = M["a1"]; a2 = M["a2"]; a4 = M["a4"]; a5 = M["a5"]; a6 = M["a6"]
+Q = [("Q1. The matched star's hubs are Gaussian; a star with the real hubs' spectrum could pass the depth test too.",
+      [("Abstract", "the same four under a star with the real hubs", "The abstract states that the four certified backbones are the same under a star whose hubs carry the real hubs' spectrum."),
+       ("Section 4, 'A spectrum-matched star confirms the four'", "We repeated the test with the star's hubs drawn as a Haar resample", f"Hubs drawn as a Haar resample of the real hubs (exact hub spectrum, ten star seeds): the certified set is unchanged, z from {F['HAAR_Z_HI']} to {F['HAAR_Z_LO']}; on the implanted clouds the new star raises {F['FA_HAAR']} false alarms at s = 0 and detects {F['POWER_HAAR']} at s = 1; read as a rank over the star seeds (resolution 1/11) the verdict does not separate certified from uncertified backbones while z does. Table 6 has both stars per backbone.")]),
+     ("Q2. The certified ViTs were trained on the hierarchical IN-21k label set; the depth may be the label hierarchy.",
+      [("Section 4, same paragraph", "Supervision on leaf labels alone can produce this depth and need not", f"Two ViT-B/16 supervised on ImageNet-1k leaf labels only: the augreg recipe is certified under both stars (z {a2['vit_b_in1k']['z_gauss']:+.2f}/{a2['vit_b_in1k']['z_haar']:+.2f}) and DeiT-B is not (z {a2['deit_b']['z_gauss']:+.2f}/{a2['deit_b']['z_haar']:+.2f}), so the IN-21k label hierarchy is not what makes the census ViTs deep."),
+       ("Section 5, 'WordNet alignment follows supervision and recipe'", "Leaf-label supervision does not guarantee the alignment", f"The augreg IN-1k ViT-B is aligned with WordNet like the IN-21k ViTs (rho {a2['vit_b_in1k']['rho_wn']:+.2f}) while DeiT-B is nearly unaligned ({a2['deit_b']['rho_wn']:+.2f}) yet recovers the CIFAR-100 superclasses at ARI {a2['deit_b']['ari_max']:.2f}: alignment is recipe-dependent even among leaf-supervised ViTs (Table 10)."),
+       ("Limitations (iv)", "two leaf-label ViTs show that supervision can produce depth", "The limitation records that the objective-geometry link is correlational and that leaf-label supervision can produce depth and alignment without guaranteeing either.")]),
+     ("Q3. The corollary correlates the raw delta with the gains; the paper's own point is that the raw reading is confounded.",
+      [("Section 6, 'The calibrated reading predicts the zero-cost gain'", "The calibrated reading predicts the zero-cost gain", "Recomputed on the record excess with Fisher-z CI95 and the family control: the nearest-centroid prediction survives on all four hierarchical datasets, the few-shot prediction on three (not ImageNet), and the depth verdict predicts no gain anywhere. Table 13 gives raw and calibrated correlations side by side; Figure 11 is drawn on the excess.")]),
+     ("Q4. MERU's embeddings may sit where the hyperboloid is essentially flat, so the control may not test curvature.",
+      [("Section 4, 'Imposing the geometry does not create detected depth'", "near-flat regime of the hyperboloid", f"Stated in the text: MERU's embeddings sit in the near-flat regime (learned c = {a4['curv']:.2f}, radius x sqrt(c) at the median {a4['radius_median'][0]:.3f}-{a4['radius_median'][1]:.3f}, Lorentz-to-Euclidean distance ratio {F['MERU_RATIO']}), so the control tests the training objective, not a curved geometry; the lead-in now says 'does not create detected depth'."),
+       ("Abstract", "lives in the near-flat regime", "The abstract says so in one clause.")]),
+     ("Q5. 'Budget-stable' rested on a supremum-statistic sweep whose ImageNet magnitudes drifted by 0.02.",
+      [("Section 3, 'Two choices changed after pre-specification'", "The excess is budget-stable under the record", f"The sweep was rerun under the record (Haar null, p99.9, 200 replicates) at every budget: the ImageNet excess drifts by at most {a5['imagenet']['max_drift_over_sd']:.2f} of its own spread from 10^5 upward and never changes sign (Table 4, with the superseded supremum rows next to it).")]),
+     ("Q6. Effect sizes: the excesses are small in absolute terms; 'small' is not a size.",
+      [("Section 4, 'The premise does not survive calibration'", "removes between", f"'Small' is replaced by the fraction of the null reading: at the sample level the genuine cells remove {F['SL_FRAC_LO']} to {F['SL_FRAC_HI']} per cent of the null, the larger figure for DINOv2-G on CIFAR-100 images."),
+       ("Section 6, 'The raw reading cannot select a curvature'", "per cent of the null reading, many times", f"On ImageNet centroids the excess removes {F['IN_FRAC_LO']} to {F['IN_FRAC_HI']} per cent of the null reading; the normalized column is in Table 3(b), Table 5 and Table 11."),
+       ("Abstract", "reaches at most 40", f"The abstract bounds the surviving sample-level excess at 40% of the null (file: {100*abs(a6['sample_frac'][0]):.0f}%).")]),
+     ("Q7. 'The island vanishes' / 'closes entirely' overstates: a gap remains under most configurations.",
+      [("Section 5, 'The categorical island is an artifact, and a moderate gap remains'", "The categorical island is an artifact, and a moderate gap remains", f"Under the selected configuration the DINOv2 family agrees with the block at {F['ARI_BIG']} against {F['ARI_BLOCK']}; under the other admissible configurations about a third of the within-block agreement is missing (median over configurations and measures {G['median_missing_admissible_imagenet']:.2f}, Table 9); the triplet gap closes under cosine-average only. 'Vanishes' and 'closes entirely' are gone, Figure 5's caption included."),
+       ("Abstract", "a gap of about a third remains", "The abstract says a gap of about a third remains once the cut is controlled.")]),
+     ("Q8. The text census: Table 13 and Table 14 disagreed on GPT-2 S/M, and the prose followed the older table.",
+      [("Section 5, 'In text, clustered structure depends on recipe, scale and probe'", "GPT-2 S is genuine at the margin under the record", "One census, the record (Table 11): GPT-2 S genuine at p = 0.020 and flipping under the supremum and under cosine, M not genuine under the record, L and XL genuine under every construction, Pythia at every scale. The 3-replicate original extraction table is removed and the template table's caption is rewritten from the record."),
+       ("Section 1, 'The raw reading is confounded'", "GPT-2 M sits at its matched null", "The introduction's example now names GPT-2 M, the size that sits at its null under the record.")]),
+     ("Q9. Minor: 'pre-registered', the ordering trees < hyperbolic < spherical, the repeated sentence in A.3, the old illustration, bold in Table 1, the bridges and the number density.",
+      [("Section 3", "Two choices changed after pre-specification", "'Pre-registered' is 'pre-specified' throughout (no dated public record exists)."),
+       ("Section 2, 'Background'", "for hyperbolic regions of radius four and above", "The ordering is stated for hyperbolic regions of radius >= 4, where it holds in Table 2."),
+       ("Table 1 caption", "bold: less clustered than the null", "Bold is restored on the sign-positive cells."),
+       ("Sections 3-5, last paragraphs", "With the instrument in place, we read the premise where it is read", "Three bridges remain (end of Sections 3, 4 and 5, distinct wording); every other paragraph ends on its claim. The repeated sentence of A.3 and the old illustration (former Figure 12) are gone; the appendix is fourteen tables, one per question, numbered in citation order.")])]
+out = ["# Reviewer checklist — third review (final pass)", "", "Each question of the third review, answered from the main text alone; line numbers are the ICLR margin numbers of the compiled PDF (`ICLR2027/main_iclr2027_final.pdf`).", ""]
+missing = []
+for q, items in Q:
+    out.append(f"## {q}"); out.append("")
+    for where, phrase, answer in items:
+        ln = find(phrase)
+        if ln is None: missing.append(phrase)
+        out.append(f"- **{where}** (line {ln if ln else '?'}): {answer}")
+    out.append("")
+open("ICLR2027/REVIEWER_CHECKLIST_third.md", "w").write("\n".join(out)); print("\n".join(out)); print("missing anchors:", missing)

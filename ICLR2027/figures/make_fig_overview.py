@@ -21,6 +21,14 @@ plt.style.use(str(HERE / "style.mplstyle"))
 sys.path.insert(0, str(HERE))
 from palette import FAMILY_COLORS, color as fam_color
 
+from matplotlib.ticker import MaxNLocator, FuncFormatter
+def _fmt2(v, pos=None):
+    s = f"{v:.2f}"; return "0.00" if s in ("-0.00", "0.00") else s
+def tidy(ax, decimals=True, n=3):
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=n, min_n_ticks=2))
+    if decimals: ax.yaxis.set_major_formatter(FuncFormatter(_fmt2))
+    ax.tick_params(labelsize=7)
+
 src = RES/"expR52_census_haar_p999_200.csv"
 if not src.exists(): src = RES/"expR39c_census200_cache.csv"
 if not src.exists(): src = RES/"exp20_null_ztable.csv"
@@ -30,7 +38,7 @@ d_in = {r["model"]: (float(r["delta"]), float(r["excess"]), float(r["null_mean"]
 DIMS = {"i21k_t":192,"i21k_s":384,"i21k_b":768,"i21k_l":1024,"dinov1_b":768,"dinov2_s":384,
         "dinov2_b":768,"dinov2_l":1024,"dinov2_g":1536,"clip_b":512,"clip_l":768,"siglip_b":768}
 
-fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.15), gridspec_kw={"width_ratios":[1.2,1,1]})
+fig, axes = plt.subplots(1, 3, figsize=(5.5, 1.3), gridspec_kw={"width_ratios":[1.2,1,1]})
 # (a) gauss curve + raw deltas
 for m, d in DIMS.items():
     if m in d_in:
@@ -43,8 +51,7 @@ axes[0].set_title("(a) raw readings vs their\nspectrum-matched nulls")
 _fam = [plt.Line2D([], [], marker="o", ls="", color=FAMILY_COLORS[k], ms=4, label=l) for k, l in
         [("supervised", "sup."), ("ssl", "SSL"), ("contrastive", "contr.")]]
 axes[0].set_xlim(80, 2450)
-axes[0].legend(handles=axes[0].get_legend_handles_labels()[0] + _fam, frameon=False, loc="upper right",
-               ncol=1, fontsize=6.5, handlelength=1.2, handletextpad=0.3, borderaxespad=0.2, labelspacing=0.25)
+_h0 = axes[0].get_legend_handles_labels()[0] + _fam
 # (b) same raw, opposite verdict: BGE-base vs the closest vision cell, or (restructuring, decided by the numbers in
 #     phaseC_fig2b.json) a sample-level cell within null noise vs the class-level cell with the same raw value
 import json as _json
@@ -75,9 +82,9 @@ axes[1].bar(X-0.16, [a_d, v_d], width=0.3, color="white",
 axes[1].bar(X+0.16, [a_e, v_e], width=0.3,
             color=[a_col, fam_color(v_name)], label="excess")
 axes[1].axhline(0, color="k", lw=0.8)
-axes[1].set_xticks(X); axes[1].set_xticklabels([a_lab, v_lab], fontsize=5.5)
+axes[1].set_xticks(X); axes[1].set_xticklabels([a_lab, v_lab], fontsize=7)
 axes[1].set_title("(b) same raw value,\nopposite verdict")
-axes[1].legend(frameon=False, loc="lower left", fontsize=6, handlelength=1.0, handletextpad=0.4, labelspacing=0.2, borderaxespad=0.2)
+_h1 = axes[1].get_legend_handles_labels()[0]
 # (c) the map before/after
 z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True)
 zi, zc = z["summary_in"].item(), z["summary_c1"].item()
@@ -92,15 +99,16 @@ vals = [zi["('euclid', 'average')"]["big_vs_sup"], zi[sel("imagenet")]["big_vs_s
 pos = [0, 0.35, 1.0, 1.35]
 cols = [FAMILY_COLORS["null"], FAMILY_COLORS["ssl"], FAMILY_COLORS["null"], FAMILY_COLORS["ssl"]]
 axes[2].bar(pos, vals, width=0.3, color=cols)
-for x, v in zip(pos, vals): axes[2].text(x, v+0.012, f"{v:.2f}", ha="center", fontsize=6.5)
+for x, v in zip(pos, vals): axes[2].text(x, v+0.012, f"{v:.2f}", ha="center", fontsize=7)
 axes[2].set_xticks([0.175, 1.175]); axes[2].set_xticklabels(["ImageNet", "CIFAR-100"])
 axes[2].set_ylabel("DINOv2 vs block (ARI)")
 axes[2].set_title("(c) the island is the\nclustering step's artifact")
 import matplotlib.patches as mpatches
-axes[2].legend(handles=[mpatches.Patch(color=FAMILY_COLORS["null"], label="naive"),
-                        mpatches.Patch(color=FAMILY_COLORS["ssl"], label="selected")],
-               frameon=False, loc="upper left", handlelength=1.2)
-fig.subplots_adjust(left=0.10, right=0.99, top=0.80, bottom=0.36, wspace=0.55)
+_h2 = [mpatches.Patch(color=FAMILY_COLORS["null"], label="naive"), mpatches.Patch(color=FAMILY_COLORS["ssl"], label="selected")]
+for ax in axes: tidy(ax)
+axes[2].set_ylim(0, max(vals) * 1.35)
+fig.legend(handles=_h0 + _h1 + _h2, frameon=False, loc="lower center", ncol=8, fontsize=7, handlelength=1.1, handletextpad=0.3, columnspacing=0.8, bbox_to_anchor=(0.5, -0.01))
+fig.subplots_adjust(left=0.10, right=0.99, top=0.80, bottom=0.44, wspace=0.55)
 for o in (HERE, HERE.parent/"iclr2027"/"figures"):
     fig.savefig(o/"fig_overview.pdf"); fig.savefig(o/"fig_overview.png", dpi=200)
 print("fig_overview written")

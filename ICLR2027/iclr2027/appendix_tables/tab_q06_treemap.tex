@@ -1,0 +1,58 @@
+% prov: exp22_tree_similarity_imagenet.npz, exp23_treemap_controls.npz, exp23_config_diagnostics.json, expR58_treemap_cutfree_summary.csv
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begingroup
+\noindent\textbf{(a) Selection diagnostics and mean pairwise ARI at the reference cut.}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llcc|ccc}
+\toprule
+ & & & & \multicolumn{3}{c}{mean pairwise ARI at the reference cut} \\
+dataset & configuration & max frac.\ & CPCC & B/L/G vs block & S, DINO-B vs block & within \\
+\midrule
+ImageNet & euclid-average (deg.) & 0.97 & 0.761 & 0.03 & 0.08 & 0.64 \\
+ImageNet & euclid-complete (deg.) & 0.83 & 0.606 & 0.03 & 0.17 & 0.44 \\
+ImageNet & euclid-ward & 0.48 & 0.464 & 0.15 & 0.38 & 0.53 \\
+ImageNet & cosine-average (selected) & 0.40 & 0.691 & 0.38 & 0.35 & 0.48 \\
+ImageNet & cosine-complete & 0.32 & 0.539 & 0.13 & 0.17 & 0.50 \\
+ImageNet & cosine-ward & 0.37 & 0.464 & 0.17 & 0.39 & 0.55 \\
+\midrule
+CIFAR-100 & euclid-average (deg.) & 0.80 & 0.798 & 0.00 & 0.41 & 0.57 \\
+CIFAR-100 & euclid-complete (deg.) & 0.66 & 0.722 & 0.17 & 0.40 & 0.54 \\
+CIFAR-100 & euclid-ward & 0.33 & 0.534 & 0.37 & 0.65 & 0.63 \\
+CIFAR-100 & cosine-average (deg.) & 0.53 & 0.777 & 0.30 & 0.54 & 0.58 \\
+CIFAR-100 & cosine-complete (selected) & 0.39 & 0.698 & 0.39 & 0.51 & 0.63 \\
+CIFAR-100 & cosine-ward & 0.14 & 0.584 & 0.56 & 0.62 & 0.61 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\begingroup
+\noindent\textbf{(b) Three measures of DINOv2-B/L/G against the supervised+contrastive block, each written as vs block / within block.}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{ll|ccc}
+\toprule
+dataset & configuration & ARI at the cut & cophenetic corr. & triplet agreement \\
+\midrule
+ImageNet & euclid-average (deg.) & 0.03 / 0.64 & 0.36 / 0.80 & 0.47 / 0.74 \\
+ImageNet & euclid-complete (deg.) & 0.03 / 0.44 & 0.20 / 0.66 & 0.41 / 0.65 \\
+ImageNet & euclid-ward & 0.16 / 0.53 & 0.62 / 0.84 & 0.67 / 0.85 \\
+ImageNet & cosine-average (selected) & 0.39 / 0.48 & 0.48 / 0.78 & 0.77 / 0.76 \\
+ImageNet & cosine-complete & 0.13 / 0.49 & 0.18 / 0.72 & 0.36 / 0.71 \\
+ImageNet & cosine-ward & 0.17 / 0.55 & 0.59 / 0.85 & 0.69 / 0.86 \\
+\midrule
+CIFAR-100 & euclid-average (deg.) & 0.00 / 0.57 & 0.15 / 0.78 & 0.41 / 0.74 \\
+CIFAR-100 & euclid-complete (deg.) & 0.17 / 0.54 & 0.23 / 0.72 & 0.41 / 0.66 \\
+CIFAR-100 & euclid-ward & 0.37 / 0.63 & 0.63 / 0.77 & 0.70 / 0.79 \\
+CIFAR-100 & cosine-average (deg.) & 0.30 / 0.58 & 0.42 / 0.72 & 0.51 / 0.64 \\
+CIFAR-100 & cosine-complete (selected) & 0.39 / 0.63 & 0.46 / 0.64 & 0.50 / 0.61 \\
+CIFAR-100 & cosine-ward & 0.56 / 0.61 & 0.74 / 0.73 & 0.76 / 0.76 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{\textbf{The categorical island is a chaining artifact of the naive cut; a moderate gap remains under every admissible configuration and closes only in triplet agreement under cosine-average.} (a) Six configurations (metric $\times$ linkage) per dataset with the two quantities that drive the selection criterion of \S\ref{sec:content}: the degeneracy diagnostic (largest-cluster fraction at the reference cut, worst model) and the mean cophenetic fidelity (CPCC) of each model's dendrogram to its own distance matrix; configurations with max-cluster fraction $>0.5$ are excluded and, among the rest, the highest CPCC selects the marked row; then the mean pairwise ARI between the cuts at 30 (ImageNet) or 20 (CIFAR-100) clusters. (b) Dendrograms rebuilt from the census cache: ARI at the cut, Pearson correlation between the two trees' cophenetic distance vectors, and agreement on which pair merges first over $10^4$ random class triplets. Under the naive ImageNet configuration, cross-family ARI between the supervised ViTs and the contrastive VLMs reaches 0.82 while every DINOv2-vs-block pair stays at or below 0.06, and the worst model's largest cluster holds 97\% of the classes. Under the selected configuration the DINOv2 family agrees with the block at 0.38 against 0.48 within the block. Under the other 3 admissible ImageNet configurations the DINOv2-vs-block agreement is 0.13--0.17 against 0.50--0.55 within the block; over the admissible configurations and the three measures the median fraction of within-block agreement missing is 0.34, about a third. % exp22_tree_similarity_imagenet.npz, exp23_treemap_controls.npz, exp23_config_diagnostics.json, expR58_treemap_cutfree_summary.csv
+}
+\label{tab:q6-treemap}
+\end{table}

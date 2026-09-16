@@ -165,3 +165,18 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   son ViT-T/B/L (ViT-S y DINOv2-L en z −1.7): el conjunto de cuatro certificados es sensible al marco, no lo dice el cuerpo, sí la tabla.
 - **R10** es inconcluso (frozen -3.62, CE -2.33, CE+jerárquica -2.77) y está en A.5; la limitación del control entrenado se mantiene.
 - Coste: R9b + R12 ≈ 4,5 h con 7 workers; R9 (v1) ≈ 8 h; R10 ≈ 1 h 15 min en dos GPUs.
+
+## Añadido en el final pass (Fase B, congelado el 17 de septiembre de 2026)
+
+- **AI Use Statement**: escrito en la forma de la plantilla ICLR 2027 (usos declarados: redacción, código, análisis; no usados: ideación,
+  resultados). Cotejar las categorías con la política oficial antes de enviar.
+- **Figura 1**: hueco de 1.4 in (`figures/fig1_concept.pdf`); **Figura 4**: hueco opcional para `figures/fig4_schematic.pdf` (5.5 × 0.9 in)
+  encima del panel (a); si el fichero no existe no aparece nada. **Enlace anonimizado**: `TODO(author)` en el Reproducibility Statement.
+- Tabla 15 (panel de modelos): el bloque "Controls" lleva parámetros tecleados (DeiT-B 86M, ViT-B augreg 86M, MERU/CLIP 22M/86M/307M,
+  ResNet-50 24M), como el resto del panel heredado; verificar si se cita.
+- Abstract: "a gap of about a third remains" se apoya en la mediana (0.34) de la fracción de acuerdo intra-bloque ausente sobre
+  las configuraciones admisibles de ImageNet × tres medidas (pie de la Tabla 9); bajo la configuración seleccionada y el ARI es un quinto
+  (0.38/0.48) y bajo la cofenética 0.38. Si prefieres otra base, el sweep acepta [0.25, 0.42].
+- "+0.9 to +1.3 pp" (§6.4) es la ganancia Poincaré−coseno de los VLM contrastivos en los conjuntos de transferencia; en ImageNet es +0.1
+  (Tabla 13). Lead-in de §5.2 con coma en vez de punto y coma (regla de puntuación). Tres URLs de NeurIPS retiradas de la bibliografía.
+- Solo cambios tipográficos a partir de ahora; el sweep debe seguir en PASS completo tras cualquiera.

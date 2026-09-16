@@ -1,0 +1,108 @@
+% prov: exp3_alignment.csv, exp28_recovery_per_config.csv, exp8_p1_recovery.csv, exp1_delta_controls.csv, exp8_p6_pooling.csv, expR70_inet1k_supervised.csv, exp14_dbpedia.csv, expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\noindent\textbf{(a) Alignment with WordNet on ImageNet.}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc|c}
+\toprule
+ & \multicolumn{4}{c|}{Spearman $\rho$, inter-centroid vs WordNet distance} & raw $\hat\delta$ of \\
+model & $\rho_{\text{WN}}$ & shuffle & Gaussian & single image & WordNet / random groups \\
+\midrule
+ViT-T & $+0.52$ & $+0.02$ & $+0.01$ & -- & 0.146 / 0.159 \\
+ViT-S & $+0.50$ & $+0.00$ & $-0.00$ & -- & 0.110 / 0.130 \\
+ViT-B & $+0.49$ & $+0.03$ & $+0.01$ & -- & 0.092 / 0.120 \\
+ViT-L & $+0.53$ & $+0.01$ & $+0.03$ & $+0.25$ & 0.104 / 0.117 \\
+\midrule
+DINO-B & $+0.36$ & $-0.01$ & $-0.01$ & -- & 0.084 / 0.117 \\
+DINOv2-S & $+0.22$ & $+0.01$ & $+0.01$ & -- & 0.077 / 0.100 \\
+DINOv2-B & $+0.18$ & $-0.01$ & $+0.01$ & -- & 0.068 / 0.069 \\
+DINOv2-L & $+0.18$ & $-0.00$ & $-0.03$ & $+0.08$ & 0.060 / 0.058 \\
+DINOv2-G & $+0.20$ & $-0.03$ & $-0.01$ & $+0.03$ & 0.054 / 0.056 \\
+\midrule
+CLIP-B & $+0.57$ & $+0.00$ & $+0.01$ & -- & 0.126 / 0.174 \\
+CLIP-L & $+0.59$ & $+0.01$ & $+0.03$ & $+0.26$ & 0.117 / 0.162 \\
+SigLIP-B & $+0.58$ & $-0.01$ & $+0.01$ & -- & 0.118 / 0.158 \\
+\midrule
+DeiT-B (IN-1k) & $+0.08$ & $+0.01$ & -- & -- & -- \\
+ViT-B (augreg, IN-1k) & $+0.52$ & $+0.01$ & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\begingroup
+\noindent\textbf{(b) Recovery of the CIFAR-100 superclasses: ARI of the 20-cluster cut per configuration ($^{\dagger}$: degenerate on CIFAR-100, euclid-average being the naive configuration; $^{*}$: criterion-selected).}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+model & euclid-avg$^{\dagger}$ & euclid-ward & cosine-avg$^{\dagger}$ & cosine-complete$^{*}$ & cosine-ward \\
+\midrule
+ViT-T & 0.31 & 0.38 & 0.29 & 0.33 & 0.33 \\
+ViT-S & 0.35 & 0.56 & 0.37 & 0.47 & 0.56 \\
+ViT-B & 0.39 & 0.61 & 0.43 & 0.45 & 0.57 \\
+ViT-L & 0.38 & 0.55 & 0.49 & 0.48 & 0.60 \\
+\midrule
+DINO-B & 0.22 & 0.48 & 0.28 & 0.38 & 0.54 \\
+DINOv2-S & 0.12 & 0.51 & 0.32 & 0.33 & 0.49 \\
+DINOv2-B & 0.02 & 0.47 & 0.35 & 0.42 & 0.51 \\
+DINOv2-L & 0.01 & 0.32 & 0.25 & 0.50 & 0.48 \\
+DINOv2-G & 0.00 & 0.19 & 0.08 & 0.20 & 0.52 \\
+\midrule
+CLIP-B & 0.18 & 0.48 & 0.18 & 0.37 & 0.48 \\
+CLIP-L & 0.35 & 0.52 & 0.32 & 0.41 & 0.54 \\
+SigLIP-B & 0.22 & 0.49 & 0.22 & 0.37 & 0.52 \\
+\midrule
+DeiT-B (IN-1k) & 0.22 & 0.56 & 0.23 & 0.38 & 0.54 \\
+ViT-B (augreg, IN-1k) & 0.30 & 0.44 & 0.40 & 0.42 & 0.48 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{\textbf{Alignment with the human taxonomy follows supervision and recipe, the superclasses are recovered by every family, and the recovery is not WordNet circularity.} (a) $\rho_{\text{WN}}$: Spearman correlation between inter-centroid and WordNet tree distances on ImageNet, with the label-shuffle and Gaussian-cloud controls; single image: the same correlation on single-image distances (one image per class); WordNet / random groups: raw $\hat\delta$ of WordNet-coherent against random class groupings. (b) ARI of the 20-cluster cut against the true CIFAR-100 superclasses per configuration (degenerate configurations marked; the criterion-selected one is cosine-complete). Paired within each of the 3 admissible configurations, the label-supervised ViT-B recovers more than each DINOv2 model in 11 of 12 comparisons; DINOv2 itself recovers the superclasses at ARI 0.19--0.52, and the best cut over models and configurations reaches 0.61 against zero for permuted labels. Circularity controls: WordNet-coherent groupings read a lower raw $\delta$ than random ones in 11 of 12 models, and single-image distances still correlate with WordNet at up to $+0.26$. The two leaf-label ViT-B/16 of Table~\ref{tab:q4-depth}: the augreg recipe is aligned with WordNet like the IN-21k ViTs ($\rho_{\text{WN}}$ +0.52) while DeiT-B is nearly unaligned (+0.08) yet recovers the CIFAR-100 superclasses at ARI up to 0.56, so WordNet alignment is recipe-dependent even among leaf-supervised ViTs. % exp3_alignment.csv, exp28_recovery_per_config.csv, exp8_p1_recovery.csv, exp1_delta_controls.csv, exp8_p6_pooling.csv, expR70_inet1k_supervised.csv
+}
+\label{tab:q7-wordnet}
+\end{table}
+\begin{table}[H]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\noindent\textbf{(c) DBpedia Classes (219 leaf classes, 3 levels), a text hierarchy independent of WordNet; gains in pp.}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lcc|ccc|ccc}
+\toprule
+ & \multicolumn{2}{c|}{supremum, Gaussian} & \multicolumn{3}{c|}{census of record} & & & \\
+model & $\hat\delta_{\max}$ & excess & $\hat\delta_{99.9}$ & excess & $r$ ($p$) & trip.\ & NC H$-$R & FS H$-$R \\
+\midrule
+BGE-base & 0.122 & -0.028 & 0.082 & -0.021 & 200 (0.005) & 0.89 & -0.59 & +0.05$\pm$0.05 \\
+E5-base & 0.127 & -0.024 & 0.086 & -0.017 & 200 (0.005) & 0.89 & -0.43 & +0.04$\pm$0.03 \\
+GTE-base & 0.132 & -0.020 & 0.088 & -0.017 & 200 (0.005) & 0.89 & -0.82 & +0.08$\pm$0.06 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\begingroup
+\noindent\textbf{(d) HierarCaps (1000 four-level caption chains): a multi-level text hierarchy with no class set.}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+model & $\rho$(level, radius) & \% monotone & trip.\ L1 & trip.\ L2 & $\hat\delta$ leaves & excess \\
+\midrule
+BGE-base & +0.80$\pm$0.31 & 49.6 & 0.88 & 0.97 & 0.130 & +0.003 \\
+E5-base & +0.87$\pm$0.19 & 53.9 & 0.90 & 0.97 & 0.139 & +0.010 \\
+GTE-base & +0.47$\pm$0.55 & 24.0 & 0.90 & 0.97 & 0.135 & +0.006 \\
+CLIP-B & +0.64$\pm$0.43 & 27.2 & 0.86 & 0.95 & 0.123 & -0.011 \\
+CLIP-L & +0.51$\pm$0.49 & 18.7 & 0.86 & 0.96 & 0.117 & -0.010 \\
+SigLIP-B & +0.32$\pm$0.55 & 9.8 & 0.83 & 0.91 & 0.138 & +0.014 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued) (c) Excess under the original supremum reading (3 Gaussian replicates) and under the census of record (Haar null, 99.9th-percentile statistic, 200 replicates; $r$ = replicates above the real value, left-tail $p$), sibling-triplet agreement, and the metric gains, marginal as the diagnostic predicts. Tree map on the same classes: no configuration degenerates (largest cluster $\le10$\%), the embedders recover the true 70-way level-2 partition at ARI 0.21--0.29 in all 6 configurations and agree with each other at cross-model ARI 0.65--0.82; the configuration the criterion selects there (Euclidean, average linkage) is the one that degenerates on ImageNet, which is why the criterion is applied per dataset. (d) Radial ordering of the four levels under the paper's projection (chance for strict monotonicity $=1/24\approx4.2\%$; shuffle controls $\approx0$), sibling triplet agreement (cosine; chance $0.5$), and leaf $\hat\delta$ with spectrum-null excess. % exp14_dbpedia.csv, expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
+}
+\end{table}

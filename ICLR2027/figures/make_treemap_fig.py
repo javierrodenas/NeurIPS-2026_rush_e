@@ -46,12 +46,12 @@ for ax,(ds,cfg,title) in zip(axes, PANELS):
     for b in (3.5, 8.5): ax.axhline(b, color="w", lw=0.8); ax.axvline(b, color="w", lw=0.8)
     sup = [0,1,2,3,9,10,11]; big = [6,7,8]
     v = np.mean([M[i,j] for i in big for j in sup])
-    ax.set_title(title + f"\nDv2-B/L/G vs block: {v:.2f}", fontsize=7.5, pad=3)
+    ax.set_title(title + f"\nDv2-B/L/G vs block: {v:.2f}", fontsize=8, pad=3)
     ax.set_xticks(range(12)); ax.set_xticklabels(NAMES, rotation=90, fontsize=7)
     ax.set_yticks(range(12)); ax.set_yticklabels(NAMES if ax is axes[0] else [], fontsize=7)
     ax.tick_params(length=1.5, pad=1)
 cb = fig.colorbar(im, ax=axes.tolist(), fraction=0.03, pad=0.03, shrink=0.85)
-cb.set_label("ARI between tree cuts", fontsize=7); cb.ax.tick_params(labelsize=6.5)
+cb.set_label("ARI between tree cuts", fontsize=7); cb.ax.tick_params(labelsize=7)
 out = HERE.parents[0] / "iclr2027" / "figures"
 fig.savefig(out/(outname+".pdf")); fig.savefig(out/(outname+".png"), dpi=200)
 fig.savefig(HERE/(outname+".pdf"))

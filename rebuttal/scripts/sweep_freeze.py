@@ -523,24 +523,27 @@ def phaseC_text_checks():
     if not (R/"phaseC_memo.json").exists(): return
     TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"
     T = open(TEX/"main_iclr2027.tex").read(); main = T[:T.index("\\appendix")]
-    b17 = open(TEX/"appendix_tables"/"tab_b17_samplelevel.tex").read(); b30 = open(TEX/"appendix_tables"/"tab_b30_meru.tex").read()
+    b17 = open(TEX/"appendix_tables"/"tab_q03_sample.tex").read(); b30 = open(TEX/"appendix_tables"/"tab_q04_depth.tex").read(); q09 = open(TEX/"appendix_tables"/"tab_q09_corollary.tex").read()
     M = _j.load(open(R/"phaseC_memo.json"))
-    chk("text: sample-level count in the prose; names, band and max excess in the B17 caption", f"not genuine in {M['sl_within']} of 24 cells" in main
-        and f"not genuine in {M['sl_within']} of 24 cells and genuine in {M['sl_genuine']}" in b17 and "DINOv2-S, DINOv2-B, DINOv2-L, DINOv2-G, SigLIP-B on CIFAR-100; ViT-S, ViT-B, ViT-L, DINOv2-L, DINOv2-G on DTD" in b17
+    chk("text: sample-level verdict in the prose ('not genuine in most cells', 24-cell count in the Table 1 caption); names, band and max excess in the sample-level table caption", "it is not genuine in most cells" in main and M['sl_within'] > 12
+        and f"is genuine in {M['sl_genuine']} of 24 cells" in open(TEX/"tab_census.tex").read() and f"not genuine in {M['sl_within']} of 24 cells and genuine in {M['sl_genuine']}" in b17 and "DINOv2-S, DINOv2-B, DINOv2-L, DINOv2-G, SigLIP-B on CIFAR-100; ViT-S, ViT-B, ViT-L, DINOv2-L, DINOv2-G on DTD" in b17
         and f"{M['sl_sup_lo']:.3f}--{M['sl_sup_hi']:.3f}" in b17 and f"${M['sl_exc_lo']:+.3f}$" in b17)
     chk("text: MERU ranges (ImageNet-image excess, native gap, depth z) live in the B30 caption and match the memo",
         f"from ${M['meru_in_exc_range'][1]:+.3f}$ to ${M['meru_in_exc_range'][0]:+.3f}$ for MERU" in b30 and f"by at most ${M['meru_in_nat_vs_euc_maxgap']:.4f}$" in b30
         and f"from ${M['meru_in_z_range'][0]:+.1f}$ to ${M['meru_in_z_range'][1]:+.1f}$ for MERU" in b30 and f"from ${M['clip_in_z_range'][0]:+.1f}$ to ${M['clip_in_z_range'][1]:+.1f}$ for CLIP" in b30)
-    b = load("exp2b_normalized_stack.csv"); H = [r for r in b if r["dataset"] in ("imagenet","cifar100","cifar10","dtd")]
-    gc = [100*float(r["FS_HN_COS_diff"]) for r in H if r["paradigm"].lower().startswith("contr")]; go = [100*float(r["FS_HN_COS_diff"]) for r in H if not r["paradigm"].lower().startswith("contr")]
-    chk("text: Poincare-over-cosine gains (exp2b, few-shot, hierarchical sets) as stated", f"adds from ${min(gc):+.1f}$ to ${max(gc):+.1f}$ pp" in main and f"from ${min(go):+.1f}$ to ${max(go):+.1f}$ pp" in main)
+    b = load("exp2b_normalized_stack.csv"); H = [r for r in b if r["dataset"] in ("imagenet","cifar100","cifar10","dtd")]; Ht = [r for r in b if r["dataset"] in ("cifar100","cifar10","dtd")]
+    gc = [100*float(r["FS_HN_COS_diff"]) for r in Ht if r["paradigm"].lower().startswith("contr")]; go = [100*float(r["FS_HN_COS_diff"]) for r in H if not r["paradigm"].lower().startswith("contr")]
+    chk("text: Poincare-over-cosine gain of the contrastive VLMs on the transfer sets as stated; the other families' range (inconsistent in sign) lives in the corollary table", f"adds from ${min(gc):+.1f}$ to ${max(gc):+.1f}$ pp over cosine for the contrastive VLMs on the transfer sets" in main
+        and min(go) < 0 < max(go) and f"{min(go):+.2f}" in q09 and f"{max(go):+.2f}" in q09)
     e1 = load("exp1_delta_controls.csv"); ga = sorted({int(r["d"]): float(r["delta_max"]) for r in e1 if r["variant"]=="gauss"}.items())
     c_lo, c_hi = (0.144/(2*ga[0][1]))**2, (0.144/(2*ga[-1][1]))**2
     chk("text: Khrulkov curvature on the Gaussian band (c=(0.144/delta_rel)^2, delta_rel=2 delta_norm; exp1 gauss d=192/1536)", f"${c_lo:.2f}$ at $d{{=}}{ga[0][0]}$ to ${c_hi:.1f}$ at $d{{=}}{ga[-1][0]}$" in main)
-    im = [float(r["excess"]) for r in load("expR52_census_haar_p999_200.csv") if r["dataset"]=="imagenet"]
-    chk("text: ImageNet class-level excess range as stated", f"On ImageNet centroids it runs from ${max(im):+.3f}$ to ${min(im):+.3f}$" in main)
+    imr = [r for r in load("expR52_census_haar_p999_200.csv") if r["dataset"]=="imagenet"]; fim = [abs(float(r["excess"])/float(r["null_mean"])) for r in imr]
+    chk("text: ImageNet class-level excess as a fraction of the null reading as stated (S6), every ImageNet cell sign-negative; the absolute range lives in Table 1", f"it removes {100*min(fim):.0f} to {100*max(fim):.0f} per cent of the null reading" in main and all(float(r["excess"]) < 0 for r in imr)
+        and f"${max(float(r['excess']) for r in imr):+.3f}" in open(TEX/"tab_census.tex").read())
     D = _j.load(open(R/"phaseC_fig2b.json")); chk("fig2b: decision recorded and consistent with the caption", (D["mode"]=="sample") == ("images) and a class-level cell" in main) and D["gap_sample"] <= D["gap_bge"] if D["mode"]=="sample" else True)
-    for w in ("tool", "we believe", "nterestingly"): chk(f"text: no '{w}' in the main text", w not in main)
+    body_ = T[T.index("\\begin{abstract}"):T.index("\\subsubsection*{Ethics Statement}")]   # the ICLR AI-use statement says 'generative AI tools' in its required form
+    for w in ("tool", "we believe", "nterestingly"): chk(f"text: no '{w}' in the main text", w not in body_)
 phaseC_text_checks()
 
 # ---------- Prose pass (style of Groger et al.): metrics per paragraph, fixed vocabulary, thesis x5, numbers preserved ----------
@@ -550,7 +553,8 @@ def prose_checks():
     T = open(TEX/"main_iclr2027.tex").read(); body = T[T.index("\\begin{abstract}"):T.index("\\subsubsection*{Ethics Statement}")]
     THESIS = "Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."
     SHORT = "Clustered, occasionally hierarchical, moderately shared: not one common tree, and no license for curvature."
-    chk("prose: the thesis appears verbatim three times (abstract, box, S7) and in its short form twice (end of S1, end of S5)", body.count(THESIS) == 3 and body.count(SHORT) == 2)
+    chk("prose: the thesis appears verbatim exactly twice (abstract's last sentence, first paragraph of S7), no short form anywhere, no page-1 box", body.count(THESIS) == 2 and SHORT not in body and "tcolorbox" not in T
+        and _re.sub(r"(?<!\\)%.*$", "", body[:body.index("\\end{abstract}")].rstrip().split("\n")[-1]).rstrip().endswith(THESIS) and THESIS in body[body.index("\\paragraph{What the paper establishes.}"):body.index("\\paragraph{Open questions.}")])
     # strip floats, comments, the enumerate; keep section markers
     src = _re.sub(r"(?m)(?<!\\)%.*$", "", body)
     src = _re.sub(r"\\begin\{(figure|table|tcolorbox)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
@@ -647,21 +651,23 @@ def positive_control_prose_checks():
     S9 = load("expR64b_wn30_summary.csv"); dep = [r for r in load("expR64b_wn30.csv") if r["kind"]=="depth" and r["partition"]=="rand6" and r["s"]!="real"]
     ndet = sum(int(r["hits_s1"])>=4 for r in S9); fa0 = sum(float(r["z"])<=-2 for r in dep if float(r["s"])==0.0); n0 = sum(1 for r in dep if float(r["s"])==0.0)
     lo, hi = min(float(r["ratio_real"]) for r in S9), max(float(r["ratio_real"]) for r in S9)
-    chk("R9b prose: 'detected in x of 12', the within/between range and 'none of the sixty' match expR64b (0 false alarms in 60)",
-        (f"detected in {ndet} of 12 backbones" if ndet else "detected in none of the twelve backbones") in main and f"is {lo:.1f} to {hi:.1f} times their between-hub spread" in main and fa0==0 and n0==60 and "none of the sixty zero-strength runs" in main)
+    q05 = open(TEX/"appendix_tables"/"tab_q05_power.tex").read()
+    chk("R9b prose: 'detected in x of 12', 'between one and four times' (range in the power-table caption) and 'none of the sixty' match expR64b (0 false alarms in 60)",
+        (f"detected in {ndet} of 12 backbones" if ndet else "detected in none of the twelve backbones") in main and "is between one and four times their between-hub spread" in main and 1.0 <= lo and hi <= 4.0
+        and f"({lo:.1f} to {hi:.1f} on the real clouds" in q05 and fa0==0 and n0==60 and "none of the sixty zero-strength runs" in main)
     D9 = load("expR64b_wn30.csv"); cert4 = ("i21k_s","i21k_b","i21k_l","dinov2_l")
     z0 = [float(r["z"]) for r in D9 if r["kind"]=="depth" and r["partition"]=="rand6" and r["s"]!="real" and r["model"] in cert4 and float(r["s"])==0.0]
     tg0 = {r["model"] for r in D9 if r["kind"]=="depth" and r["partition"]=="rand6_t06" and float(r["s"])==0.0 and float(r["z"])<=-2}
-    chk("S4.4 sentence (1): the certified four raise no alarm at zero strength, exact fraction from expR64b, and their real z is deeper than the implanted tree's",
-        f"raise no alarm in any zero-strength run, {sum(z<=-2 for z in z0)} of {len(z0)}, so the verdict comes from their real hub arrangement" in main and sum(z<=-2 for z in z0)==0 and len(z0)==20
+    chk("S4.4 sentence (1): the certified four raise no alarm at zero strength (0 of 20 in expR64b; the count is subsumed by the 0 of 60 stated for the Haar-hub star), and their real z is deeper than the implanted tree's",
+        "raise no alarm in any zero-strength run, so the verdict comes from their real hub arrangement" in main and sum(z<=-2 for z in z0)==0 and len(z0)==20
         and all(float(r["real_z"]) < float(r["z_mean_s1"]) for r in S9 if r["model"] in cert4) and "the certified set shifts with the choice of frame" in main.lower())
     chk("S4.4 sentence (2): two contrastive backbones fire at zero strength in the shrunk variant, as stated", "two contrastive backbones also fire at zero strength, so the shrunk variant is a diagnostic of power, not a substitute test" in main
         and len(tg0)==2 and tg0 <= {"clip_b","clip_l","siglip_b"})
     J = load("expR66_joint_sensitivity_summary.csv"); top = lambda r: r["dataset"] in ("imagenet","cifar100")
     a, b = sum(r["joint_genuine"]=="True" for r in J), sum(r["boot_bh_genuine"]=="True" for r in J); at, bt = sum(r["joint_genuine"]=="True" and top(r) for r in J), sum(r["boot_bh_genuine"]=="True" and top(r) for r in J)
-    chk("R11 prose: the joint-sensitivity ranges in S4.2 and in the Table 1 caption equal the file", f"between {min(a,b)} and {max(a,b)} of the 72 cells" in main and f"between {min(at,bt)} and {max(at,bt)} of the 24" in main and f"{min(a,b)}--{max(a,b)} of 72" in open(TEX/"tab_census.tex").read())
+    chk("R11 prose: S4.3 says 'leaves most of the count in place' (true: joint and bootstrap counts > 36 of 72 and > 12 of 24) and the Table 1 caption carries the exact range", "leaves most of the count in place" in main and min(a,b) > 36 and min(at,bt) > 12 and f"{min(a,b)}--{max(a,b)} of 72" in open(TEX/"tab_census.tex").read())
     im = [r for r in load("expR52_census_haar_p999_200.csv") if r["dataset"]=="imagenet"]; u = [abs(float(r["excess"])/float(r["null_sd"])) for r in im]
-    chk("B3 prose: the ImageNet excess in units of the null s.d. as stated", f"is {min(u):.0f} to {max(u):.0f} times the null's standard deviation" in main)
+    chk("B3 prose: the ImageNet excess is 'many times the null's own spread' (min ratio > 1) and stated as a fraction of the null in S6", min(u) > 1 and "many times the null's own spread" in main)
     chk("B5 prose: the plain-language gloss of the two nulls appears in S3 and in the nulls-table caption", T.count("the spectrum null is a cloud with the same shape as the real one and no structure inside it") == 2)
     chk("wording: 'no additional depth' replaced by 'no detected depth' everywhere in the main text", "additional depth" not in main and main.count("no detected depth") >= 3)
     if (R/"expR65_hier_finetune.csv").exists(): chk("R10 in the appendix as an inconclusive control with the file's z values", all(f"${float(r['z_depth']):+.2f}$" in T[T.index("\\appendix"):] for r in load("expR65_hier_finetune.csv")))
@@ -700,8 +706,104 @@ def final_pass_checks():
     c52 = load("expR52_census_haar_p999_200.csv"); fr = {(r["model"],r["dataset"]): float(r["excess"])/float(r["null_mean"]) for r in c52}
     chk("A6: normalized effect sizes in the memo equal the file (ImageNet range, DINOv2-G/CIFAR-100)", abs(min(v for k,v in fr.items() if k[1]=="imagenet")-M["a6"]["imagenet_frac"][0])<1e-9 and abs(fr[("dinov2_g","cifar100")]-M["a6"]["dinov2g_c100_frac"])<1e-9)
 final_pass_checks()
+# ---------- Final pass (Phase B): abstract, thesis, bridges, numbers in prose, captions, figures, the consolidated appendix ----------
+def final_pass_prose_checks():
+    import re as _re, json as _j, subprocess, importlib.util
+    TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"; ROOT = Path(__file__).resolve().parents[2]
+    T = open(TEX/"main_iclr2027.tex").read(); main = T[:T.index("\\appendix")]; body = T[T.index("\\begin{abstract}"):T.index("\\subsubsection*{Ethics Statement}")]; app = T[T.index("\\appendix"):]
+    nocom = lambda s: _re.sub(r"(?m)(?<!\\)%.*$", "", s)
+    ABS = ("Hyperbolic methods for representation learning rest on a premise we call latent hyperbolicity: standard models are already tree-like, because their class geometry scores a low Gromov $\\delta$. We show that this raw reading is confounded by dimension, by covariance spectrum and by the supremum statistic itself, and we build an instrument that reads every score as an excess over a random cloud with the same dimension and spectrum, ranks it against 200 matched replicates, and adds a depth test whose false-alarm rate and power are measured on real clouds. Applied to 12 vision backbones, 6 datasets and 16 text models, the instrument gives a nuanced answer. On image features, where the premise is read, the excess sits within null noise in most cells and reaches at most 40\\% of the null where it survives. On class centroids, clustered structure is genuine in 49 of 72 cells, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones, the same four under a star with the real hubs' spectrum, by a test that never fires on real clouds with randomized hubs; a backbone trained in hyperbolic space lives in the near-flat regime and shows the same clustering and no detected depth. The trees are moderately shared: a naive comparison isolates the DINOv2 family as an island, an artifact of the clustering cut; once the cut is controlled a gap of about a third remains, every training recipe recovers the human taxonomy partially, more so with supervision, and the self-supervised tree lives in angles rather than distances. Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.")
+    abstract = nocom(body[body.index("\\begin{abstract}")+len("\\begin{abstract}"):body.index("\\end{abstract}")])
+    chk("final: abstract verbatim as approved in the brief", " ".join(abstract.split()) == " ".join(ABS.split()))
+    rec = load("expR52_census_haar_p999_200.csv"); G = {(r["model"],r["dataset"]): str(r["genuine_bh"])=="True" for r in rec}
+    sl = load("expR62_samplelevel_record.csv"); fr = [abs(float(r["excess"])/float(r["null_mean"])) for r in sl if str(r["genuine_bh"])=="True"]
+    H9 = load("expR69_depth_haarhubs_summary.csv"); cg = sorted(r["model"] for r in H9 if r["cert_gauss"]=="True"); ch = sorted(r["model"] for r in H9 if r["cert_haar"]=="True")
+    dv = [r for r in load("expR56_depth_variants.csv") if r["dataset"]=="imagenet" and int(r["K"])==30 and r["variant"]=="aniso"]
+    chk("final: abstract numbers traced (12 backbones, 6 datasets, 16 text models, 200 replicates, sample-level max fraction in (35%, 40%], 49 of 72, 4 of 12 = the same four under both stars, 0 false alarms with randomized hubs)",
+        len({r["model"] for r in rec})==12 and len({r["dataset"] for r in rec})==6 and len(load("exp18_text_nulls.csv"))==16 and all(int(r["r_above"])<=200 for r in rec) and 0.35 < max(fr) <= 0.40
+        and sum(G.values())==49 and sum(float(r["z_depth"])<=-2 for r in dv)==4 and cg==ch==sorted(r["model"] for r in dv if float(r["z_depth"])<=-2) and sum(int(r["fa_s0_haar"]) for r in H9)==0
+        and sum(float(r["z"])<=-2 for r in load("expR64b_wn30.csv") if r["kind"]=="depth" and r["partition"]=="rand6" and r["s"]!="real" and float(r["s"])==0.0)==0, f"max sample fraction {max(fr):.3f}")
+    gap = _j.load(open(R/"final_pass_island_gap.json"))
+    chk("final: 'a gap of about a third' = median fraction of within-block agreement missing over the admissible ImageNet configurations and the three measures, in [0.25, 0.42]", 0.25 <= gap["median_missing_admissible_imagenet"] <= 0.42 and gap["n"] >= 9, f"{gap['median_missing_admissible_imagenet']:.2f}")
+    Rm = load("expR71_meru_radii.csv"); chk("final: MERU near-flat ratio in S4 equals the file (min Lorentz/Euclidean median, 3 dp)", f"distance ratio of ${min(float(r['lorentz_over_euclid_median']) for r in Rm):.3f}$" in main)
+    # ---- paragraph structure: bridges, numbers, sentences, parentheses
+    src = nocom(body); src = _re.sub(r"\\begin\{(figure|table)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
+    secs = _re.split(r"\\section\{([^}]*)\}", src); secs = [(secs[i], secs[i+1]) for i in range(1, len(secs), 2)]
+    SEC = {"Introduction": 1, "Related Work and Background": 2, "The Instrument": 3, "Findings I: Latent Hyperbolicity, Calibrated": 4, "Findings II: Whose Tree": 5, "Consequences for Imposing Curvature": 6, "Discussion and Limitations": 7}
+    def clean(par):
+        p = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", par); p = _re.sub(r"\\(S)?\\?ref\{[^}]*\}", "REF", p); p = _re.sub(r"\\label\{[^}]*\}", "", p)
+        p = _re.sub(r"\$([A-Za-z])\{=\}(\d+)\$", r"\1=\2", p); p = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if ("=" in m.group(1) or "\\" in m.group(1)) else m.group(0), p)
+        return p
+    GROUP = r"(?<![A-Za-z\-^_{\d.])[-+]?\d+(?:\.\d+)?(?![A-Za-z\-\d])"
+    RANGE = _re.compile(rf"(?:from\s+)?\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?(?:\s*(?:of the|of|to|against|vs|and|--)\s+\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?){{0,2}}(?:\\%)?")
+    def groups(s):
+        s = clean(s).replace("{=}", "="); s = _re.sub(r"\\begin\{enumerate\}.*?\\end\{enumerate\}", " ", s, flags=_re.S); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
+        return [m.group(0) for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
+    MARK = ["next paragraph", "next question", "subject of the next", "turn to next", "take up last", "which we review", "builds that comparison", "the concern of Section", "First we ask", "last question of this section", "states the three acts", "With the instrument in place", "raises the question of", "which text makes explicit", "has to be re-read", "points to where", "is the first candidate", "What to read instead", "we turn to them next"]
+    bridges = []; bad = []; total = 0; paras_by_sec = {}
+    for name, text in secs:
+        s = SEC.get(name, 0); pars = [q.strip() for q in _re.split(r"\n\s*\n", text) if q.strip() and not q.strip().startswith(("\\begin{enumerate}", "\\end{enumerate}", "\\item", "\\label"))]
+        paras_by_sec[s] = pars
+        for k, par in enumerate(pars):
+            head = par[:50].replace("\n", " "); cp = clean(par)
+            for mk in MARK:
+                if mk.lower() in cp.lower(): bridges.append((s, k == len(pars)-1, mk, head))
+            gs = groups(par); total += len(gs)
+            if len(gs) > 2: bad.append(f"S{s} >2 numbers {gs}: {head}")
+            for inner in _re.findall(r"\(([^()]*)\)", cp):
+                if groups(inner): bad.append(f"S{s} number in parentheses ({inner[:40]}): {head}")
+            if s in (3, 4, 5, 6):
+                ns = len([x for x in _re.split(r"(?<=[.!?])\s+(?=[A-Z\\$(])", cp) if x.strip()])
+                if ns > 9: bad.append(f"S{s} {ns} sentences: {head}")
+    for line in bad: print("   FINAL:", line[:200])
+    chk("final: <=25 number groups in the prose of S1-S7, <=2 per paragraph, none inside parentheses, <=9 sentences per paragraph in S3-S6", not bad and total <= 25, f"{total} number groups")
+    want = {(3, "With the instrument in place"), (4, "turn to next"), (5, "subject of the next")}
+    got = {(s, mk) for s, last, mk, h in bridges}
+    for s, last, mk, h in bridges: print("   BRIDGE:", s, "last-paragraph" if last else "NOT last", mk, "|", h)
+    chk("final: exactly three bridges (end of S3, S4, S5), in the last paragraph of their section, no two with the same wording", got == want and len(bridges) == 3 and all(last for _, last, _, _ in bridges))
+    # ---- openings, wording, statements
+    chk("final: S4 and S6 open with the two-sentence tension", "It finds one within null noise in most cells, and what survives lives on class centroids, where a star already passes the census." in main
+        and "If the raw reading were evidence, a practitioner could set the curvature from it. It is not, so this section states" in main)
+    nc = nocom(T)
+    chk("final: no 'vanishes', 'closes entirely', 'self-supervised family as an island', 'pre-registered'/'pre-registration', 'Appendix B'-style table refs; the island is the DINOv2 family",
+        all(w not in nc for w in ("vanishes", "closes entirely", "self-supervised family as an island", "pre-registered", "pre-registration", "the island vanishes")) and "isolates the DINOv2 family as an island" in nc)
+    chk("final: GPT-2 sentences agree with the text census of record (S genuine at the margin under the record, M not, L/XL under every construction)", "GPT-2 S is genuine at the margin under the record" in main and "GPT-2 M is not genuine under the record" in main and "GPT-2 M sits at its matched null" in main
+        and "GPT-2 L and XL are genuine under every construction of the null and statistic and under cosine" in main)
+    caps = _re.findall(r"\\caption\{(.*?)\n?\}\n\\label", nocom(main), flags=_re.S)
+    chk("final: every main-text caption is a bold takeaway followed by what is plotted", len(caps) >= 5 and all(c.lstrip().startswith("\\textbf{") for c in caps) and all(("Plotted:" in c or "Sketched:" in c) for c in caps if "One row per backbone" not in c))
+    chk("final: Table 1 in \\small without the sample-level columns; statements in the required form (AI use with the responsibility sentence; reproducibility with TODO(author))",
+        "\\small" in open(TEX/"tab_census.tex").read() and "sample level (images)" not in open(TEX/"tab_census.tex").read()
+        and "\\subsubsection*{AI Use Statement}" in main and "We take responsibility for the final content of this work, including text, claims or artifacts produced with the aid of generative AI." in main and "TODO(author)" in main)
+    def height(f):
+        out = subprocess.run(["pdfinfo", str(TEX/"figures"/f)], capture_output=True, text=True).stdout; m = _re.search(r"Page size:\s+([\d.]+) x ([\d.]+) pts", out); return float(m.group(2))/72 if m else 0.0
+    chk("final: figure heights (PDF): Figure 2 >= 1.3 in, Figure 3 >= 1.4 in, Figure 4 >= 1.5 in; Figure 1 slot 1.4 in", height("fig_overview.pdf") >= 1.3 and height("fig_excess_panel.pdf") >= 1.4 and height("fig_depth_main.pdf") >= 1.5 and "[1.4in]" in main,
+        f"{height('fig_overview.pdf'):.2f}/{height('fig_excess_panel.pdf'):.2f}/{height('fig_depth_main.pdf'):.2f}")
+    # ---- the consolidated appendix
+    tabfiles = sorted((TEX/"appendix_tables").glob("tab_*.tex")); qfiles = [f for f in tabfiles if f.name.startswith("tab_q")]
+    inputs = _re.findall(r"\\input\{appendix_tables/(tab_[^}]*)\}", app)
+    chk("final: fourteen consolidated tables plus the provenance index, no other table file, every file input once", len(qfiles)==14 and {f.stem for f in tabfiles} == set(inputs) and len(inputs)==len(set(inputs))==15 and "tab_z_provenance" in inputs)
+    labels = {}
+    for f in qfiles:
+        m = _re.search(r"\\label\{(tab:q[^}]*)\}", f.read_text()); labels[f.stem] = m.group(1)
+    cited_order = []
+    for m in _re.finditer(r"\\ref\{(tab:q[^}]*)\}", main):
+        if m.group(1) not in cited_order: cited_order.append(m.group(1))
+    input_order = [labels[s] for s in inputs if s in labels]
+    chk("final: the consolidated tables are numbered in the order the main text first cites them, and every table label is cited from the main text or another table", input_order[:len(cited_order)] == cited_order
+        and all(("\\ref{"+lab+"}" in main) or any(("\\ref{"+lab+"}") in g.read_text() for g in qfiles if g.stem != s) for s, lab in labels.items()), f"cited {cited_order} | input {input_order}")
+    alltex = nocom(T) + "".join(nocom(f.read_text()) for f in tabfiles) + nocom(open(TEX/"tab_census.tex").read())
+    refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
+    chk("final: every cross-reference resolves to a label", refs <= defs, str(sorted(refs - defs)))
+    chk("final: Table 13 (the 3-replicate original text extraction) removed and the record table carries no 'original extraction' columns", "tab_b1" not in T and "original extraction" not in open(TEX/"appendix_tables"/"tab_q02_text.tex").read())
+    spec = importlib.util.spec_from_file_location("gaf", TEX/"gen_appendix_final.py"); gaf = importlib.util.module_from_spec(spec); spec.loader.exec_module(gaf)
+    missing = gaf.conservation_check(verbose=False)
+    for tok, srcs in missing: print("   NUMBER LOST (appendix):", tok, srcs)
+    chk("final: every decimal token of the old appendix (44 tables, Table 13 excepted) survives in the consolidated tables or the paper", not missing)
+    cl = open(ROOT/"ICLR2027"/"CHANGELOG_final.md").read().split("\n")[:6]
+    chk("final: freeze note at the top of the CHANGELOG and the QA rasterizations present", any("Frozen 17 Sept 2026" in l for l in cl) and len(list((ROOT/"ICLR2027"/"qa_pages").glob("*.png"))) >= 9)
+final_pass_prose_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
-for name, ok, det in checks[-12:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
+for name, ok, det in checks[-30:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")
 for name, ok, det in checks:
     if not ok: print("FAIL(all):", name, ("| "+det if det else ""))

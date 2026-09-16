@@ -13,6 +13,14 @@ RES = Path(os.environ.get("PLATONIC_RESULTS", HERE.parents[1] / "rebuttal/result
 plt.style.use(str(HERE / "style.mplstyle"))
 sys.path.insert(0, str(HERE))
 from palette import FAMILY_COLORS, color as fam_color
+
+from matplotlib.ticker import MaxNLocator, FuncFormatter
+def _fmt2(v, pos=None):
+    s = f"{v:.2f}"; return "0.00" if s in ("-0.00", "0.00") else s
+def tidy(ax, decimals=True, n=3):
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=n, min_n_ticks=2))
+    if decimals: ax.yaxis.set_major_formatter(FuncFormatter(_fmt2))
+    ax.tick_params(labelsize=7)
 M = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b","dinov2_l","dinov2_g","clip_b","clip_l","siglip_b"]
 NM = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B","dinov2_s":"Dv2-S","dinov2_b":"Dv2-B",
       "dinov2_l":"Dv2-L","dinov2_g":"Dv2-G","clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP"}
@@ -73,8 +81,8 @@ def panel_real(ax, ds, K, title):
     lo, hi = ax.get_ylim(); band = lo - 0.18*(hi-lo); ax.set_ylim(band - 0.06*(hi-lo), hi)
     for i, m in enumerate(M):
         an = dv[(dv.model==m)&(dv.dataset==ds)&(dv.K==K)&(dv.variant=="aniso")].iloc[0]
-        ax.text(i, band, f"{an.z_depth:+.1f}", ha="center", va="bottom", fontsize=4.8, color="k" if an.z_depth > -2 else "#B22222", fontweight="normal" if an.z_depth > -2 else "bold", rotation=90)
-    ax.set_xticks(x); ax.set_xticklabels([NM[m] for m in M], rotation=90, fontsize=5.5); ax.set_title(title); ax.set_ylabel("excess B (hub null)")
+        ax.text(i, band, f"{an.z_depth:+.1f}", ha="center", va="bottom", fontsize=7, color="k" if an.z_depth > -2 else "#B22222", fontweight="normal" if an.z_depth > -2 else "bold", rotation=90)
+    ax.set_xticks(x); ax.set_xticklabels([NM[m] for m in M], rotation=90, fontsize=7); ax.set_title(title); ax.set_ylabel("excess B (hub null)"); tidy(ax)
 
 def panel_power(ax, title):
     for f, ls in [(RES/"expR55b_depth_power_leafframe.csv", "-"), (RES/"expR55_depth_power.csv", ":")]:
@@ -89,7 +97,7 @@ def panel_power(ax, title):
             st100 = d[(d.level=="star")&(d.n==100)]
             ax.plot([0.1,0.3,0.6], [(st100[st100.ratio==r].z<=-2).mean() for r in (0.1,0.3,0.6)], "--", color="k", lw=1.0, label="false alarms, $n{=}100$")
     ax.set_ylim(-0.03, 1.03); ax.set_xticks([0.1,0.3,0.6]); ax.set_xlabel("within/between noise ratio"); ax.set_ylabel("power ($z\\leq-2$), $n{=}1000$")
-    ax.set_title(title); ax.legend(frameon=False, fontsize=5.3, loc="center left", bbox_to_anchor=(0.0, 0.5), handlelength=1.4, labelspacing=0.3)
+    ax.set_title(title); ax.legend(frameon=False, fontsize=7, loc="upper left", bbox_to_anchor=(1.02, 1.0), handlelength=1.4, labelspacing=0.3)
 
 def panel_implant(ax, title):
     """z of the depth test on the real ImageNet clouds with the hub arrangement replaced by an implanted two-level tree of strength s
@@ -103,13 +111,13 @@ def panel_implant(ax, title):
         if len(tg):
             t = tg[tg.model==m].groupby("s").z.mean(); ax.plot(t.index, t.values, "--", color=c, lw=0.6, alpha=0.7, zorder=2)
     ax.axhline(-2, color="k", lw=0.7, ls="--"); ax.axhline(0, color="k", lw=0.5)
-    ax.set_xlabel("implant strength $s$"); ax.set_ylabel("depth test $z$"); ax.set_title(title); ax.set_xticks([0, 0.25, 0.5, 0.75, 1])
+    ax.set_xlabel("implant strength $s$"); ax.set_ylabel("depth test $z$"); ax.set_title(title); ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); tidy(ax, decimals=False, n=4)
 
 if (RES/"expR64b_wn30.csv").exists():
-    fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.3), gridspec_kw={"width_ratios": [1.25, 1]})
+    fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.5), gridspec_kw={"width_ratios": [1.25, 1]})
     panel_real(axes[0], "imagenet", 30, "(a) ImageNet, WordNet $K{=}30$ ($n{=}1000$)"); panel_implant(axes[1], "(b) implanted depth on the real clouds")
-    fig.legend(handles=hd, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.30, 1.0), fontsize=5.5, handletextpad=0.3, columnspacing=1.2)
-    fig.tight_layout(w_pad=0.8, rect=[0, 0, 1, 0.92])
+    fig.legend(handles=hd, frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.30, 1.0), fontsize=7, handletextpad=0.3, columnspacing=1.0, handlelength=1.0)
+    fig.tight_layout(w_pad=0.8, rect=[0, 0, 1, 0.90])
     for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_main.pdf"); fig.savefig(o/"fig_depth_main.png", dpi=200)
     fig, ax = plt.subplots(1, 1, figsize=(2.8, 1.9)); panel_power(ax, "synthetic hierarchies, leaf frame"); fig.tight_layout()
     for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_power_app.pdf"); fig.savefig(o/"fig_depth_power_app.png", dpi=200)
@@ -122,7 +130,7 @@ else:
     for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_main.pdf"); fig.savefig(o/"fig_depth_main.png", dpi=200)
 fig, ax = plt.subplots(1, 1, figsize=(3.0, 1.9))
 panel_real(ax, "cifar100", 20, "CIFAR-100, $K{=}20$ ($n{=}100$; unvalidated regime)")
-ax.legend(handles=hd, frameon=False, loc="lower right", fontsize=5.2, handletextpad=0.3, labelspacing=0.25)
+ax.legend(handles=hd, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.55), ncol=3, fontsize=7, handletextpad=0.3, labelspacing=0.25, columnspacing=0.8, handlelength=1.0)
 fig.tight_layout()
 for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_cifar100.pdf"); fig.savefig(o/"fig_depth_cifar100.png", dpi=200)
 print("fig_depth_main + fig_depth_cifar100 written")

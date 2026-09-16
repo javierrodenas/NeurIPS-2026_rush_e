@@ -12,6 +12,14 @@ RES = Path(os.environ.get("PLATONIC_RESULTS", Path(__file__).resolve().parents[2
 OUT = Path(__file__).resolve().parent
 plt.style.use(str(OUT / "style.mplstyle"))
 
+from matplotlib.ticker import MaxNLocator, FuncFormatter
+def _fmt2(v, pos=None):
+    s = f"{v:.2f}"; return "0.00" if s in ("-0.00", "0.00") else s
+def tidy(ax, decimals=True, n=3):
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=n, min_n_ticks=2))
+    if decimals: ax.yaxis.set_major_formatter(FuncFormatter(_fmt2))
+    ax.tick_params(labelsize=7)
+
 NAME = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L",
         "dinov1_b":"DINO-B","dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B",
         "dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
@@ -38,7 +46,7 @@ gen = {(r["model"], r["dataset"]): (str(r["genuine_bh"]) == "True" if "genuine_b
 dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
 # ---------- Figure A: excess panel ----------
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.05),
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.4),
                                gridspec_kw={"width_ratios": [1.55, 1]})
 xs = np.arange(len(ORDER))
 for k, m in enumerate(ORDER):
@@ -49,11 +57,11 @@ for k, m in enumerate(ORDER):
                         facecolors=COL[para(m)] if _g else "white", edgecolors=COL[para(m)], linewidths=0.8,
                         alpha=0.45 if ds == "imagenet" else 0.9, zorder=3)   # hollow = not genuine (p > 0.05)
 ax1.axhline(0, color="k", lw=0.8, zorder=1)
-ax1.set_xticks(xs); ax1.set_xticklabels([NAME[m] for m in ORDER], rotation=60, ha="right", fontsize=6.5)
+ax1.set_xticks(xs); ax1.set_xticklabels([NAME[m] for m in ORDER], rotation=60, ha="right", fontsize=7)
 ax1.set_ylabel(r"excess  $\hat\delta_{99.9}^{\rm real}-\hat\delta_{99.9}^{\rm null}$", fontsize=8)
 _neg = sum(1 for r in d20 if float(r["excess"]) < 0); _gen = sum(gen.values())
-ax1.set_title(f"(a) clustered structure: {_neg}/72 below the null, {_gen} genuine", fontsize=7.5)
-ax1.tick_params(labelsize=7)
+ax1.set_title(f"(a) clustered structure: {_neg}/72 below the null, {_gen} genuine", fontsize=8)
+tidy(ax1)
 hd = [plt.Line2D([], [], marker=mk, ls="", color="gray", ms=4.5, label=ds)
       for ds, mk in MARK.items()]
 
@@ -70,14 +78,13 @@ hd2 = [plt.Line2D([], [], marker=MARK[ds], ls="-", color="gray", ms=3.5, lw=1.0,
        for ds in ["cifar100","cifar10","dtd"]] +       [plt.Line2D([], [], marker="o", ls="--", color="gray", ms=3.5, lw=1.0, alpha=0.6, label="imagenet")] +       [plt.Line2D([], [], ls="-", color=COL["SSL"], lw=1.6, label="DINOv2"),
        plt.Line2D([], [], ls="-", color=COL["Supervised"], lw=1.6, label="ViT")]
 ax2.axhline(0, color="k", lw=0.8)
-ax2.set_xticks(range(4)); ax2.set_xticklabels(["1\n(smallest)", "2", "3", "4\n(largest)"], fontsize=6.5)
+ax2.set_xticks(range(4)); ax2.set_xticklabels(["1\n(smallest)", "2", "3", "4\n(largest)"], fontsize=7)
 ax2.set_xlabel("model scale $\\rightarrow$", fontsize=8)
-ax2.set_title("(b) per-dataset excess vs scale", fontsize=7.5)
-ax2.tick_params(labelsize=7)
-ax2.set_ylim(-0.175, 0.09)
+ax2.set_title("(b) per-dataset excess vs scale", fontsize=8)
+ax2.set_ylim(-0.175, 0.09); tidy(ax2)
 hfam = [plt.Line2D([], [], marker="s", ls="", color=c, ms=5, label=p) for p, c in COL.items()]
-fig.legend(handles=hd + hfam + hd2[3:4], fontsize=5.8, ncol=10, frameon=False,
-           loc="lower center", bbox_to_anchor=(0.5, -0.02), columnspacing=0.7, handletextpad=0.3)
+fig.legend(handles=hd + hfam + hd2[3:4], fontsize=7, ncol=10, frameon=False,
+           loc="lower center", bbox_to_anchor=(0.5, -0.02), columnspacing=0.6, handletextpad=0.25, handlelength=1.0)
 fig.tight_layout(rect=(0, 0.10, 1, 1))
 for o in (OUT, OUT.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_excess_panel.pdf"); fig.savefig(o/"fig_excess_panel.png", dpi=200)
 
@@ -107,14 +114,13 @@ for ax, key, lab in [(axes[0], "fs", "FS"), (axes[1], "nc", "NC")]:
     ph = [p for p in pts if p["ds"] in HIER]
     r_h = pear([p["delta"] for p in ph], [p[key] for p in ph])
     r_ds = [pear([p["delta"] for p in ph if p["ds"] == d], [p[key] for p in ph if p["ds"] == d]) for d in HIER]
-    ax.set_xlabel(r"excess over the null (per model$\times$dataset)", fontsize=7.5)
-    ax.set_ylabel(f"best $-$ Euclidean (pp), {lab}", fontsize=7)
-    ax.set_title(lab, fontsize=8)
+    ax.set_xlabel(r"record excess (per model$\times$dataset)", fontsize=8)
+    ax.set_ylabel(f"best $-$ Euclidean (pp), {lab}", fontsize=8)
+    ax.set_title(lab, fontsize=8); tidy(ax)
     print(f"CAPTION DATA {lab}: within-dataset r {max(r_ds):+.2f}..{min(r_ds):+.2f}; pooled {r_all:+.2f}; hier-only {r_h:+.2f}")
-    ax.tick_params(labelsize=7)
 hp = [plt.Line2D([], [], marker="o", ls="", color=c, ms=5, label=p) for p, c in COL.items()]
 hm = [plt.Line2D([], [], marker=mk, ls="", color="gray", ms=4.5, label=ds) for ds, mk in MARK.items()]
-fig.legend(handles=hp+hm, fontsize=5.8, ncol=9, frameon=False, loc="upper center", bbox_to_anchor=(0.5, 1.0), columnspacing=0.9, handletextpad=0.3)
+fig.legend(handles=hp+hm, fontsize=7, ncol=9, frameon=False, loc="upper center", bbox_to_anchor=(0.5, 1.0), columnspacing=0.6, handletextpad=0.25, handlelength=1.0)
 fig.tight_layout(rect=(0, 0, 1, 0.92))
 for o in (OUT, OUT.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_bestmetric_scatter.pdf"); fig.savefig(o/"fig_bestmetric_scatter.png", dpi=200)
 print("figs written")

@@ -24,10 +24,10 @@ ft = {a["model"]: float(a["pct_change"]) for a in r}
 ms = ["i21k_b","dinov2_s","clip_b"]
 pct = [ft[m] for m in ms]
 ax[0].bar(range(3), pct, color=[fam_color(m) for m in ms], width=0.6)   # family colors, not red
-for i,v in enumerate(pct): ax[0].text(i, v+3, f"+{v:.0f}%", ha="center", fontsize=6.5, fontweight="bold")
-ax[0].set_xticks(range(3)); ax[0].set_xticklabels([NAME[m] for m in ms], fontsize=6.5)
-ax[0].set_ylabel(r"$\Delta\delta$ vs pretrained (%)", fontsize=6.5); ax[0].set_ylim(0, max(pct)*1.25)
-ax[0].set_title("(a) Non-hierarchical fine-tuning", fontsize=7)
+for i,v in enumerate(pct): ax[0].text(i, v+3, f"+{v:.0f}%", ha="center", fontsize=7, fontweight="bold")
+ax[0].set_xticks(range(3)); ax[0].set_xticklabels([NAME[m] for m in ms], fontsize=8)
+ax[0].set_ylabel(r"$\Delta\delta$ vs pretrained (%)", fontsize=8); ax[0].set_ylim(0, max(pct)*1.25)
+ax[0].set_title("(a) Non-hierarchical fine-tuning", fontsize=8)
 # (c) depth
 r = list(csv.DictReader(open(RES/"e1_delta_by_layer.csv")))
 for m, col in [("dinov2_b", fam_color("dinov2_b")), ("clip_b_vision", fam_color("clip_b"))]:
@@ -35,8 +35,8 @@ for m, col in [("dinov2_b", fam_color("dinov2_b")), ("clip_b_vision", fam_color(
     xs = [int(a["layer"]) for a in rows]; ys = [float(a["delta_normalized"]) for a in rows]
     ax[1].plot(xs, ys, "-o", color=col, ms=3, lw=1.2, label=LEG[m])
     print(m, "layers", xs, "delta first->last", round(ys[0],3), "->", round(ys[-1],3), f"({100*(ys[-1]-ys[0])/ys[0]:+.0f}%)")
-ax[1].set_xlabel("transformer layer", fontsize=6.5); ax[1].set_ylabel(r"$\delta$", fontsize=6.5)
-ax[1].set_title("(b) $\\delta$ falls across depth", fontsize=7); ax[1].legend(fontsize=6, frameon=False)
+ax[1].set_xlabel("transformer layer", fontsize=8); ax[1].set_ylabel(r"$\delta$", fontsize=8)
+ax[1].set_title("(b) $\\delta$ falls across depth", fontsize=8); ax[1].legend(fontsize=7, frameon=False, loc="upper left", bbox_to_anchor=(1.02, 1.0))
 for a in ax: a.tick_params(labelsize=6.5)
 fig.tight_layout(pad=0.6)
 out = HERE.parent/"iclr2027"/"figures"

@@ -1,3 +1,5 @@
+> **Frozen 17 Sept 2026; only typographical changes after this date.**
+
 # CHANGELOG — pasada de versión final (2026-09-03)
 
 Brief: "Revision brief — Is There a Platonic Tree? — final-version pass". Todo número del paper sale de
@@ -823,3 +825,84 @@ discrepancia de B15, que usaba supremo × gaussiana): deriva máxima con presupu
 -39 % a +7 %; DINOv2-G/CIFAR-100 -57 %. Columnas añadidas en B14/B17/B23 y rejilla nueva B40 (`gen_review_tables.py`).
 
 Sweep con checks A1–A6: **142/142 PASS**. Sin ediciones de prosa.
+
+## 24b. Final pass — Fase B: memo al texto, simplificación, abstract, formato. Congelado el 17 de septiembre de 2026.
+
+Brief: "Final pass — Phase B: memo into text, simplification, abstract, format. Freeze after this." (+ instrucción posterior del autor:
+quitar la caja de la página 1, tesis literal solo en el abstract y en §7, sin formas cortas, hueco de la Figura 1 a 1.4 in).
+El cuerpo sale entero de `rebuttal/scripts/phaseE_paper.tex.tmpl` rellenado por `phaseE_final.py` (todo número de la prosa viene de
+un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, de `ICLR2027/iclr2027/gen_appendix_final.py`.
+
+### Decisiones del autor (§1 del brief) llevadas al texto
+- Profundidad: conjunto certificado = los cuatro que sobreviven a las dos estrellas (ViT-S/B/L, DINOv2-L); la estrella con hubs Haar es la
+  confirmación (§4.4 "A spectrum-matched star confirms the four": z de -2.0 a -3.7, 0 of 60 falsas alarmas a s = 0, one implant in sixty a s = 1,
+  cláusula del rango con resolución 1/11: el rango no separa certificados de no certificados, z sí). La gaussiana sigue siendo la original (Tabla 6).
+- ViTs con etiquetas hoja: "supervision on leaf labels alone can produce this depth and need not" (§4.4) y "leaf-label supervision does not
+  guarantee the alignment" (§5.4: augreg IN-1k alineado como los i21k, DeiT-B casi sin alineación pero recupera las superclases de CIFAR-100);
+  "supervision deepens the resemblance on average across the supervised backbones tested" (§5.2); Limitación (iv) actualizada.
+- Corolario: §6 gana el párrafo "The calibrated reading predicts the zero-cost gain" (NC en los cuatro conjuntos, FS en tres, la profundidad no
+  predice nada; Tabla 13 con las correlaciones crudas y calibradas; Figura 11 sobre el exceso).
+- MERU: lead-in "Imposing the geometry does not create detected depth."; frase del régimen casi plano con el cociente Lorentz/Euclídeo 0.997
+  (el radio × √c va al pie de la Tabla 6).
+- "Budget-stable" citado al barrido bajo el registro (§3, Tabla 4: deriva ≤ 0.38 s.d. en ImageNet).
+- Tamaños de efecto: "small" sustituido por la fracción del nulo (§4.1: 7–39 % a nivel de muestra, DINOv2-G/CIFAR-100 nombrado;
+  §6.1: 5–33 % en ImageNet); columna exceso/δ_null en las Tablas 3, 5 y 11.
+
+### Abstract (§2 del brief)
+- Sustituido literalmente. Cada número verificado contra su fichero por el sweep ("final: abstract numbers traced"): 12/6/16, 200,
+  "at most 40 %" (máximo a nivel de muestra 39.4 %), 49/72, 4/12 = los mismos cuatro bajo ambas estrellas, 0 falsas alarmas con hubs
+  aleatorizados, "a gap of about a third" = mediana de la fracción de acuerdo intra-bloque ausente sobre las configuraciones admisibles de
+  ImageNet × tres medidas = 0.34 (comprobado en [0.25, 0.42]; `rebuttal/results/final_pass_island_gap.json`).
+- Caja de la página 1 eliminada; la tesis aparece literal dos veces (última frase del abstract, primer párrafo de §7); formas cortas de
+  final de §1 y §5 eliminadas; ambas secciones terminan en su última afirmación. Hueco de la Figura 1: 1.4 in.
+
+### Ediciones de texto (§3 del brief)
+- §5.2 lead-in del autor "The categorical island is an artifact; a moderate gap remains." escrito con coma en lugar de punto y coma (regla
+  "sin punto y coma en §4–§6"); 0.38 frente a 0.48 en prosa; 0.13–0.17 frente a 0.50–0.55 y la mediana en el pie de la Tabla 9; tripletes
+  cierran solo bajo cosine-average; "vanishes"/"closes entirely" eliminados (pie de la Figura 5 incluido); "self-supervised family as an
+  island" → "the DINOv2 family".
+- §5.6: un solo censo (Tabla 11); la Tabla 13 antigua (extracción original, 3 réplicas) eliminada y las columnas "original extraction"
+  de la tabla del registro también; pie de la tabla de plantillas reescrito desde el registro; GPT-2 S genuino al margen bajo el registro
+  y cambia bajo el supremo y bajo coseno, M no genuino bajo el registro, L/XL bajo toda construcción, Pythia a toda escala. §1 P2:
+  "small GPT-2 models sit at their matched null" → "GPT-2 M sits at its matched null" (S es genuino bajo el registro).
+- §3: "pre-registered" → "pre-specified" (no hay registro público fechado); §2: "trees < hyperbolic < spherical for hyperbolic regions
+  of radius four and above (Table 2)"; glosa de los dos nulos presente en §3 y en A.2. A.3 (frase repetida) desaparece con el apéndice nuevo;
+  Figura 12 (ilustración antigua) eliminada con su puntero; Tabla 1 con negrita en las celdas de signo positivo.
+
+### Simplificación (§4 del brief)
+- Puentes: quedan tres, al final de §3 ("With the instrument in place, we read the premise where it is read."), §4 ("...is the question we
+  turn to next.") y §5 ("What a practitioner can collect from this local agreement is the subject of the next section.", penúltima frase; la
+  última es la afirmación); el resto de párrafos termina en su afirmación. Check "final: exactly three bridges".
+- Números en la prosa de §1–§7: 17 grupos (≤ 25), ≤ 2 por párrafo, ninguno entre paréntesis; recuentos pequeños en palabras ("none of the
+  sixty", "all but one of twelve", "between one and four times"); todo número retirado vive en una tabla o pie (check de conservación
+  respecto al cuerpo pre-prosa sigue en PASS).
+- Apéndice: de 44 tablas a 14 (+ índice de procedencia), una por pregunta, numeradas en orden de primera cita del texto principal
+  (Tabla 2 calibración → 3 censo → 4 robustez → 5 nivel de muestra → 6 profundidad → 7 potencia → 8 intervenciones/ORC → 9 mapa de árboles →
+  10 taxonomía → 11 texto → 12 acuerdo local → 13 corolario → 14 ξ → 15 panel → 16 procedencia). Mapa antigua → nueva:
+  calibration+B25 → 2; B20+B21+B40+census_extra(sup IN)+B32+B24 → 3; B15+expR72+B36+B27+B38+B3 → 4; B17 → 5; B34+expR69+marco
+  equilibrado+expR70+B30+expR71+B39 → 6; B35+B37+implantes expR69 → 7; intervenciones (analysis4/e1/e5/arch_matched, antes solo figura y prosa)
+  +B6 → 8; B7+B33 → 9; alineación exp3 (antes columna de Tabla 1 y prosa)+B11+grupos exp1+ρ imagen única exp8_p6+expR70+A9+A8 → 10;
+  B23+A7+B14+B28+coseno texto → 11 (B1 eliminada por el brief); B31 → 12; A2+A3+A4+A5+exp2b+A6+B5+B12+expR68+census_extra(best−R)+B8+B9+B4 → 13;
+  A10+B19+B26 → 14; A0 (+ bloque de controles) → 15. La tabla de nulos (antigua Tabla 2, sin números) es prosa en A.2.
+  Conservación: los 992 tokens decimales distintos de las 44 tablas antiguas (instantánea en `rebuttal/results/final_pass_old_appendix/`,
+  B1 y las columnas "original extraction" exceptuadas) aparecen en las tablas nuevas o en el texto (check "final: every decimal token...").
+- Recortes: DBpedia fundido en §5.4 (dos frases finales), §5.7 en tres frases, §6 "Measure before imposing" en cuatro, párrafo de colapso
+  neural sin su última frase, §5.6 en siete líneas; además frases redundantes en §1, §2, §3, §4.1, §4.2, §4.8, §5.1, §5.5, §7 y pies de
+  Tabla 1 y Figura 4 para cerrar el presupuesto de página (nunca encogiendo figuras).
+
+### Formato (§5 del brief)
+- Figura 2 ≥ 1.3 in (1.51), Figura 3 ≥ 1.4 in (1.56), Figura 4 ≥ 1.5 in (1.53) con hueco opcional `figures/fig4_schematic.pdf`
+  (5.5 × 0.9 in) encima del panel (a), sin marcador si falta; ticks a 7 pt, 2–3 marcas en y con dos decimales y sin "−0.00"; leyendas
+  fuera de los ejes; ningún texto de figura por debajo de 7 pt. Tabla 1 en `\small` sin las columnas de nivel de muestra (Tabla 5).
+- `\raggedbottom` global (los flotantes [t]/[H] dejaban páginas cortas: era la única fuente de avisos); tres URLs de NeurIPS irrompibles
+  retiradas de `references.bib` y la entrada Gromov1987 pasa a `@incollection` (aviso de BibTeX). Compilación: 0 avisos, 38 páginas, texto
+  principal acaba en la página 9 (Ethics abre la 9/10). Páginas rasterizadas a 100 dpi en `ICLR2027/qa_pages/`.
+- §4 y §6 con la apertura de dos frases en forma de tensión; pies = takeaway en negrita + qué se dibuja; AI Use Statement en la forma
+  de la plantilla ICLR 2027 (pendiente de que el autor coteje las categorías de la política); Reproducibility con `TODO(author)`.
+
+### Verificación (§6 del brief)
+- `sweep_freeze.py`: bloque `final_pass_prose_checks` (abstract literal y trazado, tesis ×2, puentes, números, frases ≤ 9, aperturas,
+  vocabulario, pies, tamaños de figura, Tabla 1, statements, 14 tablas en orden de cita, etiquetas citadas, referencias cruzadas,
+  Tabla 13 eliminada, conservación de la consolidación, nota de congelación + qa_pages); checks antiguos reanclados a las tablas nuevas.
+  Generadores antiguos en `ICLR2027/iclr2027/legacy_generators/`. Índice de procedencia regenerado (`% prov:` en cada tabla).
+- `REVIEWER_CHECKLIST_third.md` (con números de línea del PDF), `SUMMARY_plain.md` regenerado, `TODO_author.md` y `CODE_MAP.md` actualizados.

@@ -26,7 +26,8 @@ def pleft(r): return float(r["p_left"])
 def genuine(r): return str(r.get("genuine_bh", str(pleft(r) <= 0.05))) == "True"
 RMIN = 191
 d3 = {r["model"]: r for r in load("exp3_alignment.csv")}
-SL = {(r["model"], r["dataset"]): r for r in load("expR62_samplelevel_record.csv")} if (RES/"expR62_samplelevel_record.csv").exists() else {}   # sample-level reading (restructuring, R7)
+SLF = {(r["model"], r["dataset"]): r for r in load("expR62_samplelevel_record.csv")} if (RES/"expR62_samplelevel_record.csv").exists() else {}   # sample-level reading (restructuring, R7)
+SL = {}   # final pass (brief 5): Table 1 back to \small; the sample-level columns live in the appendix table tab:q3-sample
 rows = []
 for m in ORDER:
     r = cen[(m, "imagenet")]
@@ -57,53 +58,23 @@ for i, (n, f, dl, ex, rk, pv, g, e100, g100, e10, g10, rho) in enumerate(rows):
             cells.append(f"${v:+.3f}" + ("" if gg else r"^{\circ}") + "$")
         slc = " & " + " & ".join(cells)
     lines.append(f"{n} & {f} & ${dl:.3f}$ & {exs} & {rp} & {c100} & {c10} & ${rho:+.2f}${slc} \\\\")
-sl_n = sum(1 for k, a in SL.items() if str(a["genuine_bh"]) == "True")
+sl_n = sum(1 for k, a in SLF.items() if str(a["genuine_bh"]) == "True")
 JS = load("expR66_joint_sensitivity_summary.csv") if (RES/"expR66_joint_sensitivity_summary.csv").exists() else []
 js_txt = ""
 if JS:
     a, b = sum(r["joint_genuine"] == "True" for r in JS), sum(r["boot_bh_genuine"] == "True" for r in JS)
-    js_txt = f"With centroid-resampling and estimator noise folded into the null, or the census repeated on 30 resampled centroid sets, the genuine count is {min(a,b)}--{max(a,b)} of 72 (Table~\\ref{{tab:b38-joint}}). "
-sl_txt = (f"Sample level: the same reading on $\\approx$1000 stratified training images per cell, BH over those 24 cells: genuine in {sl_n} of 24 (full table in Appendix~\\ref{{app:sample}}). " if SL else "")
+    js_txt = f"Under image resampling and estimator noise the genuine count is {min(a,b)}--{max(a,b)} of 72 (Table~\\ref{{tab:q8-robust}}). "
+sl_txt = (f"The same reading on per-image features is genuine in {sl_n} of 24 cells (Table~\\ref{{tab:q3-sample}}). " if SLF else "")
 lines += [r"\bottomrule", r"\end{tabular}",
-  r"\caption{\textbf{Clustered structure is the rule at the class level; the sample-level reading sits within null noise in most cells.} "
+  r"\caption{\textbf{Clustered structure is the rule at the class level.} "
   r"One row per backbone. $\hat\delta_{99.9}$: raw ImageNet reading; excess: $\hat\delta_{99.9}$ minus the mean of 200 Haar spectrum-matched null replicates; $r$/200: replicates above "
   r"the real value, with the left-tail $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine: Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells; $^{\circ}$: not genuine; bold: less clustered than the null. "
   r"$\rho_{\text{WN}}$: Spearman correlation of inter-centroid and WordNet distances. "
   + sl_txt + js_txt
-  + r"Cross-dataset magnitudes are not comparable. The other datasets, the supremum reading and the task columns are in Table~\ref{tab:census-extra}; all four null$\times$statistic verdicts per cell in Table~\ref{tab:b21-2x2}. % " + src + ", exp3_alignment.csv" + (", expR62_samplelevel_record.csv" if SL else "") + (", expR66_joint_sensitivity_summary.csv" if JS else "") + "\n}",
+  + r"The other datasets and the four null$\times$statistic verdicts per cell are in Table~\ref{tab:q1-census}, the task columns in Table~\ref{tab:q9-corollary}. % " + src + ", exp3_alignment.csv" + (", expR62_samplelevel_record.csv" if SLF else "") + (", expR66_joint_sensitivity_summary.csv" if JS else "") + "\n}",
   r"\label{tab:census}", r"\end{table}"]
 open(HERE/"tab_census.tex", "w").write("\n".join(lines) + "\n")
 for r in rows: print(r[0], f"{r[1]} d={r[2]:.3f} exc={r[3]:+.3f} r={r[4]}/{N} p={r[5]:.3f} G={r[6]} c100={r[7]:+.3f} c10={r[9]:+.3f} rho={r[11]:+.2f}")
 print("wrote tab_census.tex from", src)
 
-# ---- appendix: the columns moved out of Table 1 ----
-_p9 = "expR54_census_haar_sup_200.csv" if (RES/"expR54_census_haar_sup_200.csv").exists() else "expR39c_census200_cache.csv"
-d34 = {r["model"]: r for r in load(_p9) if r.get("dataset", "imagenet") == "imagenet"}
-d2 = {(r["model"], r["dataset"]): r for r in load("exp2_metric_controls.csv")}
-HIER = ("imagenet", "cifar100", "cifar10", "dtd")
-lines = [r"\begin{table}[H]", r"\centering", r"\small", r"\setlength{\tabcolsep}{4.5pt}",
-         r"\begin{tabular}{l c c c c c c}", r"\toprule",
-         r"model & sup.\ IN ($r$) & exc.\ DTD & exc.\ FMNIST & exc.\ MNIST & best$-$R (pp) & metric \\",
-         r"\midrule"]
-for i, m in enumerate(ORDER):
-    if i in (4, 9): lines.append(r"\midrule")
-    p9 = f"${float(d34[m]['excess']):+.3f}$ ({int(d34[m]['r_above'])})" if m in d34 else "--"
-    cells = [f"${float(cen[(m, ds)]['excess']):+.3f}" + ("" if genuine(cen[(m, ds)]) else r"^{\circ}") + "$" for ds in ("dtd", "fashionmnist", "mnist")]
-    if all((m, ds) in d2 for ds in HIER):
-        fsH = [100*(float(d2[(m,ds)]["FS_H"])-float(d2[(m,ds)]["FS_R"])) for ds in HIER]
-        fsC = [100*(float(d2[(m,ds)]["FS_COS"])-float(d2[(m,ds)]["FS_R"])) for ds in HIER]
-        best = st.mean(max(h, c) for h, c in zip(fsH, fsC))
-        gap = st.mean(fsH) - st.mean(fsC)
-        bests = f"${best:+.2f}$"; met = "H" if gap > 0.15 else ("cos" if gap < -0.15 else "either")
-    else:
-        bests, met = "---", "---"
-    lines.append(f"{NAME[m]} & {p9} & " + " & ".join(cells) + f" & {bests} & {met} \\\\")
-lines += [r"\bottomrule", r"\end{tabular}",
-  r"\caption{Census columns moved out of Table~\ref{tab:census}. sup.\ IN: ImageNet excess of the supremum statistic under the same Haar null "
-  r"(200 replicates; $r$ = replicates above the real value; Table~\ref{tab:b21-2x2}); exc.\ DTD/FMNIST/MNIST: per-dataset record "
-  r"excess on the remaining sets; best$-$R: few-shot advantage of the best zero-cost metric over Euclidean, "
-  r"mean over the four hierarchical datasets; metric: which of Poincar\'e (H) or cosine collects it "
-  r"(either: within $0.15$pp; ---: outside the 10-model task grid). % " + _p9 + ", exp2_metric_controls.csv, " + src + "\n}",
-  r"\label{tab:census-extra}", r"\end{table}"]
-(HERE/"appendix_tables"/"tab_census_extra.tex").write_text("\n".join(lines) + "\n")
-print("wrote tab_census_extra.tex")
+# The columns that once formed tab_census_extra (supremum IN, DTD/FMNIST/MNIST excess, best-R, metric) are generated by gen_appendix_final.py (tab:q1-census, tab:q9-corollary).

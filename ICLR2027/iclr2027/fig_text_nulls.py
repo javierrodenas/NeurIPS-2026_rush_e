@@ -39,8 +39,8 @@ for b, c, hollow in zip(bars, col, at_null):   # hollow = at null (not below eve
     b.set_edgecolor(c); b.set_linewidth(1.0)
     b.set_facecolor("white" if hollow else c)
 ax.axhline(0, color="k", lw=0.9)
-ax.set_xticks(x); ax.set_xticklabels([NAME[m] for m in order], rotation=55, ha="right", fontsize=6.5)
-ax.set_ylabel(r"excess  $\hat\delta_{99.9}^{\rm real}-\hat\delta_{99.9}^{\rm null}$", fontsize=7)
+ax.set_xticks(x); ax.set_xticklabels([NAME[m] for m in order], rotation=55, ha="right", fontsize=8)
+ax.set_ylabel(r"excess  $\hat\delta_{99.9}^{\rm real}-\hat\delta_{99.9}^{\rm null}$", fontsize=8)
 ax.tick_params(labelsize=7)
 import matplotlib.patches as mpatches
 hd = [mpatches.Patch(facecolor=FAMILY_COLORS["causal_lm"], label="causal LM"),

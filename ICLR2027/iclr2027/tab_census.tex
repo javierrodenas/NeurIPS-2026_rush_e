@@ -1,29 +1,28 @@
 \begin{table}[t]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{2.6pt}
-\begin{tabular}{l l c c c c c c | c c}
+\small
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabular}{l l c c c c c c}
 \toprule
- & & \multicolumn{6}{c|}{class level (centroids)} & \multicolumn{2}{c}{sample level (images)} \\ \cmidrule(lr){3-8}\cmidrule(lr){9-10}
-model & family & $\hat\delta_{99.9}$ IN & excess IN & $r$/200 ($p$) & exc.\ C100 & exc.\ C10 & $\rho_{\text{WN}}$ & exc.\ C100 & exc.\ DTD \\
+model & family & $\hat\delta_{99.9}$ IN & excess IN & $r$/200 ($p$) & exc.\ C100 & exc.\ C10 & $\rho_{\text{WN}}$ \\
 \midrule
-ViT-T & sup. & $0.088$ & $-0.005^{\circ}$ & 169 (.159) & $-0.006^{\circ}$ & $-0.021^{\circ}$ & $+0.52$ & $-0.002^{\circ}$ & $-0.000^{\circ}$ \\
-ViT-S & sup. & $0.063$ & $-0.012$ & 200 (.005) & $-0.000^{\circ}$ & $-0.056$ & $+0.50$ & $+0.005^{\circ}$ & $-0.006$ \\
-ViT-B & sup. & $0.054$ & $-0.016$ & 200 (.005) & \textbf{$+0.006^{\circ}$} & $-0.050$ & $+0.49$ & $+0.003^{\circ}$ & $-0.008$ \\
-ViT-L & sup. & $0.055$ & $-0.016$ & 200 (.005) & $-0.020$ & $-0.060$ & $+0.53$ & $-0.004^{\circ}$ & $-0.007$ \\
+ViT-T & sup. & $0.088$ & $-0.005^{\circ}$ & 169 (.159) & $-0.006^{\circ}$ & $-0.021^{\circ}$ & $+0.52$ \\
+ViT-S & sup. & $0.063$ & $-0.012$ & 200 (.005) & $-0.000^{\circ}$ & $-0.056$ & $+0.50$ \\
+ViT-B & sup. & $0.054$ & $-0.016$ & 200 (.005) & \textbf{$+0.006^{\circ}$} & $-0.050$ & $+0.49$ \\
+ViT-L & sup. & $0.055$ & $-0.016$ & 200 (.005) & $-0.020$ & $-0.060$ & $+0.53$ \\
 \midrule
-DINO-B & SSL & $0.055$ & $-0.020$ & 200 (.005) & $-0.032$ & $-0.061$ & $+0.36$ & $-0.004^{\circ}$ & $+0.001^{\circ}$ \\
-DINOv2-S & SSL & $0.053$ & $-0.016$ & 200 (.005) & $-0.031$ & $-0.071$ & $+0.22$ & $-0.005$ & $+0.006^{\circ}$ \\
-DINOv2-B & SSL & $0.034$ & $-0.017$ & 200 (.005) & $-0.031$ & $-0.112$ & $+0.18$ & $-0.009$ & $-0.002^{\circ}$ \\
-DINOv2-L & SSL & $0.030$ & $-0.014$ & 200 (.005) & $-0.035$ & $-0.128$ & $+0.18$ & $-0.013$ & $-0.006$ \\
-DINOv2-G & SSL & $0.033$ & $-0.008$ & 200 (.005) & $-0.040$ & $-0.130$ & $+0.20$ & $-0.023$ & $-0.008$ \\
+DINO-B & SSL & $0.055$ & $-0.020$ & 200 (.005) & $-0.032$ & $-0.061$ & $+0.36$ \\
+DINOv2-S & SSL & $0.053$ & $-0.016$ & 200 (.005) & $-0.031$ & $-0.071$ & $+0.22$ \\
+DINOv2-B & SSL & $0.034$ & $-0.017$ & 200 (.005) & $-0.031$ & $-0.112$ & $+0.18$ \\
+DINOv2-L & SSL & $0.030$ & $-0.014$ & 200 (.005) & $-0.035$ & $-0.128$ & $+0.18$ \\
+DINOv2-G & SSL & $0.033$ & $-0.008$ & 200 (.005) & $-0.040$ & $-0.130$ & $+0.20$ \\
 \midrule
-CLIP-B & contr. & $0.084$ & $-0.007^{\circ}$ & 172 (.144) & $-0.019$ & $-0.036$ & $+0.57$ & $-0.006^{\circ}$ & $+0.002^{\circ}$ \\
-CLIP-L & contr. & $0.076$ & $-0.009$ & 197 (.020) & $-0.018$ & $-0.043$ & $+0.59$ & $+0.004^{\circ}$ & $-0.001^{\circ}$ \\
-SigLIP-B & contr. & $0.075$ & $-0.008^{\circ}$ & 189 (.060) & $-0.022$ & $-0.050$ & $+0.58$ & $-0.007$ & $-0.004^{\circ}$ \\
+CLIP-B & contr. & $0.084$ & $-0.007^{\circ}$ & 172 (.144) & $-0.019$ & $-0.036$ & $+0.57$ \\
+CLIP-L & contr. & $0.076$ & $-0.009$ & 197 (.020) & $-0.018$ & $-0.043$ & $+0.59$ \\
+SigLIP-B & contr. & $0.075$ & $-0.008^{\circ}$ & 189 (.060) & $-0.022$ & $-0.050$ & $+0.58$ \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{Clustered structure is the rule at the class level; the sample-level reading sits within null noise in most cells.} One row per backbone. $\hat\delta_{99.9}$: raw ImageNet reading; excess: $\hat\delta_{99.9}$ minus the mean of 200 Haar spectrum-matched null replicates; $r$/200: replicates above the real value, with the left-tail $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine: Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells; $^{\circ}$: not genuine; bold: less clustered than the null. $\rho_{\text{WN}}$: Spearman correlation of inter-centroid and WordNet distances. Sample level: the same reading on $\approx$1000 stratified training images per cell, BH over those 24 cells: genuine in 10 of 24 (full table in Appendix~\ref{app:sample}). With centroid-resampling and estimator noise folded into the null, or the census repeated on 30 resampled centroid sets, the genuine count is 42--47 of 72 (Table~\ref{tab:b38-joint}). Cross-dataset magnitudes are not comparable. The other datasets, the supremum reading and the task columns are in Table~\ref{tab:census-extra}; all four null$\times$statistic verdicts per cell in Table~\ref{tab:b21-2x2}. % expR52_census_haar_p999_200.csv, exp3_alignment.csv, expR62_samplelevel_record.csv, expR66_joint_sensitivity_summary.csv
+\caption{\textbf{Clustered structure is the rule at the class level.} One row per backbone. $\hat\delta_{99.9}$: raw ImageNet reading; excess: $\hat\delta_{99.9}$ minus the mean of 200 Haar spectrum-matched null replicates; $r$/200: replicates above the real value, with the left-tail $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine: Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells; $^{\circ}$: not genuine; bold: less clustered than the null. $\rho_{\text{WN}}$: Spearman correlation of inter-centroid and WordNet distances. The same reading on per-image features is genuine in 10 of 24 cells (Table~\ref{tab:q3-sample}). Under image resampling and estimator noise the genuine count is 42--47 of 72 (Table~\ref{tab:q8-robust}). The other datasets and the four null$\times$statistic verdicts per cell are in Table~\ref{tab:q1-census}, the task columns in Table~\ref{tab:q9-corollary}. % expR52_census_haar_p999_200.csv, exp3_alignment.csv, expR62_samplelevel_record.csv, expR66_joint_sensitivity_summary.csv
 }
 \label{tab:census}
 \end{table}

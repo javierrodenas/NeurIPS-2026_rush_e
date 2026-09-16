@@ -1,0 +1,72 @@
+% prov: exp12_curvature_sign.csv, exp26_xi_nulls.csv, expR38_xi_angular.csv, expR43_xi_norm_references.csv
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\noindent\textbf{(a) $\xi$ on reference geometries and ImageNet centroids, with the spectrum-matched null (20 replicates).}\par\vspace{1.5pt}
+\begin{tabular}{lccccc}
+\toprule
+space / model & $\xi$ (mean) & frac.\ negative & null $\xi$ & excess ($\pm$CI95) & $z$ \\
+\midrule
+iid Gaussian ($d{=}768$) & +0.092 & 0\% & --- & --- & --- \\
+$S^{d}$ (geodesic) & +0.113 & 0\% & --- & --- & --- \\
+$S^{d}$ (chord) & +0.115 & 0\% & --- & --- & --- \\
+\midrule
+$\mathbb{H}^2$ region ($R{=}6$) & -0.194 & 96\% & --- & --- & --- \\
+balanced tree (depth 9) & -0.239 & 96\% & --- & --- & --- \\
+ViT-T & +0.027 & 25\% & +0.027$\pm$0.002 & -0.001$\pm$0.003 & -0 \\
+ViT-S & +0.027 & 23\% & +0.042$\pm$0.002 & -0.015$\pm$0.005 & -7 \\
+ViT-B & +0.033 & 16\% & +0.047$\pm$0.002 & -0.014$\pm$0.004 & -6 \\
+ViT-L & +0.028 & 21\% & +0.046$\pm$0.002 & -0.018$\pm$0.005 & -7 \\
+DINO-B & -0.008 & 55\% & +0.052$\pm$0.003 & -0.059$\pm$0.005 & -21 \\
+DINOv2-S & -0.020 & 66\% & +0.061$\pm$0.004 & -0.081$\pm$0.008 & -20 \\
+DINOv2-B & -0.049 & 83\% & +0.075$\pm$0.003 & -0.123$\pm$0.005 & -45 \\
+DINOv2-L & -0.068 & 90\% & +0.080$\pm$0.002 & -0.149$\pm$0.004 & -66 \\
+DINOv2-G & -0.070 & 89\% & +0.082$\pm$0.002 & -0.152$\pm$0.004 & -69 \\
+CLIP-B & +0.019 & 32\% & +0.024$\pm$0.002 & -0.005$\pm$0.003 & -3 \\
+CLIP-L & +0.028 & 28\% & +0.032$\pm$0.002 & -0.004$\pm$0.004 & -2 \\
+SigLIP-B & +0.036 & 20\% & +0.031$\pm$0.002 & +0.005$\pm$0.004 & +2 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\noindent\textbf{(b) $\xi$ on the angular geometry: centroids L2-normalized, spherical geodesic distances, null on the normalized cloud.}\par\vspace{1.5pt}
+\begin{tabular}{lcccc}
+\toprule
+model & $\xi_{\text{geo}}$ & frac.\ neg.\ & excess & $z$ \\
+\midrule
+ViT-T & $+0.031$ & $0.24$ & $-0.0048$ & $-2.7$ \\
+ViT-S & $+0.065$ & $0.08$ & $+0.0092$ & $+6.2$ \\
+ViT-B & $+0.067$ & $0.07$ & $+0.0144$ & $+10.5$ \\
+ViT-L & $+0.074$ & $0.04$ & $+0.0113$ & $+7.9$ \\
+\midrule
+DINO-B & $+0.085$ & $0.05$ & $+0.0014$ & $+1.0$ \\
+DINOv2-S & $+0.100$ & $0.02$ & $+0.0033$ & $+2.3$ \\
+DINOv2-B & $+0.108$ & $0.01$ & $+0.0046$ & $+4.9$ \\
+DINOv2-L & $+0.108$ & $0.01$ & $+0.0040$ & $+3.9$ \\
+DINOv2-G & $+0.094$ & $0.01$ & $-0.0114$ & $-12.5$ \\
+\midrule
+CLIP-B & $+0.025$ & $0.28$ & $-0.0129$ & $-7.1$ \\
+CLIP-L & $+0.033$ & $0.25$ & $-0.0120$ & $-4.8$ \\
+SigLIP-B & $+0.051$ & $0.14$ & $+0.0025$ & $+1.2$ \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\noindent\textbf{(c) $\xi$ on references with heterogeneous norms but no curvature ($n{=}1000$, $d{=}768$, 5 seeds).}\par\vspace{1.5pt}
+\begin{tabular}{lcc}
+\toprule
+reference (no curvature unless stated) & $\xi$ & frac.\ negative \\
+\midrule
+iid Gaussian & $+0.0919$ & $0.00$ \\
+Gaussian, lognormal radii ($\sigma{=}0.3$) & $-0.0621$ & $0.99$ \\
+Gaussian, lognormal radii ($\sigma{=}0.6$) & $-0.0607$ & $1.00$ \\
+Gaussian, lognormal radii ($\sigma{=}1.0$) & $-0.0496$ & $0.99$ \\
+core + shell mixture & $-0.3217$ & $0.79$ \\
+uniform sphere & $+0.1154$ & $0.00$ \\
+sphere with radial jitter & $-0.0571$ & $1.00$ \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\caption{\textbf{$\xi$ reads norm structure, not curvature.} (a) Matched nulls have positive $\xi$ (noise combines null and estimator s.d.), so raw readings understate curvature. (b) The deep negative $\xi$-excess of DINOv2 on ImageNet is a norm-structure effect for S/B/L, whose angular $\xi$-excess turns sphere-leaning positive, while DINOv2-G and CLIP-B/L remain negative on the sphere. (c) Norm dispersion alone drives $\xi$ negative (lognormal radii, radial jitter on a sphere, core+shell), so the estimator is reported only as a norm-structure descriptor. % exp12_curvature_sign.csv, exp26_xi_nulls.csv, expR38_xi_angular.csv, expR43_xi_norm_references.csv
+}
+\label{tab:q12-xi}
+\end{table}
