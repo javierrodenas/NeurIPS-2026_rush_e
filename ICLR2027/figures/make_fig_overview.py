@@ -36,7 +36,7 @@ DIMS.update({m: d for m, d in {"i21k_t":192,"i21k_s":384,"i21k_b":768,"i21k_l":1
 NM = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L","dinov1_b":"DINO-B","dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G","clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
 GRAY = FAMILY_COLORS["null"]
 
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.3), gridspec_kw={"width_ratios": [1.7, 1]})
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.3), gridspec_kw={"width_ratios": [1.35, 1]})
 # ---- (a): backbones by dimension; backbones sharing a dimension are spread within +-7% of d so every segment is visible
 ax = axes[0]
 by_d = {}
@@ -46,8 +46,8 @@ for d, ms in by_d.items():
     for m, o in zip(ms, offs):
         raw, null = d_in[m]; x = d + o
         ax.plot([x, x], [null, raw], "-", color=GRAY, lw=0.7, zorder=1)
-        ax.scatter(x, null, s=16, facecolors="white", edgecolors=GRAY, linewidths=0.8, zorder=2)
         ax.scatter(x, raw, s=18, color=fam_color(m), zorder=3)
+        ax.scatter(x, null, s=26, facecolors="none", edgecolors=GRAY, linewidths=0.9, zorder=4)   # ring above the dot: visible even when the null sits at the reading
 ax.set_xlabel("dimension $d$"); ax.set_ylabel(r"raw $\hat\delta_{99.9}$ (ImageNet)"); ax.set_title("(a) raw readings and their matched nulls")
 ax.set_xlim(80, 1700); ax.set_xticks([192, 384, 768, 1024, 1536]); tidy(ax)
 # ---- (b): the two cells with equal raw reading (decision recorded in phaseC_fig2b.json)
@@ -57,21 +57,21 @@ sl = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_sam
 s_m, s_ds = D["sample_cell"]; c_m, c_ds = D["class_cell"]
 cc = {(r["model"], r["dataset"]): r for r in census}[(c_m, c_ds)]
 DSN = {"dtd": "DTD", "cifar100": "CIFAR-100", "cifar10": "CIFAR-10", "imagenet": "ImageNet"}
-cells = [(NM[s_m] + "\n" + DSN[s_ds] + " images", fam_color(s_m), float(sl[(s_m, s_ds)]["delta_999"]), float(sl[(s_m, s_ds)]["null_mean"])),
-         (NM[c_m] + "\n" + DSN[c_ds] + " centroids", fam_color(c_m), float(cc["delta"]), float(cc["null_mean"]))]
+cells = [(NM[s_m] + "\n" + DSN[s_ds] + "\nimages", fam_color(s_m), float(sl[(s_m, s_ds)]["delta_999"]), float(sl[(s_m, s_ds)]["null_mean"])),
+         (NM[c_m] + "\n" + DSN[c_ds] + "\ncentroids", fam_color(c_m), float(cc["delta"]), float(cc["null_mean"]))]
 print(f"(b) {s_m}/{s_ds} raw {cells[0][2]:.3f} null {cells[0][3]:.3f} | {c_m}/{c_ds} raw {cells[1][2]:.3f} null {cells[1][3]:.3f}")
 for i, (lab, col, raw, null) in enumerate(cells):
     ax.plot([i, i], [null, raw], "-", color=GRAY, lw=0.7, zorder=1)
-    ax.scatter(i, null, s=16, facecolors="white", edgecolors=GRAY, linewidths=0.8, zorder=2)
     ax.scatter(i, raw, s=18, color=col, zorder=3)
-ax.set_xticks([0, 1]); ax.set_xticklabels([c[0] for c in cells], fontsize=7); ax.set_xlim(-0.6, 1.6)
+    ax.scatter(i, null, s=26, facecolors="none", edgecolors=GRAY, linewidths=0.9, zorder=4)
+ax.set_xticks([0, 1]); ax.set_xticklabels([c[0] for c in cells], fontsize=8, linespacing=1.15); ax.set_xlim(-0.75, 1.75)
 ax.set_ylabel(r"raw $\hat\delta_{99.9}$"); ax.set_title("(b) same raw reading, opposite verdicts"); tidy(ax)
 # ---- one legend below both panels
 hd = [plt.Line2D([], [], marker="o", ls="", color="k", ms=4, label="filled: the raw reading"),
-      plt.Line2D([], [], marker="o", ls="", mfc="white", mec=GRAY, ms=4, label="hollow: a structureless cloud of the same shape")]
+      plt.Line2D([], [], marker="o", ls="", mfc="none", mec=GRAY, ms=5, label="hollow: a structureless cloud of the same shape")]
 hd += [plt.Line2D([], [], marker="o", ls="", color=FAMILY_COLORS[k], ms=4, label=l) for k, l in [("supervised", "sup."), ("ssl", "SSL"), ("contrastive", "contr.")]]
 fig.legend(handles=hd, frameon=False, loc="lower center", ncol=5, fontsize=7, handlelength=1.0, handletextpad=0.3, columnspacing=0.9, bbox_to_anchor=(0.5, -0.01))
-fig.subplots_adjust(left=0.10, right=0.99, top=0.86, bottom=0.42, wspace=0.45)
+fig.subplots_adjust(left=0.10, right=0.99, top=0.86, bottom=0.44, wspace=0.40)
 for o in (HERE, HERE.parent/"iclr2027"/"figures"):
     fig.savefig(o/"fig_overview.pdf"); fig.savefig(o/"fig_overview.png", dpi=200)
 print("fig_overview written")

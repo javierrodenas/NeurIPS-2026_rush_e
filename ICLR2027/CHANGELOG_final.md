@@ -924,3 +924,6 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   Todas las figuras del paper regeneradas con los mismos scripts (Figs. 2–5, 6–11 del apéndice); fuentes STIX sin cambio.
 - Sweep: el check del pie de la Figura 2 acepta la forma "takeaway en negrita + (a)/(b)" y la prueba de `fig2b` mira las celdas nombradas
   en el pie nuevo; todo lo demás igual (PASS completo). Compilación: 0 avisos, texto principal en la página 9; `qa_pages/` regenerado.
+- 24c, retoque tipográfico (petición del autor): en la Figura 2(b) las etiquetas de las dos celdas van en tres líneas a 8 pt
+  ("ViT-T / DTD / images", "SigLIP-B / CIFAR-10 / centroids"), el panel es más ancho (proporción 1.35:1) y hay más aire entre las dos
+  posiciones. Recompilado: 0 avisos, página 9; `qa_pages/` regenerado.
