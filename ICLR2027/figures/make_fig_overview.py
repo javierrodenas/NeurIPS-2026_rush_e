@@ -46,10 +46,11 @@ for d, ms in by_d.items():
     for m, o in zip(ms, offs):
         raw, null = d_in[m]; x = d + o
         ax.plot([x, x], [null, raw], "-", color=GRAY, lw=0.7, zorder=1)
-        ax.scatter(x, raw, s=18, color=fam_color(m), zorder=3)
-        ax.scatter(x, null, s=26, facecolors="none", edgecolors=GRAY, linewidths=0.9, zorder=4)   # ring above the dot: visible even when the null sits at the reading
+        ax.scatter(x, raw, s=18, color=fam_color(m), zorder=3, clip_on=False)
+        ax.scatter(x, null, s=26, facecolors="none", edgecolors=GRAY, linewidths=0.9, zorder=4, clip_on=False)   # ring above the dot: visible even when the null sits at the reading
 ax.set_xlabel("dimension $d$"); ax.set_ylabel(r"raw $\hat\delta_{99.9}$ (ImageNet)"); ax.set_title("(a) raw readings and their matched nulls")
-ax.set_xlim(80, 1700); ax.set_xticks([192, 384, 768, 1024, 1536]); tidy(ax)
+ax.set_xlim(80, 1700); ax.set_xticks([192, 384, 768, 1024, 1536])
+lo, hi = ax.get_ylim(); ax.set_ylim(lo - 0.08*(hi-lo), hi + 0.14*(hi-lo)); tidy(ax)   # headroom so the top rings are not cut by the axis edge
 # ---- (b): the two cells with equal raw reading (decision recorded in phaseC_fig2b.json)
 ax = axes[1]
 D = json.load(open(RES/"phaseC_fig2b.json")); assert D.get("mode") == "sample", D
@@ -62,10 +63,11 @@ cells = [(NM[s_m] + "\n" + DSN[s_ds] + "\nimages", fam_color(s_m), float(sl[(s_m
 print(f"(b) {s_m}/{s_ds} raw {cells[0][2]:.3f} null {cells[0][3]:.3f} | {c_m}/{c_ds} raw {cells[1][2]:.3f} null {cells[1][3]:.3f}")
 for i, (lab, col, raw, null) in enumerate(cells):
     ax.plot([i, i], [null, raw], "-", color=GRAY, lw=0.7, zorder=1)
-    ax.scatter(i, raw, s=18, color=col, zorder=3)
-    ax.scatter(i, null, s=26, facecolors="none", edgecolors=GRAY, linewidths=0.9, zorder=4)
+    ax.scatter(i, raw, s=18, color=col, zorder=3, clip_on=False)
+    ax.scatter(i, null, s=26, facecolors="none", edgecolors=GRAY, linewidths=0.9, zorder=4, clip_on=False)
 ax.set_xticks([0, 1]); ax.set_xticklabels([c[0] for c in cells], fontsize=8, linespacing=1.15); ax.set_xlim(-0.75, 1.75)
-ax.set_ylabel(r"raw $\hat\delta_{99.9}$"); ax.set_title("(b) same raw reading, opposite verdicts"); tidy(ax)
+ax.set_ylabel(r"raw $\hat\delta_{99.9}$"); ax.set_title("(b) same raw reading, opposite verdicts")
+lo, hi = ax.get_ylim(); ax.set_ylim(lo - 0.08*(hi-lo), hi + 0.14*(hi-lo)); tidy(ax)
 # ---- one legend below both panels
 hd = [plt.Line2D([], [], marker="o", ls="", color="k", ms=4, label="filled: the raw reading"),
       plt.Line2D([], [], marker="o", ls="", mfc="none", mec=GRAY, ms=5, label="hollow: a structureless cloud of the same shape")]

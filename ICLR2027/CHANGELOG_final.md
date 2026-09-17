@@ -927,3 +927,8 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - 24c, retoque tipográfico (petición del autor): en la Figura 2(b) las etiquetas de las dos celdas van en tres líneas a 8 pt
   ("ViT-T / DTD / images", "SigLIP-B / CIFAR-10 / centroids"), el panel es más ancho (proporción 1.35:1) y hay más aire entre las dos
   posiciones. Recompilado: 0 avisos, página 9; `qa_pages/` regenerado.
+- 24c, retoque tipográfico (petición del autor): en la Figura 2 los anillos superiores quedaban recortados por el borde del eje; margen
+  vertical añadido en ambos paneles y marcadores sin recorte (`clip_on=False`). Además, el sync de Overleaf `overleaf-2026-09-17-1419`
+  (commit 366218d) había introducido "withinynull" en el abstract y borrado los comentarios `% fichero.csv` de dos párrafos de §1;
+  el cuerpo se ha regenerado desde `phaseE_paper.tex.tmpl` (fuente del texto), lo que restaura el abstract literal y la procedencia.
+  Cualquier edición del cuerpo debe hacerse en la plantilla y re-aplicarse con `phaseE_final.py`.

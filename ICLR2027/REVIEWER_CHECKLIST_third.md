@@ -45,6 +45,6 @@ Each question of the third review, answered from the main text alone; line numbe
 ## Q9. Minor: 'pre-registered', the ordering trees < hyperbolic < spherical, the repeated sentence in A.3, the old illustration, bold in Table 1, the bridges and the number density.
 
 - **Section 3** (line 184): 'Pre-registered' is 'pre-specified' throughout (no dated public record exists).
-- **Section 2, 'Background'** (line 133): The ordering is stated for hyperbolic regions of radius >= 4, where it holds in Table 2.
+- **Section 2, 'Background'** (line 134): The ordering is stated for hyperbolic regions of radius >= 4, where it holds in Table 2.
 - **Table 1 caption** (line 232): Bold is restored on the sign-positive cells.
 - **Sections 3-5, last paragraphs** (line 199): Three bridges remain (end of Sections 3, 4 and 5, distinct wording); every other paragraph ends on its claim. The repeated sentence of A.3 and the old illustration (former Figure 12) are gone; the appendix is fourteen tables, one per question, numbered in citation order.
