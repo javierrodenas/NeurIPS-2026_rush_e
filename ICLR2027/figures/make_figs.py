@@ -25,7 +25,9 @@ NAME = {"i21k_t":"ViT-T","i21k_s":"ViT-S","i21k_b":"ViT-B","i21k_l":"ViT-L",
         "dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G",
         "clip_b":"CLIP-B","clip_l":"CLIP-L","siglip_b":"SigLIP-B"}
 PARA = {"i21k":"Supervised","i21k_":"Supervised","dinov":"SSL","clip_":"Contrastive","sigli":"Contrastive"}
-COL  = {"Supervised":"#4C72B0","SSL":"#DD8452","Contrastive":"#55A868"}
+import sys as _sys; _sys.path.insert(0, str(OUT))
+from palette import FAMILY_COLORS as _FC
+COL  = {"Supervised": _FC["supervised"], "SSL": _FC["ssl"], "Contrastive": _FC["contrastive"]}   # family colors from the shared palette
 MARK = {"imagenet":"o","cifar100":"s","cifar10":"D","dtd":"^","fashionmnist":"v","mnist":"x"}
 ORDER = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b",
          "dinov2_l","dinov2_g","clip_b","clip_l","siglip_b"]

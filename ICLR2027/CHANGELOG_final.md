@@ -906,3 +906,21 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   Tabla 13 eliminada, conservación de la consolidación, nota de congelación + qa_pages); checks antiguos reanclados a las tablas nuevas.
   Generadores antiguos en `ICLR2027/iclr2027/legacy_generators/`. Índice de procedencia regenerado (`% prov:` en cada tabla).
 - `REVIEWER_CHECKLIST_third.md` (con números de línea del PDF), `SUMMARY_plain.md` regenerado, `TODO_author.md` y `CODE_MAP.md` actualizados.
+
+## 24c. Post-freeze (2026-09-17, ordenado por el autor): Figura 2 en dos paneles y paleta nueva. Ningún número cambia.
+
+- **Figura 2** (`figures/make_fig_overview.py`): panel (c) eliminado (su contenido es la Figura 5). (a) los 12 backbones de ImageNet por
+  dimensión d, lectura cruda (relleno, color de familia) y media del nulo emparejado (hueco, gris) unidas por un segmento vertical cuya
+  longitud es el exceso (los backbones con la misma d se reparten en ±7 % de d para que todos los segmentos se vean); (b) las dos celdas con
+  la misma lectura cruda de `phaseC_fig2b.json` (ViT-T en imágenes de DTD, SigLIP-B en centroides de CIFAR-10): dos puntos rellenos a la
+  misma altura, sus nulos huecos a alturas muy distintas, segmentos entre cada par. Leyenda "hollow: a structureless cloud of the same
+  shape". Misma altura total (1.3 in). Pie nuevo literal del autor. Datos: `exp1_delta_controls.csv`, `expR52_census_haar_p999_200.csv`,
+  `expR62_samplelevel_record.csv`.
+- **§3**: dos citas nuevas: "Figure 2a shows the same drift on the twelve ImageNet backbones: the null of each moves with its dimension, so
+  the gap, not the level, is the reading." (tras la frase de las gaussianas) y "Figure 2b shows two cells with the same raw reading and
+  opposite verdicts." (final de "The reading is an excess over a matched null").
+- **Paleta** (`figures/palette.py`): supervised #2A6F97, self-supervised #C8553D, contrastive #6C8B3C, causal LM #7A4E9A, embedder
+  #A67C52; grises de nulos y estrellas sin cambio; `make_figs.py` toma ahora los colores de familia de la paleta en vez de su copia local.
+  Todas las figuras del paper regeneradas con los mismos scripts (Figs. 2–5, 6–11 del apéndice); fuentes STIX sin cambio.
+- Sweep: el check del pie de la Figura 2 acepta la forma "takeaway en negrita + (a)/(b)" y la prueba de `fig2b` mira las celdas nombradas
+  en el pie nuevo; todo lo demás igual (PASS completo). Compilación: 0 avisos, texto principal en la página 9; `qa_pages/` regenerado.

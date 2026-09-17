@@ -541,7 +541,8 @@ def phaseC_text_checks():
     imr = [r for r in load("expR52_census_haar_p999_200.csv") if r["dataset"]=="imagenet"]; fim = [abs(float(r["excess"])/float(r["null_mean"])) for r in imr]
     chk("text: ImageNet class-level excess as a fraction of the null reading as stated (S6), every ImageNet cell sign-negative; the absolute range lives in Table 1", f"it removes {100*min(fim):.0f} to {100*max(fim):.0f} per cent of the null reading" in main and all(float(r["excess"]) < 0 for r in imr)
         and f"${max(float(r['excess']) for r in imr):+.3f}" in open(TEX/"tab_census.tex").read())
-    D = _j.load(open(R/"phaseC_fig2b.json")); chk("fig2b: decision recorded and consistent with the caption", (D["mode"]=="sample") == ("images) and a class-level cell" in main) and D["gap_sample"] <= D["gap_bge"] if D["mode"]=="sample" else True)
+    D = _j.load(open(R/"phaseC_fig2b.json")); chk("fig2b: decision recorded and consistent with the caption (ViT-T image features vs SigLIP-B centroids)", (D["mode"]=="sample") == ("on ViT-T image features the null sits at the reading, on SigLIP-B centroids far above it" in main)
+        and D["sample_cell"]==["i21k_t","dtd"] and D["class_cell"]==["siglip_b","cifar10"] and (D["gap_sample"] <= D["gap_bge"] if D["mode"]=="sample" else True))
     body_ = T[T.index("\\begin{abstract}"):T.index("\\subsubsection*{Ethics Statement}")]   # the ICLR AI-use statement says 'generative AI tools' in its required form
     for w in ("tool", "we believe", "nterestingly"): chk(f"text: no '{w}' in the main text", w not in body_)
 phaseC_text_checks()
@@ -770,7 +771,7 @@ def final_pass_prose_checks():
     chk("final: GPT-2 sentences agree with the text census of record (S genuine at the margin under the record, M not, L/XL under every construction)", "GPT-2 S is genuine at the margin under the record" in main and "GPT-2 M is not genuine under the record" in main and "GPT-2 M sits at its matched null" in main
         and "GPT-2 L and XL are genuine under every construction of the null and statistic and under cosine" in main)
     caps = _re.findall(r"\\caption\{(.*?)\n?\}\n\\label", nocom(main), flags=_re.S)
-    chk("final: every main-text caption is a bold takeaway followed by what is plotted", len(caps) >= 5 and all(c.lstrip().startswith("\\textbf{") for c in caps) and all(("Plotted:" in c or "Sketched:" in c) for c in caps if "One row per backbone" not in c))
+    chk("final: every main-text caption is a bold takeaway followed by what is plotted", len(caps) >= 5 and all(c.lstrip().startswith("\\textbf{") for c in caps) and all(("Plotted:" in c or "Sketched:" in c or _re.search(r"\\textbf\{[^}]*\}\s*\(a\)", c)) for c in caps if "One row per backbone" not in c))
     chk("final: Table 1 in \\small without the sample-level columns; statements in the required form (AI use with the responsibility sentence; reproducibility with TODO(author))",
         "\\small" in open(TEX/"tab_census.tex").read() and "sample level (images)" not in open(TEX/"tab_census.tex").read()
         and "\\subsubsection*{AI Use Statement}" in main and "We take responsibility for the final content of this work, including text, claims or artifacts produced with the aid of generative AI." in main and "TODO(author)" in main)
