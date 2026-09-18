@@ -1124,3 +1124,47 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   autor (`width=\textwidth, trim=23 229 3 232`) la figura mide 1.36 in y la versión final no se mueve (referencias en la página 10); el
   fichero congelado `main_iclr2027.tex`, que la incluye sin recorte, pasaría a terminar en la página 10 con las referencias en la 11.
   No se ha copiado: decisión del autor (TODO).
+
+## 28. Correcciones de la cuarta revisión (2026-09-18, ordenadas por el autor). Los números cambian sólo donde una tabla estaba mal.
+
+- (1) `rebuttal/scripts/expR73_transfer_bootstrap_record.py`: bootstrap de centroides de CIFAR-100 y DTD bajo el registro (nulo Haar,
+  p99.9, 200 réplicas por remuestreo, 30 remuestreos con reemplazo de las imágenes cacheadas por clase al presupuesto del censo: 500/clase
+  en CIFAR-100, 80/clase en DTD; 12 procesos en segundo plano, ~4 h). El panel (b) de la tabla de robustez (Tabla 2) se construye desde
+  `expR59_imagenet_bootstrap_summary.csv` y `expR73_transfer_bootstrap_record_summary.csv` (columnas dataset, imágenes/clase, réplicas);
+  las filas "centroid bootstrap" de expR32 salen del panel (a) y del `% prov:`; la frase de la leyenda sobre la s.d. máxima y la fracción
+  de remuestreos negativos se calcula sobre los tres conjuntos. [Pendiente de la fusión de expR73: véase la nota al final de esta entrada.]
+- (2) §5.2: la frase del control de número de clases es la del brief; el panel (d) de la Tabla 2 vuelve a listar el barrido completo de
+  $C$ (DINOv2-L, 10 a 1000, ambos modos) para que la leyenda, que ahora dice lo mismo que el texto, esté sostenida por las filas;
+  `phaseE_submission.py` comprueba en `expR60_c_sweep_record.csv` que el exceso se encoge con $C$ en los dos modos. El párrafo de v1
+  "Hierarchy depth, not class count" del apéndice, que afirmaba lo contrario, se elimina de la versión final.
+- (3) 15 modelos de texto en todas partes: resumen ("6 datasets and 15 text models", edición registrada), §4 ("fifteen text models",
+  "OLMo-1B" en vez de "two OLMo sizes", y la frase "OLMo-7B was not extracted."); las filas OLMo-7B de las copias finales de la tabla de
+  texto y del panel de modelos desaparecen (`DROPLINE` en `phaseE_submission.py`).
+- (4) Tabla 11(c): la cabecera dice "supremum, Haar". Nota: `exp14_dbpedia.csv`, de donde salían esas dos columnas, se calculó con
+  coeficientes gaussianos (`exp14_dbpedia_text.py`), así que la cabecera antigua describía sus números. Para que la cabecera sea cierta,
+  la copia final (`gen_appendix_final.py`, `FINAL=True`, `final/tab_q07_wordnet_final.tex`) toma el exceso del supremo de
+  `expR61_dbpedia_record.csv` (`excess_haar_sup`, nulo Haar del registro); $\hat\delta_{\max}$ es el mismo. Los valores pasan de
+  −0.028/−0.024/−0.020 (gaussiano) a −0.032/−0.028/−0.024 (Haar) para BGE/E5/GTE; la tabla de v1 no cambia.
+- (5) §5.3: el párrafo "The certified set depends on the frame" describe el marco balanceado (ViT-T entra; ViT-S y DINOv2-L salen) y el
+  barrido $K=10/30/60$, y termina en "Only ViT-B and ViT-L are certified under every frame" (comprobado en `phaseE_submission.py` desde
+  `expR56_depth_variants.csv` y `expR64b_wn30bal_summary.csv`); la frase de CIFAR-100 pasa al párrafo del régimen. Tabla 8 (copia final
+  `final/tab_q04_depth_final.tex`): todas las $z$ con dos decimales; el panel (a) se parte en (a) estrellas con hubs gaussianos con las
+  columnas $K=10$ y $K=60$ (sólo $z$) y el marco balanceado, y (a$'$) hubs Haar; los paneles (b)–(d) con $z$ a dos decimales.
+- (6) `\FloatBarrier` tras cada subsección del apéndice (los bloques de v1 lo traen; ya no se elimina). Apéndice: 17 páginas
+  (demostraciones incluidas), una más que sin barreras; ningún encabezado queda vacío.
+- (7) §3.3 y limitación (ii): la frase del brief sobre el nulo espectral y los segundos momentos. (8) Limitación (iv): el test de
+  profundidad es euclídeo y puede ser conservador para el árbol angular de DINOv2. Las limitaciones vuelven a dos párrafos (instrumento,
+  cinco puntos; alcance, tres) para respetar la regla de 3–6 frases.
+- (9) §5.1 "The premise does not survive calibration on the two datasets tested." y el resumen (edición registrada en
+  `final_verbatim_edits.json`, ahora seis ediciones). (10) §6 reescrito: "Both readings predict the gain, and cosine is the best simple
+  policy" (la lectura cruda predice la ganancia tan bien como el exceso; el veredicto de profundidad no predice nada; "cosine everywhere"
+  es la política simple, no necesita validación ni regla, y la regla por objetivo añade poco: +0.23 frente a +0.28 pp en la Tabla 13e,
+  comprobado desde `exp24_val_metric_selection.csv`); el papel del instrumento es certificar si hay estructura que justifique una lectura
+  no euclídea. Ninguna frase dice que el exceso predice mejor que la lectura cruda. (11) Resumen: véase (3) y (9).
+- Presupuesto: las adiciones (≈10 líneas) se compensan con recortes de mi prosa sin afirmaciones (la frase de resumen de la conclusión,
+  "The cells that move are on the transfer sets", "A cell is one pair...", la frase de cobertura de §6, "leaves hierarchy within the
+  clusters untested" en (iii)) y con espaciado (saltos de párrafo 0.3 ex, de ecuación 3 pt, `textfloatsep` 8 pt, `abovecaptionskip` 3 pt).
+  §7 termina en la página 9 (línea 479), statements en la 9, referencias en la 10 (línea 501); 30 páginas, 0 avisos, 0 `??`.
+- `REVIEWER_CHECKLIST_third.md` (+ su generador): sección "Fourth review" con los cuatro puntos de réplica R4.1–R4.4 y los editoriales.
+- Sweep: `final_checks` amplía con la comprobación de las tablas regeneradas (z a dos decimales, barrido K, "supremum, Haar", sin
+  OLMo-7B, sin expR32, expR73 en el panel (b)).

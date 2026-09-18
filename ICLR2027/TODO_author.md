@@ -214,6 +214,13 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   en `phaseE_submission.py`.
 - La limitación (viii) sobre ξ se eliminó al irse ξ del paper; el resto de las limitaciones va en un solo párrafo de seis puntos.
 - `figures/fig1_concept.pdf` no está en el repo: la Figura 1 compila como la caja de 1.4 in del `\IfFileExists` del autor.
+- (Cuarta revisión) Tabla 11(c): la cabecera "supremum, Gaussian" describía correctamente `exp14_dbpedia.csv` (coeficientes gaussianos).
+  Para que diga "Haar" sin mentir, la copia final usa el exceso del supremo bajo el nulo Haar de `expR61_dbpedia_record.csv`
+  (`excess_haar_sup`); los tres valores cambian en ~0.004. Confirmar que era eso lo que se quería.
+- (Cuarta revisión) §6 "the best simple policy is cosine everywhere": en la Tabla 13e la regla por objetivo (sin validación) da +0.28 pp
+  frente a +0.23 de "always cosine" (60 celdas; +0.41 frente a +0.28 en las 40 jerárquicas). El texto lo dice como "the objective rule
+  adds little"; decidir si se prefiere otra formulación.
+- (Cuarta revisión) Tabla 2(d) vuelve a listar el barrido completo de C para DINOv2-L (la leyenda del brief necesita varios C).
 - Figura 5(c): la leyenda literal dice "DINOv2 loses most of its structure under Euclidean distance". Con azar 0.5, la pérdida de la
   estructura por encima del azar es 63% (DINOv2-G), 50% (L), 30% (B) y 8% (S): "most" vale para L y G; S y B pierden menos. Decidir si
   se matiza ("the larger DINOv2 models").

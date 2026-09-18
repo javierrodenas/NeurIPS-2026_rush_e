@@ -30,7 +30,7 @@ lines = [r"\begin{table}[tbp]" if SUBDIR else r"\begin{table}[H]", r"\centering"
          r"\begin{tabular}{ll>{\raggedright\arraybackslash}p{9.0cm}}", r"\toprule",
          r"table & generated file & result file(s) \\", r"\midrule"]
 MAIN = (Path(__file__).parent / MAIN_NAME).read_text()
-prov = [x for x in prov if (f"appendix_tables/{SUBDIR}/{x[1]}" if SUBDIR else f"appendix_tables/{x[1]}") in MAIN and not x[1].startswith("tab_z_provenance")]  # index only tables the paper includes
+prov = [x for x in prov if (f"appendix_tables/{SUBDIR}/{x[1]}}}" if SUBDIR else f"appendix_tables/{x[1]}}}") in MAIN and not x[1].startswith("tab_z_provenance")]   # the closing brace: tab_q04_depth must not match tab_q04_depth_final  # index only tables the paper includes
 for label, stem, files in prov:
     ftex = files.replace("_", r"\_") if files else "(stated in generator)"
     lines.append(rf"\ref{{{label}}} & \texttt{{{stem.replace('_', chr(92)+'_')}}} & {' '.join(chr(92)+'texttt{'+x.strip()+'}' for x in ftex.split(',')) if files else ftex} \\")

@@ -32,6 +32,18 @@ assert tx.loc['gpt2', 'genuine_bh'] and not tx.loc['gpt2_m', 'genuine_bh'] and a
 assert not any(tx.loc[m, 'genuine_bh'] for m in ('bge_base', 'bge_large', 'gte_base', 'gte_large', 'gte_qwen2', 'e5_base', 'e5_large')), "'embedders absent on the class names' (S5.4)"
 d61 = pd.read_csv(R + 'expR61_dbpedia_record.csv'); assert d61.genuine_bh.all(), "'embedders present on DBpedia' (S5.4)"
 e21 = pd.read_csv(R + 'exp21b_local_global_K200.csv'); assert (e21.knn_R_p < 0.05).all() and (e21.cka_R_p < 0.05).all() and e21.knn_H_raw.mean() < e21.knn_R_raw.mean() and e21.cka_H_raw.mean() <= e21.cka_R_raw.mean() + 0.01, "S5.5 words"
+# fourth review: the frame paragraph of S5.3, the class-count sentence of S5.2 and the recommendation of S6 are checked against the files
+dv = pd.read_csv(R + 'expR56_depth_variants.csv'); im = dv[(dv.dataset == 'imagenet') & (dv.variant == 'aniso')]
+cert = {K: set(im[(im.K == K) & (im.z_depth <= -2)].model) for K in (10, 30, 60)}
+bal = pd.read_csv(R + 'expR64b_wn30bal_summary.csv'); cert['bal'] = set(bal[bal.real_z <= -2].model)
+assert cert[30] == {'i21k_s', 'i21k_b', 'i21k_l', 'dinov2_l'} and cert['bal'] - cert[30] == {'i21k_t'} and cert[30] - cert['bal'] == {'i21k_s', 'dinov2_l'}, cert   # "ViT-T joins, ViT-S and DINOv2-L leave"
+assert cert[10] != cert[30] and cert[60] != cert[30] and set.intersection(*cert.values()) == {'i21k_b', 'i21k_l'}, cert                        # "Only ViT-B and ViT-L are certified under every frame"
+c60 = pd.read_csv(R + 'expR60_c_sweep_record.csv'); g = c60.groupby(['mode', 'C']).excess.mean()
+for mode in ('coherent', 'random'):
+    e = g[mode].sort_index(); assert e.iloc[0] < e.iloc[-1] < 0 and (e.diff().dropna() > 0).mean() >= 0.8, (mode, e.to_dict())   # "the excess shrinks with the number of classes for coherent and random subsets alike"
+k = pd.read_csv(R + 'expR68_corollary_excess.csv') if os.path.exists(R + 'expR68_corollary_excess.csv') else None
+e24 = pd.read_csv(R + 'exp24_val_metric_selection.csv'); pol = {c: e24[c].mean() for c in ('adv_cos', 'adv_rule', 'adv_val')}   # the advantages are stored in pp
+assert pol['adv_cos'] > 0 and pol['adv_rule'] - pol['adv_cos'] <= 0.15 and pol['adv_val'] > pol['adv_rule'], pol    # "cosine everywhere ...; the objective rule adds little" (Table 13e: +0.23 vs +0.28 pp over 60 cells)
 # ---- verbatim parts and the named edits
 L = open(TEX + 'main_local.tex').read()
 def between(a, b, s=L, strip=False): i = s.index(a); j = s.index(b, i); return s[i + (len(a) if strip else 0):j]
@@ -39,12 +51,15 @@ EDITS = [("a structureless cloud, a star of clusters without depth and a tree wi
          ("Why is the shadow low?", "Why is the reading low?"),
          ("the geometric face of the width confounder of", "the geometric counterpart of the width confounder of"),
          ("it keeps the tail of the defects, the intent of the supremum, but it is set by hundreds of quadruples rather than by one.", "it keeps the tail of the defects, as the supremum does, but it is set by hundreds of quadruples rather than by one."),
-         (" What a structureless cloud reads on it is the next question.", "")]
+         (" What a structureless cloud reads on it is the next question.", ""),
+         # fourth review (2026-09-18): the abstract on OpenReview was updated by the author to 15 text models and to the S5.1 wording
+         ("6 datasets and 16 text models, the premise does not survive:", "6 datasets and 15 text models, the premise does not survive calibration on the two datasets tested:")]
 def edit(s):
     for a, b in EDITS:
         if a in s: s = s.replace(a, b)
     return s
-ABSTRACT = between("\\begin{abstract}", "\\end{abstract}") + "\\end{abstract}"
+ABSTRACT = edit(between("\\begin{abstract}", "\\end{abstract}")) + "\\end{abstract}"
+assert "16 text models" not in ABSTRACT and "two datasets tested" in ABSTRACT
 INTRO = edit(between("\\section{Introduction}", "\\section{Related Work}").rstrip())
 RELATED = between("\\section{Related Work}", "\\section{The Instrument}").rstrip()
 GROMOV = edit(between("\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}", strip=True).rstrip())
@@ -80,14 +95,18 @@ def clean_block(b):
     b = b.replace("(Figure~\\ref{fig:bestmetric}; held-out selection and policy comparison in Table~\\ref{tab:q9-corollary})", "(Table~\\ref{tab:q9-corollary})")
     b = b.replace("(Figure~\\ref{fig:causal}; raw $\\delta$, within architecture)", "(raw $\\delta$, within architecture)")
     return b
-B8 = clean_block(bytab["tab_q08_robust"]); B8 = B8.replace("\\input{appendix_tables/tab_q08_robust}", "\\input{appendix_tables/tab_q08_robust_final}")
-B8 = re.sub(r"\\paragraph\{Hierarchy depth, not class count\.\}.*?\n", "", B8)                    # the sweep rows beyond the two kept ones are gone
+# tables regenerated for the final by gen_appendix_final.py (appendix_tables/final/*_final.tex): robustness (bootstrap under the record, class-count sweep), depth (two-decimal z, K sweep), wordnet (DBpedia supremum under the Haar null)
+FINAL_SRC = {"tab_q08_robust": "tab_q08_robust_final", "tab_q04_depth": "tab_q04_depth_final", "tab_q07_wordnet": "tab_q07_wordnet_final"}
+B8 = clean_block(bytab["tab_q08_robust"])
+B8 = re.sub(r"\\paragraph\{Hierarchy depth, not class count\.\}.*?\n", "", B8)                    # the class-count paragraph of v1 claimed the opposite of the corrected caption
 bytab["tab_q08_robust"] = B8
-for k in KEEP: bytab[k] = clean_block(bytab[k]) if k != "tab_q08_robust" else bytab[k]
+for k in KEEP:
+    bytab[k] = clean_block(bytab[k]) if k != "tab_q08_robust" else bytab[k]
+    if k in FINAL_SRC: bytab[k] = bytab[k].replace("\\input{appendix_tables/" + k + "}", "\\input{appendix_tables/" + FINAL_SRC[k] + "}")
 labels = {}
 for stem in KEEP:
-    fn = "tab_q08_robust_final" if stem == "tab_q08_robust" else stem
-    mm = re.search(r"\\label\{(tab:q[^}]*)\}", open(TEX + ("appendix_tables/final/" if stem == "tab_q08_robust" else "appendix_tables/") + fn + ".tex").read()); labels[mm.group(1)] = stem
+    fn = FINAL_SRC.get(stem, stem)
+    mm = re.search(r"\\label\{(tab:q[^}]*)\}", open(TEX + ("appendix_tables/final/" if stem in FINAL_SRC else "appendix_tables/") + fn + ".tex").read()); labels[mm.group(1)] = stem
 main = body[:body.index("\\appendix")]; cited = []
 for m in re.finditer(r"\\ref\{(tab:q[^}]*)\}", main):
     if m.group(1) not in cited: cited.append(m.group(1))
@@ -99,7 +118,10 @@ FD = TEX + "appendix_tables/final/"; os.makedirs(FD, exist_ok=True)
 # panels the brief deletes (null-variant panel, uncited supremum table) with the caption sentence that described them
 DROP = {"tab_q01_census": ["(b) Verdict under the four null"], "tab_q09_corollary": ["(b) Correlation between the raw supremum"]}
 CAPFIX = {"tab_q01_census": lambda c: re.sub(r"\s*\(b\) Four symbols per cell.*?(?=\s*%)", "", c, flags=re.S)}
-def split_panels(src, drop=(), capfix=None):
+DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourth review: 15 text models; OLMo-7B was not extracted (said once in S4)
+def split_panels(src, drop=(), capfix=None, dropline=()):
+    if dropline:
+        n0 = len(src.split("\n")); src = "\n".join(l for l in src.split("\n") if not any(d in l for d in dropline)); assert len(src.split("\n")) == n0 - len(dropline), dropline
     prov = [l for l in src.split("\n") if l.startswith("% prov:")]; out = list(prov); first = True; dropped = 0
     blocks_ = re.findall(r"\\begin\{table\}\[(?:H|tbp)\](\\ContinuedFloat)?\n(.*?)\n\\end\{table\}", src, flags=re.S); assert blocks_, "no table block in the source"   # [tbp]: an already split copy (idempotent)
     for _, body in blocks_:
@@ -119,25 +141,27 @@ def split_panels(src, drop=(), capfix=None):
     assert dropped == len(drop), (drop, dropped)
     return "\n".join(out) + "\n"
 for stem in order:
-    fn = "tab_q08_robust_final" if stem == "tab_q08_robust" else stem
-    src = open((FD if stem == "tab_q08_robust" else TEX + "appendix_tables/") + fn + ".tex").read()
-    open(FD + fn + ".tex", "w").write(split_panels(src, DROP.get(stem, ()), CAPFIX.get(stem)))
+    fn = FINAL_SRC.get(stem, stem)
+    src = open((FD if stem in FINAL_SRC else TEX + "appendix_tables/") + fn + ".tex").read()
+    open(FD + fn + ".tex", "w").write(split_panels(src, DROP.get(stem, ()), CAPFIX.get(stem), DROPLINE.get(stem, ())))
+for f in os.listdir(FD):   # stale copies from earlier rounds are removed so the provenance index and the sweep see the current set only
+    if f.endswith(".tex") and f[:-4] not in [FINAL_SRC.get(s, s) for s in order] + ["tab_z_provenance_final"]: os.remove(FD + f)
 appendix = head + "".join(bytab[s] for s in order) + prov_block
-appendix = appendix.replace("\\input{appendix_tables/tab_", "\\input{appendix_tables/final/tab_").replace("\\FloatBarrier\n", "")
+appendix = appendix.replace("\\input{appendix_tables/tab_", "\\input{appendix_tables/final/tab_")   # the \FloatBarrier before every subsection stays (fourth review: no heading is left empty)
 appendix = appendix.replace("\\section{One table per question}", "\\renewcommand{\\topfraction}{0.95}\\renewcommand{\\bottomfraction}{0.95}\\renewcommand{\\textfraction}{0.03}\\renewcommand{\\floatpagefraction}{0.85}\\setcounter{topnumber}{4}\\setcounter{bottomnumber}{4}\\setcounter{totalnumber}{6}\\setlength{\\floatsep}{8pt plus 2pt}\n"
-                            "% final version: the tables float ([tbp], one float per panel) so the appendix pages pack; the questions' text comes first and the tables follow in order\n\\section{One table per question}", 1)
-assert "\\input{appendix_tables/final/tab_q08_robust_final}" in appendix and "\\FloatBarrier" not in appendix
+                            "% final version: the tables float ([tbp], one float per panel) within their subsection (a \\FloatBarrier closes each one)\n\\section{One table per question}", 1)
+assert "\\input{appendix_tables/final/tab_q08_robust_final}" in appendix and appendix.count("\\FloatBarrier") >= 12
 body = body.replace("%%APPENDIX_QUESTIONS%%", appendix) + "\n\\end{document}\n"
 T1 = open(P1).read(); pre = T1[:T1.index("\\begin{abstract}")]
 pre = pre.replace("\\usepackage{array}\n", "\\usepackage{array}\n\\usepackage{amsthm}\n", 1)
 pre = pre.replace("\\begin{document}\n", "\\newtheoremstyle{inline}{3pt}{3pt}{}{}{\\bfseries}{.}{ }{}\n\\newtheoremstyle{inlineit}{3pt}{3pt}{\\itshape}{}{\\bfseries}{.}{ }{}\n"
                   "\\theoremstyle{inline}\n\\newtheorem{definition}{Definition}\n\\theoremstyle{inlineit}\n\\newtheorem{proposition}{Proposition}\n"
-                  "\\makeatletter\\g@addto@macro\\normalsize{\\setlength\\abovedisplayskip{4pt plus 1pt}\\setlength\\belowdisplayskip{4pt plus 1pt}\\setlength\\abovedisplayshortskip{2pt}\\setlength\\belowdisplayshortskip{2pt}}\n"
+                  "\\makeatletter\\g@addto@macro\\normalsize{\\setlength\\abovedisplayskip{3pt plus 1pt}\\setlength\\belowdisplayskip{3pt plus 1pt}\\setlength\\abovedisplayshortskip{2pt}\\setlength\\belowdisplayshortskip{2pt}}\n"
                   "% typographic only (page budget, 2026-09-18): the section headings and the run-in paragraph headings open with less white space than the style's default; fonts, margins and line spacing are the style's\n"
                   "\\renewcommand\\section{\\@startsection{section}{1}{\\z@}{-1.2ex plus -0.4ex minus -.2ex}{0.8ex plus 0.2ex minus 0.1ex}{\\large\\sc\\raggedright}}\n"
                   "\\renewcommand\\subsection{\\@startsection{subsection}{2}{\\z@}{-1.0ex plus -0.4ex minus -.2ex}{0.5ex plus .2ex}{\\normalsize\\sc\\raggedright}}\n"
-                  "\\renewcommand\\paragraph{\\@startsection{paragraph}{4}{\\z@}{0.5ex plus 0.3ex minus .2ex}{-1em}{\\normalsize\\bf}}\\makeatother\n"
-                  "\\setlength{\\textfloatsep}{12pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{5pt}\n"
+                  "\\renewcommand\\paragraph{\\@startsection{paragraph}{4}{\\z@}{0.3ex plus 0.3ex minus .2ex}{-1em}{\\normalsize\\bf}}\\makeatother\n"
+                  "\\setlength{\\textfloatsep}{8pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{3pt}\n"
                   "% final version: classic structure, plain prose (author's brief of 2026-09-18); generated by rebuttal/scripts/phaseE_submission.py.\n\\begin{document}\n", 1)
 open(PF, 'w').write(pre + body)
 json.dump({"kept": order, "deleted": DELETED, "cuts": CUTS}, open(R + 'final_appendix.json', 'w'), indent=1)

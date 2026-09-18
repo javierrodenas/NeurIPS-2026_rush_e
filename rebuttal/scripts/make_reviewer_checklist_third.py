@@ -58,4 +58,14 @@ for q, items in Q:
         if ln is None: missing.append(phrase)
         out.append(f"- **{where}** (line {ln if ln else '?'}): {answer}")
     out.append("")
+FOURTH = """
+## Fourth review (2026-09-18): the four rebuttal items, answered in `main_iclr2027_final.pdf`
+
+- **R4.1 Bootstrap of the transfer sets under the record.** The centroid bootstrap of CIFAR-100 and DTD was rerun under the census of record (Haar null, 99.9th-percentile statistic, 200 replicates, 30 resamples at the census image budget; `expR73_transfer_bootstrap_record`), and the bootstrap panel of the robustness table (Table 2b) now reads ImageNet, CIFAR-100 and DTD from expR59 and expR73; the old expR32 rows are gone.
+- **R4.2 Class count.** The class-count control is stated for what it shows (Section 5.2 and Table 2d): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts; the verdict is what carries across datasets.
+- **R4.3 The depth test's frame.** Section 5.3 describes the balanced frame and the K sweep (Table 8a, two-decimal z): under the balanced frame ViT-T joins and ViT-S and DINOv2-L leave, cutting at ten or sixty superclasses changes the set again, and only ViT-B and ViT-L are certified under every frame. The CIFAR-100 readings are outside the validated regime (regime paragraph). Two new limitations: the spectrum null conditions on the second moments, to which a hierarchy contributes, so the excess is conservative (also stated in Section 3.3); and the depth test is Euclidean, so for the angular DINOv2 tree it may be conservative.
+- **R4.4 The recommendation.** Section 6 says what Tables 13d–e support: the raw reading predicts the readout gain as well as the calibrated one, the best simple policy is cosine everywhere, and the instrument's role is to certify whether there is structure to justify a non-Euclidean readout at all. No sentence claims that the excess predicts gains better than the raw reading.
+- Editorial: 15 text models everywhere (OLMo-7B was not extracted, said once in Section 4; "OLMo-1B" replaces "two OLMo sizes"); Table 11c's supremum columns are read against the Haar null; the abstract and Section 5.1 say the premise does not survive calibration on the two datasets tested; a `\FloatBarrier` closes every appendix subsection.
+"""
+out.append(FOURTH)   # fourth review (2026-09-18): appended verbatim, no line numbers (they refer to the final version)
 open("ICLR2027/REVIEWER_CHECKLIST_third.md", "w").write("\n".join(out)); print("\n".join(out)); print("missing anchors:", missing)

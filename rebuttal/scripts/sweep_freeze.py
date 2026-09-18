@@ -997,14 +997,14 @@ def final_checks():
         for a, b in ED: s = s.replace(a, b)
         return s
     # ---- verbatim parts, modulo the edits the brief names (recorded in final_verbatim_edits.json)
-    chk("final: abstract verbatim from main_local.tex", norm(seg(bf, "\\begin{abstract}", "\\end{abstract}")) == norm(seg(LOC, "\\begin{abstract}", "\\end{abstract}")))
+    chk("final: abstract verbatim from main_local.tex modulo the two recorded fourth-review edits (15 text models, the S5.1 wording)", norm(seg(bf, "\\begin{abstract}", "\\end{abstract}")) == norm(edit(seg(LOC, "\\begin{abstract}", "\\end{abstract}"))) and "15 text models" in bf and "16 text models" not in bf and "sixteen" not in bf and "two OLMo" not in bf)
     chk("final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits", norm(seg(bf, "\\section{Introduction}", "\\section{Related Work}")) == norm(edit(seg(LOC, "\\section{Introduction}", "\\section{Related Work}"))))
     rel_loc = norm(seg(LOC, "\\section{Related Work}", "\\section{The Instrument}")); rel_f = norm(seg(bf, "\\section{Related Work}", "\\section{Methodology}"))
     chk("final: S2 verbatim from main_local.tex, or its first six sentences (cut step 4 of the page budget)", rel_f == rel_loc or (rel_f in rel_loc and rel_loc.startswith(rel_f)))
     grom = norm(edit(seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1])); est = norm(edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]))
     chk("final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence)", grom in norm(bf) and est in norm(bf))
-    chk("final: the five recorded edits are exactly the brief's (shadow x2, geometric face, intent of the supremum, the bridge) and none of the old phrases survives",
-        len(ED) == 5 and all(a not in bf for a, _ in ED) and all((b in bf) for _, b in ED if b) and sum(1 for a, _ in ED if "shadow" in a) == 2 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED))
+    chk("final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; fourth review: 15 text models, the S5.1 wording in the abstract) and none of the old phrases survives",
+        len(ED) == 6 and all(a not in bf for a, _ in ED) and all((b in bf) for _, b in ED if b) and sum(1 for a, _ in ED if "shadow" in a) == 2 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED) and any("16 text models" in a for a, _ in ED) and any("two datasets tested" in b for _, b in ED))
     # ---- metaphors, bridges and banned phrases anywhere in the body (Figure 1 and its caption excepted), thesis twice
     body_nofig = _re.sub(r"\\begin\{figure\}.*?\\end\{figure\}", "", nocom(bf), flags=_re.S); body_nocite = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", body_nofig)
     META = ["shadow", "star caveat", "aristotelian", "geometric face", "intent of the supremum"]
@@ -1107,7 +1107,7 @@ def final_checks():
     main_f = TF[:TF.index("\\appendix")]; app_f = TF[TF.index("\\appendix"):]; FD = TEX/"appendix_tables"/"final"
     inputs = _re.findall(r"\\input\{appendix_tables/final/(tab_[^}]*)\}", app_f)
     labels = {}
-    for f in list(tabfiles) + [FD/"tab_q08_robust_final.tex"]:
+    for f in sorted(FD.glob("tab_q*.tex")):   # the final copies (v1 tables split by panel, plus the tables regenerated for the final: robustness, depth, wordnet)
         m = _re.search(r"\\label\{(tab:q[^}]*)\}", f.read_text())
         if m: labels[f.stem] = m.group(1)
     cited = []
@@ -1127,14 +1127,20 @@ def final_checks():
     # the final copies are the v1 tables split into one floating table per panel: same numbers, same captions, [tbp] instead of [H]
     same = []
     for s in kept:
-        if s == "tab_q08_robust_final": continue
+        if s.endswith("_final"): continue   # regenerated for the final by gen_appendix_final.py (robustness, depth, wordnet): checked below
         strip_ = lambda s_: _re.sub(r"\\setlength\{\\tabcolsep\}\{[^}]*\}", "", nocom(s_))   # the column separation is repeated per panel in the copies
         a = strip_((TEX/"appendix_tables"/(s + ".tex")).read_text()); b = strip_((FD/(s + ".tex")).read_text())
         na, nb = _re.findall(r"\d+\.\d+|\d+", a), _re.findall(r"\d+\.\d+|\d+", b)
         if s in ("tab_q01_census", "tab_q09_corollary"): ok = set(nb) <= set(na) and len(nb) < len(na)      # one panel dropped by the brief (null-variant panel, uncited supremum table)
+        elif s in ("tab_q02_text", "tab_q14_panel"): ok = set(nb) <= set(na) and "OLMo-7B" in a and "OLMo-7B" not in b   # fourth review: the OLMo-7B row (not extracted) is gone
         else: ok = sorted(na) == sorted(nb) and _re.findall(r"\\caption\{(?!\(continued\)\})", a) == _re.findall(r"\\caption\{(?!\(continued\)\})", b)
         same.append(ok and "[H]" not in b and b.count("\\begin{table}") >= a.count("\\begin{table}") - 1)
-    chk("final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel", all(same) and len(same) == 11, str([s for s, ok in zip([k for k in kept if k != "tab_q08_robust_final"], same) if not ok]))
+    chk("final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel", all(same) and len(same) == 9, str([s for s, ok in zip([k for k in kept if not k.endswith("_final")], same) if not ok]))
+    # fourth review: the regenerated tables of the final
+    dep = (FD/"tab_q04_depth_final.tex").read_text(); wn = (FD/"tab_q07_wordnet_final.tex").read_text(); txt_ = (FD/"tab_q02_text.tex").read_text(); pan_ = (FD/"tab_q14_panel.tex").read_text()
+    chk("final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row",
+        not _re.search(r"\(([+-]\d\.\d)\)", dep) and not _re.search(r"\$[+-]\d\.\d\$", dep) and "$K{=}10$" in dep and "$K{=}60$" in dep and "supremum, Haar" in wn and "supremum, Gaussian" not in wn
+        and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in rob and rob.count("DINOv2-L & ") >= 5)
     alltex = nocom(TF) + "".join(nocom((FD/(s + ".tex")).read_text()) for s in inputs) + nocom(open(TEX/"tab_census_final.tex").read())
     refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
     chk("final: every cross-reference of the final resolves", refs <= defs, str(sorted(refs - defs)))

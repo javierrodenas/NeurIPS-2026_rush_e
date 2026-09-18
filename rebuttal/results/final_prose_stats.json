@@ -11,37 +11,37 @@
    "max_words": 60
   },
   "Methodology": {
-   "sentences": 39,
-   "avg_words": 19.8,
+   "sentences": 40,
+   "avg_words": 20.1,
    "max_words": 45
   },
   "Experimental Setup": {
    "sentences": 15,
-   "avg_words": 18,
+   "avg_words": 17.5,
    "max_words": 33
   },
   "Results": {
-   "sentences": 74,
-   "avg_words": 15.1,
-   "max_words": 30
+   "sentences": 75,
+   "avg_words": 15.6,
+   "max_words": 34
   },
   "Implications for Hyperbolic Representation Learning": {
-   "sentences": 11,
-   "avg_words": 13.7,
-   "max_words": 27
+   "sentences": 10,
+   "avg_words": 16.4,
+   "max_words": 29
   },
   "Conclusion and Limitations": {
-   "sentences": 9,
-   "avg_words": 20.3,
+   "sentences": 11,
+   "avg_words": 18.7,
    "max_words": 34
   }
  },
- "avg_nonverbatim": 16.5,
- "n_nonverbatim_sentences": 132,
+ "avg_nonverbatim": 16.9,
+ "n_nonverbatim_sentences": 135,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
-   "lead": "The premise fails where it is read.",
+   "lead": "The premise does not survive calibration on the two datasets tested.",
    "numbers": []
   },
   {
@@ -152,7 +152,7 @@
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",
-   "lead": "The calibrated reading predicts the zero-cost gain.",
+   "lead": "Both readings predict the gain, and cosine is the best simple policy.",
    "numbers": []
   },
   {

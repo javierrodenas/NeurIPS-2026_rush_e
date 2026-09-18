@@ -281,29 +281,43 @@ def q_sample():
 # ======================================================================================================================
 # Q4: the depth test — real backbones (both stars, both frames, K sweep), leaf-label ViTs, MERU, the trained control
 # ======================================================================================================================
+FINAL = False   # set by the final block below: q_depth/q_wordnet then write appendix_tables/final/*_final.tex
 def q_depth():
-    T = Table("tab_q04_depth.tex", "tab:q4-depth", colsep="2.2pt"); T.prov += ["expR56_depth_variants.csv", "expR69_depth_haarhubs_summary.csv", "expR64b_wn30bal_summary.csv", "expR70_inet1k_supervised.csv", "expR52_census_haar_p999_200.csv", "expR63_meru_record.csv", "expR65_hier_finetune.csv"]
+    T = Table("final/tab_q04_depth_final.tex" if FINAL else "tab_q04_depth.tex", "tab:q4-depth", colsep="2.2pt"); zf = "+.2f" if FINAL else "+.1f"; T.prov += ["expR56_depth_variants.csv", "expR69_depth_haarhubs_summary.csv", "expR64b_wn30bal_summary.csv", "expR70_inet1k_supervised.csv", "expR52_census_haar_p999_200.csv", "expR63_meru_record.csv", "expR65_hier_finetune.csv"]
     dv = load("expR56_depth_variants.csv"); g2 = {(a["model"], a["dataset"], int(a["K"]), a["variant"]): a for a in dv}
     H = {a["model"]: a for a in load("expR69_depth_haarhubs_summary.csv")} if ex("expR69_depth_haarhubs_summary.csv") else {}
     BAL = {a["model"]: a for a in load("expR64b_wn30bal_summary.csv")} if ex("expR64b_wn30bal_summary.csv") else {}
-    def cell(a): return "--" if a is None else f"${float(a['depth_excess']):+.3f}$ ({float(a['z_depth']):+.1f})"
+    def cell(a): return "--" if a is None else f"${float(a['depth_excess']):+.3f}$ ({float(a['z_depth']):{zf}})"
     rows = []
     for m in M12:
-        cs = [cell(g2.get(k)) for k in [(m,"cifar100",20,"iso"),(m,"cifar100",20,"aniso"),(m,"imagenet",30,"iso"),(m,"imagenet",30,"aniso")]]
+        if FINAL:
+            zonly = lambda a: "--" if a is None else f"${float(a['z_depth']):{zf}}$"
+            cs = [zonly(g2.get((m,"cifar100",20,"iso"))), cell(g2.get((m,"cifar100",20,"aniso"))), zonly(g2.get((m,"imagenet",30,"iso"))), zonly(g2.get((m,"imagenet",10,"aniso"))), cell(g2.get((m,"imagenet",30,"aniso"))), zonly(g2.get((m,"imagenet",60,"aniso")))]
+        else: cs = [cell(g2.get(k)) for k in [(m,"cifar100",20,"iso"),(m,"cifar100",20,"aniso"),(m,"imagenet",30,"iso"),(m,"imagenet",30,"aniso")]]
         h = H.get(m); cs += ["--"]*3 if h is None else [f"${float(h['star_haar']):+.4f}$", f"${float(h['depth_haar']):+.4f}$ ({float(h['z_haar']):+.2f})", f"{int(h['r_star_haar'])}/10"]
-        b = BAL.get(m); cs.append("--" if b is None else f"${float(b['real_z']):+.1f}$")
+        b = BAL.get(m); cs.append("--" if b is None else f"${float(b['real_z']):{zf}}$")
         rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
-    T.panel("(a) The twelve backbones: depth = excess B of the real centroids minus that of a matched star (negative = more hierarchical above the frame), with $z$ against the combined spread.", "lcc@{\\hspace{5pt}}cc@{\\hspace{5pt}}ccc@{\\hspace{5pt}}c",
-            [r" & \multicolumn{2}{c}{C100, $K{=}20$, Gaussian hubs} & \multicolumn{2}{c}{IN, $K{=}30$, Gaussian hubs} & \multicolumn{3}{c}{IN, $K{=}30$, Haar-resampled hubs} & bal.\ frame \\",
-             r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-8}\cmidrule(lr){9-9}",
-             r"model & iso.\ star & aniso.\ star & iso.\ star & aniso.\ star & star B & depth ($z$) & $r_{\text{star}}$ & real $z$ \\"], rows, mids=(4, 9), colsep="1.8pt")
+    if FINAL:   # two narrower panels: the stars with Gaussian hubs and the frames, then the star with Haar-resampled hubs
+        split_ = lambda r: r[:-3].split(" & ")
+        rows_a = [" & ".join([split_(r)[k] for k in (0, 1, 2, 3, 4, 5, 6, 10)]) + r" \\" for r in rows]; rows_h = [" & ".join([split_(r)[k] for k in (0, 7, 8, 9)]) + r" \\" for r in rows]
+        T.panel("(a) The twelve backbones under the stars with Gaussian hubs: depth = excess B of the real centroids minus that of a matched star (negative = more hierarchical above the frame), with $z$ against the combined spread; the WordNet cut at $K{=}10$, 30 and 60 superclasses and the balanced frame.", "lcc@{\\hspace{5pt}}cccc@{\\hspace{5pt}}c",
+                [r" & \multicolumn{2}{c}{C100, $K{=}20$} & \multicolumn{4}{c}{ImageNet, anisotropic star} & bal.\ frame \\",
+                 r"\cmidrule(lr){2-3}\cmidrule(lr){4-7}\cmidrule(lr){8-8}",
+                 r"model & iso.\ $z$ & aniso.\ depth ($z$) & iso.\ $K{=}30$ $z$ & $K{=}10$ $z$ & $K{=}30$ depth ($z$) & $K{=}60$ $z$ & real $z$ \\"], rows_a, mids=(4, 9), colsep="2.2pt")
+        T.panel("(a$'$) The same backbones under the star whose hubs are a Haar resample of the real hubs (ImageNet, $K{=}30$).", "lccc",
+                [r"model & star B & depth ($z$) & $r_{\text{star}}$ \\"], rows_h, mids=(4, 9), colsep="4pt")
+    else:
+        T.panel("(a) The twelve backbones: depth = excess B of the real centroids minus that of a matched star (negative = more hierarchical above the frame), with $z$ against the combined spread.", "lcc@{\\hspace{5pt}}cc@{\\hspace{5pt}}ccc@{\\hspace{5pt}}c",
+                [r" & \multicolumn{2}{c}{C100, $K{=}20$, Gaussian hubs} & \multicolumn{2}{c}{IN, $K{=}30$, Gaussian hubs} & \multicolumn{3}{c}{IN, $K{=}30$, Haar-resampled hubs} & bal.\ frame \\",
+                 r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-8}\cmidrule(lr){9-9}",
+                 r"model & iso.\ star & aniso.\ star & iso.\ star & aniso.\ star & star B & depth ($z$) & $r_{\text{star}}$ & real $z$ \\"], rows, mids=(4, 9), colsep="1.8pt")
     def summ(ds, K, v):
         rows_ = [a for a in dv if a["dataset"] == ds and int(a["K"]) == K and a["variant"] == v]
         return f"{sum(float(a['z_depth'])<=-2 for a in rows_)}/{len(rows_)} at $z\\le-2$, {sum(float(a['z_depth'])>=2 for a in rows_)}/{len(rows_)} at $z\\ge+2$"
     ks = " ".join(f"CIFAR-100 $K{{=}}{K}$: iso {summ('cifar100',K,'iso')}; aniso {summ('cifar100',K,'aniso')}." for K in (5,10,20)) + " " + " ".join(f"ImageNet $K{{=}}{K}$: iso {summ('imagenet',K,'iso')}; aniso {summ('imagenet',K,'aniso')}." for K in (10,30,60))
     hits_ = [a for a in dv if a["dataset"] == "imagenet" and int(a["K"]) == 30 and a["variant"] == "aniso" and float(a["z_depth"]) <= -2]
     iso_c = [float(a["z_depth"]) for a in dv if a["dataset"] == "cifar100" and int(a["K"]) == 20 and a["variant"] == "iso"]
-    cert_ = f" Certified on ImageNet ($n{{=}}1000$, the validated regime): {len(hits_)} of 12 backbones ({', '.join(NAME[a['model']] for a in hits_)}) with $z$ from ${max(float(a['z_depth']) for a in hits_):+.1f}$ to ${min(float(a['z_depth']) for a in hits_):+.1f}$; the withdrawn isotropic star reached $z{{=}}{{{max(iso_c):+.1f}}}$ on CIFAR-100."
+    cert_ = f" Certified on ImageNet ($n{{=}}1000$, the validated regime): {len(hits_)} of 12 backbones ({', '.join(NAME[a['model']] for a in hits_)}) with $z$ from ${max(float(a['z_depth']) for a in hits_):{zf}}$ to ${min(float(a['z_depth']) for a in hits_):{zf}}$; the withdrawn isotropic star reached $z{{=}}{{{max(iso_c):{zf}}}}$ on CIFAR-100."
     htxt = ""
     if H:
         ch = [m for m in M12 if H[m]["cert_haar"] == "True"]; zh = [float(H[m]["z_haar"]) for m in ch]
@@ -332,7 +346,7 @@ def q_depth():
         MN = {"meru_s":"MERU ViT-S","clip_s":"CLIP ViT-S","meru_b":"MERU ViT-B","clip_b":"CLIP ViT-B","meru_l":"MERU ViT-L","clip_l":"CLIP ViT-L"}
         def mc(a):
             if a is None: return "-- & -- & --"
-            return f"${float(a['excess']):+.3f}" + ("" if gb(a) else r"^{\circ}") + f"$ ({int(a['r_above'])}) & ${float(a['delta_999_native']):.3f}$/${float(a['delta_999']):.3f}$ & ${float(a['z_depth']):+.1f}$"
+            return f"${float(a['excess']):+.3f}" + ("" if gb(a) else r"^{\circ}") + f"$ ({int(a['r_above'])}) & ${float(a['delta_999_native']):.3f}$/${float(a['delta_999']):.3f}$ & ${float(a['z_depth']):{zf}}$"
         rows = []; mids = []
         for mod, lab in (("image","images"),("text","prompts")):
             for m in Mm: rows.append(MN[m] + f" & {lab} & " + mc(by.get((m,"cifar100",mod))) + " & " + mc(by.get((m,"imagenet",mod))) + r" \\")
@@ -348,7 +362,7 @@ def q_depth():
             Rr = load("expR71_meru_radii.csv"); T.prov.append("expR71_meru_radii.csv")
             rad = f" Its embeddings sit in the near-flat regime of the hyperboloid: learned curvature $c{{=}}{float(Rr[0]['curv']):.2f}$, spatial norm times $\\sqrt{{c}}$ at the median {min(float(a['radius_sqrtc_median']) for a in Rr):.3f}--{max(float(a['radius_sqrtc_median']) for a in Rr):.3f} (95th percentile {min(float(a['radius_sqrtc_p95']) for a in Rr):.3f}--{max(float(a['radius_sqrtc_p95']) for a in Rr):.3f}), and Lorentz-to-Euclidean pairwise distance ratio {min(float(a['lorentz_over_euclid_median']) for a in Rr):.4f}--{max(float(a['lorentz_over_euclid_median']) for a in Rr):.4f} at the median ({min(float(a['centroid_lorentz_over_euclid_median']) for a in Rr):.4f}--{max(float(a['centroid_lorentz_over_euclid_median']) for a in Rr):.4f} on the class centroids), so the control tests the training objective, not a curved geometry."
         mtxt = (r" (c) MERU \citep{desai2023meru} embeds images and text on the Lorentz hyperboloid with an entailment objective; its released twin is a CLIP baseline with the same ViT, RedCaps data and recipe minus the hyperbolic lift and entailment loss. Both pass through the instrument unchanged: class centroids of the projected embeddings (MERU: space-like hyperboloid coordinates; CLIP: unit vectors), Euclidean distances; exc.\ ($r$): excess over the Haar spectrum-matched null with the number of 200 replicates above the real value ($^{\circ}$: not genuine under BH over the 24 cells); nat./Eucl.: the same statistic in the model's own metric (Lorentz distance between tangent-space-mean centroids for MERU, angular for CLIP) against the Euclidean one; depth $z$: the anisotropic matched-star test of panel (a) (10 star seeds), validated at $n{=}1000$ only. "
-                + f"On ImageNet images the excess runs from ${me[0]:+.3f}$ to ${me[1]:+.3f}$ for MERU and from ${ce[0]:+.3f}$ to ${ce[1]:+.3f}$ for its twin across ViT-S/B/L; MERU's Lorentz-metric $\\hat\\delta_{{99.9}}$ differs from its Euclidean value by at most ${natgap:.4f}$; depth $z$ runs from ${min(mz):+.1f}$ to ${max(mz):+.1f}$ for MERU and from ${min(cz):+.1f}$ to ${max(cz):+.1f}$ for CLIP, so neither is more hierarchical than a matched star and MERU is never ahead of its twin." + rad + r" MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy.")
+                + f"On ImageNet images the excess runs from ${me[0]:+.3f}$ to ${me[1]:+.3f}$ for MERU and from ${ce[0]:+.3f}$ to ${ce[1]:+.3f}$ for its twin across ViT-S/B/L; MERU's Lorentz-metric $\\hat\\delta_{{99.9}}$ differs from its Euclidean value by at most ${natgap:.4f}$; depth $z$ runs from ${min(mz):{zf}}$ to ${max(mz):{zf}}$ for MERU and from ${min(cz):{zf}}$ to ${max(cz):{zf}}$ for CLIP, so neither is more hierarchical than a matched star and MERU is never ahead of its twin." + rad + r" MERU's hierarchy is a generic$\to$specific (text$\supset$image) partial order, not a class taxonomy.")
     # (d) fine-tuned control
     ftxt = ""
     if ex("expR65_hier_finetune.csv"):
@@ -502,7 +516,7 @@ def q_treemap():
 # Q7: WordNet alignment, superclass recovery, DBpedia, HierarCaps
 # ======================================================================================================================
 def q_wordnet():
-    T = Table("tab_q07_wordnet.tex", "tab:q7-wordnet", colsep="2.6pt"); T.prov += ["exp3_alignment.csv", "exp28_recovery_per_config.csv", "exp8_p1_recovery.csv", "exp1_delta_controls.csv", "exp8_p6_pooling.csv", "expR70_inet1k_supervised.csv", "exp14_dbpedia.csv", "expR61_dbpedia_record.csv", "exp27_dbpedia_treemap.json", "exp16_hierarcaps.csv"]
+    T = Table("final/tab_q07_wordnet_final.tex" if FINAL else "tab_q07_wordnet.tex", "tab:q7-wordnet", colsep="2.6pt"); T.prov += ["exp3_alignment.csv", "exp28_recovery_per_config.csv", "exp8_p1_recovery.csv", "exp1_delta_controls.csv", "exp8_p6_pooling.csv", "expR70_inet1k_supervised.csv", "exp14_dbpedia.csv", "expR61_dbpedia_record.csv", "exp27_dbpedia_treemap.json", "exp16_hierarcaps.csv"]
     e3 = {a["model"]: a for a in load("exp3_alignment.csv")}; r28 = {a["model"]: a for a in load("exp28_recovery_per_config.csv")}
     CONFS = ["euclid-average","euclid-ward","cosine-average","cosine-complete","cosine-ward"]
     e1 = {}
@@ -539,9 +553,10 @@ def q_wordnet():
     for a in db:
         nc = (float(a["NC_H"]) - float(a["NC_R"])) * 100; q = rec.get(a["model"])
         recc = f"{float(q['delta_999']):.3f} & {float(q['excess']):+.3f} & {int(q['r_above'])} ({float(q['p_left']):.3f})" if q else "--- & --- & ---"
-        rows.append(f"{NAME[a['model']]} & {float(a['delta']):.3f} & {float(a['excess']):+.3f} & {recc} & {float(a['trip_cos']):.2f} & {nc:+.2f} & {float(a['FS_HR_pp']):+.2f}$\\pm${float(a['FS_HR_ci']):.2f} \\\\")
+        sup_exc = float(q['excess_haar_sup']) if (FINAL and q) else float(a['excess'])   # final: the supremum read against the Haar null of the record (expR61), not the superseded Gaussian one (exp14)
+        rows.append(f"{NAME[a['model']]} & {float(a['delta']):.3f} & {sup_exc:+.3f} & {recc} & {float(a['trip_cos']):.2f} & {nc:+.2f} & {float(a['FS_HR_pp']):+.2f}$\\pm${float(a['FS_HR_ci']):.2f} \\\\")
     T.panel("(c) DBpedia Classes (219 leaf classes, 3 levels), a text hierarchy independent of WordNet; gains in pp.", "lcc|ccc|ccc",
-            [r" & \multicolumn{2}{c|}{supremum, Gaussian} & \multicolumn{3}{c|}{census of record} & & & \\", r"model & $\hat\delta_{\max}$ & excess & $\hat\delta_{99.9}$ & excess & $r$ ($p$) & trip.\ & NC H$-$R & FS H$-$R \\"], rows, colsep="2.5pt")
+            [(r" & \multicolumn{2}{c|}{supremum, Haar} & \multicolumn{3}{c|}{census of record} & & & \\" if FINAL else r" & \multicolumn{2}{c|}{supremum, Gaussian} & \multicolumn{3}{c|}{census of record} & & & \\"), r"model & $\hat\delta_{\max}$ & excess & $\hat\delta_{99.9}$ & excess & $r$ ($p$) & trip.\ & NC H$-$R & FS H$-$R \\"], rows, colsep="2.5pt")
     tm = ""
     if ex("exp27_dbpedia_treemap.json"):
         d27 = json.load(open(RES/"exp27_dbpedia_treemap.json")); l2 = [x for v in d27.values() for x in v["ari_l2"].values()]; cm = [v["cross_model"] for v in d27.values()]
@@ -810,28 +825,25 @@ def conservation_check(verbose=True):
 # ======================================================================================================================
 def q_robust_final():
     (OUT / "final").mkdir(exist_ok=True)   # the final version's copies of the appendix tables live in appendix_tables/final/ (phaseE_submission.py fills the rest)
-    T = Table("final/tab_q08_robust_final.tex", "tab:q8-robust", colsep="2.4pt"); T.prov += ["expR72_budget_record.csv", "expR72_budget_record_summary.csv", "expR32_centroid_bootstrap.csv", "expR59_imagenet_bootstrap_summary.csv", "expR66_joint_sensitivity_summary.csv", "expR60_c_sweep_record.csv", "analysis4_finetuning.csv", "e1_delta_by_layer.csv"]
+    T = Table("final/tab_q08_robust_final.tex", "tab:q8-robust", colsep="2.4pt"); T.prov += ["expR72_budget_record.csv", "expR72_budget_record_summary.csv", "expR59_imagenet_bootstrap_summary.csv", "expR73_transfer_bootstrap_record_summary.csv", "expR66_joint_sensitivity_summary.csv", "expR60_c_sweep_record.csv", "analysis4_finetuning.csv", "e1_delta_by_layer.csv"]
     NM = {"i21k_l":"ViT-L","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G","clip_b":"CLIP-B"}; DSS = {"imagenet":"IN","cifar100":"C100","dtd":"DTD"}
     CELLS = [("i21k_l","imagenet"),("dinov2_l","imagenet"),("clip_b","imagenet"),("i21k_l","cifar100"),("dinov2_l","cifar100"),("clip_b","cifar100"),("i21k_l","dtd"),("dinov2_l","dtd"),("clip_b","dtd")]
-    B72 = {(a["model"], a["dataset"]): a for a in load("expR72_budget_record_summary.csv")}; D72 = load("expR72_budget_record.csv"); r32 = load("expR32_centroid_bootstrap.csv")
+    B72 = {(a["model"], a["dataset"]): a for a in load("expR72_budget_record_summary.csv")}; D72 = load("expR72_budget_record.csv")
     BUD = [10000, 50000, 100000, 500000, 1000000, 2000000]; rows = []
     for (m, ds) in CELLS:
         rec_ = [a for a in D72 if a["model"] == m and a["dataset"] == ds]
         if rec_:
             v = {int(a["n_quads"]): float(a["excess"]) for a in rec_}; s = B72[(m, ds)]
             rows.append(f"{NM[m]} & {DSS[ds]} & record & " + " & ".join(f"${v[b]:+.4f}$" for b in BUD) + f" & ${float(s['drift_ge1e5']):.4f}$ & {float(s['drift_ge1e5_over_sd']):.2f} \\\\")
-    seen = set()
-    for a in r32:
-        k = (a["model"], a["dataset"])
-        if k in seen or int(a["b"]) < 0: continue
-        sub = [float(x["excess"]) for x in r32 if (x["model"], x["dataset"]) == k and int(x["b"]) >= 0]
-        if len(sub) >= 10: seen.add(k); rows.append(f"{NM[a['model']]} & {DSS[a['dataset']]} & \\multicolumn{{9}}{{l}}{{centroid bootstrap: excess ${st.mean(sub):+.4f}$, s.d.\\ ${st.pstdev(sub):.4f}$ ({len(sub)} resamples of the per-class images, {a['n_per_class']} images/class)}} \\\\")
     T.panel("(a) Quadruple budget: the excess at $10^4$ to $2{\\times}10^6$ sampled quadruples per seed under the record (Haar null, p99.9, 200 replicates).", "llccccccc|cc",
             [r"model & data & protocol & $10^4$ & $5{\times}10^4$ & $10^5$ & $5{\times}10^5$ & $10^6$ & $2{\times}10^6$ & drift ($\ge10^5$) & drift/s.d. \\"], rows, colsep="2.2pt")
-    B = load("expR59_imagenet_bootstrap_summary.csv")
-    rows = [f"{NAME.get(a['model'], a['model'])} & ${float(a['excess_ref']):+.4f}$ & ${float(a['excess_boot_mean']):+.4f}$ & ${float(a['excess_boot_sd']):.4f}$ & {float(a['frac_boot_negative']):.2f} \\\\" for a in B]
-    T.panel("(b) ImageNet centroid bootstrap under the record: 30 resamples of the 100 training images per class (20 null replicates per resample).", "lcccc", [r"model & excess (reference) & bootstrap mean & bootstrap s.d. & fraction negative \\"], rows, mids=(4, 9), size=r"\footnotesize", colsep="4pt")
-    bmax = f"{max(float(a['excess_boot_sd']) for a in B):.4f}"
+    B = [dict(a, dataset="imagenet") for a in load("expR59_imagenet_bootstrap_summary.csv")]; B73 = load("expR73_transfer_bootstrap_record_summary.csv") if ex("expR73_transfer_bootstrap_record_summary.csv") else []
+    B = B + [a for a in B73 if a["dataset"] in ("cifar100", "dtd")]; DSN = {"imagenet": ("ImageNet", 100, 20), "cifar100": ("CIFAR-100", 500, 200), "dtd": ("DTD", 80, 200)}
+    rows = []
+    for ds in ("imagenet", "cifar100", "dtd"):
+        rows += [f"{NAME.get(a['model'], a['model'])} & {DSN[ds][0]} & {DSN[ds][1]} & {DSN[ds][2]} & ${float(a['excess_ref']):+.4f}$ & ${float(a['excess_boot_mean']):+.4f}$ & ${float(a['excess_boot_sd']):.4f}$ & {float(a['frac_boot_negative']):.2f} \\\\" for a in B if a["dataset"] == ds]
+    T.panel("(b) Centroid bootstrap under the record (Haar null, p99.9): 30 resamples with replacement of the cached training images per class at the census budget; ImageNet with 20 null replicates per resample (expR59), CIFAR-100 and DTD with 200 (expR73).", "llcccccc", [r"model & dataset & images/class & null rep. & excess (reference) & bootstrap mean & bootstrap s.d. & fraction negative \\"], rows, mids=(12, 24), colsep="3pt")
+    bmax = f"{max(float(a['excess_boot_sd']) for a in B):.4f}"; fneg = min(float(a["frac_boot_negative"]) for a in B); nds = len({a["dataset"] for a in B})
     T.newpart()
     J = {(r["model"], r["dataset"]): r for r in load("expR66_joint_sensitivity_summary.csv")}; rows = []
     for m in M12:
@@ -850,12 +862,12 @@ def q_robust_final():
         v = [float(r["p_left"]) <= 0.05 for r in c60 if r["model"] == m and int(r["C"]) == C and r["mode"] == mode]; return f"{sum(v)}/{len(v)}" if v else "---"
     rows = []
     for m in ["dinov2_l"]:
-        for C in [100]:
+        for C in sorted({int(r["C"]) for r in c60}):
             dr, er, nr = agg(m,C,"random","delta_999"), agg(m,C,"random","excess"), agg(m,C,"random","nc_adv_pp"); dc, ec, nc = agg(m,C,"coherent","delta_999"), agg(m,C,"coherent","excess"), agg(m,C,"coherent","nc_adv_pp")
             if dr is None: continue
             right = f"{dc:.3f} & {ec:+.3f} & {below(m,C,'coherent')} & {nc:+.2f}" if dc is not None else "--- & --- & --- & ---"
             rows.append(f"{NAME[m]} & {C} & {dr:.3f} & {er:+.3f} & {below(m,C,'random')} & {nr:+.2f} & {right} \\\\")
-    T.panel("(d) Class count against hierarchy depth: ImageNet subsets of $C=100$ classes, random (spanning the hierarchy) or WordNet-coherent (siblings, effectively flat), means over five subset seeds; the other values of $C$ are in the sweep file.", "lr|cccc|cccc",
+    T.panel("(d) Class count: ImageNet subsets of $C$ classes, random (spanning the hierarchy) or WordNet-coherent (siblings, effectively flat), means over the subset seeds. The excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts; the verdict is what carries across datasets.", "lr|cccc|cccc",
             [r" & & \multicolumn{4}{c|}{random subsets (span the hierarchy)} & \multicolumn{4}{c}{WordNet-coherent (siblings)} \\", r"model & $C$ & $\hat\delta_{99.9}$ & excess & below & NC adv & $\hat\delta_{99.9}$ & excess & below & NC adv \\"], rows, size=r"\footnotesize", colsep="3.5pt")
     NMI = {"dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","i21k_b":"ViT-B","clip_b":"CLIP-B","clip_b_vision":"CLIP-B"}; rows = []
     if (ABL/"analysis4_finetuning.csv").exists():
@@ -869,11 +881,12 @@ def q_robust_final():
     T.panel("(e) Training moves the raw reading within an architecture: one row per intervention.", "llccc", [r"intervention & model & $\delta$ before & $\delta$ after & change \\"], rows, size=r"\footnotesize", colsep="4pt")
     T.write(r"\textbf{The excess is budget-stable, the genuine count survives resampling and estimator noise, the reading follows the hierarchy of the labels rather than their number, and training moves it.} "
             r"(a) Excess against the quadruple budget for nine cells; drift = range of the record excess over budgets $\ge10^5$, divided by the excess's spread in the last column; under the record every sign holds at every budget. "
-            r"(b) Bootstrap of the ImageNet excess over resampled images per class: the bootstrap s.d.\ is at most " + bmax + r" and every resample of every backbone is sign-negative. % expR72_budget_record.csv, expR32_centroid_bootstrap.csv, expR59_imagenet_bootstrap_summary.csv",
+            r"(b) Bootstrap of the excess over resampled images per class on " + ("ImageNet, CIFAR-100 and DTD" if nds == 3 else "ImageNet") + r": the bootstrap s.d.\ is at most " + bmax + (r" and every resample of every cell is sign-negative." if fneg == 1.0 else f" and at least {fneg:.2f} of the resamples of every cell are sign-negative.") + r" % expR72_budget_record.csv, expR59_imagenet_bootstrap_summary.csv, expR73_transfer_bootstrap_record_summary.csv",
             contd=[r"(c) Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ and the number of resamples in which the cell is genuine under BH over the 72 cells; $^{\circ}$: not genuine in the record; $^{\dagger}$: record-genuine but failing one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one." + jt
-                   + r" (d) Class-count control under the record (means over subset seeds); ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv"])
+                   + r" (d) Class-count control under the record (means over subset seeds): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts and the verdict is what carries across datasets; ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv"])
 
 if __name__ == "__main__":
     for f in OUT.glob("tab_q*.tex"): f.unlink()
     q_calibration(); q_census(); q_robust(); q_sample(); q_depth(); q_power(); q_interventions(); q_treemap(); q_wordnet(); q_text(); q_local(); q_corollary(); q_xi(); q_panel(); q_robust_final()
     conservation_check()
+    FINAL = True; q_depth(); q_wordnet()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null)
