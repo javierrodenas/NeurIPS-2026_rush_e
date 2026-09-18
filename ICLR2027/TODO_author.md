@@ -214,6 +214,9 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   en `phaseE_submission.py`.
 - La limitación (viii) sobre ξ se eliminó al irse ξ del paper; el resto de las limitaciones va en un solo párrafo de seis puntos.
 - `figures/fig1_concept.pdf` no está en el repo: la Figura 1 compila como la caja de 1.4 in del `\IfFileExists` del autor.
+- Figura 5(c): la leyenda literal dice "DINOv2 loses most of its structure under Euclidean distance". Con azar 0.5, la pérdida de la
+  estructura por encima del azar es 63% (DINOv2-G), 50% (L), 30% (B) y 8% (S): "most" vale para L y G; S y B pierden menos. Decidir si
+  se matiza ("the larger DINOv2 models").
 - `TODO(author)`: enlace del repositorio anónimo en el Reproducibility Statement.
 - Cambios de texto de la versión final: en `rebuttal/scripts/phaseE_paper_final.tex.tmpl`; regenerar con
   `FINAL_CUTS=s55,s6,table,s2 python rebuttal/scripts/phaseE_submission.py` y después `gen_provenance.py main_iclr2027_final.tex

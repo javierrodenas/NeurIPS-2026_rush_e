@@ -94,43 +94,46 @@ fig.legend(handles=hd, frameon=False, loc="lower center", ncol=3, handlelength=1
 fig.subplots_adjust(left=0.10, right=0.995, top=0.91, bottom=0.25, wspace=0.12)
 save(fig, "fig_excess_final")
 
-# ---------------- Figure 4: (a) twelve bars of depth z, filled when certified, dashed line at -2, numbers on certified bars; (b) detection curves
+# ---------------- Figure 4: (a) twelve bars of depth z, filled when certified, dashed line at -2, z printed inside the certified bars; (b) detection curves; one legend below both panels
 dv = pd.read_csv(RES/"expR56_depth_variants.csv"); an = {r.model: float(r.z_depth) for r in dv[(dv.dataset == "imagenet") & (dv.K == 30) & (dv.variant == "aniso")].itertuples()}
 d64 = pd.read_csv(RES/"expR64b_wn30.csv"); dep = d64[(d64.kind == "depth") & (d64.partition == "rand6") & (d64.s != "real")].copy(); dep["s"] = dep.s.astype(float)
 tg = d64[(d64.kind == "depth") & (d64.partition == "rand6_t06")].copy(); tg["s"] = tg.s.astype(float)
 pr = dep.groupby("s").z.apply(lambda z: (z <= -2).mean()); pt = tg.groupby("s").z.apply(lambda z: (z <= -2).mean())
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.75), gridspec_kw={"width_ratios": [1.6, 1]})
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.9), gridspec_kw={"width_ratios": [1.6, 1]})
 ax = axes[0]
 ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=2); ax.axhline(0, color=GRAY, lw=0.5, zorder=1)
 for i, m in enumerate(M):
-    z = an[m]; cert = z <= -2; bar(ax, i, z, fam_color(m), cert, width=0.72)
-    if cert: ax.text(i, z - 0.12, f"{z:+.1f}".replace("-", "−"), ha="center", va="top", fontsize=8, color=fam_color(m))
+    z = an[m]; cert = z <= -2; bar(ax, i, z, fam_color(m), cert, width=0.76)
+    if cert: ax.text(i, z / 2, f"{z:+.1f}".replace("-", "−").replace("+", ""), ha="center", va="center", rotation=90, fontsize=8, color="white", zorder=5)
 ax.set_xticks(range(len(M))); ax.set_xticklabels([NM[m] for m in M], rotation=60, ha="right"); ax.set_xlim(-0.7, len(M) - 0.3)
-ax.set_ylim(-5.2, 1.4); ax.set_yticks([-4, -2, 0]); ax.set_yticklabels(["−4", "−2", "0"]); ax.set_ylabel("depth test $z$")
+ax.set_ylim(-4.6, 1.2); ax.set_yticks([-4, -2, 0]); ax.set_yticklabels(["−4", "−2", "0"]); ax.set_ylabel("depth test $z$")
 ax.set_title("(a) depth above the WordNet superclasses, ImageNet"); ax.tick_params(axis="x", length=0)
-hd = [Patch(color="k", label="certified ($z\\leq-2$)"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not detected")]
-ax.legend(handles=hd, frameon=False, loc="lower right", handlelength=1.2, handletextpad=0.4, labelspacing=0.25, borderaxespad=0.2)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax = axes[1]
-ax.plot(pr.index, pr.values, "-o", color="k", ms=3, lw=1.0, label="real spread", zorder=3)
-ax.plot(pt.index, pt.values, "--s", color=GRAY, ms=3, lw=1.0, label="shrunk spread", zorder=3)
+l1, = ax.plot(pr.index, pr.values, "-o", color="k", ms=3, lw=1.0, label="real spread", zorder=3)
+l2, = ax.plot(pt.index, pt.values, "--s", color=GRAY, ms=3, lw=1.0, label="shrunk spread", zorder=3)
 ax.annotate("no false alarms at $s{=}0$", (0, pr.loc[0.0]), xytext=(4, 12), textcoords="offset points", fontsize=8, ha="left", va="bottom", arrowprops=dict(arrowstyle="-", color=GRAY, lw=0.6))
-ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"]); ax.set_xlabel("implant strength $s$")
+ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"]); ax.set_xlabel("implant strength $s$", labelpad=1)
 ax.set_ylim(-0.04, 1.08); ax.set_yticks([0, 0.5, 1]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("detection rate")
 ax.set_title("(b) false alarms and power on real clouds")
-ax.legend(frameon=False, loc="center right", bbox_to_anchor=(1.0, 0.62), handlelength=1.6, labelspacing=0.3)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-fig.subplots_adjust(left=0.09, right=0.99, top=0.88, bottom=0.34, wspace=0.35)
+hd = [Patch(color="k", label="certified ($z\\leq-2$)"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not detected"), l1, l2]
+fig.legend(handles=hd, frameon=False, loc="lower center", ncol=4, handlelength=1.4, handletextpad=0.4, columnspacing=1.4, bbox_to_anchor=(0.5, -0.01))
+fig.subplots_adjust(left=0.09, right=0.99, top=0.89, bottom=0.40, wspace=0.35)
 save(fig, "fig_depth_final")
 print(f"depth: certified {sum(v <= -2 for v in an.values())}/12; detection real {dict((float(k), round(float(v), 3)) for k, v in pr.items())}; shrunk {dict((float(k), round(float(v), 3)) for k, v in pt.items())}")
 
-# ---------------- Figure 5: two ARI matrices, sequential palette from the family palette, rectangle around the DINOv2 block
+# ---------------- Figure 5: (a)(b) two ARI matrices, sequential palette, rectangle around the DINOv2 block; (c) sibling triplets under cosine and Euclidean distance per backbone
 z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True); S = z["summary_in"].item()
 diag = json.load(open(RES/"exp23_config_diagnostics.json")); adm = {k: v for k, v in diag.items() if k.startswith("imagenet|") and v["maxfrac"] <= 0.5}
 sel = max(adm, key=lambda k: adm[k]["cpcc"]).split("|")[1:]; SELKEY = "('{}', '{}')".format(*sel); assert SELKEY == "('cosine', 'average')", SELKEY
 cmap = LinearSegmentedColormap.from_list("family_seq", ["#FFFFFF", "#9FBFD6", FAMILY_COLORS["supervised"], "#123B57"])
 NAMES = [NM[m] for m in M]; sup = [0, 1, 2, 3, 9, 10, 11]; big = [6, 7, 8]
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.35))
+e10 = {r["model"]: r for r in csv.DictReader(open(RES/"exp10_local_vs_global.csv"))}
+W, H = 5.5, 2.5; s = 1.4; bot = 0.72                       # matrices of side s; panel (c) shares their bottom and height
+fig = plt.figure(figsize=(W, H))
+axes = [fig.add_axes([0.42/W, bot/H, s/W, s/H]), fig.add_axes([(0.42+s+0.10)/W, bot/H, s/W, s/H])]
+cax = fig.add_axes([(0.42+2*s+0.16)/W, bot/H, 0.07/W, s/H]); axc = fig.add_axes([(0.42+2*s+0.78)/W, bot/H, (W-(0.42+2*s+0.78)-0.04)/W, s/H])
 vals = []
 for ax, (key, title) in zip(axes, [("('euclid', 'average')", "(a) naive: Euclidean, average"), (SELKEY, "(b) selected: cosine, average")]):
     Mx = np.asarray(S[key]["ari"], dtype=float); im = ax.imshow(Mx, vmin=0, vmax=1, cmap=cmap); ax.grid(False)
@@ -139,7 +142,18 @@ for ax, (key, title) in zip(axes, [("('euclid', 'average')", "(a) naive: Euclide
     ax.set_title(title, pad=3); ax.set_xticks(range(12)); ax.set_xticklabels(NAMES, rotation=90); ax.set_yticks(range(12)); ax.set_yticklabels(NAMES if ax is axes[0] else [])
     ax.tick_params(length=1.5, pad=1)
     for sp in ax.spines.values(): sp.set_edgecolor("0.62")
-cb = fig.colorbar(im, ax=axes.tolist(), fraction=0.03, pad=0.03, shrink=0.85); cb.set_label("ARI between tree cuts"); cb.ax.tick_params(labelsize=8); cb.outline.set_visible(False)
+cb = fig.colorbar(im, cax=cax); cb.ax.tick_params(labelsize=8, length=1.5, pad=1); cb.outline.set_visible(False); cax.set_title("ARI", fontsize=8, pad=3)
+ax = axc; tri = {}
+for i, m in enumerate(M):
+    c, e = float(e10[m]["c100_sibtrip_c"]), float(e10[m]["c100_sibtrip_e"]); tri[m] = (c, e)
+    ax.bar(i - 0.2, c, 0.4, color=fam_color(m), zorder=3); ax.bar(i + 0.2, e, 0.4, facecolor="white", edgecolor=fam_color(m), hatch="////", linewidth=0.6, zorder=3)
+ax.axhline(0.5, color="k", lw=0.8, ls="--", zorder=2)
+ax.set_xticks(range(len(M))); ax.set_xticklabels(NAMES, rotation=90); ax.set_xlim(-0.7, len(M) - 0.3); ax.tick_params(axis="x", length=0)
+ax.set_ylim(0, 1.0); ax.set_yticks([0, 0.5, 1.0]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("triplet agreement", labelpad=2)
+ax.set_title("(c) where the tree lives:\nsibling triplets, CIFAR-100", pad=3, linespacing=1.1)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+hd = [Patch(color="k", label="cosine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="Euclidean"), plt.Line2D([], [], ls="--", color="k", lw=0.8, label="chance")]
+ax.legend(handles=hd, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.50), ncol=3, handlelength=1.2, handletextpad=0.4, columnspacing=1.0, borderaxespad=0)
 save(fig, "fig_treemap_final")
-json.dump({"naive_dinov2_vs_block": vals[0], "selected_dinov2_vs_block": vals[1]}, open(RES/"final_fig5_values.json", "w"))
-print(f"treemap: DINOv2-B/L/G vs block naive {vals[0]:.2f}, selected {vals[1]:.2f}")
+json.dump({"naive_dinov2_vs_block": vals[0], "selected_dinov2_vs_block": vals[1], "sibtrip_c100": {m: {"cosine": tri[m][0], "euclid": tri[m][1]} for m in M}}, open(RES/"final_fig5_values.json", "w"), indent=1)
+d2 = {m: tri[m][0] - tri[m][1] for m in M}; print(f"treemap: DINOv2-B/L/G vs block naive {vals[0]:.2f}, selected {vals[1]:.2f}; triplet cosine-Euclid gap: DINOv2 {min(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}..{max(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}, others max {max(abs(d2[m]) for m in M if not m.startswith('dinov2')):.2f}")

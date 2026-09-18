@@ -22,7 +22,7 @@
   },
   "Results": {
    "sentences": 74,
-   "avg_words": 15.0,
+   "avg_words": 15.1,
    "max_words": 30
   },
   "Implications for Hyperbolic Representation Learning": {
@@ -36,7 +36,7 @@
    "max_words": 34
   }
  },
- "avg_nonverbatim": 16.4,
+ "avg_nonverbatim": 16.5,
  "n_nonverbatim_sentences": 132,
  "numbers_per_paragraph_S5_S6": [
   {

@@ -181,7 +181,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.8\linewidth]{figures/fig_treemap_final.pdf}
-\caption{\textbf{The island is a chaining artifact, and a moderate gap remains.} Pairwise ARI between the dendrogram cuts of the 12 vision models on ImageNet under the naive configuration (a), where the DINOv2 block in the rectangle agrees with the rest at {{NAIVE_BIG}}, and under the selected configuration (b), where it agrees at {{ARI_BIG}}. % exp23_treemap_controls.npz
+\caption{\textbf{The island is a chaining artifact; a moderate gap remains, and the self-supervised tree lives in angles.} (a) Pairwise ARI between dendrogram cuts under the naive configuration, where the DINOv2 block agrees with the rest at {{NAIVE_BIG}}; (b) under the selected configuration, where it agrees at {{ARI_BIG}}; (c) sibling-triplet agreement under cosine and Euclidean distance: DINOv2 loses most of its structure under Euclidean distance, the other families do not. % exp23_treemap_controls.npz, exp10_local_vs_global.csv
 }
 \label{fig:treemap}
 \end{figure}
@@ -190,7 +190,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Controlling the cut leaves a moderate gap.} The criterion of Section~\ref{sec:f-treemap} selects cosine distances with average linkage on ImageNet. Under it the island shrinks to a moderate gap, and about a third of the within-block agreement is missing under most admissible configurations. In cophenetic correlation the gap remains, and in triplet agreement, which needs no cut, it closes under cosine-average only. Figure~\ref{fig:treemap}b shows the selected map and Table~\ref{tab:q6-treemap} gives the six configurations. % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv
 
-\paragraph{The self-supervised tree is angular.} DINOv2's semantics concentrate in the angular component of its representation: for DINOv2-L and DINOv2-G, sibling triplets are resolved far better under cosine than under Euclidean distance. This angular tree is why the Euclidean dendrograms chain. The census repeated on cosine geometry agrees with the Euclidean census in almost every cell, and DINOv2 on ImageNet is genuine under both. Table~\ref{tab:q1-census} gives the cosine census. % exp10_local_vs_global.csv, expR57_census_cosine_haar_p999_200.csv
+\paragraph{The self-supervised tree is angular.} DINOv2's semantics concentrate in the angular component of its representation: for DINOv2-L and DINOv2-G, sibling triplets are resolved far better under cosine than under Euclidean distance. This angular tree is why the Euclidean dendrograms chain. The census repeated on cosine geometry agrees with the Euclidean census in almost every cell, and DINOv2 on ImageNet is genuine under both. Figure~\ref{fig:treemap}c shows the triplets and Table~\ref{tab:q1-census} gives the cosine census. % exp10_local_vs_global.csv, expR57_census_cosine_haar_p999_200.csv
 
 \paragraph{Alignment with WordNet follows supervision and recipe.} The correlation between inter-centroid and WordNet distances is highest for the contrastive VLMs, then the supervised ViTs, and lowest for DINOv2, with shuffle and Gaussian controls at zero. Supervision deepens the resemblance on average, and DeiT-B shows that the effect is recipe-dependent. The most aligned families carry the most fragile excess and DINOv2 the most robust one. Table~\ref{tab:q7-wordnet} gives the correlations. % exp3_alignment.csv, expR52_census_haar_p999_200.csv
 

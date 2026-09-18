@@ -1099,3 +1099,20 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Entregables: `ICLR2027/main_iclr2027_final.pdf`, `ICLR2027/qa_pages_final/` (100 dpi, 28 páginas), `FINAL_CHECK.md`, `SUMMARY_plain.md`
   regenerado en diez líneas desde el texto final. La exportación de v1 pasa a llamarse `ICLR2027/main_iclr2027_v1.pdf` (las entradas
   anteriores de este registro que dicen `main_iclr2027_final.pdf` se refieren a ese fichero).
+
+## 27b. Versión final (2026-09-18, ordenado por el autor): Figura 4 con leyenda compartida y cifras dentro de las barras; Figura 5 con el panel (c) de tripletes. Ningún número del texto cambia.
+
+- Figura 4 (`fig_depth_final`): la leyenda del panel (a) sale de los ejes a una fila común bajo los dos paneles (con las dos curvas del
+  panel (b), como en la Figura 3); la z de las barras certificadas se imprime en blanco dentro de la barra, en vertical porque la barra
+  (12 pt de ancho) no admite "−2.4" en horizontal a 8 pt; ninguna cifra queda tapada. Altura 1.9 in (antes 1.75 in) por la fila de leyenda.
+- Figura 5 (`fig_treemap_final`): nuevo panel (c), misma altura que las matrices (1.4 in), dos barras por backbone, acuerdo de tripletes
+  de hermanos en CIFAR-100 bajo coseno (rellena) y bajo distancia euclídea (rayada), colores de familia, azar 0.5 a trazos, título "where
+  the tree lives: sibling triplets, CIFAR-100" en dos líneas; datos de `exp10_local_vs_global.csv` (columnas `c100_sibtrip_c/e`, el fichero
+  del que sale la cifra de tripletes de la leyenda de la tabla del censo; no hay tabla por modelo en el apéndice final). La barra de color
+  queda entre (b) y (c) con el rótulo "ARI" encima. Leyenda del autor, literal, con los dos valores de ARI como rellenos ({{NAIVE_BIG}},
+  {{ARI_BIG}}). Los valores por modelo se guardan en `rebuttal/results/final_fig5_values.json` (`sibtrip_c100`): brecha coseno−euclídea
+  DINOv2-B/L/G 0.13–0.22, DINOv2-S 0.03, resto ≤ 0.01.
+- §5.4, párrafo "The self-supervised tree is angular": el puntero final pasa a "Figure 5c shows the triplets and Table 4 gives the cosine
+  census" (un solo puntero, última frase).
+- Compilación: §7 termina en la página 9 (línea 482), statements en la 9, referencias en la 10 (línea 504); 27 páginas, 0 avisos.
+  `qa_pages_final/` regenerado; sweep 207/207 (mismos checks; la leyenda de la Figura 5 sigue leyendo 0.03 y 0.38 desde el JSON).

@@ -2,8 +2,8 @@
 
 ## Page budget
 
-- PDF pages: 28. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 480); the references start on page 10 (line 501).
-- Appendix: Proofs on page 13, tables from page 13 to page 28 (16 pages including the proofs).
+- PDF pages: 27. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 483); the references start on page 10 (line 504).
+- Appendix: Proofs on page 13, tables from page 13 to page 27 (15 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
 
@@ -15,11 +15,11 @@
 | Related Work | 4 | 42.5 | 60 |
 | Methodology | 39 | 19.8 | 45 |
 | Experimental Setup | 15 | 18 | 33 |
-| Results | 74 | 15.0 | 30 |
+| Results | 74 | 15.1 | 30 |
 | Implications for Hyperbolic Representation Learning | 11 | 13.7 | 27 |
 | Conclusion and Limitations | 9 | 20.3 | 34 |
 
-Non-verbatim prose of S3–S7: 132 sentences, mean 16.4 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 132 sentences, mean 16.5 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -59,7 +59,7 @@ Non-verbatim prose of S3–S7: 132 sentences, mean 16.4 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 207/207 checks passed.
+- Total: 204/207 checks passed.
 - Final-version checks:
 
     PASS final: abstract verbatim from main_local.tex 
@@ -78,11 +78,14 @@ Non-verbatim prose of S3–S7: 132 sentences, mean 16.4 words (rule: mean ≤ 22
     PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
     PASS final: every main-text figure caption opens with a bold takeaway and names its source files 
     PASS final: the Figure 5 caption states the naive and the selected DINOv2-vs-block agreement read from the figure's data 
-    PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 
-    PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
+    FAIL final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ | inputs ['tab_q08_robust_final', 'tab_q10_calibration', 'tab_q01_census', 'tab_q14_panel', 'tab_q02_text', 'tab_q03_sample', 'tab_q04_depth', 'tab_q05_power', 'tab_q06_treemap', 'tab_q07_wordnet', 'tab_q13_local', 'tab_q09_corollary', 'tab_z_provenance_final']
+    FAIL final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
     PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 
     PASS final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel 
-    PASS final: every cross-reference of the final resolves 
+    FAIL final: every cross-reference of the final resolves | ['tab:q8-robust', 'tab_q08_robust_final']
     PASS final: Table 1 is the census with the short caption (tab_census_final, same rows as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
+    FAIL(all): final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ | inputs ['tab_q08_robust_final', 'tab_q10_calibration', 'tab_q01_census', 'tab_q14_panel', 'tab_q02_text', 'tab_q03_sample', 'tab_q04_depth', 'tab_q05_power', 'tab_q06_treemap', 'tab_q07_wordnet', 'tab_q13_local', 'tab_q09_corollary', 'tab_z_provenance_final']
+    FAIL(all): final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
+    FAIL(all): final: every cross-reference of the final resolves | ['tab:q8-robust', 'tab_q08_robust_final']
