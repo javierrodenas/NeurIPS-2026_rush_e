@@ -114,15 +114,12 @@ PASS final: every result file named in a provenance comment of the main text exi
 PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
 PASS final: every main-text figure caption opens with a bold takeaway and names its source files 
 PASS final: the Figure 5 caption states the naive and the selected DINOv2-vs-block agreement read from the figure's data 
-FAIL final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ | inputs ['tab_q08_robust_final', 'tab_q10_calibration', 'tab_q01_census', 'tab_q14_panel', 'tab_q02_text', 'tab_q03_sample', 'tab_q04_depth', 'tab_q05_power', 'tab_q06_treemap', 'tab_q07_wordnet', 'tab_q13_local', 'tab_q09_corollary', 'tab_z_provenance_final']
-FAIL final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
+PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 
+PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
 PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 
 PASS final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel 
-FAIL final: every cross-reference of the final resolves | ['tab:q8-robust', 'tab_q08_robust_final']
+PASS final: every cross-reference of the final resolves 
 PASS final: Table 1 is the census with the short caption (tab_census_final, same rows as v1's tab_census) 
 PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
-[phaseB re-total] 204/207
-FAIL(all): final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ | inputs ['tab_q08_robust_final', 'tab_q10_calibration', 'tab_q01_census', 'tab_q14_panel', 'tab_q02_text', 'tab_q03_sample', 'tab_q04_depth', 'tab_q05_power', 'tab_q06_treemap', 'tab_q07_wordnet', 'tab_q13_local', 'tab_q09_corollary', 'tab_z_provenance_final']
-FAIL(all): final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
-FAIL(all): final: every cross-reference of the final resolves | ['tab:q8-robust', 'tab_q08_robust_final']
+[phaseB re-total] 207/207

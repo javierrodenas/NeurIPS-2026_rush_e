@@ -1114,5 +1114,13 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   DINOv2-B/L/G 0.13–0.22, DINOv2-S 0.03, resto ≤ 0.01.
 - §5.4, párrafo "The self-supervised tree is angular": el puntero final pasa a "Figure 5c shows the triplets and Table 4 gives the cosine
   census" (un solo puntero, última frase).
-- Compilación: §7 termina en la página 9 (línea 482), statements en la 9, referencias en la 10 (línea 504); 27 páginas, 0 avisos.
+- Compilación: §7 termina en la página 9 (línea 482), statements en la 9, referencias en la 10 (línea 504); 28 páginas, 0 avisos.
   `qa_pages_final/` regenerado; sweep 207/207 (mismos checks; la leyenda de la Figura 5 sigue leyendo 0.03 y 0.38 desde el JSON).
+- Fe de erratas del commit cc49936: su PDF se compiló con la copia de la tabla de robustez vacía (`phaseE_submission.py` se ejecutó sin
+  regenerar antes `tab_q08_robust_final.tex` y su partición por paneles no era idempotente); el sweep lo detectó (204/207). Corregido:
+  la partición acepta copias ya partidas, y el PDF, `qa_pages_final/` y `FINAL_CHECK.md` se regeneran desde la cadena completa.
+- El autor ha subido `ICLR2027/figures/fig1_concept.pdf` (commit 4dafd6a). Los `.tex` buscan `ICLR2027/iclr2027/figures/fig1_concept.pdf`,
+  así que la Figura 1 sigue siendo la caja de 1.4 in hasta que se copie ahí. Probado en la copia de compilación: con el comando literal del
+  autor (`width=\textwidth, trim=23 229 3 232`) la figura mide 1.36 in y la versión final no se mueve (referencias en la página 10); el
+  fichero congelado `main_iclr2027.tex`, que la incluye sin recorte, pasaría a terminar en la página 10 con las referencias en la 11.
+  No se ha copiado: decisión del autor (TODO).
