@@ -1032,3 +1032,12 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   y los dos párrafos literales). No se ha recortado nada más; propuestas en el informe. Compilación: 0 avisos, 41 páginas.
 - Entregables: `main_iclr2027_v3.pdf`, `qa_pages_v3/` (páginas 1–11), `V3_OUTLINE.md` (lista de afirmaciones con la línea de cada una),
   `SWEEP_REPORT_v1_v3.md` (sweep 183/183 sobre v1, v2 y v3), bloque `v3_checks` en `sweep_freeze.py`, `make_v3_outline.py`.
+- 26, segunda ronda (petición del autor): (1) presupuesto: los tres recortes prescritos (§5.5 a tres frases, §6 a tres párrafos, tabla de
+  modelos al apéndice) ya estaban aplicados y el texto principal sigue acabando en la página 11 (las referencias empiezan en la 11);
+  no se ha recortado nada más, la decisión queda en `TODO_author.md`. (2) Figura 4 de v3 redibujada en el estilo de la Figura 3 en un
+  fichero propio, `figures/fig_depth_test.pdf` (`make_fig_depth.py`; v1 y v2 conservan `fig_depth_main.pdf` y sus pies): (a) diagrama
+  de puntos horizontal del z de profundidad por backbone bajo la estrella de registro (expR56, ImageNet K = 30), familias agrupadas,
+  línea vertical en z = −2, marcador relleno cuando certificado; (b) fracción de ejecuciones con z ≤ −2 frente a la fuerza del implante
+  en las nubes reales (expR64b, continua) y en la variante de offsets encogidos (expR64b `rand6_t06`, discontinua), con la tasa de falsas
+  alarmas en s = 0 anotada. Pie literal del autor; las dos frases de §5.3 que leían la figura actualizadas. Etiquetas de tick en negro
+  (matplotlib 3.3 no admite `labelcolor`); todas las figuras regeneradas y v1/v2/v3 recompiladas. Sweep 183/183.

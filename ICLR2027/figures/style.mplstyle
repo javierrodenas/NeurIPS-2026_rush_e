@@ -20,7 +20,5 @@ grid.color: 0.86
 grid.linewidth: 0.5
 axes.axisbelow: True
 axes.edgecolor: 0.62
-xtick.color: 0.62
-ytick.color: 0.62
-xtick.labelcolor: black
-ytick.labelcolor: black
+xtick.color: black
+ytick.color: black

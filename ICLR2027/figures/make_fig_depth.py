@@ -135,3 +135,35 @@ ax.legend(handles=hd, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0
 fig.tight_layout()
 for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_cifar100.pdf"); fig.savefig(o/"fig_depth_cifar100.png", dpi=200)
 print("fig_depth_main + fig_depth_cifar100 written")
+
+# ---- v3 Figure 4 (author's brief, 2026-09-18): fig_depth_test.pdf, two panels in the style of Figure 3 ----
+from matplotlib.ticker import MaxNLocator, FuncFormatter
+GRAY = FAMILY_COLORS["null"]
+an_in = {r.model: r for r in dv[(dv.dataset == "imagenet") & (dv.K == 30) & (dv.variant == "aniso")].itertuples()}
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.4), gridspec_kw={"width_ratios": [1.15, 1]})   # renders at the height of the previous Figure 4
+ax = axes[0]; Y = np.arange(len(M))[::-1]
+for b in (7.5, 2.5): ax.axhline(b, color=GRAY, lw=0.5, zorder=1)
+ax.axvline(-2, color="k", lw=0.8, ls="--", zorder=2); ax.axvline(0, color=GRAY, lw=0.5, zorder=1)
+for k, m in enumerate(M):
+    z = float(an_in[m].z_depth); c = fam_color(m); cert = z <= -2
+    ax.scatter(z, Y[k], s=16, facecolors=c if cert else "white", edgecolors=c, linewidths=0.9, zorder=3, clip_on=False)
+ax.set_yticks(Y); ax.set_yticklabels([NM[m] for m in M], fontsize=7); ax.set_ylim(-0.6, len(M) - 0.4)
+ax.set_xlim(-4.6, 1.2); ax.set_xticks([-4, -2, 0]); ax.set_xticklabels(["−4", "−2", "0"], fontsize=7); ax.set_xlabel("depth test $z$ under the matched star")
+ax.set_title("depth above the WordNet superclasses, ImageNet", fontsize=7.5); ax.tick_params(axis="y", length=0)
+for sp in ("left", "right", "top"): ax.spines[sp].set_visible(False)
+ax = axes[1]
+d64 = pd.read_csv(RES/"expR64b_wn30.csv"); dep = d64[(d64.kind == "depth") & (d64.partition == "rand6") & (d64.s != "real")].copy(); dep["s"] = dep.s.astype(float)
+tg = d64[(d64.kind == "depth") & (d64.partition == "rand6_t06")].copy(); tg["s"] = tg.s.astype(float)
+pr = dep.groupby("s").z.apply(lambda z: (z <= -2).mean()); pt = tg.groupby("s").z.apply(lambda z: (z <= -2).mean())
+ax.plot(pr.index, pr.values, "-o", color="k", ms=3, lw=1.0, label="real within-cluster spread", zorder=3)
+ax.plot(pt.index, pt.values, "--s", color=GRAY, ms=3, lw=1.0, label="spread shrunk into the validated range", zorder=3)
+ax.annotate(f"false alarms {pr.loc[0.0]:.2f}", (0, pr.loc[0.0]), xytext=(4, 6), textcoords="offset points", fontsize=7, color="k", ha="left", va="bottom")
+ax.annotate(f"false alarms {pt.loc[0.0]:.2f}", (0, pt.loc[0.0]), xytext=(6, 9), textcoords="offset points", fontsize=7, color=GRAY, ha="left", va="bottom")
+ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"], fontsize=7); ax.set_xlabel("implant strength $s$")
+ax.set_ylim(-0.04, 1.08); ax.set_yticks([0, 0.5, 1]); ax.set_yticklabels(["0.00", "0.50", "1.00"], fontsize=7); ax.set_ylabel("fraction of runs with $z\\leq-2$")
+ax.set_title("false alarms and power on real clouds", fontsize=7.5)
+ax.legend(frameon=False, fontsize=7, loc="center right", bbox_to_anchor=(1.0, 0.45), handlelength=1.6, labelspacing=0.3)
+for sp in ("right", "top"): ax.spines[sp].set_visible(False)
+fig.subplots_adjust(left=0.11, right=0.99, top=0.88, bottom=0.24, wspace=0.42)
+for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_depth_test.pdf"); fig.savefig(o/"fig_depth_test.png", dpi=200)
+print(f"fig_depth_test (v3) written: certified {sum(float(an_in[m].z_depth) <= -2 for m in M)}/12; detection real {dict((float(k), round(float(v), 3)) for k, v in pr.items())}; shrunk {dict((float(k), round(float(v), 3)) for k, v in pt.items())}")

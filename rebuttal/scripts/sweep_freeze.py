@@ -960,7 +960,8 @@ def v3_checks():
     alltex = nocom(T3) + nocom(tabs); refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
     chk("v3: every cross-reference resolves", refs <= defs, str(sorted(refs - defs)))
     b1 = T1[T1.index("\\begin{abstract}"):T1.index("\\subsubsection*{Ethics Statement}")]
-    chk("v3: same figures and the same main-text table as v1; Figure 1 slot 1.4 in", set(_re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", b3)) == set(_re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", b1)) and "\\input{tab_census}" in b3 and "[1.4in]" in b3)
+    f3 = set(_re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", b3)); f1 = set(_re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", b1))
+    chk("v3: same figures as v1 except Figure 4 (fig_depth_test.pdf, the v3 redraw of fig_depth_main.pdf), the same main-text table, Figure 1 slot 1.4 in", f3 - f1 == {"figures/fig_depth_test.pdf"} and f1 - f3 <= {"figures/fig_depth_main.pdf", "figures/fig4_schematic.pdf"} and "\\input{tab_census}" in b3 and "[1.4in]" in b3)
     labels = {}
     for f in tabfiles:
         m = _re.search(r"\\label\{(tab:q[^}]*)\}", f.read_text())
