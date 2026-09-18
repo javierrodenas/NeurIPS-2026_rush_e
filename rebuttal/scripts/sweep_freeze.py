@@ -771,7 +771,7 @@ def final_pass_prose_checks():
     chk("final: GPT-2 sentences agree with the text census of record (S genuine at the margin under the record, M not, L/XL under every construction)", "GPT-2 S is genuine at the margin under the record" in main and "GPT-2 M is not genuine under the record" in main and "GPT-2 M sits at its matched null" in main
         and "GPT-2 L and XL are genuine under every construction of the null and statistic and under cosine" in main)
     caps = _re.findall(r"\\caption\{(.*?)\n?\}\n\\label", nocom(main), flags=_re.S)
-    chk("final: every main-text caption is a bold takeaway followed by what is plotted", len(caps) >= 5 and all(c.lstrip().startswith("\\textbf{") for c in caps) and all(("Plotted:" in c or "Sketched:" in c or _re.search(r"\\textbf\{[^}]*\}\s*\(a\)", c)) for c in caps if "One row per backbone" not in c))
+    chk("final: every main-text caption is a bold takeaway followed by what is plotted", len(caps) >= 5 and all(c.lstrip().startswith("\\textbf{") for c in caps) and all(len(_re.sub(r"^\s*\\textbf\{[^}]*\}", "", c).strip()) > 40 for c in caps))
     chk("final: Table 1 in \\small without the sample-level columns; statements in the required form (AI use with the responsibility sentence; reproducibility with TODO(author))",
         "\\small" in open(TEX/"tab_census.tex").read() and "sample level (images)" not in open(TEX/"tab_census.tex").read()
         and "\\subsubsection*{AI Use Statement}" in main and "We take responsibility for the final content of this work, including text, claims or artifacts produced with the aid of generative AI." in main and "TODO(author)" in main)

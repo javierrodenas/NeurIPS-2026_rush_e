@@ -932,3 +932,19 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   (commit 366218d) había introducido "withinynull" en el abstract y borrado los comentarios `% fichero.csv` de dos párrafos de §1;
   el cuerpo se ha regenerado desde `phaseE_paper.tex.tmpl` (fuente del texto), lo que restaura el abstract literal y la procedencia.
   Cualquier edición del cuerpo debe hacerse en la plantilla y re-aplicarse con `phaseE_final.py`.
+
+## 24d. Post-freeze (2026-09-18, ordenado por el autor): Figura 3 como mapa de calor del censo de registro. Ningún número cambia.
+
+- `figures/make_figs.py`: la Figura 3 es un único mapa de calor 12 × 6 (backbones agrupados por familia con barra de color de familia a
+  la izquierda; datasets con ImageNet primero), color = exceso con mapa divergente centrado en cero (blanco en 0, azul más oscuro cuanto
+  más negativo, rojo claro en positivo), punto relleno en las celdas genuinas y el exceso impreso a 7 pt con dos decimales (texto blanco
+  sobre las celdas oscuras); barra de color a la derecha. Mismo ancho; alto 1.80 in en PDF (el que piden las etiquetas a 7 pt). Panel (b)
+  (exceso frente a escala) eliminado: la lectura por escala se hace bajando por las filas de DINOv2. Datos: `expR52_census_haar_p999_200.csv`.
+- Pie literal del autor. Frases de §4 que leían el panel (b): "Figure 3 and Table 1 give the census of record cell by cell." y
+  "Figure 3 shows that scale does not deepen the excess in general, with one exception: down the DINOv2 rows the excess deepens with size
+  on CIFAR-10 and, weakly, on CIFAR-100."
+- Presupuesto de página (la figura crece 0.24 in): tres recortes sin números: §1 P3 pierde "and comparing trees across models needs a
+  calibration of its own" (ya en §2), Limitación (ii) "The census covers class-centroid geometry only.", §6.4 "Changing the readout metric
+  costs nothing"; el pie de la Tabla 1 pierde la fórmula del p (está en el pie de la Tabla 3) y acorta los punteros.
+- Sweep: el check de pies exige takeaway en negrita seguido de descripción (la palabra "Plotted:" ya no es obligatoria); resto igual.
+  Compilación: 0 avisos, texto principal en la página 9; `qa_pages/` regenerado.

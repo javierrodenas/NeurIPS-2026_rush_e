@@ -47,48 +47,37 @@ def _p(r):
 gen = {(r["model"], r["dataset"]): (str(r["genuine_bh"]) == "True" if "genuine_bh" in r else _p(r) <= 0.05) for r in d20}   # genuine = BH-corrected p <= 0.05
 dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
-# ---------- Figure A: excess panel ----------
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.5, 1.4),
-                               gridspec_kw={"width_ratios": [1.55, 1]})
-xs = np.arange(len(ORDER))
-for k, m in enumerate(ORDER):
-    for ds, mk in MARK.items():
-        if (m, ds) in exc:
-            _g = gen[(m, ds)]
-            ax1.scatter(k, exc[(m, ds)], marker=mk, s=16,
-                        facecolors=COL[para(m)] if _g else "white", edgecolors=COL[para(m)], linewidths=0.8,
-                        alpha=0.45 if ds == "imagenet" else 0.9, zorder=3)   # hollow = not genuine (p > 0.05)
-ax1.axhline(0, color="k", lw=0.8, zorder=1)
-ax1.set_xticks(xs); ax1.set_xticklabels([NAME[m] for m in ORDER], rotation=60, ha="right", fontsize=7)
-ax1.set_ylabel(r"excess  $\hat\delta_{99.9}^{\rm real}-\hat\delta_{99.9}^{\rm null}$", fontsize=8)
-_neg = sum(1 for r in d20 if float(r["excess"]) < 0); _gen = sum(gen.values())
-ax1.set_title(f"(a) clustered structure: {_neg}/72 below the null, {_gen} genuine", fontsize=8)
-tidy(ax1)
-hd = [plt.Line2D([], [], marker=mk, ls="", color="gray", ms=4.5, label=ds)
-      for ds, mk in MARK.items()]
-
-fams = {"DINOv2 (SSL)": ["dinov2_s","dinov2_b","dinov2_l","dinov2_g"],
-        "ViT (Sup.)":   ["i21k_t","i21k_s","i21k_b","i21k_l"]}
-for fam, ms in fams.items():
-    col = COL["SSL"] if "DINO" in fam else COL["Supervised"]
-    for ds in ["cifar100","cifar10","dtd"]:
-        ax2.plot(range(len(ms)), [exc[(m, ds)] for m in ms], "-", marker=MARK[ds],
-                 color=col, ms=3.5, lw=1.0, label=None)
-    ax2.plot(range(len(ms)), [exc[(m, "imagenet")] for m in ms], "--o", color=col,
-             ms=3.5, lw=1.0, alpha=0.45, label=None)
-hd2 = [plt.Line2D([], [], marker=MARK[ds], ls="-", color="gray", ms=3.5, lw=1.0, label=ds)
-       for ds in ["cifar100","cifar10","dtd"]] +       [plt.Line2D([], [], marker="o", ls="--", color="gray", ms=3.5, lw=1.0, alpha=0.6, label="imagenet")] +       [plt.Line2D([], [], ls="-", color=COL["SSL"], lw=1.6, label="DINOv2"),
-       plt.Line2D([], [], ls="-", color=COL["Supervised"], lw=1.6, label="ViT")]
-ax2.axhline(0, color="k", lw=0.8)
-ax2.set_xticks(range(4)); ax2.set_xticklabels(["1\n(smallest)", "2", "3", "4\n(largest)"], fontsize=7)
-ax2.set_xlabel("model scale $\\rightarrow$", fontsize=8)
-ax2.set_title("(b) per-dataset excess vs scale", fontsize=8)
-ax2.set_ylim(-0.175, 0.09); tidy(ax2)
-hfam = [plt.Line2D([], [], marker="s", ls="", color=c, ms=5, label=p) for p, c in COL.items()]
-fig.legend(handles=hd + hfam + hd2[3:4], fontsize=7, ncol=10, frameon=False,
-           loc="lower center", bbox_to_anchor=(0.5, -0.02), columnspacing=0.6, handletextpad=0.25, handlelength=1.0)
-fig.tight_layout(rect=(0, 0.10, 1, 1))
+# ---------- Figure A: the census of record as one heatmap (post-freeze redraw ordered by the author, 2026-09-18) ----------
+from matplotlib.colors import LinearSegmentedColormap, TwoSlopeNorm
+from matplotlib.patches import Rectangle
+import sys as _sys2; _sys2.path.insert(0, str(OUT))
+from palette import color as _fam_color
+DSO = ["imagenet", "cifar100", "cifar10", "dtd", "fashionmnist", "mnist"]
+DSL = {"imagenet": "ImageNet", "cifar100": "CIFAR-100", "cifar10": "CIFAR-10", "dtd": "DTD", "fashionmnist": "FMNIST", "mnist": "MNIST"}
+M = np.array([[exc[(m, ds)] for ds in DSO] for m in ORDER]); Gm = np.array([[gen[(m, ds)] for ds in DSO] for m in ORDER])
+vmin, vmax = min(M.min(), -0.01), max(M.max(), 0.01)
+cmap = LinearSegmentedColormap.from_list("excess", ["#1F4E79", "#FFFFFF", "#F2A0A0"])      # darker blue (negative) -> white (0) -> light red (positive)
+norm = TwoSlopeNorm(vmin=vmin, vcenter=0.0, vmax=vmax)
+fig, ax = plt.subplots(figsize=(5.5, 1.65))
+im = ax.imshow(M, cmap=cmap, norm=norm, aspect="auto", interpolation="nearest")
+for i, m in enumerate(ORDER):
+    for j, ds in enumerate(DSO):
+        v = M[i, j]; dark = norm(v) < 0.33; col = "white" if dark else "black"
+        s = f"{v:+.2f}"; s = "0.00" if s in ("+0.00", "-0.00") else s.replace("-", "−")
+        ax.text(j + 0.06, i, s, ha="center", va="center", fontsize=7, color=col)
+        if Gm[i, j]: ax.plot(j - 0.38, i - 0.28, "o", ms=2.4, color=col, mec="none")
+for b in (3.5, 8.5): ax.axhline(b, color="white", lw=1.6)
+for j in range(1, 6): ax.axvline(j - 0.5, color="white", lw=0.6)
+for i, m in enumerate(ORDER):                                                                  # family color bar at the left
+    ax.add_patch(Rectangle((-0.62, i - 0.5), 0.11, 1.0, facecolor=_fam_color(m), edgecolor="none", clip_on=False))
+ax.set_xticks(range(6)); ax.set_xticklabels([DSL[d] for d in DSO], fontsize=7); ax.xaxis.set_ticks_position("top"); ax.tick_params(axis="x", length=0, pad=2)
+ax.set_yticks(range(12)); ax.set_yticklabels([NAME[m] for m in ORDER], fontsize=7); ax.tick_params(axis="y", length=0, pad=8)
+for sp in ax.spines.values(): sp.set_visible(False)
+cb = fig.colorbar(im, ax=ax, fraction=0.028, pad=0.015, ticks=[vmin, 0.0, vmax])
+cb.ax.set_yticklabels([f"{vmin:.2f}".replace("-", "−"), "0.00", f"+{vmax:.2f}"], fontsize=7); cb.set_label("excess", fontsize=7); cb.outline.set_visible(False)
+fig.subplots_adjust(left=0.115, right=0.93, top=0.89, bottom=0.02)
 for o in (OUT, OUT.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_excess_panel.pdf"); fig.savefig(o/"fig_excess_panel.png", dpi=200)
+print(f"heatmap: {int((M<0).sum())}/72 below the null, {int(Gm.sum())} genuine; range {M.min():+.3f}..{M.max():+.3f}")
 
 # ---------- Figure B: best-metric scatter ----------
 m2 = list(csv.DictReader(open(RES/"exp2_metric_controls.csv")))

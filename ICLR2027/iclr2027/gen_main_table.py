@@ -68,10 +68,10 @@ sl_txt = (f"The same reading on per-image features is genuine in {sl_n} of 24 ce
 lines += [r"\bottomrule", r"\end{tabular}",
   r"\caption{\textbf{Clustered structure is the rule at the class level.} "
   r"One row per backbone. $\hat\delta_{99.9}$: raw ImageNet reading; excess: $\hat\delta_{99.9}$ minus the mean of 200 Haar spectrum-matched null replicates; $r$/200: replicates above "
-  r"the real value, with the left-tail $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine: Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells; $^{\circ}$: not genuine; bold: less clustered than the null. "
+  r"the real value, with its left-tail $p$; genuine: Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells; $^{\circ}$: not genuine; bold: less clustered than the null. "
   r"$\rho_{\text{WN}}$: Spearman correlation of inter-centroid and WordNet distances. "
   + sl_txt + js_txt
-  + r"The other datasets and the four null$\times$statistic verdicts per cell are in Table~\ref{tab:q1-census}, the task columns in Table~\ref{tab:q9-corollary}. % " + src + ", exp3_alignment.csv" + (", expR62_samplelevel_record.csv" if SLF else "") + (", expR66_joint_sensitivity_summary.csv" if JS else "") + "\n}",
+  + r"Other datasets and the four null$\times$statistic verdicts: Table~\ref{tab:q1-census}; task columns: Table~\ref{tab:q9-corollary}. % " + src + ", exp3_alignment.csv" + (", expR62_samplelevel_record.csv" if SLF else "") + (", expR66_joint_sensitivity_summary.csv" if JS else "") + "\n}",
   r"\label{tab:census}", r"\end{table}"]
 open(HERE/"tab_census.tex", "w").write("\n".join(lines) + "\n")
 for r in rows: print(r[0], f"{r[1]} d={r[2]:.3f} exc={r[3]:+.3f} r={r[4]}/{N} p={r[5]:.3f} G={r[6]} c100={r[7]:+.3f} c10={r[9]:+.3f} rho={r[11]:+.2f}")
