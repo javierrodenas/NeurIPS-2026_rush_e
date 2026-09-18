@@ -948,3 +948,12 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   costs nothing"; el pie de la Tabla 1 pierde la fórmula del p (está en el pie de la Tabla 3) y acorta los punteros.
 - Sweep: el check de pies exige takeaway en negrita seguido de descripción (la palabra "Plotted:" ya no es obligatoria); resto igual.
   Compilación: 0 avisos, texto principal en la página 9; `qa_pages/` regenerado.
+
+## 24e. Post-freeze (2026-09-18, ordenado por el autor): Figura 3 como diagrama de puntos horizontal. Ningún número cambia.
+
+- `figures/make_figs.py`: seis paneles estrechos, uno por dataset (ImageNet primero), eje y compartido con los 12 backbones agrupados
+  por familia (color de familia en el marcador, separador gris fino entre familias), eje x común de −0.14 a +0.03 con línea vertical en
+  cero; un marcador por celda en su exceso, relleno si la celda es genuina y hueco si no; sin texto dentro de los paneles salvo el título
+  del dataset; etiquetas a 7 pt; mismo ancho; alto 1.87 in en PDF. Sustituye al mapa de calor de 24d (sin números en las celdas).
+  Datos: `expR52_census_haar_p999_200.csv`. Pie literal del autor; las dos frases de §4 siguen leyendo de la figura ("cell by cell",
+  "down the DINOv2 rows"). Compilación: 0 avisos, texto principal en la página 9; `qa_pages/` regenerado; sweep sin cambios.

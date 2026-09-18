@@ -47,37 +47,28 @@ def _p(r):
 gen = {(r["model"], r["dataset"]): (str(r["genuine_bh"]) == "True" if "genuine_bh" in r else _p(r) <= 0.05) for r in d20}   # genuine = BH-corrected p <= 0.05
 dlt = {(r["model"], r["dataset"]): float(r["delta"]) for r in d20}
 
-# ---------- Figure A: the census of record as one heatmap (post-freeze redraw ordered by the author, 2026-09-18) ----------
-from matplotlib.colors import LinearSegmentedColormap, TwoSlopeNorm
-from matplotlib.patches import Rectangle
+# ---------- Figure A: the census of record as a horizontal dot plot, one panel per dataset (post-freeze redraw ordered by the author, 2026-09-18) ----------
 import sys as _sys2; _sys2.path.insert(0, str(OUT))
-from palette import color as _fam_color
+from palette import FAMILY_COLORS as _FC2, color as _fam_color
 DSO = ["imagenet", "cifar100", "cifar10", "dtd", "fashionmnist", "mnist"]
 DSL = {"imagenet": "ImageNet", "cifar100": "CIFAR-100", "cifar10": "CIFAR-10", "dtd": "DTD", "fashionmnist": "FMNIST", "mnist": "MNIST"}
-M = np.array([[exc[(m, ds)] for ds in DSO] for m in ORDER]); Gm = np.array([[gen[(m, ds)] for ds in DSO] for m in ORDER])
-vmin, vmax = min(M.min(), -0.01), max(M.max(), 0.01)
-cmap = LinearSegmentedColormap.from_list("excess", ["#1F4E79", "#FFFFFF", "#F2A0A0"])      # darker blue (negative) -> white (0) -> light red (positive)
-norm = TwoSlopeNorm(vmin=vmin, vcenter=0.0, vmax=vmax)
-fig, ax = plt.subplots(figsize=(5.5, 1.65))
-im = ax.imshow(M, cmap=cmap, norm=norm, aspect="auto", interpolation="nearest")
-for i, m in enumerate(ORDER):
-    for j, ds in enumerate(DSO):
-        v = M[i, j]; dark = norm(v) < 0.33; col = "white" if dark else "black"
-        s = f"{v:+.2f}"; s = "0.00" if s in ("+0.00", "-0.00") else s.replace("-", "−")
-        ax.text(j + 0.06, i, s, ha="center", va="center", fontsize=7, color=col)
-        if Gm[i, j]: ax.plot(j - 0.38, i - 0.28, "o", ms=2.4, color=col, mec="none")
-for b in (3.5, 8.5): ax.axhline(b, color="white", lw=1.6)
-for j in range(1, 6): ax.axvline(j - 0.5, color="white", lw=0.6)
-for i, m in enumerate(ORDER):                                                                  # family color bar at the left
-    ax.add_patch(Rectangle((-0.62, i - 0.5), 0.11, 1.0, facecolor=_fam_color(m), edgecolor="none", clip_on=False))
-ax.set_xticks(range(6)); ax.set_xticklabels([DSL[d] for d in DSO], fontsize=7); ax.xaxis.set_ticks_position("top"); ax.tick_params(axis="x", length=0, pad=2)
-ax.set_yticks(range(12)); ax.set_yticklabels([NAME[m] for m in ORDER], fontsize=7); ax.tick_params(axis="y", length=0, pad=8)
-for sp in ax.spines.values(): sp.set_visible(False)
-cb = fig.colorbar(im, ax=ax, fraction=0.028, pad=0.015, ticks=[vmin, 0.0, vmax])
-cb.ax.set_yticklabels([f"{vmin:.2f}".replace("-", "−"), "0.00", f"+{vmax:.2f}"], fontsize=7); cb.set_label("excess", fontsize=7); cb.outline.set_visible(False)
-fig.subplots_adjust(left=0.115, right=0.93, top=0.89, bottom=0.02)
+GRAY = _FC2["null"]; Y = np.arange(len(ORDER))[::-1]                       # ViT-T at the top, SigLIP-B at the bottom
+fig, axes = plt.subplots(1, 6, figsize=(5.5, 1.75), sharey=True)
+for ax, ds in zip(axes, DSO):
+    for b in (7.5, 2.5): ax.axhline(b, color=GRAY, lw=0.5, zorder=1)             # thin separators between the three families
+    ax.axvline(0.0, color="k", lw=0.7, zorder=2)
+    for k, m in enumerate(ORDER):
+        v, g, c = exc[(m, ds)], gen[(m, ds)], _fam_color(m)
+        ax.scatter(v, Y[k], s=15, facecolors=c if g else "white", edgecolors=c, linewidths=0.9, zorder=3, clip_on=False)
+    ax.set_xlim(-0.14, 0.03); ax.set_xticks([-0.10, 0.0]); ax.set_xticklabels(["−0.10", "0.00"], fontsize=7)
+    ax.set_ylim(-0.6, len(ORDER) - 0.4); ax.set_title(DSL[ds], fontsize=7, pad=3); ax.tick_params(labelsize=7, length=2, pad=1.5)
+    for sp in ("left", "right", "top"): ax.spines[sp].set_visible(False)
+    ax.tick_params(axis="y", length=0)
+axes[0].set_yticks(Y); axes[0].set_yticklabels([NAME[m] for m in ORDER], fontsize=7)
+fig.text(0.56, 0.01, "excess of the reading of record over its matched null", ha="center", va="bottom", fontsize=7)
+fig.subplots_adjust(left=0.12, right=0.995, top=0.90, bottom=0.21, wspace=0.10)
 for o in (OUT, OUT.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_excess_panel.pdf"); fig.savefig(o/"fig_excess_panel.png", dpi=200)
-print(f"heatmap: {int((M<0).sum())}/72 below the null, {int(Gm.sum())} genuine; range {M.min():+.3f}..{M.max():+.3f}")
+_neg = sum(1 for k in exc if exc[k] < 0); print(f"dot plot: {_neg}/72 below the null, {sum(gen.values())} genuine; x range {min(exc.values()):+.3f}..{max(exc.values()):+.3f}")
 
 # ---------- Figure B: best-metric scatter ----------
 m2 = list(csv.DictReader(open(RES/"exp2_metric_controls.csv")))

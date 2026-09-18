@@ -24,7 +24,7 @@ Each question of the third review, answered from the main text alone; line numbe
 
 ## Q5. 'Budget-stable' rested on a supremum-statistic sweep whose ImageNet magnitudes drifted by 0.02.
 
-- **Section 3, 'Two choices changed after pre-specification'** (line 194): The sweep was rerun under the record (Haar null, p99.9, 200 replicates) at every budget: the ImageNet excess drifts by at most 0.38 of its own spread from 10^5 upward and never changes sign (Table 4, with the superseded supremum rows next to it).
+- **Section 3, 'Two choices changed after pre-specification'** (line 195): The sweep was rerun under the record (Haar null, p99.9, 200 replicates) at every budget: the ImageNet excess drifts by at most 0.38 of its own spread from 10^5 upward and never changes sign (Table 4, with the superseded supremum rows next to it).
 
 ## Q6. Effect sizes: the excesses are small in absolute terms; 'small' is not a size.
 
@@ -44,7 +44,7 @@ Each question of the third review, answered from the main text alone; line numbe
 
 ## Q9. Minor: 'pre-registered', the ordering trees < hyperbolic < spherical, the repeated sentence in A.3, the old illustration, bold in Table 1, the bridges and the number density.
 
-- **Section 3** (line 185): 'Pre-registered' is 'pre-specified' throughout (no dated public record exists).
+- **Section 3** (line 186): 'Pre-registered' is 'pre-specified' throughout (no dated public record exists).
 - **Section 2, 'Background'** (line 133): The ordering is stated for hyperbolic regions of radius >= 4, where it holds in Table 2.
 - **Table 1 caption** (line 231): Bold is restored on the sign-positive cells.
 - **Sections 3-5, last paragraphs** (line 200): Three bridges remain (end of Sections 3, 4 and 5, distinct wording); every other paragraph ends on its claim. The repeated sentence of A.3 and the old illustration (former Figure 12) are gone; the appendix is fourteen tables, one per question, numbered in citation order.
