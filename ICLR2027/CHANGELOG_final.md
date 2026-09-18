@@ -966,3 +966,18 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   deepens the excess for one family only" la escala de DINOv2 se cita a la figura: "the DINOv2 rows of Figure 3 reach further left with
   size on CIFAR-10 and, weakly, on CIFAR-100"; no queda ninguna referencia al antiguo panel (b) ni a "per-dataset excess vs scale".
   Alto de la figura 1.98 in en PDF. Compilación: 0 avisos, página 9; `qa_pages/` regenerado; sweep sin cambios.
+
+## 24f. Post-freeze (2026-09-18, ordenado por el autor): Figura 2 al estilo de las figuras de dispersión de Huh et al. (2024) y Gröger et al. (2026). Ningún número cambia.
+
+- `figures/make_fig_overview.py`: fondo blanco, sin rejilla, puntos etiquetados. (a) dos tercios del ancho: x = dimensión d en eje
+  logarítmico, y = δ_norm; para cada uno de los 12 backbones de ImageNet un marcador relleno en su color de familia con el nombre del
+  modelo al lado (7 pt, desplazamientos manuales por modelo para que ninguna etiqueta cruce marcadores ni segmentos; los backbones que
+  comparten d se reparten unos puntos porcentuales en x), su media de nulo emparejado como marcador hueco del mismo color unido por un
+  segmento vertical fino, y la curva de la gaussiana iid de la tabla de calibración (`exp1_delta_controls.csv`, variante gauss, estadístico
+  supremo, como en la Tabla 2) como línea gris discontinua rotulada "structureless cloud, isotropic"; título "the null moves with the
+  dimension; the gap is the reading"; leyenda dentro del panel ("filled: raw reading", "hollow: matched null"). (b) un tercio: las dos
+  celdas ViT-T/DTD images y SigLIP-B/CIFAR-10 centroids en el mismo lenguaje, nombres junto a los puntos; título "same reading, opposite
+  verdict". Colores de la paleta nueva; misma altura de figura (1.3 in de lienzo, 1.49 in en PDF). Datos: `exp1_delta_controls.csv`,
+  `expR52_census_haar_p999_200.csv`, `expR62_samplelevel_record.csv`. Nota: la curva gaussiana es el estadístico supremo de la tabla de
+  calibración mientras los marcadores son δ̂_99.9; se dibuja como referencia isotrópica, no como nulo de los puntos. Pie sin cambio.
+  Compilación: 0 avisos, página 9; `qa_pages/` regenerado; sweep sin cambios (160/160).
