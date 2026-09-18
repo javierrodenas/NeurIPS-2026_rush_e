@@ -143,3 +143,6 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   con `% prov:` y check de conservación contra `rebuttal/results/final_pass_old_appendix/`); `gen_provenance.py` lee `% prov:`;
   generadores antiguos en `ICLR2027/iclr2027/legacy_generators/`; `make_reviewer_checklist_third.py`; `ICLR2027/qa_pages/` (100 dpi).
   Orden de regeneración: gen_appendix_final → gen_main_table → phaseE_final → gen_provenance → figuras → tectonic → sweep_freeze.
+- Versión paralela v2: `rebuttal/scripts/phaseE_paper_v2.tex.tmpl` + `phaseE_v2.py` → `ICLR2027/iclr2027/main_iclr2027_v2.tex`
+  (mismos rellenos, figuras, tablas y apéndice que v1; estilo Gröger/Huh: definiciones, ecuaciones, cajas). Regenerar después de
+  `phaseE_final.py`; compilar aparte; `sweep_freeze.py` la comprueba en el bloque `v2_checks`. `V2_DIFF.md`, `SWEEP_REPORT_v1_v2.md`.

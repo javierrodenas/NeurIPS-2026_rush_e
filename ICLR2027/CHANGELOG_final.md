@@ -981,3 +981,23 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   `expR52_census_haar_p999_200.csv`, `expR62_samplelevel_record.csv`. Nota: la curva gaussiana es el estadístico supremo de la tabla de
   calibración mientras los marcadores son δ̂_99.9; se dibuja como referencia isotrópica, no como nulo de los puntos. Pie sin cambio.
   Compilación: 0 avisos, página 9; `qa_pages/` regenerado; sweep sin cambios (160/160).
+
+## 25. Versión paralela v2 (2026-09-18): el paper reestilizado a la manera de Gröger et al. (2026) y Huh et al. (2024). El fichero de envío sigue siendo `main_iclr2027.tex`.
+
+- Nuevo `ICLR2027/iclr2027/main_iclr2027_v2.tex`, generado por `rebuttal/scripts/phaseE_v2.py` desde `phaseE_paper_v2.tex.tmpl` con
+  los mismos rellenos que v1 (`phaseE_fills.json`), el preámbulo de v1 (+ `amsthm`, `tcolorbox`, `caption`), las mismas figuras,
+  tablas y bibliografía, y los statements y el apéndice copiados literalmente de la plantilla v1. `main_iclr2027.tex` no se toca.
+- Esqueleto: 1 Introducción (v1 literal) · 2 Related Work (un párrafo) · 3 Background and Problem Setup (caja "Hypothesis under test";
+  3.1 Gromov δ con Def. 1/Eq. 1; 3.2 Estimation con Def. 2/Eq. 2 y la estabilidad de presupuesto; 3.3 Objects and notation con tabla
+  de notación sin numerar) · 4 The Instrument (4.1 nulo espectral, Def. 3; 4.2 exceso y rango, Def. 4/Eq. 3, Eq. 4, Def. 5/Eq. 5;
+  4.3 test de profundidad, Def. 6, Def. 7/Eq. 6, régimen de validez medido; 4.4 proyección; caja "Definitions at a glance") ·
+  5 Experimental Setup (modelos, datasets, extracción, réplicas, semillas, presupuestos, los dos niveles) · 6 Results (cajas Finding 1–4,
+  Tabla 1, Figuras 3–5; 6.1 nivel de muestra, 6.2 nivel de clase, 6.3 profundidad, 6.4 whose tree, 6.5 acuerdo local) ·
+  7 Implications (v1 §6 con la regla de curvatura de Khrulkov como Eq. 7) · 8 Discussion and Limitations (v1 §7).
+- Prosa de v1 dentro de cada subsección; frases borradas solo donde una definición o ecuación dice lo mismo (lista en `V2_DIFF.md`);
+  tres puentes; 17 grupos numéricos en §1–§8; vocabulario fijo; ningún número que no esté en v1.
+- Compilación: 0 avisos, 41 páginas, texto principal hasta la página 12 (2.5 páginas sobre las 9 de v1; propuestas de recorte en
+  `V2_DIFF.md`, nada recortado). `main_iclr2027_v2.pdf`, `qa_pages_v2/` (páginas 1–13), `SWEEP_REPORT_v1_v2.md`.
+- Sweep: bloque `v2_checks` (abstract/statements/apéndice idénticos a v1, ningún número nuevo, mismos comentarios de procedencia,
+  mismas figuras y tablas, tesis ×2, esqueleto 8/12 con 7 definiciones y 7 ecuaciones y las cajas, reglas de prosa de v1 sobre el
+  esqueleto v2, tres puentes, referencias cruzadas, orden de citación de las tablas compartidas): 170/170 con v1.

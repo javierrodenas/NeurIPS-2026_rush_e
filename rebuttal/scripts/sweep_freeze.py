@@ -803,6 +803,90 @@ def final_pass_prose_checks():
     cl = open(ROOT/"ICLR2027"/"CHANGELOG_final.md").read().split("\n")[:6]
     chk("final: freeze note at the top of the CHANGELOG and the QA rasterizations present", any("Frozen 17 Sept 2026" in l for l in cl) and len(list((ROOT/"ICLR2027"/"qa_pages").glob("*.png"))) >= 9)
 final_pass_prose_checks()
+# ---------- Parallel version v2 (main_iclr2027_v2.tex): same numbers, same files, the v1 prose rules, the v2 skeleton ----------
+def v2_checks():
+    import re as _re
+    TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"; P2 = TEX/"main_iclr2027_v2.tex"
+    if not P2.exists(): chk("v2: main_iclr2027_v2.tex present", False, "missing"); return
+    T2 = open(P2).read(); T1 = open(TEX/"main_iclr2027.tex").read()
+    nocom = lambda s: _re.sub(r"(?m)(?<!\\)%.*$", "", s)
+    b2 = T2[T2.index("\\begin{abstract}"):T2.index("\\subsubsection*{Ethics Statement}")]; b1 = T1[T1.index("\\begin{abstract}"):T1.index("\\subsubsection*{Ethics Statement}")]
+    a2 = nocom(b2[:b2.index("\\end{abstract}")]); a1 = nocom(b1[:b1.index("\\end{abstract}")])
+    chk("v2: abstract identical to v1; statements, bibliography and appendix identical to v1", " ".join(a2.split()) == " ".join(a1.split()) and T2[T2.index("\\subsubsection*{Ethics Statement}"):] == T1[T1.index("\\subsubsection*{Ethics Statement}"):])
+    tabfiles = sorted((TEX/"appendix_tables").glob("tab_*.tex")); tabs = "".join(f.read_text() for f in tabfiles) + open(TEX/"tab_census.tex").read()
+    toks = lambda s: set(_re.findall(r"(?<![\w.])[-+]?\d+\.\d+(?![\w.])|(?<![\w.])\d{2,}(?![\w.])", s.replace("{=}", "=")))   # a LaTeX length such as 10.6cm is not a number
+    extra = toks(nocom(b2)) - toks(nocom(T1) + nocom(tabs))
+    chk("v2: no number appears in v2 that is not in v1 (prose, boxes, equations, captions)", not extra, str(sorted(extra)))
+    c2 = set(m.strip() for m in _re.findall(r"(?m)(?<!\\)%\s*(.*)$", b2)); c1 = set(m.strip() for m in _re.findall(r"(?m)(?<!\\)%\s*(.*)$", b1))
+    chk("v2: every provenance comment of v2 exists in v1, so every number traces to the same result file", c2 <= c1, str(sorted(c2 - c1)[:4]))
+    chk("v2: same figures and tables as v1 (identical \\includegraphics and \\input sets)", set(_re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", b2)) == set(_re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", b1))
+        and set(_re.findall(r"\\input\{([^}]*)\}", b2)) == set(_re.findall(r"\\input\{([^}]*)\}", b1)))
+    THESIS = "Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."
+    SHORT = "Clustered, occasionally hierarchical, moderately shared: not one common tree, and no license for curvature."
+    chk("v2: thesis verbatim exactly twice (abstract, S8), no short form", b2.count(THESIS) == 2 and SHORT not in b2 and THESIS in b2[b2.index("\\paragraph{What the paper establishes.}"):])
+    secs_ = _re.findall(r"\\section\{([^}]*)\}", b2); subs_ = _re.findall(r"\\subsection\{([^}]*)\}", b2)
+    chk("v2: skeleton of eight numbered sections and twelve subsections, seven definitions, seven numbered equations, the hypothesis box, four finding boxes and the definitions-at-a-glance box",
+        len(secs_) == 8 and secs_[0] == "Introduction" and secs_[-1] == "Discussion and Limitations" and len(subs_) == 12 and b2.count("\\begin{definition}[") == 7
+        and all(("\\label{eq:%s}" % e) in b2 for e in ("defect", "record", "excess", "rank", "bh", "depth", "curvature")) and b2.count("\\begin{equation}") == 7
+        and "Hypothesis under test" in b2 and all(("\\textbf{Finding %d.}" % k) in b2 for k in (1, 2, 3, 4)) and "Definitions at a glance" in b2)
+    # prose rules of v1 mapped onto the v2 skeleton
+    src = nocom(b2); src = _re.sub(r"\\begin\{(figure|table|equation\*?|tabular|center)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
+    def clean(par):
+        p = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", par); p = _re.sub(r"\\(S)?\\?ref\{[^}]*\}", "REF", p); p = _re.sub(r"\\label\{[^}]*\}", "", p)
+        p = _re.sub(r"\$([A-Za-z])\{=\}(\d+)\$", r"\1=\2", p); p = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if ("=" in m.group(1) or "\\" in m.group(1)) else m.group(0), p)
+        return p
+    GROUP = r"(?<![A-Za-z\-^_{\d.])[-+]?\d+(?:\.\d+)?(?![A-Za-z\-\d])"
+    RANGE = _re.compile(rf"(?:from\s+)?\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?(?:\s*(?:of the|of|to|against|vs|and|--)\s+\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?){{0,2}}(?:\\%)?")
+    def groups(s):
+        s = clean(s).replace("{=}", "="); s = _re.sub(r"\\begin\{enumerate\}.*?\\end\{enumerate\}", " ", s, flags=_re.S); s = _re.sub(r"\\begin\{itemize\}.*?\\end\{itemize\}", " ", s, flags=_re.S); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
+        return [m.group(0) for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
+    KIND = {"Introduction": "intro", "Related Work": "related", "Background and Problem Setup": "other", "The Instrument": "other", "Experimental Setup": "other", "Results": "results", "Implications for Hyperbolic Representation Learning": "results", "Discussion and Limitations": "intro"}
+    BANNED = ["tool", "beyond-null", "tree-like structure", "hierarchical structure", "the form ", "reading of record", "our approach", "the method", "essentially", "largely", "substantially", "somewhat", "nterestingly", "notably", "importantly", "we believe", "we note"]
+    BANNED = [w for w in BANNED if w != "reading of record"]   # v2 names Definition 2 'reading of record' on the author's brief
+    MARK = ["next paragraph", "next question", "subject of the next", "turn to next", "take up last", "which we review", "builds that comparison", "the concern of Section", "First we ask", "last question of this section", "states the three acts", "With the instrument in place", "raises the question of", "which text makes explicit", "has to be re-read", "points to where", "is the first candidate", "What to read instead", "we turn to them next"]
+    ALLOW = {"49 of 72", "18 of 24", "4 of 12", "49 of the 72"}
+    bad = []; total = 0; bridges = []
+    blocks = _re.split(r"\\section\{([^}]*)\}", src); blocks = [(blocks[i], blocks[i+1]) for i in range(1, len(blocks), 2)]
+    for name, text in blocks:
+        kind = KIND.get(name, "other")
+        units = _re.split(r"\\subsection\{[^}]*\}", text)
+        for unit in units:
+            pars = [q.strip() for q in _re.split(r"\n\s*\n", unit) if q.strip() and not q.strip().startswith(("\\begin{enumerate}", "\\end{enumerate}", "\\item", "\\label", "\\begin{shaded}", "\\end{shaded}"))]
+            for k, par in enumerate(pars):
+                head = par[:50].replace("\n", " "); cp = clean(par); gs = groups(par); total += len(gs)
+                for mk in MARK:
+                    if mk.lower() in cp.lower(): bridges.append((name, k == len(pars)-1, mk, head))
+                if len(gs) > 2: bad.append(f"{name}: >2 numbers {gs}: {head}")
+                for inner in _re.findall(r"\(([^()]*)\)", cp):
+                    if groups(inner): bad.append(f"{name}: number in parentheses: {head}")
+                if kind == "results":
+                    for sent in _re.split(r"(?<=[.!?])\s+", cp):
+                        if len(groups(sent)) > 1: bad.append(f"{name}: >1 number per sentence: {sent[:70]}")
+                    if ";" in par.replace(THESIS, "") and "\\paragraph{Limitations" not in par and "\\begin{shaded}" not in par: bad.append(f"{name}: semicolon: {head}")
+                    ns = len([x for x in _re.split(r"(?<=[.!?])\s+(?=[A-Z\\$(])", cp) if x.strip()])
+                    if ns > 9: bad.append(f"{name}: {ns} sentences: {head}")
+                if kind == "intro" and [g for g in gs if g.strip() not in ALLOW]: bad.append(f"{name}: numbers beyond the allowed three {gs}: {head}")
+                if kind != "related" and len(_re.findall(r"\((?!(?:i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])\))", cp)) > 1: bad.append(f"{name}: >1 parenthetical: {head}")
+                low = cp.lower()
+                for w in BANNED:
+                    if w in low: bad.append(f"{name}: banned '{w}': {head}")
+    for line in bad: print("   V2:", line[:200])
+    chk("v2: the v1 prose rules hold on the v2 skeleton (<=25 number groups in S1-S8, <=2 per paragraph, none in parentheses, results rules in S6-S7, only 49/72, 18/24, 4/12 in S1 and S8, <=1 parenthetical, no banned words)", not bad and total <= 25, f"{total} number groups")
+    for s, last, mk, h in bridges: print("   V2 BRIDGE:", s, "last" if last else "NOT last", mk, "|", h)
+    chk("v2: exactly three bridges (end of S5, end of the depth subsection, S6.5), each in the last paragraph of its unit, distinct wording", len(bridges) == 3 and {mk for _, _, mk, _ in bridges} == {"With the instrument in place", "turn to next", "subject of the next"} and all(last for _, last, _, _ in bridges))
+    alltex = nocom(T2) + nocom(tabs)
+    refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
+    chk("v2: every cross-reference resolves", refs <= defs, str(sorted(refs - defs)))
+    labels = {}
+    for f in tabfiles:
+        m = _re.search(r"\\label\{(tab:q[^}]*)\}", f.read_text())
+        if m: labels[f.stem] = m.group(1)
+    main2 = T2[:T2.index("\\appendix")]; cited = []
+    for m in _re.finditer(r"\\ref\{(tab:q[^}]*)\}", main2):
+        if m.group(1) not in cited: cited.append(m.group(1))
+    inputs = _re.findall(r"\\input\{appendix_tables/(tab_[^}]*)\}", T2[T2.index("\\appendix"):]); order = [labels[s] for s in inputs if s in labels]
+    chk("v2: the shared appendix tables are still numbered in the order v2 first cites them", order[:len(cited)] == cited, f"cited {cited}")
+v2_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-30:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

@@ -180,3 +180,10 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - "+0.9 to +1.3 pp" (§6.4) es la ganancia Poincaré−coseno de los VLM contrastivos en los conjuntos de transferencia; en ImageNet es +0.1
   (Tabla 13). Lead-in de §5.2 con coma en vez de punto y coma (regla de puntuación). Tres URLs de NeurIPS retiradas de la bibliografía.
 - Solo cambios tipográficos a partir de ahora; el sweep debe seguir en PASS completo tras cualquiera.
+
+## Versión paralela v2 (2026-09-18)
+
+- `ICLR2027/main_iclr2027_v2.pdf` (41 páginas; texto principal hasta la p. 12) frente a `main_iclr2027_final.pdf` (p. 9). Comparar y
+  decidir; `V2_DIFF.md` lista qué se movió, qué pasó a definición/ecuación y qué se borró como redundante, y cinco recortes candidatos
+  (nada recortado). Si se elige v2, hay que decidir los recortes hasta 9–10 páginas y renombrar el fichero de envío.
+- Cualquier cambio de texto en v2 se hace en `rebuttal/scripts/phaseE_paper_v2.tex.tmpl` y se re-aplica con `phaseE_v2.py`.
