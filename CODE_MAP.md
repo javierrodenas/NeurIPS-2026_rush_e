@@ -146,3 +146,7 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
 - Versión paralela v2: `rebuttal/scripts/phaseE_paper_v2.tex.tmpl` + `phaseE_v2.py` → `ICLR2027/iclr2027/main_iclr2027_v2.tex`
   (mismos rellenos, figuras, tablas y apéndice que v1; estilo Gröger/Huh: definiciones, ecuaciones, cajas). Regenerar después de
   `phaseE_final.py`; compilar aparte; `sweep_freeze.py` la comprueba en el bloque `v2_checks`. `V2_DIFF.md`, `SWEEP_REPORT_v1_v2.md`.
+- Versión v3: `rebuttal/scripts/phaseE_paper_v3.tex.tmpl` + `phaseE_v3.py` → `ICLR2027/iclr2027/main_iclr2027_v3.tex` (partes literales
+  de `main_local.tex`; rellenos en `phaseE_v3_fills.json`; apéndice reordenado al orden de cita); `make_v3_outline.py` → `V3_OUTLINE.md`;
+  bloque `v3_checks` en `sweep_freeze.py`. Estilo de figuras (rejilla, bordes grises, bandas de nulo) en `figures/style.mplstyle` y en los
+  scripts de las Figuras 2, 3 y 4; compartido por v1, v2 y v3.

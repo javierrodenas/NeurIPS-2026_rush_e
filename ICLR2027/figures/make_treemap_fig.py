@@ -42,7 +42,7 @@ else:
 fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.95))
 for ax,(ds,cfg,title) in zip(axes, PANELS):
     M = np.asarray(S[ds][cfg]["ari"], dtype=float)
-    im = ax.imshow(M, vmin=0, vmax=1, cmap="viridis")
+    im = ax.imshow(M, vmin=0, vmax=1, cmap="viridis"); ax.grid(False)
     for b in (3.5, 8.5): ax.axhline(b, color="w", lw=0.8); ax.axvline(b, color="w", lw=0.8)
     sup = [0,1,2,3,9,10,11]; big = [6,7,8]
     v = np.mean([M[i,j] for i in big for j in sup])

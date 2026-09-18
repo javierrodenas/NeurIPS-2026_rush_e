@@ -31,6 +31,7 @@ def tidy(ax, n=3):
 
 census = list(csv.DictReader(open(RES/"expR52_census_haar_p999_200.csv")))
 d_in = {r["model"]: (float(r["delta"]), float(r["null_mean"])) for r in census if r["dataset"] == "imagenet"}
+null_sd = {r["model"]: float(r["null_sd"]) for r in census if r["dataset"] == "imagenet"}
 e1 = list(csv.DictReader(open(RES/"exp1_delta_controls.csv")))
 DIMS = {r["model"]: int(r["d"]) for r in e1 if r["model"] in d_in and r["variant"] == "real"}
 DIMS.update({m: d for m, d in {"i21k_t":192,"i21k_s":384,"i21k_b":768,"i21k_l":1024,"dinov1_b":768,"dinov2_s":384,"dinov2_b":768,"dinov2_l":1024,"dinov2_g":1536,"clip_b":512,"clip_l":768,"siglip_b":768}.items() if m not in DIMS})
@@ -41,6 +42,9 @@ GRAY = FAMILY_COLORS["null"]
 fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.3), gridspec_kw={"width_ratios": [2, 1]})
 # ---------------- (a)
 ax = axes[0]
+# null band across dimension: mean of (null mean -/+ 2 null s.d.) over the backbones sharing each dimension
+_bd = sorted({DIMS[m] for m in d_in}); _lo = [np.mean([d_in[m][1] - 2*null_sd[m] for m in d_in if DIMS[m] == d]) for d in _bd]; _hi = [np.mean([d_in[m][1] + 2*null_sd[m] for m in d_in if DIMS[m] == d]) for d in _bd]
+ax.fill_between(_bd, _lo, _hi, color=GRAY, alpha=0.15, lw=0, zorder=0)
 ax.plot([d for d, _ in gauss], [v for _, v in gauss], "--", color=GRAY, lw=0.9, zorder=1)
 ax.text(gauss[0][0] * 1.05, gauss[0][1] + 0.003, "structureless cloud, isotropic", fontsize=7, color=GRAY, ha="left", va="bottom")
 # backbones sharing a dimension are spread within a few per cent of d (log axis) so their segments do not overlap; label offsets in points

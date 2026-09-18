@@ -187,3 +187,13 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   decidir; `V2_DIFF.md` lista qué se movió, qué pasó a definición/ecuación y qué se borró como redundante, y cinco recortes candidatos
   (nada recortado). Si se elige v2, hay que decidir los recortes hasta 9–10 páginas y renombrar el fichero de envío.
 - Cualquier cambio de texto en v2 se hace en `rebuttal/scripts/phaseE_paper_v2.tex.tmpl` y se re-aplica con `phaseE_v2.py`.
+
+## Versión v3 (2026-09-18)
+
+- `ICLR2027/main_iclr2027_v3.pdf`: texto principal hasta la página 11 tras los tres recortes prescritos. Para llegar a la página 9 hacen
+  falta ~65 líneas más; candidatos (nada aplicado): enunciados del Lema 1, Corolario 1 y Remark al apéndice con un puntero (~8 líneas);
+  §4 a media página quitando "Extraction" (ya en A.14, ~6 líneas); Definiciones 6–7 fundidas en un párrafo de prosa (~6 líneas);
+  §5.4 de once párrafos a siete uniendo los de un solo número (~10 líneas); §3.5 a la mitad (~4 líneas). Con todo ello queda en ~10 páginas;
+  la página 9 exige además recortar afirmaciones de §5.
+- Dos cifras del brief no coinciden con los ficheros y se han escrito con el valor del fichero: "3–8 null spreads" → 1 a 36; "0.88" → 0.89.
+- Cambios de texto en v3: en `rebuttal/scripts/phaseE_paper_v3.tex.tmpl`, re-aplicar con `phaseE_v3.py` (después de `phaseE_final.py`).

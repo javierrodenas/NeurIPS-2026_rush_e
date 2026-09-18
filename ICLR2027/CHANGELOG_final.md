@@ -1001,3 +1001,34 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Sweep: bloque `v2_checks` (abstract/statements/apéndice idénticos a v1, ningún número nuevo, mismos comentarios de procedencia,
   mismas figuras y tablas, tesis ×2, esqueleto 8/12 con 7 definiciones y 7 ecuaciones y las cajas, reglas de prosa de v1 sobre el
   esqueleto v2, tres puentes, referencias cruzadas, orden de citación de las tablas compartidas): 170/170 con v1.
+
+## 26. Versión v3 (2026-09-18): reescritura en estructura clásica desde las listas de afirmaciones. El fichero de envío sigue siendo `main_iclr2027.tex`.
+
+- Nuevo `ICLR2027/iclr2027/main_iclr2027_v3.tex`, generado por `rebuttal/scripts/phaseE_v3.py` desde `phaseE_paper_v3.tex.tmpl`.
+  Literal de `main_local.tex` (fichero del autor, commit a30a880): abstract, §1 con la Figura 1 (recorte del autor), §2 y los párrafos
+  "Gromov δ" (Eq. 1, emparejamientos) y "Estimation and normalization" (Eq. 2, δ_norm). El resto está escrito desde las listas de
+  afirmaciones del brief con el vocabulario fijo; ningún párrafo de v1 pegado.
+- Esqueleto: 1 Introducción · 2 Related Work · 3 Methodology (3.1 Gromov δ con Def. 1; 3.2 Estimation con Def. 2, Lema 1 (cota de
+  rango), Corolario 1 (confound de dimensión, Beyer et al. 1999 y Aggarwal et al. 2001, entradas nuevas en `references.bib`), Remark
+  (espectro y estadístico), calibración; 3.3 nulo Haar (Def. 3), exceso (Def. 4, Eq. 3), rango y p (Eq. 4, K = 200), genuino (Def. 5,
+  Eq. 5), Figura 2; 3.4 test de profundidad (Def. 6, Def. 7, Eq. 6, star caveat); 3.5 comparación de árboles; 3.6 proyección y tareas) ·
+  4 Experimental Setup · 5 Results (5.1–5.5, lead-ins en negrita, ≤ 2 números por párrafo y ≤ 1 por frase) · 6 Implications (Eq. 7) ·
+  7 Conclusion and Limitations (tesis literal, limitaciones i–viii). Statements: Reproducibility (repositorio anonimizado, `tool/`),
+  Ethics, AI Use en la forma ICLR 2027 con los cuatro usos del brief. Apéndice A: demostraciones del Lema 1 y del Corolario 1; después
+  las catorce tablas por pregunta, reordenadas al orden de primera cita de v3 (Tabla 1 censo; 2 robustez, 3 calibración, 4 censo bajo
+  las cuatro construcciones, 5 panel, 6 nivel de muestra, 7 intervenciones, 8 profundidad, 9 potencia, 10 mapa, 11 taxonomía, 12 texto,
+  13 acuerdo local, 14 corolario, 15 ξ, 16 procedencia). Definiciones, lema y corolario con `amsthm`, sin cajas ni texto en color.
+- Todo número de la prosa es un relleno leído de su CSV (`rebuttal/results/phaseE_v3_fills.json`); el sweep comprueba que ningún
+  número de v3 falta en v1 o en los rellenos, que cada fichero citado en un comentario `%` existe, y recalcula los rellenos clave.
+  Dos cifras del brief difieren del fichero y se escriben con el valor del fichero: "excess 3–8 null spreads" → 1 a 36 (|exceso|/s.d. del
+  nulo, ImageNet) y "sibling agreement 0.88" (DBpedia) → 0.89; "power 0.05" y "star −0.11" se escriben como 0.05 y −0.115 (valores exactos).
+- Figuras (§8 del brief): `style.mplstyle` con rejilla gris discontinua detrás de los ejes y bordes gris claro; paleta de familia sin
+  cambio; bandas de nulo: Figura 2a (media del nulo ± 2 s.d. a lo largo de la dimensión), Figura 3 (± 2 s.d. medianas del nulo alrededor
+  de cero en cada panel), Figura 4a (dispersión de la estrella como banda); mapa de calor de la Figura 5 sin rejilla. Todas las figuras
+  regeneradas con los mismos scripts; al ser compartidas, v1 y v2 las heredan (v1 recompilada: 0 avisos, página 9, PDF y `qa_pages/`
+  reexportados; el `.tex` de v1 no cambia).
+- Presupuesto: tras los tres recortes prescritos (§5.5 a tres frases, §6 a tres párrafos, la tabla de modelos fuera del texto principal
+  hacia la Tabla 5) el texto principal acaba en la página 11 (§3 ocupa 2.3 páginas: siete definiciones, siete ecuaciones, lema, corolario
+  y los dos párrafos literales). No se ha recortado nada más; propuestas en el informe. Compilación: 0 avisos, 41 páginas.
+- Entregables: `main_iclr2027_v3.pdf`, `qa_pages_v3/` (páginas 1–11), `V3_OUTLINE.md` (lista de afirmaciones con la línea de cada una),
+  `SWEEP_REPORT_v1_v3.md` (sweep 183/183 sobre v1, v2 y v3), bloque `v3_checks` en `sweep_freeze.py`, `make_v3_outline.py`.

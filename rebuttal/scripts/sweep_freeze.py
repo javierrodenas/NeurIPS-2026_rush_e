@@ -887,6 +887,99 @@ def v2_checks():
     inputs = _re.findall(r"\\input\{appendix_tables/(tab_[^}]*)\}", T2[T2.index("\\appendix"):]); order = [labels[s] for s in inputs if s in labels]
     chk("v2: the shared appendix tables are still numbered in the order v2 first cites them", order[:len(cited)] == cited, f"cited {cited}")
 v2_checks()
+# ---------- Version v3 (main_iclr2027_v3.tex): classic structure written from the claim lists; verbatim parts from main_local.tex ----------
+def v3_checks():
+    import re as _re, json as _j
+    TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"; P3 = TEX/"main_iclr2027_v3.tex"
+    if not P3.exists(): chk("v3: main_iclr2027_v3.tex present", False, "missing"); return
+    T3 = open(P3).read(); T1 = open(TEX/"main_iclr2027.tex").read(); LOC = open(TEX/"main_local.tex").read()
+    nocom = lambda s: _re.sub(r"(?m)(?<!\\)%.*$", "", s); norm = lambda s: " ".join(nocom(s).split())
+    b3 = T3[T3.index("\\begin{abstract}"):T3.index("\\subsubsection*{Reproducibility Statement}")]
+    def seg(s, a, b): i = s.index(a); j = s.index(b, i); return s[i:j]
+    chk("v3: abstract, S1 (with Figure 1) and S2 verbatim from main_local.tex", norm(seg(b3, "\\begin{abstract}", "\\end{abstract}")) == norm(seg(LOC, "\\begin{abstract}", "\\end{abstract}"))
+        and norm(seg(b3, "\\section{Introduction}", "\\section{Related Work}")) == norm(seg(LOC, "\\section{Introduction}", "\\section{Related Work}"))
+        and norm(seg(b3, "\\section{Related Work}", "\\section{Methodology}")) == norm(seg(LOC, "\\section{Related Work}", "\\section{The Instrument}")))
+    grom = norm(seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1]); est = norm(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1])   # the run-in titles stay out: the subsections carry them
+    chk("v3: the 'Gromov delta' and 'Estimation and normalization' paragraphs verbatim from main_local.tex", grom in norm(b3) and est in norm(b3))
+    fills = _j.load(open(R/"phaseE_v3_fills.json")) if (R/"phaseE_v3_fills.json").exists() else {}
+    tabfiles = sorted((TEX/"appendix_tables").glob("tab_*.tex")); tabs = "".join(f.read_text() for f in tabfiles) + open(TEX/"tab_census.tex").read()
+    can = lambda x: _re.sub(r"^[-+]", "", x).lstrip("0") if "." in x else _re.sub(r"^[-+]", "", x)
+    toks = lambda s: {can(x) for x in _re.findall(r"(?<![\w.])[-+]?\d*\.\d+(?![\w.])|(?<![\w.])\d{2,}(?![\w.])", s.replace("{=}", "="))}
+    allowed = toks(nocom(T1) + nocom(tabs)) | {can(x) for v in fills.values() for x in _re.findall(r"[-+]?\d*\.\d+|\d+", str(v))}
+    extra = toks(_re.sub(r"\\includegraphics\[[^\]]*\]", "", nocom(b3))) - allowed     # graphics options (trim, width) are not numbers of the paper
+    chk("v3: no number appears in v3 that is not in v1 or in a fill traced to a result file", not extra, str(sorted(extra)))
+    files = set(_re.findall(r"([\w/]+\.(?:csv|npz|json))", "".join(_re.findall(r"(?m)(?<!\\)%(.*)$", b3))))
+    missing = sorted(f for f in files if not (R/f).exists() and not Path("/media/HDD_4TB_2/javi/Platonic/results", f).exists())
+    chk("v3: every result file named in a provenance comment exists", not missing, str(missing))
+    chk("v3: no boxes, no colored text, definitions inline (amsthm)", "tcolorbox" not in T3 and "\\textcolor" not in b3 and "\\colorbox" not in b3 and "\\newtheorem{definition}" in T3)
+    THESIS = "Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."
+    chk("v3: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form", b3.count(THESIS) == 2 and "no license for curvature" not in b3 and THESIS in b3[b3.index("\\paragraph{Conclusion.}"):])
+    secs_ = _re.findall(r"\\section\{([^}]*)\}", b3); subs_ = _re.findall(r"\\subsection\{([^}]*)\}", b3)
+    chk("v3: skeleton of seven numbered sections and eleven subsections, seven definitions, one lemma with a corollary and a remark, seven numbered equations, two proofs in the appendix",
+        len(secs_) == 7 and secs_[2] == "Methodology" and secs_[-1] == "Conclusion and Limitations" and len(subs_) == 11 and b3.count("\\begin{definition}[") == 7 and b3.count("\\begin{lemma}") == 1 and b3.count("\\begin{corollary}") == 1 and b3.count("\\begin{remark}") == 1
+        and b3.count("\\begin{equation}") == 7 and all(("\\label{eq:%s}" % e) in b3 for e in ("pairings", "deltanorm", "excess", "rank", "bh", "depth", "curvature")) and T3.count("\\begin{proof}") == 2 and "\\label{app:proofs}" in T3)
+    # prose rules: S5 <=2 number groups per paragraph and <=1 per sentence; S1/S7 only the allowed numbers; <=1 parenthetical per non-verbatim paragraph of S3-S7; bridges only in the last paragraph of a section; banned words
+    src = nocom(b3); src = _re.sub(r"\\begin\{(figure|table|equation\*?|tabular|center)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
+    def clean(par):
+        p = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", par); p = _re.sub(r"\\(S)?\\?ref\{[^}]*\}", "REF", p); p = _re.sub(r"\\label\{[^}]*\}", "", p)
+        p = _re.sub(r"\$([A-Za-z])\{=\}(\d+)\$", r"\1=\2", p); p = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if ("=" in m.group(1) or "\\" in m.group(1)) else m.group(0), p)
+        return p
+    GROUP = r"(?<![A-Za-z\-^_{\d.])[-+]?\d+(?:\.\d+)?(?![A-Za-z\-\d])"
+    RANGE = _re.compile(rf"(?:from\s+)?\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?(?:\s*(?:of the|of|to|against|vs|and|--)\s+\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?){{0,2}}(?:\\%)?")
+    def groups(s):
+        s = clean(s).replace("{=}", "="); s = _re.sub(r"\\begin\{enumerate\}.*?\\end\{enumerate\}", " ", s, flags=_re.S); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
+        return [m.group(0) for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
+    KIND = {"Introduction": "intro", "Related Work": "related", "Methodology": "other", "Experimental Setup": "other", "Results": "results", "Implications for Hyperbolic Representation Learning": "other", "Conclusion and Limitations": "intro"}
+    BANNED = ["tool", "beyond-null", "tree-like structure", "hierarchical structure", "the form ", "our approach", "the method", "essentially", "largely", "substantially", "somewhat", "nterestingly", "notably", "importantly", "we believe", "we note"]
+    MARK = ["next paragraph", "next question", "subject of the next", "turn to next", "take up last", "which we review", "builds that comparison", "the concern of Section", "First we ask", "last question of this section", "states the three acts", "With the setup fixed", "next section fixes", "raises the question of", "which text makes explicit", "has to be re-read", "points to where", "is the first candidate", "What to read instead", "we turn to them next"]
+    ALLOW = {"49 of 72", "18 of 24", "4 of 12", "49 of the 72"}
+    verbatim = [grom, est, norm(seg(LOC, "\\section{Introduction}", "\\section{Related Work}")), norm(seg(LOC, "\\section{Related Work}", "\\section{The Instrument}"))]
+    isverb = lambda par: any(norm(par) in v for v in verbatim)
+    bad = []; bridges = []; total = 0
+    blocks = _re.split(r"\\section\{([^}]*)\}", src); blocks = [(blocks[i], blocks[i+1]) for i in range(1, len(blocks), 2)]
+    for name, text in blocks:
+        kind = KIND.get(name, "other")
+        pars = [q.strip() for q in _re.split(r"\n\s*\n", text) if q.strip() and not q.strip().startswith(("\\begin{enumerate}", "\\end{enumerate}", "\\item", "\\label", "\\subsection", "\\begin{definition}", "\\begin{lemma}", "\\begin{corollary}", "\\begin{remark}"))]
+        for k, par in enumerate(pars):
+            head = par[:50].replace("\n", " "); cp = clean(par); gs = groups(par); total += len(gs); vb = isverb(par)
+            for mk in MARK:
+                if mk.lower() in cp.lower() and not vb: bridges.append((name, k == len(pars)-1, mk, head))
+            if kind == "results":
+                if len(gs) > 2: bad.append(f"{name}: >2 numbers {gs}: {head}")
+                for sent in _re.split(r"(?<=[.!?])\s+", cp):
+                    if len(groups(sent)) > 1: bad.append(f"{name}: >1 number per sentence: {sent[:70]}")
+            if kind == "intro" and not vb and [g for g in gs if g.strip() not in ALLOW]: bad.append(f"{name}: numbers beyond the allowed three {gs}: {head}")
+            if kind != "related" and not vb and len(_re.findall(r"\((?!(?:i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])\))", cp)) > 1: bad.append(f"{name}: >1 parenthetical: {head}")
+            low = cp.lower()
+            for w in BANNED:
+                if w in low and not vb: bad.append(f"{name}: banned '{w}': {head}")
+    for line in bad: print("   V3:", line[:200])
+    chk("v3: the prose rules hold (S5: <=2 number groups per paragraph and <=1 per sentence; S1/S7: only 49/72, 18/24, 4/12 outside the verbatim text; <=1 parenthetical per non-verbatim paragraph; no banned words)", not bad, f"{total} number groups")
+    for s, last, mk, h in bridges: print("   V3 BRIDGE:", s, "last" if last else "NOT last", mk, "|", h)
+    chk("v3: bridges only at section ends (every bridge in the last paragraph of its section, at most three, verbatim paragraphs excepted)", len(bridges) <= 3 and all(last for _, last, _, _ in bridges))
+    alltex = nocom(T3) + nocom(tabs); refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
+    chk("v3: every cross-reference resolves", refs <= defs, str(sorted(refs - defs)))
+    b1 = T1[T1.index("\\begin{abstract}"):T1.index("\\subsubsection*{Ethics Statement}")]
+    chk("v3: same figures and the same main-text table as v1; Figure 1 slot 1.4 in", set(_re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", b3)) == set(_re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", b1)) and "\\input{tab_census}" in b3 and "[1.4in]" in b3)
+    labels = {}
+    for f in tabfiles:
+        m = _re.search(r"\\label\{(tab:q[^}]*)\}", f.read_text())
+        if m: labels[f.stem] = m.group(1)
+    main3 = T3[:T3.index("\\appendix")]; cited = []
+    for m in _re.finditer(r"\\ref\{(tab:q[^}]*)\}", main3):
+        if m.group(1) not in cited: cited.append(m.group(1))
+    app3 = T3[T3.index("\\appendix"):]; inputs = _re.findall(r"\\input\{appendix_tables/(tab_[^}]*)\}", app3); order = [labels[s] for s in inputs if s in labels]
+    chk("v3: the fourteen appendix tables are all input, numbered in the order v3 first cites them, and each is cited from the main text or another table",
+        len(inputs) == 15 and set(inputs) == {f.stem for f in tabfiles} and order[:len(cited)] == cited
+        and all(("\\ref{"+lab+"}" in main3) or any(("\\ref{"+lab+"}") in g.read_text() for g in tabfiles if g.stem != s) for s, lab in labels.items()), f"cited {cited}")
+    # key claim fills recomputed from the files
+    if fills:
+        e21 = load("exp21b_local_global_K200.csv"); tx = {r["model"]: r for r in load("expR53_text_haar_p999_200.csv")}
+        chk("v3: claim fills recomputed (mKNN/CKA calibrated means, text genuine count and GPT-2 S p, joint-sensitivity range, power at s=1, star depth)",
+            fills["KNN_CAL"] == f"{mean(float(r['knn_R_cal']) for r in e21):.3f}" and fills["CKA_CAL"] == f"{mean(float(r['cka_R_cal']) for r in e21):.3f}" and fills["TEXT_GEN"] == str(sum(str(r["genuine_bh"])=="True" for r in tx.values()))
+            and fills["GPT2S_P"] == f"{float(tx['gpt2']['p_left']):.3f}".lstrip("0") and fills["R11_LO"] + "--" + fills["R11_HI"] in open(TEX/"tab_census.tex").read() and fills["POWER_S1"] in open(TEX/"appendix_tables"/"tab_q05_power.tex").read()
+            and fills["STAR_DEEP"] in open(TEX/"appendix_tables"/"tab_q10_calibration.tex").read())
+v3_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-30:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

@@ -55,6 +55,7 @@ DSL = {"imagenet": "ImageNet", "cifar100": "CIFAR-100", "cifar10": "CIFAR-10", "
 GRAY = _FC2["null"]; Y = np.arange(len(ORDER))[::-1]                       # ViT-T at the top, SigLIP-B at the bottom
 fig, axes = plt.subplots(1, 6, figsize=(5.5, 1.88), sharey=True, gridspec_kw={"width_ratios": [1.35, 1, 1, 1, 1, 1]})
 for ax, ds in zip(axes, DSO):
+    _sd = np.median([float(r["null_sd"]) for r in d20 if r["dataset"] == ds]); ax.axvspan(-2*_sd, 2*_sd, color=GRAY, alpha=0.15, lw=0, zorder=0)   # two median null spreads around zero
     for b in (7.5, 2.5): ax.axhline(b, color=GRAY, lw=0.5, zorder=1)             # thin separators between the three families
     ax.axvline(0.0, color="k", lw=0.7, zorder=2)
     for k, m in enumerate(ORDER):

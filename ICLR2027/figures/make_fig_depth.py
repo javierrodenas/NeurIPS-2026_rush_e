@@ -73,6 +73,7 @@ def panel_real(ax, ds, K, title):
     for i, m in enumerate(M):
         iso = dv[(dv.model==m)&(dv.dataset==ds)&(dv.K==K)&(dv.variant=="iso")].iloc[0]
         an = dv[(dv.model==m)&(dv.dataset==ds)&(dv.K==K)&(dv.variant=="aniso")].iloc[0]
+        ax.plot([i, i], [an.excessB_star - 2*an.excessB_star_sd, an.excessB_star + 2*an.excessB_star_sd], "-", color=FAMILY_COLORS["null"], lw=4, alpha=0.22, solid_capstyle="butt", zorder=1)   # the star's spread (2 s.d.) as a band
         ax.plot([i, i], [iso.excessB_real, iso.excessB_star], "-", color=FAMILY_COLORS["null"], lw=0.6, zorder=1)
         ax.scatter(i, iso.excessB_real, s=16, color=fam_color(m), zorder=3)
         ax.scatter(i, iso.excessB_star, s=16, facecolors="none", edgecolors=FAMILY_COLORS["null"], linewidths=0.8, zorder=2)
