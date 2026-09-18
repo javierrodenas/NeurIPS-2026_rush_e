@@ -1,0 +1,50 @@
+% prov: (model panel: stated in the generator; parameter counts from the model cards)
+\begin{table}[tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llr}
+\toprule
+type & model & params \\
+\midrule
+Supervised ViT (vision) & ViT-T (i21k) & 5M \\
+Supervised ViT (vision) & ViT-S (i21k) & 22M \\
+Supervised ViT (vision) & ViT-B (i21k) & 86M \\
+Supervised ViT (vision) & ViT-L (i21k) & 307M \\
+SSL (vision) & DINO-B & 86M \\
+SSL (vision) & DINOv2-S & 22M \\
+SSL (vision) & DINOv2-B & 86M \\
+SSL (vision) & DINOv2-L & 307M \\
+SSL (vision) & DINOv2-G & 1.1B \\
+Contrastive (vision) & CLIP-B & 86M \\
+Contrastive (vision) & CLIP-L & 307M \\
+Contrastive (vision) & SigLIP-B & 86M \\
+\midrule
+Causal LM & GPT-2 S & 117M \\
+Causal LM & GPT-2 M & 345M \\
+Causal LM & GPT-2 L & 774M \\
+Causal LM & GPT-2 XL & 1.5B \\
+Causal LM & Pythia-410M & 410M \\
+Causal LM & Pythia-1B & 1.0B \\
+Causal LM & Pythia-2.8B & 2.8B \\
+Causal LM & OLMo-1B & 1.0B \\
+Causal LM & OLMo-7B & 7.0B \\
+Text embedder & BGE-base & 110M \\
+Text embedder & BGE-large & 335M \\
+Text embedder & GTE-base & 110M \\
+Text embedder & GTE-large & 335M \\
+Text embedder & GTE-Qwen2-1.5B & 1.5B \\
+Text embedder & E5-base & 110M \\
+Text embedder & E5-large & 335M \\
+\midrule
+Controls (vision) & DeiT-B/16 (IN-1k, no distillation) & 86M \\
+Controls (vision) & ViT-B/16 augreg (IN-1k) & 86M \\
+Controls (vision) & MERU ViT-S/B/L and CLIP twins & 22M/86M/307M \\
+Controls (vision) & Barlow Twins, BYOL (ResNet-50) & 24M \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\caption{\textbf{The model panel.} 12 vision backbones (all in the census; the 10 with cached per-dataset features, all but DINO-B and SigLIP-B, form the task grid), 9 causal LMs, 7 text embedders, and the vision models used only as controls. Class centroids average $100$ cached training images per class on ImageNet and the full cached split, $80$--$6{,}000$ images per class, on the other datasets. Feature extraction: vision backbones use the encoder's default pooled embedding (timm, \texttt{num\_classes=0}, CLS or global pool per architecture); causal LMs use the last-token hidden state, extracted one prompt at a time (padding-free: left-padded batching alters GPT-2's hidden states, Table~\ref{tab:q2-text}); text embedders use their recommended pooling (CLS for BGE, mean for GTE/E5, last token for GTE-Qwen2); CLIP/SigLIP text towers use their text encoders.
+}
+\label{tab:q14-panel}
+\end{table}

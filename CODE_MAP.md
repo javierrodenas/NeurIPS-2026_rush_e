@@ -150,3 +150,14 @@ Convención: `<script>.py` escribe `<mismo nombre>.csv` (+ `.log`) en `rebuttal/
   de `main_local.tex`; rellenos en `phaseE_v3_fills.json`; apéndice reordenado al orden de cita); `make_v3_outline.py` → `V3_OUTLINE.md`;
   bloque `v3_checks` en `sweep_freeze.py`. Estilo de figuras (rejilla, bordes grises, bandas de nulo) en `figures/style.mplstyle` y en los
   scripts de las Figuras 2, 3 y 4; compartido por v1, v2 y v3.
+- Versión final (2026-09-18, "plain, short, nine pages"): `rebuttal/scripts/phaseE_paper_final.tex.tmpl` + `phaseE_submission.py`
+  (`FINAL_CUTS=s55,s6,table,s2`) → `ICLR2027/iclr2027/main_iclr2027_final.tex`; partes literales de `main_local.tex` con las cinco
+  ediciones del brief registradas en `rebuttal/results/final_verbatim_edits.json`; apéndice = copias flotantes por panel de las tablas
+  citadas en `ICLR2027/iclr2027/appendix_tables/final/` (`tab_q08_robust_final.tex` la genera `gen_appendix_final.py` en ese directorio;
+  índice `tab_z_provenance_final.tex` con `gen_provenance.py main_iclr2027_final.tex tab_z_provenance_final.tex final`); Tabla 1 con
+  leyenda corta = `tab_census_final.tex` (`gen_main_table.py`); figuras en lenguaje de barras `ICLR2027/figures/make_figs_final.py`
+  (`fig_{overview,excess,depth,treemap}_final`, valores de la Figura 5 en `rebuttal/results/final_fig5_values.json`); bloque
+  `final_checks` en `sweep_freeze.py` (escribe `rebuttal/results/final_prose_stats.json`); `make_final_check.py <pdf> <sweep.log>` →
+  `ICLR2027/FINAL_CHECK.md`; `ICLR2027/qa_pages_final/`. PDFs: `ICLR2027/main_iclr2027_final.pdf` (versión final),
+  `ICLR2027/main_iclr2027_v1.pdf` (el fichero congelado `main_iclr2027.tex`, antes exportado con el nombre `_final`).
+  Orden: gen_appendix_final → gen_main_table → make_figs_final → phaseE_submission → gen_provenance (final) → tectonic → sweep → make_final_check.

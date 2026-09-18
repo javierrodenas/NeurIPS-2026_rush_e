@@ -790,7 +790,7 @@ def conservation_check(verbose=True):
         if s == "tab_b23_text20":
             t = re.sub(r" & \$[-+0-9.]+\$ & \$[-+0-9.]+\$ \\\\", r" \\\\", t); t = re.sub(r"Three verdicts change.*?not used as evidence\)\.", "", t, flags=re.S); t = re.sub(r"Sign agreement with the 3-replicate original: \d+/\d+\.", "", t)
         for tok in re.findall(r"(?<![\w.])[-+]?\d+\.\d+", t): old_tokens.setdefault(tok, set()).add(s)
-    new_all = "".join(open(f).read() for f in sorted(OUT.glob("tab_q*.tex"))) + open(HERE / "tab_census.tex").read()
+    new_all = "".join(open(f).read() for f in sorted(OUT.glob("tab_q*.tex")) if "final" not in f.name) + open(HERE / "tab_census.tex").read()
     if (HERE / "main_iclr2027.tex").exists(): new_all += open(HERE / "main_iclr2027.tex").read()
     new_nums = [float(x) for x in re.findall(r"(?<![\w.])[-+]?\d+\.\d+|(?<![\w.])\d+(?![\w.])", new_all.replace("{=}", "="))]
     missing = []
@@ -804,7 +804,76 @@ def conservation_check(verbose=True):
         print(f"conservation: {len(old_tokens)-len(missing)}/{len(old_tokens)} old decimal tokens found")
     return missing
 
+
+# ======================================================================================================================
+# Q8 (final version): robustness = budget, resampling, joint sensitivity, the two cited class-count rows and the training rows of S5.2
+# ======================================================================================================================
+def q_robust_final():
+    (OUT / "final").mkdir(exist_ok=True)   # the final version's copies of the appendix tables live in appendix_tables/final/ (phaseE_submission.py fills the rest)
+    T = Table("final/tab_q08_robust_final.tex", "tab:q8-robust", colsep="2.4pt"); T.prov += ["expR72_budget_record.csv", "expR72_budget_record_summary.csv", "expR32_centroid_bootstrap.csv", "expR59_imagenet_bootstrap_summary.csv", "expR66_joint_sensitivity_summary.csv", "expR60_c_sweep_record.csv", "analysis4_finetuning.csv", "e1_delta_by_layer.csv"]
+    NM = {"i21k_l":"ViT-L","dinov2_l":"DINOv2-L","dinov2_g":"DINOv2-G","clip_b":"CLIP-B"}; DSS = {"imagenet":"IN","cifar100":"C100","dtd":"DTD"}
+    CELLS = [("i21k_l","imagenet"),("dinov2_l","imagenet"),("clip_b","imagenet"),("i21k_l","cifar100"),("dinov2_l","cifar100"),("clip_b","cifar100"),("i21k_l","dtd"),("dinov2_l","dtd"),("clip_b","dtd")]
+    B72 = {(a["model"], a["dataset"]): a for a in load("expR72_budget_record_summary.csv")}; D72 = load("expR72_budget_record.csv"); r32 = load("expR32_centroid_bootstrap.csv")
+    BUD = [10000, 50000, 100000, 500000, 1000000, 2000000]; rows = []
+    for (m, ds) in CELLS:
+        rec_ = [a for a in D72 if a["model"] == m and a["dataset"] == ds]
+        if rec_:
+            v = {int(a["n_quads"]): float(a["excess"]) for a in rec_}; s = B72[(m, ds)]
+            rows.append(f"{NM[m]} & {DSS[ds]} & record & " + " & ".join(f"${v[b]:+.4f}$" for b in BUD) + f" & ${float(s['drift_ge1e5']):.4f}$ & {float(s['drift_ge1e5_over_sd']):.2f} \\\\")
+    seen = set()
+    for a in r32:
+        k = (a["model"], a["dataset"])
+        if k in seen or int(a["b"]) < 0: continue
+        sub = [float(x["excess"]) for x in r32 if (x["model"], x["dataset"]) == k and int(x["b"]) >= 0]
+        if len(sub) >= 10: seen.add(k); rows.append(f"{NM[a['model']]} & {DSS[a['dataset']]} & \\multicolumn{{9}}{{l}}{{centroid bootstrap: excess ${st.mean(sub):+.4f}$, s.d.\\ ${st.pstdev(sub):.4f}$ ({len(sub)} resamples of the per-class images, {a['n_per_class']} images/class)}} \\\\")
+    T.panel("(a) Quadruple budget: the excess at $10^4$ to $2{\\times}10^6$ sampled quadruples per seed under the record (Haar null, p99.9, 200 replicates).", "llccccccc|cc",
+            [r"model & data & protocol & $10^4$ & $5{\times}10^4$ & $10^5$ & $5{\times}10^5$ & $10^6$ & $2{\times}10^6$ & drift ($\ge10^5$) & drift/s.d. \\"], rows, colsep="2.2pt")
+    B = load("expR59_imagenet_bootstrap_summary.csv")
+    rows = [f"{NAME.get(a['model'], a['model'])} & ${float(a['excess_ref']):+.4f}$ & ${float(a['excess_boot_mean']):+.4f}$ & ${float(a['excess_boot_sd']):.4f}$ & {float(a['frac_boot_negative']):.2f} \\\\" for a in B]
+    T.panel("(b) ImageNet centroid bootstrap under the record: 30 resamples of the 100 training images per class (20 null replicates per resample).", "lcccc", [r"model & excess (reference) & bootstrap mean & bootstrap s.d. & fraction negative \\"], rows, mids=(4, 9), size=r"\footnotesize", colsep="4pt")
+    bmax = f"{max(float(a['excess_boot_sd']) for a in B):.4f}"
+    T.newpart()
+    J = {(r["model"], r["dataset"]): r for r in load("expR66_joint_sensitivity_summary.csv")}; rows = []
+    for m in M12:
+        cs = []
+        for d in DS:
+            r = J[(m, d)]; g = r["genuine_bh_record"] == "True"; jg = r["joint_genuine"] == "True"; bg = r["boot_bh_genuine"] == "True"
+            cs.append(f"${float(r['z_joint']):+.1f}$ ({r['n_boot_genuine']})" + ("" if g else r"$^{\circ}$") + (r"$^{\dagger}$" if (g and not (jg and bg)) else "") + (r"$^{\ddagger}$" if (not g and (jg or bg)) else ""))
+        rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
+    T.panel("(c) Joint sensitivity of the genuine count: $z_{\\text{joint}}$ against null, bootstrap and estimator noise, and (in parentheses) the number of the 30 centroid resamples in which the cell is genuine.", "l" + "c"*6, ["model & " + " & ".join(DSH[d] for d in DS) + r" \\"], rows, mids=(4, 9), colsep="2.6pt")
+    tot = lambda k: sum(1 for r in J.values() if r[k] == "True"); tot2 = lambda k: sum(1 for (m, d), r in J.items() if r[k] == "True" and d in TOP)
+    jt = f" Counts: record {tot('genuine_bh_record')}/72 ({tot2('genuine_bh_record')}/24); $z_{{\\text{{joint}}}}\\le-2$: {tot('joint_genuine')}/72 ({tot2('joint_genuine')}/24); genuine in $\\ge27$ of 30 resamples: {tot('boot_bh_genuine')}/72 ({tot2('boot_bh_genuine')}/24)."
+    c60 = load("expR60_c_sweep_record.csv")
+    def agg(m, C, mode, f):
+        v = [float(r[f]) for r in c60 if r["model"] == m and int(r["C"]) == C and r["mode"] == mode and r[f] not in ("", "nan")]; return st.mean(v) if v else None
+    def below(m, C, mode):
+        v = [float(r["p_left"]) <= 0.05 for r in c60 if r["model"] == m and int(r["C"]) == C and r["mode"] == mode]; return f"{sum(v)}/{len(v)}" if v else "---"
+    rows = []
+    for m in ["dinov2_l"]:
+        for C in [100]:
+            dr, er, nr = agg(m,C,"random","delta_999"), agg(m,C,"random","excess"), agg(m,C,"random","nc_adv_pp"); dc, ec, nc = agg(m,C,"coherent","delta_999"), agg(m,C,"coherent","excess"), agg(m,C,"coherent","nc_adv_pp")
+            if dr is None: continue
+            right = f"{dc:.3f} & {ec:+.3f} & {below(m,C,'coherent')} & {nc:+.2f}" if dc is not None else "--- & --- & --- & ---"
+            rows.append(f"{NAME[m]} & {C} & {dr:.3f} & {er:+.3f} & {below(m,C,'random')} & {nr:+.2f} & {right} \\\\")
+    T.panel("(d) Class count against hierarchy depth: ImageNet subsets of $C=100$ classes, random (spanning the hierarchy) or WordNet-coherent (siblings, effectively flat), means over five subset seeds; the other values of $C$ are in the sweep file.", "lr|cccc|cccc",
+            [r" & & \multicolumn{4}{c|}{random subsets (span the hierarchy)} & \multicolumn{4}{c}{WordNet-coherent (siblings)} \\", r"model & $C$ & $\hat\delta_{99.9}$ & excess & below & NC adv & $\hat\delta_{99.9}$ & excess & below & NC adv \\"], rows, size=r"\footnotesize", colsep="3.5pt")
+    NMI = {"dinov2_s":"DINOv2-S","dinov2_b":"DINOv2-B","i21k_b":"ViT-B","clip_b":"CLIP-B","clip_b_vision":"CLIP-B"}; rows = []
+    if (ABL/"analysis4_finetuning.csv").exists():
+        ft = list(csv.DictReader(open(ABL/"analysis4_finetuning.csv"))); a = next((x for x in ft if x["model"] == "dinov2_b"), ft[0])
+        rows.append(f"non-hierarchical fine-tuning & {NMI.get(a['model'], a['model'])} & ${float(a['delta_before']):.3f}$ & ${float(a['delta_after']):.3f}$ & ${float(a['pct_change']):+.0f}\\%$ \\\\")
+    if (ABL/"e1_delta_by_layer.csv").exists():
+        L = list(csv.DictReader(open(ABL/"e1_delta_by_layer.csv")))
+        for m in ("dinov2_b",):
+            rr = sorted([a for a in L if a["model"] == m and int(a["layer"]) >= 1], key=lambda a: int(a["layer"]))
+            if rr: rows.append(f"across depth (layer {rr[0]['layer']} $\\to$ {rr[-1]['layer']}) & {NMI[m]} & ${float(rr[0]['delta_normalized']):.3f}$ & ${float(rr[-1]['delta_normalized']):.3f}$ & ${100*(float(rr[-1]['delta_normalized'])-float(rr[0]['delta_normalized']))/float(rr[0]['delta_normalized']):+.0f}\\%$ \\\\")
+    T.panel("(e) Training moves the raw reading within an architecture: one row per intervention.", "llccc", [r"intervention & model & $\delta$ before & $\delta$ after & change \\"], rows, size=r"\footnotesize", colsep="4pt")
+    T.write(r"\textbf{The excess is budget-stable, the genuine count survives resampling and estimator noise, the reading follows the hierarchy of the labels rather than their number, and training moves it.} "
+            r"(a) Excess against the quadruple budget for nine cells; drift = range of the record excess over budgets $\ge10^5$, divided by the excess's spread in the last column; under the record every sign holds at every budget. "
+            r"(b) Bootstrap of the ImageNet excess over resampled images per class: the bootstrap s.d.\ is at most " + bmax + r" and every resample of every backbone is sign-negative. % expR72_budget_record.csv, expR32_centroid_bootstrap.csv, expR59_imagenet_bootstrap_summary.csv",
+            contd=[r"(c) Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ and the number of resamples in which the cell is genuine under BH over the 72 cells; $^{\circ}$: not genuine in the record; $^{\dagger}$: record-genuine but failing one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one." + jt
+                   + r" (d) Class-count control under the record (means over subset seeds); ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv"])
+
 if __name__ == "__main__":
     for f in OUT.glob("tab_q*.tex"): f.unlink()
-    q_calibration(); q_census(); q_robust(); q_sample(); q_depth(); q_power(); q_interventions(); q_treemap(); q_wordnet(); q_text(); q_local(); q_corollary(); q_xi(); q_panel()
+    q_calibration(); q_census(); q_robust(); q_sample(); q_depth(); q_power(); q_interventions(); q_treemap(); q_wordnet(); q_text(); q_local(); q_corollary(); q_xi(); q_panel(); q_robust_final()
     conservation_check()

@@ -4,10 +4,11 @@ generated appendix-table captions (internal filenames must not render in the
 PDF) and emits a single auto-generated provenance index table mapping each
 table label to its generating script and result files. Run AFTER
 gen_appendix.py and gen_appendix2.py."""
-import re
+import re, sys
 from pathlib import Path
+MAIN_NAME = sys.argv[1] if len(sys.argv) > 1 else "main_iclr2027.tex"; OUT_NAME = sys.argv[2] if len(sys.argv) > 2 else "tab_z_provenance.tex"; SUBDIR = sys.argv[3] if len(sys.argv) > 3 else ""   # final version: appendix_tables/final/, floating tables
 
-TD = Path(__file__).parent / "appendix_tables"
+TD = Path(__file__).parent / "appendix_tables" / SUBDIR if SUBDIR else Path(__file__).parent / "appendix_tables"
 prov = []
 pat = re.compile(r"\s*Sources?:\s*((?:\\texttt\{[^}]*\}(?:,\s*)?)+)\.?")
 
@@ -25,11 +26,11 @@ for f in sorted(TD.glob("tab_*.tex")):
     if mp: files = mp.group(1).strip()
     prov.append((label, f.stem, files.replace("\\_", "_")))
 
-lines = [r"\begin{table}[H]", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{3pt}",
+lines = [r"\begin{table}[tbp]" if SUBDIR else r"\begin{table}[H]", r"\centering", r"\scriptsize", r"\setlength{\tabcolsep}{3pt}",
          r"\begin{tabular}{ll>{\raggedright\arraybackslash}p{9.0cm}}", r"\toprule",
          r"table & generated file & result file(s) \\", r"\midrule"]
-MAIN = (Path(__file__).parent / "main_iclr2027.tex").read_text()
-prov = [x for x in prov if f"appendix_tables/{x[1]}" in MAIN and x[1] != "tab_z_provenance"]  # index only tables the paper includes
+MAIN = (Path(__file__).parent / MAIN_NAME).read_text()
+prov = [x for x in prov if (f"appendix_tables/{SUBDIR}/{x[1]}" if SUBDIR else f"appendix_tables/{x[1]}") in MAIN and not x[1].startswith("tab_z_provenance")]  # index only tables the paper includes
 for label, stem, files in prov:
     ftex = files.replace("_", r"\_") if files else "(stated in generator)"
     lines.append(rf"\ref{{{label}}} & \texttt{{{stem.replace('_', chr(92)+'_')}}} & {' '.join(chr(92)+'texttt{'+x.strip()+'}' for x in ftex.split(',')) if files else ftex} \\")
@@ -39,5 +40,5 @@ lines += [r"\bottomrule", r"\end{tabular}",
           r"The same mapping for main-text tables and figures is annotated in the source and "
           r"shipped with the code release.}",
           r"\label{tab:provenance}", r"\end{table}"]
-(TD/"tab_z_provenance.tex").write_text("\n".join(lines) + "\n")
+(TD/OUT_NAME).write_text("\n".join(lines) + "\n")
 print(f"stripped+indexed {sum(1 for _,_,f in prov if f)} tables; provenance index written")

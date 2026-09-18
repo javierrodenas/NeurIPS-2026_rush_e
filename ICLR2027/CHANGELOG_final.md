@@ -1049,3 +1049,53 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   página 11 (la Proposición ahorra dos líneas respecto al lema y el corolario); no se ha recortado nada más. (3) La Figura 4 de v3 ya
   cumple la especificación de esta ronda (misma que la anterior); sin cambios. Compilación: 0 avisos, 41 páginas; sweep 183/183 sobre
   v1, v2 y v3; `qa_pages_v3/` y `V3_OUTLINE.md` regenerados.
+
+## 27. Versión final (2026-09-18, brief "Final version — plain, short, nine pages"): `main_iclr2027_final.tex/.pdf`. El fichero congelado `main_iclr2027.tex` no cambia.
+
+- Generación: `rebuttal/scripts/phaseE_paper_final.tex.tmpl` + `phaseE_submission.py` (ejecutado con `FINAL_CUTS=s55,s6,table,s2`) escriben
+  `ICLR2027/iclr2027/main_iclr2027_final.tex`. Partes literales de `main_local.tex` (resumen, §1 con la Figura 1, §2, "Gromov δ",
+  "Estimation and normalization") con las cinco ediciones que pide el brief, registradas en `rebuttal/results/final_verbatim_edits.json`:
+  "cast the same shadow" → "all read the same"; "Why is the shadow low?" → "Why is the reading low?"; "geometric face of" → "geometric
+  counterpart of"; "the intent of the supremum" → "as the supremum does"; la frase puente "What a structureless cloud reads on it is the
+  next question." eliminada. Estructura de v3 sin cambios: siete secciones, once subsecciones, siete definiciones en línea sin marco, siete
+  ecuaciones, Proposición 1 (a)(b) con su demostración en el Apéndice A, sin cajas.
+- Prosa llana (regla del brief, comprobada por el bloque `final_checks` del sweep): media de 16.4 palabras por frase en la prosa no literal
+  de §3–§7 (132 frases), ninguna por encima de 35; párrafos de 3 a 6 frases con entrada en negrita; en §5–§6 como máximo un número por
+  frase y dos por párrafo, un solo puntero a tabla o figura al final de cada párrafo; en la prosa sólo los siete números de cabecera
+  (49 de 72; 18 de 24; 4 de 12; 0 de 60; 7 de 15; 0.48 a 2.5; +0.9 a +1.3 pp); sin metáforas fuera de la Figura 1 y su leyenda, sin
+  puentes, sin paréntesis de más de tres palabras, sin cadenas de punto y coma, sin "we note/interestingly/importantly/in plain terms".
+- Figuras en lenguaje de barras (`ICLR2027/figures/make_figs_final.py`, ficheros `fig_{overview,excess,depth,treemap}_final`): Figura 2
+  pares de barras lectura/nulo por backbone ordenados por dimensión con la referencia gaussiana escalonada a trazos y el par ViT-T/DTD
+  frente a SigLIP-B/CIFAR-10; Figura 3 seis paneles estrechos de doce barras horizontales, rellenas si genuinas y rayadas si no, con la
+  banda ±2 s.d. del nulo; Figura 4 barras de z con la línea a trazos en −2, cifras sólo sobre las certificadas, y curvas de detección con
+  la variante encogida a trazos; Figura 5 dos matrices ARI más grandes, paleta secuencial, rectángulo sobre el bloque DINOv2, leyenda con
+  0.03 frente a 0.38 (valores leídos de `rebuttal/results/final_fig5_values.json`). Leyendas = conclusión en negrita + qué se dibuja.
+  La Figura 1 es el comando literal del autor (`\IfFileExists`, `fig1_concept.pdf` ausente en el repo → caja de 1.4 in).
+- Apéndice: doce tablas citadas + demostraciones + índice de procedencia, en orden de primera cita, como copias flotantes por panel en
+  `ICLR2027/iclr2027/appendix_tables/final/` (`[tbp]`, sin `\FloatBarrier`, un flotante por panel; los `[H]` de v1 dejaban media página
+  en blanco por parte). Eliminado: ξ (tab_q12), la tabla de intervenciones/ORC (tab_q11), todas las figuras del apéndice y sus
+  referencias, el panel de variantes del nulo de la tabla de robustez y el panel (b) del censo (veredicto bajo las cuatro construcciones),
+  las filas supremum×Gaussian del panel de presupuesto y el panel (b) de la tabla del corolario (correlaciones del supremo, no citado),
+  el barrido de número de clases salvo una fila (DINOv2-L, C=100, ambos modos) y las filas de intervención salvo una por intervención.
+  Los comentarios `% prov:` y `% source` se conservan; `tab_q08_robust_final.tex` lo genera `gen_appendix_final.py` (conservación 992/992
+  sobre las tablas de v1, intactas); índice `tab_z_provenance_final.tex` con `gen_provenance.py main_iclr2027_final.tex
+  tab_z_provenance_final.tex final`. Tabla 1 = `tab_census_final.tex` (mismas filas que v1, leyenda de tres líneas).
+- Presupuesto de página: la primera compilación terminaba en la página 11 (referencias en la línea 558). Los cuatro recortes del brief
+  (§5.5 a tres frases, §6 en tres párrafos, tabla de modelos en el apéndice, §2 a sus seis primeras frases) liberan unas 25 de las 72
+  líneas; el resto se ha obtenido recortando frase a frase la prosa no literal sin eliminar ninguna afirmación de `V3_OUTLINE.md` (las
+  frases quitadas repetían una afirmación del mismo párrafo o del vecino; la limitación (viii) sobre ξ se va con el descriptor) y con
+  espaciado tipográfico declarado en el preámbulo (saltos de sección/subsección/párrafo 1.2/1.0/0.5 ex frente a 2.0/1.8/1.5 ex del
+  estilo, saltos de ecuación 4 pt, entornos de definición y proposición a 3 pt, separación de flotantes 12 pt, salto de leyenda 5 pt);
+  fuentes, márgenes, interlineado y tamaño de figuras sin tocar. Resultado: §7 termina en la página 9 (línea 479), los statements empiezan
+  en la 9 (línea 480) y las referencias en la 10 (línea 501); 28 páginas, 0 avisos. Apéndice: 16 páginas (demostraciones incluidas)
+  frente a las 14 del brief; candidatos en `FINAL_CHECK.md`.
+- Statements: AI Use con exactamente los tres usos declarados y la frase de responsabilidad; Reproducibility con el marcador del
+  repositorio anónimo (`TODO(author)`); Ethics sin cambios.
+- Sweep: `sweep_freeze.py` 207/207 (v1 160, v2 10, v3 13, final 24: partes literales módulo las ediciones registradas, reglas de prosa,
+  vocabulario definido en §3, ningún número nuevo, ficheros de procedencia existentes, figuras y leyendas, conjunto y orden del apéndice,
+  material eliminado ausente, copias por panel con los mismos números que v1, referencias cruzadas, Tabla 1, statements, preámbulo).
+  Escribe `rebuttal/results/final_prose_stats.json`; `make_final_check.py` → `ICLR2027/FINAL_CHECK.md` (página de las referencias,
+  estadísticas de longitud de frase por sección, números por párrafo en §5–§6, material eliminado, informe del sweep).
+- Entregables: `ICLR2027/main_iclr2027_final.pdf`, `ICLR2027/qa_pages_final/` (100 dpi, 28 páginas), `FINAL_CHECK.md`, `SUMMARY_plain.md`
+  regenerado en diez líneas desde el texto final. La exportación de v1 pasa a llamarse `ICLR2027/main_iclr2027_v1.pdf` (las entradas
+  anteriores de este registro que dicen `main_iclr2027_final.pdf` se refieren a ese fichero).

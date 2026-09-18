@@ -1,0 +1,166 @@
+{
+ "sections": {
+  "Introduction": {
+   "sentences": 30,
+   "avg_words": 20.3,
+   "max_words": 48
+  },
+  "Related Work": {
+   "sentences": 4,
+   "avg_words": 42.5,
+   "max_words": 60
+  },
+  "Methodology": {
+   "sentences": 39,
+   "avg_words": 19.8,
+   "max_words": 45
+  },
+  "Experimental Setup": {
+   "sentences": 15,
+   "avg_words": 18,
+   "max_words": 33
+  },
+  "Results": {
+   "sentences": 74,
+   "avg_words": 15.0,
+   "max_words": 30
+  },
+  "Implications for Hyperbolic Representation Learning": {
+   "sentences": 11,
+   "avg_words": 13.7,
+   "max_words": 27
+  },
+  "Conclusion and Limitations": {
+   "sentences": 9,
+   "avg_words": 20.3,
+   "max_words": 34
+  }
+ },
+ "avg_nonverbatim": 16.4,
+ "n_nonverbatim_sentences": 132,
+ "numbers_per_paragraph_S5_S6": [
+  {
+   "section": "Results",
+   "lead": "The premise fails where it is read.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "Most cells show clustered structure.",
+   "numbers": [
+    "49 of 72",
+    "18 of 24"
+   ]
+  },
+  {
+   "section": "Results",
+   "lead": "The count survives resampling.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "No family owns the structure.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "A star of clusters already passes the census.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "Neural collapse is the flat limit, not what the census sees.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "Four backbones are certified on ImageNet.",
+   "numbers": [
+    "4 of 12"
+   ]
+  },
+  {
+   "section": "Results",
+   "lead": "The test never fires on randomized hubs.",
+   "numbers": [
+    "0 of 60"
+   ]
+  },
+  {
+   "section": "Results",
+   "lead": "The test is weak at ImageNet's noise level.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "The certified set depends on the frame.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "Leaf labels can produce the depth but do not guarantee it.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "Imposing the geometry does not create detected depth.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "The naive map manufactures an island.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "Controlling the cut leaves a moderate gap.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "The self-supervised tree is angular.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "Alignment with WordNet follows supervision and recipe.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "The recovery is not WordNet circularity.",
+   "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "Text depends on recipe, scale and probe.",
+   "numbers": [
+    "7 of 15"
+   ]
+  },
+  {
+   "section": "Results",
+   "lead": "Models share neighborhoods, not metrics.",
+   "numbers": []
+  },
+  {
+   "section": "Implications for Hyperbolic Representation Learning",
+   "lead": "The raw reading cannot select a curvature.",
+   "numbers": [
+    "0.48 to 2.5"
+   ]
+  },
+  {
+   "section": "Implications for Hyperbolic Representation Learning",
+   "lead": "The calibrated reading predicts the zero-cost gain.",
+   "numbers": []
+  },
+  {
+   "section": "Implications for Hyperbolic Representation Learning",
+   "lead": "A change of readout collects what is there.",
+   "numbers": [
+    "+0.9 to +1.3"
+   ]
+  }
+ ]
+}

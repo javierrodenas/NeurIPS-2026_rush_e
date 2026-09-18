@@ -1,0 +1,20 @@
+% prov: exp21b_local_global_K200.csv
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcccccc}
+\toprule
+measure & raw & null mean & $\tau_{0.05}$ & calibrated & null-centered & pairs $p<0.05$ \\
+\midrule
+mutual-kNN ($k{=}10$), Euclidean & $0.472$ & $0.010$ & $0.015$ & $0.464$ & $0.462$ & 66/66 \\
+mutual-kNN, Poincar\'e & $0.425$ & $0.010$ & $0.019$ & $0.414$ & $0.415$ & 66/66 \\
+linear CKA, Euclidean & $0.633$ & $0.108$ & $0.111$ & $0.577$ & $0.524$ & 66/66 \\
+linear CKA, Poincar\'e & $0.640$ & $0.108$ & $0.111$ & $0.586$ & $0.532$ & 66/66 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\caption{\textbf{Cross-model agreement survives permutation calibration.} Means over the 66 model pairs of the 12 vision backbones on the 1000 ImageNet class centroids (census cache). Calibration of \citet{groger2026aristotelian} with $K{=}200$ permutations of the class correspondence and $\alpha{=}0.05$, scalar (no layer search): $\tau_{0.05}$ is the $\lceil0.95(K{+}1)\rceil$-th order statistic of the observed score and its nulls (eq.\ 9), $p=(1+\#\{\text{null}\ge\text{obs}\})/(K{+}1)$ (eq.\ 10), calibrated $=\max\{(\text{obs}-\tau_{0.05})/(1-\tau_{0.05}),0\}$ (eq.\ 12); ``null-centered'' is the earlier raw-minus-null-mean variant, kept for continuity. The mKNN null mean equals the analytic chance level $k/(n{-}1)=10/999$. % exp21b_local_global_K200.csv
+}
+\label{tab:q13-local}
+\end{table}

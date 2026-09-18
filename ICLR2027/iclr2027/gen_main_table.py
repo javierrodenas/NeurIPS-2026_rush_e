@@ -74,6 +74,12 @@ lines += [r"\bottomrule", r"\end{tabular}",
   + r"Other datasets and the four null$\times$statistic verdicts: Table~\ref{tab:q1-census}; task columns: Table~\ref{tab:q9-corollary}. % " + src + ", exp3_alignment.csv" + (", expR62_samplelevel_record.csv" if SLF else "") + (", expR66_joint_sensitivity_summary.csv" if JS else "") + "\n}",
   r"\label{tab:census}", r"\end{table}"]
 open(HERE/"tab_census.tex", "w").write("\n".join(lines) + "\n")
+# the final version (main_iclr2027_final.tex) inputs the same table with a caption of one takeaway and one sentence on what is shown
+short = [r"\caption{\textbf{Clustered structure is the rule at the class level.} One row per backbone: raw ImageNet reading $\hat\delta_{99.9}$, its excess over the mean of 200 Haar replicates, "
+         r"rank $r$/200 with left-tail $p$, genuine = Benjamini--Hochberg $p\le0.05$ over 72 cells ($^{\circ}$: not genuine; bold: less clustered than the null), the CIFAR-100 and CIFAR-10 excess, "
+         r"and $\rho_{\text{WN}}$, the Spearman correlation with WordNet distances. % " + src + ", exp3_alignment.csv" + "\n}", r"\label{tab:census}", r"\end{table}"]
+assert lines[-2] == r"\label{tab:census}" and lines[-1] == r"\end{table}"
+open(HERE/"tab_census_final.tex", "w").write("\n".join(lines[:-3] + short) + "\n")
 for r in rows: print(r[0], f"{r[1]} d={r[2]:.3f} exc={r[3]:+.3f} r={r[4]}/{N} p={r[5]:.3f} G={r[6]} c100={r[7]:+.3f} c10={r[9]:+.3f} rho={r[11]:+.2f}")
 print("wrote tab_census.tex from", src)
 

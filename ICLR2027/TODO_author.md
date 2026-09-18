@@ -201,3 +201,20 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   Para que empiecen en la 10 hay que liberar las líneas que ocupa la página 11 antes de las referencias (ver el informe de la sesión);
   candidatos sin tocar afirmaciones: §3.5 a la mitad (~4 líneas), §4 'Extraction' en una frase (~4), Proposición y remark al apéndice
   con un puntero (~6), fusión de párrafos de un solo número en §5.4 pasando la cifra al puntero de tabla (~6). Decidir.
+
+## Versión final (2026-09-18, `main_iclr2027_final.pdf`)
+
+- La página 9 se alcanzó con recortes de prosa más allá del orden de corte del brief y con espaciado tipográfico (CHANGELOG §27,
+  `FINAL_CHECK.md`). Revisar ambos: las frases eliminadas no quitan afirmaciones, pero son decisión del autor; el espaciado se revierte
+  borrando las líneas marcadas "typographic only" que `phaseE_submission.py` escribe en el preámbulo.
+- Apéndice: 16 páginas frente a las 14 del brief. Candidatos (no citados desde el texto principal): paneles (f) y (g) de la tabla del
+  corolario, panel (c) de extracción de la tabla de texto, notas de extracción de la tabla del panel de modelos.
+- Dos paneles se eliminaron por extensión de la lista del brief ("null-variant panel", "uncited supremum tables"): el (b) del censo
+  (veredicto bajo las cuatro construcciones) y el (b) del corolario (correlaciones del supremo). Restaurar = quitar la entrada de `DROP`
+  en `phaseE_submission.py`.
+- La limitación (viii) sobre ξ se eliminó al irse ξ del paper; el resto de las limitaciones va en un solo párrafo de seis puntos.
+- `figures/fig1_concept.pdf` no está en el repo: la Figura 1 compila como la caja de 1.4 in del `\IfFileExists` del autor.
+- `TODO(author)`: enlace del repositorio anónimo en el Reproducibility Statement.
+- Cambios de texto de la versión final: en `rebuttal/scripts/phaseE_paper_final.tex.tmpl`; regenerar con
+  `FINAL_CUTS=s55,s6,table,s2 python rebuttal/scripts/phaseE_submission.py` y después `gen_provenance.py main_iclr2027_final.tex
+  tab_z_provenance_final.tex final`.

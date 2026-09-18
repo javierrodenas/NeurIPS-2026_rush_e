@@ -902,7 +902,7 @@ def v3_checks():
     grom = norm(seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1]); est = norm(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1])   # the run-in titles stay out: the subsections carry them
     chk("v3: the 'Gromov delta' and 'Estimation and normalization' paragraphs verbatim from main_local.tex", grom in norm(b3) and est in norm(b3))
     fills = _j.load(open(R/"phaseE_v3_fills.json")) if (R/"phaseE_v3_fills.json").exists() else {}
-    tabfiles = sorted((TEX/"appendix_tables").glob("tab_*.tex")); tabs = "".join(f.read_text() for f in tabfiles) + open(TEX/"tab_census.tex").read()
+    tabfiles = sorted(f for f in (TEX/"appendix_tables").glob("tab_*.tex") if "_final" not in f.stem); tabs = "".join(f.read_text() for f in tabfiles) + open(TEX/"tab_census.tex").read()   # the final version's copies are checked by final_checks
     can = lambda x: _re.sub(r"^[-+]", "", x).lstrip("0") if "." in x else _re.sub(r"^[-+]", "", x)
     toks = lambda s: {can(x) for x in _re.findall(r"(?<![\w.])[-+]?\d*\.\d+(?![\w.])|(?<![\w.])\d{2,}(?![\w.])", s.replace("{=}", "="))}
     allowed = toks(nocom(T1) + nocom(tabs)) | {can(x) for v in fills.values() for x in _re.findall(r"[-+]?\d*\.\d+|\d+", str(v))}
@@ -982,6 +982,168 @@ def v3_checks():
             and fills["GPT2S_P"] == f"{float(tx['gpt2']['p_left']):.3f}".lstrip("0") and fills["R11_LO"] + "--" + fills["R11_HI"] in open(TEX/"tab_census.tex").read() and fills["POWER_S1"] in open(TEX/"appendix_tables"/"tab_q05_power.tex").read()
             and fills["STAR_DEEP"] in open(TEX/"appendix_tables"/"tab_q10_calibration.tex").read())
 v3_checks()
+
+def final_checks():
+    """Final version (author's brief 'Final version — plain, short, nine pages', 2026-09-18): main_iclr2027_final.tex."""
+    import re as _re, json as _j
+    TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"; PF = TEX/"main_iclr2027_final.tex"
+    if not PF.exists(): chk("final: main_iclr2027_final.tex present", False, "missing"); return
+    TF = open(PF).read(); T1 = open(TEX/"main_iclr2027.tex").read(); LOC = open(TEX/"main_local.tex").read()
+    nocom = lambda s: _re.sub(r"(?m)(?<!\\)%.*$", "", s); norm = lambda s: " ".join(nocom(s).split())
+    bf = TF[TF.index("\\begin{abstract}"):TF.index("\\subsubsection*{Reproducibility Statement}")]; stm = TF[TF.index("\\subsubsection*{Reproducibility Statement}"):TF.index("\\bibliographystyle")]
+    def seg(s, a, b): i = s.index(a); j = s.index(b, i); return s[i:j]
+    ED = _j.load(open(R/"final_verbatim_edits.json"))["edits"] if (R/"final_verbatim_edits.json").exists() else []
+    def edit(s):
+        for a, b in ED: s = s.replace(a, b)
+        return s
+    # ---- verbatim parts, modulo the edits the brief names (recorded in final_verbatim_edits.json)
+    chk("final: abstract verbatim from main_local.tex", norm(seg(bf, "\\begin{abstract}", "\\end{abstract}")) == norm(seg(LOC, "\\begin{abstract}", "\\end{abstract}")))
+    chk("final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits", norm(seg(bf, "\\section{Introduction}", "\\section{Related Work}")) == norm(edit(seg(LOC, "\\section{Introduction}", "\\section{Related Work}"))))
+    rel_loc = norm(seg(LOC, "\\section{Related Work}", "\\section{The Instrument}")); rel_f = norm(seg(bf, "\\section{Related Work}", "\\section{Methodology}"))
+    chk("final: S2 verbatim from main_local.tex, or its first six sentences (cut step 4 of the page budget)", rel_f == rel_loc or (rel_f in rel_loc and rel_loc.startswith(rel_f)))
+    grom = norm(edit(seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1])); est = norm(edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]))
+    chk("final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence)", grom in norm(bf) and est in norm(bf))
+    chk("final: the five recorded edits are exactly the brief's (shadow x2, geometric face, intent of the supremum, the bridge) and none of the old phrases survives",
+        len(ED) == 5 and all(a not in bf for a, _ in ED) and all((b in bf) for _, b in ED if b) and sum(1 for a, _ in ED if "shadow" in a) == 2 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED))
+    # ---- metaphors, bridges and banned phrases anywhere in the body (Figure 1 and its caption excepted), thesis twice
+    body_nofig = _re.sub(r"\\begin\{figure\}.*?\\end\{figure\}", "", nocom(bf), flags=_re.S); body_nocite = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", body_nofig)
+    META = ["shadow", "star caveat", "aristotelian", "geometric face", "intent of the supremum"]
+    hits = [w for w in META if w in body_nocite.lower()]
+    chk("final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum)", not hits, str(hits))
+    MARK = ["next paragraph", "next question", "subject of the next", "turn to next", "take up last", "which we review", "builds that comparison", "the concern of Section", "First we ask", "last question of this section", "states the three acts", "With the setup fixed", "next section fixes", "raises the question of", "which text makes explicit", "has to be re-read", "points to where", "is the first candidate", "What to read instead", "we turn to them next", "is the next question", "we now", "below we", "in what follows"]
+    bh = [m for m in MARK if m.lower() in body_nocite.lower()]
+    chk("final: no bridge sentences anywhere in the body", not bh, str(bh))
+    BANNED = ["we note", "interestingly", "importantly", "in plain terms", "notably", "essentially", "largely", "substantially", "somewhat", "we believe", "our approach", "the method", "tool"]
+    THESIS = "Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."
+    chk("final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form", bf.count(THESIS) == 2 and "no license for curvature" not in bf and THESIS in bf[bf.index("\\paragraph{Conclusion.}"):])
+    # ---- structure: classic skeleton, seven inline unframed definitions, seven equations, Proposition 1 (a)(b) proved in Appendix A, no boxes
+    secs_ = _re.findall(r"\\section\{([^}]*)\}", bf); subs_ = _re.findall(r"\\subsection\{([^}]*)\}", bf); prop = bf[bf.index("\\begin{proposition}"):bf.index("\\end{proposition}")]
+    chk("final: skeleton unchanged from v3 (seven sections, eleven subsections), seven definitions inline and unframed, seven numbered equations, Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text",
+        len(secs_) == 7 and secs_[2] == "Methodology" and secs_[-1] == "Conclusion and Limitations" and len(subs_) == 11 and bf.count("\\begin{definition}[") == 7 and bf.count("\\begin{proposition}") == 1 and "(a)" in prop and "(b)" in prop
+        and bf.count("\\begin{equation}") == 7 and all(("\\label{eq:%s}" % e) in bf for e in ("pairings", "deltanorm", "excess", "rank", "bh", "depth", "curvature")) and TF.count("\\begin{proof}") == 1 and "\\label{app:proofs}" in TF and TF.index("\\section{Proofs}") > TF.index("\\appendix")
+        and "tcolorbox" not in TF and "\\textcolor" not in bf and "\\colorbox" not in bf and "\\begin{lemma}" not in bf and "\\begin{corollary}" not in bf and "\\begin{remark" not in bf and "\\newtheorem{definition}" in TF)
+    # ---- prose rules on the non-verbatim prose of S3-S7 (definitions, equations, captions and tables excluded)
+    src = nocom(bf); src = _re.sub(r"\\begin\{(figure|table|tabular|center)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\begin\{equation\*?\}.*?\\end\{equation\*?\}", " EQUATION. ", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
+    def clean(par):
+        p = _re.sub(r"\\paragraph\{[^}]*\}\s*", "", par); p = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "CITE", p); p = _re.sub(r"\\(S)?\\?ref\{[^}]*\}", "REF", p); p = _re.sub(r"\\label\{[^}]*\}", "", p)
+        p = _re.sub(r"\$([A-Za-z])\{=\}(\d+)\$", r"\1=\2", p); p = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if ("=" in m.group(1) or "\\" in m.group(1)) else m.group(0), p)
+        p = p.replace("``", "").replace("''", "").replace("~", " "); p = _re.sub(r"\\[a-zA-Z]+\*?", " ", p); p = _re.sub(r"[{}]", "", p); return " ".join(p.split())
+    GROUP = r"(?<![A-Za-z\-^_{\d.])[-+]?\d+(?:\.\d+)?(?![A-Za-z\-\d])"
+    RANGE = _re.compile(rf"(?:from\s+)?\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?(?:\s*(?:of the|of|to|against|vs|and|--)\s+\$?{GROUP}\$?(?:\s*at\s+\$?d=\d+\$?)?){{0,2}}(?:\\%)?")
+    def groups(s):
+        s = _re.sub(r"\\paragraph\{[^}]*\}\s*", "", s); s = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", s); s = _re.sub(r"\\(S)?\\?ref\{[^}]*\}", "REF", s); s = _re.sub(r"\\label\{[^}]*\}", "", s)
+        s = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if ("=" in m.group(1) or "\\" in m.group(1)) else m.group(0), s).replace("{=}", "="); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
+        return [m.group(0).replace("$", "").replace("from ", "").strip() for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
+    HEADLINE = {"49 of 72", "18 of 24", "4 of 12", "0 of 60", "7 of 15", "0.48 to 2.5", "+0.9 to +1.3"}
+    noeq = lambda s: _re.sub(r"\\begin\{equation\*?\}.*?\\end\{equation\*?\}", " ", s, flags=_re.S)
+    verbatim = [norm(noeq(v)) for v in (seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1], edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]), edit(seg(LOC, "\\section{Introduction}", "\\section{Related Work}")), seg(LOC, "\\section{Related Work}", "\\section{The Instrument}"))]
+    isverb = lambda par: any(norm(par.replace(" EQUATION. ", " ")) in v for v in verbatim)
+    sent_split = lambda s: [x.strip() for x in _re.split(r"(?<=[.!?])\s+(?=[A-Z(\\])", s) if len(x.split()) > 1]
+    bad = []; stats = {}; numpar = []; nverb_sents = []
+    blocks = _re.split(r"\\section\{([^}]*)\}", src); blocks = [(blocks[i], blocks[i+1]) for i in range(1, len(blocks), 2)]
+    for name, text in blocks:
+        results = name in ("Results", "Implications for Hyperbolic Representation Learning"); prose = name not in ("Introduction", "Related Work")
+        pars = [q.strip() for q in _re.split(r"\n\s*\n", text) if q.strip() and not q.strip().startswith(("\\begin{definition}", "\\begin{proposition}", "\\label", "\\subsection", "\\begin{equation}"))]
+        ws = []
+        for par in pars:
+            vb = isverb(par) or not prose; cp = clean(par); sents = sent_split(cp); w = [len(s.split()) for s in sents]; ws += w
+            if not par.startswith("\\paragraph") and prose and not vb: bad.append(f"{name}: prose paragraph without a bold lead-in: {par[:60]!r}"); continue
+            lead = _re.match(r"\\paragraph\{([^}]*)\}", par); gs = groups(par)
+            if results: numpar.append((name, lead.group(1) if lead else par[:40], gs))
+            if vb: continue
+            nverb_sents += w
+            if max(w, default=0) > 35: bad.append(f"{name}: sentence over 35 words ({max(w)}): {sents[w.index(max(w))][:80]}")
+            if not (3 <= len(sents) <= 6): bad.append(f"{name}: paragraph with {len(sents)} sentences: {par[:60]!r}")
+            if lead and (len(lead.group(1).split()) > 12 or not lead.group(1).endswith(".")): bad.append(f"{name}: lead-in not plain/short: {lead.group(1)!r}")
+            if results:
+                if len(gs) > 2: bad.append(f"{name}: >2 numbers in a paragraph {gs}: {par[:60]!r}")
+                for s_ in sents:
+                    if len(groups(s_)) > 1: bad.append(f"{name}: >1 number in a sentence: {s_[:80]}")
+                ptr = [i for i, s_ in enumerate(sents) if ("Table REF" in s_ or "Figure REF" in s_ or "Tables REF" in s_)]
+                if ptr and ptr != [len(sents) - 1]: bad.append(f"{name}: table/figure pointer not confined to the last sentence: {par[:60]!r}")
+            off = [g for g in gs if g not in HEADLINE]
+            if off: bad.append(f"{name}: number outside the headline set {off}: {par[:60]!r}")
+            for m in _re.finditer(r"\(([^()]*)\)", cp):
+                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")
+            for s_ in sents:
+                if s_.count(";") >= 2: bad.append(f"{name}: semicolon chain: {s_[:80]}")
+            low = cp.lower()
+            for wd in BANNED:
+                if _re.search(r"\b" + _re.escape(wd) + r"\b", low): bad.append(f"{name}: banned '{wd}': {par[:60]!r}")
+            if results and not _re.search(r"(?m)%\s*[\w/]+\.(csv|npz|json)", par + "\n") and not _re.search(r"%.*\.(csv|npz|json)", bf[bf.index(par[:80]):bf.index(par[:80]) + len(par) + 400]): bad.append(f"{name}: results paragraph without a provenance comment: {par[:60]!r}")
+        stats[name] = {"sentences": len(ws), "avg_words": round(mean(ws), 1) if ws else 0, "max_words": max(ws, default=0)}
+    avg_nv = round(mean(nverb_sents), 1) if nverb_sents else 0
+    if avg_nv > 22: bad.append(f"average sentence length of the non-verbatim prose {avg_nv} > 22")
+    for line in bad: print("   FINAL:", line[:220])
+    chk("final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph)",
+        not bad, f"avg non-verbatim sentence {avg_nv} words over {len(nverb_sents)} sentences")
+    _j.dump({"sections": stats, "avg_nonverbatim": avg_nv, "n_nonverbatim_sentences": len(nverb_sents), "numbers_per_paragraph_S5_S6": [{"section": a, "lead": b, "numbers": c} for a, b, c in numpar]}, open(R/"final_prose_stats.json", "w"), indent=1)
+    # ---- vocabulary defined once in S3 (or in the verbatim S1 for 'premise'), before its first use in S4-S7
+    voc = {"excess": "\\begin{definition}[excess]", "genuine": "\\begin{definition}[genuine]", "reading of record": "\\begin{definition}[reading of record]", "matched star": "\\begin{definition}[matched star]", "hub null": "\\begin{definition}[hub null", "Haar null": "\\begin{definition}[Haar null]", "four-point defect": "\\begin{definition}[four-point defect]"}
+    s3 = seg(bf, "\\section{Methodology}", "\\section{Experimental Setup}")
+    chk("final: the seven defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1", all(s3.count(v) == 1 for v in voc.values()) and "premise" in seg(bf, "\\section{Introduction}", "\\section{Related Work}"))
+    # ---- numbers: nothing new (every number in the final is in v1, in a table or in a fill traced to a result file); every result file named exists
+    fills = {}
+    for fn in ("phaseE_fills.json", "phaseE_v3_fills.json", "final_fig5_values.json"):
+        if (R/fn).exists(): fills.update(_j.load(open(R/fn)))
+    tabfiles = sorted((TEX/"appendix_tables").glob("tab_*.tex")); tabs = "".join(f.read_text() for f in tabfiles) + open(TEX/"tab_census.tex").read() + open(TEX/"tab_census_final.tex").read()
+    can = lambda x: _re.sub(r"^[-+]", "", x).lstrip("0") if "." in x else _re.sub(r"^[-+]", "", x)
+    toks = lambda s: {can(x) for x in _re.findall(r"(?<![\w.])[-+]?\d*\.\d+(?![\w.])|(?<![\w.])\d{2,}(?![\w.])", s.replace("{=}", "="))}
+    allowed = toks(nocom(T1) + nocom(tabs)) | {can(x) for v in fills.values() for x in _re.findall(r"[-+]?\d*\.\d+|\d+", str(v))}
+    extra = toks(_re.sub(r"\\includegraphics\[[^\]]*\]", "", nocom(bf))) - allowed
+    chk("final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file", not extra, str(sorted(extra)))
+    files = set(_re.findall(r"([\w/]+\.(?:csv|npz|json))", "".join(_re.findall(r"(?m)(?<!\\)%(.*)$", bf))))
+    missing = sorted(f for f in files if not (R/f).exists() and not Path("/media/HDD_4TB_2/javi/Platonic/results", f).exists())
+    chk("final: every result file named in a provenance comment of the main text exists", not missing, str(missing))
+    # ---- figures: the four bar-language figures and Figure 1, the 1.4 in slot kept, captions with a bold takeaway
+    figs = _re.findall(r"\\includegraphics\[[^\]]*\]\{([^}]*)\}", bf)
+    chk("final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present",
+        figs == ["figures/fig1_concept.pdf", "figures/fig_overview_final.pdf", "figures/fig_excess_final.pdf", "figures/fig_depth_final.pdf", "figures/fig_treemap_final.pdf"] and all((TEX/f).exists() for f in figs[1:]) and _re.search(r"\\includegraphics\[[^\]]*\]\{figures/fig1_concept\.pdf\}", LOC).group(0) in bf and "\\IfFileExists{figures/fig1_concept.pdf}" in bf)   # Figure 1 is the author's IfFileExists slot (1.4 in box when the file is absent)
+    caps = _re.findall(r"\\caption\{(.*?)\n\}", bf, flags=_re.S)
+    chk("final: every main-text figure caption opens with a bold takeaway and names its source files", len(caps) >= 4 and all(c.lstrip().startswith("\\textbf{") and _re.search(r"%.*\.(csv|npz|json)", c) for c in caps[:4]))
+    v5 = _j.load(open(R/"final_fig5_values.json")) if (R/"final_fig5_values.json").exists() else {}
+    chk("final: the Figure 5 caption states the naive and the selected DINOv2-vs-block agreement read from the figure's data", bool(v5) and f"{v5['naive_dinov2_vs_block']:.2f}" in caps[3] and f"{v5['selected_dinov2_vs_block']:.2f}" in caps[3])
+    # ---- appendix: the cited tables only, in citation order, figures gone, xi/ORC/null-variant panel gone, provenance comments kept, cross-references resolve
+    main_f = TF[:TF.index("\\appendix")]; app_f = TF[TF.index("\\appendix"):]; FD = TEX/"appendix_tables"/"final"
+    inputs = _re.findall(r"\\input\{appendix_tables/final/(tab_[^}]*)\}", app_f)
+    labels = {}
+    for f in list(tabfiles) + [FD/"tab_q08_robust_final.tex"]:
+        m = _re.search(r"\\label\{(tab:q[^}]*)\}", f.read_text())
+        if m: labels[f.stem] = m.group(1)
+    cited = []
+    for m in _re.finditer(r"\\ref\{(tab:q[^}]*)\}", main_f):
+        if m.group(1) not in cited: cited.append(m.group(1))
+    order = [labels[s] for s in inputs if s in labels]
+    kept = [s for s in inputs if s.startswith("tab_q")]
+    chk("final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/",
+        set(order) == set(cited) and order == cited and "tab_q08_robust_final" in inputs and "tab_q08_robust" not in inputs and inputs[-1] == "tab_z_provenance_final" and len(kept) == 12 and "\\input{appendix_tables/tab_" not in app_f, f"inputs {inputs}")
+    gone = ["tab_q11_interventions", "tab_q12_xi"]; gone_lab = ["tab:q11-interventions", "tab:q12-xi", "fig:depth-c100", "fig:depthpower", "fig:causal", "fig:treemapc100", "fig:textnulls", "fig:bestmetric"]
+    rob = (FD/"tab_q08_robust_final.tex").read_text()
+    chk("final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them",
+        all(g not in inputs for g in gone) and all(("\\ref{" + l + "}") not in TF for l in gone_lab) and "\\includegraphics" not in app_f and "Ollivier" not in app_f
+        and "null variants" not in rob.lower() and rob.count("DINOv2-L & 100 &") == 1 and rob.count("non-hierarchical fine-tuning") == 1 and "supremum, Gaussian" not in rob
+        and "(b) Verdict under the four null" not in (FD/"tab_q01_census.tex").read_text() and "(b) Correlation between the raw supremum" not in (FD/"tab_q09_corollary.tex").read_text())
+    chk("final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen", all(("% prov:" in (FD/(s + ".tex")).read_text()) for s in kept) and (FD/"tab_z_provenance_final.tex").read_text().count("\\texttt{tab\\_") == 12)
+    # the final copies are the v1 tables split into one floating table per panel: same numbers, same captions, [tbp] instead of [H]
+    same = []
+    for s in kept:
+        if s == "tab_q08_robust_final": continue
+        strip_ = lambda s_: _re.sub(r"\\setlength\{\\tabcolsep\}\{[^}]*\}", "", nocom(s_))   # the column separation is repeated per panel in the copies
+        a = strip_((TEX/"appendix_tables"/(s + ".tex")).read_text()); b = strip_((FD/(s + ".tex")).read_text())
+        na, nb = _re.findall(r"\d+\.\d+|\d+", a), _re.findall(r"\d+\.\d+|\d+", b)
+        if s in ("tab_q01_census", "tab_q09_corollary"): ok = set(nb) <= set(na) and len(nb) < len(na)      # one panel dropped by the brief (null-variant panel, uncited supremum table)
+        else: ok = sorted(na) == sorted(nb) and _re.findall(r"\\caption\{(?!\(continued\)\})", a) == _re.findall(r"\\caption\{(?!\(continued\)\})", b)
+        same.append(ok and "[H]" not in b and b.count("\\begin{table}") >= a.count("\\begin{table}") - 1)
+    chk("final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel", all(same) and len(same) == 11, str([s for s, ok in zip([k for k in kept if k != "tab_q08_robust_final"], same) if not ok]))
+    alltex = nocom(TF) + "".join(nocom((FD/(s + ".tex")).read_text()) for s in inputs) + nocom(open(TEX/"tab_census_final.tex").read())
+    refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
+    chk("final: every cross-reference of the final resolves", refs <= defs, str(sorted(refs - defs)))
+    chk("final: Table 1 is the census with the short caption (tab_census_final, same rows as v1's tab_census)", "\\input{tab_census_final}" in bf and open(TEX/"tab_census_final.tex").read().split("\\caption")[0] == open(TEX/"tab_census.tex").read().split("\\caption")[0])
+    # ---- statements
+    AI = "In this work, we used generative AI tools for writing assistance, for the retrieval of references, and for the implementation and execution of experiments under the authors' direction, with LLM-simulated reviews used as methodological feedback. We have not used generative AI tools for other tasks with required disclosure. We have reviewed all AI-assisted work, and we take responsibility for the final content of this work, including text, claims or artifacts produced with the aid of generative AI."
+    chk("final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present", AI in stm and "anonymized repository" in stm and "TODO(author)" in stm and "Ethics Statement" in stm)
+    chk("final: preamble of the frozen v1 plus amsthm only (same class, same packages)", TF[:TF.index("\\usepackage{amsthm}")] == T1[:T1.index("\\usepackage{array}\n") + len("\\usepackage{array}\n")] and TF.count("\\usepackage") == T1.count("\\usepackage") + 1)
+final_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-30:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

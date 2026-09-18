@@ -1,0 +1,219 @@
+% prov: table1_regenerated.csv, exp2_metric_controls.csv, exp2b_normalized_stack.csv, exp13_mcnemar.csv, night/correlation_cis.csv, exp20_null_ztable.csv, expR68_corollary_excess.csv, exp24_val_metric_selection.csv, night/t_sweep.csv
+\begin{table}[tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\noindent\textbf{(a) Task accuracies and zero-cost metric gains per cell (10 backbones with cached per-dataset features $\times$ 6 datasets).}\par\vspace{1.5pt}
+\scriptsize\renewcommand{\arraystretch}{0.88}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llcccccccc}
+\toprule
+ & & \multicolumn{2}{c}{NC acc.\ (\%)} & \multicolumn{2}{c}{FS acc.\ (\%)} & \multicolumn{3}{c}{FS advantage over Euclidean (pp)} & McNemar \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-9}
+model & data & Eucl. & Poinc. & Eucl. & Poinc. & cosine & radial map & Poinc.$_{\text{N}}$ $-$ cos & NC H vs R \\
+\midrule
+ViT-T & IN & 68.1 & 67.2 & 97.5 & 97.6 & -0.01 & +0.01 & +0.08 & $10^{-22}$\,($-$) \\
+ & C100 & 29.3 & 28.2 & 62.4 & 63.1 & +1.01 & +0.45 & +0.55 & $10^{-5}$\,($-$) \\
+ & C10 & 87.5 & 87.4 & 87.6 & 88.1 & +0.66 & +0.19 & +0.29 & 0.19\,($-$) \\
+ & DTD & 63.7 & 62.5 & 83.3 & 83.9 & -0.23 & +0.32 & +0.69 & 0.03\,($-$) \\
+ & FMNIST & 78.5 & 78.4 & 81.6 & 81.9 & +0.21 & +0.10 & +0.31 & 0.38\,($-$) \\
+ & MNIST & 75.9 & 74.0 & 74.3 & 74.6 & +0.64 & +0.52 & +0.20 & $10^{-13}$\,($-$) \\
+\midrule
+ViT-S & IN & 77.7 & 77.5 & 98.6 & 98.7 & +0.17 & -0.02 & -0.07 & 0.09\,($-$) \\
+ & C100 & 74.9 & 74.6 & 92.2 & 92.4 & +0.59 & +0.16 & -0.00 & 0.10\,($-$) \\
+ & C10 & 93.4 & 93.2 & 92.0 & 92.5 & +0.56 & +0.27 & +0.19 & 0.02\,($-$) \\
+ & DTD & 69.3 & 68.5 & 85.4 & 86.0 & -0.03 & +0.25 & +0.73 & 0.10\,($-$) \\
+ & FMNIST & 80.7 & 80.4 & 83.7 & 83.5 & +0.28 & +0.08 & -0.19 & 0.08\,($-$) \\
+ & MNIST & 84.8 & 84.1 & 80.5 & 81.4 & +0.34 & +0.65 & +0.84 & $10^{-4}$\,($-$) \\
+\midrule
+ViT-B & IN & 81.6 & 81.7 & 98.9 & 99.0 & +0.20 & -0.04 & -0.05 & 0.21\,(+) \\
+ & C100 & 77.3 & 77.0 & 92.5 & 92.7 & +0.56 & +0.12 & -0.05 & 0.07\,($-$) \\
+ & C10 & 94.5 & 94.0 & 92.7 & 93.0 & +0.49 & +0.18 & +0.15 & $10^{-5}$\,($-$) \\
+ & DTD & 70.8 & 70.8 & 85.4 & 86.2 & +0.28 & +0.19 & +0.69 & 1.00\,($-$) \\
+ & FMNIST & 81.3 & 81.6 & 83.4 & 83.3 & +0.03 & +0.09 & -0.04 & 0.08\,(+) \\
+ & MNIST & 81.6 & 80.5 & 76.8 & 77.6 & +0.19 & +0.51 & +0.66 & $10^{-7}$\,($-$) \\
+\midrule
+ViT-L & IN & 86.1 & 86.2 & 99.4 & 99.4 & +0.11 & -0.03 & -0.02 & 0.58\,(+) \\
+ & C100 & 85.3 & 85.2 & 94.8 & 95.5 & +1.17 & +0.31 & +0.12 & 0.59\,($-$) \\
+ & C10 & 97.5 & 97.5 & 95.0 & 95.8 & +1.25 & +0.35 & +0.59 & 0.76\,(+) \\
+ & DTD & 71.8 & 71.5 & 85.6 & 86.5 & +0.13 & +0.16 & +1.02 & 0.69\,($-$) \\
+ & FMNIST & 83.7 & 83.5 & 84.4 & 84.7 & +0.00 & +0.17 & +0.23 & 0.12\,($-$) \\
+ & MNIST & 84.2 & 83.6 & 80.8 & 81.6 & +0.08 & +0.42 & +0.67 & 0.00\,($-$) \\
+\midrule
+DINOv2-S & IN & 74.7 & 74.4 & 97.4 & 97.9 & +0.68 & +0.03 & -0.22 & 0.00\,($-$) \\
+ & C100 & 73.4 & 74.4 & 94.3 & 95.1 & +0.80 & +0.15 & +0.06 & $10^{-6}$\,(+) \\
+ & C10 & 95.0 & 95.2 & 92.9 & 93.5 & -0.36 & +0.13 & +1.06 & 0.14\,(+) \\
+ & DTD & 73.4 & 73.4 & 89.8 & 90.5 & +0.30 & +0.04 & +0.36 & 1.00\,(+) \\
+ & FMNIST & 82.2 & 82.2 & 85.4 & 85.5 & +0.02 & +0.07 & +0.07 & 1.00\,($-$) \\
+ & MNIST & 83.4 & 81.9 & 80.2 & 80.8 & -0.07 & +0.45 & +0.67 & $10^{-11}$\,($-$) \\
+\midrule
+DINOv2-B & IN & 78.9 & 78.9 & 97.0 & 97.8 & +1.40 & +0.04 & -0.63 & 0.57\,(+) \\
+ & C100 & 87.4 & 87.9 & 96.5 & 97.2 & +1.11 & +0.09 & -0.34 & $10^{-4}$\,(+) \\
+ & C10 & 97.1 & 97.4 & 94.7 & 95.4 & +0.27 & +0.03 & +0.43 & $10^{-4}$\,(+) \\
+ & DTD & 74.2 & 74.7 & 89.2 & 90.3 & +1.48 & +0.01 & -0.35 & 0.31\,(+) \\
+ & FMNIST & 83.2 & 82.8 & 85.9 & 85.9 & +0.21 & +0.04 & -0.18 & 0.01\,($-$) \\
+ & MNIST & 80.6 & 78.8 & 76.6 & 77.1 & +0.17 & +0.48 & +0.47 & $10^{-16}$\,($-$) \\
+\midrule
+DINOv2-L & IN & 79.8 & 80.4 & 96.2 & 97.1 & +2.13 & +0.02 & -1.24 & $10^{-14}$\,(+) \\
+ & C100 & 85.6 & 87.7 & 96.1 & 97.1 & +1.80 & +0.09 & -0.74 & $10^{-38}$\,(+) \\
+ & C10 & 97.9 & 98.3 & 94.1 & 95.1 & +0.92 & -0.00 & +0.11 & $10^{-8}$\,(+) \\
+ & DTD & 74.4 & 75.2 & 87.1 & 88.4 & +2.40 & +0.03 & -0.98 & 0.11\,(+) \\
+ & FMNIST & 84.4 & 84.5 & 87.8 & 87.9 & +0.29 & +0.03 & -0.03 & 0.40\,(+) \\
+ & MNIST & 74.1 & 72.7 & 70.5 & 71.1 & +0.25 & +0.43 & +0.46 & $10^{-12}$\,($-$) \\
+\midrule
+DINOv2-G & IN & 78.4 & 78.3 & 96.2 & 97.1 & +2.57 & +0.03 & -1.65 & 0.10\,($-$) \\
+ & C100 & 89.8 & 91.0 & 95.9 & 97.2 & +2.44 & +0.13 & -1.10 & $10^{-16}$\,(+) \\
+ & C10 & 97.8 & 98.2 & 92.3 & 93.8 & +2.51 & -0.02 & -1.01 & $10^{-13}$\,(+) \\
+ & DTD & 72.9 & 73.1 & 87.2 & 88.5 & +2.63 & +0.01 & -1.38 & 0.81\,(+) \\
+ & FMNIST & 85.9 & 85.8 & 89.0 & 89.2 & +0.38 & +0.04 & -0.07 & 0.72\,($-$) \\
+ & MNIST & 79.3 & 78.6 & 72.9 & 73.8 & +0.30 & +0.56 & +0.72 & 0.00\,($-$) \\
+\midrule
+CLIP-B & IN & 61.4 & 59.9 & 96.8 & 96.8 & -0.04 & -0.00 & +0.14 & $10^{-40}$\,($-$) \\
+ & C100 & 65.6 & 65.1 & 87.7 & 88.9 & -0.03 & +0.44 & +1.21 & 0.07\,($-$) \\
+ & C10 & 87.9 & 88.3 & 89.5 & 90.1 & -0.19 & +0.20 & +0.90 & $10^{-4}$\,(+) \\
+ & DTD & 63.7 & 63.2 & 82.2 & 83.1 & -0.23 & +0.36 & +1.29 & 0.46\,($-$) \\
+ & FMNIST & 75.9 & 75.1 & 78.8 & 78.9 & +0.06 & +0.17 & +0.10 & $10^{-4}$\,($-$) \\
+ & MNIST & 70.1 & 66.6 & 70.9 & 69.7 & +0.04 & +0.23 & -1.17 & $10^{-45}$\,($-$) \\
+\midrule
+CLIP-L & IN & 75.0 & 74.5 & 98.4 & 98.6 & +0.01 & +0.00 & +0.22 & $10^{-8}$\,($-$) \\
+ & C100 & 74.6 & 74.5 & 90.0 & 90.8 & +0.12 & +0.39 & +1.23 & 0.66\,($-$) \\
+ & C10 & 95.9 & 95.9 & 92.4 & 93.0 & +0.16 & +0.25 & +0.91 & 0.59\,($-$) \\
+ & DTD & 68.6 & 69.0 & 85.2 & 86.2 & -0.08 & +0.36 & +1.24 & 0.45\,(+) \\
+ & FMNIST & 76.2 & 75.9 & 76.8 & 77.3 & +0.12 & +0.33 & +0.68 & 0.09\,($-$) \\
+ & MNIST & 85.2 & 86.1 & 83.7 & 84.7 & +0.08 & +0.58 & +1.06 & $10^{-7}$\,(+) \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{\textbf{The calibrated reading predicts the zero-cost gain within datasets, the depth verdict predicts nothing, and cosine is the safe default.} (a) Nearest-centroid (NC) and 5-way 5-shot (FS, 1000 paired episodes) accuracy under Euclidean and Poincar\'e readouts, regenerated from the audited reruns; FS advantage of cosine and of the radial map with Euclidean distances (the map without the metric changes nothing) over Euclidean, and of the Poincar\'e readout over cosine after L2 normalization; McNemar $p$ for the NC test-set decisions, Poincar\'e vs Euclidean (order of magnitude when $p<10^{-3}$; sign of the NC advantage in parentheses). % table1_regenerated.csv, exp2_metric_controls.csv, exp2b_normalized_stack.csv, exp13_mcnemar.csv
+}
+\label{tab:q9-corollary}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\noindent\textbf{(c) Best zero-cost metric per backbone: few-shot advantage over Euclidean, mean over the four hierarchical datasets, and which metric collects it (either: within $0.15$pp).}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcc}
+\toprule
+model & best$-$R (pp) & metric \\
+\midrule
+ViT-T & $+0.58$ & either \\
+ViT-S & $+0.49$ & either \\
+ViT-B & $+0.51$ & either \\
+ViT-L & $+0.87$ & either \\
+DINOv2-S & $+0.68$ & H \\
+DINOv2-B & $+1.17$ & cos \\
+DINOv2-L & $+1.84$ & cos \\
+DINOv2-G & $+2.54$ & cos \\
+CLIP-B & $+0.67$ & H \\
+CLIP-L & $+0.65$ & H \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued)}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\noindent\textbf{(d) The same correlations on the raw $\hat\delta_{99.9}$, the record excess and the depth-test $z$ (Fisher-$z$ CI95; dm: family-demeaned $r$).}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llcc|cc|c}
+\toprule
+ & & \multicolumn{2}{c|}{raw $\hat\delta_{99.9}$} & \multicolumn{2}{c|}{record excess} & depth $z$ \\
+gain & dataset & $r$ [CI95] & dm & $r$ [CI95] & dm & $r$ [CI95] \\
+\midrule
+NC H$-$R & ImageNet & $-0.84$ [-0.96, -0.45] & $-0.83$ & $-0.73$ [-0.93, -0.19] & $-0.61$ & $-0.28$ [-0.77, +0.42] \\
+ & CIFAR-100 & $-0.92$ [-0.98, -0.68] & $-0.58$ & $-0.79$ [-0.95, -0.33] & $-0.21$ & $+0.52$ [-0.16, +0.87] \\
+ & CIFAR-10 & $-0.63$ [-0.90, +0.00] & $-0.31$ & $-0.67$ [-0.91, -0.06] & $-0.34$ & n/a \\
+ & DTD & $-0.67$ [-0.91, -0.07] & $-0.67$ & $-0.76$ [-0.94, -0.26] & $-0.60$ & n/a \\
+\midrule
+FS H$-$R & ImageNet & $-0.86$ [-0.97, -0.50] & $-0.56$ & $-0.21$ [-0.74, +0.48] & $+0.35$ & $+0.27$ [-0.43, +0.77] \\
+ & CIFAR-100 & $-0.62$ [-0.90, +0.02] & $-0.51$ & $-0.79$ [-0.95, -0.31] & $-0.80$ & $-0.26$ [-0.76, +0.45] \\
+ & CIFAR-10 & $-0.78$ [-0.95, -0.31] & $-0.64$ & $-0.78$ [-0.95, -0.30] & $-0.66$ & n/a \\
+ & DTD & $-0.87$ [-0.97, -0.53] & $-0.94$ & $-0.98$ [-1.00, -0.91] & $-0.97$ & n/a \\
+\midrule
+FS best$-$R & ImageNet & $-0.83$ [-0.96, -0.43] & $-0.50$ & $-0.08$ [-0.68, +0.58] & $+0.47$ & $+0.13$ [-0.54, +0.70] \\
+ & CIFAR-100 & $-0.77$ [-0.94, -0.27] & $-0.75$ & $-0.75$ [-0.94, -0.23] & $-0.65$ & $+0.22$ [-0.48, +0.75] \\
+ & CIFAR-10 & $-0.63$ [-0.90, -0.01] & $-0.55$ & $-0.62$ [-0.90, +0.02] & $-0.56$ & n/a \\
+ & DTD & $-0.81$ [-0.95, -0.36] & $-0.78$ & $-0.90$ [-0.98, -0.63] & $-0.84$ & n/a \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued) (d) The calibrated reading: the raw 99.9th-percentile statistic, the record excess and the depth-test $z$ of Table~\ref{tab:q4-depth} as predictors. (e) Validation picking retains the oracle advantage and the zero-validation objective rule modestly beats always-cosine. (f) The gate's value is avoiding the Poincar\'e projection on flat-label data; cosine is a safe NC default everywhere. (g) The headline $t=1/\sqrt2\approx0.71$ was fixed a priori and is conservative for FS. % expR68_corollary_excess.csv, exp24_val_metric_selection.csv, night/t_sweep.csv
+}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\noindent\textbf{(e) Few-shot metric-selection policies on held-out episodes (500 validation / 500 test per cell).}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcc}
+\toprule
+policy (test advantage over Euclidean, pp) & all 60 cells & hierarchical (40) \\
+\midrule
+always cosine & +0.23 & +0.28 \\
+objective rule (zero validation) & +0.28 & +0.41 \\
+$\delta$-gated objective rule & +0.08 & +0.13 \\
+validation-picked per cell & +0.63 & +0.78 \\
+test oracle (reference) & +0.64 & +0.78 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued)}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\noindent\textbf{(f) Nearest-centroid metric-selection policies.}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lccc}
+\toprule
+NC policy (advantage over Euclidean, pp) & all 60 & flat (20) & hierarchical (40) \\
+\midrule
+always cosine & +0.48 & +0.24 & +0.59 \\
+always Poincar\'e & -0.24 & -0.70 & -0.00 \\
+gated rule (flat$\to$R) & +0.34 & +0.00 & +0.51 \\
+$\delta$-gated rule & +0.19 & +0.00 & +0.29 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued)}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\noindent\textbf{(g) Sensitivity to the projection target $t$ (36 hierarchical cells).}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcccccccc}
+\toprule
+target $t$ & 0.25 & 0.35 & 0.41 & 0.45 & 0.50 & 0.58 & 0.71 & 0.95 \\
+\midrule
+FS adv.\ mean (pp) & +0.88 & +0.87 & +0.87 & +0.86 & +0.84 & +0.82 & +0.76 & +0.56 \\
+NC adv.\ mean (pp) & -0.30 & -0.25 & -0.23 & -0.21 & -0.17 & -0.12 & -0.01 & +0.15 \\
+\% cells FS $>0$ & 97 & 100 & 100 & 100 & 100 & 100 & 100 & 100 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued)}
+\end{table}
