@@ -2,33 +2,33 @@
  "sections": {
   "Introduction": {
    "sentences": 30,
-   "avg_words": 20.3,
+   "avg_words": 21.6,
    "max_words": 48
   },
   "Related Work": {
-   "sentences": 4,
-   "avg_words": 42.5,
+   "sentences": 5,
+   "avg_words": 39.8,
    "max_words": 60
   },
   "Methodology": {
-   "sentences": 40,
-   "avg_words": 20.1,
+   "sentences": 42,
+   "avg_words": 19.4,
    "max_words": 45
   },
   "Experimental Setup": {
    "sentences": 15,
-   "avg_words": 17.5,
+   "avg_words": 18.2,
    "max_words": 33
   },
   "Results": {
-   "sentences": 75,
-   "avg_words": 15.6,
-   "max_words": 34
+   "sentences": 76,
+   "avg_words": 16.5,
+   "max_words": 35
   },
   "Implications for Hyperbolic Representation Learning": {
-   "sentences": 10,
-   "avg_words": 16.4,
-   "max_words": 29
+   "sentences": 12,
+   "avg_words": 17.1,
+   "max_words": 33
   },
   "Conclusion and Limitations": {
    "sentences": 11,
@@ -36,12 +36,12 @@
    "max_words": 34
   }
  },
- "avg_nonverbatim": 16.9,
- "n_nonverbatim_sentences": 135,
+ "avg_nonverbatim": 17.3,
+ "n_nonverbatim_sentences": 140,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
-   "lead": "The premise does not survive calibration on the two datasets tested.",
+   "lead": "The raw reading is not evidence, and the calibrated reading is weak and model-dependent.",
    "numbers": []
   },
   {
@@ -49,6 +49,8 @@
    "lead": "Most cells show clustered structure.",
    "numbers": [
     "49 of 72",
+    "30 of 36",
+    "47",
     "18 of 24"
    ]
   },
@@ -60,7 +62,9 @@
   {
    "section": "Results",
    "lead": "No family owns the structure.",
-   "numbers": []
+   "numbers": [
+    "7 of 12"
+   ]
   },
   {
    "section": "Results",
@@ -152,12 +156,14 @@
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",
-   "lead": "Both readings predict the gain, and cosine is the best simple policy.",
-   "numbers": []
+   "lead": "Both readings predict the gain, and the depth verdict predicts none.",
+   "numbers": [
+    "+0.41 against +0.28"
+   ]
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",
-   "lead": "A change of readout collects what is there.",
+   "lead": "The calibration certifies structure and does not choose the readout.",
    "numbers": [
     "+0.9 to +1.3"
    ]

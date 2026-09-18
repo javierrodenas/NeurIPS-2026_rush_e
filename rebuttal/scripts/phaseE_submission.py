@@ -52,16 +52,41 @@ EDITS = [("a structureless cloud, a star of clusters without depth and a tree wi
          ("the geometric face of the width confounder of", "the geometric counterpart of the width confounder of"),
          ("it keeps the tail of the defects, the intent of the supremum, but it is set by hundreds of quadruples rather than by one.", "it keeps the tail of the defects, as the supremum does, but it is set by hundreds of quadruples rather than by one."),
          (" What a structureless cloud reads on it is the next question.", ""),
-         # fourth review (2026-09-18): the abstract on OpenReview was updated by the author to 15 text models and to the S5.1 wording
-         ("6 datasets and 16 text models, the premise does not survive:", "6 datasets and 15 text models, the premise does not survive calibration on the two datasets tested:")]
+         # fourth and fifth reviews (2026-09-18): the abstract (the same one goes to OpenReview), S1 and S2 edits ordered by the author
+         ("6 datasets and 16 text models, the premise does not survive:", "6 datasets and 15 text models, the raw reading is not evidence, and the calibrated reading is weak and model-dependent:"),
+         ("We show that a low raw reading is what high dimension, an anisotropic spectrum and a maximum over sampled quadruples produce on their own, and we build",
+          "We show that the reference level of the raw reading depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own, and we build"),
+         ("Class centroids do carry clustered structure in 49 of 72 cells, but a star already produces it; hierarchy above the superclasses is certified in only 4 of 12 ImageNet backbones, by a test",
+          "Class centroids do carry clustered structure in 49 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it; hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame, by a test"),
+         ("but three artifacts push it down without any hierarchy.", "but its reference level depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own."),
+         ("Anisotropic spectra mimic low-dimensional behavior: the \\emph{spectrum confound}. And the supremum over sampled quadruples is a one-quadruple extreme that does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}.",
+          "Anisotropic spectra lower the effective dimension and raise the reading: the \\emph{spectrum confound}. And the supremum over sampled quadruples grows with the budget and does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}."),
+         ("so the premise does not survive calibration as stated. On class centroids, clustered structure is genuine in 49 of 72 cells, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones by a test",
+          "so the raw reading is not evidence and the calibrated reading is weak and model-dependent. On class centroids, clustered structure is genuine in 49 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame, by a test"),
+         # page budget (fifth review): Figure 1 floats to the top of page 2 instead of leaving six blank lines at the foot of page 1 (placement only; the author's environment otherwise verbatim)
+         ("\\begin{figure}[H]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}", "\\begin{figure}[t]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}"),
+         ("we bring the idea to embedding clouds, where the reference must match dimension and spectrum.",
+          "we bring the idea to embedding clouds, where the reference must match dimension and spectrum. The curvature itself has been studied as a representation tradeoff \\citep{sala2018representation} and as a mixed-curvature product to be learned \\citep{gu2019learning}, which presupposes a diagnostic of the kind we calibrate.")]
 def edit(s):
     for a, b in EDITS:
         if a in s: s = s.replace(a, b)
     return s
 ABSTRACT = edit(between("\\begin{abstract}", "\\end{abstract}")) + "\\end{abstract}"
-assert "16 text models" not in ABSTRACT and "two datasets tested" in ABSTRACT
+assert "16 text models" not in ABSTRACT and "weak and model-dependent" in ABSTRACT and "30 of 36" in ABSTRACT and "two of which survive" in ABSTRACT and "cannot be called low" in ABSTRACT
+# fifth review: fills and checks for the new sentences
+F['FMNIST_GEN'] = str(int(c52[c52.dataset == 'fashionmnist'].genuine_bh.sum())); assert F['FMNIST_GEN'] == '7', F['FMNIST_GEN']
+assert int(c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].genuine_bh.sum()) == 30 and (c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].n >= 47).all(), "'30 of 36 on the three datasets with 47 classes or more'"
+hcells = e24[e24.dataset.isin(['imagenet', 'cifar100', 'cifar10', 'dtd'])]; assert len(hcells) == 40
+F['POL_RULE_H'], F['POL_COS_H'] = f"{hcells.adv_rule.mean():+.2f}", f"{hcells.adv_cos.mean():+.2f}"; assert hcells.adv_rule.mean() > hcells.adv_cos.mean() > 0, "'the objective rule beats cosine'"
+f2 = json.load(open(R + 'final_fig2b.json')); s_ = sl[(sl.model == f2['sample_cell'][0]) & (sl.dataset == f2['sample_cell'][1])].iloc[0]; c_ = c52[(c52.model == f2['class_cell'][0]) & (c52.dataset == f2['class_cell'][1])].iloc[0]
+assert f2['sample_cell'][1] == f2['class_cell'][1] and abs(s_.delta_999 - c_.delta) < 0.001 and not s_.genuine_bh and c_.genuine_bh, "Figure 2(b): same dataset, same reading, opposite verdict"
+wl = json.load(open(R + 'final_wordnet_levels.json')); F['WN_H'] = wl['h_word']
+from math import comb; F['QUAD10'] = str(comb(10, 4)); assert F['QUAD10'] == '210'
+json.dump({k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI')}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep
+ga = pd.read_csv(R + 'exp1_delta_controls.csv'); ga = ga[ga.variant == 'gauss'].sort_values('d')
+assert F['C_LO'] == f"{(0.144/(2*float(ga.delta_max.iloc[0])))**2:.2f}" and F['C_HI'] == f"{(0.144/(2*float(ga.delta_max.iloc[-1])))**2:.1f}", "Khrulkov's rule recomputed on the supremum Gaussian band of Table 3 (exp1 delta_max is the sampled supremum)"
 INTRO = edit(between("\\section{Introduction}", "\\section{Related Work}").rstrip())
-RELATED = between("\\section{Related Work}", "\\section{The Instrument}").rstrip()
+RELATED = edit(between("\\section{Related Work}", "\\section{The Instrument}").rstrip()); assert "sala2018representation" in RELATED
 GROMOV = edit(between("\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}", strip=True).rstrip())
 ESTIM = edit(between("\\paragraph{Estimation and normalization.} ", "\\begin{figure}", strip=True).rstrip())
 for a, _ in EDITS: assert a not in INTRO + GROMOV + ESTIM, a[:40]
@@ -94,9 +119,10 @@ def clean_block(b):
     b = b.replace(" are reported without certification (Figure~\\ref{fig:depth-c100}).", " are reported without certification (Table~\\ref{tab:q4-depth}).")
     b = b.replace("(Figure~\\ref{fig:bestmetric}; held-out selection and policy comparison in Table~\\ref{tab:q9-corollary})", "(Table~\\ref{tab:q9-corollary})")
     b = b.replace("(Figure~\\ref{fig:causal}; raw $\\delta$, within architecture)", "(raw $\\delta$, within architecture)")
+    b = b.replace("\\paragraph{The calibrated reading predicts the gain within datasets.}", "\\paragraph{Both readings predict the gain within datasets.}")   # fifth review, S B.12
     return b
 # tables regenerated for the final by gen_appendix_final.py (appendix_tables/final/*_final.tex): robustness (bootstrap under the record, class-count sweep), depth (two-decimal z, K sweep), wordnet (DBpedia supremum under the Haar null)
-FINAL_SRC = {"tab_q08_robust": "tab_q08_robust_final", "tab_q04_depth": "tab_q04_depth_final", "tab_q07_wordnet": "tab_q07_wordnet_final"}
+FINAL_SRC = {"tab_q08_robust": "tab_q08_robust_final", "tab_q04_depth": "tab_q04_depth_final", "tab_q07_wordnet": "tab_q07_wordnet_final", "tab_q05_power": "tab_q05_power_final"}
 B8 = clean_block(bytab["tab_q08_robust"])
 B8 = re.sub(r"\\paragraph\{Hierarchy depth, not class count\.\}.*?\n", "", B8)                    # the class-count paragraph of v1 claimed the opposite of the corrected caption
 bytab["tab_q08_robust"] = B8
@@ -118,8 +144,12 @@ FD = TEX + "appendix_tables/final/"; os.makedirs(FD, exist_ok=True)
 # panels the brief deletes (null-variant panel, uncited supremum table) with the caption sentence that described them
 DROP = {"tab_q01_census": ["(b) Verdict under the four null"], "tab_q09_corollary": ["(b) Correlation between the raw supremum"]}
 CAPFIX = {"tab_q01_census": lambda c: re.sub(r"\s*\(b\) Four symbols per cell.*?(?=\s*%)", "", c, flags=re.S)}
-DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourth review: 15 text models; OLMo-7B was not extracted (said once in S4)
-def split_panels(src, drop=(), capfix=None, dropline=()):
+DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourth review: 15 text models; OLMo-7B was not extracted
+REPL = {"tab_q14_panel": [("9 causal LMs", "8 causal LMs")],                                                                 # fifth review: Table 5 caption
+        "tab_q09_corollary": [("\\textbf{The calibrated reading predicts the zero-cost gain within datasets,", "\\textbf{Both readings predict the zero-cost gain within datasets,")]}   # Table 13 title
+def split_panels(src, drop=(), capfix=None, dropline=(), repl=()):
+    for a, b in repl:
+        assert src.count(a) == 1, a; src = src.replace(a, b)
     if dropline:
         n0 = len(src.split("\n")); src = "\n".join(l for l in src.split("\n") if not any(d in l for d in dropline)); assert len(src.split("\n")) == n0 - len(dropline), dropline
     prov = [l for l in src.split("\n") if l.startswith("% prov:")]; out = list(prov); first = True; dropped = 0
@@ -143,7 +173,7 @@ def split_panels(src, drop=(), capfix=None, dropline=()):
 for stem in order:
     fn = FINAL_SRC.get(stem, stem)
     src = open((FD if stem in FINAL_SRC else TEX + "appendix_tables/") + fn + ".tex").read()
-    open(FD + fn + ".tex", "w").write(split_panels(src, DROP.get(stem, ()), CAPFIX.get(stem), DROPLINE.get(stem, ())))
+    open(FD + fn + ".tex", "w").write(split_panels(src, DROP.get(stem, ()), CAPFIX.get(stem), DROPLINE.get(stem, ()), REPL.get(stem, ())))
 for f in os.listdir(FD):   # stale copies from earlier rounds are removed so the provenance index and the sweep see the current set only
     if f.endswith(".tex") and f[:-4] not in [FINAL_SRC.get(s, s) for s in order] + ["tab_z_provenance_final"]: os.remove(FD + f)
 appendix = head + "".join(bytab[s] for s in order) + prov_block
@@ -158,10 +188,10 @@ pre = pre.replace("\\begin{document}\n", "\\newtheoremstyle{inline}{3pt}{3pt}{}{
                   "\\theoremstyle{inline}\n\\newtheorem{definition}{Definition}\n\\theoremstyle{inlineit}\n\\newtheorem{proposition}{Proposition}\n"
                   "\\makeatletter\\g@addto@macro\\normalsize{\\setlength\\abovedisplayskip{3pt plus 1pt}\\setlength\\belowdisplayskip{3pt plus 1pt}\\setlength\\abovedisplayshortskip{2pt}\\setlength\\belowdisplayshortskip{2pt}}\n"
                   "% typographic only (page budget, 2026-09-18): the section headings and the run-in paragraph headings open with less white space than the style's default; fonts, margins and line spacing are the style's\n"
-                  "\\renewcommand\\section{\\@startsection{section}{1}{\\z@}{-1.2ex plus -0.4ex minus -.2ex}{0.8ex plus 0.2ex minus 0.1ex}{\\large\\sc\\raggedright}}\n"
+                  "\\renewcommand\\section{\\@startsection{section}{1}{\\z@}{-1.0ex plus -0.4ex minus -.2ex}{0.6ex plus 0.2ex minus 0.1ex}{\\large\\sc\\raggedright}}\n"
                   "\\renewcommand\\subsection{\\@startsection{subsection}{2}{\\z@}{-1.0ex plus -0.4ex minus -.2ex}{0.5ex plus .2ex}{\\normalsize\\sc\\raggedright}}\n"
                   "\\renewcommand\\paragraph{\\@startsection{paragraph}{4}{\\z@}{0.3ex plus 0.3ex minus .2ex}{-1em}{\\normalsize\\bf}}\\makeatother\n"
-                  "\\setlength{\\textfloatsep}{8pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{3pt}\n"
+                  "\\setlength{\\textfloatsep}{8pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{3pt}\\setlength{\\parskip}{4pt plus 1pt minus 1pt}\n"
                   "% final version: classic structure, plain prose (author's brief of 2026-09-18); generated by rebuttal/scripts/phaseE_submission.py.\n\\begin{document}\n", 1)
 open(PF, 'w').write(pre + body)
 json.dump({"kept": order, "deleted": DELETED, "cuts": CUTS}, open(R + 'final_appendix.json', 'w'), indent=1)

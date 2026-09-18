@@ -1168,3 +1168,49 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - `REVIEWER_CHECKLIST_third.md` (+ su generador): sección "Fourth review" con los cuatro puntos de réplica R4.1–R4.4 y los editoriales.
 - Sweep: `final_checks` amplía con la comprobación de las tablas regeneradas (z a dos decimales, barrido K, "supremum, Haar", sin
   OLMo-7B, sin expR32, expR73 en el panel (b)).
+
+## 29. Pase combinado: quinta revisión y restos de la cuarta (2026-09-18, ordenado por el autor).
+
+- A1 Confundidores como nivel de referencia. §1 (edición registrada del texto literal): "three artifacts push it down" → "its reference
+  level depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own"; "Anisotropic spectra mimic
+  low-dimensional behavior" → "lower the effective dimension and raise the reading"; el supremo "grows with the budget and does not
+  converge". Resumen: la frase "a low raw reading is what high dimension ... produce on their own" pasa a la formulación del nivel de
+  referencia. §3.2: párrafo "A raw value cannot be called low on its own" con los tres nombres entre paréntesis.
+- A2 Regla de Khrulkov: `exp1_delta_controls.csv` sólo tiene `delta_max`, el supremo muestreado, y la banda gaussiana de la Tabla 3 sale
+  de esa columna, así que el rango recalculado con el supremo es el mismo: 0.48 a 2.5 (`phaseE_submission.py` lo verifica). §6 dice ahora
+  que la regla fue calibrada con el supremo.
+- A3 §5.2: "the flat datasets have smaller and less consistent excesses; FMNIST is genuine in 7 of 12 backbones" (relleno FMNIST_GEN
+  desde el censo); "49 of 72 cells and 30 of 36 on the three datasets with 47 classes or more" (comprobado: 30/36, n ≥ 47). §4: "With
+  ten classes there are only 210 quadruples, so the 99.9th percentile coincides with the supremum there."
+- A4 §6: "Both readings predict the gain, and the depth verdict predicts none" (la lectura cruda predice tan bien como el exceso; "The
+  depth verdict predicts no hyperbolic gain."; la regla por objetivo gana a coseno, +0.41 frente a +0.28 pp en las 40 celdas jerárquicas
+  de `exp24_val_metric_selection.csv`, pero se eligió sobre las mismas celdas; entre las políticas no circulares coseno es la mejor) y
+  nuevo párrafo "The calibration certifies structure and does not choose the readout" (que absorbe las ganancias +0.9 a +1.3 pp).
+- A5 Resumen (ediciones registradas; el mismo texto va a OpenReview): "certified in 4 of 12 ImageNet backbones, two of which survive every
+  choice of frame"; "the raw reading is not evidence, and the calibrated reading is weak and model-dependent"; "49 of 72 cells, 30 of 36
+  on datasets with 47 classes or more". La misma redacción en el párrafo "The answer has three parts" de §1 y en la entrada de §5.1.
+- A6 Figura 2(b): ViT-B en imágenes de CIFAR-100 (0.082, exceso +0.003, no genuino) frente a DINO-B en centroides de CIFAR-100 (0.0822,
+  exceso −0.032, genuino); celdas en `rebuttal/results/final_fig2b.json`, valores verificados contra expR62/expR52 por el script de la
+  figura; título "(b) CIFAR-100: same reading, opposite verdict"; leyenda y frase de §3.3 ("two cells on the same dataset with the same
+  reading can receive opposite verdicts").
+- A7 Proposición 1(b): "with $n$ fixed".
+- A8 §5.3: tras "The other eight are not detected": el implante es un árbol de dos niveles sobre los treinta hubs mientras que la jerarquía
+  de WordNet sobre los mismos hubs tiene hasta catorce niveles (`final_wordnet_levels.py`: hipónimo común más bajo de cada clúster del
+  corte K=30 de expR56; profundidad máxima 14, mediana 9, mínima 2; `rebuttal/results/final_wordnet_levels.json`), y el control de
+  desacoplamiento (expR74) decide si el veredicto viene de los hubs o de su acoplamiento con los desplazamientos.
+- A9 Menores: fuera "OLMo-7B was not extracted"; Tabla 2(a) sin la columna "protocol" y con título nuevo; título de la Tabla 2 sin
+  "follows the hierarchy of the labels rather than their number" ("the excess shrinks with the class count"); título del panel (b)
+  condicionado a expR73; Tabla 13 y §B.12 "Both readings predict the gain"; Tabla 5 "8 causal LMs"; Tabla 9(b) regenerada con z a dos
+  decimales (`final/tab_q05_power_final.tex`); la negrita de la Tabla 1 (celda ViT-B/C100 sign-positiva) ya estaba en el `.tex`, sólo
+  faltaba en el PDF exportado; Alper & Averbuch-Elor citado en §5.4; Sala et al. (ICML 2018, verificado contra proceedings.mlr.press) y
+  Gu et al. (ICLR 2019; DBLP, OpenReview y Semantic Scholar inaccesibles desde esta máquina, entrada escrita desde las actas, ver TODO)
+  añadidos a §2 con una frase registrada como edición.
+- A10 AI Use Statement en los tres puntos del formulario ("writing assistance; retrieval of references; research ideation or execution,
+  namely ... and LLM-simulated reviews used as methodological feedback"). A11 `TODO(author)` sigue.
+- Presupuesto: las adiciones (~22 líneas) se compensan con: la Figura 1 del autor pasa de `[H]` a `[t]` (edición registrada; deja de
+  perder seis líneas al pie de la página 1), fusión del párrafo de ganancias de §6 en el nuevo, recortes de mi prosa sin afirmaciones
+  (§5.1, §3.3, §3.4, §5.4) y espaciado (`parskip` 4 pt frente a 6 pt del estilo, salto de sección 1.0 ex). §7 termina en la página 9
+  (línea 474), statements en la 9, referencias en la 10 (línea 495); 30 páginas, 0 avisos.
+- B1/B2 (`expR74_decoupling.py`, `expR75_census_centered_haar.py`): escritos; se lanzan al terminar expR73 (CPU). Resultado y frases
+  derivadas: véase la entrada 29b al cierre.
+- `REVIEWER_CHECKLIST_third.md` (+ generador): sección "Fifth review" con las correcciones y la lista de réplica (i)–(v) sin acción.

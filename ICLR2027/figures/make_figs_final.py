@@ -59,16 +59,18 @@ hd = [Patch(color="k", label="raw reading"), Patch(color=LIGHT, label="matched n
 ax.set_ylim(0, 0.15); ax.set_yticks([0, 0.04, 0.08, 0.12]); ax.set_yticklabels(["0.00", "0.04", "0.08", "0.12"])
 ax.legend(handles=hd, frameon=False, loc="upper right", ncol=2, handlelength=1.2, handletextpad=0.4, columnspacing=1.0, labelspacing=0.2, borderaxespad=0.1)
 ax = axes[1]
-D = json.load(open(RES/"phaseC_fig2b.json")); assert D.get("mode") == "sample", D
+D = json.load(open(RES/"final_fig2b.json")); assert D.get("mode") == "sample", D   # fifth review: same dataset, same reading, opposite verdict
 sl = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_samplelevel_record.csv"))}
-s_m, s_ds = D["sample_cell"]; c_m, c_ds = D["class_cell"]; cc = by[(c_m, c_ds)]
-cells = [(NM[s_m] + "\n" + DSL[s_ds] + "\nimages", fam_color(s_m), float(sl[(s_m, s_ds)]["delta_999"]), float(sl[(s_m, s_ds)]["null_mean"])),
-         (NM[c_m] + "\n" + DSL[c_ds] + "\ncentroids", fam_color(c_m), float(cc["delta"]), float(cc["null_mean"]))]
+s_m, s_ds = D["sample_cell"]; c_m, c_ds = D["class_cell"]; cc = by[(c_m, c_ds)]; E = D["expected"]; ss = sl[(s_m, s_ds)]
+assert s_ds == c_ds and abs(float(ss["delta_999"]) - E["sample_delta"]) < 5e-4 and abs(float(ss["excess"]) - E["sample_excess"]) < 5e-4 and (ss["genuine_bh"] == "True") == E["sample_genuine"]
+assert abs(float(cc["delta"]) - E["class_delta"]) < 5e-4 and abs(float(cc["excess"]) - E["class_excess"]) < 5e-4 and (cc["genuine_bh"] == "True") == E["class_genuine"]
+cells = [(NM[s_m] + "\nimages", fam_color(s_m), float(sl[(s_m, s_ds)]["delta_999"]), float(sl[(s_m, s_ds)]["null_mean"])),
+         (NM[c_m] + "\ncentroids", fam_color(c_m), float(cc["delta"]), float(cc["null_mean"]))]
 for i, (lab, col, raw, null) in enumerate(cells):
     ax.bar(i - 0.2, raw, 0.38, color=col, zorder=3); ax.bar(i + 0.2, null, 0.38, color=LIGHT, zorder=3)
 ax.set_xticks([0, 1]); ax.set_xticklabels([c[0] for c in cells], linespacing=1.1); ax.set_xlim(-0.7, 1.7)
 ax.set_ylim(0, 0.16); ax.set_yticks([0, 0.05, 0.10, 0.15]); ax.set_yticklabels(["0.00", "0.05", "0.10", "0.15"])
-ax.set_title("(b) same reading, opposite verdict")
+ax.set_title("(b) " + DSL[s_ds] + ": same reading,\nopposite verdict", linespacing=1.1)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 fig.subplots_adjust(left=0.09, right=0.995, top=0.88, bottom=0.34, wspace=0.30)
 save(fig, "fig_overview_final")

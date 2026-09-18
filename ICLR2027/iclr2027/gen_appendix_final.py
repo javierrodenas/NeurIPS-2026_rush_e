@@ -304,8 +304,12 @@ def q_depth():
                 [r" & \multicolumn{2}{c}{C100, $K{=}20$} & \multicolumn{4}{c}{ImageNet, anisotropic star} & bal.\ frame \\",
                  r"\cmidrule(lr){2-3}\cmidrule(lr){4-7}\cmidrule(lr){8-8}",
                  r"model & iso.\ $z$ & aniso.\ depth ($z$) & iso.\ $K{=}30$ $z$ & $K{=}10$ $z$ & $K{=}30$ depth ($z$) & $K{=}60$ $z$ & real $z$ \\"], rows_a, mids=(4, 9), colsep="2.2pt")
-        T.panel("(a$'$) The same backbones under the star whose hubs are a Haar resample of the real hubs (ImageNet, $K{=}30$).", "lccc",
-                [r"model & star B & depth ($z$) & $r_{\text{star}}$ \\"], rows_h, mids=(4, 9), colsep="4pt")
+        DEC = {a["model"]: a for a in load("expR74_decoupling_summary.csv")} if ex("expR74_decoupling_summary.csv") else {}
+        if DEC: T.prov.append("expR74_decoupling_summary.csv")
+        dcol = lambda m: ("" if not DEC else (" & --" if m not in DEC else f" & ${float(DEC[m]['dec_z_mean']):+.2f}$ $\\pm$ ${float(DEC[m]['dec_z_sd']):.2f}$ ({int(round(10*float(DEC[m]['frac_certified'])))}/10)"))
+        rows_h = [r[:-3] + dcol(M12[ri]) + r" \\" for ri, r in enumerate(rows_h)]
+        T.panel("(a$'$) The same backbones under the star whose hubs are a Haar resample of the real hubs (ImageNet, $K{=}30$)" + ("; last column: the decoupling control of expR74, the real hubs kept and each cluster's offsets rotated by an independent Haar rotation (mean $z$ $\\pm$ s.d.\\ over 10 seeds; seeds certified at $z\\le-2$)." if DEC else "."), "lccc" + ("c" if DEC else ""),
+                [r"model & star B & depth ($z$) & $r_{\text{star}}$" + (r" & decoupled $z$ (cert.)" if DEC else "") + r" \\"], rows_h, mids=(4, 9), colsep="4pt")
     else:
         T.panel("(a) The twelve backbones: depth = excess B of the real centroids minus that of a matched star (negative = more hierarchical above the frame), with $z$ against the combined spread.", "lcc@{\\hspace{5pt}}cc@{\\hspace{5pt}}ccc@{\\hspace{5pt}}c",
                 [r" & \multicolumn{2}{c}{C100, $K{=}20$, Gaussian hubs} & \multicolumn{2}{c}{IN, $K{=}30$, Gaussian hubs} & \multicolumn{3}{c}{IN, $K{=}30$, Haar-resampled hubs} & bal.\ frame \\",
@@ -380,7 +384,7 @@ def q_depth():
 # Q5: power of the depth test — synthetic hierarchies, implanted trees on real clouds, both stars
 # ======================================================================================================================
 def q_power():
-    T = Table("tab_q05_power.tex", "tab:q5-power", colsep="2pt"); T.prov += ["expR55_depth_power.csv", "expR55b_depth_power_leafframe.csv", "expR64b_wn30.csv", "expR64b_wn30_summary.csv", "expR64b_wn30bal_summary.csv", "expR67_frame_choice.json", "expR69_depth_haarhubs_summary.csv"]
+    T = Table("final/tab_q05_power_final.tex" if FINAL else "tab_q05_power.tex", "tab:q5-power", colsep="2pt"); zf = "+.2f" if FINAL else "+.1f"; T.prov += ["expR55_depth_power.csv", "expR55b_depth_power_leafframe.csv", "expR64b_wn30.csv", "expR64b_wn30_summary.csv", "expR64b_wn30bal_summary.csv", "expR67_frame_choice.json", "expR69_depth_haarhubs_summary.csv"]
     f1, f2 = RES/"expR55_depth_power.csv", RES/"expR55b_depth_power_leafframe.csv"
     def _summ(f):
         d = pd.read_csv(f); h = d[d.level != "star"]; s = d[d.level == "star"]; out = []
@@ -414,10 +418,10 @@ def q_power():
         rows = []
         for i, r in enumerate(A):
             ss = r["s_star"] if r["s_star"] not in ("", "nan") else "--"
-            tz = f"${float(r['tight_z_s0']):+.1f}$/${float(r['tight_z_s05']):+.1f}$/${float(r['tight_z_s1']):+.1f}$" if r.get("tight_z_s1") not in (None, "", "nan") else "--"
-            b = B.get(r["model"]); bb = (f"${float(b['real_z']):+.1f}$ & {hb(b)} & {b['s_star'] if b['s_star'] not in ('', 'nan') else '--'}") if b else "-- & -- & --"
-            h = Hs.get(r["model"]); hh = (f"{int(h['fa_s0_haar'])}/{int(h['hits_s1_haar'])} & ${float(h['z_mean_s1_haar']):+.1f}$") if h else "-- & --"
-            rows.append(f"{NAME[r['model']]} & ${float(r['real_z']):+.1f}$ & {float(r['ratio_real']):.1f} & {hb(r)} & {ss} & ${float(r['z_mean_s1']):+.1f}$ & {tz} & {hh} & {bb} \\\\")
+            tz = f"${float(r['tight_z_s0']):{zf}}$/${float(r['tight_z_s05']):{zf}}$/${float(r['tight_z_s1']):{zf}}$" if r.get("tight_z_s1") not in (None, "", "nan") else "--"
+            b = B.get(r["model"]); bb = (f"${float(b['real_z']):{zf}}$ & {hb(b)} & {b['s_star'] if b['s_star'] not in ('', 'nan') else '--'}") if b else "-- & -- & --"
+            h = Hs.get(r["model"]); hh = (f"{int(h['fa_s0_haar'])}/{int(h['hits_s1_haar'])} & ${float(h['z_mean_s1_haar']):{zf}}$") if h else "-- & --"
+            rows.append(f"{NAME[r['model']]} & ${float(r['real_z']):{zf}}$ & {float(r['ratio_real']):.1f} & {hb(r)} & {ss} & ${float(r['z_mean_s1']):{zf}}$ & {tz} & {hh} & {bb} \\\\")
         T.panel("(b) Implanted two-level trees on the real ImageNet centroids: the hub arrangement replaced at strength $s$, every within-cluster offset kept; hits = implant seeds with $z\\le-2$ at $s{=}0/0.5/1$, $\\bar z_1$ = mean $z$ at $s{=}1$, w/b = within/between spread.", "lcccccc|cc|ccc",
                 [r" & \multicolumn{6}{c|}{WordNet-30 frame of record, Gaussian-hub star} & \multicolumn{2}{c|}{Haar-hub star} & \multicolumn{3}{c}{balanced frame (pre-specified)} \\",
                  r"model & real $z$ & w/b & hits & $s^*$ & $\bar z_1$ & tight $z$ at $s{=}0/0.5/1$ & hits $s{=}0/1$ & $\bar z_1$ & real $z$ & hits & $s^*$ \\"], rows, mids=(4, 9), colsep="1.8pt")
@@ -834,15 +838,15 @@ def q_robust_final():
         rec_ = [a for a in D72 if a["model"] == m and a["dataset"] == ds]
         if rec_:
             v = {int(a["n_quads"]): float(a["excess"]) for a in rec_}; s = B72[(m, ds)]
-            rows.append(f"{NM[m]} & {DSS[ds]} & record & " + " & ".join(f"${v[b]:+.4f}$" for b in BUD) + f" & ${float(s['drift_ge1e5']):.4f}$ & {float(s['drift_ge1e5_over_sd']):.2f} \\\\")
-    T.panel("(a) Quadruple budget: the excess at $10^4$ to $2{\\times}10^6$ sampled quadruples per seed under the record (Haar null, p99.9, 200 replicates).", "llccccccc|cc",
-            [r"model & data & protocol & $10^4$ & $5{\times}10^4$ & $10^5$ & $5{\times}10^5$ & $10^6$ & $2{\times}10^6$ & drift ($\ge10^5$) & drift/s.d. \\"], rows, colsep="2.2pt")
+            rows.append(f"{NM[m]} & {DSS[ds]} & " + " & ".join(f"${v[b]:+.4f}$" for b in BUD) + f" & ${float(s['drift_ge1e5']):.4f}$ & {float(s['drift_ge1e5_over_sd']):.2f} \\\\")
+    T.panel("(a) Quadruple budget under the record (Haar null, p99.9, 200 replicates): the excess of nine cells at $10^4$ to $2{\\times}10^6$ sampled quadruples per seed; drift = range of the excess over budgets $\\ge10^5$, also divided by the excess's null spread.", "llcccccc|cc",
+            [r"model & data & $10^4$ & $5{\times}10^4$ & $10^5$ & $5{\times}10^5$ & $10^6$ & $2{\times}10^6$ & drift ($\ge10^5$) & drift/s.d. \\"], rows, colsep="2.6pt")
     B = [dict(a, dataset="imagenet") for a in load("expR59_imagenet_bootstrap_summary.csv")]; B73 = load("expR73_transfer_bootstrap_record_summary.csv") if ex("expR73_transfer_bootstrap_record_summary.csv") else []
     B = B + [a for a in B73 if a["dataset"] in ("cifar100", "dtd")]; DSN = {"imagenet": ("ImageNet", 100, 20), "cifar100": ("CIFAR-100", 500, 200), "dtd": ("DTD", 80, 200)}
     rows = []
     for ds in ("imagenet", "cifar100", "dtd"):
         rows += [f"{NAME.get(a['model'], a['model'])} & {DSN[ds][0]} & {DSN[ds][1]} & {DSN[ds][2]} & ${float(a['excess_ref']):+.4f}$ & ${float(a['excess_boot_mean']):+.4f}$ & ${float(a['excess_boot_sd']):.4f}$ & {float(a['frac_boot_negative']):.2f} \\\\" for a in B if a["dataset"] == ds]
-    T.panel("(b) Centroid bootstrap under the record (Haar null, p99.9): 30 resamples with replacement of the cached training images per class at the census budget; ImageNet with 20 null replicates per resample (expR59), CIFAR-100 and DTD with 200 (expR73).", "llcccccc", [r"model & dataset & images/class & null rep. & excess (reference) & bootstrap mean & bootstrap s.d. & fraction negative \\"], rows, mids=(12, 24), colsep="3pt")
+    T.panel("(b) Centroid bootstrap under the record (Haar null, p99.9): 30 resamples with replacement of the cached training images per class at the census budget; ImageNet with 20 null replicates per resample (expR59)" + (", CIFAR-100 and DTD with 200 (expR73)." if B73 else "; the transfer sets follow once expR73 completes."), "llcccccc", [r"model & dataset & images/class & null rep. & excess (reference) & bootstrap mean & bootstrap s.d. & fraction negative \\"], rows, mids=(12, 24), colsep="3pt")
     bmax = f"{max(float(a['excess_boot_sd']) for a in B):.4f}"; fneg = min(float(a["frac_boot_negative"]) for a in B); nds = len({a["dataset"] for a in B})
     T.newpart()
     J = {(r["model"], r["dataset"]): r for r in load("expR66_joint_sensitivity_summary.csv")}; rows = []
@@ -879,14 +883,22 @@ def q_robust_final():
             rr = sorted([a for a in L if a["model"] == m and int(a["layer"]) >= 1], key=lambda a: int(a["layer"]))
             if rr: rows.append(f"across depth (layer {rr[0]['layer']} $\\to$ {rr[-1]['layer']}) & {NMI[m]} & ${float(rr[0]['delta_normalized']):.3f}$ & ${float(rr[-1]['delta_normalized']):.3f}$ & ${100*(float(rr[-1]['delta_normalized'])-float(rr[0]['delta_normalized']))/float(rr[0]['delta_normalized']):+.0f}\\%$ \\\\")
     T.panel("(e) Training moves the raw reading within an architecture: one row per intervention.", "llccc", [r"intervention & model & $\delta$ before & $\delta$ after & change \\"], rows, size=r"\footnotesize", colsep="4pt")
-    T.write(r"\textbf{The excess is budget-stable, the genuine count survives resampling and estimator noise, the reading follows the hierarchy of the labels rather than their number, and training moves it.} "
+    ctxt = ""
+    if ex("expR75_census_centered_haar_summary.csv"):
+        S75 = load("expR75_census_centered_haar_summary.csv")[0]; T.prov.append("expR75_census_centered_haar.csv"); D75 = load("expR75_census_centered_haar.csv")
+        ch = [a for a in D75 if a["verdict_changed"] == "True"]
+        rows = [f"{NAME[a['model']]} & {DSH.get(a['dataset'], a['dataset'])} & ${float(a['record_excess']):+.4f}$ & ${float(a['excess']):+.4f}$ & {'genuine' if a['record_genuine_bh']=='True' else 'not genuine'} $\\to$ {'genuine' if a['genuine_bh']=='True' else 'not genuine'} \\\\" for a in ch] or [r"\multicolumn{5}{l}{no cell changes its verdict} \\"]
+        T.panel(f"(f) Centered Haar null (the columns of the Gaussian matrix centered before the QR, so the null cloud's centered spectrum is exact): the census rerun under the record; genuine {S75['genuine_bh']}/72 against {S75['record_genuine_bh']}/72 in the record, {S75['verdict_changes']} verdict change(s), largest excess shift {float(S75['max_abs_excess_shift']):.4f}.", "llccl",
+                [r"model & data & record excess & centered excess & verdict \\"], rows, size=r"\footnotesize", colsep="4pt")
+        ctxt = f" (f) The centering term of the Haar null is of order $1/\\sqrt{{n}}$; with it removed the excess moves by at most {float(S75['max_abs_excess_shift']):.4f} and the verdict changes in {S75['verdict_changes']} of 72 cells. % expR75_census_centered_haar.csv"
+    T.write(r"\textbf{The excess is budget-stable, the genuine count survives resampling and estimator noise, the excess shrinks with the class count, and training moves it.} "
             r"(a) Excess against the quadruple budget for nine cells; drift = range of the record excess over budgets $\ge10^5$, divided by the excess's spread in the last column; under the record every sign holds at every budget. "
             r"(b) Bootstrap of the excess over resampled images per class on " + ("ImageNet, CIFAR-100 and DTD" if nds == 3 else "ImageNet") + r": the bootstrap s.d.\ is at most " + bmax + (r" and every resample of every cell is sign-negative." if fneg == 1.0 else f" and at least {fneg:.2f} of the resamples of every cell are sign-negative.") + r" % expR72_budget_record.csv, expR59_imagenet_bootstrap_summary.csv, expR73_transfer_bootstrap_record_summary.csv",
             contd=[r"(c) Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ and the number of resamples in which the cell is genuine under BH over the 72 cells; $^{\circ}$: not genuine in the record; $^{\dagger}$: record-genuine but failing one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one." + jt
-                   + r" (d) Class-count control under the record (means over subset seeds): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts and the verdict is what carries across datasets; ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv"])
+                   + r" (d) Class-count control under the record (means over subset seeds): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts and the verdict is what carries across datasets; ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv" + ctxt])
 
 if __name__ == "__main__":
     for f in OUT.glob("tab_q*.tex"): f.unlink()
     q_calibration(); q_census(); q_robust(); q_sample(); q_depth(); q_power(); q_interventions(); q_treemap(); q_wordnet(); q_text(); q_local(); q_corollary(); q_xi(); q_panel(); q_robust_final()
     conservation_check()
-    FINAL = True; q_depth(); q_wordnet()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null)
+    FINAL = True; q_depth(); q_wordnet(); q_power()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null; power table with two-decimal z)

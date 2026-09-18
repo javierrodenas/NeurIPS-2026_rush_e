@@ -1,0 +1,10 @@
+{
+ "FMNIST_GEN": "7",
+ "POL_RULE_H": "+0.41",
+ "POL_COS_H": "+0.28",
+ "WN_H": "fourteen",
+ "QUAD10": "210",
+ "NAIVE_BIG": "0.03",
+ "C_LO": "0.48",
+ "C_HI": "2.5"
+}

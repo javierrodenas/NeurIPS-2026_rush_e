@@ -1,38 +1,30 @@
 % prov: expR72_budget_record.csv, expR72_budget_record_summary.csv, expR59_imagenet_bootstrap_summary.csv, expR73_transfer_bootstrap_record_summary.csv, expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
-\begin{table}[tbp]
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
 \begingroup
-\noindent\textbf{(a) Quadruple budget: the excess at $10^4$ to $2{\times}10^6$ sampled quadruples per seed under the record (Haar null, p99.9, 200 replicates).}\par\vspace{1.5pt}
-\setlength{\tabcolsep}{2.2pt}
-\begin{tabular}{llccccccc|cc}
+\noindent\textbf{(a) Quadruple budget under the record (Haar null, p99.9, 200 replicates): the excess of nine cells at $10^4$ to $2{\times}10^6$ sampled quadruples per seed; drift = range of the excess over budgets $\ge10^5$, also divided by the excess's null spread.}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{llcccccc|cc}
 \toprule
-model & data & protocol & $10^4$ & $5{\times}10^4$ & $10^5$ & $5{\times}10^5$ & $10^6$ & $2{\times}10^6$ & drift ($\ge10^5$) & drift/s.d. \\
+model & data & $10^4$ & $5{\times}10^4$ & $10^5$ & $5{\times}10^5$ & $10^6$ & $2{\times}10^6$ & drift ($\ge10^5$) & drift/s.d. \\
 \midrule
-ViT-L & IN & record & $-0.0161$ & $-0.0161$ & $-0.0160$ & $-0.0157$ & $-0.0159$ & $-0.0159$ & $0.0002$ & 0.07 \\
-DINOv2-L & IN & record & $-0.0131$ & $-0.0136$ & $-0.0137$ & $-0.0135$ & $-0.0136$ & $-0.0136$ & $0.0002$ & 0.38 \\
-CLIP-B & IN & record & $-0.0063$ & $-0.0060$ & $-0.0059$ & $-0.0065$ & $-0.0064$ & $-0.0064$ & $0.0007$ & 0.13 \\
-ViT-L & C100 & record & $-0.0208$ & $-0.0208$ & $-0.0206$ & $-0.0205$ & $-0.0205$ & $-0.0205$ & $0.0002$ & 0.03 \\
-DINOv2-L & C100 & record & $-0.0348$ & $-0.0348$ & $-0.0348$ & $-0.0348$ & $-0.0347$ & $-0.0347$ & $0.0001$ & 0.07 \\
-CLIP-B & C100 & record & $-0.0186$ & $-0.0195$ & $-0.0188$ & $-0.0195$ & $-0.0194$ & $-0.0194$ & $0.0006$ & 0.10 \\
-ViT-L & DTD & record & $-0.0305$ & $-0.0308$ & $-0.0312$ & $-0.0311$ & $-0.0313$ & $-0.0313$ & $0.0002$ & 0.05 \\
-DINOv2-L & DTD & record & $-0.0418$ & $-0.0419$ & $-0.0421$ & $-0.0420$ & $-0.0422$ & $-0.0420$ & $0.0002$ & 0.06 \\
-CLIP-B & DTD & record & $-0.0243$ & $-0.0235$ & $-0.0242$ & $-0.0240$ & $-0.0243$ & $-0.0242$ & $0.0003$ & 0.05 \\
+ViT-L & IN & $-0.0161$ & $-0.0161$ & $-0.0160$ & $-0.0157$ & $-0.0159$ & $-0.0159$ & $0.0002$ & 0.07 \\
+DINOv2-L & IN & $-0.0131$ & $-0.0136$ & $-0.0137$ & $-0.0135$ & $-0.0136$ & $-0.0136$ & $0.0002$ & 0.38 \\
+CLIP-B & IN & $-0.0063$ & $-0.0060$ & $-0.0059$ & $-0.0065$ & $-0.0064$ & $-0.0064$ & $0.0007$ & 0.13 \\
+ViT-L & C100 & $-0.0208$ & $-0.0208$ & $-0.0206$ & $-0.0205$ & $-0.0205$ & $-0.0205$ & $0.0002$ & 0.03 \\
+DINOv2-L & C100 & $-0.0348$ & $-0.0348$ & $-0.0348$ & $-0.0348$ & $-0.0347$ & $-0.0347$ & $0.0001$ & 0.07 \\
+CLIP-B & C100 & $-0.0186$ & $-0.0195$ & $-0.0188$ & $-0.0195$ & $-0.0194$ & $-0.0194$ & $0.0006$ & 0.10 \\
+ViT-L & DTD & $-0.0305$ & $-0.0308$ & $-0.0312$ & $-0.0311$ & $-0.0313$ & $-0.0313$ & $0.0002$ & 0.05 \\
+DINOv2-L & DTD & $-0.0418$ & $-0.0419$ & $-0.0421$ & $-0.0420$ & $-0.0422$ & $-0.0420$ & $0.0002$ & 0.06 \\
+CLIP-B & DTD & $-0.0243$ & $-0.0235$ & $-0.0242$ & $-0.0240$ & $-0.0243$ & $-0.0242$ & $0.0003$ & 0.05 \\
 \bottomrule
 \end{tabular}
 \par\vspace{5pt}
 \endgroup
-\caption{\textbf{The excess is budget-stable, the genuine count survives resampling and estimator noise, the reading follows the hierarchy of the labels rather than their number, and training moves it.} (a) Excess against the quadruple budget for nine cells; drift = range of the record excess over budgets $\ge10^5$, divided by the excess's spread in the last column; under the record every sign holds at every budget. (b) Bootstrap of the excess over resampled images per class on ImageNet: the bootstrap s.d.\ is at most 0.0011 and every resample of every cell is sign-negative. % expR72_budget_record.csv, expR59_imagenet_bootstrap_summary.csv, expR73_transfer_bootstrap_record_summary.csv
-}
-\label{tab:q8-robust}
-\end{table}
-\begin{table}[tbp]\ContinuedFloat
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.4pt}
 \begingroup
-\noindent\textbf{(b) Centroid bootstrap under the record (Haar null, p99.9): 30 resamples with replacement of the cached training images per class at the census budget; ImageNet with 20 null replicates per resample (expR59), CIFAR-100 and DTD with 200 (expR73).}\par\vspace{1.5pt}
+\noindent\textbf{(b) Centroid bootstrap under the record (Haar null, p99.9): 30 resamples with replacement of the cached training images per class at the census budget; ImageNet with 20 null replicates per resample (expR59); the transfer sets follow once expR73 completes.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{llcccccc}
 \toprule
@@ -54,9 +46,11 @@ SigLIP-B & ImageNet & 100 & 20 & $-0.0080$ & $-0.0081$ & $0.0006$ & 1.00 \\
 \end{tabular}
 \par\vspace{5pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The excess is budget-stable, the genuine count survives resampling and estimator noise, the excess shrinks with the class count, and training moves it.} (a) Excess against the quadruple budget for nine cells; drift = range of the record excess over budgets $\ge10^5$, divided by the excess's spread in the last column; under the record every sign holds at every budget. (b) Bootstrap of the excess over resampled images per class on ImageNet: the bootstrap s.d.\ is at most 0.0011 and every resample of every cell is sign-negative. % expR72_budget_record.csv, expR59_imagenet_bootstrap_summary.csv, expR73_transfer_bootstrap_record_summary.csv
+}
+\label{tab:q8-robust}
 \end{table}
-\begin{table}[tbp]\ContinuedFloat
+\begin{table}[H]\ContinuedFloat
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
@@ -85,13 +79,6 @@ SigLIP-B & $-1.7$ (0)$^{\circ}$ & $-4.3$ (30) & $-2.6$ (30) & $-4.1$ (30) & $-2.
 \end{tabular}
 \par\vspace{5pt}
 \endgroup
-\caption{(continued) (c) Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ and the number of resamples in which the cell is genuine under BH over the 72 cells; $^{\circ}$: not genuine in the record; $^{\dagger}$: record-genuine but failing one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one. Counts: record 49/72 (18/24); $z_{\text{joint}}\le-2$: 42/72 (18/24); genuine in $\ge27$ of 30 resamples: 47/72 (17/24). (d) Class-count control under the record (means over subset seeds): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts and the verdict is what carries across datasets; ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
-}
-\end{table}
-\begin{table}[tbp]\ContinuedFloat
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.4pt}
 \begingroup
 \noindent\textbf{(d) Class count: ImageNet subsets of $C$ classes, random (spanning the hierarchy) or WordNet-coherent (siblings, effectively flat), means over the subset seeds. The excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts; the verdict is what carries across datasets.}\par\vspace{1.5pt}
 \footnotesize
@@ -112,12 +99,6 @@ DINOv2-L & 1000 & 0.030 & -0.014 & 1/1 & +0.57 & --- & --- & --- & --- \\
 \end{tabular}
 \par\vspace{5pt}
 \endgroup
-\caption{(continued)}
-\end{table}
-\begin{table}[tbp]\ContinuedFloat
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.4pt}
 \begingroup
 \noindent\textbf{(e) Training moves the raw reading within an architecture: one row per intervention.}\par\vspace{1.5pt}
 \footnotesize
@@ -132,5 +113,6 @@ across depth (layer 1 $\to$ 12) & DINOv2-B & $0.147$ & $0.058$ & $-61\%$ \\
 \end{tabular}
 \par\vspace{5pt}
 \endgroup
-\caption{(continued)}
+\caption{(continued) (c) Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ and the number of resamples in which the cell is genuine under BH over the 72 cells; $^{\circ}$: not genuine in the record; $^{\dagger}$: record-genuine but failing one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one. Counts: record 49/72 (18/24); $z_{\text{joint}}\le-2$: 42/72 (18/24); genuine in $\ge27$ of 30 resamples: 47/72 (17/24). (d) Class-count control under the record (means over subset seeds): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts and the verdict is what carries across datasets; ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
+}
 \end{table}

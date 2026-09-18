@@ -1,0 +1,7 @@
+{
+ "note": "Figure 2(b) of the final version (fifth review, 2026-09-18): same dataset, same reading, opposite verdict. The sample cell is read on per-image features (expR62_samplelevel_record.csv), the class cell on centroids (expR52_census_haar_p999_200.csv); make_figs_final.py asserts the values below against the files.",
+ "mode": "sample",
+ "sample_cell": ["i21k_b", "cifar100"],
+ "class_cell": ["dinov1_b", "cifar100"],
+ "expected": {"sample_delta": 0.082, "sample_excess": 0.003, "sample_genuine": false, "class_delta": 0.0822, "class_excess": -0.032, "class_genuine": true}
+}

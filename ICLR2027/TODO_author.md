@@ -221,6 +221,14 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   frente a +0.23 de "always cosine" (60 celdas; +0.41 frente a +0.28 en las 40 jerárquicas). El texto lo dice como "the objective rule
   adds little"; decidir si se prefiere otra formulación.
 - (Cuarta revisión) Tabla 2(d) vuelve a listar el barrido completo de C para DINOv2-L (la leyenda del brief necesita varios C).
+- (Quinta revisión) Regla de Khrulkov: el rango 0.48–2.5 ya venía del supremo (`exp1_delta_controls.csv` sólo tiene `delta_max`, la
+  misma columna que la fila gaussiana de la Tabla 3); recalcularlo con esa banda no lo cambia. Si se quería otra banda, decir cuál.
+- (Quinta revisión) Entrada bib `gu2019learning` (Gu, Sala, Gunel, Ré, ICLR 2019): DBLP, OpenReview y Semantic Scholar bloquean el
+  acceso desde esta máquina; escrita desde las actas. `sala2018representation` verificada contra proceedings.mlr.press (v80, 4460–4469).
+- (Quinta revisión) "up to fourteen levels": h = profundidad máxima en WordNet del hipónimo común de cada clúster del corte K=30
+  (mediana 9); el máximo lo da un clúster de una sola clase (assault_rifle, profundidad 14). Si se prefiere la mediana, cambiar `h_word`.
+- (Quinta revisión) La Figura 1 del autor pasa a `[t]` (flota a la cabeza de la página 2) para no perder seis líneas al pie de la página 1;
+  y `parskip` baja de 6 pt a 4 pt. Ambas se revierten en `phaseE_submission.py` (EDITS y preámbulo).
 - Figura 5(c): la leyenda literal dice "DINOv2 loses most of its structure under Euclidean distance". Con azar 0.5, la pérdida de la
   estructura por encima del azar es 63% (DINOv2-G), 50% (L), 30% (B) y 8% (S): "most" vale para L y G; S y B pierden menos. Decidir si
   se matiza ("the larger DINOv2 models").

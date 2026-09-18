@@ -22,7 +22,35 @@
   ],
   [
    "6 datasets and 16 text models, the premise does not survive:",
-   "6 datasets and 15 text models, the premise does not survive calibration on the two datasets tested:"
+   "6 datasets and 15 text models, the raw reading is not evidence, and the calibrated reading is weak and model-dependent:"
+  ],
+  [
+   "We show that a low raw reading is what high dimension, an anisotropic spectrum and a maximum over sampled quadruples produce on their own, and we build",
+   "We show that the reference level of the raw reading depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own, and we build"
+  ],
+  [
+   "Class centroids do carry clustered structure in 49 of 72 cells, but a star already produces it; hierarchy above the superclasses is certified in only 4 of 12 ImageNet backbones, by a test",
+   "Class centroids do carry clustered structure in 49 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it; hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame, by a test"
+  ],
+  [
+   "but three artifacts push it down without any hierarchy.",
+   "but its reference level depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own."
+  ],
+  [
+   "Anisotropic spectra mimic low-dimensional behavior: the \\emph{spectrum confound}. And the supremum over sampled quadruples is a one-quadruple extreme that does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}.",
+   "Anisotropic spectra lower the effective dimension and raise the reading: the \\emph{spectrum confound}. And the supremum over sampled quadruples grows with the budget and does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}."
+  ],
+  [
+   "so the premise does not survive calibration as stated. On class centroids, clustered structure is genuine in 49 of 72 cells, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones by a test",
+   "so the raw reading is not evidence and the calibrated reading is weak and model-dependent. On class centroids, clustered structure is genuine in 49 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame, by a test"
+  ],
+  [
+   "\\begin{figure}[H]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}",
+   "\\begin{figure}[t]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}"
+  ],
+  [
+   "we bring the idea to embedding clouds, where the reference must match dimension and spectrum.",
+   "we bring the idea to embedding clouds, where the reference must match dimension and spectrum. The curvature itself has been studied as a representation tradeoff \\citep{sala2018representation} and as a mixed-curvature product to be learned \\citep{gu2019learning}, which presupposes a diagnostic of the kind we calibrate."
   ]
  ]
 }

@@ -1,0 +1,191 @@
+{
+ "frame": "expR56 ImageNet WordNet cut, K=30 (average linkage on imagenet1k_wordnet_dist.npy)",
+ "root": "entity.n.01 at depth 0",
+ "definition": "h = max over the 30 clusters of the depth of the lowest common hypernym of the cluster's classes = levels of the WordNet tree above the hubs",
+ "h": 14,
+ "h_word": "fourteen",
+ "depth_median": 9.0,
+ "depth_min": 2,
+ "clusters": [
+  {
+   "cluster": 0,
+   "size": 316,
+   "hub_synset": "instrumentality.n.03",
+   "depth": 5
+  },
+  {
+   "cluster": 1,
+   "size": 71,
+   "hub_synset": "organism.n.01",
+   "depth": 5
+  },
+  {
+   "cluster": 2,
+   "size": 23,
+   "hub_synset": "mammal.n.01",
+   "depth": 9
+  },
+  {
+   "cluster": 3,
+   "size": 31,
+   "hub_synset": "diapsid.n.01",
+   "depth": 10
+  },
+  {
+   "cluster": 4,
+   "size": 67,
+   "hub_synset": "vertebrate.n.01",
+   "depth": 8
+  },
+  {
+   "cluster": 5,
+   "size": 158,
+   "hub_synset": "artifact.n.01",
+   "depth": 4
+  },
+  {
+   "cluster": 6,
+   "size": 17,
+   "hub_synset": "ungulate.n.01",
+   "depth": 11
+  },
+  {
+   "cluster": 7,
+   "size": 22,
+   "hub_synset": "food.n.01",
+   "depth": 4
+  },
+  {
+   "cluster": 8,
+   "size": 3,
+   "hub_synset": "aquatic_mammal.n.01",
+   "depth": 11
+  },
+  {
+   "cluster": 9,
+   "size": 2,
+   "hub_synset": "flower.n.01",
+   "depth": 10
+  },
+  {
+   "cluster": 10,
+   "size": 10,
+   "hub_synset": "geological_formation.n.01",
+   "depth": 3
+  },
+  {
+   "cluster": 11,
+   "size": 2,
+   "hub_synset": "communication.n.02",
+   "depth": 2
+  },
+  {
+   "cluster": 12,
+   "size": 175,
+   "hub_synset": "mammal.n.01",
+   "depth": 9
+  },
+  {
+   "cluster": 13,
+   "size": 13,
+   "hub_synset": "vegetable.n.01",
+   "depth": 6
+  },
+  {
+   "cluster": 14,
+   "size": 5,
+   "hub_synset": "turtle.n.02",
+   "depth": 12
+  },
+  {
+   "cluster": 15,
+   "size": 11,
+   "hub_synset": "fish.n.01",
+   "depth": 10
+  },
+  {
+   "cluster": 16,
+   "size": 4,
+   "hub_synset": "personal_computer.n.01",
+   "depth": 10
+  },
+  {
+   "cluster": 17,
+   "size": 2,
+   "hub_synset": "magnifier.n.01",
+   "depth": 9
+  },
+  {
+   "cluster": 18,
+   "size": 18,
+   "hub_synset": "craft.n.02",
+   "depth": 8
+  },
+  {
+   "cluster": 19,
+   "size": 4,
+   "hub_synset": "cooking_utensil.n.01",
+   "depth": 9
+  },
+  {
+   "cluster": 20,
+   "size": 12,
+   "hub_synset": "home_appliance.n.01",
+   "depth": 9
+  },
+  {
+   "cluster": 21,
+   "size": 3,
+   "hub_synset": "edge_tool.n.01",
+   "depth": 10
+  },
+  {
+   "cluster": 22,
+   "size": 3,
+   "hub_synset": "condiment.n.01",
+   "depth": 8
+  },
+  {
+   "cluster": 23,
+   "size": 1,
+   "hub_synset": "assault_rifle.n.01",
+   "depth": 14
+  },
+  {
+   "cluster": 24,
+   "size": 16,
+   "hub_synset": "fruit.n.01",
+   "depth": 8
+  },
+  {
+   "cluster": 25,
+   "size": 1,
+   "hub_synset": "toilet_tissue.n.01",
+   "depth": 7
+  },
+  {
+   "cluster": 26,
+   "size": 1,
+   "hub_synset": "maypole.n.01",
+   "depth": 11
+  },
+  {
+   "cluster": 27,
+   "size": 3,
+   "hub_synset": "beating-reed_instrument.n.01",
+   "depth": 10
+  },
+  {
+   "cluster": 28,
+   "size": 5,
+   "hub_synset": "elasmobranch.n.01",
+   "depth": 12
+  },
+  {
+   "cluster": 29,
+   "size": 1,
+   "hub_synset": "bubble.n.01",
+   "depth": 8
+  }
+ ]
+}

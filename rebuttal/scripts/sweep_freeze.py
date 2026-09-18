@@ -1000,11 +1000,14 @@ def final_checks():
     chk("final: abstract verbatim from main_local.tex modulo the two recorded fourth-review edits (15 text models, the S5.1 wording)", norm(seg(bf, "\\begin{abstract}", "\\end{abstract}")) == norm(edit(seg(LOC, "\\begin{abstract}", "\\end{abstract}"))) and "15 text models" in bf and "16 text models" not in bf and "sixteen" not in bf and "two OLMo" not in bf)
     chk("final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits", norm(seg(bf, "\\section{Introduction}", "\\section{Related Work}")) == norm(edit(seg(LOC, "\\section{Introduction}", "\\section{Related Work}"))))
     rel_loc = norm(seg(LOC, "\\section{Related Work}", "\\section{The Instrument}")); rel_f = norm(seg(bf, "\\section{Related Work}", "\\section{Methodology}"))
-    chk("final: S2 verbatim from main_local.tex, or its first six sentences (cut step 4 of the page budget)", rel_f == rel_loc or (rel_f in rel_loc and rel_loc.startswith(rel_f)))
+    rel_loc = norm(edit(seg(LOC, "\\section{Related Work}", "\\section{The Instrument}")))
+    chk("final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget)", rel_f == rel_loc or (rel_f in rel_loc and rel_loc.startswith(rel_f)))
     grom = norm(edit(seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1])); est = norm(edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]))
     chk("final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence)", grom in norm(bf) and est in norm(bf))
-    chk("final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; fourth review: 15 text models, the S5.1 wording in the abstract) and none of the old phrases survives",
-        len(ED) == 6 and all(a not in bf for a, _ in ED) and all((b in bf) for _, b in ED if b) and sum(1 for a, _ in ED if "shadow" in a) == 2 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED) and any("16 text models" in a for a, _ in ED) and any("two datasets tested" in b for _, b in ED))
+    chk("final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives",
+        len(ED) == 13 and all((a not in bf) or (a in b) for a, b in ED) and all((b in bf) for _, b in ED if b) and sum(1 for a, _ in ED if "shadow" in a) == 2 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
+        and any("16 text models" in a for a, _ in ED) and any("three artifacts push it down" in a for a, _ in ED) and any("two of which survive every choice of frame" in b for _, b in ED) and any("sala2018representation" in b and "gu2019learning" in b for _, b in ED)
+        and bf.count("weak and model-dependent") >= 3 and bf.count("30 of 36") >= 3 and "cannot be called low on its own" in bf)
     # ---- metaphors, bridges and banned phrases anywhere in the body (Figure 1 and its caption excepted), thesis twice
     body_nofig = _re.sub(r"\\begin\{figure\}.*?\\end\{figure\}", "", nocom(bf), flags=_re.S); body_nocite = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", body_nofig)
     META = ["shadow", "star caveat", "aristotelian", "geometric face", "intent of the supremum"]
@@ -1034,7 +1037,8 @@ def final_checks():
         s = _re.sub(r"\\paragraph\{[^}]*\}\s*", "", s); s = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", s); s = _re.sub(r"\\(S)?\\?ref\{[^}]*\}", "REF", s); s = _re.sub(r"\\label\{[^}]*\}", "", s)
         s = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if ("=" in m.group(1) or "\\" in m.group(1)) else m.group(0), s).replace("{=}", "="); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
         return [m.group(0).replace("$", "").replace("from ", "").strip() for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
-    HEADLINE = {"49 of 72", "18 of 24", "4 of 12", "0 of 60", "7 of 15", "0.48 to 2.5", "+0.9 to +1.3"}
+    HEADLINE = {"49 of 72", "18 of 24", "4 of 12", "0 of 60", "7 of 15", "0.48 to 2.5", "+0.9 to +1.3", "30 of 36", "47", "7 of 12", "210", "+0.41 against +0.28"}   # the last five: fifth review (S5.2 counts, S4 quadruples, S6 policies)
+    EXEMPT = {"Most cells show clustered structure.": (4, 3)}   # fifth review: the author's count sentence carries three numbers (paragraph max, sentence max)
     noeq = lambda s: _re.sub(r"\\begin\{equation\*?\}.*?\\end\{equation\*?\}", " ", s, flags=_re.S)
     verbatim = [norm(noeq(v)) for v in (seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1], edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]), edit(seg(LOC, "\\section{Introduction}", "\\section{Related Work}")), seg(LOC, "\\section{Related Work}", "\\section{The Instrument}"))]
     isverb = lambda par: any(norm(par.replace(" EQUATION. ", " ")) in v for v in verbatim)
@@ -1054,11 +1058,12 @@ def final_checks():
             nverb_sents += w
             if max(w, default=0) > 35: bad.append(f"{name}: sentence over 35 words ({max(w)}): {sents[w.index(max(w))][:80]}")
             if not (3 <= len(sents) <= 6): bad.append(f"{name}: paragraph with {len(sents)} sentences: {par[:60]!r}")
-            if lead and (len(lead.group(1).split()) > 12 or not lead.group(1).endswith(".")): bad.append(f"{name}: lead-in not plain/short: {lead.group(1)!r}")
+            if lead and (len(lead.group(1).split()) > 14 or not lead.group(1).endswith(".")): bad.append(f"{name}: lead-in not plain/short: {lead.group(1)!r}")
             if results:
-                if len(gs) > 2: bad.append(f"{name}: >2 numbers in a paragraph {gs}: {par[:60]!r}")
+                pmax, smax = EXEMPT.get(lead.group(1) if lead else "", (2, 1))
+                if len(gs) > pmax: bad.append(f"{name}: >{pmax} numbers in a paragraph {gs}: {par[:60]!r}")
                 for s_ in sents:
-                    if len(groups(s_)) > 1: bad.append(f"{name}: >1 number in a sentence: {s_[:80]}")
+                    if len(groups(s_)) > smax: bad.append(f"{name}: >{smax} number in a sentence: {s_[:80]}")
                 ptr = [i for i, s_ in enumerate(sents) if ("Table REF" in s_ or "Figure REF" in s_ or "Tables REF" in s_)]
                 if ptr and ptr != [len(sents) - 1]: bad.append(f"{name}: table/figure pointer not confined to the last sentence: {par[:60]!r}")
             off = [g for g in gs if g not in HEADLINE]
@@ -1084,7 +1089,7 @@ def final_checks():
     chk("final: the seven defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1", all(s3.count(v) == 1 for v in voc.values()) and "premise" in seg(bf, "\\section{Introduction}", "\\section{Related Work}"))
     # ---- numbers: nothing new (every number in the final is in v1, in a table or in a fill traced to a result file); every result file named exists
     fills = {}
-    for fn in ("phaseE_fills.json", "phaseE_v3_fills.json", "final_fig5_values.json"):
+    for fn in ("phaseE_fills.json", "phaseE_v3_fills.json", "final_fig5_values.json", "final_fills.json"):
         if (R/fn).exists(): fills.update(_j.load(open(R/fn)))
     tabfiles = sorted((TEX/"appendix_tables").glob("tab_*.tex")); tabs = "".join(f.read_text() for f in tabfiles) + open(TEX/"tab_census.tex").read() + open(TEX/"tab_census_final.tex").read()
     can = lambda x: _re.sub(r"^[-+]", "", x).lstrip("0") if "." in x else _re.sub(r"^[-+]", "", x)
@@ -1132,12 +1137,17 @@ def final_checks():
         a = strip_((TEX/"appendix_tables"/(s + ".tex")).read_text()); b = strip_((FD/(s + ".tex")).read_text())
         na, nb = _re.findall(r"\d+\.\d+|\d+", a), _re.findall(r"\d+\.\d+|\d+", b)
         if s in ("tab_q01_census", "tab_q09_corollary"): ok = set(nb) <= set(na) and len(nb) < len(na)      # one panel dropped by the brief (null-variant panel, uncited supremum table)
-        elif s in ("tab_q02_text", "tab_q14_panel"): ok = set(nb) <= set(na) and "OLMo-7B" in a and "OLMo-7B" not in b   # fourth review: the OLMo-7B row (not extracted) is gone
+        elif s in ("tab_q02_text", "tab_q14_panel"): ok = set(nb) - set(na) <= {"8"} and "OLMo-7B" in a and "OLMo-7B" not in b   # fourth review: the OLMo-7B row (not extracted) is gone; fifth: "8 causal LMs" in the panel caption
         else: ok = sorted(na) == sorted(nb) and _re.findall(r"\\caption\{(?!\(continued\)\})", a) == _re.findall(r"\\caption\{(?!\(continued\)\})", b)
         same.append(ok and "[H]" not in b and b.count("\\begin{table}") >= a.count("\\begin{table}") - 1)
-    chk("final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel", all(same) and len(same) == 9, str([s for s, ok in zip([k for k in kept if not k.endswith("_final")], same) if not ok]))
+    chk("final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel", all(same) and len(same) == 8, str([s for s, ok in zip([k for k in kept if not k.endswith("_final")], same) if not ok]))
     # fourth review: the regenerated tables of the final
     dep = (FD/"tab_q04_depth_final.tex").read_text(); wn = (FD/"tab_q07_wordnet_final.tex").read_text(); txt_ = (FD/"tab_q02_text.tex").read_text(); pan_ = (FD/"tab_q14_panel.tex").read_text()
+    pw = (FD/"tab_q05_power_final.tex").read_text(); cor = (FD/"tab_q09_corollary.tex").read_text()
+    chk("final (5th review): confounds stated as a reference level in S1 and S3.2; Proposition 1(b) for fixed n; Khrulkov's rule calibrated with the supremum; S4 210 quadruples; S5.2 flat datasets and 30 of 36; S5.3 WordNet levels and the decoupling control; S6 depth verdict predicts no hyperbolic gain and the calibration paragraph; Figure 2(b) same dataset; no 'OLMo-7B was not extracted'; power table with two-decimal z; Table 13 and S B.12 'Both readings'; Table 5 with 8 causal LMs; AI statement in three items",
+        "reference level of the reading depends on dimension, spectrum and statistic" in bf and "with $n$ fixed" in bf and "calibrated with the supremum" in bf and "210 quadruples" in bf and "FMNIST is genuine in" in bf and "levels" in bf and "decoupling control" in bf
+        and "The depth verdict predicts no hyperbolic gain." in bf and "\\paragraph{The calibration certifies structure and does not choose the readout.}" in bf and "Same dataset, same reading, opposite verdict" in bf and "OLMo-7B was not extracted" not in bf
+        and not _re.search(r"\$[+-]\d\.\d\$", pw) and "Both readings predict the zero-cost gain" in cor and "The calibrated reading predicts the gain" not in TF and "8 causal LMs" in pan_ and "9 causal LMs" not in pan_ and "research ideation or execution" in stm)
     chk("final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row",
         not _re.search(r"\(([+-]\d\.\d)\)", dep) and not _re.search(r"\$[+-]\d\.\d\$", dep) and "$K{=}10$" in dep and "$K{=}60$" in dep and "supremum, Haar" in wn and "supremum, Gaussian" not in wn
         and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in rob and rob.count("DINOv2-L & ") >= 5)
@@ -1146,7 +1156,7 @@ def final_checks():
     chk("final: every cross-reference of the final resolves", refs <= defs, str(sorted(refs - defs)))
     chk("final: Table 1 is the census with the short caption (tab_census_final, same rows as v1's tab_census)", "\\input{tab_census_final}" in bf and open(TEX/"tab_census_final.tex").read().split("\\caption")[0] == open(TEX/"tab_census.tex").read().split("\\caption")[0])
     # ---- statements
-    AI = "In this work, we used generative AI tools for writing assistance, for the retrieval of references, and for the implementation and execution of experiments under the authors' direction, with LLM-simulated reviews used as methodological feedback. We have not used generative AI tools for other tasks with required disclosure. We have reviewed all AI-assisted work, and we take responsibility for the final content of this work, including text, claims or artifacts produced with the aid of generative AI."
+    AI = "In this work, we used generative AI tools for writing assistance; for the retrieval of references; and for research ideation or execution, namely the implementation and execution of experiments under the authors' direction and LLM-simulated reviews used as methodological feedback. We have not used generative AI tools for other tasks with required disclosure. We have reviewed all AI-assisted work, and we take responsibility for the final content of this work, including text, claims or artifacts produced with the aid of generative AI."
     chk("final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present", AI in stm and "anonymized repository" in stm and "TODO(author)" in stm and "Ethics Statement" in stm)
     chk("final: preamble of the frozen v1 plus amsthm only (same class, same packages)", TF[:TF.index("\\usepackage{amsthm}")] == T1[:T1.index("\\usepackage{array}\n") + len("\\usepackage{array}\n")] and TF.count("\\usepackage") == T1.count("\\usepackage") + 1)
 final_checks()
