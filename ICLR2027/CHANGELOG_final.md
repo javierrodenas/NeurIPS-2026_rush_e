@@ -957,3 +957,12 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   del dataset; etiquetas a 7 pt; mismo ancho; alto 1.87 in en PDF. Sustituye al mapa de calor de 24d (sin números en las celdas).
   Datos: `expR52_census_haar_p999_200.csv`. Pie literal del autor; las dos frases de §4 siguen leyendo de la figura ("cell by cell",
   "down the DINOv2 rows"). Compilación: 0 avisos, texto principal en la página 9; `qa_pages/` regenerado; sweep sin cambios.
+- 24e, tres cambios (petición del autor, 2026-09-18): (1) leyenda de una línea bajo los seis paneles, al estilo de la Figura 2
+  ("filled: genuine cell; hollow: not genuine" + los tres colores de familia con su nombre); (2) marca intermedia en −0.05 en el panel de
+  ImageNet, algo más ancho (proporción 1.35) para que quepan las tres etiquetas a 7 pt, de modo que los excesos pequeños se lean como
+  −0.01 a −0.02 y no como cero; (3) §4 "Clustered structure is the rule": tras "Table 1 gives the census of record" va "Figure 3 shows it:
+  almost every marker sits left of zero, most are filled, the flat datasets scatter around it, and the DINOv2 rows reach furthest left on
+  CIFAR-10." (la frase "Almost every cell is below its matched null" desaparece por redundante; 49/72 y 18/24 se mantienen); en "Scale
+  deepens the excess for one family only" la escala de DINOv2 se cita a la figura: "the DINOv2 rows of Figure 3 reach further left with
+  size on CIFAR-10 and, weakly, on CIFAR-100"; no queda ninguna referencia al antiguo panel (b) ni a "per-dataset excess vs scale".
+  Alto de la figura 1.98 in en PDF. Compilación: 0 avisos, página 9; `qa_pages/` regenerado; sweep sin cambios.

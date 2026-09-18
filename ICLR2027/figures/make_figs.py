@@ -53,20 +53,25 @@ from palette import FAMILY_COLORS as _FC2, color as _fam_color
 DSO = ["imagenet", "cifar100", "cifar10", "dtd", "fashionmnist", "mnist"]
 DSL = {"imagenet": "ImageNet", "cifar100": "CIFAR-100", "cifar10": "CIFAR-10", "dtd": "DTD", "fashionmnist": "FMNIST", "mnist": "MNIST"}
 GRAY = _FC2["null"]; Y = np.arange(len(ORDER))[::-1]                       # ViT-T at the top, SigLIP-B at the bottom
-fig, axes = plt.subplots(1, 6, figsize=(5.5, 1.75), sharey=True)
+fig, axes = plt.subplots(1, 6, figsize=(5.5, 1.88), sharey=True, gridspec_kw={"width_ratios": [1.35, 1, 1, 1, 1, 1]})
 for ax, ds in zip(axes, DSO):
     for b in (7.5, 2.5): ax.axhline(b, color=GRAY, lw=0.5, zorder=1)             # thin separators between the three families
     ax.axvline(0.0, color="k", lw=0.7, zorder=2)
     for k, m in enumerate(ORDER):
         v, g, c = exc[(m, ds)], gen[(m, ds)], _fam_color(m)
         ax.scatter(v, Y[k], s=15, facecolors=c if g else "white", edgecolors=c, linewidths=0.9, zorder=3, clip_on=False)
-    ax.set_xlim(-0.14, 0.03); ax.set_xticks([-0.10, 0.0]); ax.set_xticklabels(["−0.10", "0.00"], fontsize=7)
+    ax.set_xlim(-0.14, 0.03)
+    if ds == "imagenet": ax.set_xticks([-0.10, -0.05, 0.0]); ax.set_xticklabels(["−0.10", "−0.05", "0.00"], fontsize=7)   # intermediate tick: the small ImageNet excesses read as -0.01 to -0.02, not as zero
+    else: ax.set_xticks([-0.10, 0.0]); ax.set_xticklabels(["−0.10", "0.00"], fontsize=7)
     ax.set_ylim(-0.6, len(ORDER) - 0.4); ax.set_title(DSL[ds], fontsize=7, pad=3); ax.tick_params(labelsize=7, length=2, pad=1.5)
     for sp in ("left", "right", "top"): ax.spines[sp].set_visible(False)
     ax.tick_params(axis="y", length=0)
 axes[0].set_yticks(Y); axes[0].set_yticklabels([NAME[m] for m in ORDER], fontsize=7)
-fig.text(0.56, 0.01, "excess of the reading of record over its matched null", ha="center", va="bottom", fontsize=7)
-fig.subplots_adjust(left=0.12, right=0.995, top=0.90, bottom=0.21, wspace=0.10)
+fig.text(0.56, 0.115, "excess of the reading of record over its matched null", ha="center", va="bottom", fontsize=7)
+_hd = [plt.Line2D([], [], marker="o", ls="", color="k", ms=4, label="filled: genuine cell"), plt.Line2D([], [], marker="o", ls="", mfc="white", mec="k", ms=4, label="hollow: not genuine")]
+_hd += [plt.Line2D([], [], marker="o", ls="", color=_FC2[k], ms=4, label=l) for k, l in [("supervised", "supervised"), ("ssl", "self-supervised"), ("contrastive", "contrastive")]]
+fig.legend(handles=_hd, frameon=False, loc="lower center", ncol=5, fontsize=7, handlelength=1.0, handletextpad=0.3, columnspacing=1.0, bbox_to_anchor=(0.5, -0.01))
+fig.subplots_adjust(left=0.12, right=0.995, top=0.905, bottom=0.30, wspace=0.10)
 for o in (OUT, OUT.parent/"iclr2027"/"figures"): fig.savefig(o/"fig_excess_panel.pdf"); fig.savefig(o/"fig_excess_panel.png", dpi=200)
 _neg = sum(1 for k in exc if exc[k] < 0); print(f"dot plot: {_neg}/72 below the null, {sum(gen.values())} genuine; x range {min(exc.values()):+.3f}..{max(exc.values()):+.3f}")
 
