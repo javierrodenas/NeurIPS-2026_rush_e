@@ -1041,3 +1041,11 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   en las nubes reales (expR64b, continua) y en la variante de offsets encogidos (expR64b `rand6_t06`, discontinua), con la tasa de falsas
   alarmas en s = 0 anotada. Pie literal del autor; las dos frases de §5.3 que leían la figura actualizadas. Etiquetas de tick en negro
   (matplotlib 3.3 no admite `labelcolor`); todas las figuras regeneradas y v1/v2/v3 recompiladas. Sweep 183/183.
+- 26, tercera ronda (petición del autor): (1) §3.2: Lema 1 y Corolario 1 sustituidos por la Proposición 1 en dos partes con el mismo
+  contenido, (a) cota de rango y (b) confound de dimensión (Beyer et al. 1999; Aggarwal et al. 2001), remark sin cambio, una sola
+  demostración en el apéndice A; citada en la calibración de §3.2 y donde §3.3 discute que el nulo se mueve con la dimensión; las
+  siete definiciones siguen en línea y sin marco. Sweep: el check del esqueleto exige la proposición con (a)/(b), su cita al menos dos
+  veces y una única demostración. (2) Presupuesto: los tres recortes prescritos siguen aplicados; las referencias empiezan en la
+  página 11 (la Proposición ahorra dos líneas respecto al lema y el corolario); no se ha recortado nada más. (3) La Figura 4 de v3 ya
+  cumple la especificación de esta ronda (misma que la anterior); sin cambios. Compilación: 0 avisos, 41 páginas; sweep 183/183 sobre
+  v1, v2 y v3; `qa_pages_v3/` y `V3_OUTLINE.md` regenerados.

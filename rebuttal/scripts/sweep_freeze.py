@@ -915,9 +915,10 @@ def v3_checks():
     THESIS = "Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."
     chk("v3: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form", b3.count(THESIS) == 2 and "no license for curvature" not in b3 and THESIS in b3[b3.index("\\paragraph{Conclusion.}"):])
     secs_ = _re.findall(r"\\section\{([^}]*)\}", b3); subs_ = _re.findall(r"\\subsection\{([^}]*)\}", b3)
-    chk("v3: skeleton of seven numbered sections and eleven subsections, seven definitions, one lemma with a corollary and a remark, seven numbered equations, two proofs in the appendix",
-        len(secs_) == 7 and secs_[2] == "Methodology" and secs_[-1] == "Conclusion and Limitations" and len(subs_) == 11 and b3.count("\\begin{definition}[") == 7 and b3.count("\\begin{lemma}") == 1 and b3.count("\\begin{corollary}") == 1 and b3.count("\\begin{remark}") == 1
-        and b3.count("\\begin{equation}") == 7 and all(("\\label{eq:%s}" % e) in b3 for e in ("pairings", "deltanorm", "excess", "rank", "bh", "depth", "curvature")) and T3.count("\\begin{proof}") == 2 and "\\label{app:proofs}" in T3)
+    chk("v3: skeleton of seven numbered sections and eleven subsections, seven unframed definitions, one two-part proposition with a remark, cited where the dimension confound is discussed, seven numbered equations, its proof in the appendix",
+        len(secs_) == 7 and secs_[2] == "Methodology" and secs_[-1] == "Conclusion and Limitations" and len(subs_) == 11 and b3.count("\\begin{definition}[") == 7 and b3.count("\\begin{proposition}") == 1 and "(a)" in b3[b3.index("\\begin{proposition}"):b3.index("\\end{proposition}")] and "(b)" in b3[b3.index("\\begin{proposition}"):b3.index("\\end{proposition}")]
+        and "\\begin{lemma}" not in b3 and "\\begin{corollary}" not in b3 and b3.count("\\begin{remark}") == 1 and b3.count("\\ref{prop:bound}") >= 2
+        and b3.count("\\begin{equation}") == 7 and all(("\\label{eq:%s}" % e) in b3 for e in ("pairings", "deltanorm", "excess", "rank", "bh", "depth", "curvature")) and T3.count("\\begin{proof}") == 1 and "\\label{app:proofs}" in T3)
     # prose rules: S5 <=2 number groups per paragraph and <=1 per sentence; S1/S7 only the allowed numbers; <=1 parenthetical per non-verbatim paragraph of S3-S7; bridges only in the last paragraph of a section; banned words
     src = nocom(b3); src = _re.sub(r"\\begin\{(figure|table|equation\*?|tabular|center)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
     def clean(par):

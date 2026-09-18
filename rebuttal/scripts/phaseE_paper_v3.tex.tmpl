@@ -28,18 +28,14 @@ For a quadruple $(w,x,y,z)$ with the pairing sums of Eq.~\ref{eq:pairings} sorte
 \label{def:record}
 The reading of record of a cloud is $\delta_{\text{norm}}$ of Eq.~\ref{eq:deltanorm}, with $\hat\delta_{99.9}$ computed over half a million sampled quadruples per seed and averaged over ten seeds.
 \end{definition}
-\begin{lemma}[range bound]
-\label{lem:range}
-Let $d_{\min}$ and $d_{\max}$ be the smallest and the largest pairwise distance of a finite metric space. For any quadruple the four-point defect is at most $d_{\max}-d_{\min}$, hence $\delta_{\text{norm}}\le 1-d_{\min}/d_{\max}$.
-\end{lemma}
-\begin{corollary}[dimension confound]
-\label{cor:dimension}
-For an iid Gaussian cloud of $n$ points in dimension $d$, $d_{\min}/d_{\max}\to1$ as $d\to\infty$ \citep{beyer1999nearest, aggarwal2001surprising}, so $\delta_{\text{norm}}\to0$ without any structure.
-\end{corollary}
+\begin{proposition}[range bound and dimension confound]
+\label{prop:bound}
+Let $d_{\min}$ and $d_{\max}$ be the smallest and the largest pairwise distance of a finite metric space. (a) For any quadruple the four-point defect is at most $d_{\max}-d_{\min}$, hence $\delta_{\text{norm}}\le 1-d_{\min}/d_{\max}$. (b) For an iid Gaussian cloud of $n$ points in dimension $d$, $d_{\min}/d_{\max}\to1$ as $d$ grows \citep{beyer1999nearest, aggarwal2001surprising}, so $\delta_{\text{norm}}\to0$ without any structure.
+\end{proposition}
 \begin{remark}
 An anisotropic spectrum changes the effective dimension of the cloud and moves the same bound: the spectrum confound. A supremum over sampled quadruples is a maximum that grows with the sample: the statistic confound.
 \end{remark}
-The proofs are in Appendix~\ref{app:proofs}. The calibration on reference geometries confirms the bound in practice: the estimator recovers the tree zero and the $\ln 2$ constant of the hyperbolic plane, spheres stay high, and iid Gaussians drift down with $d$ (Table~\ref{tab:q10-calibration}).
+The proof is in Appendix~\ref{app:proofs}. The calibration on reference geometries confirms Proposition~\ref{prop:bound} in practice: the estimator recovers the tree zero and the $\ln 2$ constant of the hyperbolic plane, spheres stay high, and iid Gaussians drift down with $d$ (Table~\ref{tab:q10-calibration}).
 
 \subsection{Spectrum-matched null, excess and genuineness}
 \label{sec:v3-null}
@@ -73,7 +69,7 @@ p\ \le\ p_{(i^{*})},\qquad i^{*}=\max\{i:\ p_{(i)}\le 0.05\, i/m\},
 \end{equation}
 and the word is used in this sense only.
 \end{definition}
-A negative genuine excess certifies clustered structure. The word tree-like is reserved for the depth test of Section~\ref{sec:v3-depthtest}. A positive excess means less tree-like than chance given the spectrum. Figure~\ref{fig:overview} shows the two readings together: in panel (a) the null of each ImageNet backbone moves with its dimension inside a band of two null spreads, so the gap between the filled and the hollow marker, not the level of the filled one, is the reading; in panel (b) two cells with the same raw reading receive opposite verdicts, because one null sits at the reading and the other far above it. % exp1_delta_controls.csv, expR52_census_haar_p999_200.csv, expR62_samplelevel_record.csv
+A negative genuine excess certifies clustered structure. The word tree-like is reserved for the depth test of Section~\ref{sec:v3-depthtest}. A positive excess means less tree-like than chance given the spectrum. Figure~\ref{fig:overview} shows the two readings together: in panel (a) the null of each ImageNet backbone moves with its dimension inside a band of two null spreads, as Proposition~\ref{prop:bound}b predicts, so the gap between the filled and the hollow marker, not the level of the filled one, is the reading; in panel (b) two cells with the same raw reading receive opposite verdicts, because one null sits at the reading and the other far above it. % exp1_delta_controls.csv, expR52_census_haar_p999_200.csv, expR62_samplelevel_record.csv
 
 \begin{figure}[t]
 \centering
@@ -257,12 +253,9 @@ In this work, we used generative AI tools for four tasks: writing assistance; dr
 \section{Proofs}
 \label{app:proofs}
 
-\begin{proof}[Proof of Lemma~\ref{lem:range}]
-Each pairing sum in Eq.~\ref{eq:pairings} adds two distances of the space, each of which lies in $[d_{\min}, d_{\max}]$. Hence $S_{\max}\le 2d_{\max}$ and $S_{\mathrm{mid}}\ge 2d_{\min}$, so the defect $\tfrac12(S_{\max}-S_{\mathrm{mid}})$ is at most $d_{\max}-d_{\min}$ for every quadruple, and so is its supremum $\delta$. Dividing by the diameter $d_{\max}$ gives $\delta_{\text{norm}}\le 1-d_{\min}/d_{\max}$; the same bound holds for the 99.9th percentile of the sampled defects, which never exceeds their supremum.
-\end{proof}
-
-\begin{proof}[Proof of Corollary~\ref{cor:dimension}]
-Let $x_1,\dots,x_n$ be iid standard Gaussian in $\mathbb{R}^d$ with $n$ fixed. For any pair $i\ne j$ the coordinates of $x_i-x_j$ are iid with variance $2$, so $\|x_i-x_j\|^2/(2d)\to1$ almost surely as $d\to\infty$ by the law of large numbers, and the convergence holds jointly over the finitely many pairs. Therefore $d_{\min}/d_{\max}\to1$, and by Lemma~\ref{lem:range} $\delta_{\text{norm}}\to0$. The rate is the distance-concentration rate of \citet{beyer1999nearest} and \citet{aggarwal2001surprising}: the relative contrast $(d_{\max}-d_{\min})/d_{\min}$ vanishes as $d^{-1/2}$. For a cloud with covariance $\Sigma$ the same argument runs with $d$ replaced by the effective dimension $(\operatorname{tr}\Sigma)^2/\operatorname{tr}(\Sigma^2)$, which is the spectrum confound of the remark, and a maximum over a growing sample of quadruples is non-decreasing in the sample size, which is the statistic confound.
+\begin{proof}[Proof of Proposition~\ref{prop:bound}]
+(a) Each pairing sum in Eq.~\ref{eq:pairings} adds two distances of the space, each of which lies in $[d_{\min}, d_{\max}]$. Hence $S_{\max}\le 2d_{\max}$ and $S_{\mathrm{mid}}\ge 2d_{\min}$, so the defect $\tfrac12(S_{\max}-S_{\mathrm{mid}})$ is at most $d_{\max}-d_{\min}$ for every quadruple, and so is its supremum $\delta$. Dividing by the diameter $d_{\max}$ gives $\delta_{\text{norm}}\le 1-d_{\min}/d_{\max}$; the same bound holds for the 99.9th percentile of the sampled defects, which never exceeds their supremum.
+(b) Let $x_1,\dots,x_n$ be iid standard Gaussian in $\mathbb{R}^d$ with $n$ fixed. For any pair $i\ne j$ the coordinates of $x_i-x_j$ are iid with variance $2$, so $\|x_i-x_j\|^2/(2d)\to1$ almost surely as $d\to\infty$ by the law of large numbers, and the convergence holds jointly over the finitely many pairs. Therefore $d_{\min}/d_{\max}\to1$, and by part (a) $\delta_{\text{norm}}\to0$. The rate is the distance-concentration rate of \citet{beyer1999nearest} and \citet{aggarwal2001surprising}: the relative contrast $(d_{\max}-d_{\min})/d_{\min}$ vanishes as $d^{-1/2}$. For a cloud with covariance $\Sigma$ the same argument runs with $d$ replaced by the effective dimension $(\operatorname{tr}\Sigma)^2/\operatorname{tr}(\Sigma^2)$, which is the spectrum confound of the remark, and a maximum over a growing sample of quadruples is non-decreasing in the sample size, which is the statistic confound.
 \end{proof}
 
 %%APPENDIX_QUESTIONS%%

@@ -197,5 +197,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   la página 9 exige además recortar afirmaciones de §5.
 - Dos cifras del brief no coinciden con los ficheros y se han escrito con el valor del fichero: "3–8 null spreads" → 1 a 36; "0.88" → 0.89.
 - Cambios de texto en v3: en `rebuttal/scripts/phaseE_paper_v3.tex.tmpl`, re-aplicar con `phaseE_v3.py` (después de `phaseE_final.py`).
-- (2026-09-18, segunda ronda) La página 9 de v3 no se alcanza con los tres recortes prescritos (texto hasta la p. 11). Hacen falta
-  ~80 líneas: decidir entre los candidatos listados arriba o aceptar la extensión.
+- (2026-09-18, segunda y tercera ronda) Con los tres recortes prescritos aplicados, las referencias de v3 empiezan en la página 11.
+  Para que empiecen en la 10 hay que liberar las líneas que ocupa la página 11 antes de las referencias (ver el informe de la sesión);
+  candidatos sin tocar afirmaciones: §3.5 a la mitad (~4 líneas), §4 'Extraction' en una frase (~4), Proposición y remark al apéndice
+  con un puntero (~6), fusión de párrafos de un solo número en §5.4 pasando la cifra al puntero de tabla (~6). Decidir.
