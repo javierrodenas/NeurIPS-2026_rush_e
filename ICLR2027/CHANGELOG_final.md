@@ -1211,6 +1211,27 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   perder seis líneas al pie de la página 1), fusión del párrafo de ganancias de §6 en el nuevo, recortes de mi prosa sin afirmaciones
   (§5.1, §3.3, §3.4, §5.4) y espaciado (`parskip` 4 pt frente a 6 pt del estilo, salto de sección 1.0 ex). §7 termina en la página 9
   (línea 474), statements en la 9, referencias en la 10 (línea 495); 30 páginas, 0 avisos.
-- B1/B2 (`expR74_decoupling.py`, `expR75_census_centered_haar.py`): escritos; se lanzan al terminar expR73 (CPU). Resultado y frases
-  derivadas: véase la entrada 29b al cierre.
+- B1/B2 (`expR74_decoupling.py`, `expR75_census_centered_haar.py`): escritos; lanzados al terminar expR73. Resultado en 29b.
 - `REVIEWER_CHECKLIST_third.md` (+ generador): sección "Fifth review" con las correcciones y la lista de réplica (i)–(v) sin acción.
+
+## 29b. Cierre del pase combinado (2026-09-18/19): expR73, expR74 y expR75 integrados.
+
+- expR73 (bootstrap CIFAR-100 y DTD bajo el registro, 24 celdas × 30 remuestreos, 200 réplicas): en la Tabla 2(b) junto a ImageNet;
+  s.d. del bootstrap ≤ 0.0026; cada celda conserva el signo de su exceso de registro en al menos el 67 % de los remuestreos (la peor
+  es una celda de CIFAR-100 cercana a cero). Ficheros `expR73_transfer_bootstrap_record{,_summary}.csv`.
+- expR74 (control de desacoplamiento, hubs reales y desplazamientos de cada clúster rotados por una rotación Haar independiente,
+  10 semillas, mismo test de profundidad que el registro): NINGUNA de las cuatro certificadas dispara (ViT-S −2.36 → −1.30 ± 0.19;
+  ViT-B −3.62 → −1.40 ± 0.25; ViT-L −4.04 → −1.61 ± 0.19; DINOv2-L −2.39 → −0.20 ± 0.14; 0/10 semillas); las no certificadas
+  tampoco. Según el brief, "certified hierarchy" pasa a "certified hub–offset structure": párrafo nuevo en §5.3 ("What is certified is
+  hub–offset structure, not the hub arrangement alone", con los niveles de WordNet y el resultado), frase de §5.3 sobre los hubs
+  aleatorizados ("needs the real hub arrangement as well as its coupling with the offsets"), leyenda de la Figura 4, limitación (iii),
+  leyenda de la Tabla 8 y columna "decoupled z (cert.)" en el panel (a′), `SUMMARY_plain.md`. El resumen y su espejo en §1 NO se
+  han tocado, como pide el brief: decisión del autor (TODO). `phaseE_submission.py` asegura que las cuatro tienen 0/10.
+- expR75 (nulo Haar centrado, Q ⟂ 1, censo completo bajo el registro): 44/72 genuinas frente a 49/72; cambian 5 veredictos, todos
+  en datasets de diez clases (CLIP-B y CLIP-L en CIFAR-10, ViT-S y DINOv2-L en FMNIST, SigLIP-B en MNIST); desplazamiento máximo del
+  exceso 0.053; "30 of 36" y "18 of 24" no cambian. §3.3: "reproduces the sample spectrum up to a centering term of order 1/√n, so it
+  is the record. Centering the null changes the verdict in 5 of 72 cells, all with ten classes (Table 2)"; panel (f) de la Tabla 2 con
+  las cinco celdas. El registro sigue siendo expR52 (el brief pedía reportar los cambios; cambiar el registro es decisión del autor).
+- Compilación: §7 termina en la página 9 (línea 483), statements en la 9, referencias en la 10 (línea 505); 31 páginas (el panel (f)
+  añade una), 0 avisos, 0 `??`. Sweep 210/210 (dos checks nuevos: B.1/B.2 y las correcciones de la quinta revisión).
+  `main_iclr2027_final.pdf`, `qa_pages_final/` (31) y `FINAL_CHECK.md` regenerados.

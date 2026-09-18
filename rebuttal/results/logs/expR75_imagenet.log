@@ -1,0 +1,13 @@
+i21k_t    imagenet     exc -0.0050 r 169/200 p 0.1592 (543s)
+i21k_s    imagenet     exc -0.0123 r 200/200 p 0.0050 (608s)
+i21k_b    imagenet     exc -0.0162 r 200/200 p 0.0050 (901s)
+i21k_l    imagenet     exc -0.0157 r 200/200 p 0.0050 (675s)
+dinov1_b  imagenet     exc -0.0203 r 200/200 p 0.0050 (286s)
+dinov2_s  imagenet     exc -0.0162 r 200/200 p 0.0050 (150s)
+dinov2_b  imagenet     exc -0.0167 r 200/200 p 0.0050 (213s)
+dinov2_l  imagenet     exc -0.0135 r 200/200 p 0.0050 (284s)
+dinov2_g  imagenet     exc -0.0080 r 200/200 p 0.0050 (364s)
+clip_b    imagenet     exc -0.0065 r 172/200 p 0.1443 (163s)
+clip_l    imagenet     exc -0.0091 r 197/200 p 0.0199 (205s)
+siglip_b  imagenet     exc -0.0076 r 189/200 p 0.0597 (213s)
+Done part imagenet

@@ -92,17 +92,14 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
-PASS v3: the prose rules hold (S5: <=2 number groups per paragraph and <=1 per sentence; S1/S7: only 49/72, 18/24, 4/12 outside the verbatim text; <=1 parenthetical per non-verbatim paragraph; no banned words) 
-PASS v3: bridges only at section ends (every bridge in the last paragraph of its section, at most three, verbatim paragraphs excepted) 
-PASS v3: every cross-reference resolves 
 PASS v3: same figures as v1 except Figure 4 (fig_depth_test.pdf, the v3 redraw of fig_depth_main.pdf), the same main-text table, Figure 1 slot 1.4 in 
 PASS v3: the fourteen appendix tables are all input, numbered in the order v3 first cites them, and each is cited from the main text or another table 
 PASS v3: claim fills recomputed (mKNN/CKA calibrated means, text genuine count and GPT-2 S p, joint-sensitivity range, power at s=1, star depth) 
-PASS final: abstract verbatim from main_local.tex 
+PASS final: abstract verbatim from main_local.tex modulo the two recorded fourth-review edits (15 text models, the S5.1 wording) 
 PASS final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits 
-PASS final: S2 verbatim from main_local.tex, or its first six sentences (cut step 4 of the page budget) 
+PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
 PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
-PASS final: the five recorded edits are exactly the brief's (shadow x2, geometric face, intent of the supremum, the bridge) and none of the old phrases survives 
+PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
 PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 
 PASS final: no bridge sentences anywhere in the body 
 PASS final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form 
@@ -118,8 +115,11 @@ PASS final: the appendix inputs exactly the tables the main text cites (twelve q
 PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
 PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 
 PASS final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel 
+PASS final (5th review): confounds stated as a reference level in S1 and S3.2; Proposition 1(b) for fixed n; Khrulkov's rule calibrated with the supremum; S4 210 quadruples; S5.2 flat datasets and 30 of 36; S5.3 WordNet levels and the decoupling control; S6 depth verdict predicts no hyperbolic gain and the calibration paragraph; Figure 2(b) same dataset; no 'OLMo-7B was not extracted'; power table with two-decimal z; Table 13 and S B.12 'Both readings'; Table 5 with 8 causal LMs; AI statement in three items 
+PASS final (5th review, B.1/B.2): the decoupling control (expR74) leaves none of the four certified backbones firing, so the text reads 'hub-offset structure' (S5.3 paragraph, Figure 4 caption, limitation, depth table caption) with the abstract left for the author; the centered Haar null (expR75) is reported in S3.3 and in the robustness panel (f) 
+PASS final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row 
 PASS final: every cross-reference of the final resolves 
 PASS final: Table 1 is the census with the short caption (tab_census_final, same rows as v1's tab_census) 
 PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
-[phaseB re-total] 207/207
+[phaseB re-total] 210/210

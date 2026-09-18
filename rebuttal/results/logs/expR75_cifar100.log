@@ -1,0 +1,13 @@
+i21k_t    cifar100     exc -0.0064 r 151/200 p 0.2488 (189s)
+i21k_s    cifar100     exc -0.0002 r 112/200 p 0.4428 (196s)
+i21k_b    cifar100     exc +0.0058 r 42/200 p 0.7910 (198s)
+i21k_l    cifar100     exc -0.0203 r 200/200 p 0.0050 (204s)
+dinov1_b  cifar100     exc -0.0315 r 200/200 p 0.0050 (197s)
+dinov2_s  cifar100     exc -0.0303 r 200/200 p 0.0050 (202s)
+dinov2_b  cifar100     exc -0.0308 r 200/200 p 0.0050 (194s)
+dinov2_l  cifar100     exc -0.0341 r 200/200 p 0.0050 (202s)
+dinov2_g  cifar100     exc -0.0388 r 200/200 p 0.0050 (204s)
+clip_b    cifar100     exc -0.0193 r 200/200 p 0.0050 (188s)
+clip_l    cifar100     exc -0.0179 r 200/200 p 0.0050 (156s)
+siglip_b  cifar100     exc -0.0218 r 200/200 p 0.0050 (141s)
+Done part cifar100

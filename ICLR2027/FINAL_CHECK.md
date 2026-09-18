@@ -2,8 +2,8 @@
 
 ## Page budget
 
-- PDF pages: 28. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 483); the references start on page 10 (line 504).
-- Appendix: Proofs on page 13, tables from page 13 to page 28 (16 pages including the proofs).
+- PDF pages: 31. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 484); the references start on page 10 (line 505).
+- Appendix: Proofs on page 13, tables from page 13 to page 31 (19 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
 
@@ -11,27 +11,28 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 30 | 20.3 | 48 |
-| Related Work | 4 | 42.5 | 60 |
-| Methodology | 39 | 19.8 | 45 |
-| Experimental Setup | 15 | 18 | 33 |
-| Results | 74 | 15.1 | 30 |
-| Implications for Hyperbolic Representation Learning | 11 | 13.7 | 27 |
-| Conclusion and Limitations | 9 | 20.3 | 34 |
+| Introduction | 30 | 21.6 | 48 |
+| Related Work | 5 | 39.8 | 60 |
+| Methodology | 43 | 19.5 | 45 |
+| Experimental Setup | 15 | 18.2 | 33 |
+| Results | 79 | 16.2 | 34 |
+| Implications for Hyperbolic Representation Learning | 12 | 17.1 | 33 |
+| Conclusion and Limitations | 11 | 18.8 | 34 |
 
-Non-verbatim prose of S3–S7: 132 sentences, mean 16.5 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 144 sentences, mean 17.2 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
 | section | paragraph | numbers |
 |---|---|---|
-| Results | The premise fails where it is read. | — |
-| Results | Most cells show clustered structure. | 49 of 72, 18 of 24 |
+| Results | The raw reading is not evidence, and the calibrated reading  | — |
+| Results | Most cells show clustered structure. | 49 of 72, 30 of 36, 47, 18 of 24 |
 | Results | The count survives resampling. | — |
-| Results | No family owns the structure. | — |
+| Results | No family owns the structure. | 7 of 12 |
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | Four backbones are certified on ImageNet. | 4 of 12 |
+| Results | What is certified is hub--offset structure, not the hub arra | — |
 | Results | The test never fires on randomized hubs. | 0 of 60 |
 | Results | The test is weak at ImageNet's noise level. | — |
 | Results | The certified set depends on the frame. | — |
@@ -45,8 +46,8 @@ Non-verbatim prose of S3–S7: 132 sentences, mean 16.5 words (rule: mean ≤ 22
 | Results | Text depends on recipe, scale and probe. | 7 of 15 |
 | Results | Models share neighborhoods, not metrics. | — |
 | Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5 |
-| Implications for Hyperbolic  | The calibrated reading predicts the zero-cost gain. | — |
-| Implications for Hyperbolic  | A change of readout collects what is there. | +0.9 to +1.3 |
+| Implications for Hyperbolic  | Both readings predict the gain, and the depth verdict predic | +0.41 against +0.28 |
+| Implications for Hyperbolic  | The calibration certifies structure and does not choose the  | +0.9 to +1.3 |
 
 ## Appendix material deleted from the final (kept in the frozen v1 file and its tables)
 
@@ -59,14 +60,14 @@ Non-verbatim prose of S3–S7: 132 sentences, mean 16.5 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 207/207 checks passed.
+- Total: 210/210 checks passed.
 - Final-version checks:
 
-    PASS final: abstract verbatim from main_local.tex 
+    PASS final: abstract verbatim from main_local.tex modulo the two recorded fourth-review edits (15 text models, the S5.1 wording) 
     PASS final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits 
-    PASS final: S2 verbatim from main_local.tex, or its first six sentences (cut step 4 of the page budget) 
+    PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
     PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
-    PASS final: the five recorded edits are exactly the brief's (shadow x2, geometric face, intent of the supremum, the bridge) and none of the old phrases survives 
+    PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
     PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 
     PASS final: no bridge sentences anywhere in the body 
     PASS final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form 

@@ -82,7 +82,13 @@ f2 = json.load(open(R + 'final_fig2b.json')); s_ = sl[(sl.model == f2['sample_ce
 assert f2['sample_cell'][1] == f2['class_cell'][1] and abs(s_.delta_999 - c_.delta) < 0.001 and not s_.genuine_bh and c_.genuine_bh, "Figure 2(b): same dataset, same reading, opposite verdict"
 wl = json.load(open(R + 'final_wordnet_levels.json')); F['WN_H'] = wl['h_word']
 from math import comb; F['QUAD10'] = str(comb(10, 4)); assert F['QUAD10'] == '210'
-json.dump({k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI')}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep
+# B.1 decoupling control (expR74): the four certified backbones no longer fire once the offsets are rotated -> 'certified hub-offset structure' wording
+dec = pd.read_csv(R + 'expR74_decoupling_summary.csv'); cert4 = dec[dec.real_certified]; assert set(cert4.model) == {'i21k_s', 'i21k_b', 'i21k_l', 'dinov2_l'} and (cert4.n_seeds == 10).all()
+assert (cert4.frac_certified == 0).all() and (cert4.dec_z_mean > -2).all(), "'none of the four fires' (S5.3)"
+# B.2 centered Haar null (expR75): verdict changes reported; all on ten-class datasets
+s75 = pd.read_csv(R + 'expR75_census_centered_haar_summary.csv').iloc[0]; d75 = pd.read_csv(R + 'expR75_census_centered_haar.csv')
+F['CENT_CH'] = str(int(s75.verdict_changes)); assert (d75[d75.verdict_changed].n == 10).all() and int(s75.verdict_changes) > 0, "'all with ten classes' (S3.3)"
+json.dump({k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'CENT_CH')}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep
 ga = pd.read_csv(R + 'exp1_delta_controls.csv'); ga = ga[ga.variant == 'gauss'].sort_values('d')
 assert F['C_LO'] == f"{(0.144/(2*float(ga.delta_max.iloc[0])))**2:.2f}" and F['C_HI'] == f"{(0.144/(2*float(ga.delta_max.iloc[-1])))**2:.1f}", "Khrulkov's rule recomputed on the supremum Gaussian band of Table 3 (exp1 delta_max is the sampled supremum)"
 INTRO = edit(between("\\section{Introduction}", "\\section{Related Work}").rstrip())

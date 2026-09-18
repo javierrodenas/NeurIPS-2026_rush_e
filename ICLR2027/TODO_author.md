@@ -227,6 +227,18 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   acceso desde esta máquina; escrita desde las actas. `sala2018representation` verificada contra proceedings.mlr.press (v80, 4460–4469).
 - (Quinta revisión) "up to fourteen levels": h = profundidad máxima en WordNet del hipónimo común de cada clúster del corte K=30
   (mediana 9); el máximo lo da un clúster de una sola clase (assault_rifle, profundidad 14). Si se prefiere la mediana, cambiar `h_word`.
+- (Quinta revisión, B.1) DECISIÓN PENDIENTE SOBRE EL RESUMEN. expR74: con los hubs reales y los desplazamientos de cada clúster
+  rotados por una rotación Haar independiente, ninguna de las cuatro certificadas dispara (ViT-S −2.36 → −1.30 ± 0.19; ViT-B −3.62 →
+  −1.40; ViT-L −4.04 → −1.61; DINOv2-L −2.39 → −0.20; 0/10 semillas en las cuatro). Según el brief, "certified hierarchy" pasa a
+  "certified hub–offset structure" en §5.3 (párrafo nuevo), leyenda de la Figura 4, limitación (iii), leyenda de la Tabla 8 y resumen
+  de diez líneas. El resumen del paper y su espejo en §1 ("hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones,
+  two of which survive every choice of frame") NO se han tocado: decidir la redacción (p. ej. "hub–offset structure above the
+  superclasses is certified in 4 of 12 ImageNet backbones, none of which survives decoupling the offsets from the hubs").
+- (Quinta revisión, B.2) expR75, nulo Haar centrado: 44/72 genuinas frente a 49/72 del registro; cambian 5 veredictos, todos en
+  datasets de diez clases (CLIP-B y CLIP-L en CIFAR-10, ViT-S y DINOv2-L en FMNIST, SigLIP-B en MNIST); desplazamiento máximo del
+  exceso 0.053. El registro sigue siendo expR52 (el brief pedía reportar los cambios); §3.3 dice "up to a centering term of order
+  1/√n" y remite al panel (f) de la Tabla 2. Decidir si el registro debe pasar al nulo centrado (cambiaría 49 → 44 en todo el paper;
+  "30 of 36" y "18 of 24" no cambian).
 - (Quinta revisión) La Figura 1 del autor pasa a `[t]` (flota a la cabeza de la página 2) para no perder seis líneas al pie de la página 1;
   y `parskip` baja de 6 pt a 4 pt. Ambas se revierten en `phaseE_submission.py` (EDITS y preámbulo).
 - Figura 5(c): la leyenda literal dice "DINOv2 loses most of its structure under Euclidean distance". Con azar 0.5, la pérdida de la

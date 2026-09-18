@@ -1,0 +1,13 @@
+i21k_t    fashionmnist exc +0.0237 r 19/200 p 0.9055 (189s)
+i21k_s    fashionmnist exc -0.0266 r 192/200 p 0.0448 (163s)
+i21k_b    fashionmnist exc -0.0347 r 198/200 p 0.0149 (164s)
+i21k_l    fashionmnist exc -0.0414 r 200/200 p 0.0050 (161s)
+dinov1_b  fashionmnist exc -0.0016 r 104/200 p 0.4826 (154s)
+dinov2_s  fashionmnist exc -0.0252 r 184/200 p 0.0846 (150s)
+dinov2_b  fashionmnist exc -0.0562 r 199/200 p 0.0100 (159s)
+dinov2_l  fashionmnist exc -0.0241 r 186/200 p 0.0746 (156s)
+dinov2_g  fashionmnist exc -0.0349 r 197/200 p 0.0199 (157s)
+clip_b    fashionmnist exc -0.0325 r 185/200 p 0.0796 (155s)
+clip_l    fashionmnist exc -0.0329 r 186/200 p 0.0746 (160s)
+siglip_b  fashionmnist exc -0.0334 r 195/200 p 0.0299 (159s)
+Done part fashionmnist

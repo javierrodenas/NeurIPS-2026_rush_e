@@ -1,0 +1,2 @@
+n_cells,genuine_bh,record_genuine_bh,verdict_changes,changed_cells,max_abs_excess_shift,mean_excess_shift,sign_negative
+72,44,49,5,clip_b/cifar10:lost;clip_l/cifar10:lost;i21k_s/fashionmnist:lost;dinov2_l/fashionmnist:lost;siglip_b/mnist:lost,0.05304652048103753,0.006938264979159472,68

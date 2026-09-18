@@ -11,8 +11,8 @@
    "max_words": 60
   },
   "Methodology": {
-   "sentences": 42,
-   "avg_words": 19.4,
+   "sentences": 43,
+   "avg_words": 19.5,
    "max_words": 45
   },
   "Experimental Setup": {
@@ -21,9 +21,9 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 76,
-   "avg_words": 16.5,
-   "max_words": 35
+   "sentences": 79,
+   "avg_words": 16.2,
+   "max_words": 34
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 12,
@@ -32,12 +32,12 @@
   },
   "Conclusion and Limitations": {
    "sentences": 11,
-   "avg_words": 18.7,
+   "avg_words": 18.8,
    "max_words": 34
   }
  },
- "avg_nonverbatim": 17.3,
- "n_nonverbatim_sentences": 140,
+ "avg_nonverbatim": 17.2,
+ "n_nonverbatim_sentences": 144,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -82,6 +82,11 @@
    "numbers": [
     "4 of 12"
    ]
+  },
+  {
+   "section": "Results",
+   "lead": "What is certified is hub--offset structure, not the hub arrangement alone.",
+   "numbers": []
   },
   {
    "section": "Results",

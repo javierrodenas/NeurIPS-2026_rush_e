@@ -1,0 +1,13 @@
+i21k_t    mnist        exc -0.0219 r 168/200 p 0.1642 (189s)
+i21k_s    mnist        exc -0.0335 r 183/200 p 0.0896 (160s)
+i21k_b    mnist        exc -0.0067 r 122/200 p 0.3930 (154s)
+i21k_l    mnist        exc -0.0313 r 187/200 p 0.0697 (153s)
+dinov1_b  mnist        exc -0.0296 r 182/200 p 0.0945 (155s)
+dinov2_s  mnist        exc +0.0031 r 79/200 p 0.6070 (155s)
+dinov2_b  mnist        exc -0.0124 r 142/200 p 0.2935 (159s)
+dinov2_l  mnist        exc -0.0090 r 135/200 p 0.3284 (163s)
+dinov2_g  mnist        exc -0.0179 r 163/200 p 0.1891 (161s)
+clip_b    mnist        exc +0.0053 r 81/200 p 0.5970 (159s)
+clip_l    mnist        exc -0.0007 r 97/200 p 0.5174 (159s)
+siglip_b  mnist        exc -0.0223 r 176/200 p 0.1244 (159s)
+Done part mnist
