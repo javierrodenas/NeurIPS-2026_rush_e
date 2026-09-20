@@ -1,0 +1,3 @@
+i21k_b    mnist        b= -1 exc -0.0078 r=33/50 (47s)
+i21k_b    mnist        b=  0 exc -0.0072 r=33/50 (48s)
+i21k_b    mnist        b= 10 exc -0.0082 r=37/50 (49s)

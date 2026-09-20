@@ -1,0 +1,3 @@
+dinov1_b  fashionmnist b= -1 exc -0.0037 r=33/50 (45s)
+dinov1_b  fashionmnist b=  0 exc -0.0029 r=32/50 (51s)
+dinov1_b  fashionmnist b= 10 exc -0.0043 r=34/50 (56s)

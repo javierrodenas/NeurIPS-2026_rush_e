@@ -1,0 +1,2 @@
+dinov1_b  imagenet     b= -1 exc -0.0205 r=50/50 (286s)
+dinov1_b  imagenet     b=  0 exc -0.0203 r=50/50 (304s)

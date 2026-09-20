@@ -11,28 +11,28 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 30 | 21.6 | 48 |
+| Introduction | 31 | 22.4 | 62 |
 | Related Work | 5 | 39.8 | 60 |
-| Methodology | 43 | 19.5 | 45 |
+| Methodology | 42 | 19.4 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 79 | 16.2 | 34 |
+| Results | 78 | 16.1 | 34 |
 | Implications for Hyperbolic Representation Learning | 12 | 17.1 | 33 |
-| Conclusion and Limitations | 11 | 18.8 | 34 |
+| Conclusion and Limitations | 11 | 19.3 | 39 |
 
-Non-verbatim prose of S3–S7: 144 sentences, mean 17.2 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 142 sentences, mean 17.2 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
 | section | paragraph | numbers |
 |---|---|---|
 | Results | The raw reading is not evidence, and the calibrated reading  | — |
-| Results | Most cells show clustered structure. | 49 of 72, 30 of 36, 47, 18 of 24 |
+| Results | Most cells show clustered structure. | 44 of 72, 30 of 36, 47, 18 of 24 |
 | Results | The count survives resampling. | — |
-| Results | No family owns the structure. | 7 of 12 |
+| Results | No family owns the structure. | 5 of 12 |
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
-| Results | Four backbones are certified on ImageNet. | 4 of 12 |
-| Results | What is certified is hub--offset structure, not the hub arra | — |
+| Results | Structure above the superclasses is certified in four backbo | 4 of 12 |
+| Results | It is the alignment of each cluster with its hub, not a hier | — |
 | Results | The test never fires on randomized hubs. | 0 of 60 |
 | Results | The test is weak at ImageNet's noise level. | — |
 | Results | The certified set depends on the frame. | — |
@@ -60,7 +60,7 @@ Non-verbatim prose of S3–S7: 144 sentences, mean 17.2 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 210/210 checks passed.
+- Total: 209/210 checks passed.
 - Final-version checks:
 
     PASS final: abstract verbatim from main_local.tex modulo the two recorded fourth-review edits (15 text models, the S5.1 wording) 
@@ -84,6 +84,6 @@ Non-verbatim prose of S3–S7: 144 sentences, mean 17.2 words (rule: mean ≤ 22
     PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 
     PASS final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel 
     PASS final: every cross-reference of the final resolves 
-    PASS final: Table 1 is the census with the short caption (tab_census_final, same rows as v1's tab_census) 
+    PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 

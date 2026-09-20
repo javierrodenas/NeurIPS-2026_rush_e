@@ -5,7 +5,7 @@
 set -euo pipefail
 ROOT=/media/HDD_4TB_2/javi/NeurIPS-2026_rush_e; TECTONIC=${1:?tectonic}; BUILD=${2:?build dir}
 cd "$ROOT"
-(cd ICLR2027/iclr2027 && python3 gen_appendix_final.py | tail -n 1 && python3 gen_main_table.py | tail -n 1)
+(cd ICLR2027/iclr2027 && python3 gen_appendix_final.py | tail -n 1 && python3 gen_main_table.py | tail -n 1 && CENSUS_SRC=expR75_census_centered_haar.csv FINAL_ONLY=1 python3 gen_main_table.py | tail -n 1)
 (cd ICLR2027/figures && python3 make_figs_final.py | grep -c written)
 FINAL_CUTS=s55,s6,table,s2 python3 rebuttal/scripts/phaseE_submission.py | tail -n 1 | cut -c1-80
 (cd ICLR2027/iclr2027 && python3 gen_provenance.py main_iclr2027_final.tex tab_z_provenance_final.tex final | tail -n 1)

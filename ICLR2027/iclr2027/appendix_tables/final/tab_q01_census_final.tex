@@ -1,0 +1,116 @@
+% prov: expR75_census_centered_haar.csv, expR52_census_haar_p999_200.csv, expR54_census_haar_sup_200.csv, expR40b_p999census200.csv, expR39c_census200_cache.csv, expR57_census_cosine_haar_p999_200.csv, expR57_text_cosine_haar_p999_200.csv, exp10_local_vs_global.csv, expR45_convnet_rows.csv, exp20_null_ztable.csv
+\begin{table}[tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.4pt}
+\noindent\textbf{(a) The census of record per cell: Haar spectrum-matched null with $Q$ orthogonal to the all-ones vector, 99.9th-percentile statistic, 200 replicates.}\par\vspace{1.5pt}
+\begin{tabular}{lcccccccccccccccccc}
+\toprule
+ & \multicolumn{3}{c}{IN} & \multicolumn{3}{c}{C100} & \multicolumn{3}{c}{C10} & \multicolumn{3}{c}{DTD} & \multicolumn{3}{c}{FMNIST} & \multicolumn{3}{c}{MNIST} \\
+model & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ \\
+\midrule
+ViT-T & $-0.005^{\circ}$ & 169 & .159 & $-0.006^{\circ}$ & 151 & .249 & $-0.012^{\circ}$ & 148 & .264 & $-0.014$ & 195 & .030 & $+0.024^{\circ}$ & 19 & .905 & $-0.022^{\circ}$ & 168 & .164 \\
+ViT-S & $-0.012$ & 200 & .005 & $-0.000^{\circ}$ & 112 & .443 & $-0.042$ & 199 & .010 & $-0.018$ & 199 & .010 & $-0.027^{\circ}$ & 192 & .045 & $-0.034^{\circ}$ & 183 & .090 \\
+ViT-B & $-0.016$ & 200 & .005 & $+0.006^{\circ}$ & 42 & .791 & $-0.038$ & 196 & .025 & $-0.020$ & 200 & .005 & $-0.035$ & 198 & .015 & $-0.007^{\circ}$ & 122 & .393 \\
+ViT-L & $-0.016$ & 200 & .005 & $-0.020$ & 200 & .005 & $-0.037$ & 200 & .005 & $-0.030$ & 200 & .005 & $-0.041$ & 200 & .005 & $-0.031^{\circ}$ & 187 & .070 \\
+\midrule
+DINO-B & $-0.020$ & 200 & .005 & $-0.031$ & 200 & .005 & $-0.042$ & 199 & .010 & $-0.026$ & 200 & .005 & $-0.002^{\circ}$ & 104 & .483 & $-0.030^{\circ}$ & 182 & .095 \\
+DINOv2-S & $-0.016$ & 200 & .005 & $-0.030$ & 200 & .005 & $-0.033$ & 200 & .005 & $-0.017$ & 200 & .005 & $-0.025^{\circ}$ & 184 & .085 & $+0.003^{\circ}$ & 79 & .607 \\
+DINOv2-B & $-0.017$ & 200 & .005 & $-0.031$ & 200 & .005 & $-0.065$ & 200 & .005 & $-0.034$ & 200 & .005 & $-0.056$ & 199 & .010 & $-0.012^{\circ}$ & 142 & .294 \\
+DINOv2-L & $-0.014$ & 200 & .005 & $-0.034$ & 200 & .005 & $-0.084$ & 200 & .005 & $-0.041$ & 200 & .005 & $-0.024^{\circ}$ & 186 & .075 & $-0.009^{\circ}$ & 135 & .328 \\
+DINOv2-G & $-0.008$ & 200 & .005 & $-0.039$ & 200 & .005 & $-0.077$ & 200 & .005 & $-0.037$ & 200 & .005 & $-0.035$ & 197 & .020 & $-0.018^{\circ}$ & 163 & .189 \\
+\midrule
+CLIP-B & $-0.007^{\circ}$ & 172 & .144 & $-0.019$ & 200 & .005 & $-0.022^{\circ}$ & 184 & .085 & $-0.023$ & 200 & .005 & $-0.032^{\circ}$ & 185 & .080 & $+0.005^{\circ}$ & 81 & .597 \\
+CLIP-L & $-0.009$ & 197 & .020 & $-0.018$ & 200 & .005 & $-0.020^{\circ}$ & 180 & .104 & $-0.026$ & 200 & .005 & $-0.033^{\circ}$ & 186 & .075 & $-0.001^{\circ}$ & 97 & .517 \\
+SigLIP-B & $-0.008^{\circ}$ & 189 & .060 & $-0.022$ & 200 & .005 & $-0.027$ & 197 & .020 & $-0.023$ & 200 & .005 & $-0.033$ & 195 & .030 & $-0.022^{\circ}$ & 176 & .124 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\caption{\textbf{Clustered structure is the rule at the class level under every construction of the null and statistic, and the verdict does not depend on the metric.} (a) Per cell: excess of $\hat\delta_{99.9}$ over the null mean, $r$ = replicates above the real value, $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine = Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells ($^{\circ}$: not genuine). Genuine cells: 44/72 overall, 18/24 on ImageNet+CIFAR-100; sign agreement with the original 5-replicate Gaussian$\times$supremum census on the 72 comparable cells: 65/72. (b) Five symbols per cell in the order centered Haar$\times$p99.9 (the record, $Q\perp\mathbf{1}$), uncentered Haar$\times$p99.9, Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum, $\bullet$ = genuine under that construction; genuine counts 44/72, 49/72, 46/72, 52/72, 52/72. The percentage is the record excess divided by the mean null reading (ImageNet -33\% to -5\%; all cells -75\% to +18\%); the last column is the ImageNet excess of the supremum statistic under the same Haar null with its rank. The centered Haar construction reproduces the centered spectrum exactly, the uncentered one differs by a term of order $1/\sqrt{n}$ that moves the verdict only on the ten-class datasets; the Gaussian one does not at small $n$ and inflates excesses for low-rank clouds (Table~\ref{tab:q8-robust}). The supremum is decided by a few extreme quadruples and disagrees with the 99.9th percentile in both directions on DINOv2-S/B/G ImageNet.  % expR52_census_haar_p999_200.csv, expR54_census_haar_sup_200.csv, expR40b_p999census200.csv, expR39c_census200_cache.csv
+}
+\label{tab:q1-census}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.4pt}
+\begingroup
+\noindent\textbf{(b) Verdict under the five null$\times$statistic constructions and the excess as a fraction of the null reading.}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lcccccc|c}
+\toprule
+model & IN & C100 & C10 & DTD & FMNIST & MNIST & sup.\ IN exc.\ ($r$) \\
+\midrule
+ViT-T & $\circ$$\circ$$\bullet$$\circ$$\bullet$ $-5\%$ & $\circ$$\circ$$\bullet$$\circ$$\bullet$ $-5\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-9\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-11\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $+18\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-14\%$ & $-0.020$ (199) \\
+ViT-S & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $\circ$$\circ$$\bullet$$\circ$$\bullet$ $-0\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-33\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-21\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-21\%$ & $-0.020$ (200) \\
+ViT-B & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-23\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $+5\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-30\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-18\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-26\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-5\%$ & $-0.022$ (200) \\
+ViT-L & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-22\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-18\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-31\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-28\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-31\%$ & $\circ$$\circ$$\circ$$\bullet$$\bullet$ $-20\%$ & $-0.027$ (200) \\
+\midrule
+DINO-B & $\bullet$$\bullet$$\circ$$\bullet$$\circ$ $-27\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-28\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-32\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-22\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-1\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-21\%$ & $+0.000$ (96) \\
+DINOv2-S & $\bullet$$\bullet$$\circ$$\bullet$$\circ$ $-23\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-31\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-28\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-14\%$ & $\circ$$\circ$$\circ$$\bullet$$\bullet$ $-19\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $+2\%$ & $+0.017$ (0) \\
+DINOv2-B & $\bullet$$\bullet$$\circ$$\bullet$$\circ$ $-33\%$ & $\bullet$$\bullet$$\circ$$\bullet$$\bullet$ $-38\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-59\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-31\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-40\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-8\%$ & $+0.018$ (0) \\
+DINOv2-L & $\bullet$$\bullet$$\circ$$\bullet$$\bullet$ $-31\%$ & $\bullet$$\bullet$$\circ$$\bullet$$\bullet$ $-48\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-75\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-37\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-19\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-6\%$ & $+0.006$ (0) \\
+DINOv2-G & $\bullet$$\bullet$$\circ$$\bullet$$\circ$ $-20\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-56\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-75\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-34\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-26\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-11\%$ & $+0.020$ (0) \\
+\midrule
+CLIP-B & $\circ$$\circ$$\bullet$$\circ$$\bullet$ $-7\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-17\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-19\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-19\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $+4\%$ & $-0.023$ (199) \\
+CLIP-L & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-11\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-17\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-21\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-22\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-0\%$ & $-0.016$ (198) \\
+SigLIP-B & $\circ$$\circ$$\circ$$\bullet$$\bullet$ $-9\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-18\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-23\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-19\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-23\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $-0.015$ (194) \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued)}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.4pt}
+\begingroup
+\noindent\textbf{(c) The same census on cosine geometry (L2-normalized centroids, geodesic distances, Haar null on the normalized cloud): robustness, not the record.}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{2.4pt}
+\begin{tabular}{lcccccccccccc}
+\toprule
+ & \multicolumn{2}{c}{IN} & \multicolumn{2}{c}{C100} & \multicolumn{2}{c}{C10} & \multicolumn{2}{c}{DTD} & \multicolumn{2}{c}{FMNIST} & \multicolumn{2}{c}{MNIST} \\
+model & exc.\ & $r$ & exc.\ & $r$ & exc.\ & $r$ & exc.\ & $r$ & exc.\ & $r$ & exc.\ & $r$ \\
+\midrule
+ViT-T & $-0.012$ & 200 & $-0.014^{\circ}$ & 191 & $-0.043$ & 198 & $-0.017$ & 199 & $+0.007^{\circ}$ & 73 & $-0.026^{\circ}$ & 167 \\
+ViT-S & $-0.017$ & 200 & $-0.017$ & 200 & $-0.073$ & 200 & $-0.021$ & 200 & $-0.049$ & 200 & $-0.036^{\circ}$ & 183 \\
+ViT-B & $-0.022$ & 200 & $-0.006^{\circ}$ & 170 & $-0.066$ & 200 & $-0.021$ & 200 & $-0.041$ & 199 & $-0.010^{\circ}$ & 130 \\
+ViT-L & $-0.021$ & 200 & $-0.024$ & 200 & $-0.080$ & 200 & $-0.024$ & 200 & $-0.066$ & 200 & $-0.043$ & 196 \\
+\midrule
+DINO-B & $-0.021$ & 200 & $-0.035$ & 200 & $-0.070$ & 200 & $-0.024$ & 200 & $-0.006^{\circ}$ & 116 & $-0.038^{\circ}$ & 193 \\
+DINOv2-S & $-0.014$ & 200 & $-0.033$ & 200 & $-0.084$ & 200 & $-0.018$ & 200 & $-0.054$ & 200 & $-0.004^{\circ}$ & 113 \\
+DINOv2-B & $-0.013$ & 200 & $-0.032$ & 200 & $-0.140$ & 200 & $-0.021$ & 200 & $-0.081$ & 200 & $-0.019^{\circ}$ & 147 \\
+DINOv2-L & $-0.010$ & 200 & $-0.029$ & 200 & $-0.151$ & 200 & $-0.024$ & 200 & $-0.051$ & 200 & $-0.020^{\circ}$ & 145 \\
+DINOv2-G & $-0.006$ & 200 & $-0.029$ & 200 & $-0.169$ & 200 & $-0.017$ & 200 & $-0.064$ & 200 & $-0.023^{\circ}$ & 157 \\
+\midrule
+CLIP-B & $-0.017$ & 200 & $-0.023$ & 200 & $-0.039$ & 197 & $-0.031$ & 200 & $-0.038^{\circ}$ & 185 & $+0.002^{\circ}$ & 93 \\
+CLIP-L & $-0.017$ & 200 & $-0.025$ & 200 & $-0.045$ & 199 & $-0.031$ & 200 & $-0.038^{\circ}$ & 192 & $-0.008^{\circ}$ & 124 \\
+SigLIP-B & $-0.013$ & 200 & $-0.025$ & 200 & $-0.053$ & 200 & $-0.027$ & 200 & $-0.052$ & 199 & $-0.044$ & 197 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued) (c) Cosine reading, BH over 72 cells: sign-negative 70/72, genuine 56/72 and 22/24 on ImageNet+CIFAR-100, verdict agreement with the Euclidean record 60/72 cells. Text under the same cosine protocol (padding-free embeddings): genuine 8/15: gpt2-m, gpt2-l, gpt2-xl, pythia-410m, pythia-1b, pythia-2b8, olmo-1b, gte-qwen2. The angular tree: sibling-triplet agreement on CIFAR-100 for DINOv2-L is 0.91 under cosine against 0.71 under Euclidean distance. (d) Two self-supervised ResNet-50 backbones read the same clustered structure as the ViTs. % expR57_census_cosine_haar_p999_200.csv, expR57_text_cosine_haar_p999_200.csv, exp10_local_vs_global.csv, expR45_convnet_rows.csv
+}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.4pt}
+\begingroup
+\noindent\textbf{(d) Backbones outside the ViT panel on the ImageNet centroid store (spectrum null, 20 replicates).}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+model & $d$ & $\hat\delta$ & excess ($z$) & reps above \\
+\midrule
+Barlow Twins (ResNet-50) & 2048 & $0.075$ & $-0.039$ ($-4.8$) & 20/20 \\
+BYOL (ResNet-50) & 2048 & $0.073$ & $-0.020$ ($-2.4$) & 20/20 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued)}
+\end{table}

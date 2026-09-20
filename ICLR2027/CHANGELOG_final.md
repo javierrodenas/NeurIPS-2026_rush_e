@@ -1235,3 +1235,37 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Compilación: §7 termina en la página 9 (línea 483), statements en la 9, referencias en la 10 (línea 505); 31 páginas (el panel (f)
   añade una), 0 avisos, 0 `??`. Sweep 210/210 (dos checks nuevos: B.1/B.2 y las correcciones de la quinta revisión).
   `main_iclr2027_final.pdf`, `qa_pages_final/` (31) y `FINAL_CHECK.md` regenerados.
+
+## 30. Decisiones del autor (2026-09-20): el registro es el nulo Haar centrado; el desacoplamiento cambia la afirmación de profundidad.
+
+- (1) Registro = expR75 (nulo Haar con Q ⟂ 1, exacto en el espectro centrado). Regenerados desde él: Tabla 1 (`gen_main_table.py`
+  con `CENSUS_SRC=expR75_census_centered_haar.csv FINAL_ONLY=1` → `tab_census_final.tex`; la de v1 sigue en expR52), Figura 3 y las
+  barras de la Figura 2 (`make_figs_final.py`), Figura 2(b) (DINO-B/CIFAR-100: exceso −0.0315 bajo el registro centrado), los recuentos
+  (44 de 72; 30 de 36 y 18 de 24 sin cambio; FMNIST 5 de 12, relleno `FMNIST_GEN`; signo negativo 68/72) y la sensibilidad conjunta
+  (`expR66c_joint_sensitivity.py`: expR66 con el nulo centrado y el registro expR75; 12 partes en segundo plano, ~4.5 h; la Tabla 2(c)
+  lee `expR66c_joint_sensitivity_summary.csv` cuando existe). La tabla del censo de la versión final (`final/tab_q01_census_final.tex`,
+  `q_census` con `FINAL=True`) lleva el panel (a) sobre el registro centrado y el panel (b) con cinco construcciones (Haar centrado
+  = registro, Haar sin centrar, Haar×supremo, gaussiano×p99.9, gaussiano×supremo: 44/49/46/52/52 genuinas); el panel (f) de la Tabla 2
+  desaparece. §3.3: Definición 3 con Q ortogonal al vector de unos; "The centered Haar construction reproduces the centered spectrum
+  exactly, so it is the record"; sin la frase del término de centrado. Acuerdo del censo coseno con el registro centrado 60/72 ("agrees
+  ... in most cells"). Sin regenerar (nulo sin centrar, n ≥ 100 o texto): expR59/expR73 (bootstrap), expR72 (presupuesto), expR62
+  (nivel de muestra, n=1000), expR53/expR61 (texto), expR68 (corolario), expR56/expR69/expR74 (test de profundidad, nulo de hubs);
+  la Figura 2(b) cambia en 0.0005.
+- (2) Redacción del autor para la afirmación de profundidad, literal: resumen (frase de centroides + "structure above the superclasses
+  is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame; a decoupling control shows that it is the
+  alignment of each cluster with its hub, not a hierarchy among the hubs: once cluster orientations are randomized, none of the four
+  fires, and no hierarchy above the superclasses is certified in any backbone." + frase MERU "shows the same clustering, no such
+  structure either, and embeddings that never leave the near-flat regime"), el espejo de §1, la contribución 2 ("Clustered structure in
+  most models, hub-aligned structure in a few and no certified hierarchy above the superclasses, and a hyperbolic backbone as the
+  control for imposing the geometry."), la tesis en el resumen y en §7 ("Read correctly, foundation models organize classes into
+  clustered, hub-aligned structure that is moderately shared; no hierarchy above the superclasses is certified, they do not converge to
+  one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."), las entradas de §5.3 ("Structure above the
+  superclasses is certified in four backbones." / "It is the alignment of each cluster with its hub, not a hierarchy among the hubs."),
+  la frase MERU de §5.3, la leyenda de la Figura 4, la limitación (iii) ("hub-aligned structure") y §3.4 ("certified against its
+  matched star"). "certified" sólo para la estructura probada con el desacoplamiento. Ediciones registradas: 15 (`final_verbatim_edits.json`).
+- (3) El resumen para OpenReview es el del `.tex` (318 palabras); se imprime en el informe de la sesión.
+- Presupuesto: recortes en §5.3 (frase redundante con la entrada) y en la Definición 3, `parskip` 3 pt (antes 4 pt) y `textfloatsep`
+  7 pt (antes 8 pt).
+  [Compilación y sweep: véase el cierre 30b.]
+- Sweep: tesis nueva; cabecera de números 44 of 72 / 5 of 12; comprobación de las decisiones (cinco construcciones, Tabla 1 desde expR75,
+  redacción del autor en resumen/§1/§5.3/Figura 4, sin "hub--offset", sin "certified hierarchy", Tabla 2(c) desde expR66c).

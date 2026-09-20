@@ -1,0 +1,2 @@
+clip_l    imagenet     b= -1 exc -0.0093 r=49/50 (289s)
+clip_l    imagenet     b=  0 exc -0.0087 r=49/50 (296s)

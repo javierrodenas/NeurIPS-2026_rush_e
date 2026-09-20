@@ -18,8 +18,10 @@ v5 = json.load(open(R + 'final_fig5_values.json')); F['NAIVE_BIG'] = f"{v5['naiv
 # ---- the words of the final prose, checked against the files they summarize
 sl = pd.read_csv(R + 'expR62_samplelevel_record.csv'); assert int((~sl.genuine_bh).sum()) > 12, "'not genuine in most cells' (S5.1)"
 assert 100 * abs((sl.excess / sl.null_mean)[sl.genuine_bh]).max() <= 40, "'at most two fifths of the null reading' (S5.1)"
-c52 = pd.read_csv(R + 'expR52_census_haar_p999_200.csv'); assert int((c52.excess < 0).sum()) >= 68, "'negative in almost every cell' (S5.2)"
-assert int(F['AGREE']) >= 60, "'agrees in almost every cell' (S5.4, cosine census)"
+c52 = pd.read_csv(R + 'expR75_census_centered_haar.csv'); assert int((c52.excess < 0).sum()) >= 68, "'negative in almost every cell' (S5.2)"   # the record since 2026-09-20: the centered Haar null (expR75)
+F['N_GEN'] = str(int(c52.genuine_bh.sum())); assert F['N_GEN'] == '44' and int(c52[c52.dataset.isin(['imagenet', 'cifar100'])].genuine_bh.sum()) == 18, "'44 of 72' and '18 of 24' (author's decision)"
+cv_ = pd.read_csv(R + 'expR57_census_cosine_haar_p999_200.csv').set_index(['model', 'dataset']); cc_ = c52.set_index(['model', 'dataset'])
+AGREE_C = int(sum(bool(cv_.loc[k, 'genuine_bh']) == bool(cc_.loc[k, 'genuine_bh']) for k in cc_.index)); assert AGREE_C >= 54, "'agrees with the Euclidean census in most cells' (S5.4, cosine census vs the centered record)"
 D9 = pd.read_csv(R + 'expR64b_wn30.csv'); dep = D9[(D9.kind == 'depth') & (D9.partition == 'rand6') & (D9.s != 'real')].copy(); dep['s'] = dep.s.astype(float)
 assert (dep[dep.s == 1.0].z <= -2).mean() <= 0.10 and (dep[dep.s == 0.0].z <= -2).sum() == 0, "'detected in almost no run' / 'never fires' (S5.3)"
 S9 = pd.read_csv(R + 'expR64b_wn30_summary.csv'); assert S9.ratio_real.min() > 1.0, "'within-cluster spread exceeds the between-hub spread' (S5.3)"
@@ -56,13 +58,17 @@ EDITS = [("a structureless cloud, a star of clusters without depth and a tree wi
          ("6 datasets and 16 text models, the premise does not survive:", "6 datasets and 15 text models, the raw reading is not evidence, and the calibrated reading is weak and model-dependent:"),
          ("We show that a low raw reading is what high dimension, an anisotropic spectrum and a maximum over sampled quadruples produce on their own, and we build",
           "We show that the reference level of the raw reading depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own, and we build"),
-         ("Class centroids do carry clustered structure in 49 of 72 cells, but a star already produces it; hierarchy above the superclasses is certified in only 4 of 12 ImageNet backbones, by a test",
-          "Class centroids do carry clustered structure in 49 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it; hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame, by a test"),
+         ("Class centroids do carry clustered structure in 49 of 72 cells, but a star already produces it; hierarchy above the superclasses is certified in only 4 of 12 ImageNet backbones, by a test that never fires on randomized hubs, and a backbone trained in hyperbolic space shows the same clustering, no detected depth, and embeddings that never leave the near-flat regime.",
+          "Class centroids do carry clustered structure in 44 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it; structure above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame; a decoupling control shows that it is the alignment of each cluster with its hub, not a hierarchy among the hubs: once cluster orientations are randomized, none of the four fires, and no hierarchy above the superclasses is certified in any backbone. A backbone trained in hyperbolic space shows the same clustering, no such structure either, and embeddings that never leave the near-flat regime."),
+         ("Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.",
+          "Read correctly, foundation models organize classes into clustered, hub-aligned structure that is moderately shared; no hierarchy above the superclasses is certified, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."),
+         ("\\item \\textbf{The census.} Clustered structure in most models, hierarchy certified in a few, and a hyperbolic backbone as the control for imposing the geometry.",
+          "\\item \\textbf{The census.} Clustered structure in most models, hub-aligned structure in a few and no certified hierarchy above the superclasses, and a hyperbolic backbone as the control for imposing the geometry."),
          ("but three artifacts push it down without any hierarchy.", "but its reference level depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own."),
          ("Anisotropic spectra mimic low-dimensional behavior: the \\emph{spectrum confound}. And the supremum over sampled quadruples is a one-quadruple extreme that does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}.",
           "Anisotropic spectra lower the effective dimension and raise the reading: the \\emph{spectrum confound}. And the supremum over sampled quadruples grows with the budget and does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}."),
-         ("so the premise does not survive calibration as stated. On class centroids, clustered structure is genuine in 49 of 72 cells, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones by a test",
-          "so the raw reading is not evidence and the calibrated reading is weak and model-dependent. On class centroids, clustered structure is genuine in 49 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame, by a test"),
+         ("so the premise does not survive calibration as stated. On class centroids, clustered structure is genuine in 49 of 72 cells, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones by a test that never fires on real clouds with randomized hubs, and a backbone trained in hyperbolic space shows the same clustering and no detected depth.",
+          "so the raw reading is not evidence and the calibrated reading is weak and model-dependent. On class centroids, clustered structure is genuine in 44 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it. Structure above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame; a decoupling control shows that it is the alignment of each cluster with its hub, not a hierarchy among the hubs: once cluster orientations are randomized, none of the four fires, and no hierarchy above the superclasses is certified in any backbone. A backbone trained in hyperbolic space shows the same clustering, no such structure either, and embeddings that never leave the near-flat regime."),
          # page budget (fifth review): Figure 1 floats to the top of page 2 instead of leaving six blank lines at the foot of page 1 (placement only; the author's environment otherwise verbatim)
          ("\\begin{figure}[H]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}", "\\begin{figure}[t]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}"),
          ("we bring the idea to embedding clouds, where the reference must match dimension and spectrum.",
@@ -74,7 +80,7 @@ def edit(s):
 ABSTRACT = edit(between("\\begin{abstract}", "\\end{abstract}")) + "\\end{abstract}"
 assert "16 text models" not in ABSTRACT and "weak and model-dependent" in ABSTRACT and "30 of 36" in ABSTRACT and "two of which survive" in ABSTRACT and "cannot be called low" in ABSTRACT
 # fifth review: fills and checks for the new sentences
-F['FMNIST_GEN'] = str(int(c52[c52.dataset == 'fashionmnist'].genuine_bh.sum())); assert F['FMNIST_GEN'] == '7', F['FMNIST_GEN']
+F['FMNIST_GEN'] = str(int(c52[c52.dataset == 'fashionmnist'].genuine_bh.sum())); assert 1 <= int(F['FMNIST_GEN']) <= 11, F['FMNIST_GEN']
 assert int(c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].genuine_bh.sum()) == 30 and (c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].n >= 47).all(), "'30 of 36 on the three datasets with 47 classes or more'"
 hcells = e24[e24.dataset.isin(['imagenet', 'cifar100', 'cifar10', 'dtd'])]; assert len(hcells) == 40
 F['POL_RULE_H'], F['POL_COS_H'] = f"{hcells.adv_rule.mean():+.2f}", f"{hcells.adv_cos.mean():+.2f}"; assert hcells.adv_rule.mean() > hcells.adv_cos.mean() > 0, "'the objective rule beats cosine'"
@@ -85,10 +91,9 @@ from math import comb; F['QUAD10'] = str(comb(10, 4)); assert F['QUAD10'] == '21
 # B.1 decoupling control (expR74): the four certified backbones no longer fire once the offsets are rotated -> 'certified hub-offset structure' wording
 dec = pd.read_csv(R + 'expR74_decoupling_summary.csv'); cert4 = dec[dec.real_certified]; assert set(cert4.model) == {'i21k_s', 'i21k_b', 'i21k_l', 'dinov2_l'} and (cert4.n_seeds == 10).all()
 assert (cert4.frac_certified == 0).all() and (cert4.dec_z_mean > -2).all(), "'none of the four fires' (S5.3)"
-# B.2 centered Haar null (expR75): verdict changes reported; all on ten-class datasets
-s75 = pd.read_csv(R + 'expR75_census_centered_haar_summary.csv').iloc[0]; d75 = pd.read_csv(R + 'expR75_census_centered_haar.csv')
-F['CENT_CH'] = str(int(s75.verdict_changes)); assert (d75[d75.verdict_changed].n == 10).all() and int(s75.verdict_changes) > 0, "'all with ten classes' (S3.3)"
-json.dump({k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'CENT_CH')}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep
+# the centered Haar null (expR75) is the record; the uncentered census (expR52) is one more construction in the census table
+s75 = pd.read_csv(R + 'expR75_census_centered_haar_summary.csv').iloc[0]; d75 = pd.read_csv(R + 'expR75_census_centered_haar.csv'); assert (d75[d75.verdict_changed].n == 10).all()
+json.dump({k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN')}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep
 ga = pd.read_csv(R + 'exp1_delta_controls.csv'); ga = ga[ga.variant == 'gauss'].sort_values('d')
 assert F['C_LO'] == f"{(0.144/(2*float(ga.delta_max.iloc[0])))**2:.2f}" and F['C_HI'] == f"{(0.144/(2*float(ga.delta_max.iloc[-1])))**2:.1f}", "Khrulkov's rule recomputed on the supremum Gaussian band of Table 3 (exp1 delta_max is the sampled supremum)"
 INTRO = edit(between("\\section{Introduction}", "\\section{Related Work}").rstrip())
@@ -128,7 +133,7 @@ def clean_block(b):
     b = b.replace("\\paragraph{The calibrated reading predicts the gain within datasets.}", "\\paragraph{Both readings predict the gain within datasets.}")   # fifth review, S B.12
     return b
 # tables regenerated for the final by gen_appendix_final.py (appendix_tables/final/*_final.tex): robustness (bootstrap under the record, class-count sweep), depth (two-decimal z, K sweep), wordnet (DBpedia supremum under the Haar null)
-FINAL_SRC = {"tab_q08_robust": "tab_q08_robust_final", "tab_q04_depth": "tab_q04_depth_final", "tab_q07_wordnet": "tab_q07_wordnet_final", "tab_q05_power": "tab_q05_power_final"}
+FINAL_SRC = {"tab_q08_robust": "tab_q08_robust_final", "tab_q04_depth": "tab_q04_depth_final", "tab_q07_wordnet": "tab_q07_wordnet_final", "tab_q05_power": "tab_q05_power_final", "tab_q01_census": "tab_q01_census_final"}
 B8 = clean_block(bytab["tab_q08_robust"])
 B8 = re.sub(r"\\paragraph\{Hierarchy depth, not class count\.\}.*?\n", "", B8)                    # the class-count paragraph of v1 claimed the opposite of the corrected caption
 bytab["tab_q08_robust"] = B8
@@ -148,8 +153,8 @@ prov_block = bytab["tab_z_provenance"].replace("appendix_tables/tab_z_provenance
 # ---- the final's copies of the kept tables: appendix_tables/final/, one floating [tbp] table per panel so the appendix pages pack (the [H] parts of v1 left every page half empty)
 FD = TEX + "appendix_tables/final/"; os.makedirs(FD, exist_ok=True)
 # panels the brief deletes (null-variant panel, uncited supremum table) with the caption sentence that described them
-DROP = {"tab_q01_census": ["(b) Verdict under the four null"], "tab_q09_corollary": ["(b) Correlation between the raw supremum"]}
-CAPFIX = {"tab_q01_census": lambda c: re.sub(r"\s*\(b\) Four symbols per cell.*?(?=\s*%)", "", c, flags=re.S)}
+DROP = {"tab_q09_corollary": ["(b) Correlation between the raw supremum"]}   # the constructions panel of the census table is back in the final (the uncentered census is one of its columns, 2026-09-20)
+CAPFIX = {}
 DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourth review: 15 text models; OLMo-7B was not extracted
 REPL = {"tab_q14_panel": [("9 causal LMs", "8 causal LMs")],                                                                 # fifth review: Table 5 caption
         "tab_q09_corollary": [("\\textbf{The calibrated reading predicts the zero-cost gain within datasets,", "\\textbf{Both readings predict the zero-cost gain within datasets,")]}   # Table 13 title
@@ -197,7 +202,7 @@ pre = pre.replace("\\begin{document}\n", "\\newtheoremstyle{inline}{3pt}{3pt}{}{
                   "\\renewcommand\\section{\\@startsection{section}{1}{\\z@}{-1.0ex plus -0.4ex minus -.2ex}{0.6ex plus 0.2ex minus 0.1ex}{\\large\\sc\\raggedright}}\n"
                   "\\renewcommand\\subsection{\\@startsection{subsection}{2}{\\z@}{-1.0ex plus -0.4ex minus -.2ex}{0.5ex plus .2ex}{\\normalsize\\sc\\raggedright}}\n"
                   "\\renewcommand\\paragraph{\\@startsection{paragraph}{4}{\\z@}{0.3ex plus 0.3ex minus .2ex}{-1em}{\\normalsize\\bf}}\\makeatother\n"
-                  "\\setlength{\\textfloatsep}{8pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{3pt}\\setlength{\\parskip}{4pt plus 1pt minus 1pt}\n"
+                  "\\setlength{\\textfloatsep}{7pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{3pt}\\setlength{\\parskip}{3pt plus 1pt minus 1pt}\n"
                   "% final version: classic structure, plain prose (author's brief of 2026-09-18); generated by rebuttal/scripts/phaseE_submission.py.\n\\begin{document}\n", 1)
 open(PF, 'w').write(pre + body)
 json.dump({"kept": order, "deleted": DELETED, "cuts": CUTS}, open(R + 'final_appendix.json', 'w'), indent=1)

@@ -1,4 +1,4 @@
-% prov: expR72_budget_record.csv, expR72_budget_record_summary.csv, expR59_imagenet_bootstrap_summary.csv, expR73_transfer_bootstrap_record_summary.csv, expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv, expR75_census_centered_haar.csv
+% prov: expR72_budget_record.csv, expR72_budget_record_summary.csv, expR59_imagenet_bootstrap_summary.csv, expR73_transfer_bootstrap_record_summary.csv, expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
 \begin{table}[tbp]
 \centering
 \scriptsize
@@ -111,7 +111,7 @@ SigLIP-B & $-1.7$ (0)$^{\circ}$ & $-4.3$ (30) & $-2.6$ (30) & $-4.1$ (30) & $-2.
 \end{tabular}
 \par\vspace{5pt}
 \endgroup
-\caption{(continued) (c) Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ and the number of resamples in which the cell is genuine under BH over the 72 cells; $^{\circ}$: not genuine in the record; $^{\dagger}$: record-genuine but failing one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one. Counts: record 49/72 (18/24); $z_{\text{joint}}\le-2$: 42/72 (18/24); genuine in $\ge27$ of 30 resamples: 47/72 (17/24). (d) Class-count control under the record (means over subset seeds): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts and the verdict is what carries across datasets; ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv (f) The centering term of the Haar null is of order $1/\sqrt{n}$; with it removed the excess moves by at most 0.0530 and the verdict changes in 5 of 72 cells. % expR75_census_centered_haar.csv
+\caption{(continued) (c) Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ and the number of resamples in which the cell is genuine under BH over the 72 cells; $^{\circ}$: not genuine in the record; $^{\dagger}$: record-genuine but failing one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one. Counts: record 49/72 (18/24); $z_{\text{joint}}\le-2$: 42/72 (18/24); genuine in $\ge27$ of 30 resamples: 47/72 (17/24). (d) Class-count control under the record (means over subset seeds): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts and the verdict is what carries across datasets; ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
 }
 \end{table}
 \begin{table}[tbp]\ContinuedFloat
@@ -154,29 +154,6 @@ intervention & model & $\delta$ before & $\delta$ after & change \\
 \midrule
 non-hierarchical fine-tuning & DINOv2-S & $0.095$ & $0.161$ & $+69\%$ \\
 across depth (layer 1 $\to$ 12) & DINOv2-B & $0.147$ & $0.058$ & $-61\%$ \\
-\bottomrule
-\end{tabular}
-\par\vspace{5pt}
-\endgroup
-\caption{(continued)}
-\end{table}
-\begin{table}[tbp]\ContinuedFloat
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.4pt}
-\begingroup
-\noindent\textbf{(f) Centered Haar null (the columns of the Gaussian matrix centered before the QR, so the null cloud's centered spectrum is exact): the census rerun under the record; genuine 44/72 against 49/72 in the record, 5 verdict change(s), largest excess shift 0.0530.}\par\vspace{1.5pt}
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{llccl}
-\toprule
-model & data & record excess & centered excess & verdict \\
-\midrule
-CLIP-B & C10 & $-0.0363$ & $-0.0217$ & genuine $\to$ not genuine \\
-CLIP-L & C10 & $-0.0432$ & $-0.0203$ & genuine $\to$ not genuine \\
-ViT-S & FMNIST & $-0.0332$ & $-0.0266$ & genuine $\to$ not genuine \\
-DINOv2-L & FMNIST & $-0.0351$ & $-0.0241$ & genuine $\to$ not genuine \\
-SigLIP-B & MNIST & $-0.0441$ & $-0.0223$ & genuine $\to$ not genuine \\
 \bottomrule
 \end{tabular}
 \par\vspace{5pt}

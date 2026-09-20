@@ -1,0 +1,3 @@
+dinov2_g  cifar10      b= -1 exc -0.0774 r=50/50 (47s)
+dinov2_g  cifar10      b=  0 exc -0.0775 r=50/50 (46s)
+dinov2_g  cifar10      b= 10 exc -0.0761 r=50/50 (50s)

@@ -1,9 +1,9 @@
 {
  "sections": {
   "Introduction": {
-   "sentences": 30,
-   "avg_words": 21.6,
-   "max_words": 48
+   "sentences": 31,
+   "avg_words": 22.4,
+   "max_words": 62
   },
   "Related Work": {
    "sentences": 5,
@@ -11,8 +11,8 @@
    "max_words": 60
   },
   "Methodology": {
-   "sentences": 43,
-   "avg_words": 19.5,
+   "sentences": 42,
+   "avg_words": 19.4,
    "max_words": 45
   },
   "Experimental Setup": {
@@ -21,8 +21,8 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 79,
-   "avg_words": 16.2,
+   "sentences": 78,
+   "avg_words": 16.1,
    "max_words": 34
   },
   "Implications for Hyperbolic Representation Learning": {
@@ -32,12 +32,12 @@
   },
   "Conclusion and Limitations": {
    "sentences": 11,
-   "avg_words": 18.8,
-   "max_words": 34
+   "avg_words": 19.3,
+   "max_words": 39
   }
  },
  "avg_nonverbatim": 17.2,
- "n_nonverbatim_sentences": 144,
+ "n_nonverbatim_sentences": 142,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -48,7 +48,7 @@
    "section": "Results",
    "lead": "Most cells show clustered structure.",
    "numbers": [
-    "49 of 72",
+    "44 of 72",
     "30 of 36",
     "47",
     "18 of 24"
@@ -63,7 +63,7 @@
    "section": "Results",
    "lead": "No family owns the structure.",
    "numbers": [
-    "7 of 12"
+    "5 of 12"
    ]
   },
   {
@@ -78,14 +78,14 @@
   },
   {
    "section": "Results",
-   "lead": "Four backbones are certified on ImageNet.",
+   "lead": "Structure above the superclasses is certified in four backbones.",
    "numbers": [
     "4 of 12"
    ]
   },
   {
    "section": "Results",
-   "lead": "What is certified is hub--offset structure, not the hub arrangement alone.",
+   "lead": "It is the alignment of each cluster with its hub, not a hierarchy among the hubs.",
    "numbers": []
   },
   {

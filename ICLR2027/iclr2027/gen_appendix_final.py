@@ -97,8 +97,8 @@ def q_calibration():
 # Q1: the vision census, four constructions, verdict per cell, cosine reading, extra backbones
 # ======================================================================================================================
 def q_census():
-    T = Table("tab_q01_census.tex", "tab:q1-census", colsep="1.4pt"); T.prov += ["expR52_census_haar_p999_200.csv", "expR54_census_haar_sup_200.csv", "expR40b_p999census200.csv", "expR39c_census200_cache.csv", "expR57_census_cosine_haar_p999_200.csv", "expR57_text_cosine_haar_p999_200.csv", "exp10_local_vs_global.csv", "expR45_convnet_rows.csv", "exp20_null_ztable.csv"]
-    rec = load("expR52_census_haar_p999_200.csv"); by = {(a["model"], a["dataset"]): a for a in rec}
+    T = Table("final/tab_q01_census_final.tex" if FINAL else "tab_q01_census.tex", "tab:q1-census", colsep="1.4pt"); T.prov += (["expR75_census_centered_haar.csv"] if FINAL else []) + ["expR52_census_haar_p999_200.csv", "expR54_census_haar_sup_200.csv", "expR40b_p999census200.csv", "expR39c_census200_cache.csv", "expR57_census_cosine_haar_p999_200.csv", "expR57_text_cosine_haar_p999_200.csv", "exp10_local_vs_global.csv", "expR45_convnet_rows.csv", "exp20_null_ztable.csv"]
+    rec = load("expR75_census_centered_haar.csv" if FINAL else "expR52_census_haar_p999_200.csv"); by = {(a["model"], a["dataset"]): a for a in rec}   # final: the record is the centered Haar null (author's decision, 2026-09-20)
     r20 = {(a["model"], a["dataset"]): a for a in load("exp20_null_ztable.csv")}
     comp = sum(1 for a in rec if (a["model"], a["dataset"]) in r20); agree = sum((float(a["excess"]) < 0) == (float(r20[(a["model"], a["dataset"])]["excess"]) < 0) for a in rec if (a["model"], a["dataset"]) in r20)
     gen = sum(gb(a) for a in rec); genh = sum(gb(a) for a in rec if a["dataset"] in TOP)
@@ -108,10 +108,10 @@ def q_census():
         for d in DS:
             a = by[(m, d)]; cs += [f"${float(a['excess']):+.3f}" + ("" if gb(a) else r"^{\circ}") + "$", f"{int(a['r_above'])}", pfmt(float(a["p_left"]))]
         rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
-    T.panel("(a) The census of record per cell: Haar spectrum-matched null, 99.9th-percentile statistic, 200 replicates.", "l" + "ccc"*6,
+    T.panel("(a) The census of record per cell: Haar spectrum-matched null" + (" with $Q$ orthogonal to the all-ones vector" if FINAL else "") + ", 99.9th-percentile statistic, 200 replicates.", "l" + "ccc"*6,
             [" & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{DSH[d]}}}" for d in DS) + r" \\", r"model & " + " & ".join([r"exc.\ & $r$ & $p$"]*6) + r" \\"], rows, mids=(4, 9))
     # (b) four verdicts + normalized excess + supremum column
-    four = [("Hp", "expR52_census_haar_p999_200.csv"), ("Hs", "expR54_census_haar_sup_200.csv"), ("Gp", "expR40b_p999census200.csv"), ("Gs", "expR39c_census200_cache.csv")]
+    four = ([("Hc", "expR75_census_centered_haar.csv")] if FINAL else []) + [("Hp", "expR52_census_haar_p999_200.csv"), ("Hs", "expR54_census_haar_sup_200.csv"), ("Gp", "expR40b_p999census200.csv"), ("Gs", "expR39c_census200_cache.csv")]
     V = {}
     for tag, f in four:
         rr = load(f); pb = bh([float(a["p_left"]) for a in rr]); V[tag] = {(a["model"], a["dataset"]): (float(a["excess"]), pb[i] <= 0.05, int(a["r_above"])) for i, a in enumerate(rr)}
@@ -123,7 +123,7 @@ def q_census():
         sup = V["Hs"][(m, "imagenet")]; cs.append(f"${sup[0]:+.3f}$ ({sup[2]})")
         rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
     im_ = [fr[k] for k in fr if k[1] == "imagenet"]
-    T.panel("(b) Verdict under the four null$\\times$statistic constructions and the excess as a fraction of the null reading.", "l" + "c"*6 + "|c",
+    T.panel("(b) Verdict under the " + ("five" if FINAL else "four") + " null$\\times$statistic constructions and the excess as a fraction of the null reading.", "l" + "c"*6 + "|c",
             ["model & " + " & ".join(DSH[d] for d in DS) + r" & sup.\ IN exc.\ ($r$) \\"], rows, mids=(4, 9), colsep="3.5pt")
     T.newpart()
     # (c) cosine census
@@ -154,9 +154,11 @@ def q_census():
     T.write(r"\textbf{Clustered structure is the rule at the class level under every construction of the null and statistic, and the verdict does not depend on the metric.} "
             r"(a) Per cell: excess of $\hat\delta_{99.9}$ over the null mean, $r$ = replicates above the real value, $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine = Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells ($^{\circ}$: not genuine). "
             + f"Genuine cells: {gen}/72 overall, {genh}/24 on ImageNet+CIFAR-100; sign agreement with the original 5-replicate Gaussian$\\times$supremum census on the {comp} comparable cells: {agree}/{comp}. "
-            r"(b) Four symbols per cell in the order Haar$\times$p99.9 (the record), Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum, $\bullet$ = genuine under that construction; "
+            + ((r"(b) Five symbols per cell in the order centered Haar$\times$p99.9 (the record, $Q\perp\mathbf{1}$), uncentered Haar$\times$p99.9, Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum, $\bullet$ = genuine under that construction; "
+            + f"genuine counts {counts['Hc']}/72, {counts['Hp']}/72, {counts['Hs']}/72, {counts['Gp']}/72, {counts['Gs']}/72. The percentage is the record excess divided by the mean null reading (ImageNet {100*min(im_):+.0f}\\% to {100*max(im_):+.0f}\\%; all cells {100*min(fr.values()):+.0f}\\% to {100*max(fr.values()):+.0f}\\%); the last column is the ImageNet excess of the supremum statistic under the same Haar null with its rank. "
+            r"The centered Haar construction reproduces the centered spectrum exactly, the uncentered one differs by a term of order $1/\sqrt{n}$ that moves the verdict only on the ten-class datasets; the Gaussian one does not at small $n$ and inflates excesses for low-rank clouds (Table~\ref{tab:q8-robust}). The supremum is decided by a few extreme quadruples and disagrees with the 99.9th percentile in both directions on DINOv2-S/B/G ImageNet. ") if FINAL else (r"(b) Four symbols per cell in the order Haar$\times$p99.9 (the record), Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum, $\bullet$ = genuine under that construction; "
             + f"genuine counts {counts['Hp']}/72, {counts['Hs']}/72, {counts['Gp']}/72, {counts['Gs']}/72. The percentage is the record excess divided by the mean null reading (ImageNet {100*min(im_):+.0f}\\% to {100*max(im_):+.0f}\\%; all cells {100*min(fr.values()):+.0f}\\% to {100*max(fr.values()):+.0f}\\%); the last column is the ImageNet excess of the supremum statistic under the same Haar null with its rank. "
-            r"The Haar construction reproduces the sample spectrum exactly; the Gaussian one does not at small $n$ and inflates excesses for low-rank clouds (Table~\ref{tab:q8-robust}). The supremum is decided by a few extreme quadruples and disagrees with the 99.9th percentile in both directions on DINOv2-S/B/G ImageNet. "
+            r"The Haar construction reproduces the sample spectrum exactly; the Gaussian one does not at small $n$ and inflates excesses for low-rank clouds (Table~\ref{tab:q8-robust}). The supremum is decided by a few extreme quadruples and disagrees with the 99.9th percentile in both directions on DINOv2-S/B/G ImageNet. "))
             + r" % expR52_census_haar_p999_200.csv, expR54_census_haar_sup_200.csv, expR40b_p999census200.csv, expR39c_census200_cache.csv",
             contd=[f"(c) Cosine reading, BH over 72 cells: sign-negative {cneg}/72, genuine {cgen}/72 and {ctop}/24 on ImageNet+CIFAR-100, verdict agreement with the Euclidean record {cagree}/72 cells." + txt + trip + xtxt + r" % expR57_census_cosine_haar_p999_200.csv, expR57_text_cosine_haar_p999_200.csv, exp10_local_vs_global.csv, expR45_convnet_rows.csv"])
 
@@ -851,7 +853,9 @@ def q_robust_final():
     bmax = f"{max(float(a['excess_boot_sd']) for a in B):.4f}"; nds = len({a["dataset"] for a in B})
     fneg = min((float(a["frac_boot_negative"]) if float(a["excess_ref"]) < 0 else 1 - float(a["frac_boot_negative"])) for a in B)   # agreement of the resample sign with the record's sign, worst cell
     T.newpart()
-    J = {(r["model"], r["dataset"]): r for r in load("expR66_joint_sensitivity_summary.csv")}; rows = []
+    JS_FILE = "expR66c_joint_sensitivity_summary.csv" if ex("expR66c_joint_sensitivity_summary.csv") else "expR66_joint_sensitivity_summary.csv"   # final: regenerated under the centered record (expR66c)
+    if JS_FILE.startswith("expR66c"): T.prov.append(JS_FILE)
+    J = {(r["model"], r["dataset"]): r for r in load(JS_FILE)}; rows = []
     for m in M12:
         cs = []
         for d in DS:
@@ -886,13 +890,6 @@ def q_robust_final():
             if rr: rows.append(f"across depth (layer {rr[0]['layer']} $\\to$ {rr[-1]['layer']}) & {NMI[m]} & ${float(rr[0]['delta_normalized']):.3f}$ & ${float(rr[-1]['delta_normalized']):.3f}$ & ${100*(float(rr[-1]['delta_normalized'])-float(rr[0]['delta_normalized']))/float(rr[0]['delta_normalized']):+.0f}\\%$ \\\\")
     T.panel("(e) Training moves the raw reading within an architecture: one row per intervention.", "llccc", [r"intervention & model & $\delta$ before & $\delta$ after & change \\"], rows, size=r"\footnotesize", colsep="4pt")
     ctxt = ""
-    if ex("expR75_census_centered_haar_summary.csv"):
-        S75 = load("expR75_census_centered_haar_summary.csv")[0]; T.prov.append("expR75_census_centered_haar.csv"); D75 = load("expR75_census_centered_haar.csv")
-        ch = [a for a in D75 if a["verdict_changed"] == "True"]
-        rows = [f"{NAME[a['model']]} & {DSH.get(a['dataset'], a['dataset'])} & ${float(a['record_excess']):+.4f}$ & ${float(a['excess']):+.4f}$ & {'genuine' if a['record_genuine_bh']=='True' else 'not genuine'} $\\to$ {'genuine' if a['genuine_bh']=='True' else 'not genuine'} \\\\" for a in ch] or [r"\multicolumn{5}{l}{no cell changes its verdict} \\"]
-        T.panel(f"(f) Centered Haar null (the columns of the Gaussian matrix centered before the QR, so the null cloud's centered spectrum is exact): the census rerun under the record; genuine {S75['genuine_bh']}/72 against {S75['record_genuine_bh']}/72 in the record, {S75['verdict_changes']} verdict change(s), largest excess shift {float(S75['max_abs_excess_shift']):.4f}.", "llccl",
-                [r"model & data & record excess & centered excess & verdict \\"], rows, size=r"\footnotesize", colsep="4pt")
-        ctxt = f" (f) The centering term of the Haar null is of order $1/\\sqrt{{n}}$; with it removed the excess moves by at most {float(S75['max_abs_excess_shift']):.4f} and the verdict changes in {S75['verdict_changes']} of 72 cells. % expR75_census_centered_haar.csv"
     T.write(r"\textbf{The excess is budget-stable, the genuine count survives resampling and estimator noise, the excess shrinks with the class count, and training moves it.} "
             r"(a) Excess against the quadruple budget for nine cells; drift = range of the record excess over budgets $\ge10^5$, divided by the excess's spread in the last column; under the record every sign holds at every budget. "
             r"(b) Bootstrap of the excess over resampled images per class on " + ("ImageNet, CIFAR-100 and DTD" if nds == 3 else "ImageNet") + r": the bootstrap s.d.\ is at most " + bmax + (r" and every resample of every cell keeps the sign of the record excess." if fneg == 1.0 else f" and every cell keeps the sign of its record excess in at least {fneg:.2f} of its resamples.") + r" % expR72_budget_record.csv, expR59_imagenet_bootstrap_summary.csv, expR73_transfer_bootstrap_record_summary.csv",
@@ -903,4 +900,4 @@ if __name__ == "__main__":
     for f in OUT.glob("tab_q*.tex"): f.unlink()
     q_calibration(); q_census(); q_robust(); q_sample(); q_depth(); q_power(); q_interventions(); q_treemap(); q_wordnet(); q_text(); q_local(); q_corollary(); q_xi(); q_panel(); q_robust_final()
     conservation_check()
-    FINAL = True; q_depth(); q_wordnet(); q_power()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null; power table with two-decimal z)
+    FINAL = True; q_depth(); q_wordnet(); q_power(); q_census()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null; power table with two-decimal z)
