@@ -55,20 +55,13 @@ EDITS = [("a structureless cloud, a star of clusters without depth and a tree wi
          ("it keeps the tail of the defects, the intent of the supremum, but it is set by hundreds of quadruples rather than by one.", "it keeps the tail of the defects, as the supremum does, but it is set by hundreds of quadruples rather than by one."),
          (" What a structureless cloud reads on it is the next question.", ""),
          # fourth and fifth reviews (2026-09-18): the abstract (the same one goes to OpenReview), S1 and S2 edits ordered by the author
-         ("6 datasets and 16 text models, the premise does not survive:", "6 datasets and 15 text models, the raw reading is not evidence, and the calibrated reading is weak and model-dependent:"),
-         ("We show that a low raw reading is what high dimension, an anisotropic spectrum and a maximum over sampled quadruples produce on their own, and we build",
-          "We show that the reference level of the raw reading depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own, and we build"),
-         ("Class centroids do carry clustered structure in 49 of 72 cells, but a star already produces it; hierarchy above the superclasses is certified in only 4 of 12 ImageNet backbones, by a test that never fires on randomized hubs, and a backbone trained in hyperbolic space shows the same clustering, no detected depth, and embeddings that never leave the near-flat regime.",
-          "Class centroids do carry clustered structure in 44 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it; structure above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame; a decoupling control shows that it is the alignment of each cluster with its hub, not a hierarchy among the hubs: once cluster orientations are randomized, none of the four fires, and no hierarchy above the superclasses is certified in any backbone. A backbone trained in hyperbolic space shows the same clustering, no such structure either, and embeddings that never leave the near-flat regime."),
-         ("Read correctly, foundation models organize classes into clustered structure that is occasionally hierarchical and moderately shared; they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.",
-          "Read correctly, foundation models organize classes into clustered, hub-aligned structure that is moderately shared; no hierarchy above the superclasses is certified, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."),
          ("\\item \\textbf{The census.} Clustered structure in most models, hierarchy certified in a few, and a hyperbolic backbone as the control for imposing the geometry.",
-          "\\item \\textbf{The census.} Clustered structure in most models, hub-aligned structure in a few and no certified hierarchy above the superclasses, and a hyperbolic backbone as the control for imposing the geometry."),
+          "\\item \\textbf{The census.} Structure beyond the second moments in most models, hub-aligned structure in a few, hierarchy left open by a test without power at this noise level, and a hyperbolic backbone as the control for imposing the geometry."),
          ("but three artifacts push it down without any hierarchy.", "but its reference level depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own."),
          ("Anisotropic spectra mimic low-dimensional behavior: the \\emph{spectrum confound}. And the supremum over sampled quadruples is a one-quadruple extreme that does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}.",
           "Anisotropic spectra lower the effective dimension and raise the reading: the \\emph{spectrum confound}. And the supremum over sampled quadruples grows with the budget and does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}."),
          ("so the premise does not survive calibration as stated. On class centroids, clustered structure is genuine in 49 of 72 cells, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones by a test that never fires on real clouds with randomized hubs, and a backbone trained in hyperbolic space shows the same clustering and no detected depth.",
-          "so the raw reading is not evidence and the calibrated reading is weak and model-dependent. On class centroids, clustered structure is genuine in 44 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it. Structure above the superclasses is certified in 4 of 12 ImageNet backbones, two of which survive every choice of frame; a decoupling control shows that it is the alignment of each cluster with its hub, not a hierarchy among the hubs: once cluster orientations are randomized, none of the four fires, and no hierarchy above the superclasses is certified in any backbone. A backbone trained in hyperbolic space shows the same clustering, no such structure either, and embeddings that never leave the near-flat regime."),
+          "so the raw reading is not evidence and the calibrated reading is weak and model-dependent. On class centroids, structure beyond the second moments is genuine in 44 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it. The depth test certifies the alignment of each cluster with its hub in 4 of 12 ImageNet backbones, and whether the superclasses form a hierarchy is left open: the test has no power at this noise level. A backbone trained in hyperbolic space shows the same structure and embeddings that never leave the near-flat regime."),
          # page budget (fifth review): Figure 1 floats to the top of page 2 instead of leaving six blank lines at the foot of page 1 (placement only; the author's environment otherwise verbatim)
          ("\\begin{figure}[H]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}", "\\begin{figure}[t]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}"),
          ("we bring the idea to embedding clouds, where the reference must match dimension and spectrum.",
@@ -77,8 +70,18 @@ def edit(s):
     for a, b in EDITS:
         if a in s: s = s.replace(a, b)
     return s
-ABSTRACT = edit(between("\\begin{abstract}", "\\end{abstract}")) + "\\end{abstract}"
-assert "16 text models" not in ABSTRACT and "weak and model-dependent" in ABSTRACT and "30 of 36" in ABSTRACT and "two of which survive" in ABSTRACT and "cannot be called low" in ABSTRACT
+# sixth review (2026-09-20): the abstract is rewritten by order to 250 words or fewer, depth left open, cell defined in its own sentence;
+# the text below replaces the edited verbatim abstract and is recorded in final_verbatim_edits.json ("abstract_sixth_review")
+ABSTRACT_TEXT = ("Hyperbolic methods for representation learning rest on a premise we call latent hyperbolicity: standard models are already tree-like because their class geometry scores a low Gromov $\\delta$. "
+    "We show that the reference level of the raw reading depends on dimension, spectrum and statistic, and we build an instrument that reads every score as an excess over a random cloud of the same shape, ranked against 200 matched replicates, plus a depth test with measured power. "
+    "A cell is one model read on one dataset. "
+    "Across 12 vision backbones, 6 datasets and 15 text models the raw reading is not evidence and the calibrated reading is weak and model-dependent. "
+    "Class centroids carry structure beyond their second moments in {{N_GEN}} of 72 cells, but a star already produces it. The depth test certifies the alignment of each cluster with its hub in {{N_IN}} of 12 ImageNet backbones; whether the superclasses form a hierarchy is left open, the test having no power at this noise level. "
+    "A hyperbolic backbone shows the same structure in the near-flat regime. "
+    "The trees are moderately shared: the naive comparison manufactures an island, every recipe recovers the human taxonomy partially once the cut is controlled, and the self-supervised tree is angular. "
+    "Read correctly, foundation models organize classes into clustered, hub-aligned structure that is moderately shared; whether that structure is hierarchical remains untested at the noise level of real clouds, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.")
+ABSTRACT = "\\begin{abstract}\n" + ABSTRACT_TEXT + "\n\\end{abstract}"
+_aw = len(re.sub(r"\{\{[A-Z_]+\}\}", "44", ABSTRACT_TEXT).split()); assert _aw <= 250, _aw
 # fifth review: fills and checks for the new sentences
 F['FMNIST_GEN'] = str(int(c52[c52.dataset == 'fashionmnist'].genuine_bh.sum())); assert 1 <= int(F['FMNIST_GEN']) <= 11, F['FMNIST_GEN']
 assert int(c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].genuine_bh.sum()) == 30 and (c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].n >= 47).all(), "'30 of 36 on the three datasets with 47 classes or more'"
@@ -101,7 +104,7 @@ RELATED = edit(between("\\section{Related Work}", "\\section{The Instrument}").r
 GROMOV = edit(between("\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}", strip=True).rstrip())
 ESTIM = edit(between("\\paragraph{Estimation and normalization.} ", "\\begin{figure}", strip=True).rstrip())
 for a, _ in EDITS: assert a not in INTRO + GROMOV + ESTIM, a[:40]
-json.dump({"edits": EDITS}, open(R + 'final_verbatim_edits.json', 'w'), indent=1)
+json.dump({"edits": EDITS, "abstract_sixth_review": ABSTRACT_TEXT}, open(R + 'final_verbatim_edits.json', 'w'), indent=1)
 CUTS = [c for c in os.environ.get("FINAL_CUTS", "").split(",") if c]
 if "s2" in CUTS:   # S2 to one paragraph of six sentences: the first six sentences of the author's paragraph
     head, para = RELATED.split("\n\n", 1)[0], RELATED.split("\n\n", 1)[1]
@@ -131,6 +134,7 @@ def clean_block(b):
     b = b.replace("(Figure~\\ref{fig:bestmetric}; held-out selection and policy comparison in Table~\\ref{tab:q9-corollary})", "(Table~\\ref{tab:q9-corollary})")
     b = b.replace("(Figure~\\ref{fig:causal}; raw $\\delta$, within architecture)", "(raw $\\delta$, within architecture)")
     b = b.replace("\\paragraph{The calibrated reading predicts the gain within datasets.}", "\\paragraph{Both readings predict the gain within datasets.}")   # fifth review, S B.12
+    b = b.replace("\\subsection{Is the clustered structure genuine?", "\\subsection{Is the structure beyond the second moments genuine?")   # sixth review
     return b
 # tables regenerated for the final by gen_appendix_final.py (appendix_tables/final/*_final.tex): robustness (bootstrap under the record, class-count sweep), depth (two-decimal z, K sweep), wordnet (DBpedia supremum under the Haar null)
 FINAL_SRC = {"tab_q08_robust": "tab_q08_robust_final", "tab_q04_depth": "tab_q04_depth_final", "tab_q07_wordnet": "tab_q07_wordnet_final", "tab_q05_power": "tab_q05_power_final", "tab_q01_census": "tab_q01_census_final"}
@@ -157,7 +161,9 @@ DROP = {"tab_q09_corollary": ["(b) Correlation between the raw supremum"]}   # t
 CAPFIX = {}
 DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourth review: 15 text models; OLMo-7B was not extracted
 REPL = {"tab_q14_panel": [("9 causal LMs", "8 causal LMs")],                                                                 # fifth review: Table 5 caption
-        "tab_q09_corollary": [("\\textbf{The calibrated reading predicts the zero-cost gain within datasets,", "\\textbf{Both readings predict the zero-cost gain within datasets,")]}   # Table 13 title
+        "tab_q09_corollary": [("\\textbf{The calibrated reading predicts the zero-cost gain within datasets,", "\\textbf{Both readings predict the zero-cost gain within datasets,")],   # Table 13 title
+        "tab_q01_census": [("\\textbf{Clustered structure is the rule at the class level under every construction", "\\textbf{Structure beyond the second moments is the rule at the class level under every construction")],   # sixth review
+        "tab_q02_text": [("\\textbf{In text, clustered structure depends", "\\textbf{In text, structure beyond the second moments depends")]}
 def split_panels(src, drop=(), capfix=None, dropline=(), repl=()):
     for a, b in repl:
         assert src.count(a) == 1, a; src = src.replace(a, b)

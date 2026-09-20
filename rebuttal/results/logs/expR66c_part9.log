@@ -1,2 +1,8 @@
 dinov2_b  dtd          b= -1 exc -0.0334 r=50/50 (59s)
 dinov2_b  dtd          b=  0 exc -0.0310 r=50/50 (60s)
+dinov2_b  dtd          b= 10 exc -0.0321 r=50/50 (56s)
+dinov2_b  dtd          b= 20 exc -0.0320 r=50/50 (55s)
+dinov2_l  dtd          b= -1 exc -0.0402 r=50/50 (63s)
+dinov2_l  dtd          b=  0 exc -0.0383 r=50/50 (70s)
+dinov2_l  dtd          b= 10 exc -0.0392 r=50/50 (77s)
+dinov2_l  dtd          b= 20 exc -0.0405 r=50/50 (104s)

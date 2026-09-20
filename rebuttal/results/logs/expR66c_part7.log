@@ -1,2 +1,8 @@
 clip_l    cifar100     b= -1 exc -0.0174 r=50/50 (61s)
 clip_l    cifar100     b=  0 exc -0.0185 r=50/50 (61s)
+clip_l    cifar100     b= 10 exc -0.0187 r=50/50 (61s)
+clip_l    cifar100     b= 20 exc -0.0170 r=50/50 (58s)
+siglip_b  cifar100     b= -1 exc -0.0212 r=50/50 (69s)
+siglip_b  cifar100     b=  0 exc -0.0200 r=50/50 (75s)
+siglip_b  cifar100     b= 10 exc -0.0209 r=50/50 (83s)
+siglip_b  cifar100     b= 20 exc -0.0215 r=50/50 (130s)

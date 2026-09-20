@@ -1269,3 +1269,32 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   [Compilación y sweep: véase el cierre 30b.]
 - Sweep: tesis nueva; cabecera de números 44 of 72 / 5 of 12; comprobación de las decisiones (cinco construcciones, Tabla 1 desde expR75,
   redacción del autor en resumen/§1/§5.3/Figura 4, sin "hub--offset", sin "certified hierarchy", Tabla 2(c) desde expR66c).
+
+## 31. Sexta revisión (2026-09-20, ordenada por el autor). Texto del fichero de envío.
+
+- (1) La profundidad se declara no concluyente donde era un hallazgo: el test no tiene potencia al nivel de ruido de ImageNet, así que si
+  las superclases forman una jerarquía queda abierto; lo que certifica en 4 de 12 backbones es la alineación de cada clúster con su hub.
+  "no hierarchy above the superclasses is certified in any backbone" → "whether the superclasses form a hierarchy is left open: the test
+  has no power at this noise level" (§1, §5.3; en el resumen con "the test having no power"). Entradas de §5.3: "The alignment of each
+  cluster with its hub is certified in four backbones." / "Whether the superclasses form a hierarchy is left open."; contribución 2:
+  "Structure beyond the second moments in most models, hub-aligned structure in a few, hierarchy left open by a test without power at this
+  noise level, and a hyperbolic backbone..."; limitación (iii) reescrita (dos frases); leyendas de la Figura 4 y de la Tabla 8. Tesis
+  nueva del autor en el resumen y en §7 ("whether that structure is hierarchical remains untested at the noise level of real clouds").
+- (2) "certifies clustered structure" → "certifies structure beyond the second moments; clustering is its most plausible reading,
+  supported by the superclass recovery of §5.4" (§3.3); "clustered structure" deja de presentarse como certificado en la entrada y el
+  título de §5.2, la Figura 3, la Tabla 1, "says clustered, not deep" → "says structure beyond the second moments, not depth", §1 (edición
+  registrada), las leyendas de las tablas del censo y de texto y el título de la subsección B.3. La tesis conserva "clustered, hub-aligned
+  structure" (texto del autor).
+- (3) §6, párrafo "Both readings predict the gain": "Calibration buys interpretation, a low $\delta$ is not hierarchy, and not prediction."
+- (4) Resumen reescrito a ≤ 250 palabras: sin "two of which survive every choice of frame" ni "30 of 36…" (siguen en §5), "A cell is one
+  model read on one dataset." en frase propia. El texto está en `final_verbatim_edits.json` ("abstract_sixth_review") y sustituye al
+  resumen literal editado; las ediciones registradas del resumen desaparecen (quedan 11 ediciones, todas de §1 y §2). Es el texto para
+  OpenReview.
+- (5) Lista de réplica en `REVIEWER_CHECKLIST_third.md`: suelo de p en 1/201 y BH; z de 10 semillas de estrella; normalización por un
+  percentil alto de distancias en vez del diámetro; multiplicidad sobre marcos.
+- Pista paralela, prioridad 1b (CPU): `expR79_synthetic_deep_poincare.py` (nube sintética con el espectro real de ViT-L y una jerarquía
+  implantada de tres niveles 2/6/30 a la razón intra/entre real; incrustaciones de Poincaré de WordNet de Nickel & Kiela entrenadas
+  con gensim sobre el cierre transitivo del árbol que abarca las 1000 hojas de ImageNet, d = 10 y 50), ambas por el censo, el test de
+  profundidad y el control de desacoplamiento; en marcha. Resultado en `PARALLEL_STATUS.md`.
+- Compilación: §7 termina en la página 9 (línea 479), statements en la 9, referencias en la 10 (línea 501); 31 páginas, 0 avisos.
+  Sweep: pendiente sólo del fichero de expR66c (cierre nocturno).

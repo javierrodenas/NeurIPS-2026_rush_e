@@ -997,7 +997,14 @@ def final_checks():
         for a, b in ED: s = s.replace(a, b)
         return s
     # ---- verbatim parts, modulo the edits the brief names (recorded in final_verbatim_edits.json)
-    chk("final: abstract verbatim from main_local.tex modulo the two recorded fourth-review edits (15 text models, the S5.1 wording)", norm(seg(bf, "\\begin{abstract}", "\\end{abstract}")) == norm(edit(seg(LOC, "\\begin{abstract}", "\\end{abstract}"))) and "15 text models" in bf and "16 text models" not in bf and "sixteen" not in bf and "two OLMo" not in bf)
+    EDJ = _j.load(open(R/"final_verbatim_edits.json")) if (R/"final_verbatim_edits.json").exists() else {}
+    fills_ = {}
+    for fn in ("phaseE_fills.json", "phaseE_v3_fills.json", "final_fills.json"):
+        if (R/fn).exists(): fills_.update(_j.load(open(R/fn)))
+    abs_expected = EDJ.get("abstract_sixth_review", "")
+    for k, v in fills_.items(): abs_expected = abs_expected.replace("{{" + k + "}}", str(v))
+    abs_now = norm(seg(bf, "\\begin{abstract}", "\\end{abstract}").replace("\\begin{abstract}", ""))
+    chk("final: abstract is the recorded sixth-review text (250 words or fewer, cell defined in its own sentence, depth left open), 15 text models", abs_now == norm(abs_expected) and len(abs_now.split()) <= 250 and "A cell is one model read on one dataset." in bf and "15 text models" in bf and "16 text models" not in bf and "sixteen" not in bf and "two OLMo" not in bf and "left open" in abs_now and "30 of 36" not in abs_now and "two of which survive" not in abs_now)
     chk("final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits", norm(seg(bf, "\\section{Introduction}", "\\section{Related Work}")) == norm(edit(seg(LOC, "\\section{Introduction}", "\\section{Related Work}"))))
     rel_loc = norm(seg(LOC, "\\section{Related Work}", "\\section{The Instrument}")); rel_f = norm(seg(bf, "\\section{Related Work}", "\\section{Methodology}"))
     rel_loc = norm(edit(seg(LOC, "\\section{Related Work}", "\\section{The Instrument}")))
@@ -1005,9 +1012,9 @@ def final_checks():
     grom = norm(edit(seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1])); est = norm(edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]))
     chk("final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence)", grom in norm(bf) and est in norm(bf))
     chk("final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives",
-        len(ED) == 15 and all((a not in bf) or (a in b) for a, b in ED) and any("hub-aligned structure in a few" in b for _, b in ED) and any("once cluster orientations are randomized" in b for _, b in ED) and "49 of 72" not in bf and all((b in bf) for _, b in ED if b) and sum(1 for a, _ in ED if "shadow" in a) == 2 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
-        and any("16 text models" in a for a, _ in ED) and any("three artifacts push it down" in a for a, _ in ED) and any("two of which survive every choice of frame" in b for _, b in ED) and any("sala2018representation" in b and "gu2019learning" in b for _, b in ED)
-        and bf.count("weak and model-dependent") >= 3 and bf.count("30 of 36") >= 3 and "cannot be called low on its own" in bf)
+        len(ED) == 11 and all((a not in bf) or (a in b) for a, b in ED) and any("hub-aligned structure in a few" in b for _, b in ED) and any("left open: the test has no power" in b for _, b in ED) and "49 of 72" not in bf and all((b in bf) for _, b in ED if b) and sum(1 for a, _ in ED if "shadow" in a) == 2 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
+        and any("three artifacts push it down" in a for a, _ in ED) and any("sala2018representation" in b and "gu2019learning" in b for _, b in ED)
+        and bf.count("weak and model-dependent") >= 3 and bf.count("30 of 36") >= 2 and "cannot be called low on its own" in bf)
     # ---- metaphors, bridges and banned phrases anywhere in the body (Figure 1 and its caption excepted), thesis twice
     body_nofig = _re.sub(r"\\begin\{figure\}.*?\\end\{figure\}", "", nocom(bf), flags=_re.S); body_nocite = _re.sub(r"\\cite[pt]?(\[[^\]]*\])?\{[^}]*\}", "", body_nofig)
     META = ["shadow", "star caveat", "aristotelian", "geometric face", "intent of the supremum"]
@@ -1017,7 +1024,7 @@ def final_checks():
     bh = [m for m in MARK if m.lower() in body_nocite.lower()]
     chk("final: no bridge sentences anywhere in the body", not bh, str(bh))
     BANNED = ["we note", "interestingly", "importantly", "in plain terms", "notably", "essentially", "largely", "substantially", "somewhat", "we believe", "our approach", "the method", "tool"]
-    THESIS = "Read correctly, foundation models organize classes into clustered, hub-aligned structure that is moderately shared; no hierarchy above the superclasses is certified, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."   # author's decision, 2026-09-20
+    THESIS = "Read correctly, foundation models organize classes into clustered, hub-aligned structure that is moderately shared; whether that structure is hierarchical remains untested at the noise level of real clouds, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry."   # sixth review, 2026-09-20
     chk("final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form", bf.count(THESIS) == 2 and "no license for curvature" not in bf and THESIS in bf[bf.index("\\paragraph{Conclusion.}"):] and "occasionally hierarchical" not in bf)
     # ---- structure: classic skeleton, seven inline unframed definitions, seven equations, Proposition 1 (a)(b) proved in Appendix A, no boxes
     secs_ = _re.findall(r"\\section\{([^}]*)\}", bf); subs_ = _re.findall(r"\\subsection\{([^}]*)\}", bf); prop = bf[bf.index("\\begin{proposition}"):bf.index("\\end{proposition}")]
@@ -1038,7 +1045,7 @@ def final_checks():
         s = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if ("=" in m.group(1) or "\\" in m.group(1)) else m.group(0), s).replace("{=}", "="); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
         return [m.group(0).replace("$", "").replace("from ", "").strip() for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
     HEADLINE = {"44 of 72", "18 of 24", "4 of 12", "0 of 60", "7 of 15", "0.48 to 2.5", "+0.9 to +1.3", "30 of 36", "47", "5 of 12", "210", "+0.41 against +0.28"}   # 2026-09-20: the record is the centered Haar null (44 of 72; FMNIST 5 of 12)
-    EXEMPT = {"Most cells show clustered structure.": (4, 3)}   # fifth review: the author's count sentence carries three numbers (paragraph max, sentence max)
+    EXEMPT = {"Most cells show structure beyond the second moments.": (4, 3)}   # fifth review: the author's count sentence carries three numbers (paragraph max, sentence max)
     noeq = lambda s: _re.sub(r"\\begin\{equation\*?\}.*?\\end\{equation\*?\}", " ", s, flags=_re.S)
     verbatim = [norm(noeq(v)) for v in (seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1], edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]), edit(seg(LOC, "\\section{Introduction}", "\\section{Related Work}")), seg(LOC, "\\section{Related Work}", "\\section{The Instrument}"))]
     isverb = lambda par: any(norm(par.replace(" EQUATION. ", " ")) in v for v in verbatim)
@@ -1153,9 +1160,9 @@ def final_checks():
     cen_ = (FD/"tab_q01_census_final.tex").read_text()
     chk("final (author's decisions, 2026-09-20): the record is the centered Haar null (44 of 72; five constructions in the census table with the uncentered census as a column; Table 1, Figure 3 and the joint sensitivity from it); the decoupling result rewrites the depth claim with the author's wording (abstract, S1, contribution 2, thesis, S5.3, MERU, Figure 4 caption); 'certified' only for the decoupling-tested structure",
         bool(d74) and all(float(a["frac_certified"]) == 0 for a in d74 if a["real_certified"] == "True") and "Five symbols per cell" in cen_ and "expR75_census_centered_haar.csv" in cen_ and "expR75_census_centered_haar.csv" in open(TEX/"tab_census_final.tex").read()
-        and bf.count("once cluster orientations are randomized, none of the four fires, and no hierarchy above the superclasses is certified in any backbone") >= 2 and "Once cluster orientations are randomized, none of the four fires, and no hierarchy above the superclasses is certified in any backbone" in bf and "hub-aligned structure in a few and no certified hierarchy above the superclasses" in bf
-        and "\\textbf{Structure above the superclasses is certified in 4 of 12 ImageNet backbones; it is the alignment of each cluster with its hub, not a hierarchy among the hubs.}" in bf and "no such structure either" in bf and "certified against its matched star" in bf
-        and "hub--offset" not in bf and bf.count("certified hierarchy") == bf.count("no certified hierarchy") and "centering term" not in bf and "reproduces the centered spectrum exactly" in bf and "decoupled $z$" in dep and "expR66c_joint_sensitivity_summary.csv" in rob)
+        and bf.count("whether the superclasses form a hierarchy is left open: the test has no power at this noise level") >= 2 and "whether the superclasses form a hierarchy is left open, the test having no power at this noise level" in bf and "no hierarchy above the superclasses is certified" not in bf and "hub-aligned structure in a few, hierarchy left open by a test without power" in bf
+        and "\\textbf{The alignment of each cluster with its hub is certified in 4 of 12 ImageNet backbones; whether the superclasses form a hierarchy is left open.}" in bf and "certified against its matched star" in bf and "whether that structure is hierarchical remains untested" in bf
+        and "hub--offset" not in bf and "certified hierarchy" not in bf and "certifies clustered structure" not in bf and "clustering is its most plausible reading" in bf and "Calibration buys interpretation" in bf and "centering term" not in bf and "reproduces the centered spectrum exactly" in bf and "decoupled $z$" in dep and "expR66c_joint_sensitivity_summary.csv" in rob)
     chk("final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row",
         not _re.search(r"\(([+-]\d\.\d)\)", dep) and not _re.search(r"\$[+-]\d\.\d\$", dep) and "$K{=}10$" in dep and "$K{=}60$" in dep and "supremum, Haar" in wn and "supremum, Gaussian" not in wn
         and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in rob and rob.count("DINOv2-L & ") >= 5)

@@ -1,2 +1,8 @@
 i21k_t    cifar100     b= -1 exc -0.0047 r=36/50 (61s)
 i21k_t    cifar100     b=  0 exc -0.0072 r=40/50 (65s)
+i21k_t    cifar100     b= 10 exc -0.0039 r=34/50 (54s)
+i21k_t    cifar100     b= 20 exc -0.0045 r=36/50 (56s)
+i21k_s    cifar100     b= -1 exc +0.0007 r=27/50 (61s)
+i21k_s    cifar100     b=  0 exc +0.0008 r=26/50 (73s)
+i21k_s    cifar100     b= 10 exc +0.0004 r=27/50 (87s)
+i21k_s    cifar100     b= 20 exc +0.0002 r=28/50 (97s)

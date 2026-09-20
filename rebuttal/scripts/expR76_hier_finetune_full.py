@@ -18,7 +18,7 @@ sys.stdout.reconfigure(line_buffering=True)
 import numpy as np, pandas as pd
 from pathlib import Path
 ROOT = Path(os.environ.get("PLATONIC_ROOT", "/media/HDD_4TB_2/javi/Platonic"))
-OUT = Path(os.environ.get("PLATONIC_RESULTS", str(Path(__file__).resolve().parents[1] / "rebuttal/results")))
+OUT = Path(os.environ.get("PLATONIC_RESULTS", str(Path(__file__).resolve().parents[2] / "rebuttal/results")))
 CACHE = ROOT / "results/practical_tasks_cache"; MM = ROOT / "results/imagenet_full_224_uint8.mm"; META = ROOT / "results/imagenet_full_224_meta.json"
 MODEL_ID = "vit_base_patch16_224.augreg_in21k"; CHUNK, POOL, BATCH = 2048, 16, 256
 

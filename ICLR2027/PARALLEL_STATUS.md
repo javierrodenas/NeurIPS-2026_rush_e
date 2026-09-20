@@ -2,6 +2,16 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-20 19:05 — priority 1b added (sixth review); replication features done
+
+- **§1b (CPU)**: `expR79_synthetic_deep_poincare.py` running at nice 10: (a) a synthetic cloud with ViT-L's real ImageNet spectrum and
+  a three-level implanted hierarchy (nested 2/6/30 cuts of the frame) at ViT-L's real within/between ratio, 5 seeds, plus a flat
+  two-level control; (b) the WordNet Poincaré embeddings of Nickel & Kiela trained with gensim on the transitive closure of the tree
+  spanning the 1000 ImageNet leaves (d = 10, 50); each through the census, the depth test (K = 30) and the decoupling control.
+- **§2**: ResNet-34 features extracted for CIFAR-10/100 and MiniImageNet; the delta step (their estimator + the record instrument, 10
+  batches of 1500) is running; CUB-200 unpacking, then extracted and added.
+- **§1**: decode at 258k / 1.28M (19:00).
+
 ## 2026-09-20 18:35 — decode and replication extraction running
 
 - **§1**: `expR76_prep_imagenet_memmap.py` running (6 workers, since 18:27; the decode reproduces the census cache features to cosine

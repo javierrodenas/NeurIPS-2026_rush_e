@@ -17,7 +17,7 @@ os.environ.setdefault("TORCH_HOME", "/media/HDD_4TB_2/javi/torch_cache")
 import numpy as np, pandas as pd
 from pathlib import Path
 HERE = Path(__file__).resolve().parent; sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / "ICLR2027" / "tool"))
-ROOT = Path(os.environ.get("PLATONIC_ROOT", "/media/HDD_4TB_2/javi/Platonic")); OUT = Path(os.environ.get("PLATONIC_RESULTS", str(HERE.parents[1] / "rebuttal/results")))
+ROOT = Path(os.environ.get("PLATONIC_ROOT", "/media/HDD_4TB_2/javi/Platonic")); OUT = Path(os.environ.get("PLATONIC_RESULTS", str(HERE.parents[2] / "rebuttal/results")))
 FEAT = ROOT / "results/khrulkov_features"; FEAT.mkdir(parents=True, exist_ok=True)
 THEIRS = {"cifar10": 0.26, "cifar100": 0.25, "cub": 0.25, "miniimagenet": 0.21}   # Khrulkov et al. 2020, Table 1, ResNet34 row
 N_BATCH, N_TRIALS, N_REP = 1500, 10, 200

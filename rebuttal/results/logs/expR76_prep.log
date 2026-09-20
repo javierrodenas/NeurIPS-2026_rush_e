@@ -1,0 +1,7 @@
+1281167 files, 1000 classes; decoding from 2048 to 1281167 with 6 workers -> /media/HDD_4TB_2/javi/Platonic/results/imagenet_full_224_uint8.mm
+53248/1281167 (162 img/s, 126 min left)
+104448/1281167 (147 img/s, 134 min left)
+155648/1281167 (143 img/s, 131 min left)
+206848/1281167 (147 img/s, 122 min left)
+258048/1281167 (151 img/s, 113 min left)
+309248/1281167 (153 img/s, 106 min left)

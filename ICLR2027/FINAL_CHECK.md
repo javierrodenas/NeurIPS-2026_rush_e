@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 31. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 484); the references start on page 10 (line 505).
+- PDF pages: 31. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 480); the references start on page 10 (line 501).
 - Appendix: Proofs on page 13, tables from page 13 to page 31 (19 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
@@ -11,28 +11,28 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 31 | 22.4 | 62 |
+| Introduction | 31 | 21.8 | 48 |
 | Related Work | 5 | 39.8 | 60 |
-| Methodology | 42 | 19.4 | 45 |
+| Methodology | 42 | 19.8 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 78 | 16.1 | 34 |
-| Implications for Hyperbolic Representation Learning | 12 | 17.1 | 33 |
-| Conclusion and Limitations | 11 | 19.3 | 39 |
+| Results | 78 | 16.3 | 34 |
+| Implications for Hyperbolic Representation Learning | 13 | 16.7 | 33 |
+| Conclusion and Limitations | 12 | 19.8 | 46 |
 
-Non-verbatim prose of S3–S7: 142 sentences, mean 17.2 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 144 sentences, mean 17.4 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
 | section | paragraph | numbers |
 |---|---|---|
 | Results | The raw reading is not evidence, and the calibrated reading  | — |
-| Results | Most cells show clustered structure. | 44 of 72, 30 of 36, 47, 18 of 24 |
+| Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 47, 18 of 24 |
 | Results | The count survives resampling. | — |
 | Results | No family owns the structure. | 5 of 12 |
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
-| Results | Structure above the superclasses is certified in four backbo | 4 of 12 |
-| Results | It is the alignment of each cluster with its hub, not a hier | — |
+| Results | The alignment of each cluster with its hub is certified in f | 4 of 12 |
+| Results | Whether the superclasses form a hierarchy is left open. | — |
 | Results | The test never fires on randomized hubs. | 0 of 60 |
 | Results | The test is weak at ImageNet's noise level. | — |
 | Results | The certified set depends on the frame. | — |
@@ -63,7 +63,7 @@ Non-verbatim prose of S3–S7: 142 sentences, mean 17.2 words (rule: mean ≤ 22
 - Total: 209/210 checks passed.
 - Final-version checks:
 
-    PASS final: abstract verbatim from main_local.tex modulo the two recorded fourth-review edits (15 text models, the S5.1 wording) 
+    PASS final: abstract is the recorded sixth-review text (250 words or fewer, cell defined in its own sentence, depth left open), 15 text models 
     PASS final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits 
     PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
     PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 

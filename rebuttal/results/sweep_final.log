@@ -95,7 +95,7 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
 PASS v3: same figures as v1 except Figure 4 (fig_depth_test.pdf, the v3 redraw of fig_depth_main.pdf), the same main-text table, Figure 1 slot 1.4 in 
 PASS v3: the fourteen appendix tables are all input, numbered in the order v3 first cites them, and each is cited from the main text or another table 
 PASS v3: claim fills recomputed (mKNN/CKA calibrated means, text genuine count and GPT-2 S p, joint-sensitivity range, power at s=1, star depth) 
-PASS final: abstract verbatim from main_local.tex modulo the two recorded fourth-review edits (15 text models, the S5.1 wording) 
+PASS final: abstract is the recorded sixth-review text (250 words or fewer, cell defined in its own sentence, depth left open), 15 text models 
 PASS final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits 
 PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
 PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 

@@ -76,4 +76,12 @@ FIFTH = """
 - **Rebuttal list, no action now:** (i) multiplicity correction for z across backbones and frames; (ii) the n-dependence of Proposition 1(b); (iii) what the text census measures when the probe decides the verdict; (iv) the prompt used for causal LMs; (v) the diameter as a single-pair maximum, with a 99th-percentile-distance normalization to be reported as a check.
 """
 out.append(FIFTH)
+SIXTH = """
+## Sixth review (2026-09-20): corrections made, and the rebuttal list (no action now)
+
+- **Corrections in `main_iclr2027_final.pdf`.** Depth stated as inconclusive wherever it was a finding (abstract, S1, contribution 2, thesis, S5.3 lead-ins, limitation iii): the test has no power at ImageNet's noise level, so whether the superclasses are arranged hierarchically is left open; what it certifies in 4 of 12 backbones is the alignment of each cluster with its hub. "Certifies clustered structure" softened to "certifies structure beyond the second moments; clustering is its most plausible reading, supported by the superclass recovery of S5.4". S6: calibration buys interpretation (a low delta is not hierarchy), not prediction. Abstract at 250 words or fewer with the cell defined in its own sentence.
+- **Rebuttal list, no action now:** (vi) the p floor at 1/201 and its interaction with BH; (vii) z from 10 star seeds; (viii) normalization by a high distance percentile instead of the diameter; (ix) multiplicity over frames.
+- **Parallel track, priority 1b (CPU):** a synthetic cloud with ViT-L's real ImageNet spectrum and a deep implanted hierarchy at the real within/between ratio, and the WordNet Poincare embeddings of Nickel & Kiela, both through the depth test (`expR79_synthetic_deep_poincare.py`).
+"""
+out.append(SIXTH)
 open("ICLR2027/REVIEWER_CHECKLIST_third.md", "w").write("\n".join(out)); print("\n".join(out)); print("missing anchors:", missing)
