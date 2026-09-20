@@ -2,6 +2,41 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-20 20:55 — decode done, fine-tuning launched; rule-met branch tested end to end
+
+- **§1**: the decode finished at 20:42 (1,281,167 images, 134.8 min; memmap size equals the expected 192,851,506,176 bytes). Both
+  fine-tuning runs launched at 20:50 (`--obj ce --gpu 0`, `--obj hier --gpu 1`, seed 0, nohup, logs `expR76_ft_{ce,hier}_seed0.log`).
+  A first launch at 20:46 crashed at step 0 in the chunk-pool sampler: `gather` located each index by a sorted search over the pool's
+  chunk starts, but the pool holds chunks in the epoch's random order; fixed to a direct lookup by chunk start (unit-tested), relaunched.
+  Identical batches for (a) and (b) are preserved (the plan is a function of seed and epoch only). Throughput to be read at step 100.
+- **§1c**: the rule-met code path was exercised end to end on an isolated copy of the results directory in the scratchpad
+  (`PLATONIC_RESULTS=.../results_test` with synthetic expR80 fixtures that never touched `rebuttal/results`): Table 9c per backbone and
+  pooled, the dotted "implanted alignment" curve in Figure 4b, the §5.3 sentence, the caption, limitation (iii) and the abstract
+  (249 words) all rendered; the sweep passed every check except the known expR66c one; main text still ends on page 9 (the three
+  statements move to page 10, with the references). The real build was then restored from the real results directory.
+- **§1b / §2**: unchanged since 19:50 (expR79 on its first synthetic seed; expR78 on its second batch).
+
+## 2026-09-20 19:50 — priority 1c integration wired (brief of the evening); §2 delta step confirmed running
+
+- **§1c**: the conditional integration is coded and will run unattended when `expR80 --merge` writes `expR80_decision.csv`.
+  Rule met (power >= 0.8 at s = 1, false alarms <= 0.05 at s = 0): `gen_appendix_final.py` adds Table 9c (detection rate against s, per
+  backbone and pooled), `make_figs_final.py` adds the dotted "implanted alignment" curve to Figure 4b, `phaseE_submission.py` rewrites
+  the §5.3 sentence with the author's wording ("certifies the alignment of each cluster with its hub, with measured power: implanted
+  alignment is detected in x of y runs at full strength and in none at zero"), the Figure 4 caption, limitation (iii) ("measured power
+  for alignment and none for hierarchy at this noise level") and the abstract phrase ("plus a depth test whose power is measured for
+  the structure it certifies"; the same sentence loses five words to keep the 250-word cap, listed in the CHANGELOG for the author);
+  the sweep gains a check that re-verifies the rule from the decision file and every wording. Rule not met: nothing enters the
+  submission; `phaseE_rebuttal.py` writes the paragraph and table with the numbers into `main_iclr2027_rebuttal.tex`.
+  Progress at 19:45: 18 of 300 tests (4 shards, 160–280 s per test on the loaded machine), ETA ~00:30. Early readings: ViT-L fires at
+  s = 0.5 (z = −2.9), CLIP-B at s = 1 (z = −4.2), DINOv2-B not at s = 0.75 (z = −1.0).
+- **§1b**: `phaseE_rebuttal.py` gains the expR79 paragraph and table (fires or not, per cloud, with the decoupling control); expR79
+  still on its first synthetic seed (each seed = census + depth test + 10 decoupling tests).
+- **§2**: the delta step is running since 19:26 (one process; a duplicate launched at 19:42 was stopped). First trial, CIFAR-10: their
+  estimator on our extraction gives 0.297 against the published 0.26; the record instrument gives excess −0.002 (rank 155 of 200,
+  p = 0.23) on the same 1500-point batch. One trial takes ~15 min on the loaded machine, so the 40 trials end around 05:30.
+- **§1**: decode at 668k / 1.28M (19:40), ~66 min left; the two fine-tuning runs start when it finishes.
+- Submission: expR66c still running (12 parts); closing rebuild afterwards.
+
 ## 2026-09-20 19:20 — priority 1c added (sixth-review follow-up)
 
 - **§1c (CPU, reuses expR74)**: `expR80_implanted_alignment.py` running in four shards at nice 10: from each backbone's decoupled cloud,

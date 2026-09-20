@@ -60,7 +60,7 @@ Non-verbatim prose of S3–S7: 146 sentences, mean 17.5 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 209/210 checks passed.
+- Total: 210/211 checks passed.
 - Final-version checks:
 
     PASS final: abstract is the recorded sixth-review text (250 words or fewer, cell defined in its own sentence, depth left open), 15 text models 

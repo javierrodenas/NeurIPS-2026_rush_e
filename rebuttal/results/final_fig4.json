@@ -1,0 +1,9 @@
+{
+ "legend": [
+  "certified ($z\\leq-2$)",
+  "not detected",
+  "real spread",
+  "shrunk spread"
+ ],
+ "implanted_alignment_curve": false
+}

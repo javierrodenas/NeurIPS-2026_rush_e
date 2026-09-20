@@ -1319,3 +1319,37 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   `make_figs_final.py` (tercera curva de la Figura 4b) la incorporan al envío y la frase "certifies hub alignment with measured power"
   entra en §5.3; si no, queda en la versión paralela. Cuatro procesos a prioridad baja desde las 19:15.
 - Compilación y sweep: véase el cierre de esta entrada al terminar expR66c.
+
+## 33. Prioridad 1c cableada al envío, y arranque del control positivo entrenado (2026-09-20, noche; brief del autor).
+
+- Integración condicional de expR80, según la regla del brief (potencia ≥ 0.8 en s = 1 con falsas alarmas ≤ 0.05 en s = 0, leída de
+  `expR80_decision.csv`). Si se cumple: `q_power` añade la Tabla 9c (tasa de detección frente a s, por backbone y agregada);
+  `make_figs_final.py` añade la curva punteada "implanted alignment" a la Figura 4b (leyenda registrada en `final_fig4.json`);
+  `phaseE_submission.py` sustituye en §5.3 por la redacción del autor, "certifies the alignment of each cluster with its hub, with
+  measured power: implanted alignment is detected in x of y runs at full strength and in none at zero" (frase propia de 32 palabras,
+  seguida de "It certifies 4 of 12 backbones…"; entradilla "…certified in four backbones, with measured power."), actualiza el pie de la
+  Figura 4 ("…with measured power; whether…" y "(dotted)"), la limitación (iii) ("has measured power for alignment and none for
+  hierarchy at this noise level") y el resumen ("plus a depth test whose power is measured for the structure it certifies"). El
+  resumen tenía 249 palabras y la frase del autor añade seis: para respetar el tope de 250 la misma oración pierde cinco palabras
+  ("and we build" → "and build"; "a random cloud of the same shape" → "a matched random cloud"; "the reference level of the raw
+  reading" → "the raw reading's reference level"); el resto del resumen no cambia. Texto registrado como `abstract_final` en
+  `final_verbatim_edits.json` (el sweep compara contra él; `abstract_sixth_review` se conserva). Si no se cumple: nada entra en el
+  envío; `phaseE_rebuttal.py` escribe el párrafo y la tabla con los números en `main_iclr2027_rebuttal.tex`.
+- Sweep: check nuevo de la prioridad 1c en ambas ramas (regla recomprobada desde el fichero de decisión, cada redacción, Tabla 9c y
+  curva; o bien su ausencia total). `rebuttal_checks()`: el fichero de réplica es el envío congelado más los párrafos y la subsección
+  insertados y nada más; cada número nuevo (expR77/78/79/80) se rederiva de su CSV; ninguna afirmación sin criterio cumplido.
+  `rebuttal_rebuild.sh` compila la versión paralela y exporta `ICLR2027/main_iclr2027_rebuttal.pdf`.
+- `phaseE_rebuttal.py`: ancla del control positivo actualizada a la entradilla de la sexta revisión; secciones nuevas para expR79
+  (prioridad 1b) y expR80 (sólo si la regla no se cumple); `PLATONIC_RESULTS` respetado por los dos constructores.
+- Prueba de la rama "regla cumplida" de extremo a extremo sobre una copia aislada de `rebuttal/results` en el scratchpad con
+  ficheros sintéticos de expR80 (la carpeta real de resultados no se tocó): 31 páginas, 0 avisos, resumen de 249 palabras, sweep con
+  todos los checks salvo el de expR66c; §7 sigue acabando en la página 9 (línea 483) y los tres statements pasan a la 10 con las
+  referencias (antes empezaban en la 480 de la página 9). Después se regeneró el envío desde los resultados reales.
+- Pista paralela, §1: decodificación terminada a las 20:42 (1.281.167 imágenes, 134,8 min; tamaño del memmap exacto). Los dos
+  fine-tunings arrancaron a las 20:50 (GPU 0 CE de hoja, GPU 1 CE + jerárquica, semilla 0). Errata: el primer arranque cayó en el paso 0
+  porque `gather` localizaba cada índice con una búsqueda ordenada sobre los inicios de chunk del pool, que va en orden aleatorio;
+  corregido a búsqueda directa por inicio de chunk (prueba unitaria), sin cambiar los lotes (el plan depende sólo de semilla y época).
+  60 img/s en el paso 50 con la máquina cargada (≈ 6 h por época; mejorará al acabar expR80/expR66c/expR79).
+- Pista paralela, §2: el paso delta corría desde las 19:26 (un duplicado lanzado a las 19:42 por error se detuvo); primer lote de
+  CIFAR-10: δ_rel de su estimador 0.297 frente al 0.26 publicado; exceso del registro −0.002 (rango 155/200). ~15 min por lote.
+- Sweep del envío restaurado: 210/211, pendiente sólo del fichero de expR66c (cierre nocturno).

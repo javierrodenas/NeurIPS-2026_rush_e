@@ -241,3 +241,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - Cambios de texto de la versión final: en `rebuttal/scripts/phaseE_paper_final.tex.tmpl`; regenerar con
   `FINAL_CUTS=s55,s6,table,s2 python rebuttal/scripts/phaseE_submission.py` y después `gen_provenance.py main_iclr2027_final.tex
   tab_z_provenance_final.tex final`.
+- (Prioridad 1c, si la regla se cumple) El resumen recibe la frase del autor y, para no pasar de 250 palabras, la misma oración pierde
+  cinco palabras (CHANGELOG §33). Confirmar o proponer otro recorte. Con esa integración los tres statements pasan de la página 9 a la 10
+  (el texto principal sigue acabando en la 9).
+- Proceso ajeno a esta sesión: `conda install -y -c conda-forge tectonic` (PID 2767839) lleva 157 días al 99 % de una CPU con 8,4 GB de
+  memoria; es un solver colgado de una sesión de abril. No se ha tocado; matarlo libera un núcleo para los experimentos.

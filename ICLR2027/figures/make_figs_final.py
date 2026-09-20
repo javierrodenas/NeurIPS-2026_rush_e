@@ -126,6 +126,7 @@ ax.set_ylim(-0.04, 1.08); ax.set_yticks([0, 0.5, 1]); ax.set_yticklabels(["0.0",
 ax.set_title("(b) false alarms and power on real clouds")
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 hd = [Patch(color="k", label="certified ($z\\leq-2$)"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not detected"), l1, l2] + ([l3] if l3 is not None else [])
+json.dump({"legend": [h.get_label() for h in hd], "implanted_alignment_curve": l3 is not None}, open(RES/"final_fig4.json", "w"), indent=1)   # read by the sweep (priority 1c)
 fig.legend(handles=hd, frameon=False, loc="lower center", ncol=len(hd), handlelength=1.4, handletextpad=0.4, columnspacing=1.2, bbox_to_anchor=(0.5, -0.01))
 fig.subplots_adjust(left=0.09, right=0.99, top=0.89, bottom=0.40, wspace=0.35)
 save(fig, "fig_depth_final")

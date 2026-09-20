@@ -1001,7 +1001,7 @@ def final_checks():
     fills_ = {}
     for fn in ("phaseE_fills.json", "phaseE_v3_fills.json", "final_fills.json"):
         if (R/fn).exists(): fills_.update(_j.load(open(R/fn)))
-    abs_expected = EDJ.get("abstract_sixth_review", "")
+    abs_expected = EDJ.get("abstract_final") or EDJ.get("abstract_sixth_review", "")   # abstract_final = the sixth-review text, or its priority-1c variant when expR80 met the rule
     for k, v in fills_.items(): abs_expected = abs_expected.replace("{{" + k + "}}", str(v))
     abs_now = norm(seg(bf, "\\begin{abstract}", "\\end{abstract}").replace("\\begin{abstract}", ""))
     chk("final: abstract is the recorded sixth-review text (250 words or fewer, cell defined in its own sentence, depth left open), 15 text models", abs_now == norm(abs_expected) and len(abs_now.split()) <= 250 and "A cell is one model read on one dataset." in bf and "15 text models" in bf and "16 text models" not in bf and "sixteen" not in bf and "two OLMo" not in bf and "left open" in abs_now and "30 of 36" not in abs_now and "two of which survive" not in abs_now)
@@ -1045,7 +1045,11 @@ def final_checks():
         s = _re.sub(r"\$([^$]*)\$", lambda m: " FORMULA " if ("=" in m.group(1) or "\\" in m.group(1)) else m.group(0), s).replace("{=}", "="); s = _re.sub(r"\\[a-zA-Z]+", " ", s)
         return [m.group(0).replace("$", "").replace("from ", "").strip() for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
     HEADLINE = {"44 of 72", "18 of 24", "4 of 12", "0 of 60", "7 of 15", "0.48 to 2.5", "+0.9 to +1.3", "30 of 36", "47", "5 of 12", "210", "+0.41 against +0.28", "0 of 4"}   # 2026-09-20: the record is the centered Haar null (44 of 72; FMNIST 5 of 12); R6: relational alignment (0 of 4)
-    EXEMPT = {"Most cells show structure beyond the second moments.": (4, 3), "The test never fires on randomized hubs.": (3, 2)}   # the author's count sentences carry more than one number   # fifth review: the author's count sentence carries three numbers (paragraph max, sentence max)
+    EXEMPT = {"Most cells show structure beyond the second moments.": (4, 3), "The test never fires on randomized hubs.": (3, 2)}   # the author's count sentences carry more than one number
+    IMPLJ = _j.load(open(R/"expR80_integration.json")) if (R/"expR80_integration.json").exists() else {"met": False}
+    if IMPLJ.get("met"):   # priority 1c entered the submission: its two counts are headline numbers of S5.3
+        HEADLINE |= {f"{IMPLJ['hits1']} of {IMPLJ['runs1']}", f"{IMPLJ['hits0']} of {IMPLJ['runs0']}"}
+        if IMPLJ["hits0"] > 0: EXEMPT["The alignment of each cluster with its hub is certified in four backbones, with measured power."] = (3, 2)   # the author's sentence then carries two counts   # fifth review: the author's count sentence carries three numbers (paragraph max, sentence max)
     noeq = lambda s: _re.sub(r"\\begin\{equation\*?\}.*?\\end\{equation\*?\}", " ", s, flags=_re.S)
     verbatim = [norm(noeq(v)) for v in (seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1], edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]), edit(seg(LOC, "\\section{Introduction}", "\\section{Related Work}")), seg(LOC, "\\section{Related Work}", "\\section{The Instrument}"))]
     isverb = lambda par: any(norm(par.replace(" EQUATION. ", " ")) in v for v in verbatim)
@@ -1165,6 +1169,22 @@ def final_checks():
         and "hub--offset" not in bf and "certified hierarchy" not in bf and "certifies clustered structure" not in bf and "clustering is its most plausible reading" in bf and "Calibration buys interpretation" in bf and "centering term" not in bf and "reproduces the centered spectrum exactly" in bf and "decoupled $z$" in dep and "expR66c_joint_sensitivity_summary.csv" in rob
         and "certifies clustering" not in TF and "validated regime" not in TF and "validated range" not in TF and "The census does not certify that frame" in bf and "The alignment is relational" in bf and "clustered structure, hub-aligned in a few backbones" in bf
         and "The depth test has full power on synthetic hierarchies at the leaf frame and none at the top-level frame used on real backbones" in pw and "certifies structure beyond the second moments, not depth" in (FD/"tab_q10_calibration.tex").read_text())
+    if IMPLJ.get("met"):
+        d80 = load("expR80_decision.csv")[0]; f4 = _j.load(open(R/"final_fig4.json")) if (R/"final_fig4.json").exists() else {}
+        zero_txt = "in none at zero" if IMPLJ["hits0"] == 0 else f"in {IMPLJ['hits0']} of {IMPLJ['runs0']} at zero"
+        s53 = ("\\paragraph{The alignment of each cluster with its hub is certified in four backbones, with measured power.} The depth test certifies the alignment of each cluster with its hub, with measured power: "
+               f"implanted alignment is detected in {IMPLJ['hits1']} of {IMPLJ['runs1']} runs at full strength and {zero_txt}. It certifies 4 of 12 backbones")
+        rule_ok = float(d80["power_s1"]) >= 0.8 and float(d80["false_alarms_s0"]) <= 0.05 and abs(IMPLJ["hits1"] / IMPLJ["runs1"] - float(d80["power_s1"])) < 1e-9 and abs(IMPLJ["hits0"] / IMPLJ["runs0"] - float(d80["false_alarms_s0"])) < 1e-9
+        text_ok = (s53 in bf and "certified in 4 of 12 ImageNet backbones, with measured power; whether the superclasses form a hierarchy is left open.}" in bf and "against the strength of implanted alignment (dotted)" in bf
+                   and "has measured power for alignment and none for hierarchy at this noise level" in bf and "whose power is measured for the structure it certifies" in bf and "plus a depth test with measured power" not in bf)
+        table_ok = "(c) Implanted hub alignment on the real ImageNet clouds" in pw and "pooled (12 backbones" in pw and "expR80_implanted_alignment.csv" in pw
+        fig_ok = f4.get("implanted_alignment_curve") is True and "implanted alignment" in f4.get("legend", [])
+        chk("final (priority 1c, rule met): expR80 integrated with the author's wording (S5.3 measured power with its counts, Figure 4 caption and dotted curve, limitation iii, abstract wording), Table 9c per backbone and pooled, and the rule re-checked from expR80_decision.csv",
+            rule_ok and text_ok and table_ok and fig_ok, f"rule {rule_ok} text {text_ok} table {table_ok} fig {fig_ok}")
+    else:
+        f4 = _j.load(open(R/"final_fig4.json")) if (R/"final_fig4.json").exists() else {}
+        absent = "(c) Implanted hub alignment" not in pw and "implanted alignment (dotted)" not in bf and "measured power for alignment" not in bf and "whose power is measured for the structure" not in bf and not f4.get("implanted_alignment_curve", False)
+        chk("final (priority 1c): the implanted-alignment control is NOT in the submission (rule not met, or expR80 not merged yet): no Table 9c, no dotted curve, no 'measured power for alignment' wording", absent)
     chk("final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row",
         not _re.search(r"\(([+-]\d\.\d)\)", dep) and not _re.search(r"\$[+-]\d\.\d\$", dep) and "$K{=}10$" in dep and "$K{=}60$" in dep and "supremum, Haar" in wn and "supremum, Gaussian" not in wn
         and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in rob and rob.count("DINOv2-L & ") >= 5)
@@ -1178,6 +1198,44 @@ def final_checks():
     chk("final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present", AI in stm and "anonymized repository" in stm and "TODO(author)" in stm and "Ethics Statement" in stm)
     chk("final: preamble of the frozen v1 plus amsthm only (same class, same packages)", TF[:TF.index("\\usepackage{amsthm}")] == T1[:T1.index("\\usepackage{array}\n") + len("\\usepackage{array}\n")] and TF.count("\\usepackage") == T1.count("\\usepackage") + 1)
 final_checks()
+def rebuttal_checks():
+    """Parallel track (brief of 2026-09-20): main_iclr2027_rebuttal.tex = the frozen submission file plus the parallel-track paragraphs
+    and tables (phaseE_rebuttal.py). Checked only when the file exists: (1) with the inserted paragraphs and the inserted appendix
+    subsection removed, the file equals the frozen submission file (every frozen number stays); (2) every number written in the new
+    paragraphs is re-derived here from its CSV; (3) no claim is made where the pre-set criterion is not met."""
+    import re as _re, json as _j, pandas as pd
+    TEX = Path(__file__).resolve().parents[2]/"ICLR2027"/"iclr2027"; PR = TEX/"main_iclr2027_rebuttal.tex"; PF = TEX/"main_iclr2027_final.tex"
+    if not PR.exists(): return
+    TR = open(PR).read(); TF = open(PF).read(); st = _j.load(open(R/"rebuttal_build_status.json")) if (R/"rebuttal_build_status.json").exists() else {}
+    PT = ("expR77_", "expR78_", "expR79_", "expR80_")
+    body = TR.replace("% rebuttal version = the frozen submission file plus the parallel-track paragraphs (phaseE_rebuttal.py); the frozen text and numbers are unchanged\n", "", 1)
+    stripped = _re.sub(r"\\FloatBarrier\n\\subsection\{Parallel track:[^\n]*\n(?:.*?\n)*?(?=\\input\{appendix_tables/final/tab_z_provenance_final\})", "", body)
+    pars = [m for m in _re.finditer(r"\n\n\\paragraph\{[^}]*\}[^\n]*", stripped) if any(k in m.group(0) for k in PT)]
+    for m in reversed(pars): stripped = stripped[:m.start()] + stripped[m.end():]
+    chk("rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged)", stripped == TF, f"{len(pars)} inserted paragraphs; diff at char {next((i for i, (a, b) in enumerate(zip(stripped, TF)) if a != b), min(len(stripped), len(TF)))}")
+    ins = "".join(m.group(0) for m in pars) + body[body.find("\\subsection{Parallel track:"):body.find("\\input{appendix_tables/final/tab_z_provenance_final}")] if "\\subsection{Parallel track:" in body else "".join(m.group(0) for m in pars)
+    chk("rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table", all(_re.search(r"%\s*expR\d+\w*\.(csv|json)", m.group(0)) and "Table~\\ref{tab:r" in m.group(0) for m in pars))
+    # (2) numbers re-derived from the CSVs
+    if st.get("implanted_alignment", {}).get("written"):
+        A = pd.read_csv(R/"expR80_implanted_alignment.csv"); A["hit"] = A.z_depth <= -2; d = pd.read_csv(R/"expR80_decision.csv").iloc[0]
+        h1, n1 = int(A[A.s == 1.0].hit.sum()), int((A.s == 1.0).sum()); h0, n0 = int(A[A.s == 0.0].hit.sum()), int((A.s == 0.0).sum())
+        chk("rebuttal (priority 1c, rule not met): the implanted-alignment counts and the power in the paragraph and table match expR80_implanted_alignment.csv / expR80_decision.csv, the rule is stated as not met and no 'measured power' claim enters",
+            f"detected in {h1} of {n1} runs at full strength and in {h0} of {n0} at zero, a power of {float(d.power_s1):.2f}" in ins and not bool(d.rule_power_ge_0_8_fa_le_0_05) and f"measured power {float(d.power_s1):.2f}, false alarms {float(d.false_alarms_s0):.2f}: not met" in ins
+            and "certifies hub alignment with measured power" not in TR and "with measured power:" not in TR)
+    if st.get("deep_synthetic", {}).get("written"):
+        E = pd.read_csv(R/"expR79_synthetic_deep_poincare.csv"); E["cert"] = E.z <= -2; deep = E[E.cloud == "synthetic_deep_vitl_spectrum"]; flat = E[E.cloud == "synthetic_flat_vitl_spectrum"]; poi = E[E.cloud.str.startswith("wordnet_poincare")]
+        ok79 = (f"the deep synthetic hierarchy fires in {int(deep.cert.sum())} of {len(deep)} seeds" in ins if len(deep) else True) and (f"the flat control in {int(flat.cert.sum())} of {len(flat)}" in ins if len(flat) else True) \
+               and all(f"$z{{=}}{r.z:+.2f}$" in ins for _, r in poi.iterrows()) and all(f"${r.z:+.2f}$" in ins for _, r in E.iterrows())
+        chk("rebuttal (priority 1b): the expR79 counts (deep, flat, decoupling) and every z in the paragraph and table match expR79_synthetic_deep_poincare.csv", ok79)
+    if st.get("replication", {}).get("written"):
+        S = pd.read_csv(R/"expR78_khrulkov_replication_summary.csv").set_index("dataset"); allin = len(S) == 4 and bool(S.within_range.all())
+        ok78 = all(f"{S.loc[d].theirs:.2f} & {S.loc[d].ours_raw_mean:.3f}" in ins for d in S.index) and ((allin and "reproduces their raw" in ins) or (not allin and "does not yet reproduce every published" in ins and "no calibrated claim is drawn" in ins))
+        chk("rebuttal (priority 2): the four published and reproduced delta_rel values match expR78_khrulkov_replication_summary.csv and the calibrated claim is made only when all four are within 0.03", ok78)
+    if st.get("positive_control", {}).get("written"):
+        P = pd.read_csv(R/"expR77_positive_control.csv").set_index("model"); V = _j.load(open(R/"expR77_positive_control_verdict.json"))["verdict"]; v0 = next((v for v in V if v["seed"] == "seed0"), None); met = bool(v0 and v0["criterion_met"])
+        ok77 = all(f"${r.z_wn30:+.2f}$ & ${r.z_wn30bal:+.2f}$" in ins for _, r in P.iterrows()) and (("Success criterion met." in ins and "fixed before the run is met" in ins) if met else ("Success criterion not met." in ins and "fixed before the run is not met" in ins))
+        chk("rebuttal (priority 1): every z of the trained positive control matches expR77_positive_control.csv and the verdict sentence matches the pre-set criterion in expR77_positive_control_verdict.json", ok77)
+rebuttal_checks()
 n_fail = sum(1 for _,ok,_ in checks if not ok)
 for name, ok, det in checks[-30:]: print(("PASS" if ok else "FAIL"), name, ("| "+det if det and not ok else ""))
 print(f"[phaseB re-total] {len(checks)-n_fail}/{len(checks)}")

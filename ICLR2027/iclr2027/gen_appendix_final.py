@@ -5,6 +5,7 @@ panels exceed a page continues under the same number (\\ContinuedFloat). Nothing
 counts (tab_a0 heritage) and the tree/H^2/sphere calibration rows, both re-verified by sweep_freeze.py. Each file carries a
 '% prov:' line with its result files for the provenance index (gen_provenance.py). Run from anywhere; writes appendix_tables/tab_q*.tex
 and checks that every decimal token of the old appendix survives (the same check runs in sweep_freeze.py)."""
+import pandas as pd
 import csv, os, re, json, statistics as st, sys
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -440,13 +441,16 @@ def q_power():
         ptxt = (r" (b) Six super-hubs of five, hub $= s\cdot$super-hub $+ (1-s+0.4s)\cdot$own Gaussian draw, hub cloud rescaled to the real RMS radius; the depth test of Table~\ref{tab:q4-depth} runs unchanged, 5 implant seeds per $s$. hits: implant seeds with $z\le-2$ (of 5); $s^*$: first $s$ with $\ge4$ of 5; within/between: RMS of the within-cluster offsets over the point-weighted RMS of the hub displacements"
                 + f" ({ratio_lo:.1f} to {ratio_hi:.1f} on the real clouds, against 0.1--0.6 in the synthetic sweep); tight: the same implant after shrinking the offsets to within/between $=0.6$ (2 seeds). Power (fraction of runs with $z\\le-2$) by $s$: " + ", ".join(f"$s{{=}}{s:g}$: {v:.2f}" for s, v in pw.items()) + f"; false alarms at $s{{=}}0$: {fa0} of {n0}." + htx + fctxt)
     ctxt80 = ""
-    if FINAL and ex("expR80_decision.csv") and ex("expR80_implanted_alignment_summary.csv"):
+    if FINAL and ex("expR80_decision.csv") and ex("expR80_implanted_alignment.csv"):
         dec80 = load("expR80_decision.csv")[0]
         if dec80["rule_power_ge_0_8_fa_le_0_05"] == "True":
-            S80 = load("expR80_implanted_alignment_summary.csv"); T.prov += ["expR80_implanted_alignment_summary.csv", "expR80_decision.csv"]
-            rows = [f"{float(a['s']):.2f} & {float(a['detection_rate']):.2f} & {a['n_runs']} \\\\" for a in S80]
-            T.panel("(c) Implanted hub alignment on the real ImageNet clouds (expR80): from the decoupled cloud, each cluster's principal axis rotated toward its hub direction by a fraction $s$ of the angle; 12 backbones $\\times$ 5 seeds per $s$.", "ccc", [r"$s$ & detection rate ($z\\le-2$) & runs \\\\"], rows, size=r"\\footnotesize", colsep="6pt")
-            ctxt80 = f" (c) Implanted alignment: false alarms {float(dec80['false_alarms_s0']):.2f} at $s{{=}}0$ and power {float(dec80['power_s1']):.2f} at $s{{=}}1$, so the test certifies hub alignment with measured power. % expR80_implanted_alignment_summary.csv, expR80_decision.csv"
+            D80 = pd.read_csv(RES / "expR80_implanted_alignment.csv"); D80["hit"] = D80.z_depth <= -2; T.prov += ["expR80_implanted_alignment.csv", "expR80_decision.csv"]
+            SS = sorted(D80.s.unique()); pm = D80.groupby(["model", "s"]).hit.mean().unstack(); pooled = D80.groupby("s").hit.mean()
+            rows = [NAME[m] + " & " + " & ".join(f"{pm.loc[m, s]:.1f}" for s in SS) + r" \\" for m in M12 if m in pm.index] + [r"\midrule pooled (12 backbones $\times$ 5 seeds) & " + " & ".join(f"{pooled[s]:.2f}" for s in SS) + r" \\"]
+            T.panel("(c) Implanted hub alignment on the real ImageNet clouds (expR80): from the decoupled cloud of expR74, each cluster's principal axis rotated toward its hub direction by a fraction $s$ of the angle (hubs and within-cluster spectra unchanged); detection rate at $z\\le-2$ over 5 seeds per backbone and pooled.", "l" + "c" * len(SS),
+                    [r"model & " + " & ".join(f"$s{{=}}{s:g}$" for s in SS) + r" \\"], rows, mids=(4, 9), size=r"\footnotesize", colsep="6pt")
+            n1 = int((D80.s == 1.0).sum()); h1 = int(D80[D80.s == 1.0].hit.sum()); n0 = int((D80.s == 0.0).sum()); h0 = int(D80[D80.s == 0.0].hit.sum())
+            ctxt80 = f" (c) Implanted alignment: detected in {h1} of {n1} runs at full strength and in {h0} of {n0} at zero, so the test certifies hub alignment with measured power. % expR80_implanted_alignment.csv, expR80_decision.csv"
     T.write((r"\textbf{The depth test has full power on synthetic hierarchies at the leaf frame and none at the top-level frame used on real backbones.} " if FINAL else r"\textbf{The depth test meets its bar on synthetic hierarchies at ImageNet's class count, raises no false alarm on real clouds under either star, and misses implanted depth at the real within-cluster spread.} ") +
             r"(a) Power = fraction of hierarchy runs with $z\le-2$; star columns = false-alarm rates in each direction. Top-level frame: the test receives the $K$ super-cluster labels, as the earlier isotropic test did on the real backbones; its hub null keeps every frame cluster intact and only rearranges the $K$ hubs, so hierarchy below the frame is invisible by construction. Leaf frame: the test receives the finest cluster labels with the anisotropic matched star (configurations with more leaves than points are infeasible and omitted)." + bar_ + ptxt + ctxt80
             + r" % expR55_depth_power.csv, expR55b_depth_power_leafframe.csv, expR64b_wn30.csv, expR64b_wn30_summary.csv, expR64b_wn30bal_summary.csv, expR67_frame_choice.json, expR69_depth_haarhubs_summary.csv")

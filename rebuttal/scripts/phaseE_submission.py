@@ -8,8 +8,21 @@ cites, without figures, in citation order. Cuts for the page budget are applied 
 steps among: s55, s6, table, s2). Run from the repo root after phaseE_final.py, phaseE_v3.py, gen_appendix_final.py and make_figs_final.py."""
 import json, re, os, sys, importlib
 import numpy as np, pandas as pd
-R = 'rebuttal/results/'; S = 'rebuttal/scripts/'; TEX = 'ICLR2027/iclr2027/'; P1 = TEX + 'main_iclr2027.tex'; PF = TEX + 'main_iclr2027_final.tex'
+R = os.environ.get('PLATONIC_RESULTS', 'rebuttal/results').rstrip('/') + '/'; S = 'rebuttal/scripts/'; TEX = 'ICLR2027/iclr2027/'; P1 = TEX + 'main_iclr2027.tex'; PF = TEX + 'main_iclr2027_final.tex'
 import numpy.core as _c; sys.modules.setdefault("numpy._core", _c)
+# ---- priority 1c (expR80, brief of 2026-09-20 evening): the implanted-alignment control enters the submission only when the decision rule
+#      is met (power >= 0.8 at s = 1 with false alarms <= 0.05 at s = 0, computed by expR80 --merge into expR80_decision.csv); otherwise
+#      nothing enters and the result goes to main_iclr2027_rebuttal.tex (phaseE_rebuttal.py)
+IMPL = {"met": False}
+if os.path.exists(R + 'expR80_decision.csv') and os.path.exists(R + 'expR80_implanted_alignment.csv'):
+    d80 = pd.read_csv(R + 'expR80_decision.csv').iloc[0]; A80 = pd.read_csv(R + 'expR80_implanted_alignment.csv'); A80['hit'] = A80.z_depth <= -2
+    n1, h1 = int((A80.s == 1.0).sum()), int(A80[A80.s == 1.0].hit.sum()); n0, h0 = int((A80.s == 0.0).sum()), int(A80[A80.s == 0.0].hit.sum())
+    IMPL = dict(met=bool(d80.rule_power_ge_0_8_fa_le_0_05), hits1=h1, runs1=n1, hits0=h0, runs0=n0, power=float(d80.power_s1), fa=float(d80.false_alarms_s0), n_models=int(d80.n_models), n_seeds=int(d80.n_seeds))
+    assert IMPL["met"] == (IMPL["power"] >= 0.8 and IMPL["fa"] <= 0.05) and abs(IMPL["power"] - h1 / n1) < 1e-9 and abs(IMPL["fa"] - h0 / n0) < 1e-9, IMPL
+    print("expR80: rule", "MET -> integrated into the submission" if IMPL["met"] else "NOT met -> nothing enters the submission", IMPL)
+json.dump(IMPL, open(R + 'expR80_integration.json', 'w'), indent=1)
+def rep1(s, a, b):
+    assert s.count(a) == 1, (s.count(a), a[:70]); return s.replace(a, b)
 for s_ in ("multiarray", "numeric", "_multiarray_umath"):
     try: sys.modules.setdefault("numpy._core." + s_, importlib.import_module("numpy.core." + s_))
     except Exception: pass
@@ -80,6 +93,10 @@ ABSTRACT_TEXT = ("Hyperbolic methods for representation learning rest on a premi
     "A hyperbolic backbone shows the same, near-flat structure. "
     "The trees are moderately shared: the naive comparison manufactures an island, every recipe recovers the human taxonomy partially once the cut is controlled, and the self-supervised tree is angular. "
     "Read correctly, foundation models organize classes into clustered structure, hub-aligned in a few backbones, that is moderately shared; whether that structure is hierarchical remains untested at the noise level of real clouds, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.")
+ABSTRACT_SIXTH = ABSTRACT_TEXT
+if IMPL["met"]:   # priority 1c: 'plus a depth test with measured power' -> the author's phrase; the same sentence loses five words (we build -> build; random cloud of the same shape -> matched random cloud; reference level of the raw reading -> raw reading's reference level) to keep the 250-word cap
+    ABSTRACT_TEXT = rep1(ABSTRACT_TEXT, "We show that the reference level of the raw reading depends on dimension, spectrum and statistic, and we build an instrument that reads every score as an excess over a random cloud of the same shape, ranked against 200 replicates, plus a depth test with measured power. ",
+                         "We show that the raw reading's reference level depends on dimension, spectrum and statistic, and build an instrument that reads every score as an excess over a matched random cloud, ranked against 200 replicates, plus a depth test whose power is measured for the structure it certifies. ")
 ABSTRACT = "\\begin{abstract}\n" + ABSTRACT_TEXT + "\n\\end{abstract}"
 _aw = len(re.sub(r"\{\{[A-Z_]+\}\}", "44", ABSTRACT_TEXT).split()); assert _aw <= 250, _aw
 # fifth review: fills and checks for the new sentences
@@ -96,7 +113,7 @@ dec = pd.read_csv(R + 'expR74_decoupling_summary.csv'); cert4 = dec[dec.real_cer
 assert (cert4.frac_certified == 0).all() and (cert4.dec_z_mean > -2).all(), "'none of the four fires' (S5.3)"
 # the centered Haar null (expR75) is the record; the uncentered census (expR52) is one more construction in the census table
 s75 = pd.read_csv(R + 'expR75_census_centered_haar_summary.csv').iloc[0]; d75 = pd.read_csv(R + 'expR75_census_centered_haar.csv'); assert (d75[d75.verdict_changed].n == 10).all()
-json.dump({k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN')}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep
+json.dump({**{k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN')}, **({'IMPL_HITS': str(IMPL['hits1']), 'IMPL_RUNS': str(IMPL['runs1'])} if IMPL['met'] else {})}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
 ga = pd.read_csv(R + 'exp1_delta_controls.csv'); ga = ga[ga.variant == 'gauss'].sort_values('d')
 assert F['C_LO'] == f"{(0.144/(2*float(ga.delta_max.iloc[0])))**2:.2f}" and F['C_HI'] == f"{(0.144/(2*float(ga.delta_max.iloc[-1])))**2:.1f}", "Khrulkov's rule recomputed on the supremum Gaussian band of Table 3 (exp1 delta_max is the sampled supremum)"
 INTRO = edit(between("\\section{Introduction}", "\\section{Related Work}").rstrip())
@@ -104,7 +121,7 @@ RELATED = edit(between("\\section{Related Work}", "\\section{The Instrument}").r
 GROMOV = edit(between("\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}", strip=True).rstrip())
 ESTIM = edit(between("\\paragraph{Estimation and normalization.} ", "\\begin{figure}", strip=True).rstrip())
 for a, _ in EDITS: assert a not in INTRO + GROMOV + ESTIM, a[:40]
-json.dump({"edits": EDITS, "abstract_sixth_review": ABSTRACT_TEXT}, open(R + 'final_verbatim_edits.json', 'w'), indent=1)
+json.dump({"edits": EDITS, "abstract_sixth_review": ABSTRACT_SIXTH, "abstract_final": ABSTRACT_TEXT}, open(R + 'final_verbatim_edits.json', 'w'), indent=1)   # abstract_final = sixth-review text, or its priority-1c variant
 CUTS = [c for c in os.environ.get("FINAL_CUTS", "").split(",") if c]
 if "s2" in CUTS:   # S2 to one paragraph of six sentences: the first six sentences of the author's paragraph
     head, para = RELATED.split("\n\n", 1)[0], RELATED.split("\n\n", 1)[1]
@@ -115,6 +132,19 @@ for k, v in [("%%ABSTRACT%%", ABSTRACT), ("%%INTRO%%", INTRO), ("%%RELATED%%", R
 if "s55" in CUTS: pass   # S5.5 is written with three sentences in the template (cut step 1 applied at the source)
 if "s6" in CUTS: pass    # S6 has three paragraphs in the template (cut step 2)
 if "table" in CUTS: pass # the model table is in the appendix (Table of the panel, cut step 3)
+# ---- priority 1c (expR80): S5.3 sentence, Figure 4 caption, limitation (iii); Table 9c and the dotted curve come from the generator and the figure script
+if IMPL["met"]:
+    F['IMPL_HITS'], F['IMPL_RUNS'] = str(IMPL['hits1']), str(IMPL['runs1']); zero_txt = "in none at zero" if IMPL['hits0'] == 0 else f"in {IMPL['hits0']} of {IMPL['runs0']} at zero"
+    body = rep1(body, "\\paragraph{The alignment of each cluster with its hub is certified in four backbones.} The depth test certifies {{N_IN}} of 12 backbones, ViT-S, ViT-B, ViT-L and DINOv2-L, and never fires in the other direction.",
+                "\\paragraph{The alignment of each cluster with its hub is certified in four backbones, with measured power.} The depth test certifies the alignment of each cluster with its hub, with measured power: implanted alignment is detected in {{IMPL_HITS}} of {{IMPL_RUNS}} runs at full strength and " + zero_txt + ". It certifies {{N_IN}} of 12 backbones, ViT-S, ViT-B, ViT-L and DINOv2-L, and never fires in the other direction.")
+    body = rep1(body, "Figure~\\ref{fig:depth}a shows the $z$ per backbone and Table~\\ref{tab:q4-depth} gives both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv",
+                "Figure~\\ref{fig:depth} shows the $z$ per backbone and the power curve, and Tables~\\ref{tab:q4-depth} and~\\ref{tab:q5-power} give both stars and the implant. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv, expR80_implanted_alignment.csv, expR80_decision.csv")
+    body = rep1(body, "\\caption{\\textbf{The alignment of each cluster with its hub is certified in {{N_IN}} of 12 ImageNet backbones; whether the superclasses form a hierarchy is left open.}",
+                "\\caption{\\textbf{The alignment of each cluster with its hub is certified in {{N_IN}} of 12 ImageNet backbones, with measured power; whether the superclasses form a hierarchy is left open.}")
+    body = rep1(body, "with the real within-cluster spread (solid) and with it shrunk into the range where false alarms are controlled (dashed). % expR56_depth_variants.csv, expR64b_wn30.csv",
+                "with the real within-cluster spread (solid), with it shrunk into the range where false alarms are controlled (dashed), and against the strength of implanted alignment (dotted). % expR56_depth_variants.csv, expR64b_wn30.csv, expR80_implanted_alignment_summary.csv")
+    body = rep1(body, "(iii)~The depth test has no power at ImageNet's noise level, so whether the superclasses are arranged hierarchically is left open.",
+                "(iii)~The depth test has measured power for alignment and none for hierarchy at this noise level, so whether the superclasses are arranged hierarchically is left open.")
 for k, v in F.items(): body = body.replace("{{" + k + "}}", v)
 left = re.findall(r"\{\{[A-Z0-9_]+\}\}", body); assert not left, left
 # ---- appendix: the cited question tables of the v1 template, without figures, in the order the final text first cites them

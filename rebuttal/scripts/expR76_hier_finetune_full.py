@@ -50,8 +50,8 @@ def loader_thread(mm, order, q, stop):
 
 def gather(pool, gidx):
     """pool: list of (lo, array); gidx: global indices, each inside one pool chunk."""
-    los = np.array([lo for lo, _ in pool]); k = np.searchsorted(los, gidx, side="right") - 1
-    return np.stack([pool[kk][1][g - pool[kk][0]] for kk, g in zip(k, gidx)])
+    arr = {lo: a for lo, a in pool}   # the pool holds chunks in the epoch's random order, so locate each index by its chunk start, not by a sorted search
+    return np.stack([arr[(g // CHUNK) * CHUNK][g % CHUNK] for g in gidx])
 
 def main(A):
     import torch, torch.nn as nn, torch.nn.functional as F, timm
