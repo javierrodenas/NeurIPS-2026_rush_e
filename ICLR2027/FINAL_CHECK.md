@@ -15,11 +15,11 @@
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 42 | 19.8 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 78 | 16.3 | 34 |
+| Results | 80 | 16.3 | 34 |
 | Implications for Hyperbolic Representation Learning | 13 | 16.7 | 33 |
-| Conclusion and Limitations | 12 | 19.8 | 46 |
+| Conclusion and Limitations | 12 | 20.1 | 50 |
 
-Non-verbatim prose of S3–S7: 144 sentences, mean 17.4 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 146 sentences, mean 17.5 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -33,7 +33,7 @@ Non-verbatim prose of S3–S7: 144 sentences, mean 17.4 words (rule: mean ≤ 22
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The alignment of each cluster with its hub is certified in f | 4 of 12 |
 | Results | Whether the superclasses form a hierarchy is left open. | — |
-| Results | The test never fires on randomized hubs. | 0 of 60 |
+| Results | The test never fires on randomized hubs. | 0 of 60, 0 of 60, 0 of 4 |
 | Results | The test is weak at ImageNet's noise level. | — |
 | Results | The certified set depends on the frame. | — |
 | Results | Leaf labels can produce the depth but do not guarantee it. | — |

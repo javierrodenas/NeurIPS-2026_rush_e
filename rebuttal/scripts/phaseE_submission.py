@@ -73,13 +73,13 @@ def edit(s):
 # sixth review (2026-09-20): the abstract is rewritten by order to 250 words or fewer, depth left open, cell defined in its own sentence;
 # the text below replaces the edited verbatim abstract and is recorded in final_verbatim_edits.json ("abstract_sixth_review")
 ABSTRACT_TEXT = ("Hyperbolic methods for representation learning rest on a premise we call latent hyperbolicity: standard models are already tree-like because their class geometry scores a low Gromov $\\delta$. "
-    "We show that the reference level of the raw reading depends on dimension, spectrum and statistic, and we build an instrument that reads every score as an excess over a random cloud of the same shape, ranked against 200 matched replicates, plus a depth test with measured power. "
+    "We show that the reference level of the raw reading depends on dimension, spectrum and statistic, and we build an instrument that reads every score as an excess over a random cloud of the same shape, ranked against 200 replicates, plus a depth test with measured power. "
     "A cell is one model read on one dataset. "
     "Across 12 vision backbones, 6 datasets and 15 text models the raw reading is not evidence and the calibrated reading is weak and model-dependent. "
     "Class centroids carry structure beyond their second moments in {{N_GEN}} of 72 cells, but a star already produces it. The depth test certifies the alignment of each cluster with its hub in {{N_IN}} of 12 ImageNet backbones; whether the superclasses form a hierarchy is left open, the test having no power at this noise level. "
-    "A hyperbolic backbone shows the same structure in the near-flat regime. "
+    "A hyperbolic backbone shows the same, near-flat structure. "
     "The trees are moderately shared: the naive comparison manufactures an island, every recipe recovers the human taxonomy partially once the cut is controlled, and the self-supervised tree is angular. "
-    "Read correctly, foundation models organize classes into clustered, hub-aligned structure that is moderately shared; whether that structure is hierarchical remains untested at the noise level of real clouds, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.")
+    "Read correctly, foundation models organize classes into clustered structure, hub-aligned in a few backbones, that is moderately shared; whether that structure is hierarchical remains untested at the noise level of real clouds, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.")
 ABSTRACT = "\\begin{abstract}\n" + ABSTRACT_TEXT + "\n\\end{abstract}"
 _aw = len(re.sub(r"\{\{[A-Z_]+\}\}", "44", ABSTRACT_TEXT).split()); assert _aw <= 250, _aw
 # fifth review: fills and checks for the new sentences
@@ -127,6 +127,8 @@ for b in blocks:
     m = re.search(r"\\input\{appendix_tables/(tab_[a-z0-9_]+)\}", b); bytab[m.group(1)] = b
 KEEP = ["tab_q10_calibration", "tab_q01_census", "tab_q08_robust", "tab_q03_sample", "tab_q04_depth", "tab_q05_power", "tab_q06_treemap", "tab_q07_wordnet", "tab_q02_text", "tab_q13_local", "tab_q09_corollary", "tab_q14_panel"]
 DELETED = sorted(set(bytab) - set(KEEP) - {"tab_z_provenance"})
+REPL_ALL = [("the validated regime", "the regime where false alarms are controlled"), ("validated regime", "regime where false alarms are controlled"), ("unvalidated regime", "regime where false alarms are not controlled"),
+            ("depth unvalidated", "false alarms uncontrolled"), ("depth validated", "false alarms controlled"), ("is validated at", "controls false alarms at"), ("certifies clustering", "certifies structure beyond the second moments")]   # sixth-review follow-up R1/R3, every final copy and every appendix paragraph
 def clean_block(b):
     b = re.sub(r"\\begin\{figure\}.*?\\end\{figure\}\n?", "", b, flags=re.S)                     # no appendix figure is cited from the main text
     b = b.replace("(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:depth}a)", "(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:depth}a)")
@@ -135,6 +137,7 @@ def clean_block(b):
     b = b.replace("(Figure~\\ref{fig:causal}; raw $\\delta$, within architecture)", "(raw $\\delta$, within architecture)")
     b = b.replace("\\paragraph{The calibrated reading predicts the gain within datasets.}", "\\paragraph{Both readings predict the gain within datasets.}")   # fifth review, S B.12
     b = b.replace("\\subsection{Is the clustered structure genuine?", "\\subsection{Is the structure beyond the second moments genuine?")   # sixth review
+    for a_, b_ in REPL_ALL: b = b.replace(a_, b_)   # R1/R3 in the appendix prose
     return b
 # tables regenerated for the final by gen_appendix_final.py (appendix_tables/final/*_final.tex): robustness (bootstrap under the record, class-count sweep), depth (two-decimal z, K sweep), wordnet (DBpedia supremum under the Haar null)
 FINAL_SRC = {"tab_q08_robust": "tab_q08_robust_final", "tab_q04_depth": "tab_q04_depth_final", "tab_q07_wordnet": "tab_q07_wordnet_final", "tab_q05_power": "tab_q05_power_final", "tab_q01_census": "tab_q01_census_final"}
@@ -163,10 +166,12 @@ DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourt
 REPL = {"tab_q14_panel": [("9 causal LMs", "8 causal LMs")],                                                                 # fifth review: Table 5 caption
         "tab_q09_corollary": [("\\textbf{The calibrated reading predicts the zero-cost gain within datasets,", "\\textbf{Both readings predict the zero-cost gain within datasets,")],   # Table 13 title
         "tab_q01_census": [("\\textbf{Clustered structure is the rule at the class level under every construction", "\\textbf{Structure beyond the second moments is the rule at the class level under every construction")],   # sixth review
-        "tab_q02_text": [("\\textbf{In text, clustered structure depends", "\\textbf{In text, structure beyond the second moments depends")]}
+        "tab_q02_text": [("\\textbf{In text, clustered structure depends", "\\textbf{In text, structure beyond the second moments depends")],
+        "tab_q10_calibration": [("the spectrum excess certifies clustering, not depth.", "the spectrum excess certifies structure beyond the second moments, not depth.")]}   # sixth-review follow-up R1
 def split_panels(src, drop=(), capfix=None, dropline=(), repl=()):
     for a, b in repl:
         assert src.count(a) == 1, a; src = src.replace(a, b)
+    for a, b in REPL_ALL: src = src.replace(a, b)
     if dropline:
         n0 = len(src.split("\n")); src = "\n".join(l for l in src.split("\n") if not any(d in l for d in dropline)); assert len(src.split("\n")) == n0 - len(dropline), dropline
     prov = [l for l in src.split("\n") if l.startswith("% prov:")]; out = list(prov); first = True; dropped = 0

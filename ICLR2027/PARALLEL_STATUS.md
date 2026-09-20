@@ -2,6 +2,16 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-20 19:20 — priority 1c added (sixth-review follow-up)
+
+- **§1c (CPU, reuses expR74)**: `expR80_implanted_alignment.py` running in four shards at nice 10: from each backbone's decoupled cloud,
+  each cluster's principal axis is rotated toward its hub direction by a fraction s of the angle (s = 0, 0.25, 0.5, 0.75, 1; hubs and
+  within-cluster spectra unchanged, unit-checked), 5 seeds, depth test at every s. Decision rule (power >= 0.8 at s = 1 with false alarms
+  <= 0.05 at s = 0) is computed by `--merge` into `expR80_decision.csv`; if met, the submission gains Table 9c, a third curve in
+  Figure 4b and the sentence "certifies hub alignment with measured power"; otherwise the result stays in the parallel file.
+- CPU is shared by expR66c (12 parts, nice 15), the ImageNet decode (6 workers), expR78 (delta step), expR79 and now expR80; the
+  fine-tuning starts when the decode finishes.
+
 ## 2026-09-20 19:05 — priority 1b added (sixth review); replication features done
 
 - **§1b (CPU)**: `expR79_synthetic_deep_poincare.py` running at nice 10: (a) a synthetic cloud with ViT-L's real ImageNet spectrum and

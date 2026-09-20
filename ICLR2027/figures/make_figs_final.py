@@ -114,13 +114,19 @@ for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax = axes[1]
 l1, = ax.plot(pr.index, pr.values, "-o", color="k", ms=3, lw=1.0, label="real spread", zorder=3)
 l2, = ax.plot(pt.index, pt.values, "--s", color=GRAY, ms=3, lw=1.0, label="shrunk spread", zorder=3)
+l3 = None   # priority 1c (expR80): the implanted-alignment curve enters the submission only when the decision rule of the brief is met
+if (RES/"expR80_decision.csv").exists() and (RES/"expR80_implanted_alignment_summary.csv").exists():
+    d80 = list(csv.DictReader(open(RES/"expR80_decision.csv")))[0]
+    if d80["rule_power_ge_0_8_fa_le_0_05"] == "True":
+        s80 = list(csv.DictReader(open(RES/"expR80_implanted_alignment_summary.csv")))
+        l3, = ax.plot([float(r["s"]) for r in s80], [float(r["detection_rate"]) for r in s80], ":^", color=FAMILY_COLORS["supervised"], ms=3, lw=1.0, label="implanted alignment", zorder=3)
 ax.annotate("no false alarms at $s{=}0$", (0, pr.loc[0.0]), xytext=(4, 12), textcoords="offset points", fontsize=8, ha="left", va="bottom", arrowprops=dict(arrowstyle="-", color=GRAY, lw=0.6))
 ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"]); ax.set_xlabel("implant strength $s$", labelpad=1)
 ax.set_ylim(-0.04, 1.08); ax.set_yticks([0, 0.5, 1]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("detection rate")
 ax.set_title("(b) false alarms and power on real clouds")
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-hd = [Patch(color="k", label="certified ($z\\leq-2$)"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not detected"), l1, l2]
-fig.legend(handles=hd, frameon=False, loc="lower center", ncol=4, handlelength=1.4, handletextpad=0.4, columnspacing=1.4, bbox_to_anchor=(0.5, -0.01))
+hd = [Patch(color="k", label="certified ($z\\leq-2$)"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not detected"), l1, l2] + ([l3] if l3 is not None else [])
+fig.legend(handles=hd, frameon=False, loc="lower center", ncol=len(hd), handlelength=1.4, handletextpad=0.4, columnspacing=1.2, bbox_to_anchor=(0.5, -0.01))
 fig.subplots_adjust(left=0.09, right=0.99, top=0.89, bottom=0.40, wspace=0.35)
 save(fig, "fig_depth_final")
 print(f"depth: certified {sum(v <= -2 for v in an.values())}/12; detection real {dict((float(k), round(float(v), 3)) for k, v in pr.items())}; shrunk {dict((float(k), round(float(v), 3)) for k, v in pt.items())}")

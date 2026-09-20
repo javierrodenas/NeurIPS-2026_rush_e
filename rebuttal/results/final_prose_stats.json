@@ -21,7 +21,7 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 78,
+   "sentences": 80,
    "avg_words": 16.3,
    "max_words": 34
   },
@@ -32,12 +32,12 @@
   },
   "Conclusion and Limitations": {
    "sentences": 12,
-   "avg_words": 19.8,
-   "max_words": 46
+   "avg_words": 20.1,
+   "max_words": 50
   }
  },
- "avg_nonverbatim": 17.4,
- "n_nonverbatim_sentences": 144,
+ "avg_nonverbatim": 17.5,
+ "n_nonverbatim_sentences": 146,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -92,7 +92,9 @@
    "section": "Results",
    "lead": "The test never fires on randomized hubs.",
    "numbers": [
-    "0 of 60"
+    "0 of 60",
+    "0 of 60",
+    "0 of 4"
    ]
   },
   {

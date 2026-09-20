@@ -1,2 +1,3 @@
 dinov2_b  imagenet     b= -1 exc -0.0167 r=50/50 (293s)
 dinov2_b  imagenet     b=  0 exc -0.0163 r=50/50 (297s)
+dinov2_b  imagenet     b= 10 exc -0.0164 r=50/50 (579s)

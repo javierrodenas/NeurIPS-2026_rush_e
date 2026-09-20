@@ -1,0 +1,4 @@
+cub: 11788 images, 200 classes
+  0/11788 (2s)
+  6400/11788 (19s)
+wrote /media/HDD_4TB_2/javi/Platonic/results/khrulkov_features/resnet34_cub.npz (11788, 512)

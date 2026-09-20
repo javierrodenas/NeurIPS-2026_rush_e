@@ -1,0 +1,13 @@
+cifar10      trial 0 delta_rel 0.297 (theirs 0.26) | record delta_999 0.0804 excess -0.0021 r 155/200 (853s)
+Traceback (most recent call last):
+  File "rebuttal/scripts/expR78_khrulkov_replication.py", line 107, in <module>
+    if A.delta: run_delta()
+  File "rebuttal/scripts/expR78_khrulkov_replication.py", line 98, in run_delta
+    pd.DataFrame(rows).to_csv(OUT / "expR78_khrulkov_replication.csv", index=False)
+  File "/home/javi/anaconda3/lib/python3.8/site-packages/pandas/core/generic.py", line 3170, in to_csv
+    formatter.save()
+  File "/home/javi/anaconda3/lib/python3.8/site-packages/pandas/io/formats/csvs.py", line 185, in save
+    f, handles = get_handle(
+  File "/home/javi/anaconda3/lib/python3.8/site-packages/pandas/io/common.py", line 493, in get_handle
+    f = open(path_or_buf, mode, encoding=encoding, errors=errors, newline="")
+FileNotFoundError: [Errno 2] No such file or directory: '/media/HDD_4TB_2/javi/rebuttal/results/expR78_khrulkov_replication.csv'

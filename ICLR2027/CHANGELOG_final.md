@@ -1298,3 +1298,24 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   profundidad y el control de desacoplamiento; en marcha. Resultado en `PARALLEL_STATUS.md`.
 - Compilación: §7 termina en la página 9 (línea 479), statements en la 9, referencias en la 10 (línea 501); 31 páginas, 0 avisos.
   Sweep: pendiente sólo del fichero de expR66c (cierre nocturno).
+
+## 32. Sexta revisión, continuación (2026-09-20, ordenada por el autor).
+
+- R1 "certifies clustering(, not depth)" → "certifies structure beyond the second moments(, not depth)" en el título de la Tabla 3 y en
+  B.2 (sustitución en las copias finales y en la prosa del apéndice; `REPL_ALL` en `phaseE_submission.py`). R2 Tabla 9, título: "The
+  depth test has full power on synthetic hierarchies at the leaf frame and none at the top-level frame used on real backbones" (copia
+  final, `q_power` con `FINAL`). R3 "the validated regime" → "the regime where false alarms are controlled" en §5.3, B.7 y las copias de
+  las tablas ("validated range" → "range where false alarms are controlled"; "depth validated/unvalidated" → "false alarms
+  controlled/uncontrolled"; "is validated at" → "controls false alarms at"). R4 §5.2, colapso neuronal: "The census does not certify that
+  frame: class means cluster around superclass hubs, which the superclass recovery of §5.4 shows and the depth test reads as hub
+  alignment." R5 tesis (resumen y §7): "organize classes into clustered structure, hub-aligned in a few backbones, that is moderately
+  shared" (§1 no contiene la tesis; el sweep exige exactamente dos apariciones). R6 §5.3: "The alignment is relational: it needs both
+  the real hubs and the real orientation of each cluster relative to them, which is why randomizing either removes it, 0 of 60 and 0 of
+  4." (cabecera de números ampliada con ese grupo).
+- Pista paralela, prioridad 1c (CPU): `expR80_implanted_alignment.py` (desde la nube desacoplada de expR74, el eje principal de cada
+  clúster girado hacia la dirección de su hub por una fracción s del ángulo, s ∈ {0, 0.25, 0.5, 0.75, 1}, 5 semillas, 12 backbones;
+  espectro intra-clúster y hubs intactos, comprobado; test de profundidad del registro en cada s). Regla de decisión del brief
+  (potencia ≥ 0.8 en s = 1 con falsas alarmas ≤ 0.05 en s = 0) codificada en `expR80_decision.csv`: si se cumple, `q_power` (Tabla 9c) y
+  `make_figs_final.py` (tercera curva de la Figura 4b) la incorporan al envío y la frase "certifies hub alignment with measured power"
+  entra en §5.3; si no, queda en la versión paralela. Cuatro procesos a prioridad baja desde las 19:15.
+- Compilación y sweep: véase el cierre de esta entrada al terminar expR66c.
