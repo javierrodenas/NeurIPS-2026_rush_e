@@ -1,0 +1,24 @@
+{
+ "positive_control": {
+  "written": false,
+  "reason": "expR77 results not available"
+ },
+ "deep_synthetic": {
+  "written": false,
+  "reason": "expR79 not finished (no Poincare d=50 row yet)"
+ },
+ "implanted_alignment": {
+  "written": true,
+  "rule_met": false,
+  "power_s1": 0.6,
+  "false_alarms_s0": 0.016666666666666666,
+  "hits1": 36,
+  "runs1": 60,
+  "hits0": 1,
+  "runs0": 60
+ },
+ "replication": {
+  "written": false,
+  "reason": "expR78 summary not available"
+ }
+}

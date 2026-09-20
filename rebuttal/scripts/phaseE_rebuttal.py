@@ -37,7 +37,7 @@ if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'exp
     status['positive_control'] = dict(written=True, criterion_met=met, hier_z=[float(h.z_wn30), float(h.z_wn30bal)], hier_dec=[float(h.zdec_mean_wn30), float(h.zdec_mean_wn30bal)])
 else: status['positive_control'] = dict(written=False, reason="expR77 results not available")
 # ---- S5.3: priority 1b (expR79): synthetic deep hierarchy with ViT-L's spectrum, and the WordNet Poincare embeddings, through the depth test
-if os.path.exists(R + 'expR79_synthetic_deep_poincare.csv'):
+if os.path.exists(R + 'expR79_synthetic_deep_poincare.csv') and pd.read_csv(R + 'expR79_synthetic_deep_poincare.csv').cloud.str.startswith('wordnet_poincare_d50').any():   # the last row of the run: partial results never enter
     E = pd.read_csv(R + 'expR79_synthetic_deep_poincare.csv'); E['cert'] = E.z <= -2; E['dec_cert'] = E.zdec_mean <= -2
     deep = E[E.cloud == 'synthetic_deep_vitl_spectrum']; flat = E[E.cloud == 'synthetic_flat_vitl_spectrum']; poi = E[E.cloud.str.startswith('wordnet_poincare')]
     def fires(df): return f"{int(df.cert.sum())} of {len(df)}"
@@ -54,7 +54,7 @@ if os.path.exists(R + 'expR79_synthetic_deep_poincare.csv'):
                   "\n\\bottomrule\n\\end{tabular}\n\\caption{\\textbf{Priority 1b: a deep hierarchy at the real noise level, and the WordNet Poincar\\'e embeddings.} Synthetic clouds with ViT-L's real ImageNet spectrum and a three-level implanted hierarchy (nested 2/6/30 cuts of the frame) at ViT-L's real within/between ratio, and a flat two-level control, 5 seeds each; the WordNet Poincar\\'e embeddings of Nickel and Kiela (2017) trained on the transitive closure of the tree spanning the 1000 ImageNet leaves at $d{=}10$ and $50$. "
                   "Census excess under the centered Haar null (200 replicates, rank in parentheses), depth test with the matched anisotropic star at $K{=}30$ (10 star seeds), and the decoupling control (mean $\\pm$ s.d.\\ over 10 seeds). % expR79_synthetic_deep_poincare.csv\n}\n\\label{tab:r1b-deep}\n\\end{table}\n")
     status['deep_synthetic'] = dict(written=True, deep_fires=fires(deep) if len(deep) else None, flat_fires=fires(flat) if len(flat) else None, poincare=[dict(dim=int(r.dim), z=float(r.z)) for _, r in poi.iterrows()])
-else: status['deep_synthetic'] = dict(written=False, reason="expR79 results not available")
+else: status['deep_synthetic'] = dict(written=False, reason="expR79 not finished (no Poincare d=50 row yet)")
 # ---- S5.3: priority 1c (expR80): implanted alignment; enters the rebuttal file only when the decision rule is NOT met (otherwise it is in the submission already)
 if os.path.exists(R + 'expR80_decision.csv') and os.path.exists(R + 'expR80_implanted_alignment.csv'):
     d80 = pd.read_csv(R + 'expR80_decision.csv').iloc[0]; A80 = pd.read_csv(R + 'expR80_implanted_alignment.csv'); A80['hit'] = A80.z_depth <= -2
@@ -63,6 +63,7 @@ if os.path.exists(R + 'expR80_decision.csv') and os.path.exists(R + 'expR80_impl
         SS = sorted(A80.s.unique()); pm = A80.groupby(['model', 's']).hit.mean().unstack(); pooled = A80.groupby('s').hit.mean()
         n1, h1 = int((A80.s == 1.0).sum()), int(A80[A80.s == 1.0].hit.sum()); n0, h0 = int((A80.s == 0.0).sum()), int(A80[A80.s == 0.0].hit.sum())
         NM80 = {"i21k_t": "ViT-T", "i21k_s": "ViT-S", "i21k_b": "ViT-B", "i21k_l": "ViT-L", "dinov1_b": "DINO-B", "dinov2_s": "DINOv2-S", "dinov2_b": "DINOv2-B", "dinov2_l": "DINOv2-L", "dinov2_g": "DINOv2-g", "clip_b": "CLIP-B", "clip_l": "CLIP-L", "siglip_b": "SigLIP-B"}
+        ORD = [m for m in NM80 if m in pm.index] + [m for m in pm.index if m not in NM80]; pm = pm.loc[ORD]   # the paper's backbone order
         full = [NM80.get(m, m) for m in pm.index if pm.loc[m, 1.0] == 1.0]; none_ = [NM80.get(m, m) for m in pm.index if pm.loc[m, 1.0] == 0.0]
         par = ("\\paragraph{Implanted alignment on the real clouds.} From the decoupled cloud of each backbone, each cluster's principal axis was rotated toward its hub direction by a fraction $s$ of the angle, hubs and within-cluster spectra unchanged, and the test was read at every $s$. "
                f"Implanted alignment is detected in {h1} of {n1} runs at full strength and in {h0} of {n0} at zero, a power of {float(d80.power_s1):.2f} against the pre-set bar of 0.8, so the power of the test for alignment is not established on the real clouds and the submission keeps the certification without a power statement. "

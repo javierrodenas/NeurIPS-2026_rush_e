@@ -2,6 +2,24 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 00:05 — priority 1c: decision rule NOT met; nothing enters the submission
+
+- **§1c result** (`expR80_implanted_alignment.csv`, 12 backbones x 5 seeds x 5 strengths, merged at 00:02): detection rate at
+  z <= -2 by strength s = 0 / 0.25 / 0.5 / 0.75 / 1: 0.017 / 0.233 / 0.500 / 0.550 / 0.600. False alarms at s = 0: 1 of 60 (0.017,
+  within the 0.05 bar). Power at s = 1: 36 of 60 (0.60, below the 0.8 bar). Rule not met, so the submission file is untouched: no
+  Table 9c, no third curve in Figure 4b, no "measured power" wording; the §5.3 certification stays as in `92f3c81`.
+- Per backbone at full strength: detected in every seed for ViT-T, ViT-S, ViT-B, ViT-L and CLIP-B (ViT-B/L already at s = 0.25–0.5);
+  DINO-B 4 of 5, SigLIP-B 3 of 5, CLIP-L and DINOv2-g 2 of 5, DINOv2-S/B/L 0 of 5. The implant that the supervised ViTs and CLIP-B
+  reveal at half strength is invisible to the DINOv2 family even at full strength: the power of the test for alignment is
+  backbone-dependent, and the rebuttal paragraph says so with the numbers.
+- Written into `main_iclr2027_rebuttal.tex` (§5.3 paragraph "Implanted alignment on the real clouds." after the "left open"
+  paragraph, plus the per-backbone table in the parallel-track appendix subsection) by `phaseE_rebuttal.py`; compiled by
+  `rebuttal_rebuild.sh` to `ICLR2027/main_iclr2027_rebuttal.pdf`; sweep `rebuttal_checks` re-derives the counts from the CSVs.
+- **§1**: both fine-tuning runs at 82 img/s, leaf accuracy 0.91 at step 2000 of 5004 of epoch 0 (hierarchical losses near zero);
+  ~5 h per epoch, seed 0 of both runs expected around Tuesday 22 morning.
+- **§2**: CIFAR-10 mean δ_rel 0.275 (published 0.26) and CIFAR-100 0.261 (published 0.25), both within 0.03; CUB running.
+- **§1b**: four deep synthetic seeds done (z = −1.80 at seed 0, not firing at K = 30; decoupled z −4.8); flat control and Poincaré next.
+
 ## 2026-09-20 20:55 — decode done, fine-tuning launched; rule-met branch tested end to end
 
 - **§1**: the decode finished at 20:42 (1,281,167 images, 134.8 min; memmap size equals the expected 192,851,506,176 bytes). Both

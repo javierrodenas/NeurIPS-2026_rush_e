@@ -1353,3 +1353,13 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Pista paralela, §2: el paso delta corría desde las 19:26 (un duplicado lanzado a las 19:42 por error se detuvo); primer lote de
   CIFAR-10: δ_rel de su estimador 0.297 frente al 0.26 publicado; exceso del registro −0.002 (rango 155/200). ~15 min por lote.
 - Sweep del envío restaurado: 210/211, pendiente sólo del fichero de expR66c (cierre nocturno).
+- **Cierre de la prioridad 1c (2026-09-21, 00:02)**: regla NO cumplida. Tasa de detección por s = 0 / 0.25 / 0.5 / 0.75 / 1:
+  0.017 / 0.233 / 0.500 / 0.550 / 0.600 (12 backbones × 5 semillas); falsas alarmas en s = 0: 1 de 60 (dentro del 0.05); potencia en
+  s = 1: 36 de 60 (0.60, por debajo del 0.8). Nada entra en el envío: `main_iclr2027_final.tex` queda como en `92f3c81` (sin Tabla 9c,
+  sin tercera curva, sin "measured power"). Por backbone a fuerza plena: ViT-T/S/B/L y CLIP-B detectan en las 5 semillas (ViT-B/L ya en
+  s = 0.25–0.5), DINO-B 4, SigLIP-B 3, CLIP-L y DINOv2-g 2, DINOv2-S/B/L 0: la potencia del test para la alineación depende del
+  backbone. Resultado escrito en `main_iclr2027_rebuttal.tex` (párrafo "Implanted alignment on the real clouds." en §5.3 y tabla por
+  backbone en la subsección de la pista paralela; lista de backbones en el orden del artículo) y en `PARALLEL_STATUS.md`; versión
+  paralela compilada (`ICLR2027/main_iclr2027_rebuttal.pdf`, 32 páginas, 0 avisos). Sweep 213/214: los tres checks de la réplica
+  pasan y sigue pendiente sólo el fichero de expR66c. `phaseE_rebuttal.py` exige además que expR79 haya terminado (fila de Poincaré
+  d = 50) antes de escribir su párrafo: los resultados parciales no entran.

@@ -1,0 +1,126 @@
+PASS calib: tree delta=0.000 
+PASS calib: H2 R=4 delta_norm ~0.087 
+PASS calib: H2 R=4 absolute ~0.69 (ln2) 
+PASS calib: S99 chord ~0.143 
+PASS calib: S99 geodesic ~0.179 
+PASS calib: gauss d=768 ~0.061 
+PASS census: 72 cells, 200 replicates, none from the store 
+PASS 68/72 sign-neg 
+PASS 4 sign-positive: Dv2 S/B/G IN (exc<=+0.011, p>=0.99) + ViT-T FMNIST (~0, p~0.5) 
+PASS genuine p<=0.05: 55/72, hier 43/48, flat 12/24 
+PASS 44/72 below all 200 replicates; flat 23/24 sign-neg 
+PASS genuine <=> r>=191 
+PASS B20 caption: |z|>=2 49/72, hier z<=-3 32/48 
+PASS IN ranges: ViT -0.020..-0.030, CLIP/SigLIP -0.016..-0.025 
+PASS Dv2-L IN -0.008 genuine r=200; S->G C10 -0.095->-0.155 
+PASS R1 fidelity: ImageNet raw delta == exp20 cache (4 dp) 
+PASS sphere 12/12 geo, 10/12 chord 
+PASS xi Dv2 -0.020->-0.070 66->89% 
+PASS sup/con xi +0.02..+0.04, < gauss 0.09 
+PASS text: 15 models, 200 replicates 
+PASS GPT-2 S/M not genuine (-0.013/-0.009; p .090/.139), L/XL genuine (-0.039/-0.047) 
+PASS Pythia x3 + OLMo-1B genuine 
+PASS 7 embedders not genuine, excess +0.003..+0.012 
+PASS genuine 6/15 
+PASS erank GPT2 1.3->56; GTE 98 
+PASS templates: emb <=.012, LM hasta .065 
+PASS DBpedia exc -0.020..-0.028, delta .122-.132, NC -0.4..-0.8, FS +0.04..+0.08 
+PASS C50 Dv2-L (exp19, supremum) exc -0.124/-0.093 NC +1.58/+0.53 [historical; Table B3 now reads expR60] 
+PASS C-sweep record: text numbers (Dv2-L C=50 random/coherent excess) match expR60; every seed has 200 replicates 
+PASS C-sweep record: random-more-than-coherent thresholds per model, NC random>coherent everywhere, C=10 random excess, Dv2-G below null at every C, as stated 
+PASS DBpedia record: three embedders, excess range and min r as stated in the text 
+PASS bridges IN ViT 7.6/3.2 CLIPSIG 8.0/4.4 
+PASS naive IN: ViT-T~CLIP-B 0.82 
+PASS naive block WordNet 0.38-0.51 
+PASS naive island <=0.06 vs supervised 
+PASS C100 cosine-ward: 0.56 vs 0.61, coph 0.74/0.74 
+PASS IN cosine-avg 0.38 vs 0.48 
+PASS exp21b: 66 pairs 
+PASS exp21b kNN raw .472 cal .464 null .010 (= 10/999) 
+PASS exp21b CKA raw .633 cal .577 null .108 
+PASS exp21b Poincare: kNN .425, CKA .640 
+PASS exp21b every pair p=1/201 (<0.05) for kNN and CKA 
+PASS NC pooled -0.45 
+PASS NC imagenet -0.83 
+PASS NC cifar100 -0.87 
+PASS FS 56/60 estricto 
+PASS +2.05 headline 
+PASS McNemar p~4e-38 
+PASS RT means 0.20/0.12 
+PASS best-metric FS -0.31/-0.33 
+PASS CLIP HN-COS +0.9..+1.3 transfer 
+PASS exp24 val +0.63 oracle +0.64 (hier +0.78) 
+PASS exp24 rule +0.41 vs cos +0.28 hier 
+PASS CIs NC pooled [-0.60,-0.36], FS pooled inc. 0 
+PASS t-sweep NC cruza cero, FS>0 siempre 
+PASS rho ladder CLIP .57-.59 ViT .49-.53 DINOB .36 Dv2 .18-.22 
+PASS ARI 0.61 (exp8_p1) 
+PASS groupings 11/12 clipB .126/.174 
+PASS no-pooling +0.26 
+PASS triplets 0.91/0.85 vs 0.71/0.63 
+PASS triplet: 'all genuine' necesita scoping (DINO-B IN -0.004) 
+
+61/61 checks passed
+[round3 re-total] 66/66
+[round4 re-total] 69/69
+PASS tool == Table 1 record (i21k_l/cifar100): excess 3dp, r, p | tool -0.0205 r200 p0.0050 | table -0.0205 r200 p0.0050
+PASS tool == B34 aniso (i21k_l/cifar100): depth 3dp, z 1dp | tool -0.0167 z-1.49 | table -0.0167 z-1.49
+PASS tool == Table 1 record (dinov2_l/imagenet): excess 3dp, r, p | tool -0.0135 r200 p0.0050 | table -0.0135 r200 p0.0050
+PASS tool == B34 aniso (dinov2_l/imagenet): depth 3dp, z 1dp | tool -0.0277 z-2.39 | table -0.0277 z-2.39
+[tool re-total] 73/73
+PASS p99.9@200: 70/72 sign-neg, 56/72 genuine, 44/48 hier genuine 
+PASS p99.9@200 ImageNet: DINO/DINOv2 genuine, ViT-T not 
+[p999 re-total] 75/75
+PASS phaseA vision record: 72 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA vision haar x sup: 72 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA text record: 15 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA text haar x sup: 15 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA text gauss x p999: 15 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA cosine vision: 72 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA cosine text: 15 rows, r/p consistent, BH monotone, genuine flags 
+PASS phaseA depth power: expR55_depth_power.csv present 
+PASS phaseA depth variants: expR56_depth_variants.csv present 
+PASS phaseA cut-free tree map: expR58_treemap_cutfree_summary.csv present 
+PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present 
+[phaseA re-total] 86/86
+   BRIDGE: 3 last-paragraph With the instrument in place | \paragraph{Projection and tasks.} A parameter-free
+   BRIDGE: 4 last-paragraph turn to next | \paragraph{Scale deepens the excess for one family
+   BRIDGE: 5 last-paragraph subject of the next | \paragraph{Local agreement survives calibration.} 
+   V2 BRIDGE: Experimental Setup last With the instrument in place | \paragraph{Replicates, seeds and budgets.} Every c
+   V2 BRIDGE: Results last turn to next | \paragraph{Scale deepens the excess for one family
+   V2 BRIDGE: Results last subject of the next | We apply the permutation calibration of \citet{gro
+   V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
+   V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
+   V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
+PASS final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits 
+PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
+PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
+PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
+PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 
+PASS final: no bridge sentences anywhere in the body 
+PASS final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form 
+PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), seven definitions inline and unframed, seven numbered equations, Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
+PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
+PASS final: the seven defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
+PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 
+PASS final: every result file named in a provenance comment of the main text exists 
+PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
+PASS final: every main-text figure caption opens with a bold takeaway and names its source files 
+PASS final: the Figure 5 caption states the naive and the selected DINOv2-vs-block agreement read from the figure's data 
+PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 
+PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
+PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 
+PASS final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel 
+PASS final (5th review): confounds stated as a reference level in S1 and S3.2; Proposition 1(b) for fixed n; Khrulkov's rule calibrated with the supremum; S4 210 quadruples; S5.2 flat datasets and 30 of 36; S5.3 WordNet levels and the decoupling control; S6 depth verdict predicts no hyperbolic gain and the calibration paragraph; Figure 2(b) same dataset; no 'OLMo-7B was not extracted'; power table with two-decimal z; Table 13 and S B.12 'Both readings'; Table 5 with 8 causal LMs; AI statement in three items 
+FAIL final (author's decisions, 2026-09-20): the record is the centered Haar null (44 of 72; five constructions in the census table with the uncentered census as a column; Table 1, Figure 3 and the joint sensitivity from it); the decoupling result rewrites the depth claim with the author's wording (abstract, S1, contribution 2, thesis, S5.3, MERU, Figure 4 caption); 'certified' only for the decoupling-tested structure 
+PASS final (priority 1c): the implanted-alignment control is NOT in the submission (rule not met, or expR80 not merged yet): no Table 9c, no dotted curve, no 'measured power for alignment' wording 
+PASS final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row 
+PASS final: every cross-reference of the final resolves 
+PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
+PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
+PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
+PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
+PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
+PASS rebuttal (priority 1c, rule not met): the implanted-alignment counts and the power in the paragraph and table match expR80_implanted_alignment.csv / expR80_decision.csv, the rule is stated as not met and no 'measured power' claim enters 
+[phaseB re-total] 213/214
+FAIL(all): final (author's decisions, 2026-09-20): the record is the centered Haar null (44 of 72; five constructions in the census table with the uncentered census as a column; Table 1, Figure 3 and the joint sensitivity from it); the decoupling result rewrites the depth claim with the author's wording (abstract, S1, contribution 2, thesis, S5.3, MERU, Figure 4 caption); 'certified' only for the decoupling-tested structure 
