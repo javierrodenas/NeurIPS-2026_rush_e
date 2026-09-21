@@ -375,3 +375,4 @@ hier_seed0 ep 3 step 3200/5004 85 img/s acc 0.945 leaf 0.189 k30 0.038 k6 0.000 
 hier_seed0 ep 3 step 3250/5004 85 img/s acc 0.949 leaf 0.172 k30 0.038 k6 0.000 k2 0.000 (88 min left)
 hier_seed0 ep 3 step 3300/5004 85 img/s acc 0.973 leaf 0.132 k30 0.053 k6 0.001 k2 0.000 (85 min left)
 hier_seed0 ep 3 step 3350/5004 85 img/s acc 0.996 leaf 0.012 k30 0.013 k6 0.002 k2 0.001 (83 min left)
+hier_seed0 ep 3 step 3400/5004 85 img/s acc 0.914 leaf 0.403 k30 0.038 k6 0.002 k2 0.003 (80 min left)

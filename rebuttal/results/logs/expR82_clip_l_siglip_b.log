@@ -1,3 +1,4 @@
 clip_l    l2norm    aniso           intact: depth -0.0139 z -1.57 (450s)
 clip_l    l2norm    aniso_haarhubs  intact: depth -0.0133 z -1.12 (464s)
 clip_l    l2norm    decoupled: z mean -0.82 cert 0.0
+clip_l    deradial  aniso           intact: depth -0.0093 z -1.05 (336s)

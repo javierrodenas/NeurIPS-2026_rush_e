@@ -1607,3 +1607,6 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   standard models are already tree-like because their class geometry scores a low Gromov δ, a measure of tree-likeness that is zero
   for a tree." (vuelve "we call" y se añade la definición de δ). 320 palabras; el check del tope de 250 sigue en FAIL a la espera del
   autor. `OPENREVIEW_abstract.txt` regenerado.
+- **Resumen, segunda frase (autor, 2026-09-21)**: "That low value is also what a random cloud of the same dimension and spectrum
+  scores, so we build an instrument that reads every score as its excess over 200 such clouds, and add a depth test whose power is
+  measured." (sustituye a la frase del nivel de referencia). Recuento en la nota de cierre; el tope de 250 sigue pendiente.
