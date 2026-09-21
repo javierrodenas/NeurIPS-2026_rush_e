@@ -1,1 +1,2 @@
 i21k_t    l2norm    aniso           intact: depth +0.0030 z +0.27 (302s)
+i21k_t    l2norm    aniso_haarhubs  intact: depth -0.0023 z -0.17 (346s)

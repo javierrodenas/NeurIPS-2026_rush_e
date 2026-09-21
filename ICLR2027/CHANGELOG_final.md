@@ -1581,3 +1581,25 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   Tabla 2(e)), "and order the levels by projection radius" (§5.4), "most for DINOv2-G on CIFAR-100" (§5.1), la cláusula de los
   magnitudes del control de clases (§5.2), "so the excess is conservative" en la limitación (ii); textfloatsep 4 pt, abovecaptionskip
   0, saltos de sección 0.5 ex. Sweep 215/216: sólo el tope del resumen (311 palabras). Versión paralela recompilada.
+
+## 41. Correcciones de texto (2026-09-21, tras la octava revisión).
+
+- **(1)** La forma corta del resumen, §1 (espejo y contribución 2), pie de la Figura 4 y pie de la Tabla 8 es ahora exactamente la de
+  §7: "no hierarchy above the superclasses is found in the supervised and contrastive backbones; the DINOv2 family lies beyond the
+  noise level at which the test was validated." (en la contribución 2 con "is found", como en §7).
+- **(2)** §5.3: la frase larga se sustituye por "The control covers the supervised and contrastive backbones (within/between ratios
+  {{RATIO_SC_LO}}--{{RATIO_SC_HI}}); DINO-B ({{RATIO_DINOB}}) and ViT-B ({{RATIO_VITB}}) sit at its edge, and the DINOv2 family
+  ({{RATIO_DINO_LO}}--{{RATIO_DINO_HI}}) lies beyond it and is not tested." (rellenos de expR64b: 1.3–2.0, 2.1, 2.0, 3.0–3.9). Como
+  DINO-B queda situado aquí, la frase "DINO-B (2.1) and ViT-B (2.0) lie at the edge of the covered range" sale de la limitación (iii).
+  El sweep lee ahora los rangos con guion como rangos ("--" → "to" antes de contar números); el párrafo pasa a (7, 4).
+- **(3)** §5.2: eliminado el puntero "Table 2 gives the training rows" (la frase de entrenamiento no vuelve por el presupuesto; la
+  Tabla 2(e) sigue en el apéndice).
+- **(4)** Limitación (iii), hasta que expR82 informe: "An alternative reading of the alignment is the radial spread of feature norms
+  within each superclass, which would elongate every cluster toward its hub without semantics; a control that removes it is in
+  progress." Se sustituirá por el resultado con la regla del brief.
+- **(5)** §1, "The answer has three parts": "is genuine in 44 of 72 cells" → "is present in 44 of 72 cells, more than chance would give".
+- Presupuesto: el párrafo "The count survives resampling" en dos frases más el puntero; "rather than its hierarchy" fuera de §6.
+- **Cierre (2026-09-21, 12:35)**: §7 en la línea 459 de la página 9, statements en la 485 (página 9), referencias en la 503 (página 10);
+  33 páginas, 0 avisos; sweep 215/216 (sólo el tope del resumen, 311 palabras). "The count survives resampling" vuelve a tres frases
+  ("The census null accounts for replicate noise only. Folding image resampling and the estimator's seeds into that spread, …").
+  Versión paralela recompilada.

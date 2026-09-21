@@ -3,7 +3,7 @@
   "Introduction": {
    "sentences": 32,
    "avg_words": 23.6,
-   "max_words": 72
+   "max_words": 69
   },
   "Related Work": {
    "sentences": 5,
@@ -21,23 +21,23 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 85,
-   "avg_words": 16.5,
+   "sentences": 84,
+   "avg_words": 16.6,
    "max_words": 42
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 12,
-   "avg_words": 15.3,
-   "max_words": 33
+   "avg_words": 15,
+   "max_words": 29
   },
   "Conclusion and Limitations": {
    "sentences": 15,
-   "avg_words": 23.7,
+   "avg_words": 25.1,
    "max_words": 63
   }
  },
- "avg_nonverbatim": 17.8,
- "n_nonverbatim_sentences": 153,
+ "avg_nonverbatim": 18.0,
+ "n_nonverbatim_sentences": 152,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -99,6 +99,8 @@
     "-1.61 to -1.76",
     "4 of 5",
     "1.3 to 2.0",
+    "2.1",
+    "2.0",
     "3.0 to 3.9"
    ]
   },

@@ -11,15 +11,15 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 32 | 23.6 | 72 |
+| Introduction | 32 | 23.6 | 69 |
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 42 | 19.8 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 85 | 16.5 | 42 |
-| Implications for Hyperbolic Representation Learning | 12 | 15.3 | 33 |
-| Conclusion and Limitations | 15 | 23.7 | 63 |
+| Results | 84 | 16.6 | 42 |
+| Implications for Hyperbolic Representation Learning | 12 | 15 | 29 |
+| Conclusion and Limitations | 15 | 25.1 | 63 |
 
-Non-verbatim prose of S3–S7: 153 sentences, mean 17.8 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 152 sentences, mean 18.0 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -33,7 +33,7 @@ Non-verbatim prose of S3–S7: 153 sentences, mean 17.8 words (rule: mean ≤ 22
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The alignment of each cluster with its hub is certified in f | 4 of 12 |
-| Results | No hierarchy above the superclasses is found in the supervis | -1.61, -1.61 to -1.76, 4 of 5, 1.3 to 2.0, 3.0 to 3.9 |
+| Results | No hierarchy above the superclasses is found in the supervis | -1.61, -1.61 to -1.76, 4 of 5, 1.3 to 2.0, 2.1, 2.0, 3.0 to 3.9 |
 | Results | A deep hierarchy at the real noise level is detected. | 4 of 5, 0 of 5, 8 of 50, -4.19 to -4.82, -1.61 to -1.76 |
 | Results | The test never fires on randomized hubs. | 0 of 60, 0 of 60, 0 of 4 |
 | Results | The two-level implant is missed at ImageNet's noise level. | — |
