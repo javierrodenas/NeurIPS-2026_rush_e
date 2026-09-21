@@ -2,6 +2,28 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 19:00 — expR81 first pass complete (12 backbones x 5 seeds; DINOv2 with 7-11 seeds so far, extension running)
+
+- Power for the deep three-level hierarchy at each backbone's own spectrum and within/between ratio (K = 30, z <= -2):
+  ViT-T 0.0, ViT-S 0.0, ViT-B 0.0, ViT-L 0.8 | DINO-B 0.0 | DINOv2-S 0.0 (11 seeds), DINOv2-B 0.44 (9), DINOv2-L 0.89 (9),
+  DINOv2-G 1.0 (7) | CLIP-B 0.2, CLIP-L 1.0, SigLIP-B 1.0. Pooled by family: supervised ViTs 0.20, DINO/DINOv2 0.46, contrastive
+  0.73; no family reaches the 0.8 of the seventh-review rule. Mean intact z: ViT-T −0.48, ViT-S −1.04, ViT-B −1.74, ViT-L −2.18,
+  DINO-B −1.21, DINOv2-S −0.99, DINOv2-B −1.91, DINOv2-L −2.70, DINOv2-G −3.04, CLIP-B −1.69, CLIP-L −2.83, SigLIP-B −2.49.
+  Decoupled clouds (10 seeds per cloud) fire far more often than the intact ones everywhere except DINOv2-S (0.01) and DINO-B (0.28):
+  the deeper-once-decoupled effect of expR79 is general.
+- Reading: the control's power does not follow the within/between ratio or the family. It is not established at ratios 1.3–2.0 for
+  ViT-T/S/B and CLIP-B, and it is high for DINOv2-L/G at 3.9. The wording adopted on 21 September ("covers the supervised and
+  contrastive backbones … DINOv2 beyond the noise level at which the test was validated") is contradicted; the author decides the
+  replacement on 23 September with the 20-seed DINOv2 extension (8 shards at nice 19, ~half done).
+
+## 2026-09-21 18:40 — fine-tuning done (both runs, 5 epochs); expR77 tests launched
+
+- **§1**: both runs finished at 18:35 (5 epochs each, identical batches; ~22 h wall-clock under the shared CPU); the census-subset
+  centroids of both models are extracted to `practical_tasks_cache/vitb_ft_{ce,hier}_seed0_imagenet_train.npz` (308 MB each).
+  `expR77_positive_control_tests.py` running since 18:38 on frozen / leaf-CE / hierarchical-CE: census under the centered Haar null
+  (200 replicates), depth test on the WordNet-30 frame and the balanced frame (10 star seeds), decoupling control (10 seeds) on both;
+  ~1 h per model under the current load. The verdict against the pre-set criterion goes to the author first, before any edit.
+
 ## 2026-09-21 17:00 (b) — expR81 interim power per backbone (deep three-level hierarchy at each backbone's own spectrum and ratio)
 
 - With 5 seeds unless noted: ViT-T 0.0, ViT-S 0.0, ViT-B 0.0, ViT-L 0.8, DINO-B 0.0, DINOv2-S 0.0 (7), DINOv2-B 0.43 (7),
