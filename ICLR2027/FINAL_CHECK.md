@@ -62,7 +62,7 @@ Non-verbatim prose of S3–S7: 155 sentences, mean 17.6 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 215/215 checks passed.
+- Total: 214/215 checks passed.
 - Final-version checks:
 
     PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
@@ -87,3 +87,4 @@ Non-verbatim prose of S3–S7: 155 sentences, mean 17.6 words (rule: mean ≤ 22
     PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
+    FAIL(all): final: abstract is the recorded text (250 words or fewer, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 

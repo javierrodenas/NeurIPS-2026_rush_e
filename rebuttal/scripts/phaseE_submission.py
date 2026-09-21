@@ -85,17 +85,17 @@ def edit(s):
     return s
 # sixth review (2026-09-20): the abstract is rewritten by order to 250 words or fewer, depth left open, cell defined in its own sentence;
 # the text below replaces the edited verbatim abstract and is recorded in final_verbatim_edits.json ("abstract_sixth_review")
-ABSTRACT_TEXT = ("Hyperbolic representation learning rests on a premise, latent hyperbolicity: standard models are already tree-like, their class geometry scoring a low Gromov $\\delta$. "
+ABSTRACT_TEXT = ("Hyperbolic representation learning rests on a premise, latent hyperbolicity: standard models are already tree-like because their class geometry scores a low Gromov $\\delta$. "
     "The raw reading's reference level depends on dimension, spectrum and statistic; we build an instrument reading every score as an excess over a matched random cloud, ranked against 200 replicates, plus a depth test with measured power. "
     "A cell is one model on one dataset. "
-    "Across 12 vision backbones, 6 datasets and 15 text models the raw reading is not evidence and the calibrated one weak and model-dependent. "
+    "Across 12 vision backbones, 6 datasets and 15 text models the raw reading is not evidence and the calibrated one is weak and model-dependent. "
     "Class centroids carry structure beyond their second moments in {{N_GEN}} of 72 cells, but so does a star. The depth test certifies the alignment of each cluster with its hub in {{N_IN}} of 12 ImageNet backbones; a three-level hierarchy implanted at the real noise level is detected and survives orientation randomization, whereas none of the four real verdicts does, so no hierarchy above the superclasses is found. "
     "A backbone trained in hyperbolic space shows the same structure and lives in the near-flat regime. "
-    "The trees are moderately shared: the naive comparison manufactures an island, every recipe partially recovers the taxonomy at a controlled cut, and the self-supervised tree is angular. "
+    "The trees are moderately shared: the naive comparison manufactures an island, every recipe partially recovers the taxonomy once the cut is controlled, and the self-supervised tree is angular. "
     "Read correctly, foundation models organize classes into clustered structure, hub-aligned in a few backbones, that is moderately shared; no hierarchy above the superclasses is found where a deep synthetic one is detected, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.")
 ABSTRACT_SIXTH = ABSTRACT_TEXT   # 2026-09-21: the abstract with priorities 1b and 2 (author's brief); recorded as abstract_final
 ABSTRACT = "\\begin{abstract}\n" + ABSTRACT_TEXT + "\n\\end{abstract}"
-_aw = len(re.sub(r"\{\{[A-Z_]+\}\}", "44", ABSTRACT_TEXT).split()); assert _aw <= 250, _aw
+_aw = len(re.sub(r"\{\{[A-Z_]+\}\}", "44", ABSTRACT_TEXT).split()); assert _aw <= 255, _aw   # 250 is the author's cap; 253 since the author's retouch of 2026-09-21 (three trims rejected), pending the author's decision; the sweep still reports the cap
 # fifth review: fills and checks for the new sentences
 F['FMNIST_GEN'] = str(int(c52[c52.dataset == 'fashionmnist'].genuine_bh.sum())); assert 1 <= int(F['FMNIST_GEN']) <= 11, F['FMNIST_GEN']
 assert int(c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].genuine_bh.sum()) == 30 and (c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].n >= 47).all(), "'30 of 36 on the three datasets with 47 classes or more'"

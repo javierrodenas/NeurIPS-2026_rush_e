@@ -1457,3 +1457,10 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   "the calibrated one weak and model-dependent"; "tree-like because their class geometry scores a low Gromov δ" → "tree-like, their
   class geometry scoring a low Gromov δ"; "once the cut is controlled" → "at a controlled cut". Resumen en 250 palabras exactas
   (`OPENREVIEW_abstract.txt` y `abstract_final` regenerados); envío recompilado.
+- **Decisión del autor sobre los recortes (2026-09-21)**: se mantienen "The raw reading's reference level depends on …; we build"
+  y "but so does a star"; se revierten los otros tres ("the calibrated one is weak", "tree-like because their class geometry scores a
+  low δ", "once the cut is controlled"). El resumen queda en 253 palabras, tres por encima del tope de 250 que fijó la sexta revisión:
+  el constructor acepta hasta 255 para poder compilar y el sweep sigue exigiendo 250, así que el check del resumen queda en FAIL
+  hasta que el autor decida (aceptar 253, o recortar tres palabras de su elección). Los dos recortes limpios que quedan sin tocar
+  contenido ("The trees are moderately shared" → "Trees are moderately shared"; "the naive comparison manufactures an island" →
+  "naive comparison manufactures an island") sólo llegan a 251.

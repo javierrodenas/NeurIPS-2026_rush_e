@@ -253,3 +253,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   "including a published reading reproduced and calibrated" no cabía.
 - (Retoque del resumen, 2026-09-21) Tu frase nueva sobre el backbone hiperbólico son ocho palabras más; para quedar en 250 se
   recortaron cinco sitios más (CHANGELOG §37, último punto). Si prefieres el texto sin esos recortes, queda en 257 palabras.
+- (Resumen, 2026-09-21, pendiente) Con tus tres reversiones el resumen tiene 253 palabras, tres sobre el tope de 250 de la sexta
+  revisión; el check del sweep queda en FAIL hasta que decidas: aceptar 253 (subo el tope del check), o recortar tres palabras de tu
+  elección (los dos recortes sin contenido que quedan, "The trees are" → "Trees are" y "the naive comparison" → "naive comparison",
+  sólo llegan a 251).
