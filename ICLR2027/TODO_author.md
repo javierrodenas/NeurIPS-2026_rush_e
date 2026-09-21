@@ -246,3 +246,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   (el texto principal sigue acabando en la 9).
 - Proceso ajeno a esta sesión: `conda install -y -c conda-forge tectonic` (PID 2767839) lleva 157 días al 99 % de una CPU con 8,4 GB de
   memoria; es un solver colgado de una sesión de abril. No se ha tocado; matarlo libera un núcleo para los experimentos.
+- (Brief del 2026-09-21, CHANGELOG §37) Tres decisiones: (a) el título de la Tabla 9 fijado en R2 dice "none at the top-level frame
+  used on real backbones"; expR79 muestra potencia 0.8 en ese marco con el espectro real y tres niveles: matizarlo o dejarlo (describe
+  el barrido de expR55). (b) Se actualizó la limitación (vi), no la (viii) que decía el brief, porque es la que habla de la lectura a
+  nivel de muestra. (c) Siete recortes de una o dos palabras en el resumen para quedar en 249 con tus dos frases nuevas; la frase
+  "including a published reading reproduced and calibrated" no cabía.

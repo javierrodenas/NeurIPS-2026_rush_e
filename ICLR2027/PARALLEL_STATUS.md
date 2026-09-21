@@ -2,6 +2,14 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 (morning) — priorities 1b and 2 integrated into the submission, 1c as a limitation (author's brief)
+
+- The submission file now carries the deep-hierarchy paragraph and Table 9(d) (1b), the published-reading paragraph and Table 3(b)
+  (2), the implanted-alignment sentence in limitation (iii) and Table 9(c) (1c), with the author's wording in the abstract, §1,
+  contribution 2, §5.3, thesis and limitations; details in CHANGELOG §37. `main_iclr2027_rebuttal.tex` is again the frozen file plus
+  nothing, until the trained positive control (expR77) exists.
+- **§1**: both fine-tuning runs in epoch 2 of 5 (76 img/s); extraction and expR77 tests after epoch 4; verdict to the author first.
+
 ## 2026-09-21 03:15 — priority 1b closed: the deep synthetic hierarchy fires at K = 30 and survives decoupling; Poincaré does not fire
 
 - **§1b result** (`expR79_synthetic_deep_poincare.csv`): synthetic clouds with ViT-L's real ImageNet spectrum (d = 1024) and a

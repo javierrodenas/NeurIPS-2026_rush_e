@@ -10,6 +10,7 @@ R = os.environ.get('PLATONIC_RESULTS', 'rebuttal/results').rstrip('/') + '/'; TE
 SRC = TEX + 'main_iclr2027_final.tex'; DST = TEX + 'main_iclr2027_rebuttal.tex'
 NM = {"frozen": "frozen checkpoint", "ce_seed0": "leaf CE", "hier_seed0": "leaf CE + hierarchical CE", "ce_seed1": "leaf CE (seed 1)", "hier_seed1": "leaf CE + hierarchical CE (seed 1)"}
 T = open(SRC).read(); status = {}
+IN78 = "\\paragraph{A published reading is reproduced and calibrated.}" in T; IN79 = "\\paragraph{A deep hierarchy at the real noise level is detected.}" in T; IN80 = "Implanted alignment is detected in" in T   # already in the submission (brief of 2026-09-21)
 def insert_after_paragraph(text, lead, new_par):
     i = text.index("\\paragraph{" + lead + "}"); j = text.index("\n\n", i)
     return text[:j] + "\n\n" + new_par + text[j:]
@@ -27,7 +28,7 @@ if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'exp
            f"Under the record the hierarchical model {s_h}, and {s_c}. "
            + ("The success criterion fixed before the run is met: the injected hierarchy lives in the hubs and the test sees it." if met else "The success criterion fixed before the run is not met, and the outcome is reported as it is.")
            + " Table~\\ref{tab:r1-positive} gives the readings. % expR77_positive_control.csv, expR77_positive_control_verdict.json")
-    T = insert_after_paragraph(T, "Whether the superclasses form a hierarchy is left open.", par)
+    T = insert_after_paragraph(T, "No hierarchy above the superclasses is found." if "No hierarchy above the superclasses is found." in T else "Whether the superclasses form a hierarchy is left open.", par)
     rows = [f"{NM.get(m, m)} & ${r.excess:+.4f}$ ({int(r.r_above)}, {r.p_left:.3f}) & ${r.z_wn30:+.2f}$ & ${r.z_wn30bal:+.2f}$ & ${r.zdec_mean_wn30:+.2f}$ ({r.dec_frac_cert_wn30:.1f}) & ${r.zdec_mean_wn30bal:+.2f}$ ({r.dec_frac_cert_wn30bal:.1f}) \\\\" for m, r in P.iterrows()]
     tables.append("% prov: expR77_positive_control.csv\n\\begin{table}[tbp]\n\\centering\n\\footnotesize\n\\setlength{\\tabcolsep}{4pt}\n\\begin{tabular}{lccccc}\n\\toprule\n"
                   "model & excess ($r$, $p$) & $z$, WordNet-30 & $z$, balanced & decoupled $z$, WN-30 (cert.) & decoupled $z$, balanced (cert.) \\\\\n\\midrule\n" + "\n".join(rows) +
@@ -37,7 +38,7 @@ if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'exp
     status['positive_control'] = dict(written=True, criterion_met=met, hier_z=[float(h.z_wn30), float(h.z_wn30bal)], hier_dec=[float(h.zdec_mean_wn30), float(h.zdec_mean_wn30bal)])
 else: status['positive_control'] = dict(written=False, reason="expR77 results not available")
 # ---- S5.3: priority 1b (expR79): synthetic deep hierarchy with ViT-L's spectrum, and the WordNet Poincare embeddings, through the depth test
-if os.path.exists(R + 'expR79_synthetic_deep_poincare.csv') and pd.read_csv(R + 'expR79_synthetic_deep_poincare.csv').cloud.str.startswith('wordnet_poincare_d50').any():   # the last row of the run: partial results never enter
+if not IN79 and os.path.exists(R + 'expR79_synthetic_deep_poincare.csv') and pd.read_csv(R + 'expR79_synthetic_deep_poincare.csv').cloud.str.startswith('wordnet_poincare_d50').any():   # the last row of the run: partial results never enter
     E = pd.read_csv(R + 'expR79_synthetic_deep_poincare.csv'); E['cert'] = E.z <= -2; E['dec_cert'] = E.zdec_mean <= -2
     deep = E[E.cloud == 'synthetic_deep_vitl_spectrum']; flat = E[E.cloud == 'synthetic_flat_vitl_spectrum']; poi = E[E.cloud.str.startswith('wordnet_poincare')]
     def fires(df): return f"{int(df.cert.sum())} of {len(df)}"
@@ -54,9 +55,9 @@ if os.path.exists(R + 'expR79_synthetic_deep_poincare.csv') and pd.read_csv(R + 
                   "\n\\bottomrule\n\\end{tabular}\n\\caption{\\textbf{Priority 1b: a deep hierarchy at the real noise level, and the WordNet Poincar\\'e embeddings.} Synthetic clouds with ViT-L's real ImageNet spectrum and a three-level implanted hierarchy (nested 2/6/30 cuts of the frame) at ViT-L's real within/between ratio, and a flat two-level control, 5 seeds each; the WordNet Poincar\\'e embeddings of Nickel and Kiela (2017) trained on the transitive closure of the tree spanning the 1000 ImageNet leaves at $d{=}10$ and $50$. "
                   "Census excess under the centered Haar null (200 replicates, rank in parentheses), depth test with the matched anisotropic star at $K{=}30$ (10 star seeds), and the decoupling control (mean $\\pm$ s.d.\\ over 10 seeds). % expR79_synthetic_deep_poincare.csv\n}\n\\label{tab:r1b-deep}\n\\end{table}\n")
     status['deep_synthetic'] = dict(written=True, deep_fires=fires(deep) if len(deep) else None, flat_fires=fires(flat) if len(flat) else None, poincare=[dict(dim=int(r.dim), z=float(r.z)) for _, r in poi.iterrows()])
-else: status['deep_synthetic'] = dict(written=False, reason="expR79 not finished (no Poincare d=50 row yet)")
+else: status['deep_synthetic'] = dict(written=False, reason="in the submission" if IN79 else "expR79 not finished (no Poincare d=50 row yet)")
 # ---- S5.3: priority 1c (expR80): implanted alignment; enters the rebuttal file only when the decision rule is NOT met (otherwise it is in the submission already)
-if os.path.exists(R + 'expR80_decision.csv') and os.path.exists(R + 'expR80_implanted_alignment.csv'):
+if not IN80 and os.path.exists(R + 'expR80_decision.csv') and os.path.exists(R + 'expR80_implanted_alignment.csv'):
     d80 = pd.read_csv(R + 'expR80_decision.csv').iloc[0]; A80 = pd.read_csv(R + 'expR80_implanted_alignment.csv'); A80['hit'] = A80.z_depth <= -2
     met80 = bool(d80.rule_power_ge_0_8_fa_le_0_05)
     if not met80:
@@ -77,9 +78,9 @@ if os.path.exists(R + 'expR80_decision.csv') and os.path.exists(R + 'expR80_impl
                       f"{int(d80.n_seeds)} seeds per backbone and pooled. Decision rule of the brief: power $\\ge 0.8$ at $s{{=}}1$ with false alarms $\\le 0.05$ at $s{{=}}0$; measured power {float(d80.power_s1):.2f}, false alarms {float(d80.false_alarms_s0):.2f}: not met, so nothing entered the submission. % expR80_decision.csv\n}}\n\\label{{tab:r1c-implant}}\n\\end{{table}}\n")
         status['implanted_alignment'] = dict(written=True, rule_met=False, power_s1=float(d80.power_s1), false_alarms_s0=float(d80.false_alarms_s0), hits1=h1, runs1=n1, hits0=h0, runs0=n0)
     else: status['implanted_alignment'] = dict(written=False, rule_met=True, reason="rule met: Table 9c, the Figure 4b curve and the S5.3 sentence are in the submission file itself", power_s1=float(d80.power_s1), false_alarms_s0=float(d80.false_alarms_s0))
-else: status['implanted_alignment'] = dict(written=False, reason="expR80 not merged yet")
+else: status['implanted_alignment'] = dict(written=False, reason="in the submission (limitation iii and Table 9c)" if IN80 else "expR80 not merged yet")
 # ---- S5.1: the replication of Khrulkov et al. (2020)
-if os.path.exists(R + 'expR78_khrulkov_replication_summary.csv'):
+if not IN78 and os.path.exists(R + 'expR78_khrulkov_replication_summary.csv'):
     S = pd.read_csv(R + 'expR78_khrulkov_replication_summary.csv').set_index('dataset'); order = [d for d in ("cifar10", "cifar100", "cub", "miniimagenet") if d in S.index]
     DN = {"cifar10": "CIFAR-10", "cifar100": "CIFAR-100", "cub": "CUB-200", "miniimagenet": "MiniImageNet"}
     allin = len(order) == 4 and bool(S.loc[order].within_range.all())
@@ -97,9 +98,9 @@ if os.path.exists(R + 'expR78_khrulkov_replication_summary.csv'):
                f"Calibrated against the centered null on the same clouds, {s_cal}. The raw values they report are therefore real readings whose reference level, not their size, decides what they mean. Table~\\ref{{tab:r2-khrulkov}} gives the four rows. % expR78_khrulkov_replication_summary.csv")
     else:
         par = ("\\paragraph{A published reading, reproduced.} On the setting of \\citet{Khrulkov_2020_CVPR}, ResNet-34 features on CIFAR-10, CIFAR-100, CUB and MiniImageNet, their estimator on our extraction does not yet reproduce every published raw $\\delta_{\\text{rel}}$ within 0.03, so no calibrated claim is drawn. Table~\\ref{tab:r2-khrulkov} gives the reproduced and the published values. % expR78_khrulkov_replication_summary.csv")
-    T = insert_after_paragraph(T, "The raw reading is not evidence, and the calibrated reading is weak and model-dependent.", par)
+    T = insert_after_paragraph(T, "Raw readings are not evidence, ours or published, and calibrated ones are weak and model-dependent." if "Raw readings are not evidence, ours or published" in T else "The raw reading is not evidence, and the calibrated reading is weak and model-dependent.", par)
     status['replication'] = dict(written=True, all_within_range=allin, datasets=order)
-else: status['replication'] = dict(written=False, reason="expR78 summary not available")
+else: status['replication'] = dict(written=False, reason="in the submission" if IN78 else "expR78 summary not available")
 # ---- appendix: the new tables before the provenance index; the rest is the frozen appendix
 if tables:
     anchor = "\\input{appendix_tables/final/tab_z_provenance_final}"

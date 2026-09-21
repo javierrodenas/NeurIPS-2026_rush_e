@@ -2,8 +2,8 @@
  "sections": {
   "Introduction": {
    "sentences": 31,
-   "avg_words": 21.8,
-   "max_words": 48
+   "avg_words": 22.2,
+   "max_words": 49
   },
   "Related Work": {
    "sentences": 5,
@@ -21,28 +21,36 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 80,
-   "avg_words": 16.3,
-   "max_words": 34
+   "sentences": 88,
+   "avg_words": 16.4,
+   "max_words": 40
   },
   "Implications for Hyperbolic Representation Learning": {
-   "sentences": 13,
-   "avg_words": 16.7,
+   "sentences": 12,
+   "avg_words": 15.3,
    "max_words": 33
   },
   "Conclusion and Limitations": {
-   "sentences": 12,
-   "avg_words": 20.1,
+   "sentences": 14,
+   "avg_words": 22.4,
    "max_words": 50
   }
  },
- "avg_nonverbatim": 17.5,
- "n_nonverbatim_sentences": 146,
+ "avg_nonverbatim": 17.6,
+ "n_nonverbatim_sentences": 155,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
-   "lead": "The raw reading is not evidence, and the calibrated reading is weak and model-dependent.",
+   "lead": "Raw readings are not evidence, ours or published, and calibrated ones are weak and model-dependent.",
    "numbers": []
+  },
+  {
+   "section": "Results",
+   "lead": "A published reading is reproduced and calibrated.",
+   "numbers": [
+    "0.03",
+    "0.05"
+   ]
   },
   {
    "section": "Results",
@@ -85,8 +93,18 @@
   },
   {
    "section": "Results",
-   "lead": "Whether the superclasses form a hierarchy is left open.",
-   "numbers": []
+   "lead": "No hierarchy above the superclasses is found.",
+   "numbers": [
+    "4 of 5"
+   ]
+  },
+  {
+   "section": "Results",
+   "lead": "A deep hierarchy at the real noise level is detected.",
+   "numbers": [
+    "4 of 5",
+    "0 of 5"
+   ]
   },
   {
    "section": "Results",
@@ -99,7 +117,7 @@
   },
   {
    "section": "Results",
-   "lead": "The test is weak at ImageNet's noise level.",
+   "lead": "The two-level implant is missed at ImageNet's noise level.",
    "numbers": []
   },
   {

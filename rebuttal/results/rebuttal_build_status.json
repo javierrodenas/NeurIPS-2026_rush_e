@@ -4,38 +4,15 @@
   "reason": "expR77 results not available"
  },
  "deep_synthetic": {
-  "written": true,
-  "deep_fires": "4 of 5",
-  "flat_fires": "0 of 5",
-  "poincare": [
-   {
-    "dim": 10,
-    "z": 2.355421210477977
-   },
-   {
-    "dim": 50,
-    "z": 1.5272969729298005
-   }
-  ]
+  "written": false,
+  "reason": "in the submission"
  },
  "implanted_alignment": {
-  "written": true,
-  "rule_met": false,
-  "power_s1": 0.6,
-  "false_alarms_s0": 0.016666666666666666,
-  "hits1": 36,
-  "runs1": 60,
-  "hits0": 1,
-  "runs0": 60
+  "written": false,
+  "reason": "in the submission (limitation iii and Table 9c)"
  },
  "replication": {
-  "written": true,
-  "all_within_range": true,
-  "datasets": [
-   "cifar10",
-   "cifar100",
-   "cub",
-   "miniimagenet"
-  ]
+  "written": false,
+  "reason": "in the submission"
  }
 }

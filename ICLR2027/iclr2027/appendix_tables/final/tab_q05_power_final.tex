@@ -1,4 +1,4 @@
-% prov: expR55_depth_power.csv, expR55b_depth_power_leafframe.csv, expR64b_wn30.csv, expR64b_wn30_summary.csv, expR64b_wn30bal_summary.csv, expR67_frame_choice.json, expR69_depth_haarhubs_summary.csv
+% prov: expR55_depth_power.csv, expR55b_depth_power_leafframe.csv, expR64b_wn30.csv, expR64b_wn30_summary.csv, expR64b_wn30bal_summary.csv, expR67_frame_choice.json, expR69_depth_haarhubs_summary.csv, expR80_implanted_alignment.csv, expR80_decision.csv, expR79_synthetic_deep_poincare.csv
 \begin{table}[tbp]
 \centering
 \scriptsize
@@ -31,7 +31,7 @@ leaf clusters, anisotropic star & 1000 & 30 & 1.00 & 1.00 & 0.70 & 0.00 & 0.00 \
 \end{tabular}
 \par\vspace{5pt}
 \endgroup
-\caption{\textbf{The depth test has full power on synthetic hierarchies at the leaf frame and none at the top-level frame used on real backbones.} (a) Power = fraction of hierarchy runs with $z\le-2$; star columns = false-alarm rates in each direction. Top-level frame: the test receives the $K$ super-cluster labels, as the earlier isotropic test did on the real backbones; its hub null keeps every frame cluster intact and only rearranges the $K$ hubs, so hierarchy below the frame is invisible by construction. Leaf frame: the test receives the finest cluster labels with the anisotropic matched star (configurations with more leaves than points are infeasible and omitted). Pre-set bar: power $\ge0.8$ for two- and three-level hierarchies at noise ratios $\le0.3$ for both $n$, and false alarms $\le5$\% in each direction. Leaf frame: met at $n{=}1000$ (power 1.00 at ratios $\le0.3$ and 0.90 at $0.6$; false alarms 0\% and 0\%), failed at $n{=}100$, where $K\ge12$ (under ten points per cluster) gives 17\% false alarms at $z\le-2$. Top-level frame: power 0.00, false alarms 16\% pooled. (b) Six super-hubs of five, hub $= s\cdot$super-hub $+ (1-s+0.4s)\cdot$own Gaussian draw, hub cloud rescaled to the real RMS radius; the depth test of Table~\ref{tab:q4-depth} runs unchanged, 5 implant seeds per $s$. hits: implant seeds with $z\le-2$ (of 5); $s^*$: first $s$ with $\ge4$ of 5; within/between: RMS of the within-cluster offsets over the point-weighted RMS of the hub displacements (1.3 to 3.9 on the real clouds, against 0.1--0.6 in the synthetic sweep); tight: the same implant after shrinking the offsets to within/between $=0.6$ (2 seeds). Power (fraction of runs with $z\le-2$) by $s$: $s{=}0$: 0.00, $s{=}0.25$: 0.00, $s{=}0.5$: 0.00, $s{=}0.75$: 0.00, $s{=}1$: 0.05; false alarms at $s{=}0$: 0 of 60. Under the Haar-hub star the same implants give 0 of 60 false alarms at $s{=}0$ and 1 of 60 detections at $s{=}1$ (power 0.02). Balanced frame: the $K{=}30$ agglomerative cut of the WordNet distance matrix (complete linkage) with the smallest variance of cluster sizes, chosen and logged before any depth run; sizes 1--154 classes against 1--316 for the frame of record. % expR55_depth_power.csv, expR55b_depth_power_leafframe.csv, expR64b_wn30.csv, expR64b_wn30_summary.csv, expR64b_wn30bal_summary.csv, expR67_frame_choice.json, expR69_depth_haarhubs_summary.csv
+\caption{\textbf{The depth test has full power on synthetic hierarchies at the leaf frame and none at the top-level frame used on real backbones.} (a) Power = fraction of hierarchy runs with $z\le-2$; star columns = false-alarm rates in each direction. Top-level frame: the test receives the $K$ super-cluster labels, as the earlier isotropic test did on the real backbones; its hub null keeps every frame cluster intact and only rearranges the $K$ hubs, so hierarchy below the frame is invisible by construction. Leaf frame: the test receives the finest cluster labels with the anisotropic matched star (configurations with more leaves than points are infeasible and omitted). Pre-set bar: power $\ge0.8$ for two- and three-level hierarchies at noise ratios $\le0.3$ for both $n$, and false alarms $\le5$\% in each direction. Leaf frame: met at $n{=}1000$ (power 1.00 at ratios $\le0.3$ and 0.90 at $0.6$; false alarms 0\% and 0\%), failed at $n{=}100$, where $K\ge12$ (under ten points per cluster) gives 17\% false alarms at $z\le-2$. Top-level frame: power 0.00, false alarms 16\% pooled. (b) Six super-hubs of five, hub $= s\cdot$super-hub $+ (1-s+0.4s)\cdot$own Gaussian draw, hub cloud rescaled to the real RMS radius; the depth test of Table~\ref{tab:q4-depth} runs unchanged, 5 implant seeds per $s$. hits: implant seeds with $z\le-2$ (of 5); $s^*$: first $s$ with $\ge4$ of 5; within/between: RMS of the within-cluster offsets over the point-weighted RMS of the hub displacements (1.3 to 3.9 on the real clouds, against 0.1--0.6 in the synthetic sweep); tight: the same implant after shrinking the offsets to within/between $=0.6$ (2 seeds). Power (fraction of runs with $z\le-2$) by $s$: $s{=}0$: 0.00, $s{=}0.25$: 0.00, $s{=}0.5$: 0.00, $s{=}0.75$: 0.00, $s{=}1$: 0.05; false alarms at $s{=}0$: 0 of 60. Under the Haar-hub star the same implants give 0 of 60 false alarms at $s{=}0$ and 1 of 60 detections at $s{=}1$ (power 0.02). Balanced frame: the $K{=}30$ agglomerative cut of the WordNet distance matrix (complete linkage) with the smallest variance of cluster sizes, chosen and logged before any depth run; sizes 1--154 classes against 1--316 for the frame of record. (c) Implanted alignment is detected in 36 of 60 runs at full strength (60\%) and in 1 of 60 at zero; the pre-set bar of 0.8 power at full strength is not met, and the power is backbone-dependent: every seed for the supervised ViTs and CLIP-B, none for DINOv2-S/B/L. % expR80_implanted_alignment.csv, expR80_decision.csv (d) Census excess under the centered Haar null (rank in parentheses), depth test with the matched anisotropic star at $K{=}30$ (10 star seeds), decoupling control (mean $\pm$ s.d.\ over 10 seeds; fraction certified in parentheses). The deep hierarchy fires in 4 of 5 seeds and the flat control in 0 of 5; the decoupling control fires in 5 of 5 deep seeds, deeper than the intact cloud; the Poincar\'e embeddings fire at no dimension. % expR79_synthetic_deep_poincare.csv % expR55_depth_power.csv, expR55b_depth_power_leafframe.csv, expR64b_wn30.csv, expR64b_wn30_summary.csv, expR64b_wn30bal_summary.csv, expR67_frame_choice.json, expR69_depth_haarhubs_summary.csv
 }
 \label{tab:q5-power}
 \end{table}
@@ -61,6 +61,71 @@ DINOv2-G & $-1.78$ & 3.9 & 0/0/0 & -- & $+1.30$ & $+0.24$/$-3.89$/$-11.58$ & 0/0
 CLIP-B & $-1.95$ & 1.3 & 0/0/0 & -- & $-1.21$ & $-1.67$/$-3.81$/$-11.38$ & 0/0 & $-0.72$ & $-1.29$ & 0/0/0 & -- \\
 CLIP-L & $-0.83$ & 1.5 & 0/0/3 & -- & $-2.18$ & $-2.43$/$-5.76$/$-13.51$ & 0/1 & $-1.72$ & $-0.68$ & 0/0/0 & -- \\
 SigLIP-B & $-0.90$ & 1.5 & 0/0/0 & -- & $-1.55$ & $-2.09$/$-5.04$/$-11.03$ & 0/0 & $-1.07$ & $-1.12$ & 0/0/0 & -- \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued)}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begingroup
+\noindent\textbf{(c) Implanted hub alignment on the real ImageNet clouds: from the decoupled cloud of the decoupling control, each cluster's principal axis rotated toward its hub direction by a fraction $s$ of the angle (hubs and within-cluster spectra unchanged); detection rate at $z\le-2$ over 5 seeds per backbone and pooled.}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lccccc}
+\toprule
+model & $s{=}0$ & $s{=}0.25$ & $s{=}0.5$ & $s{=}0.75$ & $s{=}1$ \\
+\midrule
+ViT-T & 0.2 & 0.8 & 0.8 & 1.0 & 1.0 \\
+ViT-S & 0.0 & 0.4 & 1.0 & 1.0 & 1.0 \\
+ViT-B & 0.0 & 0.8 & 1.0 & 1.0 & 1.0 \\
+ViT-L & 0.0 & 0.6 & 1.0 & 1.0 & 1.0 \\
+\midrule
+DINO-B & 0.0 & 0.0 & 0.0 & 0.0 & 0.8 \\
+DINOv2-S & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+DINOv2-B & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
+DINOv2-L & 0.0 & 0.0 & 0.0 & 0.2 & 0.0 \\
+DINOv2-G & 0.0 & 0.0 & 0.0 & 0.2 & 0.4 \\
+\midrule
+CLIP-B & 0.0 & 0.0 & 1.0 & 1.0 & 1.0 \\
+CLIP-L & 0.0 & 0.2 & 0.2 & 0.4 & 0.4 \\
+SigLIP-B & 0.0 & 0.0 & 1.0 & 0.8 & 0.6 \\
+\midrule pooled (12 backbones $\times$ 5 seeds) & 0.02 & 0.23 & 0.50 & 0.55 & 0.60 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued)}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begingroup
+\noindent\textbf{(d) A deep hierarchy at the real noise level: synthetic clouds with ViT-L's real ImageNet spectrum and a three-level implanted hierarchy (nested 2/6/30 cuts of the frame) at ViT-L's real within/between ratio, a flat two-level control (30 iid hubs, same spectrum and ratio), 5 seeds each, and the WordNet Poincar\'e embeddings of Nickel and Kiela trained on the transitive closure of the tree over the 1000 ImageNet leaves, read with Euclidean distances on the ball coordinates.}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+cloud & seed & $d$ & excess ($r$) & depth $z$ & decoupled $z$ (cert.) \\
+\midrule
+three-level hierarchy, ViT-L spectrum & 0 & 1024 & $-0.0081$ (199) & $-1.80$ & $-4.82$ $\pm$ 0.73 (1.0) \\
+three-level hierarchy, ViT-L spectrum & 1 & 1024 & $-0.0095$ (199) & $-2.45$ & $-4.44$ $\pm$ 0.58 (1.0) \\
+three-level hierarchy, ViT-L spectrum & 2 & 1024 & $-0.0090$ (199) & $-2.38$ & $-4.19$ $\pm$ 0.60 (1.0) \\
+three-level hierarchy, ViT-L spectrum & 3 & 1024 & $-0.0099$ (199) & $-2.08$ & $-4.48$ $\pm$ 0.67 (1.0) \\
+three-level hierarchy, ViT-L spectrum & 4 & 1024 & $-0.0090$ (199) & $-2.20$ & $-4.28$ $\pm$ 0.54 (1.0) \\
+\midrule
+flat control, ViT-L spectrum & 0 & 1024 & $-0.0198$ (200) & $-0.08$ & $-1.61$ $\pm$ 0.27 (0.1) \\
+flat control, ViT-L spectrum & 1 & 1024 & $-0.0202$ (200) & $-0.32$ & $-1.61$ $\pm$ 0.31 (0.1) \\
+flat control, ViT-L spectrum & 2 & 1024 & $-0.0196$ (200) & $-0.20$ & $-1.76$ $\pm$ 0.37 (0.2) \\
+flat control, ViT-L spectrum & 3 & 1024 & $-0.0197$ (200) & $-0.69$ & $-1.74$ $\pm$ 0.33 (0.2) \\
+flat control, ViT-L spectrum & 4 & 1024 & $-0.0192$ (200) & $-0.27$ & $-1.68$ $\pm$ 0.39 (0.2) \\
+\midrule
+WordNet Poincar\'e, $d{=}10$ & 0 & 10 & $+0.0830$ (0) & $+2.36$ & $+0.32$ $\pm$ 0.58 (0.0) \\
+WordNet Poincar\'e, $d{=}50$ & 0 & 50 & $+0.0354$ (0) & $+1.53$ & $-2.22$ $\pm$ 0.65 (0.6) \\
 \bottomrule
 \end{tabular}
 \par\vspace{5pt}

@@ -1396,3 +1396,56 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   páginas, 0 avisos; sweep 216/216). El envío no cambia. Pendiente de decisión del autor, como pide el brief para los experimentos que
   acaban y pasan el sweep antes del 24: el resultado afecta a la frase "the test has no power at this noise level" (§5.3, resumen, §7,
   limitación iii), porque en este escenario sintético la potencia para una jerarquía profunda al nivel de ruido de ViT-L es 0.8, no cero.
+
+## 37. Prioridades 1b y 2 integradas en el envío, 1c como limitación (2026-09-21, brief del autor).
+
+- **1b, §5.3**: tras el párrafo del desacoplamiento (entradilla nueva "No hierarchy above the superclasses is found."), párrafo
+  "A deep hierarchy at the real noise level is detected." (4 de 5 semillas en el marco de registro, control plano 0 de 5, el
+  desacoplamiento dispara en todas las semillas profundas y más hondo, Poincaré no dispara en lectura euclídea) con la Tabla 9(d)
+  (`q_power`, panel nuevo) y provenance `expR79_synthetic_deep_poincare.csv`. "the test has no power at this noise level" sustituido
+  por la frase del autor ("The test misses an implanted two-level tree at this noise level but detects a three-level hierarchy with
+  ViT-L's spectrum and noise in 4 of 5 seeds, and that detection survives orientation randomization, whereas none of the four real
+  verdicts does") en §5.3; en §1 y en el resumen va la forma del resumen que dio el autor ("a three-level hierarchy implanted at the
+  real noise level is detected and survives orientation randomization, whereas none of the four real verdicts does, so no hierarchy
+  above the superclasses is found"); contribución 2: "no hierarchy above the superclasses where a deep synthetic one is detected".
+  Tesis (resumen y §7): "…moderately shared; no hierarchy above the superclasses is found where a deep synthetic one is detected,
+  they do not converge…". Limitación (iii) reescrita: potencia medida para una jerarquía sintética de tres niveles con el espectro y
+  el ruido de ViT-L, no para las más someras; una de dos niveles se pierde a este nivel de ruido. Pie de la Figura 4 y de la Tabla 8:
+  "no hierarchy above the superclasses is found". "left open" y "no power" no aparecen ya en el envío (el sweep lo exige).
+- **2, §5.1**: entradilla "Raw readings are not evidence, ours or published, and calibrated ones are weak and model-dependent."
+  y párrafo "A published reading is reproduced and calibrated." (los cuatro δ_rel publicados reproducidos dentro de 0.03; calibrados,
+  exceso negativo en todos y sólo CIFAR-100 y MiniImageNet bajo el nulo en todos los lotes a 0.05) con la Tabla 3(b) (copia final
+  nueva `tab_q03_sample_final.tex`, panel (a) = la tabla de v1, panel (b) = las cuatro filas; `q_sample` con `FINAL`). La frase
+  "including a published reading reproduced and calibrated" no cabe en el resumen (250 palabras) y no se añadió. Limitación de
+  alcance: se actualizó la (vi), que es la que habla de la lectura a nivel de muestra ("two datasets, one image budget and one
+  published setting"); el brief decía (viii), que trata del alcance downstream y no cambió. Decidir si era otra cosa.
+- **1c, limitaciones**: frase del autor en (iii) con el porcentaje como relleno ({{IMPL_PCT}} = 60, derivado de
+  `expR80_implanted_alignment.csv`; la afirmación por familias, todas las semillas para los ViT supervisados y CLIP-B y ninguna para
+  DINOv2-S/B/L, se comprueba contra el fichero en el constructor y en el sweep). Tabla 9(c) ya sin condición, con el resultado de la
+  regla en el pie ("the pre-set bar of 0.8 power at full strength is not met"). La curva punteada de la Figura 4b sigue condicionada
+  a la regla (no entró).
+- **Resumen** (249 palabras, texto de OpenReview en `ICLR2027/OPENREVIEW_abstract.txt`, registrado como `abstract_final`): además de
+  las dos frases del autor, la oración del instrumento y otras pierden palabras para respetar el tope: "rest on a premise we call
+  latent hyperbolicity" → "rests on a premise, latent hyperbolicity"; "the reference level of the raw reading" → "the raw reading's
+  reference level"; "and we build an instrument that reads" → "and build an instrument reading"; "a random cloud of the same shape"
+  → "a matched random cloud"; "one model read on one dataset" → "one model on one dataset"; "the calibrated reading is weak" → "the
+  calibrated one is weak"; "recovers the human taxonomy partially" → "partially recovers the taxonomy". Vetar lo que no convenga.
+- **Presupuesto de página** (§5.5 y §6 primero, como pedía el brief): ecuación (7) de la curvatura en línea (quedan seis ecuaciones
+  numeradas; `eq:curvature` no se citaba); en §6 cae la primera frase del párrafo de la calibración ("The instrument answers whether…
+  presupposes."), se aprietan las dos frases del párrafo de las lecturas y el puntero ("Table 13 gives both"); §5.5 en tres líneas.
+  Después: párrafo de §5.1 y de §5.3 (jerarquía profunda) apretados, "Under the spectrum-matched-hub star the certified set is the
+  same four" fundido en la frase anterior ("under both matched stars"), párrafo del implante de dos niveles reescrito (entradilla
+  "The two-level implant is missed at ImageNet's noise level."), "An earlier isotropic star produced false alarms and is withdrawn"
+  eliminado de §5.3 (sigue en el pie de la Tabla 8), pie de la Figura 4 en cuatro líneas, y espaciado tipográfico algo más prieto
+  (parskip 2 pt, saltos de sección 0.8 ex, abovecaptionskip 2 pt, textfloatsep 6 pt). Resultado: §7 empieza en la línea 460 de la
+  página 9, statements en la 482 (página 9), referencias en la 501 (página 10); 32 páginas, 0 avisos: la misma disposición que antes
+  del brief.
+- **Sweep**: checks nuevos para 1b, 1c y 2 con cada número rederivado de su CSV (recuentos de expR79, porcentaje y familias de
+  expR80, los cuatro valores y el umbral de expR78), la tesis y las frases del autor, ausencia de "left open"/"no power"; los dos
+  enunciados literales del autor (§5.3 y limitación 1c) quedan exentos de la regla de 35 palabras como la tesis; las limitaciones
+  enumeradas, exentas del recuento de 3–6 frases; seis ecuaciones; seis copias puras del apéndice (la Tabla 3 pasa a regenerada).
+  `phaseE_rebuttal.py` omite las secciones ya integradas; la versión paralela vuelve a ser el envío congelado (más el control positivo
+  cuando exista).
+- Pendiente para el autor (TODO): el título de la Tabla 9 (R2, "…and none at the top-level frame used on real backbones") describe el
+  barrido sintético de expR55; con expR79 el test sí tiene potencia en el marco superior cuando la nube lleva el espectro real y tres
+  niveles. No se ha tocado porque el brief no lo pedía y R2 lo fijó literalmente.

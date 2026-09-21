@@ -262,7 +262,7 @@ def q_robust():
 # Q3: the sample-level census
 # ======================================================================================================================
 def q_sample():
-    T = Table("tab_q03_sample.tex", "tab:q3-sample", colsep="2.4pt"); T.prov += ["expR62_samplelevel_record.csv"]
+    T = Table("final/tab_q03_sample_final.tex" if FINAL else "tab_q03_sample.tex", "tab:q3-sample", colsep="2.4pt"); T.prov += ["expR62_samplelevel_record.csv"]
     R = load("expR62_samplelevel_record.csv"); by = {(a["model"], a["dataset"]): a for a in R}
     rows = []
     for m in M12:
@@ -271,8 +271,16 @@ def q_sample():
             a = by[(m, ds)]; g = gb(a)
             cs += [f"${float(a['delta_sup']):.3f}$", f"${float(a['delta_999']):.3f}$", f"${float(a['excess']):+.4f}" + ("" if g else r"^{\circ}") + "$", f"${100*float(a['excess'])/float(a['null_mean']):+.0f}\\%$", f"{int(a['r_above'])} ({float(a['p_left']):.3f})"]
         rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
-    T.panel("", "lccccc|ccccc", [r"& \multicolumn{5}{c|}{CIFAR-100 (10 images/class, $n{=}1000$)} & \multicolumn{5}{c}{DTD (22 images/class, $n{=}1034$)} \\",
+    T.panel("(a) The census cells at the sample level." if FINAL else "", "lccccc|ccccc", [r"& \multicolumn{5}{c|}{CIFAR-100 (10 images/class, $n{=}1000$)} & \multicolumn{5}{c}{DTD (22 images/class, $n{=}1034$)} \\",
             r"model & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & exc./null & $r/200$ ($p$) & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & exc./null & $r/200$ ($p$) \\"], rows, mids=(4, 9))
+    if FINAL and ex("expR78_khrulkov_replication_summary.csv"):   # priority 2 (brief of 2026-09-21): a published reading reproduced and calibrated
+        S78 = pd.read_csv(RES / "expR78_khrulkov_replication_summary.csv").set_index("dataset"); T.prov += ["expR78_khrulkov_replication.csv", "expR78_khrulkov_replication_summary.csv"]
+        DN78 = {"cifar10": "CIFAR-10", "cifar100": "CIFAR-100", "cub": "CUB-200", "miniimagenet": "MiniImageNet"}; order78 = [d for d in DN78 if d in S78.index]
+        rows78 = [f"{DN78[d]} & {S78.loc[d].theirs:.2f} & {S78.loc[d].ours_raw_mean:.3f} $\\pm$ {S78.loc[d].ours_raw_sd:.3f} & ${S78.loc[d].excess_mean:+.4f}$ $\\pm$ {S78.loc[d].excess_sd:.4f} & {S78.loc[d].r_above_mean:.0f}/200 & {S78.loc[d].p_left_max:.3f} \\\\" for d in order78]
+        allin = len(order78) == 4 and bool(S78.loc[order78].within_range.all())
+        T.panel("(b) A published reading reproduced and calibrated: the setting of Khrulkov et al. (2020), Table 1, ResNet-34 row.", "lccccc", [r"dataset & their $\delta_{\text{rel}}$ & our $\delta_{\text{rel}}$ & excess & rank $r$ & largest $p$ \\"], rows78, size=r"\footnotesize", colsep="4pt",
+                note=r"(b) Penultimate features of an ImageNet-pretrained ResNet-34 (torchvision, no substitution) on class-balanced batches of 1500 points; their estimator (exact $\delta$ on the batch, $\delta_{\text{rel}}=2\delta/\text{diam}$; mean $\pm$ s.d.\ over 10 batches) next to their published value, and on the same clouds the record instrument: excess over the centered Haar null (200 replicates, 99.9th-percentile statistic), the mean rank of the reading among the replicates and the largest left-tail $p$ over the 10 batches. "
+                     + ("Every reproduced raw value is within 0.03 of the published one." if allin else "Not every reproduced raw value is within 0.03 of the published one; no claim is drawn."))
     n_gen = sum(gb(a) for a in R); DSL2 = {"cifar100":"CIFAR-100","dtd":"DTD"}
     gen_names = "; ".join(", ".join(NAME[a["model"]] for a in R if a["dataset"] == ds and gb(a)) + f" on {DSL2[ds]}" for ds in ("cifar100","dtd") if any(a["dataset"] == ds and gb(a) for a in R))
     sup_lo, sup_hi = min(float(a["delta_sup"]) for a in R), max(float(a["delta_sup"]) for a in R)
@@ -378,7 +386,7 @@ def q_depth():
         rows = [f"{LB[o]} & ${float(F[o]['delta_999']):.3f}$ & ${float(F[o]['excess']):+.4f}$ & {int(float(F[o]['r_above']))} & ${float(F[o]['depth']):+.4f}$ & ${float(F[o]['z_depth']):+.2f}$ \\\\" for o in ("frozen","ce","hier") if o in F]
         T.panel("(d) A trained control: the census ViT-B/16 fine-tuned with and without a hierarchical objective.", "lccccc", [r"ViT-B/16 & $\hat\delta_{99.9}$ & excess & $r$/200 & depth & $z$ \\"], rows, size=r"\footnotesize", colsep="4pt")
         ftxt = r" (d) Two passes over the 100 training images per class behind the ImageNet centroids (patch embedding frozen, AdamW, same batches and seed for both objectives), with plain cross-entropy or with an added hierarchical cross-entropy over the WordNet 30-cut; both fine-tuned models stay certified and neither reaches the frozen reading, so the control is inconclusive."
-    T.write((r"\textbf{The alignment of each cluster with its hub is certified in four ImageNet backbones under both matched stars, and whether the superclasses form a hierarchy is left open: none fires once cluster orientations are randomized and the test has no power at this noise level; imposing the geometry does not create the structure, and leaf-label supervision can produce it or not.} " if (FINAL and DEC) else r"\textbf{Hierarchy above the superclasses is certified in four ImageNet backbones under both matched stars, imposing the geometry does not create it, and leaf-label supervision can produce it or not.} ") +
+    T.write((r"\textbf{The alignment of each cluster with its hub is certified in four ImageNet backbones under both matched stars, and no hierarchy above the superclasses is found: none fires once cluster orientations are randomized, whereas a three-level hierarchy implanted at the same noise level is detected and survives that randomization (Table~\ref{tab:q5-power}); imposing the geometry does not create the structure, and leaf-label supervision can produce it or not.} " if (FINAL and DEC) else r"\textbf{Hierarchy above the superclasses is certified in four ImageNet backbones under both matched stars, imposing the geometry does not create it, and leaf-label supervision can produce it or not.} ") +
             r"(a) Isotropic star: Gaussian clouds with each superclass's RMS spread (the earlier, withdrawn construction); anisotropic star: within each superclass a Haar sample with the cloud's own covariance, hubs Gaussian at the real hub radius; Haar-resampled hubs: the same clusters with the hubs drawn as a Haar resample of the real hubs. Hub-randomizing Haar null, 10 star seeds; frames: CIFAR-100 coarse labels, ImageNet WordNet cut. The test is validated at $n{=}1000$ only (Table~\ref{tab:q5-power}); CIFAR-100 readings ($n{=}100$) are reported without certification."
             + cert_ + htxt + btxt + " K sweep: " + ks + ltxt
             + r" % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30bal_summary.csv, expR70_inet1k_supervised.csv",
@@ -440,19 +448,27 @@ def q_power():
             htx = f" Under the Haar-hub star the same implants give {fa} of {n_} false alarms at $s{{=}}0$ and {hi} of {n1} detections at $s{{=}}1$ (power {hi/max(1,n1):.2f})."
         ptxt = (r" (b) Six super-hubs of five, hub $= s\cdot$super-hub $+ (1-s+0.4s)\cdot$own Gaussian draw, hub cloud rescaled to the real RMS radius; the depth test of Table~\ref{tab:q4-depth} runs unchanged, 5 implant seeds per $s$. hits: implant seeds with $z\le-2$ (of 5); $s^*$: first $s$ with $\ge4$ of 5; within/between: RMS of the within-cluster offsets over the point-weighted RMS of the hub displacements"
                 + f" ({ratio_lo:.1f} to {ratio_hi:.1f} on the real clouds, against 0.1--0.6 in the synthetic sweep); tight: the same implant after shrinking the offsets to within/between $=0.6$ (2 seeds). Power (fraction of runs with $z\\le-2$) by $s$: " + ", ".join(f"$s{{=}}{s:g}$: {v:.2f}" for s, v in pw.items()) + f"; false alarms at $s{{=}}0$: {fa0} of {n0}." + htx + fctxt)
-    ctxt80 = ""
-    if FINAL and ex("expR80_decision.csv") and ex("expR80_implanted_alignment.csv"):
-        dec80 = load("expR80_decision.csv")[0]
-        if dec80["rule_power_ge_0_8_fa_le_0_05"] == "True":
-            D80 = pd.read_csv(RES / "expR80_implanted_alignment.csv"); D80["hit"] = D80.z_depth <= -2; T.prov += ["expR80_implanted_alignment.csv", "expR80_decision.csv"]
-            SS = sorted(D80.s.unique()); pm = D80.groupby(["model", "s"]).hit.mean().unstack(); pooled = D80.groupby("s").hit.mean()
-            rows = [NAME[m] + " & " + " & ".join(f"{pm.loc[m, s]:.1f}" for s in SS) + r" \\" for m in M12 if m in pm.index] + [r"\midrule pooled (12 backbones $\times$ 5 seeds) & " + " & ".join(f"{pooled[s]:.2f}" for s in SS) + r" \\"]
-            T.panel("(c) Implanted hub alignment on the real ImageNet clouds (expR80): from the decoupled cloud of expR74, each cluster's principal axis rotated toward its hub direction by a fraction $s$ of the angle (hubs and within-cluster spectra unchanged); detection rate at $z\\le-2$ over 5 seeds per backbone and pooled.", "l" + "c" * len(SS),
-                    [r"model & " + " & ".join(f"$s{{=}}{s:g}$" for s in SS) + r" \\"], rows, mids=(4, 9), size=r"\footnotesize", colsep="6pt")
-            n1 = int((D80.s == 1.0).sum()); h1 = int(D80[D80.s == 1.0].hit.sum()); n0 = int((D80.s == 0.0).sum()); h0 = int(D80[D80.s == 0.0].hit.sum())
-            ctxt80 = f" (c) Implanted alignment: detected in {h1} of {n1} runs at full strength and in {h0} of {n0} at zero, so the test certifies hub alignment with measured power. % expR80_implanted_alignment.csv, expR80_decision.csv"
+    ctxt80 = ""; ctxt79 = ""
+    if FINAL and ex("expR80_decision.csv") and ex("expR80_implanted_alignment.csv"):   # priority 1c (brief of 2026-09-21): in the appendix whatever the decision rule said; its outcome is stated
+        dec80 = load("expR80_decision.csv")[0]; D80 = pd.read_csv(RES / "expR80_implanted_alignment.csv"); D80["hit"] = D80.z_depth <= -2; T.prov += ["expR80_implanted_alignment.csv", "expR80_decision.csv"]
+        SS = sorted(D80.s.unique()); pm = D80.groupby(["model", "s"]).hit.mean().unstack(); pooled = D80.groupby("s").hit.mean()
+        rows = [NAME[m] + " & " + " & ".join(f"{pm.loc[m, s]:.1f}" for s in SS) + r" \\" for m in M12 if m in pm.index] + [r"\midrule pooled (12 backbones $\times$ 5 seeds) & " + " & ".join(f"{pooled[s]:.2f}" for s in SS) + r" \\"]
+        T.panel("(c) Implanted hub alignment on the real ImageNet clouds: from the decoupled cloud of the decoupling control, each cluster's principal axis rotated toward its hub direction by a fraction $s$ of the angle (hubs and within-cluster spectra unchanged); detection rate at $z\\le-2$ over 5 seeds per backbone and pooled.", "l" + "c" * len(SS),
+                [r"model & " + " & ".join(f"$s{{=}}{s:g}$" for s in SS) + r" \\"], rows, mids=(4, 9), size=r"\footnotesize", colsep="6pt")
+        n1 = int((D80.s == 1.0).sum()); h1 = int(D80[D80.s == 1.0].hit.sum()); n0 = int((D80.s == 0.0).sum()); h0 = int(D80[D80.s == 0.0].hit.sum()); met80 = dec80["rule_power_ge_0_8_fa_le_0_05"] == "True"
+        ctxt80 = (f" (c) Implanted alignment is detected in {h1} of {n1} runs at full strength ({100 * h1 / n1:.0f}\\%) and in {h0} of {n0} at zero; " + ("the pre-set bar of 0.8 power at full strength with false alarms at or below 0.05 is met" if met80 else "the pre-set bar of 0.8 power at full strength is not met")
+                  + ", and the power is backbone-dependent: every seed for the supervised ViTs and CLIP-B, none for DINOv2-S/B/L. % expR80_implanted_alignment.csv, expR80_decision.csv")
+    if FINAL and ex("expR79_synthetic_deep_poincare.csv"):   # priority 1b (brief of 2026-09-21): a deep hierarchy at the real noise level, and the WordNet Poincare embeddings
+        E79 = pd.read_csv(RES / "expR79_synthetic_deep_poincare.csv"); T.prov += ["expR79_synthetic_deep_poincare.csv"]
+        CL = {"synthetic_deep_vitl_spectrum": "three-level hierarchy, ViT-L spectrum", "synthetic_flat_vitl_spectrum": "flat control, ViT-L spectrum", "wordnet_poincare_d10": r"WordNet Poincar\'e, $d{=}10$", "wordnet_poincare_d50": r"WordNet Poincar\'e, $d{=}50$"}
+        rows = [f"{CL.get(r.cloud, r.cloud)} & {int(r.seed)} & {int(r.dim)} & ${r.excess:+.4f}$ ({int(r.r_above)}) & ${r.z:+.2f}$ & ${r.zdec_mean:+.2f}$ $\\pm$ {r.zdec_sd:.2f} ({r.dec_frac_cert:.1f}) \\\\" for _, r in E79.iterrows()]
+        T.panel("(d) A deep hierarchy at the real noise level: synthetic clouds with ViT-L's real ImageNet spectrum and a three-level implanted hierarchy (nested 2/6/30 cuts of the frame) at ViT-L's real within/between ratio, a flat two-level control (30 iid hubs, same spectrum and ratio), 5 seeds each, and the WordNet Poincar\\'e embeddings of Nickel and Kiela trained on the transitive closure of the tree over the 1000 ImageNet leaves, read with Euclidean distances on the ball coordinates.", "lccccc",
+                [r"cloud & seed & $d$ & excess ($r$) & depth $z$ & decoupled $z$ (cert.) \\"], rows, mids=(5, 10), size=r"\footnotesize", colsep="4pt")
+        deep = E79[E79.cloud == "synthetic_deep_vitl_spectrum"]; flat = E79[E79.cloud == "synthetic_flat_vitl_spectrum"]
+        ctxt79 = (f" (d) Census excess under the centered Haar null (rank in parentheses), depth test with the matched anisotropic star at $K{{=}}30$ (10 star seeds), decoupling control (mean $\\pm$ s.d.\\ over 10 seeds; fraction certified in parentheses). The deep hierarchy fires in {int((deep.z <= -2).sum())} of {len(deep)} seeds and the flat control in {int((flat.z <= -2).sum())} of {len(flat)}; "
+                  f"the decoupling control fires in {int((deep.zdec_mean <= -2).sum())} of {len(deep)} deep seeds, deeper than the intact cloud; the Poincar\\'e embeddings fire at no dimension. % expR79_synthetic_deep_poincare.csv")
     T.write((r"\textbf{The depth test has full power on synthetic hierarchies at the leaf frame and none at the top-level frame used on real backbones.} " if FINAL else r"\textbf{The depth test meets its bar on synthetic hierarchies at ImageNet's class count, raises no false alarm on real clouds under either star, and misses implanted depth at the real within-cluster spread.} ") +
-            r"(a) Power = fraction of hierarchy runs with $z\le-2$; star columns = false-alarm rates in each direction. Top-level frame: the test receives the $K$ super-cluster labels, as the earlier isotropic test did on the real backbones; its hub null keeps every frame cluster intact and only rearranges the $K$ hubs, so hierarchy below the frame is invisible by construction. Leaf frame: the test receives the finest cluster labels with the anisotropic matched star (configurations with more leaves than points are infeasible and omitted)." + bar_ + ptxt + ctxt80
+            r"(a) Power = fraction of hierarchy runs with $z\le-2$; star columns = false-alarm rates in each direction. Top-level frame: the test receives the $K$ super-cluster labels, as the earlier isotropic test did on the real backbones; its hub null keeps every frame cluster intact and only rearranges the $K$ hubs, so hierarchy below the frame is invisible by construction. Leaf frame: the test receives the finest cluster labels with the anisotropic matched star (configurations with more leaves than points are infeasible and omitted)." + bar_ + ptxt + ctxt80 + ctxt79
             + r" % expR55_depth_power.csv, expR55b_depth_power_leafframe.csv, expR64b_wn30.csv, expR64b_wn30_summary.csv, expR64b_wn30bal_summary.csv, expR67_frame_choice.json, expR69_depth_haarhubs_summary.csv")
 
 # ======================================================================================================================
@@ -912,4 +928,4 @@ if __name__ == "__main__":
     for f in OUT.glob("tab_q*.tex"): f.unlink()
     q_calibration(); q_census(); q_robust(); q_sample(); q_depth(); q_power(); q_interventions(); q_treemap(); q_wordnet(); q_text(); q_local(); q_corollary(); q_xi(); q_panel(); q_robust_final()
     conservation_check()
-    FINAL = True; q_depth(); q_wordnet(); q_power(); q_census()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null; power table with two-decimal z)
+    FINAL = True; q_depth(); q_wordnet(); q_power(); q_census(); q_sample()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null; power table with two-decimal z)
