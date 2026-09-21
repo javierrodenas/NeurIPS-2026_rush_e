@@ -1383,3 +1383,16 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   −0.004 / −0.023; p máxima sobre los diez lotes 0.33 / 0.03 / 0.25 / 0.005. Sólo entra en `main_iclr2027_rebuttal.tex` (párrafo de
   §5.1 "A published reading, reproduced and calibrated." y tabla `tab:r2-khrulkov`); la frase calibrada dice exactamente lo que
   muestra la tabla (p ≤ 0.05 en CIFAR-100 y MiniImageNet). Sweep de la versión paralela 215/215. El envío no cambia.
+
+## 36. Pista paralela, prioridad 1b cerrada: jerarquía profunda sintética y Poincaré (2026-09-21, 03:15).
+
+- expR79: nube sintética con el espectro real de ViT-L (d = 1024) y jerarquía implantada de tres niveles (2/6/30) a la razón
+  intra/entre real (1.88), 5 semillas: el test de profundidad dispara en K = 30 en 4 de 5 (z −1.80, −2.45, −2.38, −2.08, −2.20); el
+  control plano (30 hubs iid, mismo espectro y razón) en 0 de 5. El control de desacoplamiento dispara en 5 de 5 nubes profundas con
+  z ≈ −4.2 a −4.8: una jerarquía que vive en los hubs sobrevive a la aleatorización de orientaciones, que es justo lo que no hacen los
+  backbones reales. Incrustaciones de Poincaré de WordNet (Nickel & Kiela, d = 10 y 50), leídas con distancias euclídeas sobre las
+  coordenadas de la bola: exceso positivo (+0.083, +0.035), z de profundidad +2.36 y +1.53; no disparan (lectura euclídea, limitación iv).
+- Sólo en `main_iclr2027_rebuttal.tex` (párrafo de §5.3 "A deep hierarchy at the real noise level." y tabla `tab:r1b-deep`; 33
+  páginas, 0 avisos; sweep 216/216). El envío no cambia. Pendiente de decisión del autor, como pide el brief para los experimentos que
+  acaban y pasan el sweep antes del 24: el resultado afecta a la frase "the test has no power at this noise level" (§5.3, resumen, §7,
+  limitación iii), porque en este escenario sintético la potencia para una jerarquía profunda al nivel de ruido de ViT-L es 0.8, no cero.

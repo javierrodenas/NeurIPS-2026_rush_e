@@ -4,8 +4,19 @@
   "reason": "expR77 results not available"
  },
  "deep_synthetic": {
-  "written": false,
-  "reason": "expR79 not finished (no Poincare d=50 row yet)"
+  "written": true,
+  "deep_fires": "4 of 5",
+  "flat_fires": "0 of 5",
+  "poincare": [
+   {
+    "dim": 10,
+    "z": 2.355421210477977
+   },
+   {
+    "dim": 50,
+    "z": 1.5272969729298005
+   }
+  ]
  },
  "implanted_alignment": {
   "written": true,

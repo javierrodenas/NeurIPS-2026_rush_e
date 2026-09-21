@@ -2,6 +2,27 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 03:15 — priority 1b closed: the deep synthetic hierarchy fires at K = 30 and survives decoupling; Poincaré does not fire
+
+- **§1b result** (`expR79_synthetic_deep_poincare.csv`): synthetic clouds with ViT-L's real ImageNet spectrum (d = 1024) and a
+  three-level implanted hierarchy (2/6/30) at ViT-L's real within/between ratio (1.88), 5 seeds: depth z = −1.80, −2.45, −2.38,
+  −2.08, −2.20, so the test fires in 4 of 5 seeds at K = 30 (the frame of record); the flat two-level control (30 iid hubs, same
+  spectrum and ratio) fires in 0 of 5 (z from −0.08 to −0.69). The decoupling control on the deep clouds (real hubs kept, offsets
+  Haar-rotated, 10 seeds) fires in 5 of 5 with z ≈ −4.2 to −4.8, deeper than the intact cloud: a hierarchy carried by the hubs
+  survives the orientation randomization, which is exactly what the real backbones do not do (none of the four certified backbones
+  fires once decoupled). Census excess −0.008 to −0.010 (deep) and −0.020 (flat), all genuine.
+- WordNet Poincaré embeddings (Nickel & Kiela, gensim, closure of the tree over the 1000 ImageNet leaves), read with Euclidean
+  distances on the ball coordinates: census excess +0.083 (d = 10) and +0.035 (d = 50), above every replicate; depth z = +2.36 and
+  +1.53 (the wrong direction), decoupled +0.32 and −2.22. They do not fire. The reading is Euclidean (limitation iv); the hyperbolic
+  distances of the ball were not used, which is the follow-up if the author wants it.
+- **Bearing on the submission (author's decision, per the brief)**: the submission says "the test has no power at this noise level"
+  (§5.3, abstract, §7, limitation iii). expR79 shows that at ViT-L's noise level and spectrum the test does detect a three-level
+  hierarchy above the 30 hubs in 4 of 5 seeds, and that this detection survives decoupling. That strengthens the reading of the real
+  result (alignment, not hierarchy) but weakens the "no power" wording: the power of the test for a deep hierarchy at this noise level
+  is 0.8 in this synthetic setting, not zero. Nothing was changed in the submission; the paragraph and table are in the rebuttal file.
+- Written into `main_iclr2027_rebuttal.tex` (§5.3 paragraph "A deep hierarchy at the real noise level." and table `tab:r1b-deep`),
+  compiled (33 pages, 0 warnings); sweep 216/216 with the priority-1b check passing.
+
 ## 2026-09-21 03:00 — priority 2 (Khrulkov replication) closed: all four raw values reproduced; calibrated, near the null on three
 
 - **§2 result** (`expR78_khrulkov_replication_summary.csv`, ResNet-34 torchvision, 10 class-balanced batches of 1500):

@@ -143,3 +143,8 @@ hier_seed0 ep 1 step 1900/5004 79 img/s acc 0.965 leaf 0.121 k30 0.022 k6 0.012 
 hier_seed0 ep 1 step 1950/5004 79 img/s acc 0.953 leaf 0.209 k30 0.055 k6 0.000 k2 0.001 (165 min left)
 hier_seed0 ep 1 step 2000/5004 78 img/s acc 0.930 leaf 0.212 k30 0.020 k6 0.002 k2 0.003 (164 min left)
 hier_seed0 ep 1 step 2050/5004 78 img/s acc 0.898 leaf 0.400 k30 0.049 k6 0.000 k2 0.000 (161 min left)
+hier_seed0 ep 1 step 2100/5004 78 img/s acc 0.914 leaf 0.244 k30 0.081 k6 0.014 k2 0.002 (159 min left)
+hier_seed0 ep 1 step 2150/5004 78 img/s acc 0.965 leaf 0.160 k30 0.024 k6 0.004 k2 0.001 (156 min left)
+hier_seed0 ep 1 step 2200/5004 78 img/s acc 0.941 leaf 0.251 k30 0.077 k6 0.016 k2 0.016 (154 min left)
+hier_seed0 ep 1 step 2250/5004 78 img/s acc 0.926 leaf 0.456 k30 0.056 k6 0.007 k2 0.009 (151 min left)
+hier_seed0 ep 1 step 2300/5004 78 img/s acc 0.977 leaf 0.114 k30 0.005 k6 0.000 k2 0.000 (149 min left)

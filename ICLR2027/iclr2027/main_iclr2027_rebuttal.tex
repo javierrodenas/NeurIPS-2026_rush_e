@@ -275,6 +275,8 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Implanted alignment on the real clouds.} From the decoupled cloud of each backbone, each cluster's principal axis was rotated toward its hub direction by a fraction $s$ of the angle, hubs and within-cluster spectra unchanged, and the test was read at every $s$. Implanted alignment is detected in 36 of 60 runs at full strength and in 1 of 60 at zero, a power of 0.60 against the pre-set bar of 0.8, so the power of the test for alignment is not established on the real clouds and the submission keeps the certification without a power statement. Detection at full strength is complete in ViT-T, ViT-S, ViT-B, ViT-L, CLIP-B and absent in DINOv2-S, DINOv2-B, DINOv2-L. Table~\ref{tab:r1c-implant} gives the detection rate per backbone. % expR80_implanted_alignment.csv, expR80_decision.csv
 
+\paragraph{A deep hierarchy at the real noise level.} A synthetic cloud with ViT-L's real ImageNet spectrum and a three-level implanted hierarchy at ViT-L's real within/between ratio was read by the same test. At $K{=}30$ the deep synthetic hierarchy fires in 4 of 5 seeds, the flat control in 0 of 5, and the decoupling control fires in 5 of 5 deep seeds. The WordNet Poincar\'e embeddings fire at no dimension tried ($d{=}10$: $z{=}+2.36$, $d{=}50$: $z{=}+1.53$). Table~\ref{tab:r1b-deep} gives every reading. % expR79_synthetic_deep_poincare.csv
+
 \paragraph{The test never fires on randomized hubs.} With the hub arrangement of every real cloud randomized, the test fires in 0 of 60 runs, and the four certified backbones with random hubs never fire either. The alignment is relational: it needs both the real hubs and the real orientation of each cluster relative to them. Randomizing either removes it: 0 of 60 with random hubs and 0 of 4 with random orientations. Table~\ref{tab:q5-power} gives the runs. % expR69_depth_haarhubs_summary.csv, expR64b_wn30.csv
 
 \paragraph{The test is weak at ImageNet's noise level.} A clean implanted two-level tree is detected in almost no run, because the within-cluster spread of the real clouds exceeds their between-hub spread, outside the range the synthetic sweep covered. Once the offsets are shrunk into that range every backbone is detected, but two contrastive backbones then fire at zero strength, so the shrunk variant only measures power. CIFAR-100 has a hundred centroids in twenty clusters, outside the regime where false alarms are controlled, so its readings carry no certification. Figure~\ref{fig:depth}b shows the detection rates and Table~\ref{tab:q5-power} gives the power. % expR64b_wn30.csv, expR64b_wn30_summary.csv, expR56_depth_variants.csv
@@ -450,6 +452,33 @@ On HierarCaps \citep{alper2024hierarcaps} (1000 four-level caption chains), text
 \label{app:provenance}
 \FloatBarrier
 \subsection{Parallel track: the trained positive control, the deep-hierarchy and implanted-alignment controls, and the replicated reading}
+% prov: expR79_synthetic_deep_poincare.csv
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+cloud & seed & $d$ & excess ($r$) & depth $z$ & decoupled $z$ \\
+\midrule
+synthetic deep vitl spectrum & 0 & 1024 & $-0.0081$ (199) & $-1.80$ & $-4.82$ $\pm$ 0.73 \\
+synthetic deep vitl spectrum & 1 & 1024 & $-0.0095$ (199) & $-2.45$ & $-4.44$ $\pm$ 0.58 \\
+synthetic deep vitl spectrum & 2 & 1024 & $-0.0090$ (199) & $-2.38$ & $-4.19$ $\pm$ 0.60 \\
+synthetic deep vitl spectrum & 3 & 1024 & $-0.0099$ (199) & $-2.08$ & $-4.48$ $\pm$ 0.67 \\
+synthetic deep vitl spectrum & 4 & 1024 & $-0.0090$ (199) & $-2.20$ & $-4.28$ $\pm$ 0.54 \\
+synthetic flat vitl spectrum & 0 & 1024 & $-0.0198$ (200) & $-0.08$ & $-1.61$ $\pm$ 0.27 \\
+synthetic flat vitl spectrum & 1 & 1024 & $-0.0202$ (200) & $-0.32$ & $-1.61$ $\pm$ 0.31 \\
+synthetic flat vitl spectrum & 2 & 1024 & $-0.0196$ (200) & $-0.20$ & $-1.76$ $\pm$ 0.37 \\
+synthetic flat vitl spectrum & 3 & 1024 & $-0.0197$ (200) & $-0.69$ & $-1.74$ $\pm$ 0.33 \\
+synthetic flat vitl spectrum & 4 & 1024 & $-0.0192$ (200) & $-0.27$ & $-1.68$ $\pm$ 0.39 \\
+wordnet poincare d10 & 0 & 10 & $+0.0830$ (0) & $+2.36$ & $+0.32$ $\pm$ 0.58 \\
+wordnet poincare d50 & 0 & 50 & $+0.0354$ (0) & $+1.53$ & $-2.22$ $\pm$ 0.65 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Priority 1b: a deep hierarchy at the real noise level, and the WordNet Poincar\'e embeddings.} Synthetic clouds with ViT-L's real ImageNet spectrum and a three-level implanted hierarchy (nested 2/6/30 cuts of the frame) at ViT-L's real within/between ratio, and a flat two-level control, 5 seeds each; the WordNet Poincar\'e embeddings of Nickel and Kiela (2017) trained on the transitive closure of the tree spanning the 1000 ImageNet leaves at $d{=}10$ and $50$. Census excess under the centered Haar null (200 replicates, rank in parentheses), depth test with the matched anisotropic star at $K{=}30$ (10 star seeds), and the decoupling control (mean $\pm$ s.d.\ over 10 seeds). % expR79_synthetic_deep_poincare.csv
+}
+\label{tab:r1b-deep}
+\end{table}
 % prov: expR80_implanted_alignment.csv, expR80_decision.csv
 \begin{table}[tbp]
 \centering
