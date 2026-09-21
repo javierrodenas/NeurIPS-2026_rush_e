@@ -2,6 +2,23 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 20:35 — §1 positive control: criterion NOT met (the controls are certified too); the hierarchical signature is there
+
+- `expR77_positive_control.csv` (centroids of the census subset, centered Haar null x 200, matched anisotropic star, 10 star seeds,
+  decoupling 10 seeds), seed 0:
+  frozen ViT-B/16: excess −0.016 (r 200, p 0.005); z −3.62 (WordNet-30) / −2.82 (balanced); decoupled −1.40 (0 of 10) / −2.10 (7 of 10).
+  leaf CE: excess −0.024; z −2.45 / −2.09; decoupled −0.72 (0 of 10) / −1.38 (0 of 10).
+  leaf CE + hierarchical CE: excess −0.029; z −2.97 / −3.57; decoupled −2.38 (10 of 10) / −3.51 (10 of 10).
+- Verdict against the pre-set criterion ("the hierarchical model is certified under both frames and still fires with the offsets
+  decoupled, while the leaf-CE model and the frozen checkpoint do not"): NOT MET. The first half holds in full (certified on both
+  frames, fires in every decoupled seed); the second half fails because the leaf-CE model and the frozen checkpoint are certified
+  (they are ViT-B, one of the four certified backbones of the paper). What the run does show: after decoupling, only the hierarchical
+  model keeps firing on the WordNet frame (10 of 10, against 0 of 10 for leaf CE and for the frozen checkpoint), i.e. the injected
+  hierarchy lives in the hubs and survives orientation randomization exactly as the synthetic deep hierarchy does; on the balanced
+  frame the frozen checkpoint also fires in 7 of 10 decoupled seeds, so the separation is clean on the frame of record only.
+- Per the brief: the paragraph and table go to `main_iclr2027_rebuttal.tex` only (built, sweep checks pass); no edit to the submission
+  until the author decides. A second seed of both runs (another ~22 h of GPU) is worth it only if the author wants to pursue it.
+
 ## 2026-09-21 19:00 — expR81 first pass complete (12 backbones x 5 seeds; DINOv2 with 7-11 seeds so far, extension running)
 
 - Power for the deep three-level hierarchy at each backbone's own spectrum and within/between ratio (K = 30, z <= -2):

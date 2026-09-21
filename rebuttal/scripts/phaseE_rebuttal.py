@@ -28,7 +28,8 @@ if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'exp
            f"Under the record the hierarchical model {s_h}, and {s_c}. "
            + ("The success criterion fixed before the run is met: the injected hierarchy lives in the hubs and the test sees it." if met else "The success criterion fixed before the run is not met, and the outcome is reported as it is.")
            + " Table~\\ref{tab:r1-positive} gives the readings. % expR77_positive_control.csv, expR77_positive_control_verdict.json")
-    T = insert_after_paragraph(T, "No hierarchy above the superclasses is found." if "No hierarchy above the superclasses is found." in T else "Whether the superclasses form a hierarchy is left open.", par)
+    LEAD53 = next(l for l in ("No hierarchy above the superclasses is found in the supervised and contrastive backbones.", "No hierarchy above the superclasses is found.", "Whether the superclasses form a hierarchy is left open.") if ("\\paragraph{" + l + "}") in T)
+    T = insert_after_paragraph(T, LEAD53, par)
     rows = [f"{NM.get(m, m)} & ${r.excess:+.4f}$ ({int(r.r_above)}, {r.p_left:.3f}) & ${r.z_wn30:+.2f}$ & ${r.z_wn30bal:+.2f}$ & ${r.zdec_mean_wn30:+.2f}$ ({r.dec_frac_cert_wn30:.1f}) & ${r.zdec_mean_wn30bal:+.2f}$ ({r.dec_frac_cert_wn30bal:.1f}) \\\\" for m, r in P.iterrows()]
     tables.append("% prov: expR77_positive_control.csv\n\\begin{table}[tbp]\n\\centering\n\\footnotesize\n\\setlength{\\tabcolsep}{4pt}\n\\begin{tabular}{lccccc}\n\\toprule\n"
                   "model & excess ($r$, $p$) & $z$, WordNet-30 & $z$, balanced & decoupled $z$, WN-30 (cert.) & decoupled $z$, balanced (cert.) \\\\\n\\midrule\n" + "\n".join(rows) +

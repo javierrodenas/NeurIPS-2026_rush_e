@@ -92,7 +92,6 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
-PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
 PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
 PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 
 PASS final: no bridge sentences anywhere in the body 
@@ -122,5 +121,6 @@ PASS final: AI Use Statement with exactly the three declared items and the respo
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
 PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
-[phaseB re-total] 215/216
+PASS rebuttal (priority 1): every z of the trained positive control matches expR77_positive_control.csv and the verdict sentence matches the pre-set criterion in expR77_positive_control_verdict.json 
+[phaseB re-total] 216/217
 FAIL(all): final: abstract is the recorded text (250 words or fewer, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 

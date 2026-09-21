@@ -1,0 +1,75 @@
+{
+ "rows": [
+  {
+   "model": "frozen",
+   "n": 1000,
+   "delta": 0.05393620095877087,
+   "excess": -0.016164503722374754,
+   "null_sd": 0.0030302600088899477,
+   "r_above": 200,
+   "p_left": 0.004975124378109453,
+   "depth_wn30": -0.03346298992813023,
+   "z_wn30": -3.6197812241629204,
+   "zdec_mean_wn30": -1.4036106835977291,
+   "zdec_sd_wn30": 0.25454163149061976,
+   "dec_frac_cert_wn30": 0.0,
+   "depth_wn30bal": -0.02996633928812811,
+   "z_wn30bal": -2.824889154989554,
+   "zdec_mean_wn30bal": -2.097917726397187,
+   "zdec_sd_wn30bal": 0.2689806669104391,
+   "dec_frac_cert_wn30bal": 0.7,
+   "time_s": 2361.936797618866
+  },
+  {
+   "model": "ce_seed0",
+   "n": 1000,
+   "delta": 0.03843375869841806,
+   "excess": -0.02434974400249848,
+   "null_sd": 0.0010019178407428791,
+   "r_above": 200,
+   "p_left": 0.004975124378109453,
+   "depth_wn30": -0.026725190969842806,
+   "z_wn30": -2.4466605392959058,
+   "zdec_mean_wn30": -0.7231732107453149,
+   "zdec_sd_wn30": 0.1941741410131943,
+   "dec_frac_cert_wn30": 0.0,
+   "depth_wn30bal": -0.020978736305218855,
+   "z_wn30bal": -2.0942260026584143,
+   "zdec_mean_wn30bal": -1.3777075702428356,
+   "zdec_sd_wn30bal": 0.15150182768013476,
+   "dec_frac_cert_wn30bal": 0.0,
+   "time_s": 2269.4936146736145
+  },
+  {
+   "model": "hier_seed0",
+   "n": 1000,
+   "delta": 0.03785248364794726,
+   "excess": -0.029301488811416018,
+   "null_sd": 0.002997212535964791,
+   "r_above": 200,
+   "p_left": 0.004975124378109453,
+   "depth_wn30": -0.03252752723542683,
+   "z_wn30": -2.9660880869750303,
+   "zdec_mean_wn30": -2.379680595484319,
+   "zdec_sd_wn30": 0.14920899091657072,
+   "dec_frac_cert_wn30": 1.0,
+   "depth_wn30bal": -0.03175354176748921,
+   "z_wn30bal": -3.565812707509637,
+   "zdec_mean_wn30bal": -3.5087326201035283,
+   "zdec_sd_wn30bal": 0.35320462854818035,
+   "dec_frac_cert_wn30bal": 1.0,
+   "time_s": 2260.8802647590637
+  }
+ ],
+ "verdict": [
+  {
+   "seed": "seed0",
+   "hier_certified_both_frames": true,
+   "hier_fires_decoupled_both": true,
+   "ce_not_certified": false,
+   "frozen_not_certified": false,
+   "criterion_met": false
+  }
+ ],
+ "criterion": "hier certified (z<=-2) under both frames and still fires with offsets decoupled; ce and frozen not certified"
+}

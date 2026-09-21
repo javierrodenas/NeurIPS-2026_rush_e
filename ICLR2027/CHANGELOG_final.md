@@ -1669,3 +1669,15 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   dos estrellas y desacoplamiento por transformación). Fuera de los cuatro certificados: ViT-T cruza el umbral al quitar la componente
   radial (−2.06/−2.07) y DINO-B se queda en −1.61/−1.89; ningún backbone no certificado lo cruza bajo L2. Los desacoplados
   transformados no disparan (fracción certificada 0.0–0.3, ViT-T la más alta). Envío recompilado con el panel; sweep 215/216.
+
+## 44. Control positivo entrenado: veredicto (2026-09-21, 20:35).
+
+- Los dos fine-tunings de ViT-B/16 (5 épocas, CE de hoja frente a CE de hoja + CE jerárquica en los cortes 30/6/2, mismos lotes)
+  terminaron a las 18:35; expR77 sobre sus centroides y el checkpoint congelado: jerárquico z −2.97/−3.57 (WordNet-30/equilibrado) y
+  desacoplado −2.38/−3.51 (10 de 10 en ambos); CE de hoja z −2.45/−2.09 y desacoplado −0.72/−1.38 (0 de 10); congelado z −3.62/−2.82
+  y desacoplado −1.40 (0 de 10) / −2.10 (7 de 10). Criterio fijado de antemano NO cumplido: la mitad "jerárquico certificado en ambos
+  marcos y dispara desacoplado" se cumple entera, pero la mitad "CE y congelado no certificados" falla porque ViT-B ya es uno de los
+  cuatro certificados. Lo que sí separa a los tres es el desacoplamiento en el marco de registro: sólo el jerárquico sigue disparando.
+- Como manda el brief de la pista paralela: párrafo "A trained positive control." y tabla en `main_iclr2027_rebuttal.tex` (ancla del
+  constructor actualizada a la entradilla actual de §5.3), sin tocar el envío hasta que el autor decida; el sweep rederiva las z y la
+  frase del veredicto del CSV y del JSON. Informado el autor antes de cualquier edición.
