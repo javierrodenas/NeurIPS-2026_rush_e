@@ -1,3 +1,11 @@
 {
- "met": false
+ "met": false,
+ "hits1": 36,
+ "runs1": 60,
+ "hits0": 1,
+ "runs0": 60,
+ "power": 0.6,
+ "fa": 0.016666666666666666,
+ "n_models": 12,
+ "n_seeds": 5
 }

@@ -2,6 +2,14 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 02:40 — submission closed with expR66c; parallel track unchanged
+
+- **Submission**: expR66c merged (joint z <= -2 in 39 of 72, genuine in >= 27 of 30 resamples in 42 of 72; record 44; ImageNet and
+  CIFAR-100 18 of 24 under every reading) and the closing rebuild done: sweep 214/214, main text ends on page 9, 31 pages, 0 warnings.
+  The rebuttal file was rebuilt on top of it (frozen text identical plus the expR80 paragraph and table).
+- **§1**: epoch 1 of 5 running on both GPUs (epoch 0 took 4.25 h; ends ~18:00). **§2**: MiniImageNet batches 6 of 10 (summary
+  after the 40th batch, ~03:40). **§1b**: flat control at seed 4 of 5, then the Poincaré embeddings.
+
 ## 2026-09-21 00:05 — priority 1c: decision rule NOT met; nothing enters the submission
 
 - **§1c result** (`expR80_implanted_alignment.csv`, 12 backbones x 5 seeds x 5 strengths, merged at 00:02): detection rate at

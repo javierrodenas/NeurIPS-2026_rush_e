@@ -1,2 +1,9 @@
 dinov2_g  imagenet     b= -1 exc -0.0081 r=50/50 (537s)
 dinov2_g  imagenet     b=  0 exc -0.0079 r=50/50 (508s)
+dinov2_g  imagenet     b= 10 exc -0.0080 r=50/50 (1293s)
+dinov2_g  imagenet     b= 20 exc -0.0079 r=50/50 (838s)
+clip_b    imagenet     b= -1 exc -0.0067 r=45/50 (198s)
+clip_b    imagenet     b=  0 exc -0.0066 r=45/50 (175s)
+clip_b    imagenet     b= 10 exc -0.0070 r=45/50 (115s)
+clip_b    imagenet     b= 20 exc -0.0063 r=44/50 (72s)
+PART DONE 4

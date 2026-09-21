@@ -1363,3 +1363,14 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   paralela compilada (`ICLR2027/main_iclr2027_rebuttal.pdf`, 32 páginas, 0 avisos). Sweep 213/214: los tres checks de la réplica
   pasan y sigue pendiente sólo el fichero de expR66c. `phaseE_rebuttal.py` exige además que expR79 haya terminado (fila de Poincaré
   d = 50) antes de escribir su párrafo: los resultados parciales no entran.
+
+## 34. Cierre nocturno del envío con expR66c (2026-09-21, 02:40).
+
+- `expR66c_joint_sensitivity.py --merge` (sensibilidad conjunta bajo el registro centrado, 12 partes, 30 remuestreos de centroides
+  por celda): registro 44/72 (18/24 en ImageNet y CIFAR-100); z conjunta ≤ −2 en 39/72 (18/24); genuino en ≥ 27 de 30 remuestreos en
+  42/72 (17/24). Bajo el registro anterior (expR66, no centrado) eran 49 / 42 / 47 con los mismos 18 / 18 / 17 en ImageNet y CIFAR-100.
+  Entra sólo en el panel (d) de la Tabla 13 (copia final regenerada, `q_robust_final`); la frase de §5.2 ("leaves most of the count in
+  place") no lleva números y sigue siendo cierta (39 y 42 de 44).
+- Reconstrucción completa (`final_rebuild.sh`): 31 páginas, 0 avisos; §7 acaba en la página 9 (línea 460 de inicio), statements en
+  la 9 (480), referencias en la 10 (501). Sweep 214/214: se cierra el único check pendiente desde la entrada §30 (fichero de expR66c
+  en la tabla de robustez). Versión paralela reconstruida sobre el envío cerrado (`rebuttal_rebuild.sh`).

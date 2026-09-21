@@ -1,3 +1,9 @@
 clip_l    imagenet     b= -1 exc -0.0093 r=49/50 (289s)
 clip_l    imagenet     b=  0 exc -0.0087 r=49/50 (296s)
 clip_l    imagenet     b= 10 exc -0.0106 r=50/50 (567s)
+clip_l    imagenet     b= 20 exc -0.0102 r=50/50 (731s)
+siglip_b  imagenet     b= -1 exc -0.0077 r=48/50 (687s)
+siglip_b  imagenet     b=  0 exc -0.0067 r=46/50 (616s)
+siglip_b  imagenet     b= 10 exc -0.0079 r=48/50 (408s)
+siglip_b  imagenet     b= 20 exc -0.0071 r=48/50 (287s)
+PART DONE 5

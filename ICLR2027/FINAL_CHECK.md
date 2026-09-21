@@ -60,10 +60,9 @@ Non-verbatim prose of S3–S7: 146 sentences, mean 17.5 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 210/211 checks passed.
+- Total: 214/214 checks passed.
 - Final-version checks:
 
-    PASS final: abstract is the recorded sixth-review text (250 words or fewer, cell defined in its own sentence, depth left open), 15 text models 
     PASS final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits 
     PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
     PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
