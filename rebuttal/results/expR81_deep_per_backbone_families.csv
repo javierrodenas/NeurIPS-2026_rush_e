@@ -1,4 +1,4 @@
 family,n_backbones,n_runs,power,min_backbone_power,power_ge_0_8
-DINO,5,41,0.4634146341463415,0.0,False
+DINO,5,85,0.5647058823529412,0.0,False
 contrastive,3,15,0.7333333333333333,0.2,False
 supervised ViT,4,20,0.2,0.0,False

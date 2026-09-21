@@ -1,2 +1,9 @@
 dinov2_g  seed 12 ratio 3.92 intact z -2.99 (B -0.0142, star sd 0.0020) | decoupled z mean -3.34 cert 1.0 (19496s)
 dinov2_g  seed 13 ratio 3.92 intact z -2.46 (B -0.0154, star sd 0.0023) | decoupled z mean -3.57 cert 1.0 (8958s)
+dinov2_g  seed 14 ratio 3.92 intact z -2.13 (B -0.0135, star sd 0.0032) | decoupled z mean -2.88 cert 1.0 (6190s)
+dinov2_g  seed 15 ratio 3.92 intact z -2.21 (B -0.0176, star sd 0.0023) | decoupled z mean -3.66 cert 1.0 (4893s)
+dinov2_g  seed 16 ratio 3.92 intact z -3.31 (B -0.0180, star sd 0.0021) | decoupled z mean -3.73 cert 1.0 (3959s)
+dinov2_g  seed 17 ratio 3.92 intact z -2.75 (B -0.0167, star sd 0.0035) | decoupled z mean -3.46 cert 1.0 (2462s)
+dinov2_g  seed 18 ratio 3.92 intact z -2.61 (B -0.0149, star sd 0.0031) | decoupled z mean -3.70 cert 1.0 (1526s)
+dinov2_g  seed 19 ratio 3.92 intact z -2.52 (B -0.0142, star sd 0.0018) | decoupled z mean -3.71 cert 1.0 (867s)
+Done part dinov2_g_ext2

@@ -1681,3 +1681,9 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Como manda el brief de la pista paralela: párrafo "A trained positive control." y tabla en `main_iclr2027_rebuttal.tex` (ancla del
   constructor actualizada a la entradilla actual de §5.3), sin tocar el envío hasta que el autor decida; el sweep rederiva las z y la
   frase del veredicto del CSV y del JSON. Informado el autor antes de cualquier edición.
+
+## 45. expR81 cerrado con 20 semillas en DINOv2 (2026-09-22, 01:10).
+
+- Potencia final por backbone: ViT-T/S/B 0.00, ViT-L 0.80; DINO-B 0.00; DINOv2-S 0.00, DINOv2-B 0.45, DINOv2-L 0.95, DINOv2-G 1.00
+  (20 semillas); CLIP-B 0.20, CLIP-L 1.00, SigLIP-B 1.00. Ninguna familia ≥ 0.8. La acotación por familias del envío no se sostiene;
+  decisión del autor el 23 (PARALLEL_STATUS). Sin cambios en el envío.

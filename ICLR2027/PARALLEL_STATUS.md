@@ -2,6 +2,17 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-22 01:10 — expR81 complete, DINOv2 at 20 seeds; every parallel-track run finished
+
+- Final power for the deep three-level hierarchy at each backbone's own spectrum and ratio (K = 30, z <= -2): ViT-T 0.00, ViT-S 0.00,
+  ViT-B 0.00, ViT-L 0.80 (5 seeds each); DINO-B 0.00 (5); DINOv2-S 0.00, DINOv2-B 0.45, DINOv2-L 0.95, DINOv2-G 1.00 (20 seeds
+  each); CLIP-B 0.20, CLIP-L 1.00, SigLIP-B 1.00 (5). By family: supervised ViTs 0.20, DINO/DINOv2 0.57, contrastive 0.73; no family
+  reaches 0.8. Files: `expR81_deep_per_backbone.csv`, `_summary.csv`, `_families.csv`.
+- For the 23 September decision: the control has power (>= 0.8) in ViT-L, DINOv2-L, DINOv2-G, CLIP-L and SigLIP-B, and none or
+  little in ViT-T/S/B, DINO-B, DINOv2-S/B and CLIP-B. The scoping by family in the submission does not match; the author chooses the
+  replacement wording (a per-backbone list, or "where the control has power" with the list in §5.3 and the limitation).
+- Nothing else is running. The rebuttal file holds the positive control; the submission is at `26bc28b` plus this status.
+
 ## 2026-09-21 20:35 — §1 positive control: criterion NOT met (the controls are certified too); the hierarchical signature is there
 
 - `expR77_positive_control.csv` (centroids of the census subset, centered Haar null x 200, matched anisotropic star, 10 star seeds,
