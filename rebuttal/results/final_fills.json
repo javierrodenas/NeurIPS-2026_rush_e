@@ -13,6 +13,12 @@
  "RATIO_VITL": "1.9",
  "RATIO_DINO_LO": "3.0",
  "RATIO_DINO_HI": "3.9",
- "DEC_OBS": "Why the synthetic hierarchy reads deeper once decoupled is an open observation.",
- "PROV81": ""
+ "DEC_OBS": "The deeper reading comes from both sides: decoupling shrinks the star spread and deepens the excess below the star.",
+ "PROV81": ", expR81_deep_per_backbone.csv",
+ "RATIO_SC_LO": "1.3",
+ "RATIO_SC_HI": "2.0",
+ "Z_DEEP_HI": "-4.2",
+ "Z_DEEP_LO": "-4.8",
+ "Z_FLAT_HI": "-1.6",
+ "Z_FLAT_LO": "-1.8"
 }

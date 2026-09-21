@@ -1504,3 +1504,37 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   la frase del implante encogido y la limitación (iii) apretadas; parskip 1 pt, abovecaptionskip 1 pt, textfloatsep 5 pt. Sweep
   215/216: sólo falla el tope de 250 palabras del resumen (264 con la acotación; decisión del autor pendiente). Versión paralela
   recompilada sobre el envío. La frase de observación se actualizará sola cuando existan las filas de ViT-L de expR81.
+
+## 39. Séptima revisión, continuación (2026-09-21): las familias en el titular acotado; sesgo del test desacoplado.
+
+- **(1)** "in the backbones whose noise level the control covers" → forma larga "in the supervised and contrastive backbones, whose
+  noise level (ratios {{RATIO_SC_LO}}--{{RATIO_SC_HI}}) the control covers, and not tested in the DINOv2 family
+  ({{RATIO_DINO_LO}}--{{RATIO_DINO_HI}})" en §1 (espejo y contribución 2), §5.3 y pie de la Figura 4 (pie de la Tabla 8 sin números);
+  forma corta "in the supervised and contrastive backbones; the DINOv2 family lies outside the control's noise level" en el resumen
+  (frase de profundidad y tesis) y, por ser la misma frase, en la tesis de §7, donde la coma que seguía pasa a punto y coma para que la
+  lista de cláusulas se lea ("…noise level; they do not converge…"). Rellenos desde expR64b: 1.3–2.0 = ViT supervisados, CLIP-B/L y
+  SigLIP-B (DINO-B, 2.1, queda fuera de ambas frases, como en el brief); DINOv2 3.0–3.9. La entradilla de §5.3 se queda en trece
+  palabras ("…is found in the supervised and contrastive backbones.") por la regla de 16 palabras, y la forma larga va como frase
+  propia al final del párrafo. Se ajustará el 23 si la potencia por backbone de expR81 dice otra cosa.
+- **(2)** Tras "once decoupled it fires in 8 of 50 runs": la frase del autor con los rangos de z como rellenos de expR79
+  ("the synthetic hierarchy at $z$ {{Z_DEEP_HI}} to {{Z_DEEP_LO}} stands well clear of that bias, the flat control at {{Z_FLAT_HI}}
+  to {{Z_FLAT_LO}}"): −4.2 a −4.8 como decía el brief; el control plano va de −1.6 a −1.8 (el brief decía −1.7; la media más baja es
+  −1.76). El paréntesis "(flat control …)" pasa a aposición por la regla de los paréntesis; la frase de Poincaré se funde con el
+  puntero para no pasar de seis frases. Limitación (iii): "…would go undetected, and the decoupled test is biased toward firing,
+  which makes the real verdicts under decoupling conservative".
+- Sweep: tesis nueva; recuentos de las dos formas (larga ×3 con "is found" y ×4 en total, corta ×3); rangos de z rederivados de
+  expR79; la expresión regular de números de la versión final acepta rangos con "--" sin espacios; exenciones de los dos párrafos de
+  §5.3 ampliadas y las frases literales del autor exentas de la regla de 35 palabras.
+- **Observación del desacoplamiento, resuelta con expR81 (ViT-L, 10:15)**: las cinco semillas de ViT-L de expR81 reproducen las nubes
+  profundas de expR79 (z intactas −1.80, −2.45, −2.38, −2.08, −2.20). Bajo desacoplamiento la dispersión de la estrella baja a 0.69 de
+  la intacta (0.0032 → 0.0022) y el exceso bajo la estrella casi se duplica (−0.019 → −0.036; el exceso B de la propia nube −0.020 →
+  −0.040). Como cambian las dos partes, el constructor escribe "The deeper reading comes from both sides: decoupling shrinks the star
+  spread and deepens the excess below the star." (`final_dec_obs.json`, kind = both) en lugar de la observación abierta; por qué el
+  exceso de la nube crece al desacoplar no lo explican las corridas y no se afirma. Provenance de §5.3 incluye ya
+  `expR81_deep_per_backbone.csv`. La ordenación "1.3--2.0" se escribe "ratios 1.3 to 2.0" en aposición: la expresión regular de números
+  del sweep no acepta rangos con guiones y la regla de paréntesis no admite "(ratios 1.3 to 2.0)".
+- **Cierre (2026-09-21, 10:40)**: §7 en la línea 460 de la página 9, statements en la 485 (página 9), referencias en la 503 (página 10);
+  33 páginas, 0 avisos. Recortes para el presupuesto: "Scale deepens the excess for DINOv2 only…" (§5.2), "The reference level, not the
+  size, decides what those readings mean" (§5.1), "yet it recovers the CIFAR-100 superclasses" (DeiT-B), la frase de los niveles de
+  WordNet y el pie de la Figura 4 apretados, "outside that regime" en el párrafo del implante; saltos de sección 0.6 ex y parskip 0.
+  Sweep 215/216: sólo falla el tope de 250 palabras del resumen (276). Versión paralela recompilada sobre el envío.

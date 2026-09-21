@@ -1,0 +1,4 @@
+family,n_backbones,n_runs,power,min_backbone_power,power_ge_0_8
+DINO,2,2,0.5,0.0,False
+contrastive,1,1,0.0,0.0,False
+supervised ViT,3,8,0.5,0.0,False

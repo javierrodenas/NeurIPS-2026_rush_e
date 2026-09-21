@@ -260,3 +260,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - (Séptima revisión, 2026-09-21) La acotación del titular añade once palabras al resumen: 264 con tus tres reversiones anteriores.
   El sweep mantiene el tope de 250 (check en FAIL) hasta que decidas qué hacer con el resumen. La limitación (iii) da el rango DINOv2
   como 3.0–3.9 (los cuatro DINOv2, desde expR64b); tu brief decía 3.7–3.9, que es el rango de B/L/G sin DINOv2-S (3.0).
+- (Séptima revisión, continuación) Tres notas: (a) el resumen sube a 276 palabras con la forma corta en las dos frases; el sweep
+  sigue en FAIL por el tope de 250. (b) El control plano desacoplado va de −1.6 a −1.8 según expR79 (la media más baja es −1.76); el
+  brief decía −1.7; el texto lleva el valor del fichero. (c) DINO-B (razón 2.1) no está ni en "supervised and contrastive (1.3–2.0)"
+  ni en "the DINOv2 family (3.0–3.9)"; expR81 lo mide igualmente.

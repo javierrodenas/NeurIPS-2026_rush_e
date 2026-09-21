@@ -2,6 +2,19 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 10:15 — expR81: ViT-L seeds done (they reproduce expR79); first rows of the other backbones
+
+- **ViT-L (5 seeds, = expR79's deep clouds)**: intact z −1.80, −2.45, −2.38, −2.08, −2.20 (power 0.8); decoupled z mean −4.44 over
+  50 runs (all certified). Decomposition: the star spread shrinks to 0.69 of its intact value (0.0032 → 0.0022) and the excess below
+  the star nearly doubles (−0.019 → −0.036; the cloud's own excess B −0.020 → −0.040, the star's −0.0015 → −0.0044). Both sides move,
+  so the builder writes "The deeper reading comes from both sides: decoupling shrinks the star spread and deepens the excess below
+  the star." into §5.3 (recorded in `final_dec_obs.json`); why the excess itself grows under decoupling is not explained by the runs.
+- **First rows elsewhere** (one seed each unless stated): ViT-B z −1.91 (not firing; decoupled −5.1), ViT-T −0.58 and −0.56 (two
+  seeds), CLIP-B −1.41 (decoupled −5.2), DINOv2-S −0.49, DINOv2-L −2.10 (fires; decoupled −2.9). If this holds, the power for a
+  deep hierarchy at each backbone's own spectrum and ratio is not a matter of family: ViT-T/B and CLIP-B miss it at ratios 1.3–2.0
+  while DINOv2-L detects it at 3.9. The scoping adopted this morning ("supervised and contrastive covered, DINOv2 not tested") will
+  have to be revisited on 23 September as the brief foresees. All ten shards keep running (ETA for the full 60 clouds: evening).
+
 ## 2026-09-21 09:15 — seventh review: priority 1d launched (deadline 23 September)
 
 - **§1d** `expR81_deep_per_backbone.py`: the deep synthetic hierarchy of expR79 (three levels over the 30 hubs) with each of the 12
