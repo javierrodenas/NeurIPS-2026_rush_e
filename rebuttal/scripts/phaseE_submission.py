@@ -85,7 +85,7 @@ def edit(s):
     return s
 # sixth review (2026-09-20): the abstract is rewritten by order to 250 words or fewer, depth left open, cell defined in its own sentence;
 # the text below replaces the edited verbatim abstract and is recorded in final_verbatim_edits.json ("abstract_sixth_review")
-ABSTRACT_TEXT = ("Hyperbolic representation learning rests on a premise, latent hyperbolicity: standard models are already tree-like because their class geometry scores a low Gromov $\\delta$. "
+ABSTRACT_TEXT = ("Hyperbolic representation learning rests on a premise we call latent hyperbolicity: standard models are already tree-like because their class geometry scores a low Gromov $\\delta$, a measure of tree-likeness that is zero for a tree. "
     "The raw reading's reference level depends on dimension, spectrum and statistic; we build an instrument reading every score as an excess over a matched random cloud, ranked against 200 replicates, plus a depth test with measured power. "
     "A cell is one model on one dataset. "
     "Across 12 vision backbones, 6 datasets and 15 text models the raw reading is not evidence and the calibrated one is weak and model-dependent. The four values reported by Khrulkov et al. for latent hyperbolicity are reproduced and, calibrated, two are indistinguishable from a random cloud. "

@@ -4,3 +4,4 @@ dinov2_s  seed 2 ratio 3.00 intact z -1.95 (B -0.0113, star sd 0.0041) | decoupl
 dinov2_s  seed 3 ratio 3.00 intact z -0.56 (B -0.0037, star sd 0.0023) | decoupled z mean -1.04 cert 0.0 (1027s)
 dinov2_s  seed 4 ratio 3.00 intact z -0.54 (B -0.0037, star sd 0.0031) | decoupled z mean -0.86 cert 0.0 (1064s)
 dinov2_b  seed 0 ratio 3.71 intact z -1.98 (B -0.0127, star sd 0.0019) | decoupled z mean -2.74 cert 0.9 (1412s)
+dinov2_b  seed 1 ratio 3.71 intact z -1.87 (B -0.0098, star sd 0.0021) | decoupled z mean -2.09 cert 0.7 (4608s)

@@ -5,3 +5,4 @@ i21k_t    seed 3 ratio 1.55 intact z -0.28 (B -0.0027, star sd 0.0049) | decoupl
 i21k_t    seed 4 ratio 1.55 intact z -0.34 (B -0.0037, star sd 0.0037) | decoupled z mean -1.95 cert 0.4 (845s)
 i21k_s    seed 0 ratio 1.93 intact z -0.52 (B -0.0050, star sd 0.0035) | decoupled z mean -3.19 cert 0.9 (1047s)
 i21k_s    seed 1 ratio 1.93 intact z -1.01 (B -0.0102, star sd 0.0036) | decoupled z mean -2.59 cert 0.9 (1084s)
+i21k_s    seed 2 ratio 1.93 intact z -1.96 (B -0.0170, star sd 0.0032) | decoupled z mean -2.53 cert 0.8 (3378s)

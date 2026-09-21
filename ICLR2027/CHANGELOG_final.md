@@ -1603,3 +1603,7 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   33 páginas, 0 avisos; sweep 215/216 (sólo el tope del resumen, 311 palabras). "The count survives resampling" vuelve a tres frases
   ("The census null accounts for replicate noise only. Folding image resampling and the estimator's seeds into that spread, …").
   Versión paralela recompilada.
+- **Resumen, primera frase (autor, 2026-09-21)**: "Hyperbolic representation learning rests on a premise we call latent hyperbolicity:
+  standard models are already tree-like because their class geometry scores a low Gromov δ, a measure of tree-likeness that is zero
+  for a tree." (vuelve "we call" y se añade la definición de δ). 320 palabras; el check del tope de 250 sigue en FAIL a la espera del
+  autor. `OPENREVIEW_abstract.txt` regenerado.

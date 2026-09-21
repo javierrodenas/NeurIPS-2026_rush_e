@@ -1,2 +1,5 @@
 i21k_t    l2norm    aniso           intact: depth +0.0030 z +0.27 (302s)
 i21k_t    l2norm    aniso_haarhubs  intact: depth -0.0023 z -0.17 (346s)
+i21k_t    l2norm    decoupled: z mean -0.78 cert 0.0
+i21k_t    deradial  aniso           intact: depth -0.0232 z -2.06 (220s)
+i21k_t    deradial  aniso_haarhubs  intact: depth -0.0229 z -2.07 (218s)
