@@ -1610,3 +1610,30 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Resumen, segunda frase (autor, 2026-09-21)**: "That low value is also what a random cloud of the same dimension and spectrum
   scores, so we build an instrument that reads every score as its excess over 200 such clouds, and add a depth test whose power is
   measured." (sustituye a la frase del nivel de referencia). Recuento en la nota de cierre; el tope de 250 sigue pendiente.
+- **Resumen completo del autor (2026-09-21, tarde)**: el resumen es ahora el texto que dio el autor (la frase de Khrulkov sale del
+  resumen y queda en §1; "A cell is one model on one dataset" pasa a "model–dataset cells"; MERU nombrado; "where the premise is
+  read"). Su última frase es la tesis nueva, "Read correctly, foundation models organize classes into clustered structure that is
+  moderately shared and does not converge to one common tree; no hierarchy above the superclasses is found where the test has power;
+  and their raw tree-likeness is not evidence for hyperbolic geometry.", y por la regla de la tesis idéntica en resumen y §7 se ha
+  puesto también en §7 (cae "hub-aligned in a few backbones" de la tesis; el espejo de §1 no cambia). Sweep ajustado a las frases
+  nuevas (definición de celda, orientaciones, "The four values" sólo en §1, "weak and model-dependent" al menos dos veces).
+
+## 42. Resumen y §1 reescritos (2026-09-21, brief del autor).
+
+- **(1)** Resumen literal del autor (299 palabras; el tope de 250 sigue pendiente). **(2)** Tesis de §7 = última frase del resumen.
+- **(3)** §1 "The answer has three parts": párrafo entero sustituido por el texto del autor (edición registrada sobre `main_local.tex`,
+  que ahora abarca el párrafo completo, incluida la frase de los árboles). **(4)** Contribución 2: "Structure beyond a random cloud in
+  most models, clusters oriented toward their hubs in a few, no hierarchy above the superclasses where the test has power, and a
+  hyperbolic backbone as the control for imposing the geometry."
+- **(5)** Donde la alineación se enuncia como hallazgo: entradilla de §5.3 "The depth test certifies that clusters are oriented toward
+  their hubs in four backbones.", pie de la Figura 4 "The depth test certifies in 4 of 12 ImageNet backbones that clusters are oriented
+  toward their hubs, not that the hubs form a hierarchy; no hierarchy…", pie de la Tabla 8 igual con "under both matched stars".
+  "Alignment" se conserva donde se define o se caracteriza (R6 "The alignment is relational…", §5.2 "reads as hub alignment",
+  limitación (iii) y el control implantado).
+- **(6)** Sweep: tesis nueva; "cell" definido por "model--dataset cells" en el resumen y "A model--dataset cell is genuine when" en la
+  Definición 5 (§3.3); vocabulario: "hub-aligned" ausente, "clusters are oriented toward their hubs" al menos tres veces, la primera
+  frase del espejo de §1 sin "genuine", "certified", "record", "frame", "matched star" ni "null"; la frase de Khrulkov sólo en §1
+  ("two of them are indistinguishable"), "weak and model-dependent" al menos una vez (queda en la entradilla de §5.1).
+- **(7)** `OPENREVIEW_abstract.txt` con el mismo texto.
+- Presupuesto: "DINO-B does not fall in the island" (§5.4), los nombres de los cuatro datasets en el párrafo de Khrulkov (§5.1; están en
+  la Tabla 3(b)) y las descripciones (a)/(b) del pie de la Figura 4 apretadas.

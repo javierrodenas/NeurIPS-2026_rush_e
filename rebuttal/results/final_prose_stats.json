@@ -1,9 +1,9 @@
 {
  "sections": {
   "Introduction": {
-   "sentences": 32,
-   "avg_words": 23.6,
-   "max_words": 69
+   "sentences": 31,
+   "avg_words": 23,
+   "max_words": 64
   },
   "Related Work": {
    "sentences": 5,
@@ -21,7 +21,7 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 84,
+   "sentences": 83,
    "avg_words": 16.6,
    "max_words": 42
   },
@@ -32,12 +32,12 @@
   },
   "Conclusion and Limitations": {
    "sentences": 15,
-   "avg_words": 25.1,
-   "max_words": 63
+   "avg_words": 23.7,
+   "max_words": 50
   }
  },
- "avg_nonverbatim": 18.0,
- "n_nonverbatim_sentences": 152,
+ "avg_nonverbatim": 17.9,
+ "n_nonverbatim_sentences": 151,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -86,7 +86,7 @@
   },
   {
    "section": "Results",
-   "lead": "The alignment of each cluster with its hub is certified in four backbones.",
+   "lead": "The depth test certifies that clusters are oriented toward their hubs in four backbones.",
    "numbers": [
     "4 of 12"
    ]
