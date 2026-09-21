@@ -90,7 +90,9 @@ if os.path.exists(R + 'expR78_khrulkov_replication_summary.csv'):
                   + ("Every reproduced raw value is within 0.03 of the published one." if allin else "Not every reproduced raw value is within 0.03 of the published one; no claim is drawn.") + " % expR78_khrulkov_replication_summary.csv\n}\n\\label{tab:r2-khrulkov}\n\\end{table}\n")
     if allin:
         gen = [d for d in order if S.loc[d].p_left_max <= 0.05]; neg = [d for d in order if S.loc[d].excess_mean < 0]
-        s_cal = (f"the excess is negative on {'every dataset' if len(neg) == 4 else f'{len(neg)} of the four'} and the reading ranks below every replicate on {'every dataset' if len(gen) == 4 else (f'{len(gen)} of the four' if gen else 'none of them')}")
+        DNl = {"cifar10": "CIFAR-10", "cifar100": "CIFAR-100", "cub": "CUB", "miniimagenet": "MiniImageNet"}
+        s_cal = (f"the excess is negative on {'every dataset' if len(neg) == 4 else f'{len(neg)} of the four'} and the largest left-tail $p$ over the ten batches is at or below 0.05 on "
+                 + ('every dataset' if len(gen) == 4 else (f"{len(gen)} of the four, {' and '.join(DNl[d] for d in gen)}," if gen else 'none of them')))
         par = ("\\paragraph{A published reading, reproduced and calibrated.} On the setting of \\citet{Khrulkov_2020_CVPR}, ResNet-34 features on CIFAR-10, CIFAR-100, CUB and MiniImageNet, their estimator on our extraction reproduces their raw $\\delta_{\\text{rel}}$ within 0.03 on all four datasets. "
                f"Calibrated against the centered null on the same clouds, {s_cal}. The raw values they report are therefore real readings whose reference level, not their size, decides what they mean. Table~\\ref{{tab:r2-khrulkov}} gives the four rows. % expR78_khrulkov_replication_summary.csv")
     else:

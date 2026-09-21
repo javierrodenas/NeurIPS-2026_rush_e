@@ -2,6 +2,19 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 03:00 — priority 2 (Khrulkov replication) closed: all four raw values reproduced; calibrated, near the null on three
+
+- **§2 result** (`expR78_khrulkov_replication_summary.csv`, ResNet-34 torchvision, 10 class-balanced batches of 1500):
+  their estimator on our extraction, mean ± s.d. over batches, against their Table 1 row:
+  CIFAR-10 0.275 ± 0.017 (0.26); CIFAR-100 0.261 ± 0.013 (0.25); CUB 0.270 ± 0.012 (0.25); MiniImageNet 0.203 ± 0.013 (0.21).
+  Every value within 0.03 of the published one, so the pre-set condition for a claim holds.
+- On the same clouds, the record instrument (centered Haar null, 200 replicates, 99.9th-percentile statistic): excess
+  −0.004 / −0.009 / −0.004 / −0.023; mean rank among the replicates 173 / 198 / 177 / 200 of 200; largest left-tail p over the ten
+  batches 0.33 / 0.03 / 0.25 / 0.005. The published readings are real, but their reference level is what decides: CIFAR-10 and CUB
+  are indistinguishable from a spectrum-matched random cloud, CIFAR-100 is borderline, and only MiniImageNet is clearly below the null.
+- Written into `main_iclr2027_rebuttal.tex` (§5.1 paragraph "A published reading, reproduced and calibrated." plus the four-row
+  table) and compiled; sweep 215/215 with the priority-2 check passing.
+
 ## 2026-09-21 02:40 — submission closed with expR66c; parallel track unchanged
 
 - **Submission**: expR66c merged (joint z <= -2 in 39 of 72, genuine in >= 27 of 30 resamples in 42 of 72; record 44; ImageNet and

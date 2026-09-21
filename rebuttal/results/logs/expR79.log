@@ -7,3 +7,4 @@ synthetic_flat_vitl_spectrum   seed 0 excess -0.0198 (r 200) z -0.08 decoupled -
 synthetic_flat_vitl_spectrum   seed 1 excess -0.0202 (r 200) z -0.32 decoupled -1.61 (2465s)
 synthetic_flat_vitl_spectrum   seed 2 excess -0.0196 (r 200) z -0.20 decoupled -1.76 (2189s)
 synthetic_flat_vitl_spectrum   seed 3 excess -0.0197 (r 200) z -0.69 decoupled -1.74 (1287s)
+synthetic_flat_vitl_spectrum   seed 4 excess -0.0192 (r 200) z -0.27 decoupled -1.68 (963s)

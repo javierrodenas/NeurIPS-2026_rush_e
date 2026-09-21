@@ -233,6 +233,8 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The raw reading is not evidence, and the calibrated reading is weak and model-dependent.} On per-image features, where the literature reads the premise, the calibrated reading is not genuine in most cells. Where it is genuine, the excess removes at most two fifths of the null reading, most for DINOv2-G on CIFAR-100. The genuine cells belong mostly to the DINOv2 family, whose structure is the angular tree of Section~\ref{sec:content}. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
 
+\paragraph{A published reading, reproduced and calibrated.} On the setting of \citet{Khrulkov_2020_CVPR}, ResNet-34 features on CIFAR-10, CIFAR-100, CUB and MiniImageNet, their estimator on our extraction reproduces their raw $\delta_{\text{rel}}$ within 0.03 on all four datasets. Calibrated against the centered null on the same clouds, the excess is negative on every dataset and the largest left-tail $p$ over the ten batches is at or below 0.05 on 2 of the four, CIFAR-100 and MiniImageNet,. The raw values they report are therefore real readings whose reference level, not their size, decides what they mean. Table~\ref{tab:r2-khrulkov} gives the four rows. % expR78_khrulkov_replication_summary.csv
+
 \subsection{Structure beyond the second moments at the class level}
 \label{sec:f-class}
 
@@ -475,6 +477,25 @@ SigLIP-B & 0.0 & 0.0 & 1.0 & 0.8 & 0.6 \\
 \caption{\textbf{Priority 1c: implanted alignment on the real ImageNet clouds.} From the decoupled cloud of expR74 (real hubs kept, offsets Haar-rotated), each cluster's principal axis rotated toward its hub direction by a fraction $s$ of the angle, hubs and within-cluster spectra unchanged; detection rate at $z\le-2$ under the matched anisotropic star at $K{=}30$, 5 seeds per backbone and pooled. Decision rule of the brief: power $\ge 0.8$ at $s{=}1$ with false alarms $\le 0.05$ at $s{=}0$; measured power 0.60, false alarms 0.02: not met, so nothing entered the submission. % expR80_decision.csv
 }
 \label{tab:r1c-implant}
+\end{table}
+% prov: expR78_khrulkov_replication.csv, expR78_khrulkov_replication_summary.csv
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+dataset & their $\delta_{\text{rel}}$ & our $\delta_{\text{rel}}$ & excess & rank $r$ & largest $p$ \\
+\midrule
+CIFAR-10 & 0.26 & 0.275 $\pm$ 0.017 & $-0.0037$ $\pm$ 0.0017 & 173/200 & 0.333 \\
+CIFAR-100 & 0.25 & 0.261 $\pm$ 0.013 & $-0.0087$ $\pm$ 0.0025 & 198/200 & 0.030 \\
+CUB-200 & 0.25 & 0.270 $\pm$ 0.012 & $-0.0043$ $\pm$ 0.0020 & 177/200 & 0.249 \\
+MiniImageNet & 0.21 & 0.203 $\pm$ 0.013 & $-0.0234$ $\pm$ 0.0018 & 200/200 & 0.005 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{A published reading reproduced and calibrated.} The setting of Khrulkov et al. (2020), Table 1, ResNet-34 row: penultimate features of an ImageNet-pretrained ResNet-34 (torchvision, no substitution) on class-balanced batches of 1500 points, their estimator (exact $\delta$ on the batch, $\delta_{\text{rel}}=2\delta/\text{diam}$; mean $\pm$ s.d.\ over 10 batches) next to their published value, and on the same clouds the record instrument: excess over the centered Haar null (200 replicates, 99.9th-percentile statistic), the mean rank of the reading among the replicates and the largest left-tail $p$ over the 10 batches. Every reproduced raw value is within 0.03 of the published one. % expR78_khrulkov_replication_summary.csv
+}
+\label{tab:r2-khrulkov}
 \end{table}
 
 \input{appendix_tables/final/tab_z_provenance_final}

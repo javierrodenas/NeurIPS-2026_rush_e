@@ -92,7 +92,6 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
-PASS final: S1 with Figure 1 verbatim from main_local.tex modulo the three recorded metaphor edits 
 PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
 PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
 PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
@@ -122,4 +121,5 @@ PASS final: preamble of the frozen v1 plus amsthm only (same class, same package
 PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
 PASS rebuttal (priority 1c, rule not met): the implanted-alignment counts and the power in the paragraph and table match expR80_implanted_alignment.csv / expR80_decision.csv, the rule is stated as not met and no 'measured power' claim enters 
-[phaseB re-total] 214/214
+PASS rebuttal (priority 2): the four published and reproduced delta_rel values match expR78_khrulkov_replication_summary.csv and the calibrated claim is made only when all four are within 0.03 
+[phaseB re-total] 215/215

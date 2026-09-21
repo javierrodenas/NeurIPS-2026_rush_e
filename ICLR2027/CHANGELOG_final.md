@@ -1374,3 +1374,12 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Reconstrucción completa (`final_rebuild.sh`): 31 páginas, 0 avisos; §7 acaba en la página 9 (línea 460 de inicio), statements en
   la 9 (480), referencias en la 10 (501). Sweep 214/214: se cierra el único check pendiente desde la entrada §30 (fichero de expR66c
   en la tabla de robustez). Versión paralela reconstruida sobre el envío cerrado (`rebuttal_rebuild.sh`).
+
+## 35. Pista paralela, prioridad 2 cerrada: réplica de Khrulkov et al. (2026-09-21, 03:00).
+
+- expR78 (ResNet-34 de torchvision, 10 lotes balanceados de 1500 puntos, su estimador exacto y δ_rel = 2δ/diam): CIFAR-10 0.275,
+  CIFAR-100 0.261, CUB 0.270, MiniImageNet 0.203 frente a 0.26 / 0.25 / 0.25 / 0.21 publicados; los cuatro dentro de 0.03, así que se
+  cumple la condición fijada de antemano para afirmar algo. Calibrado con el registro sobre las mismas nubes: exceso −0.004 / −0.009 /
+  −0.004 / −0.023; p máxima sobre los diez lotes 0.33 / 0.03 / 0.25 / 0.005. Sólo entra en `main_iclr2027_rebuttal.tex` (párrafo de
+  §5.1 "A published reading, reproduced and calibrated." y tabla `tab:r2-khrulkov`); la frase calibrada dice exactamente lo que
+  muestra la tabla (p ≤ 0.05 en CIFAR-100 y MiniImageNet). Sweep de la versión paralela 215/215. El envío no cambia.
