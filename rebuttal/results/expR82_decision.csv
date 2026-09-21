@@ -1,0 +1,3 @@
+transform,n_certified_done,all_keep_aniso,all_keep_haarhubs,n_keep_aniso,n_keep_haarhubs,rule_alignment_kept
+l2norm,4,False,False,2,2,True
+deradial,4,True,True,4,4,True

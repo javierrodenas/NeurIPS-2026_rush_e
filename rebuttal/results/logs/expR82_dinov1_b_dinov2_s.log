@@ -3,3 +3,11 @@ dinov1_b  l2norm    aniso_haarhubs  intact: depth +0.0112 z +0.95 (455s)
 dinov1_b  l2norm    decoupled: z mean +2.00 cert 0.0
 dinov1_b  deradial  aniso           intact: depth -0.0133 z -1.61 (334s)
 dinov1_b  deradial  aniso_haarhubs  intact: depth -0.0151 z -1.89 (314s)
+dinov1_b  deradial  decoupled: z mean +1.91 cert 0.0
+dinov2_s  l2norm    aniso           intact: depth +0.0182 z +1.27 (251s)
+dinov2_s  l2norm    aniso_haarhubs  intact: depth +0.0196 z +1.38 (278s)
+dinov2_s  l2norm    decoupled: z mean +1.28 cert 0.0
+dinov2_s  deradial  aniso           intact: depth +0.0067 z +0.61 (227s)
+dinov2_s  deradial  aniso_haarhubs  intact: depth +0.0063 z +0.58 (246s)
+dinov2_s  deradial  decoupled: z mean +1.43 cert 0.0
+PART DONE dinov1_b_dinov2_s

@@ -61,7 +61,7 @@ def merge():
     S = []
     for m in MODELS:
         for tname in ("l2norm", "deradial"):
-            a = df[(df.model == m) & (df.transform == tname)]
+            a = df[(df.model == m) & (df['transform'] == tname)]
             if not len(a): continue
             za = a[a.star == "aniso"].z; zh = a[a.star == "aniso_haarhubs"].z; zd = a[a.star == "aniso_decoupled"].z
             S.append(dict(model=m, transform=tname, certified_real=m in CERTIFIED, z_aniso=float(za.iloc[0]) if len(za) else np.nan, z_haarhubs=float(zh.iloc[0]) if len(zh) else np.nan,
@@ -69,7 +69,7 @@ def merge():
     S = pd.DataFrame(S); S.to_csv(OUT / "expR82_radial_control_summary.csv", index=False)
     D = []
     for tname in ("l2norm", "deradial"):
-        c = S[(S.transform == tname) & S.certified_real]
+        c = S[(S['transform'] == tname) & S.certified_real]
         D.append(dict(transform=tname, n_certified_done=len(c), all_keep_aniso=bool(len(c) == 4 and c.keeps_aniso.all()), all_keep_haarhubs=bool(len(c) == 4 and c.keeps_haarhubs.all()), n_keep_aniso=int(c.keeps_aniso.sum()), n_keep_haarhubs=int(c.keeps_haarhubs.sum())))
     D = pd.DataFrame(D); D["rule_alignment_kept"] = bool(((D.all_keep_aniso) | (D.all_keep_haarhubs)).any()) if len(D) else False
     D.to_csv(OUT / "expR82_decision.csv", index=False)

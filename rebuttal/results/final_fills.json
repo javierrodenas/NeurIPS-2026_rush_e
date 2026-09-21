@@ -23,5 +23,7 @@
  "Z_FLAT_LO": "-1.76",
  "Z_VITL_DEC": "-1.61",
  "RATIO_DINOB": "2.1",
- "RATIO_VITB": "2.0"
+ "RATIO_VITB": "2.0",
+ "Z_RAD_HI": "-2.26",
+ "Z_RAD_LO": "-3.99"
 }

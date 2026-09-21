@@ -268,3 +268,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   revisión ("namely the implementation and execution of experiments… and LLM-simulated reviews…"); si las casillas de OpenReview dicen
   otra cosa, pega su texto y lo igualo. (b) Las z de §5.3 van con dos decimales (−4.19 to −4.82; −1.61 to −1.76; ViT-L −1.61), no con
   los redondeos mixtos del brief. (c) "DINO-B (2.1) and ViT-B (2.0) lie at the edge of the covered range" está en la limitación (iii).
+- (expR82, 2026-09-21) Tres ajustes de forma en tu texto: el paréntesis "(z from −2.26 to −3.99 under both stars)" va en aposición
+  (regla de paréntesis); el punto y coma se parte en dos frases para que el párrafo nuevo tenga tres con el puntero; en la limitación
+  (iii) sustituí sólo la frase de "in progress" y dejé "It certifies alignment above its frame only, and its one trained positive
+  control is inconclusive." (leí "the sentence before it" como la primera mitad de esa misma frase). El rango −2.26 a −3.99 es el de la
+  estrella anisótropa; bajo la estrella Haar-hub el rango es −2.08 a −3.57, también todo ≤ −2.

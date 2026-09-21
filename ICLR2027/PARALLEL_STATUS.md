@@ -2,6 +2,18 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 16:30 — expR82: the alignment is not the spread of feature norms (rule met by the radial-component control)
+
+- **§1e**, four certified backbones read (the other eight still running): with the radial component of every offset removed, all
+  four keep z <= -2 under both stars (aniso: ViT-S −2.26, ViT-B −3.60, ViT-L −3.99, DINOv2-L −2.59; Haar-hub star: −2.08, −3.57,
+  −3.47, −2.28); under full L2 normalization only ViT-B (−2.45/−2.52) and ViT-L (−2.00/−2.23) keep it. Decoupled transformed clouds
+  do not fire where read (ViT-B −0.57 and −1.40, ViT-S −1.16 and −1.25, ViT-L −1.41 under L2, DINOv2-L +0.89 under L2). The brief's
+  rule holds through (b): "alignment" stays; the author was told first and gave the wording, now in §5.3 (new paragraph "The
+  alignment is not the spread of feature norms.") and limitation (iii). Table 8 gains panel (e) when the twelve backbones are merged.
+- **Monitors**: the git pull with autostash at 16:15 detached the visible logs of the two fine-tunings and of expR81's CLIP/SigLIP
+  shard (the processes keep writing to their CSVs); completion is now watched on the output files (fine-tuned caches in
+  `practical_tasks_cache`, shard CSV rows). Fine-tuning at epoch 4 of 5, step ~2500 of 5004 at 16:15 (87 img/s).
+
 ## 2026-09-21 11:45 — eighth review: expR82 (radial control) and the DINOv2 extension of expR81 launched
 
 - **§1e** `expR82_radial_control.py` (six shards, nice 10, since 11:44): the depth test of record on the 12 ImageNet clouds after

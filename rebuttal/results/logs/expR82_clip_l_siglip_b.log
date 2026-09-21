@@ -3,3 +3,11 @@ clip_l    l2norm    aniso_haarhubs  intact: depth -0.0133 z -1.12 (464s)
 clip_l    l2norm    decoupled: z mean -0.82 cert 0.0
 clip_l    deradial  aniso           intact: depth -0.0093 z -1.05 (336s)
 clip_l    deradial  aniso_haarhubs  intact: depth -0.0107 z -0.89 (303s)
+clip_l    deradial  decoupled: z mean -0.92 cert 0.0
+siglip_b  l2norm    aniso           intact: depth -0.0104 z -1.13 (273s)
+siglip_b  l2norm    aniso_haarhubs  intact: depth -0.0103 z -0.88 (301s)
+siglip_b  l2norm    decoupled: z mean -0.51 cert 0.0
+siglip_b  deradial  aniso           intact: depth -0.0130 z -1.12 (293s)
+siglip_b  deradial  aniso_haarhubs  intact: depth -0.0172 z -1.07 (268s)
+siglip_b  deradial  decoupled: z mean -0.89 cert 0.0
+PART DONE clip_l_siglip_b

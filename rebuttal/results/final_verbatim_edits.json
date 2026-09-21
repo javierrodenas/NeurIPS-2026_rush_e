@@ -1,8 +1,12 @@
 {
  "edits": [
   [
-   "a structureless cloud, a star of clusters without depth and a tree with depth cast the same shadow.",
-   "a structureless cloud, a star of clusters without depth and a tree with depth all read alike, all low."
+   "Figure~\\ref{fig:concept} shows why a low reading is not enough: a structureless cloud, a star of clusters without depth and a tree with depth cast the same shadow.",
+   "Figure~\\ref{fig:concept} frames the question: an observer who sees only a shadow, the raw $\\delta$, asks which of three worlds cast it, a structureless cloud, a star of clusters or a tree. All three read alike."
+  ],
+  [
+   "The evidence is a single number, the Gromov $\\delta$ of their features: $\\delta$ is zero for a metric tree and grows as a metric departs from one, and the measured values are low, on CNN and ViT features \\citep{Khrulkov_2020_CVPR, bdeir2024fully}, on token embeddings \\citep{yang2025hyperbolic} and on word vectors \\citep{tifrea2019poincare}.",
+   "The evidence is a single number, the Gromov $\\delta$ of their features, which is zero for a metric tree and grows as a metric departs from one. Measured on CNN and ViT features \\citep{Khrulkov_2020_CVPR, bdeir2024fully}, on token embeddings \\citep{yang2025hyperbolic} and on word vectors \\citep{tifrea2019poincare}, it comes out low."
   ],
   [
    "Why is the shadow low?",

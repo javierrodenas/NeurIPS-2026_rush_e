@@ -62,7 +62,8 @@ assert pol['adv_cos'] > 0 and pol['adv_rule'] - pol['adv_cos'] <= 0.15 and pol['
 # ---- verbatim parts and the named edits
 L = open(TEX + 'main_local.tex').read()
 def between(a, b, s=L, strip=False): i = s.index(a); j = s.index(b, i); return s[i + (len(a) if strip else 0):j]
-EDITS = [("a structureless cloud, a star of clusters without depth and a tree with depth cast the same shadow.", "a structureless cloud, a star of clusters without depth and a tree with depth all read alike, all low."),
+EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a structureless cloud, a star of clusters without depth and a tree with depth cast the same shadow.', 'Figure~\\ref{fig:concept} frames the question: an observer who sees only a shadow, the raw $\\delta$, asks which of three worlds cast it, a structureless cloud, a star of clusters or a tree. All three read alike.'),
+         ('The evidence is a single number, the Gromov $\\delta$ of their features: $\\delta$ is zero for a metric tree and grows as a metric departs from one, and the measured values are low, on CNN and ViT features \\citep{Khrulkov_2020_CVPR, bdeir2024fully}, on token embeddings \\citep{yang2025hyperbolic} and on word vectors \\citep{tifrea2019poincare}.', 'The evidence is a single number, the Gromov $\\delta$ of their features, which is zero for a metric tree and grows as a metric departs from one. Measured on CNN and ViT features \\citep{Khrulkov_2020_CVPR, bdeir2024fully}, on token embeddings \\citep{yang2025hyperbolic} and on word vectors \\citep{tifrea2019poincare}, it comes out low.'),
          ("Why is the shadow low?", "Why is the reading low?"),
          ("the geometric face of the width confounder of", "the geometric counterpart of the width confounder of"),
          ("it keeps the tail of the defects, the intent of the supremum, but it is set by hundreds of quadruples rather than by one.", "it keeps the tail of the defects, as the supremum does, but it is set by hundreds of quadruples rather than by one."),
@@ -154,6 +155,14 @@ assert (F['Z_DEEP_HI'][:4], F['Z_DEEP_LO'][:4]) == ('-4.1', '-4.8') and (F['Z_FL
 _d74 = pd.read_csv(R + 'expR74_decoupling_summary.csv').set_index('model'); F['Z_VITL_DEC'] = f"{_d74.loc['i21k_l', 'dec_z_mean']:.2f}"
 assert F['Z_VITL_DEC'] == '-1.61' and float(F['Z_FLAT_LO']) <= float(F['Z_VITL_DEC']) <= float(F['Z_FLAT_HI']), "'ViT-L reads -1.61, within the flat control's range'"
 F['RATIO_DINOB'], F['RATIO_VITB'] = f"{_r64['dinov1_b']:.1f}", f"{_r64['i21k_b']:.1f}"; assert (F['RATIO_DINOB'], F['RATIO_VITB']) == ('2.1', '2.0')
+# ---- expR82 (eighth review, 1e): the radial control; the merged file when it exists, else the shard files
+import glob as _glob
+_f82 = [R + 'expR82_radial_control.csv'] if os.path.exists(R + 'expR82_radial_control.csv') else sorted(_glob.glob(R + 'expR82_radial_control.part_*.csv'))
+_e82 = pd.concat([pd.read_csv(f) for f in _f82]).drop_duplicates(subset=['model', 'transform', 'star', 'dec_seed'])
+_cert = ['i21k_s', 'i21k_b', 'i21k_l', 'dinov2_l']; _st2 = ['aniso', 'aniso_haarhubs']; _dr = _e82[(_e82['transform'] == 'deradial') & (_e82.model.isin(_cert)) & (_e82.star.isin(_st2))]; _l2 = _e82[(_e82['transform'] == 'l2norm') & (_e82.model.isin(_cert)) & (_e82.star.isin(_st2))]
+assert _dr.model.nunique() == 4 and set(_dr.star) == {'aniso', 'aniso_haarhubs'} and bool((_dr.z <= -2).all()), "'survives removing the radial component in all four certified backbones under both stars'"
+_dra = _dr[_dr.star == 'aniso'].set_index('model').z; F['Z_RAD_HI'], F['Z_RAD_LO'] = f"{_dra.max():.2f}", f"{_dra.min():.2f}"
+assert set(_l2[(_l2.star == 'aniso') & (_l2.z <= -2)].model) == {'i21k_b', 'i21k_l'} and set(_l2[(_l2.star == 'aniso_haarhubs') & (_l2.z <= -2)].model) == {'i21k_b', 'i21k_l'}, "'under full L2 normalization it survives in ViT-B and ViT-L only'"
 F['PROV81'] = ', expR81_deep_per_backbone.csv' if os.path.exists(R + 'expR81_deep_per_backbone.csv') else ''
 DEC_OBS_KIND = "open"
 if os.path.exists(R + 'expR81_deep_per_backbone.csv'):
@@ -170,7 +179,7 @@ if os.path.exists(R + 'expR81_deep_per_backbone.csv'):
 _s78 = pd.read_csv(R + 'expR78_khrulkov_replication_summary.csv').set_index('dataset')
 assert int((_s78.p_left_max > 0.05).sum()) == 2, "'two are indistinguishable from a random cloud'"
 assert set(_s78.index) == {'cifar10', 'cifar100', 'cub', 'miniimagenet'} and bool(_s78.within_range.all()) and bool((_s78.excess_mean < 0).all()) and set(_s78.index[_s78.p_left_max <= 0.05]) == {'cifar100', 'miniimagenet'}, _s78
-json.dump({**{k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN')}, 'IMPL_PCT': f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}", **{k: F[k] for k in ('FA_DEC', 'RATIO_VITL', 'RATIO_DINO_LO', 'RATIO_DINO_HI', 'DEC_OBS', 'PROV81', 'RATIO_SC_LO', 'RATIO_SC_HI', 'Z_DEEP_HI', 'Z_DEEP_LO', 'Z_FLAT_HI', 'Z_FLAT_LO', 'Z_VITL_DEC', 'RATIO_DINOB', 'RATIO_VITB')}}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
+json.dump({**{k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN')}, 'IMPL_PCT': f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}", **{k: F[k] for k in ('FA_DEC', 'RATIO_VITL', 'RATIO_DINO_LO', 'RATIO_DINO_HI', 'DEC_OBS', 'PROV81', 'RATIO_SC_LO', 'RATIO_SC_HI', 'Z_DEEP_HI', 'Z_DEEP_LO', 'Z_FLAT_HI', 'Z_FLAT_LO', 'Z_VITL_DEC', 'RATIO_DINOB', 'RATIO_VITB', 'Z_RAD_HI', 'Z_RAD_LO')}}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
 for k, v in F.items(): body = body.replace("{{" + k + "}}", v)
 left = re.findall(r"\{\{[A-Z0-9_]+\}\}", body); assert not left, left
 # ---- appendix: the cited question tables of the v1 template, without figures, in the order the final text first cites them
@@ -266,9 +275,9 @@ pre = pre.replace("\\begin{document}\n", "\\newtheoremstyle{inline}{3pt}{3pt}{}{
                   "\\theoremstyle{inline}\n\\newtheorem{definition}{Definition}\n\\theoremstyle{inlineit}\n\\newtheorem{proposition}{Proposition}\n"
                   "\\makeatletter\\g@addto@macro\\normalsize{\\setlength\\abovedisplayskip{3pt plus 1pt}\\setlength\\belowdisplayskip{3pt plus 1pt}\\setlength\\abovedisplayshortskip{2pt}\\setlength\\belowdisplayshortskip{2pt}}\n"
                   "% typographic only (page budget, 2026-09-18; tightened 2026-09-21 for priorities 1b and 2): the section headings and the run-in paragraph headings open with less white space than the style's default; fonts, margins and line spacing are the style's\n"
-                  "\\renewcommand\\section{\\@startsection{section}{1}{\\z@}{-0.5ex plus -0.3ex minus -.2ex}{0.3ex plus 0.2ex minus 0.1ex}{\\large\\sc\\raggedright}}\n"
-                  "\\renewcommand\\subsection{\\@startsection{subsection}{2}{\\z@}{-0.5ex plus -0.3ex minus -.2ex}{0.3ex plus .2ex}{\\normalsize\\sc\\raggedright}}\n"
-                  "\\renewcommand\\paragraph{\\@startsection{paragraph}{4}{\\z@}{0.1ex plus 0.3ex minus .2ex}{-1em}{\\normalsize\\bf}}\\makeatother\n"
+                  "\\renewcommand\\section{\\@startsection{section}{1}{\\z@}{-0.3ex plus -0.3ex minus -.2ex}{0.2ex plus 0.2ex minus 0.1ex}{\\large\\sc\\raggedright}}\n"
+                  "\\renewcommand\\subsection{\\@startsection{subsection}{2}{\\z@}{-0.3ex plus -0.3ex minus -.2ex}{0.2ex plus .2ex}{\\normalsize\\sc\\raggedright}}\n"
+                  "\\renewcommand\\paragraph{\\@startsection{paragraph}{4}{\\z@}{0ex plus 0.3ex minus .2ex}{-1em}{\\normalsize\\bf}}\\makeatother\n"
                   "\\setlength{\\textfloatsep}{4pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{0pt}\\setlength{\\parskip}{0pt plus 1pt}\n"
                   "% final version: classic structure, plain prose (author's brief of 2026-09-18); generated by rebuttal/scripts/phaseE_submission.py.\n\\begin{document}\n", 1)
 open(PF, 'w').write(pre + body)

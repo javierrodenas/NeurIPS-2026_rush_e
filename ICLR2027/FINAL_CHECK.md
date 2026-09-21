@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 33. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 479); the references start on page 10 (line 500).
+- PDF pages: 33. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 482); the references start on page 10 (line 500).
 - Appendix: Proofs on page 13, tables from page 13 to page 33 (21 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
@@ -11,15 +11,15 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 31 | 23 | 64 |
+| Introduction | 33 | 21.8 | 64 |
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 42 | 19.8 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 83 | 16.6 | 42 |
-| Implications for Hyperbolic Representation Learning | 12 | 15 | 29 |
-| Conclusion and Limitations | 15 | 23.7 | 50 |
+| Results | 83 | 17.1 | 42 |
+| Implications for Hyperbolic Representation Learning | 11 | 15.4 | 29 |
+| Conclusion and Limitations | 15 | 23.3 | 50 |
 
-Non-verbatim prose of S3–S7: 151 sentences, mean 17.9 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 150 sentences, mean 18.1 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -34,6 +34,7 @@ Non-verbatim prose of S3–S7: 151 sentences, mean 17.9 words (rule: mean ≤ 22
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The depth test certifies that clusters are oriented toward t | 4 of 12 |
 | Results | No hierarchy above the superclasses is found in the supervis | -1.61, -1.61 to -1.76, 4 of 5, 1.3 to 2.0, 2.1, 2.0, 3.0 to 3.9 |
+| Results | The alignment is not the spread of feature norms. | -2.26 to -3.99 |
 | Results | A deep hierarchy at the real noise level is detected. | 4 of 5, 0 of 5, 8 of 50, -4.19 to -4.82, -1.61 to -1.76 |
 | Results | The test never fires on randomized hubs. | 0 of 60, 0 of 60, 0 of 4 |
 | Results | The two-level implant is missed at ImageNet's noise level. | — |

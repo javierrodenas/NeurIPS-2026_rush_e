@@ -1637,3 +1637,30 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **(7)** `OPENREVIEW_abstract.txt` con el mismo texto.
 - Presupuesto: "DINO-B does not fall in the island" (§5.4), los nombres de los cuatro datasets en el párrafo de Khrulkov (§5.1; están en
   la Tabla 3(b)) y las descripciones (a)/(b) del pie de la Figura 4 apretadas.
+
+## 43. expR82 integrado: la alineación no es la dispersión radial de las normas (2026-09-21, tarde; brief del autor).
+
+- Antes, `git pull --rebase --autostash origin main`: entra `ef48002` del autor (Figura 1 nueva, `fig1_concept.pdf` en las dos
+  carpetas). El autostash reescribió los tres logs rastreados que estaban en escritura (los dos fine-tunings y el shard CLIP/SigLIP
+  de expR81): los procesos siguen y sus CSV se actualizan, pero sus `.log` visibles quedan parados a las 16:15; los monitores pasan a
+  vigilar los ficheros de salida (caché `vitb_ft_*_imagenet_train.npz`, filas del shard). Lección: no tocar con git los logs de
+  procesos vivos.
+- **Resultado de expR82 en los cuatro certificados** (los otros ocho, en marcha): quitando la componente radial de cada offset, los
+  cuatro mantienen z ≤ −2 bajo las dos estrellas (aniso: ViT-S −2.26, ViT-B −3.60, ViT-L −3.99, DINOv2-L −2.59; Haar-hub: −2.08,
+  −3.57, −3.47, −2.28); bajo normalización L2 sólo ViT-B (−2.45/−2.52) y ViT-L (−2.00/−2.23). Regla del brief cumplida por (b):
+  "alignment" se conserva.
+- **(1)** §5.3, párrafo nuevo tras el del desacoplamiento, "The alignment is not the spread of feature norms.": la frase del autor con
+  el rango de z como rellenos de expR82 (aniso, cuatro certificados: {{Z_RAD_HI}} a {{Z_RAD_LO}} = −2.26 a −3.99), el paréntesis "(z
+  from … under both stars)" en aposición por la regla de paréntesis, y el punto y coma partido en dos frases para que el párrafo tenga
+  tres con el puntero a la Tabla 8. **(2)** Limitación (iii): "The alignment is not the radial spread of feature norms, which a control
+  removes without changing the verdicts; full L2 normalization, a stronger transformation, keeps it in two of the four backbones."
+  sustituye a la frase de "in progress" ("the sentence before it" leído como la primera parte de esa misma frase; "It certifies
+  alignment above its frame only, and its one trained positive control is inconclusive." se mantiene). **(3)** Tabla 8, panel (e)
+  (`q_depth`, ambas transformaciones, ambas estrellas, desacoplamiento) entra solo cuando el resumen de expR82 tenga los doce
+  backbones. **(4)** Resumen intacto. **(5)** Sweep: rango, "los cuatro bajo ambas estrellas" y "ViT-B y ViT-L sólo" rederivados de
+  los ficheros de expR82 (shards mientras no exista el merge), la frase de la limitación, y el panel (e) presente si y sólo si los doce
+  están.
+- **§1, párrafo 1**: la frase de δ partida en dos ("…which is zero for a metric tree and grows as a metric departs from one. Measured
+  on CNN and ViT features…, it comes out low.") y la frase de la figura sustituida por la del observador ("Figure 1 frames the
+  question: an observer who sees only a shadow, the raw δ, asks which of three worlds cast it… All three read alike."), ambas como
+  ediciones registradas sobre `main_local.tex`; "shadow" sale de la lista de metáforas vetadas fuera de la Figura 1.

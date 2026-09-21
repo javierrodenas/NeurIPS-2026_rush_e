@@ -1,8 +1,8 @@
 {
  "sections": {
   "Introduction": {
-   "sentences": 31,
-   "avg_words": 23,
+   "sentences": 33,
+   "avg_words": 21.8,
    "max_words": 64
   },
   "Related Work": {
@@ -22,22 +22,22 @@
   },
   "Results": {
    "sentences": 83,
-   "avg_words": 16.6,
+   "avg_words": 17.1,
    "max_words": 42
   },
   "Implications for Hyperbolic Representation Learning": {
-   "sentences": 12,
-   "avg_words": 15,
+   "sentences": 11,
+   "avg_words": 15.4,
    "max_words": 29
   },
   "Conclusion and Limitations": {
    "sentences": 15,
-   "avg_words": 23.7,
+   "avg_words": 23.3,
    "max_words": 50
   }
  },
- "avg_nonverbatim": 17.9,
- "n_nonverbatim_sentences": 151,
+ "avg_nonverbatim": 18.1,
+ "n_nonverbatim_sentences": 150,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -102,6 +102,13 @@
     "2.1",
     "2.0",
     "3.0 to 3.9"
+   ]
+  },
+  {
+   "section": "Results",
+   "lead": "The alignment is not the spread of feature norms.",
+   "numbers": [
+    "-2.26 to -3.99"
    ]
   },
   {
