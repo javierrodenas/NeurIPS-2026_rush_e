@@ -251,3 +251,5 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   el barrido de expR55). (b) Se actualizó la limitación (vi), no la (viii) que decía el brief, porque es la que habla de la lectura a
   nivel de muestra. (c) Siete recortes de una o dos palabras en el resumen para quedar en 249 con tus dos frases nuevas; la frase
   "including a published reading reproduced and calibrated" no cabía.
+- (Retoque del resumen, 2026-09-21) Tu frase nueva sobre el backbone hiperbólico son ocho palabras más; para quedar en 250 se
+  recortaron cinco sitios más (CHANGELOG §37, último punto). Si prefieres el texto sin esos recortes, queda en 257 palabras.

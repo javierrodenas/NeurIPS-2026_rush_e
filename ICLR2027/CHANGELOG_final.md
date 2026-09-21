@@ -1449,3 +1449,11 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Pendiente para el autor (TODO): el título de la Tabla 9 (R2, "…and none at the top-level frame used on real backbones") describe el
   barrido sintético de expR55; con expR79 el test sí tiene potencia en el marco superior cuando la nube lleva el espectro real y tres
   niveles. No se ha tocado porque el brief no lo pedía y R2 lo fijó literalmente.
+- **Retoque del autor (2026-09-21, resumen)**: "A hyperbolic backbone shows the same, near-flat structure." → "A backbone trained
+  in hyperbolic space shows the same structure and lives in the near-flat regime." La frase nueva tiene ocho palabras más (no cinco):
+  257. Para respetar el tope de 250 se recortan siete palabras sin tocar contenido: "We show that the raw reading's reference level
+  depends on dimension, spectrum and statistic, and build" → "The raw reading's reference level depends on dimension, spectrum and
+  statistic; we build"; "but a star already produces it" → "but so does a star"; "the calibrated one is weak and model-dependent" →
+  "the calibrated one weak and model-dependent"; "tree-like because their class geometry scores a low Gromov δ" → "tree-like, their
+  class geometry scoring a low Gromov δ"; "once the cut is controlled" → "at a controlled cut". Resumen en 250 palabras exactas
+  (`OPENREVIEW_abstract.txt` y `abstract_final` regenerados); envío recompilado.
