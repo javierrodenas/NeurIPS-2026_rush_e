@@ -8,5 +8,11 @@
  "C_LO": "0.48",
  "C_HI": "2.5",
  "N_GEN": "44",
- "IMPL_PCT": "60"
+ "IMPL_PCT": "60",
+ "FA_DEC": "8",
+ "RATIO_VITL": "1.9",
+ "RATIO_DINO_LO": "3.0",
+ "RATIO_DINO_HI": "3.9",
+ "DEC_OBS": "Why the synthetic hierarchy reads deeper once decoupled is an open observation.",
+ "PROV81": ""
 }

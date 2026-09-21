@@ -257,3 +257,6 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   revisión; el check del sweep queda en FAIL hasta que decidas: aceptar 253 (subo el tope del check), o recortar tres palabras de tu
   elección (los dos recortes sin contenido que quedan, "The trees are" → "Trees are" y "the naive comparison" → "naive comparison",
   sólo llegan a 251).
+- (Séptima revisión, 2026-09-21) La acotación del titular añade once palabras al resumen: 264 con tus tres reversiones anteriores.
+  El sweep mantiene el tope de 250 (check en FAIL) hasta que decidas qué hacer con el resumen. La limitación (iii) da el rango DINOv2
+  como 3.0–3.9 (los cuatro DINOv2, desde expR64b); tu brief decía 3.7–3.9, que es el rango de B/L/G sin DINOv2-S (3.0).

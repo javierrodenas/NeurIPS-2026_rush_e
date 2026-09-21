@@ -2,8 +2,8 @@
 
 ## Page budget
 
-- PDF pages: 32. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 482); the references start on page 10 (line 501).
-- Appendix: Proofs on page 13, tables from page 13 to page 32 (20 pages including the proofs).
+- PDF pages: 33. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 482); the references start on page 10 (line 500).
+- Appendix: Proofs on page 13, tables from page 13 to page 33 (21 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
 
@@ -11,15 +11,15 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 31 | 22.2 | 49 |
+| Introduction | 31 | 22.5 | 58 |
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 42 | 19.8 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 88 | 16.4 | 40 |
+| Results | 88 | 16.2 | 40 |
 | Implications for Hyperbolic Representation Learning | 12 | 15.3 | 33 |
-| Conclusion and Limitations | 14 | 22.4 | 50 |
+| Conclusion and Limitations | 14 | 22.9 | 52 |
 
-Non-verbatim prose of S3–S7: 155 sentences, mean 17.6 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 155 sentences, mean 17.5 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -33,8 +33,8 @@ Non-verbatim prose of S3–S7: 155 sentences, mean 17.6 words (rule: mean ≤ 22
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The alignment of each cluster with its hub is certified in f | 4 of 12 |
-| Results | No hierarchy above the superclasses is found. | 4 of 5 |
-| Results | A deep hierarchy at the real noise level is detected. | 4 of 5, 0 of 5 |
+| Results | No hierarchy above the superclasses is found in the backbone | 4 of 5 |
+| Results | A deep hierarchy at the real noise level is detected. | 4 of 5, 0 of 5, 8 of 50 |
 | Results | The test never fires on randomized hubs. | 0 of 60, 0 of 60, 0 of 4 |
 | Results | The two-level implant is missed at ImageNet's noise level. | — |
 | Results | The certified set depends on the frame. | — |
@@ -62,10 +62,9 @@ Non-verbatim prose of S3–S7: 155 sentences, mean 17.6 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 214/215 checks passed.
+- Total: 215/216 checks passed.
 - Final-version checks:
 
-    PASS final: S2 verbatim from main_local.tex modulo the recorded citation sentence (Sala 2018, Gu 2019), or its first six sentences (cut step 4 of the page budget) 
     PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
     PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
     PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 

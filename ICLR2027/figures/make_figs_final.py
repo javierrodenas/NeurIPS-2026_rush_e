@@ -120,7 +120,7 @@ if (RES/"expR80_decision.csv").exists() and (RES/"expR80_implanted_alignment_sum
     if d80["rule_power_ge_0_8_fa_le_0_05"] == "True":
         s80 = list(csv.DictReader(open(RES/"expR80_implanted_alignment_summary.csv")))
         l3, = ax.plot([float(r["s"]) for r in s80], [float(r["detection_rate"]) for r in s80], ":^", color=FAMILY_COLORS["supervised"], ms=3, lw=1.0, label="implanted alignment", zorder=3)
-ax.annotate("no false alarms at $s{=}0$", (0, pr.loc[0.0]), xytext=(4, 12), textcoords="offset points", fontsize=8, ha="left", va="bottom", arrowprops=dict(arrowstyle="-", color=GRAY, lw=0.6))
+ax.annotate("no false alarms at $s{=}0$ (real spread)", (0, pr.loc[0.0]), xytext=(12, 5), textcoords="offset points", fontsize=8, ha="left", va="bottom", arrowprops=dict(arrowstyle="-", color="k", lw=0.6))   # seventh review: the label sits on the real-spread curve
 ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"]); ax.set_xlabel("implant strength $s$", labelpad=1)
 ax.set_ylim(-0.04, 1.08); ax.set_yticks([0, 0.5, 1]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("detection rate")
 ax.set_title("(b) false alarms and power on real clouds")

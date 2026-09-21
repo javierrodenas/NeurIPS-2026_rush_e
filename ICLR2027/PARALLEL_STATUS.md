@@ -2,6 +2,26 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 09:15 — seventh review: priority 1d launched (deadline 23 September)
+
+- **§1d** `expR81_deep_per_backbone.py`: the deep synthetic hierarchy of expR79 (three levels over the 30 hubs) with each of the 12
+  backbones' own ImageNet spectrum and within/between ratio (expR64b ratio_real: ViT-T 1.55, ViT-S 1.93, ViT-B 1.96, ViT-L 1.88,
+  DINO-B 2.12, DINOv2-S 3.00, DINOv2-B 3.71, DINOv2-L 3.88, DINOv2-G 3.92, CLIP-B 1.33, CLIP-L 1.49, SigLIP-B 1.54), 5 seeds each,
+  depth test at K = 30 (10 star seeds) and the decoupling control (10 seeds) on each; every row keeps the excess B of the cloud and of
+  its star and the star spread, so the deeper-once-decoupled reading can be decomposed. Ten shards at nice 10 since 09:12: the five
+  ViT-L seeds as single-seed shards (they reproduce expR79's deep clouds and feed the §5.3 observation sentence first), then five
+  two/three-backbone shards. ~11 depth tests per cloud; ETA for ViT-L ~1.5 h, for the rest ~8 h (the two fine-tunings share the CPU).
+  `--merge` writes the per-backbone summary (power over the 5 seeds, decoupled power over 50 runs, B and star spread before/after) and
+  the per-family power with the 0.8 rule of the brief.
+- **Submission (text now)**: headline scoped ("no hierarchy above the superclasses is found in the backbones whose noise level the
+  control covers") in the abstract (twice), §1, contribution 2, §5.3 lead-in, Figure 4 and Table 8 captions and the thesis; limitation
+  (iii) names the ratio the power was measured at (1.9) and the DINOv2 range (3.0–3.9, from expR64b: DINOv2-S 3.0 is included, the
+  brief said 3.7–3.9 for B/L/G); §5.3: the decoupled flat control fires in 8 of 50 runs (expR79), and the deeper-once-decoupled reading
+  is stated as an open observation until the ViT-L rows of expR81 decompose it (the builder then writes the supported explanation:
+  star spread, excess, or both). Minors: Figure 4b label on the real-spread curve, the unproved covariance extension removed from the
+  proof of Proposition 1(b), Figure 1 caption "read alike, all low", the statistic of Table 2(e) stated.
+- **§1**: fine-tuning in epoch 2 of 5 (ETA ~19:00 for both runs).
+
 ## 2026-09-21 (morning) — priorities 1b and 2 integrated into the submission, 1c as a limitation (author's brief)
 
 - The submission file now carries the deep-hierarchy paragraph and Table 9(d) (1b), the published-reading paragraph and Table 3(b)

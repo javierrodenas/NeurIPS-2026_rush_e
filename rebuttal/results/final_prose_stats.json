@@ -2,8 +2,8 @@
  "sections": {
   "Introduction": {
    "sentences": 31,
-   "avg_words": 22.2,
-   "max_words": 49
+   "avg_words": 22.5,
+   "max_words": 58
   },
   "Related Work": {
    "sentences": 5,
@@ -22,7 +22,7 @@
   },
   "Results": {
    "sentences": 88,
-   "avg_words": 16.4,
+   "avg_words": 16.2,
    "max_words": 40
   },
   "Implications for Hyperbolic Representation Learning": {
@@ -32,11 +32,11 @@
   },
   "Conclusion and Limitations": {
    "sentences": 14,
-   "avg_words": 22.4,
-   "max_words": 50
+   "avg_words": 22.9,
+   "max_words": 52
   }
  },
- "avg_nonverbatim": 17.6,
+ "avg_nonverbatim": 17.5,
  "n_nonverbatim_sentences": 155,
  "numbers_per_paragraph_S5_S6": [
   {
@@ -93,7 +93,7 @@
   },
   {
    "section": "Results",
-   "lead": "No hierarchy above the superclasses is found.",
+   "lead": "No hierarchy above the superclasses is found in the backbones whose noise level the control covers.",
    "numbers": [
     "4 of 5"
    ]
@@ -103,7 +103,8 @@
    "lead": "A deep hierarchy at the real noise level is detected.",
    "numbers": [
     "4 of 5",
-    "0 of 5"
+    "0 of 5",
+    "8 of 50"
    ]
   },
   {

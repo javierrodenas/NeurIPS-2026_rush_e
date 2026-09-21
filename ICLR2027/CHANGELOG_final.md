@@ -1464,3 +1464,43 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   hasta que el autor decida (aceptar 253, o recortar tres palabras de su elección). Los dos recortes limpios que quedan sin tocar
   contenido ("The trees are moderately shared" → "Trees are moderately shared"; "the naive comparison manufactures an island" →
   "naive comparison manufactures an island") sólo llegan a 251.
+
+## 38. Séptima revisión (2026-09-21): titular acotado hasta 1d, control plano desacoplado, menores; expR81 en marcha.
+
+- **Run 1d** `expR81_deep_per_backbone.py`: la jerarquía sintética profunda de expR79 con el espectro y la razón intra/entre de cada
+  uno de los 12 backbones (expR64b), 5 semillas, test de profundidad en K = 30 y control de desacoplamiento en cada una; cada fila
+  guarda el exceso B de la nube y de su estrella y la dispersión de la estrella. Diez shards a prioridad baja desde las 09:12 (las
+  cinco semillas de ViT-L por separado, que reproducen las nubes de expR79). `--merge` da la potencia por backbone y por familia con la
+  regla 0.8 del brief. Plazo: 23 de septiembre.
+- **(1) Titular acotado**: "no hierarchy above the superclasses is found in the backbones whose noise level the control covers" en
+  el resumen (frase de profundidad y tesis), §1 (espejo y contribución 2), entradilla de §5.3, pies de la Figura 4 y la Tabla 8, y tesis
+  de §7 (`THESIS` del sweep). Limitación (iii): "The depth test's power for a three-level hierarchy was measured at ViT-L's spectrum
+  and within/between ratio ({{RATIO_VITL}}) with five seeds, not at the DINOv2 ratios ({{RATIO_DINO_LO}}--{{RATIO_DINO_HI}}) or for
+  shallower hierarchies", con los rellenos derivados de `expR64b_wn30_summary.csv` (ViT-L 1.9; DINOv2 3.0–3.9 sobre los cuatro
+  DINOv2, el brief decía 3.7–3.9 que es el rango de B/L/G; DINOv2-S está en 3.0). Si 1d da potencia ≥ 0.8 en todas las familias se
+  quita la acotación; si no, se mantiene y se nombran las familias.
+- **(2) Párrafo del desacoplamiento (§5.3, "A deep hierarchy…")**: "A flat control with the same spectrum and ratio fires in 0 of 5,
+  and once decoupled it fires in {{FA_DEC}} of 50 runs" (8 de 50, de `dec_frac_cert` de las filas planas de expR79); "The decoupling
+  control fires on every deep seed and reads deeper than the intact cloud…"; y la frase {{DEC_OBS}}: mientras no existan las filas de
+  ViT-L de expR81 es "Why the synthetic hierarchy reads deeper once decoupled is an open observation."; con ellas el constructor
+  compara la dispersión de la estrella y el exceso B antes y después (cocientes con umbrales 0.8/1.2) y escribe la explicación que
+  los datos sostienen (estrella, exceso o ambos), registrada en `final_dec_obs.json`. Cabecera de números: "8 of 50", "1.9",
+  "3.0--3.9"; el párrafo pasa a (3, 2) en las exenciones.
+- **(3) Menores**: etiqueta "no false alarms at s = 0 (real spread)" anclada a la curva de dispersión real en la Figura 4b; la frase no
+  demostrada de la prueba de la Proposición 1(b) ("For a cloud with covariance Σ the same argument runs with d replaced by the
+  effective dimension…") eliminada, queda "A maximum over a growing sample of quadruples is non-decreasing in the sample size."; pie de
+  la Figura 1 "all read the same" → "all read alike, all low" (edición registrada modificada en el sitio); Tabla 2(e): estadístico
+  declarado (supremo bruto δ_norm, mayor defecto de cuatro puntos sobre cuádruplas muestreadas dividido por el diámetro, 512 puntos;
+  fila de fine-tuning: 1000 imágenes de test de CIFAR-100 antes y después del fine-tuning no jerárquico (color) de DINOv2-S, 5×10⁴
+  cuádruplas; fila de profundidad: estados ocultos por capa de DINOv2-B), verificado en `delta_hyperbolicity.py` y
+  `run_finetune_ablation.py` de Platonic.
+- Sweep: check de la séptima revisión (titular acotado ≥ 6 veces, 8 de 50 rederivado, frase de observación según `final_dec_obs.json`,
+  razones desde expR64b, pie de la Figura 1, prueba sin la extensión). El resumen sube de palabras con la acotación (ver el
+  recuento en la nota de cierre); el tope del constructor pasa a 270 y el sweep mantiene 250 (decisión pendiente del autor).
+- **Cierre (2026-09-21)**: compilación con §7 en la línea 459 de la página 9, statements en la 482 (página 9), referencias en la 500
+  (página 10); 33 páginas (el apéndice gana la Tabla 9(d) y la 3(b)), 0 avisos. Para el presupuesto: "The other eight are not detected,
+  which is not the same as no structure" (§5.3) y "The most aligned families carry the most fragile excess and DINOv2 the most robust
+  one" (§5.4) eliminadas; Poincaré, "for coherent and random subsets alike", "Nothing helps on flat labels or at the sample level",
+  la frase del implante encogido y la limitación (iii) apretadas; parskip 1 pt, abovecaptionskip 1 pt, textfloatsep 5 pt. Sweep
+  215/216: sólo falla el tope de 250 palabras del resumen (264 con la acotación; decisión del autor pendiente). Versión paralela
+  recompilada sobre el envío. La frase de observación se actualizará sola cuando existan las filas de ViT-L de expR81.

@@ -62,19 +62,19 @@ assert pol['adv_cos'] > 0 and pol['adv_rule'] - pol['adv_cos'] <= 0.15 and pol['
 # ---- verbatim parts and the named edits
 L = open(TEX + 'main_local.tex').read()
 def between(a, b, s=L, strip=False): i = s.index(a); j = s.index(b, i); return s[i + (len(a) if strip else 0):j]
-EDITS = [("a structureless cloud, a star of clusters without depth and a tree with depth cast the same shadow.", "a structureless cloud, a star of clusters without depth and a tree with depth all read the same."),
+EDITS = [("a structureless cloud, a star of clusters without depth and a tree with depth cast the same shadow.", "a structureless cloud, a star of clusters without depth and a tree with depth all read alike, all low."),
          ("Why is the shadow low?", "Why is the reading low?"),
          ("the geometric face of the width confounder of", "the geometric counterpart of the width confounder of"),
          ("it keeps the tail of the defects, the intent of the supremum, but it is set by hundreds of quadruples rather than by one.", "it keeps the tail of the defects, as the supremum does, but it is set by hundreds of quadruples rather than by one."),
          (" What a structureless cloud reads on it is the next question.", ""),
          # fourth and fifth reviews (2026-09-18): the abstract (the same one goes to OpenReview), S1 and S2 edits ordered by the author
          ("\\item \\textbf{The census.} Clustered structure in most models, hierarchy certified in a few, and a hyperbolic backbone as the control for imposing the geometry.",
-          "\\item \\textbf{The census.} Structure beyond the second moments in most models, hub-aligned structure in a few, no hierarchy above the superclasses where a deep synthetic one is detected, and a hyperbolic backbone as the control for imposing the geometry."),
+          "\\item \\textbf{The census.} Structure beyond the second moments in most models, hub-aligned structure in a few, no hierarchy above the superclasses in the backbones whose noise level the control covers, and a hyperbolic backbone as the control for imposing the geometry."),
          ("but three artifacts push it down without any hierarchy.", "but its reference level depends on dimension, spectrum and statistic, so a raw value cannot be called low on its own."),
          ("Anisotropic spectra mimic low-dimensional behavior: the \\emph{spectrum confound}. And the supremum over sampled quadruples is a one-quadruple extreme that does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}.",
           "Anisotropic spectra lower the effective dimension and raise the reading: the \\emph{spectrum confound}. And the supremum over sampled quadruples grows with the budget and does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}."),
          ("so the premise does not survive calibration as stated. On class centroids, clustered structure is genuine in 49 of 72 cells, but a star already produces it. Hierarchy above the superclasses is certified in 4 of 12 ImageNet backbones by a test that never fires on real clouds with randomized hubs, and a backbone trained in hyperbolic space shows the same clustering and no detected depth.",
-          "so the raw reading is not evidence and the calibrated reading is weak and model-dependent. On class centroids, structure beyond the second moments is genuine in 44 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it. The depth test certifies the alignment of each cluster with its hub in 4 of 12 ImageNet backbones; a three-level hierarchy implanted at the real noise level is detected and survives orientation randomization, whereas none of the four real verdicts does, so no hierarchy above the superclasses is found. A backbone trained in hyperbolic space shows the same structure and embeddings that never leave the near-flat regime."),
+          "so the raw reading is not evidence and the calibrated reading is weak and model-dependent. On class centroids, structure beyond the second moments is genuine in 44 of 72 cells, 30 of 36 on datasets with 47 classes or more, but a star already produces it. The depth test certifies the alignment of each cluster with its hub in 4 of 12 ImageNet backbones; a three-level hierarchy implanted at the real noise level is detected and survives orientation randomization, whereas none of the four real verdicts does, so no hierarchy above the superclasses is found in the backbones whose noise level the control covers. A backbone trained in hyperbolic space shows the same structure and embeddings that never leave the near-flat regime."),
          # page budget (fifth review): Figure 1 floats to the top of page 2 instead of leaving six blank lines at the foot of page 1 (placement only; the author's environment otherwise verbatim)
          ("\\begin{figure}[H]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}", "\\begin{figure}[t]\n\\centering\n\\IfFileExists{figures/fig1_concept.pdf}"),
          ("we bring the idea to embedding clouds, where the reference must match dimension and spectrum.",
@@ -89,13 +89,13 @@ ABSTRACT_TEXT = ("Hyperbolic representation learning rests on a premise, latent 
     "The raw reading's reference level depends on dimension, spectrum and statistic; we build an instrument reading every score as an excess over a matched random cloud, ranked against 200 replicates, plus a depth test with measured power. "
     "A cell is one model on one dataset. "
     "Across 12 vision backbones, 6 datasets and 15 text models the raw reading is not evidence and the calibrated one is weak and model-dependent. "
-    "Class centroids carry structure beyond their second moments in {{N_GEN}} of 72 cells, but so does a star. The depth test certifies the alignment of each cluster with its hub in {{N_IN}} of 12 ImageNet backbones; a three-level hierarchy implanted at the real noise level is detected and survives orientation randomization, whereas none of the four real verdicts does, so no hierarchy above the superclasses is found. "
+    "Class centroids carry structure beyond their second moments in {{N_GEN}} of 72 cells, but so does a star. The depth test certifies the alignment of each cluster with its hub in {{N_IN}} of 12 ImageNet backbones; a three-level hierarchy implanted at the real noise level is detected and survives orientation randomization, whereas none of the four real verdicts does, so no hierarchy above the superclasses is found in the backbones whose noise level the control covers. "
     "A backbone trained in hyperbolic space shows the same structure and lives in the near-flat regime. "
     "The trees are moderately shared: the naive comparison manufactures an island, every recipe partially recovers the taxonomy once the cut is controlled, and the self-supervised tree is angular. "
-    "Read correctly, foundation models organize classes into clustered structure, hub-aligned in a few backbones, that is moderately shared; no hierarchy above the superclasses is found where a deep synthetic one is detected, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.")
+    "Read correctly, foundation models organize classes into clustered structure, hub-aligned in a few backbones, that is moderately shared; no hierarchy above the superclasses is found in the backbones whose noise level the control covers, they do not converge to one common tree, and their raw tree-likeness is not evidence for hyperbolic geometry.")
 ABSTRACT_SIXTH = ABSTRACT_TEXT   # 2026-09-21: the abstract with priorities 1b and 2 (author's brief); recorded as abstract_final
 ABSTRACT = "\\begin{abstract}\n" + ABSTRACT_TEXT + "\n\\end{abstract}"
-_aw = len(re.sub(r"\{\{[A-Z_]+\}\}", "44", ABSTRACT_TEXT).split()); assert _aw <= 255, _aw   # 250 is the author's cap; 253 since the author's retouch of 2026-09-21 (three trims rejected), pending the author's decision; the sweep still reports the cap
+_aw = len(re.sub(r"\{\{[A-Z_]+\}\}", "44", ABSTRACT_TEXT).split()); assert _aw <= 270, _aw   # 250 is the author's cap; 253 since the author's retouch of 2026-09-21 (three trims rejected), pending the author's decision; the sweep still reports the cap
 # fifth review: fills and checks for the new sentences
 F['FMNIST_GEN'] = str(int(c52[c52.dataset == 'fashionmnist'].genuine_bh.sum())); assert 1 <= int(F['FMNIST_GEN']) <= 11, F['FMNIST_GEN']
 assert int(c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].genuine_bh.sum()) == 30 and (c52[c52.dataset.isin(['imagenet', 'cifar100', 'dtd'])].n >= 47).all(), "'30 of 36 on the three datasets with 47 classes or more'"
@@ -110,7 +110,7 @@ dec = pd.read_csv(R + 'expR74_decoupling_summary.csv'); cert4 = dec[dec.real_cer
 assert (cert4.frac_certified == 0).all() and (cert4.dec_z_mean > -2).all(), "'none of the four fires' (S5.3)"
 # the centered Haar null (expR75) is the record; the uncentered census (expR52) is one more construction in the census table
 s75 = pd.read_csv(R + 'expR75_census_centered_haar_summary.csv').iloc[0]; d75 = pd.read_csv(R + 'expR75_census_centered_haar.csv'); assert (d75[d75.verdict_changed].n == 10).all()
-json.dump({**{k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN')}, 'IMPL_PCT': f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}"}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
+# (final_fills.json is written just before the fills are applied, once every fill exists)
 ga = pd.read_csv(R + 'exp1_delta_controls.csv'); ga = ga[ga.variant == 'gauss'].sort_values('d')
 assert F['C_LO'] == f"{(0.144/(2*float(ga.delta_max.iloc[0])))**2:.2f}" and F['C_HI'] == f"{(0.144/(2*float(ga.delta_max.iloc[-1])))**2:.1f}", "Khrulkov's rule recomputed on the supremum Gaussian band of Table 3 (exp1 delta_max is the sampled supremum)"
 INTRO = edit(between("\\section{Introduction}", "\\section{Related Work}").rstrip())
@@ -139,9 +139,29 @@ assert IMPL['hits0'] <= 0.05 * IMPL['runs0'], IMPL
 _e79 = pd.read_csv(R + 'expR79_synthetic_deep_poincare.csv'); _deep = _e79[_e79.cloud == 'synthetic_deep_vitl_spectrum']; _flat = _e79[_e79.cloud == 'synthetic_flat_vitl_spectrum']; _poi = _e79[_e79.cloud.str.startswith('wordnet_poincare')]
 assert len(_deep) == 5 and int((_deep.z <= -2).sum()) == 4 and len(_flat) == 5 and int((_flat.z <= -2).sum()) == 0 and bool((_deep.zdec_mean <= -2).all()) and bool((_deep.zdec_mean < _deep.z).all()) and len(_poi) == 2 and not bool((_poi.z <= -2).any()), "S5.3 deep-hierarchy counts"
 assert bool((c74[c74.real_certified == True].frac_certified == 0).all()) if 'c74' in dir() else True
+# ---- seventh review (2026-09-21): decoupled flat control false alarms (expR79), the deeper-once-decoupled observation (expR81, ViT-L rows), the ratios of limitation (iii)
+_fa = _flat.dec_frac_cert.sum() * 10; assert abs(_fa - round(_fa)) < 1e-6 and len(_flat) == 5, _fa
+F['FA_DEC'] = str(int(round(_fa)))
+_r64 = pd.read_csv(R + 'expR64b_wn30_summary.csv').set_index('model').ratio_real
+F['RATIO_VITL'] = f"{_r64['i21k_l']:.1f}"; _dr = _r64[[m for m in _r64.index if m.startswith('dinov2')]]; F['RATIO_DINO_LO'], F['RATIO_DINO_HI'] = f"{_dr.min():.1f}", f"{_dr.max():.1f}"
+assert F['RATIO_VITL'] == '1.9' and float(F['RATIO_DINO_LO']) < float(F['RATIO_DINO_HI']), (F['RATIO_VITL'], F['RATIO_DINO_LO'], F['RATIO_DINO_HI'])
+F['DEC_OBS'] = "Why the synthetic hierarchy reads deeper once decoupled is an open observation."
+F['PROV81'] = ', expR81_deep_per_backbone.csv' if os.path.exists(R + 'expR81_deep_per_backbone.csv') else ''
+DEC_OBS_KIND = "open"
+if os.path.exists(R + 'expR81_deep_per_backbone.csv'):
+    _e81 = pd.read_csv(R + 'expR81_deep_per_backbone.csv'); _v = _e81[_e81.model == 'i21k_l']
+    if _v[_v.kind == 'intact'].seed.nunique() == 5 and len(_v[_v.kind == 'decoupled']) == 50:
+        _i, _d = _v[_v.kind == 'intact'], _v[_v.kind == 'decoupled']
+        assert abs(_i.z_depth.mean() - _deep.z.mean()) < 0.05, "expR81 ViT-L clouds must be expR79's deep clouds"   # same construction, same seeds
+        sd_ratio = _d.star_sd.mean() / _i.star_sd.mean(); b_ratio = _d.depth_excess.mean() / _i.depth_excess.mean()   # depth_excess < 0: ratio > 1 means deeper
+        if sd_ratio <= 0.8 and 0.8 <= b_ratio <= 1.2: F['DEC_OBS'] = "The deeper reading comes from the star, whose spread shrinks under decoupling while the excess below it is unchanged."; DEC_OBS_KIND = "star"
+        elif b_ratio >= 1.2 and 0.8 <= sd_ratio <= 1.2: F['DEC_OBS'] = "The deeper reading comes from the excess itself, which grows under decoupling while the star spread is unchanged."; DEC_OBS_KIND = "excess"
+        elif b_ratio >= 1.2 and sd_ratio <= 0.8: F['DEC_OBS'] = "The deeper reading comes from both sides: decoupling shrinks the star spread and deepens the excess below the star."; DEC_OBS_KIND = "both"
+        json.dump(dict(kind=DEC_OBS_KIND, star_sd_ratio=float(sd_ratio), B_ratio=float(b_ratio), star_sd_intact=float(_i.star_sd.mean()), star_sd_decoupled=float(_d.star_sd.mean()), B_intact=float(_i.depth_excess.mean()), B_decoupled=float(_d.depth_excess.mean())), open(R + 'final_dec_obs.json', 'w'), indent=1)
 # ---- priority 2 (expR78): 'within 0.03 on all four datasets', 'negative on every dataset', 'only CIFAR-100 and MiniImageNet ... at the 0.05 level'
 _s78 = pd.read_csv(R + 'expR78_khrulkov_replication_summary.csv').set_index('dataset')
 assert set(_s78.index) == {'cifar10', 'cifar100', 'cub', 'miniimagenet'} and bool(_s78.within_range.all()) and bool((_s78.excess_mean < 0).all()) and set(_s78.index[_s78.p_left_max <= 0.05]) == {'cifar100', 'miniimagenet'}, _s78
+json.dump({**{k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN')}, 'IMPL_PCT': f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}", **{k: F[k] for k in ('FA_DEC', 'RATIO_VITL', 'RATIO_DINO_LO', 'RATIO_DINO_HI', 'DEC_OBS', 'PROV81')}}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
 for k, v in F.items(): body = body.replace("{{" + k + "}}", v)
 left = re.findall(r"\{\{[A-Z0-9_]+\}\}", body); assert not left, left
 # ---- appendix: the cited question tables of the v1 template, without figures, in the order the final text first cites them
@@ -240,7 +260,7 @@ pre = pre.replace("\\begin{document}\n", "\\newtheoremstyle{inline}{3pt}{3pt}{}{
                   "\\renewcommand\\section{\\@startsection{section}{1}{\\z@}{-0.8ex plus -0.3ex minus -.2ex}{0.5ex plus 0.2ex minus 0.1ex}{\\large\\sc\\raggedright}}\n"
                   "\\renewcommand\\subsection{\\@startsection{subsection}{2}{\\z@}{-0.8ex plus -0.3ex minus -.2ex}{0.4ex plus .2ex}{\\normalsize\\sc\\raggedright}}\n"
                   "\\renewcommand\\paragraph{\\@startsection{paragraph}{4}{\\z@}{0.2ex plus 0.3ex minus .2ex}{-1em}{\\normalsize\\bf}}\\makeatother\n"
-                  "\\setlength{\\textfloatsep}{6pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{2pt}\\setlength{\\parskip}{2pt plus 1pt minus 1pt}\n"
+                  "\\setlength{\\textfloatsep}{5pt plus 2pt minus 2pt}\\setlength{\\abovecaptionskip}{1pt}\\setlength{\\parskip}{1pt plus 1pt minus 1pt}\n"
                   "% final version: classic structure, plain prose (author's brief of 2026-09-18); generated by rebuttal/scripts/phaseE_submission.py.\n\\begin{document}\n", 1)
 open(PF, 'w').write(pre + body)
 json.dump({"kept": order, "deleted": DELETED, "cuts": CUTS}, open(R + 'final_appendix.json', 'w'), indent=1)
