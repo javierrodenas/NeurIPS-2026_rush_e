@@ -17,8 +17,11 @@
  "PROV81": ", expR81_deep_per_backbone.csv",
  "RATIO_SC_LO": "1.3",
  "RATIO_SC_HI": "2.0",
- "Z_DEEP_HI": "-4.2",
- "Z_DEEP_LO": "-4.8",
- "Z_FLAT_HI": "-1.6",
- "Z_FLAT_LO": "-1.8"
+ "Z_DEEP_HI": "-4.19",
+ "Z_DEEP_LO": "-4.82",
+ "Z_FLAT_HI": "-1.61",
+ "Z_FLAT_LO": "-1.76",
+ "Z_VITL_DEC": "-1.61",
+ "RATIO_DINOB": "2.1",
+ "RATIO_VITB": "2.0"
 }

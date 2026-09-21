@@ -264,3 +264,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   sigue en FAIL por el tope de 250. (b) El control plano desacoplado va de −1.6 a −1.8 según expR79 (la media más baja es −1.76); el
   brief decía −1.7; el texto lleva el valor del fichero. (c) DINO-B (razón 2.1) no está ni en "supervised and contrastive (1.3–2.0)"
   ni en "the DINOv2 family (3.0–3.9)"; expR81 lo mide igualmente.
+- (Octava revisión) (a) La declaración de uso de IA nombra los tres puntos del formulario y conserva la aclaración de la quinta
+  revisión ("namely the implementation and execution of experiments… and LLM-simulated reviews…"); si las casillas de OpenReview dicen
+  otra cosa, pega su texto y lo igualo. (b) Las z de §5.3 van con dos decimales (−4.19 to −4.82; −1.61 to −1.76; ViT-L −1.61), no con
+  los redondeos mixtos del brief. (c) "DINO-B (2.1) and ViT-B (2.0) lie at the edge of the covered range" está en la limitación (iii).

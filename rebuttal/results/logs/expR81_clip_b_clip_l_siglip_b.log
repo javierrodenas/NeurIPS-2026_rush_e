@@ -1,1 +1,5 @@
 clip_b    seed 0 ratio 1.33 intact z -1.41 (B -0.0151, star sd 0.0030) | decoupled z mean -5.19 cert 1.0 (2563s)
+clip_b    seed 1 ratio 1.33 intact z -1.75 (B -0.0220, star sd 0.0025) | decoupled z mean -4.95 cert 1.0 (1746s)
+clip_b    seed 2 ratio 1.33 intact z -1.24 (B -0.0151, star sd 0.0037) | decoupled z mean -4.90 cert 1.0 (1126s)
+clip_b    seed 3 ratio 1.33 intact z -2.19 (B -0.0222, star sd 0.0035) | decoupled z mean -5.20 cert 1.0 (1146s)
+clip_b    seed 4 ratio 1.33 intact z -1.86 (B -0.0201, star sd 0.0026) | decoupled z mean -4.78 cert 1.0 (1164s)

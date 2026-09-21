@@ -1538,3 +1538,46 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   size, decides what those readings mean" (§5.1), "yet it recovers the CIFAR-100 superclasses" (DeiT-B), la frase de los niveles de
   WordNet y el pie de la Figura 4 apretados, "outside that regime" en el párrafo del implante; saltos de sección 0.6 ex y parskip 0.
   Sweep 215/216: sólo falla el tope de 250 palabras del resumen (276). Versión paralela recompilada sobre el envío.
+
+## 40. Octava revisión (2026-09-21): expR82 y la extensión de expR81 en marcha; tesis reordenada, acotación en una sola frase, ruido definido.
+
+- **Run 1e** `expR82_radial_control.py` (seis shards desde las 11:44): test de profundidad del registro sobre los 12 backbones tras
+  (a) normalizar L2 cada centroide y (b) quitar a cada offset su componente radial (proyección sobre la dirección del hub, hub
+  intacto); las dos estrellas (hubs gaussianos al radio real, hubs Haar-remuestreados), 10 semillas de estrella, y el control de
+  desacoplamiento (10 semillas) sobre cada nube transformada. Regla de decisión del brief codificada en `--merge`
+  (`expR82_decision.csv`): si ViT-S/B/L y DINOv2-L mantienen z ≤ −2 bajo (a) o (b), se conserva "alignment of each cluster with its
+  hub" y se añade "the alignment survives L2 normalization and the removal of the radial component, so it is not the spread of
+  feature norms"; si no, "alignment" pasa a "the radial spread of feature norms within each superclass", el resumen deja la
+  afirmación y la limitación (iii) lo dice. Primero se informa al autor, luego se edita. **Run 1d**: expR81 ampliado a 20 semillas
+  para DINOv2-S/B/L/G (ocho shards desde las 11:36).
+- **(1) Tesis** (resumen y §7): "…hub-aligned in a few backbones, that is moderately shared and does not converge to one common
+  tree; no hierarchy above the superclasses is found in the supervised and contrastive backbones, and the DINOv2 family lies beyond
+  the noise level at which the test was validated; their raw tree-likeness is not evidence for hyperbolic geometry."
+- **(2)** La frase acotada completa, con las razones, una sola vez en §5.3; forma corta "in the supervised and contrastive backbones,
+  not in the DINOv2 family, which lies beyond the noise level at which the test was validated" en el resumen, §1 (espejo y
+  contribución 2), pie de la Figura 4 y pie de la Tabla 8. "Noise level" definido en §5.3 antes de su primer uso: "The noise level of
+  a cloud is its within-cluster spread relative to the distance between its hubs." (primer párrafo de §5.3).
+- **(3)** Párrafo del desacoplamiento: "…none of the four fires, and ViT-L reads −1.61, within the −1.61 to −1.76 of the flat control:
+  without its orientations the real cloud reads like a flat one" (fundida con la frase anterior para no pasar de seis; −1.61 de
+  `expR74_decoupling_summary.csv`, el rango de las filas planas de expR79). Todas las z de §5.3 pasan a dos decimales (la frase del
+  sesgo dice ahora −4.19 to −4.82 y −1.61 to −1.76), como el resto del artículo desde la cuarta revisión.
+- **(4)** Limitación (iii): "DINO-B (2.1) and ViT-B (2.0) lie at the edge of the covered range." con rellenos de expR64b.
+- **(5)** Resumen, tras la frase del nivel de muestra: "The four values reported by Khrulkov et al. for latent hyperbolicity are
+  reproduced and, calibrated, two are indistinguishable from a random cloud." (el constructor comprueba en expR78 que exactamente dos
+  datasets tienen p máxima > 0.05: CIFAR-10 y CUB). En §1 la primera frase de "The answer has three parts" reescrita en llano ("On
+  image features the calibrated reading lies within the noise of a random cloud of the same shape in most cells and removes at most two
+  fifths of it elsewhere, so the raw reading is not evidence and the calibrated reading is weak and model-dependent.") seguida de la
+  misma frase de Khrulkov con cita; sin "genuine", "certified", "record", "frame" ni "matched star".
+- **(6)** "unregime" venía del orden de las sustituciones R3 ("validated regime" se aplicaba dentro de "unvalidated regime");
+  "unvalidated regime" va ahora primero. Declaración de uso de IA: mantiene los tres puntos del formulario ("writing assistance",
+  "retrieval of references", "research ideation or execution") y la aclaración de la quinta revisión; el texto exacto de las casillas
+  no está disponible aquí (ver TODO).
+- Presupuesto: "The genuine cells belong mostly to the DINOv2 family…" (§5.1), la cláusula "so a hierarchy carried by the hubs
+  survives…" (§5.3) y dos frases apretadas. Sweep: tesis y formas nuevas, la frase de ViT-L, la de los bordes y la de Khrulkov
+  rederivadas de sus ficheros, "unregime" ausente, la primera frase del espejo de §1 sin las cinco palabras vetadas.
+- **Cierre (2026-09-21, 12:00)**: §7 en la línea 460 de la página 9, statements en la 485 (página 9), referencias en la 503 (página 10);
+  33 páginas, 0 avisos. Recortes adicionales para el presupuesto: pie de la Figura 4 y de la Figura 3 apretados, "CIFAR-100 … carries no
+  certification" (§5.3, sigue en el pie de la Tabla 8), "Training moves the raw reading within an architecture…" (§5.2, sigue en la
+  Tabla 2(e)), "and order the levels by projection radius" (§5.4), "most for DINOv2-G on CIFAR-100" (§5.1), la cláusula de los
+  magnitudes del control de clases (§5.2), "so the excess is conservative" en la limitación (ii); textfloatsep 4 pt, abovecaptionskip
+  0, saltos de sección 0.5 ex. Sweep 215/216: sólo el tope del resumen (311 palabras). Versión paralela recompilada.

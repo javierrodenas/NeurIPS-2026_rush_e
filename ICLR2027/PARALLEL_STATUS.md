@@ -2,6 +2,25 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 11:45 — eighth review: expR82 (radial control) and the DINOv2 extension of expR81 launched
+
+- **§1e** `expR82_radial_control.py` (six shards, nice 10, since 11:44): the depth test of record on the 12 ImageNet clouds after
+  (a) L2-normalizing every centroid and (b) removing the radial component of each offset (its projection onto the hub direction, hub
+  kept); both matched stars (anisotropic Gaussian-hub star and Haar-resampled-hub star), 10 star seeds, and the decoupling control (10
+  seeds) on each transformed cloud. Decision rule fixed by the brief and coded in `--merge` (`expR82_decision.csv`): if ViT-S, ViT-B,
+  ViT-L and DINOv2-L keep z <= -2 under (a) or (b), "alignment of each cluster with its hub" stays and the sentence "the alignment
+  survives L2 normalization and the removal of the radial component, so it is not the spread of feature norms" is added; otherwise
+  "alignment" becomes "the radial spread of feature norms within each superclass" everywhere, the abstract drops the alignment claim
+  and limitation (iii) says it. The author is told first, then the edit. ~80 min of tests per backbone; ETA tonight (22 processes on
+  8 cores: expR81's remaining shards, its DINOv2 extension, expR82 and the two fine-tunings).
+- **§1d extension**: expR81 seeds 5–19 for DINOv2-S/B/L/G (eight shards since 11:36), so the DINOv2 family gets 20 seeds; the other
+  eight backbones stay at 5. The first-pass shards are still running (ViT-L done).
+- **Text (eighth review)**: thesis reordered; the full scoped sentence once in §5.3, short form elsewhere; noise level defined in §5.3;
+  ViT-L's decoupled reading (−1.61 from expR74) inside the flat control's range (−1.61 to −1.76 from expR79; z now two decimals
+  throughout §5.3); DINO-B (2.1) and ViT-B (2.0) at the edge of the covered range in limitation (iii); the Khrulkov sentence in the
+  abstract and §1 (two of four indistinguishable from a random cloud, from expR78's largest p > 0.05); "unregime" fixed (replacement
+  order); the AI-use statement kept with the three form items (the form's exact wording is not available here; see TODO).
+
 ## 2026-09-21 10:15 — expR81: ViT-L seeds done (they reproduce expR79); first rows of the other backbones
 
 - **ViT-L (5 seeds, = expR79's deep clouds)**: intact z −1.80, −2.45, −2.38, −2.08, −2.20 (power 0.8); decoupled z mean −4.44 over
