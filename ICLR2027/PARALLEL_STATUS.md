@@ -2,6 +2,23 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-21 17:00 (b) — expR81 interim power per backbone (deep three-level hierarchy at each backbone's own spectrum and ratio)
+
+- With 5 seeds unless noted: ViT-T 0.0, ViT-S 0.0, ViT-B 0.0, ViT-L 0.8, DINO-B 0.0, DINOv2-S 0.0 (7), DINOv2-B 0.43 (7),
+  DINOv2-L 1.0 (7), DINOv2-G 1.0 (2), CLIP-B 0.2, CLIP-L 1.0, SigLIP-B 1.0 (1). The control's power is not a matter of family: three
+  of the four supervised ViTs miss the deep hierarchy at their own spectra and ratios (1.5–2.0) while DINOv2-L and DINOv2-G detect it
+  at 3.9. The current scoping ("covers the supervised and contrastive backbones, DINOv2 beyond the noise level") will not stand; the
+  author decides on 23 September with the full 20-seed DINOv2 extension (running at low priority).
+
+## 2026-09-21 17:00 — expR82 complete (12 backbones); Table 8 panel (e) in the submission
+
+- Radial component removed (both stars): certified four keep z <= -2 (ViT-S −2.26/−2.08, ViT-B −3.60/−3.57, ViT-L −3.99/−3.47,
+  DINOv2-L −2.59/−2.28); among the others only ViT-T crosses (−2.06/−2.07); DINO-B −1.61/−1.89, DINOv2-B −1.18, DINOv2-G −1.75, CLIP
+  and SigLIP −0.9 to −1.5, DINOv2-S +0.6. L2-normalized: ViT-B −2.45/−2.52 and ViT-L −2.00/−2.23 keep it; no other backbone reaches −2.
+  Decoupled transformed clouds: certified fraction 0.0 everywhere except ViT-T (0.3 under deradial) and ViT-L (0.1 under L2).
+- The paper keeps "alignment" with the author's two sentences (§5.3, limitation iii) and Table 8(e). expR81 first pass and the
+  DINOv2 extension keep running; fine-tuning in epoch 4 of 5.
+
 ## 2026-09-21 16:30 — expR82: the alignment is not the spread of feature norms (rule met by the radial-component control)
 
 - **§1e**, four certified backbones read (the other eight still running): with the radial component of every offset removed, all

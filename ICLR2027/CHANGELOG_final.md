@@ -1664,3 +1664,8 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   on CNN and ViT features…, it comes out low.") y la frase de la figura sustituida por la del observador ("Figure 1 frames the
   question: an observer who sees only a shadow, the raw δ, asks which of three worlds cast it… All three read alike."), ambas como
   ediciones registradas sobre `main_local.tex`; "shadow" sale de la lista de metáforas vetadas fuera de la Figura 1.
+- **expR82 completo (2026-09-21, 17:00)**: los doce backbones, ambas transformaciones, 10 semillas de desacoplamiento cada una
+  (`expR82_radial_control.csv`, `_summary.csv`, `_decision.csv`: regla cumplida por (b)). Tabla 8, panel (e) entra (12 filas, z bajo las
+  dos estrellas y desacoplamiento por transformación). Fuera de los cuatro certificados: ViT-T cruza el umbral al quitar la componente
+  radial (−2.06/−2.07) y DINO-B se queda en −1.61/−1.89; ningún backbone no certificado lo cruza bajo L2. Los desacoplados
+  transformados no disparan (fracción certificada 0.0–0.3, ViT-T la más alta). Envío recompilado con el panel; sweep 215/216.
