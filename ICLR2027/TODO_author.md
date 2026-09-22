@@ -311,3 +311,5 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   falla por eso y por nada más. O recortas unas 50 palabras o subes el tope (dime a cuánto).
 - (Pasada consolidada) La página 9 depende del mismo recorte: con el resumen de 361 palabras el texto principal termina seis
   líneas dentro de la página 10 (limitaciones vi–ix). Con el resumen en tu tope de 310 cierra en la 9 sin tocar más texto.
+- (Resumen de las 17:25) 337 palabras sin fórmulas: 27 sobre el tope de 310. La página 9 tampoco cierra con él (seis líneas de
+  las limitaciones vi–ix en la página 10): o recortas ~6 líneas de contenido tuyo (limitaciones o §5.4), o aceptas la página 10.

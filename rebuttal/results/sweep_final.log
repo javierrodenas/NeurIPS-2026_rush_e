@@ -120,8 +120,8 @@ PASS final: every cross-reference of the final resolves
 PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
 PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
-FAIL rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 0 inserted paragraphs; diff at char 3496
+FAIL rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 0 inserted paragraphs; diff at char 3587
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
 [phaseB re-total] 219/221
 FAIL(all): final: abstract is the recorded text (310 words or fewer, the author's cap of 2026-09-22 evening, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 
-FAIL(all): rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 0 inserted paragraphs; diff at char 3496
+FAIL(all): rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 0 inserted paragraphs; diff at char 3587

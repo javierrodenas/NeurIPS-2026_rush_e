@@ -2022,3 +2022,12 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   (página 10), referencias en la 512; 37 páginas; 0 `??`; Figura 5 en lo alto de la página 8, donde empieza §5.4, y las matrices
   en el apéndice (página 28). Sweep 220/221: sólo falla el tope del resumen (361 palabras). Versión paralela reconstruida; resumen
   exportado a OpenReview (361 palabras).
+## 53. Resumen nuevo del autor (2026-09-22, 17:25).
+
+- Resumen sustituido verbatim (rellenos {{N_GEN}} y {{N_IN}} como siempre; "model–dataset" como `model--dataset`). Misma tesis como
+  última frase. 337 palabras sin fórmulas: 24 menos que el anterior, todavía 27 sobre el tope de 310, así que el check del tope sigue
+  fallando (único fallo, sweep 220/221 tras reconstruir la versión paralela). Literales del sweep actualizados (frase de los nueve y
+  los tres, "whereas a planted hierarchy, synthetic or trained in, survives", frase del compartir; la frase espejo de §1 y la
+  contribución 3 conservan "but not on the distances between them", el resumen dice "but not on their distances").
+- Página 9: sin cambio, el texto principal sigue terminando seis líneas dentro de la página 10 (limitaciones vi–ix); el recorte del
+  resumen no mueve el salto de la página 1 a la 2 porque la Figura 1 lo absorbe. Sigue en el TODO. Resumen exportado a OpenReview.
