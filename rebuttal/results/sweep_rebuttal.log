@@ -92,13 +92,12 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
-PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
 PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 
 PASS final: no bridge sentences anywhere in the body 
 PASS final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form 
-PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), seven definitions inline and unframed, six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
+PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), eight definitions inline and unframed (the decoupling control since the cleanup of 2026-09-22), six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
 PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
-PASS final: the seven defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
+PASS final: the eight defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
 PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 
 PASS final: every result file named in a provenance comment of the main text exists 
 PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
@@ -115,6 +114,7 @@ PASS final (priority 1b): the S5.3 deep-hierarchy paragraph after the decoupling
 PASS final (priority 2): the S5.1 published-reading paragraph after the lead-in, its claims re-derived from expR78_khrulkov_replication_summary.csv (all four within 0.03, excess negative everywhere, p <= 0.05 on CIFAR-100 and MiniImageNet only), the new lead-in, limitation (vi), and Table 3(b) with the four published and reproduced values 
 PASS final (7th review): headline scoped in the abstract (twice), S1, contribution 2, S5.3 lead-in, Figure 4 and Table 8 captions and the thesis; decoupled flat control false alarms (8 of 50) and the observation sentence in S5.3 from the files; limitation (iii) with ViT-L's ratio 1.9 and the DINOv2 range from expR64b; Figure 1 caption 'read alike, all low'; no unproved extension in the proof of Proposition 1(b) 
 PASS final (9th review): nine covered / three blind from the decoupled power of Table 9(e); the long form in S1 and the Figure 4 caption, the short form as the thesis twice, the abstract sentence, no five/seven left; decoupled false alarms next to the split in S5.3 and (iii); the balanced-frame sentence from expR83 (matched hubs) with the recorded rule; vocabulary (structure above the clusters, alignment, hub structure, nominally hyperbolic); triplet 0.77 vs 0.76 from expR58; Gaussian band named as the sampled supremum in S6 and Table 3; Moreira 2024 cited with a verified entry; proof end tied to the statistic confound; no experiment IDs in any caption; Figure 4b = decoupled-power bars; implant curves as an appendix figure; B.7 points to Table 8(d) 
+PASS final (cleanup, 2026-09-22): S3.3 duplicates out ('Size and evidence', 'What a genuine excess means'); Definition 8 (decoupling control) after the matched star with the author's wording and the power/false-alarm sentence; S4 lead-in and S5.2 sentence gone, the two S5.2 paragraphs at two sentences; S3.2 supremum sentence gone (citation on Definition 1); S5.3 in the seven paragraphs in order with each count once and the bias sentence once; the Khrulkov table in S5.1 with its cells from expR78, cited by the paragraph 
 PASS final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row 
 PASS final: every cross-reference of the final resolves 
 PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
@@ -122,4 +122,4 @@ PASS final: AI Use Statement with exactly the three declared items and the respo
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
 PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
-[phaseB re-total] 217/217
+[phaseB re-total] 218/218

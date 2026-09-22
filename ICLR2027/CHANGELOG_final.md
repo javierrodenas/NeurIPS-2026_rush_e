@@ -1743,7 +1743,7 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   {{P81_COV_LO}} or more in nine backbones and {{P81_UNC_HI}} or less in the other three. The verdict of no hub hierarchy therefore
   holds in the nine only, at {{FA_DEC}} of 50 false alarms on flat clouds." La frase de
   las razones pasa a "The three blind backbones sit at ratios {{RATIO_BLIND_LO}} to {{RATIO_BLIND_HI}}, inside the {{RATIO_COV_LO}}
-  to {{RATIO_COV_HI}} of the nine covered." (1.6 a 3.0 dentro de 1.3 a 3.9, de expR64b; el builder comprueba la inclusión y que
+  to {{RATIO_COV_HI}} of the nine covered." (1.5 a 3.0 dentro de 1.3 a 3.9, de expR64b; el builder comprueba la inclusión y que
   cada familia tiene cubiertos). Los rellenos RATIO_VIT3_* y RATIO_DINOLG desaparecen; el párrafo
   apunta a la Tabla 9 y a la Figura 4b.
 - **(2)** ViT-B congelado en el frame balanceado: la tasa emparejada es baja (0 de 50), así que entra la segunda rama del brief, tras
@@ -1827,3 +1827,59 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Cierre (2026-09-22, 15:15)**: §7 en la línea 464 de la página 9, statements en la 487 (página 10), referencias en la 506 (página
   10); 34 páginas; 0 `??`; resumen a 300 palabras justas sin fórmulas. Sweep 217/217. Versión paralela reconstruida.
   Monitor persistente sobre las cachés de la semilla 1 (`Platonic/results/practical_tasks_cache/vitb_ft_{ce,hier}_seed1_…npz`).
+
+## 49. Limpieza de pasada completa (2026-09-22, tarde, brief del autor): duplicados, Definición 8, §5.3 en siete párrafos, tabla de Khrulkov.
+
+- **(1) Duplicados.** §3.3: la entradilla "The rank of the reading is the evidence." y las dos frases siguientes pasan a la frase del
+  autor "The excess is a size; the evidence is the rank of the reading among its replicates and the left-tail $p$ that the rank gives,"
+  (sigue la ecuación del rango); como cada párrafo lleva entradilla en negrita por regla, la nueva es "Size and evidence." (mía). La
+  entradilla "A negative genuine excess means structure beyond the second moments." repetía la frase que sigue; ahora "What a genuine
+  excess means." (mía) y se conserva sólo "A negative genuine excess certifies structure beyond the second moments; clustering is its
+  most plausible reading…". §4: fuera "Every reading is calibrated against two hundred replicates."; entradilla nueva "Calibration budget
+  and frames." (mía) y se conserva "Each cell is read against two hundred Haar replicates…". §5.2: fuera "The same structure appears
+  without labels and in language models.". §5.3: "4 of 5", "8 of 50" y la frase del sesgo del desacoplado aparecen una sola vez.
+- **(2) Definición 8 (decoupling control)**, tras la estrella emparejada, con la redacción del autor: "The decoupling control keeps the
+  hubs of the frame and rotates each cluster's offsets by an independent Haar rotation; a verdict that survives the decoupling is
+  carried by the arrangement of the hubs, one that does not is carried by the orientation of the clusters relative to their hubs,
+  which we call alignment." Después, en el párrafo del test: "The power of the test is the fraction of implanted hierarchies it
+  detects and its false-alarm rate the fraction of flat controls that fire; both are measured on real clouds in Section 5.3." (sustituye
+  la cláusula anterior del mismo párrafo). Ocho definiciones; el sweep las cuenta y exige la Definición 8 entre la 7 y el párrafo.
+- **(3) §5.3 en siete párrafos**, cada número una vez: (a) "The depth test certifies that clusters are oriented toward their hubs in
+  four backbones." (sin cambios); (b) "What it certifies is alignment.": desacoplado (ViT-L −1.61 dentro de −1.61 a −1.76), relacional
+  (0 de 60 / 0 de 4), control radial (−2.26 a −3.99, L2 sólo ViT-B y ViT-L; las dos frases del autor tal cual); (c) "What the test can
+  see.": jerarquía sintética (frase del autor con el 4 de 5, sobrevive al desacoplado, más profunda desacoplada y la observación de
+  expR81), potencia desacoplada por backbone (nueve a 0.83–1.00, tres a 0.01–0.60; razones 1.5 a 3.0 dentro de 1.3 a 3.9: la potencia
+  sigue al backbone), control entrenado (10 de 10 contra 0 de 10 en el frame de registro; frase del criterio previo), sesgos (control
+  plano 0 de 5 intacto y 8 de 50 desacoplado; la frase del sesgo con −4.19 a −4.82; frame balanceado emparejado 0 de 50 y desajustado
+  38 de 50), Poincaré no dispara, puntero a las Tablas 9 y 8; (d) "No hub hierarchy is found where the test has power.": los nueve y los
+  tres con nombre, la profundidad de los implantes frente a los catorce niveles de WordNet, puntero a la figura del implante y a la
+  Tabla 9; (e) "The certified set depends on the frame.": frames, sólo ViT-B y ViT-L bajo todos, y el ViT-B congelado en el balanceado
+  con la frase acordada; (f) "Leaf labels…"; (g) "Imposing the geometry…". Desaparecen las entradillas "No hub hierarchy is found where
+  the control has power.", "The power of the test follows…", "The alignment is not the spread…", "A deep hierarchy at the real noise
+  level is detected.", "A trained hierarchy survives decoupling." y "The test never fires on randomized hubs." (su contenido está en
+  b, c y d). Dos desviaciones que señalo: (i) "each number once" obliga a que el 0 de 50 y el 38 de 50 estén sólo en (c), así que la
+  frase acordada de (e) va sin sus dos recuentos entre paréntesis y con "so this is not a false alarm" en lugar de "so the 7 of 10 is
+  not a false alarm", precedida de "On the balanced frame the frozen ViT-B fires once decoupled in 7 of 10 seeds."; el builder la
+  genera con los recuentos de expR77/expR83 y `final_bal_frame.json` la registra como adaptada; (ii) el párrafo (c) tiene doce frases
+  por diseño del brief, así que queda exento de la regla de 3–6 frases (registrado en el sweep, `SENT_EXEMPT`), igual que los dos
+  párrafos de §5.2 recortados a dos frases.
+- **(4) Tabla de Khrulkov en §5.1** (`tab_khrulkov_final.tex`, generada por `gen_appendix_final.py` desde
+  `expR78_khrulkov_replication_summary.csv`; float [t], cuatro filas: dataset, su δ_rel, la nuestra con su estimador, exceso, r/200 y
+  p mayor), citada por el párrafo ("Table 3 gives the four rows" apunta ahora a ella; el panel (b) de la tabla de muestra del apéndice
+  se conserva con las desviaciones). Sitio: el párrafo de neural collapse queda en dos frases y "The count survives resampling." en
+  dos ("Folding image resampling and the estimator's seeds into the null spread, or repeating the census on resampled centroid sets,
+  leaves most of the count in place. Table 10 gives the counts and the bootstrap.").
+- **(5) §3.2**: fuera "Gromov δ is the worst case, the supremum of the defect over all quadruples" (edición registrada número 13 sobre
+  `main_local.tex`); la cita a Gromov (1987) pasa a la Definición 1.
+- **Sweep**: definiciones ocho y término "decoupling control" definido una vez; orden de las siete entradillas de §5.3; cada recuento
+  (4 de 5, 8 de 50, 0 de 50, 38 de 50, 7 de 10, 10 de 10, 0 de 10, 0 de 60, 0 de 4, 0 de 5) exactamente una vez en §5.3 y la frase
+  del sesgo una vez; literales de los checks de 1b, expR81, control positivo, séptima y novena revisión rehechos con las frases
+  nuevas (los números siguen rederivados de sus ficheros); celdas de la tabla de Khrulkov comparadas con expR78; exenciones (5, 2)
+  para (b) y (12, 2) para (c). `phaseE_rebuttal.py` detecta con las frases nuevas que expR77 y expR79 ya están en el envío.
+- **Cierre (2026-09-22, 15:35)**: §7 en la línea 464 de la página 9, statements en la 487 (página 10), referencias en la 506 (página
+  10); 34 páginas; 0 `??`; la tabla de Khrulkov cabe sin recortes adicionales (los de §5.2 y la fusión de §5.3 compensan). Sweep
+  218/218 (dos checks nuevos: la limpieza y la tabla). Versión paralela reconstruida sobre el envío nuevo (34 páginas, 0 `??`).
+  Un check del sweep comparaba el bloque verbatim de §3.2 sin aplicar las ediciones registradas; ahora las aplica (la número 13).
+  Numeración: la tabla de Khrulkov es ahora la Tabla 1 y el censo la Tabla 2, y las del apéndice corren una posición (todo va por
+  `\ref`; los nombres de los checks del sweep y las notas anteriores de este registro siguen la numeración vieja, Tabla 8 = depth, Tabla 9
+  = power). El rango de razones de los tres ciegos es 1.5 a 3.0 (ViT-T 1.55 redondea a 1.5 en el relleno).

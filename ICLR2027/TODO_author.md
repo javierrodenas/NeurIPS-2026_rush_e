@@ -292,3 +292,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   congelado en el balanceado admite esa lectura de desajuste de frames; si prefieres decirlo así, la frase sería "That frame's flat
   control fires once decoupled in 0 of 50 runs, but a flat cloud clustered by the frame of record fires on it in 38 of 50, so the
   balanced-frame reading of ViT-B may be frame mismatch". Las dos filas están en la Tabla 9(f).
+- (Limpieza, 2026-09-22 tarde) Tres entradillas nuevas son mías, porque la regla exige negrita al frente de cada párrafo y tus
+  reemplazos quitaban la que había: "Size and evidence." (§3.3), "What a genuine excess means." (§3.3) y "Calibration budget and
+  frames." (§4). Cámbialas si prefieres otras. Y la frase acordada del frame balanceado va en §5.3(e) sin los dos recuentos entre
+  paréntesis (están una sola vez en (c), como pide "each number once"): "That frame's matched flat control does not fire once
+  decoupled, so this is not a false alarm: … even once decoupled, so frames are not interchangeable."

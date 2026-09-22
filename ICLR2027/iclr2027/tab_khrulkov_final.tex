@@ -1,0 +1,19 @@
+% prov: expR78_khrulkov_replication_summary.csv
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lcccc}
+\toprule
+dataset & their $\delta_{\text{rel}}$ & ours, their estimator & excess & $r$/200, largest $p$ \\
+\midrule
+CIFAR-10 & 0.26 & 0.275 & $-0.0037$ & 173/200, 0.333 \\
+CIFAR-100 & 0.25 & 0.261 & $-0.0087$ & 198/200, 0.030 \\
+CUB-200 & 0.25 & 0.270 & $-0.0043$ & 177/200, 0.249 \\
+MiniImageNet & 0.21 & 0.203 & $-0.0234$ & 200/200, 0.005 \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{A published reading reproduced and calibrated.} The ResNet-34 setting of \citet{Khrulkov_2020_CVPR}: their reported relative hyperbolicity, ours with their estimator on our extraction (mean over batches), the excess over the matched null, and the rank $r$ of 200 replicates with the largest left-tail $p$ over batches. % expR78_khrulkov_replication_summary.csv
+}
+\label{tab:khrulkov}
+\end{table}

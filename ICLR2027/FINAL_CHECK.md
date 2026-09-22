@@ -13,13 +13,13 @@
 |---|---|---|---|
 | Introduction | 33 | 22.3 | 66 |
 | Related Work | 5 | 39.8 | 60 |
-| Methodology | 42 | 19.8 | 45 |
+| Methodology | 41 | 20.4 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 87 | 17.9 | 60 |
+| Results | 81 | 18.3 | 51 |
 | Implications for Hyperbolic Representation Learning | 10 | 15.9 | 34 |
 | Conclusion and Limitations | 17 | 21.7 | 50 |
 
-Non-verbatim prose of S3–S7: 155 sentences, mean 18.5 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 149 sentences, mean 18.9 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -33,13 +33,10 @@ Non-verbatim prose of S3–S7: 155 sentences, mean 18.5 words (rule: mean ≤ 22
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The depth test certifies that clusters are oriented toward t | 4 of 12 |
-| Results | No hub hierarchy is found where the control has power. | -1.61, -1.61 to -1.76, 4 of 5 |
-| Results | The power of the test follows the backbone, not its ratio or | 0.83 to 1.00, 0.01 to 0.60, 8 of 50, 1.5 to 3.0, 1.3 to 3.9 |
-| Results | The alignment is not the spread of feature norms. | -2.26 to -3.99 |
-| Results | A deep hierarchy at the real noise level is detected. | 4 of 5, 0 of 5, 8 of 50, -4.19 to -4.82, -1.61 to -1.76 |
-| Results | A trained hierarchy survives decoupling. | 10 of 10, 0 of 10, 7 of 10, 0 of 50, 7 of 10, 38 of 50 |
-| Results | The test never fires on randomized hubs. | 0 of 60, 0 of 60, 0 of 4 |
-| Results | The certified set depends on the frame. | — |
+| Results | What it certifies is alignment. | -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, -2.26 to -3.99 |
+| Results | What the test can see. | 4 of 5, 0.83 to 1.00, 0.01 to 0.60, 1.5 to 3.0, 1.3 to 3.9, 10 of 10, 0 of 10, 0 of 5, 8 of 50, -4.19 to -4.82, 0 of 50, 38 of 50 |
+| Results | No hub hierarchy is found where the test has power. | — |
+| Results | The certified set depends on the frame. | 7 of 10 |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
 | Results | Imposing the geometry does not create hub structure. | — |
 | Results | The naive map manufactures an island. | — |
@@ -64,16 +61,15 @@ Non-verbatim prose of S3–S7: 155 sentences, mean 18.5 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 215/217 checks passed.
+- Total: 214/218 checks passed.
 - Final-version checks:
 
-    PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
     PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 
     PASS final: no bridge sentences anywhere in the body 
     PASS final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form 
-    PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), seven definitions inline and unframed, six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
-    PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
-    PASS final: the seven defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
+    PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), eight definitions inline and unframed (the decoupling control since the cleanup of 2026-09-22), six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
+    FAIL final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) | avg non-verbatim sentence 18.9 words over 149 sentences
+    PASS final: the eight defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
     PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 
     PASS final: every result file named in a provenance comment of the main text exists 
     PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
@@ -83,8 +79,9 @@ Non-verbatim prose of S3–S7: 155 sentences, mean 18.5 words (rule: mean ≤ 22
     PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
     PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 
     PASS final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel 
-    PASS final: every cross-reference of the final resolves 
+    FAIL final: every cross-reference of the final resolves | ['tab:khrulkov']
     PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
-    FAIL(all): final: abstract is the recorded text (300 words or fewer, the author's cap of 2026-09-22, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 
+    FAIL(all): final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) | avg non-verbatim sentence 18.9 words over 149 sentences
+    FAIL(all): final: every cross-reference of the final resolves | ['tab:khrulkov']

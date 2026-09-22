@@ -956,8 +956,17 @@ def q_robust_final():
             contd=[r"(c) Per cell: $z_{\text{joint}} = \text{excess}/\sqrt{\sigma_{\text{null}}^2+\sigma_{\text{boot}}^2+\sigma_{\text{est}}^2}$ and the number of resamples in which the cell is genuine under BH over the 72 cells; $^{\circ}$: not genuine in the record; $^{\dagger}$: record-genuine but failing one of the two criteria ($z_{\text{joint}}\le-2$, genuine in $\ge27$ of 30); $^{\ddagger}$: not record-genuine but passing one." + jt
                    + r" (d) Class-count control under the record (means over subset seeds): the excess shrinks with the number of classes for coherent and random subsets alike, so magnitudes are not comparable across class counts and the verdict is what carries across datasets; ``below'' = subset seeds whose real value lies below the null at uncorrected $p\le0.05$; NC adv = prototype-classifier advantage of the Poincar\'{e} readout in pp. (e) Raw $\delta$ within architecture: fine-tuning on a task without class hierarchy raises it and it falls across transformer depth. % expR66_joint_sensitivity_summary.csv, expR60_c_sweep_record.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv" + ctxt])
 
+def main_khrulkov():
+    """Main-text table of the Khrulkov replication (full-pass cleanup, 2026-09-22): the four rows of expR78 beside the S5.1 paragraph."""
+    S = pd.read_csv(RES / "expR78_khrulkov_replication_summary.csv").set_index("dataset"); NMD = {"cifar10": "CIFAR-10", "cifar100": "CIFAR-100", "cub": "CUB-200", "miniimagenet": "MiniImageNet"}
+    rows = [f"{NMD[d]} & {S.loc[d, 'theirs']:.2f} & {S.loc[d, 'ours_raw_mean']:.3f} & ${S.loc[d, 'excess_mean']:+.4f}$ & {int(round(S.loc[d, 'r_above_mean']))}/200, {S.loc[d, 'p_left_max']:.3f} \\\\" for d in ("cifar10", "cifar100", "cub", "miniimagenet")]
+    L = ["% prov: expR78_khrulkov_replication_summary.csv", r"\begin{table}[t]", r"\centering", r"\small", r"\setlength{\tabcolsep}{5pt}", r"\begin{tabular}{lcccc}", r"\toprule",
+         r"dataset & their $\delta_{\text{rel}}$ & ours, their estimator & excess & $r$/200, largest $p$ \\", r"\midrule"] + rows + [r"\bottomrule", r"\end{tabular}",
+         r"\caption{\textbf{A published reading reproduced and calibrated.} The ResNet-34 setting of \citet{Khrulkov_2020_CVPR}: their reported relative hyperbolicity, ours with their estimator on our extraction (mean over batches), the excess over the matched null, and the rank $r$ of 200 replicates with the largest left-tail $p$ over batches. % expR78_khrulkov_replication_summary.csv", "}", r"\label{tab:khrulkov}", r"\end{table}"]
+    (HERE / "tab_khrulkov_final.tex").write_text("\n".join(L) + "\n"); print("wrote tab_khrulkov_final.tex from expR78_khrulkov_replication_summary.csv")
+
 if __name__ == "__main__":
     for f in OUT.glob("tab_q*.tex"): f.unlink()
     q_calibration(); q_census(); q_robust(); q_sample(); q_depth(); q_power(); q_interventions(); q_treemap(); q_wordnet(); q_text(); q_local(); q_corollary(); q_xi(); q_panel(); q_robust_final()
     conservation_check()
-    FINAL = True; q_depth(); q_wordnet(); q_power(); q_census(); q_sample()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null; power table with two-decimal z)
+    FINAL = True; q_depth(); q_wordnet(); q_power(); q_census(); q_sample(); main_khrulkov()   # the final version's copies (two-decimal z and the K sweep; DBpedia supremum under the Haar null; power table with two-decimal z)

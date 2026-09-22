@@ -11,8 +11,8 @@
    "max_words": 60
   },
   "Methodology": {
-   "sentences": 42,
-   "avg_words": 19.8,
+   "sentences": 41,
+   "avg_words": 20.4,
    "max_words": 45
   },
   "Experimental Setup": {
@@ -21,9 +21,9 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 87,
-   "avg_words": 17.9,
-   "max_words": 60
+   "sentences": 81,
+   "avg_words": 18.3,
+   "max_words": 51
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 10,
@@ -36,8 +36,8 @@
    "max_words": 50
   }
  },
- "avg_nonverbatim": 18.5,
- "n_nonverbatim_sentences": 155,
+ "avg_nonverbatim": 18.9,
+ "n_nonverbatim_sentences": 149,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -93,67 +93,44 @@
   },
   {
    "section": "Results",
-   "lead": "No hub hierarchy is found where the control has power.",
+   "lead": "What it certifies is alignment.",
    "numbers": [
     "-1.61",
     "-1.61 to -1.76",
-    "4 of 5"
-   ]
-  },
-  {
-   "section": "Results",
-   "lead": "The power of the test follows the backbone, not its ratio or family.",
-   "numbers": [
-    "0.83 to 1.00",
-    "0.01 to 0.60",
-    "8 of 50",
-    "1.5 to 3.0",
-    "1.3 to 3.9"
-   ]
-  },
-  {
-   "section": "Results",
-   "lead": "The alignment is not the spread of feature norms.",
-   "numbers": [
+    "0 of 60",
+    "0 of 4",
     "-2.26 to -3.99"
    ]
   },
   {
    "section": "Results",
-   "lead": "A deep hierarchy at the real noise level is detected.",
+   "lead": "What the test can see.",
    "numbers": [
     "4 of 5",
+    "0.83 to 1.00",
+    "0.01 to 0.60",
+    "1.5 to 3.0",
+    "1.3 to 3.9",
+    "10 of 10",
+    "0 of 10",
     "0 of 5",
     "8 of 50",
     "-4.19 to -4.82",
-    "-1.61 to -1.76"
-   ]
-  },
-  {
-   "section": "Results",
-   "lead": "A trained hierarchy survives decoupling.",
-   "numbers": [
-    "10 of 10",
-    "0 of 10",
-    "7 of 10",
     "0 of 50",
-    "7 of 10",
     "38 of 50"
    ]
   },
   {
    "section": "Results",
-   "lead": "The test never fires on randomized hubs.",
-   "numbers": [
-    "0 of 60",
-    "0 of 60",
-    "0 of 4"
-   ]
+   "lead": "No hub hierarchy is found where the test has power.",
+   "numbers": []
   },
   {
    "section": "Results",
    "lead": "The certified set depends on the frame.",
-   "numbers": []
+   "numbers": [
+    "7 of 10"
+   ]
   },
   {
    "section": "Results",
