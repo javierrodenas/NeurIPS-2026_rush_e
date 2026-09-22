@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 36. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 484); the references start on page 10 (line 503).
+- PDF pages: 36. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 506).
 - Appendix: Proofs on page 13, tables from page 13 to page 36 (24 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
@@ -11,13 +11,13 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 33 | 22.4 | 69 |
+| Introduction | 33 | 22.8 | 69 |
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 37 | 19.6 | 45 |
-| Experimental Setup | 15 | 17.7 | 33 |
-| Results | 77 | 19.0 | 58 |
+| Experimental Setup | 14 | 18.6 | 33 |
+| Results | 78 | 18.9 | 58 |
 | Implications for Hyperbolic Representation Learning | 10 | 15.9 | 34 |
-| Conclusion and Limitations | 20 | 22.6 | 50 |
+| Conclusion and Limitations | 20 | 22.9 | 50 |
 
 Non-verbatim prose of S3–S7: 144 sentences, mean 19.2 words (rule: mean ≤ 22, none > 35).
 
@@ -40,7 +40,7 @@ Non-verbatim prose of S3–S7: 144 sentences, mean 19.2 words (rule: mean ≤ 22
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
 | Results | Imposing the geometry does not create hub structure. | — |
 | Results | The naive map manufactures an island. | — |
-| Results | Controlling the cut leaves a moderate gap. | 0.77 against 0.76, 0.90, 0.85 |
+| Results | Controlling the cut leaves a moderate gap. | 0.85 to 0.96, 0.90, 0.77, 0.76, 0.91 to 0.97, 0.94, 0.48 and 0.78, 0.64 to 0.94, 0.79, 0.39 and 0.48 |
 | Results | The self-supervised tree is angular. | — |
 | Results | Alignment with WordNet follows supervision and recipe. | — |
 | Results | The recovery is not WordNet circularity. | — |
@@ -61,10 +61,9 @@ Non-verbatim prose of S3–S7: 144 sentences, mean 19.2 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 217/219 checks passed.
+- Total: 218/220 checks passed.
 - Final-version checks:
 
-    PASS final: no bridge sentences anywhere in the body 
     PASS final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form 
     PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), eight definitions inline and unframed (the decoupling control since the cleanup of 2026-09-22), six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
     PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
@@ -82,4 +81,4 @@ Non-verbatim prose of S3–S7: 144 sentences, mean 19.2 words (rule: mean ≤ 22
     PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
-    FAIL(all): final: abstract is the recorded text (300 words or fewer, the author's cap of 2026-09-22, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 
+    FAIL(all): final: abstract is the recorded text (310 words or fewer, the author's cap of 2026-09-22 evening, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 

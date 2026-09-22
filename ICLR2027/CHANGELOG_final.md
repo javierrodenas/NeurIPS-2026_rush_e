@@ -1938,3 +1938,39 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Cierre (2026-09-22, 16:05)**: §7 en la línea 455 de la página 9, statements en la 484 (página 9), referencias en la 503 (página
   10); 36 páginas; 0 `??`. Sweep 218/219: sólo falla el tope de 300 palabras del resumen (303 con "hubs of the frame"; TODO). Versión
   paralela reconstruida (36 páginas, 0 `??`); resumen exportado a OpenReview (303 palabras).
+
+## 51. Tesis y §5.4 tras expR84 (2026-09-22, noche, brief del autor): topología compartida, métrica no.
+
+- **(1) Tesis** (última frase del resumen y §7): "Read correctly, foundation models organize classes into clustered structure whose tree
+  topology is largely shared, up to a gap beyond resampling noise, and whose metric is not; no hub hierarchy is found where the test
+  has power; and their raw tree-likeness is not evidence for hyperbolic geometry." Frase del compartir en el resumen: "Across models
+  the tree topology is largely shared and the metric is not: the naive comparison manufactures an island, triplet agreement reaches
+  {{TRIP_BIG}} against a within-model ceiling of {{CEIL_TRIP_LO}}--{{CEIL_TRIP_HI}} once the clustering cut is controlled, and the
+  self-supervised tree is angular." (0.77 de expR58; el techo por backbone de expR84 va de 0.85 a 0.96, no a 0.95 como en el brief:
+  DINO-B 0.965 y ViT-L 0.955; los rellenos siguen al fichero).
+- **(2) §5.4**, párrafo "Controlling the cut leaves a moderate gap.": el techo por medida con su rango entre backbones y su media,
+  junto a los valores entre modelos de expR58 (fila coseno-average): tripletas {{CEIL_TRIP_LO}} a {{CEIL_TRIP_HI}}, media
+  {{CEIL_TRIP}}, contra 0.77 (DINOv2 contra el bloque) y 0.76 (dentro del bloque); cofenética {{CEIL_COPH_LO}} a {{CEIL_COPH_HI}},
+  media {{CEIL_COPH}}, contra 0.48 y 0.78; ARI al corte {{CEIL_ARI_LO}} a {{CEIL_ARI_HI}}, media {{CEIL_ARI}}, contra 0.39 y 0.48.
+  Del fichero: tripletas 0.85–0.96 (media 0.90), cofenética 0.91–0.97 (media 0.94), ARI 0.64–0.94 (media 0.79). El brief traía
+  "ARI 0.64–0.79" y "cophenetic 0.91–0.94", que son el mínimo y la media, no el rango; el texto da rango y media, ambos del fichero.
+  Lectura: "The tree topology is therefore shared to within most of the ceiling and the metric agrees at about half of it."
+  (0.77/0.90 = 0.86; 0.48/0.94 = 0.51; 0.39/0.79 = 0.49; el builder exige ≥ 0.8 y 0.4–0.6, y `final_tree_ceiling.json` guarda los
+  tres cocientes). "the island shrinks to a gap beyond resampling noise" en lugar de "to a moderate gap". Se conservan "About a third…
+  as a whole." y el puntero.
+- **(3) §1**: la frase del compartir del párrafo "The answer has three parts" es la del resumen (edición registrada, con rellenos).
+  Contribución 3: "The island is an artifact of the cut; the tree topology is largely shared and the metric is not, and the
+  self-supervised tree is angular." (edición registrada número 14 sobre `main_local.tex`).
+- **(4) Sweep**: tope del resumen 310; tesis nueva (dos veces exactas); literal de las decisiones actualizado; check nuevo con las
+  frases del resumen, §1, contribución 3 y §5.4 rederivadas de expR58 y expR84 y los tres cocientes; exención (12, 4) y de recuento de
+  frases para "Controlling the cut…" (siete frases, doce cifras, por diseño del brief); rangos, medias y pares en HEADLINE.
+- **Presupuesto**: el párrafo de §5.4 crece tres líneas y el texto pasaba seis a la página 10. Recortes en colas de párrafo (sin
+  tocar cifras ni frases del autor): §4 "Table 15 lists the panel." fundido en la frase anterior, "Two self-supervised ResNets" y
+  "DeiT-B and the augreg ViT-B, trained on ImageNet-1k leaf labels"; §5.2 fuera "On class centroids the excess is negative in almost
+  every cell." (la Figura 3 lo enseña) y "keeps most of the count … Table 5 gives the bootstrap."; §5.3 (b) fuera el puntero "Table 9
+  gives both." (la Tabla 9 se cita en a, e, f y g) y "its exact geometric form"; (e) "Under a balanced frame ViT-T joins … and other
+  WordNet cuts change the set again."; §5.4 fuera "with shuffle and Gaussian controls at zero" (están en la Tabla 12). Sweep:
+  "largely" sale de la lista de palabras prohibidas (tu tesis dice "largely shared").
+- **Cierre (2026-09-22, 16:20)**: §7 en la línea 457 de la página 9, statements en la 487 (página 10), referencias en la 506 (página
+  10); 36 páginas; 0 `??`. Sweep 219/220: sólo falla el tope del resumen, que con tu frase nueva queda en 318 palabras sin fórmulas,
+  ocho sobre el tope de 310 (TODO). Versión paralela reconstruida; resumen exportado a OpenReview.

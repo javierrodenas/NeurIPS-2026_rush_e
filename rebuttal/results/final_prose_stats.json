@@ -2,7 +2,7 @@
  "sections": {
   "Introduction": {
    "sentences": 33,
-   "avg_words": 22.4,
+   "avg_words": 22.8,
    "max_words": 69
   },
   "Related Work": {
@@ -16,13 +16,13 @@
    "max_words": 45
   },
   "Experimental Setup": {
-   "sentences": 15,
-   "avg_words": 17.7,
+   "sentences": 14,
+   "avg_words": 18.6,
    "max_words": 33
   },
   "Results": {
-   "sentences": 77,
-   "avg_words": 19.0,
+   "sentences": 78,
+   "avg_words": 18.9,
    "max_words": 58
   },
   "Implications for Hyperbolic Representation Learning": {
@@ -32,7 +32,7 @@
   },
   "Conclusion and Limitations": {
    "sentences": 20,
-   "avg_words": 22.6,
+   "avg_words": 22.9,
    "max_words": 50
   }
  },
@@ -151,9 +151,16 @@
    "section": "Results",
    "lead": "Controlling the cut leaves a moderate gap.",
    "numbers": [
-    "0.77 against 0.76",
+    "0.85 to 0.96",
     "0.90",
-    "0.85"
+    "0.77",
+    "0.76",
+    "0.91 to 0.97",
+    "0.94",
+    "0.48 and 0.78",
+    "0.64 to 0.94",
+    "0.79",
+    "0.39 and 0.48"
    ]
   },
   {

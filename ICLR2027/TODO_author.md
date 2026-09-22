@@ -302,3 +302,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   tocado tu texto). (b) El techo intra-modelo de tripletas es 0.90 de media (0.85 en DINOv2-L), justo en el umbral de tu regla; seis
   de los doce backbones quedan por debajo de 0.9. He aplicado la rama "keep" y la tesis no cambia; si prefieres leerlo como cercano
   al 0.76, dímelo y cambio la tesis a "share their trees up to the noise of the comparison".
+- (Tesis tras expR84, 2026-09-22 noche) Dos cifras de tu brief no coinciden con el fichero y el texto sigue al fichero: el techo de
+  tripletas por backbone va de 0.85 a 0.96 (DINO-B 0.965, ViT-L 0.955), no a 0.95; y "ARI 0.64–0.79" / "cophenetic 0.91–0.94" eran el
+  mínimo y la media, no el rango (rangos reales 0.64–0.94 y 0.91–0.97, medias 0.79 y 0.94). Si preferías rango mínimo–media, dímelo.
+- (Tesis tras expR84) El resumen queda en 318 palabras sin fórmulas con tu frase nueva del compartir, ocho sobre el tope de 310 que
+  fijaste; el check del sweep falla hasta que recortes o subas el tope.

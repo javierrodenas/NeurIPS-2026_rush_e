@@ -1,6 +1,11 @@
 {
  "branch": "keep",
  "rule": "keep if mean triplet ceiling >= 0.9",
+ "cross_over_ceiling": {
+  "triplet": 0.8544168525346392,
+  "cophenetic": 0.5112724044558603,
+  "ari_cut": 0.4874893877311368
+ },
  "triplet_ceiling_mean": 0.902052164750958,
  "triplet_ceiling_min": 0.8486735632183903,
  "cross_model": [
