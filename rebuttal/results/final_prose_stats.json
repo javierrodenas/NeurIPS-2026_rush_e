@@ -2,8 +2,8 @@
  "sections": {
   "Introduction": {
    "sentences": 33,
-   "avg_words": 22.8,
-   "max_words": 69
+   "avg_words": 24.6,
+   "max_words": 86
   },
   "Related Work": {
    "sentences": 5,
@@ -11,19 +11,19 @@
    "max_words": 60
   },
   "Methodology": {
-   "sentences": 37,
-   "avg_words": 19.6,
+   "sentences": 32,
+   "avg_words": 20.8,
    "max_words": 45
   },
   "Experimental Setup": {
    "sentences": 14,
-   "avg_words": 18.6,
+   "avg_words": 18.4,
    "max_words": 33
   },
   "Results": {
    "sentences": 78,
-   "avg_words": 18.9,
-   "max_words": 58
+   "avg_words": 19.1,
+   "max_words": 40
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 10,
@@ -36,8 +36,8 @@
    "max_words": 50
   }
  },
- "avg_nonverbatim": 19.2,
- "n_nonverbatim_sentences": 144,
+ "avg_nonverbatim": 19.6,
+ "n_nonverbatim_sentences": 139,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",

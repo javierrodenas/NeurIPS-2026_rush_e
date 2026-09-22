@@ -40,7 +40,7 @@
  "TRIP_WITHIN": "0.76",
  "FA_BAL": "0",
  "FA_MIS": "38",
- "BAL_SENT": "A flat cloud clustered under the frame of record fires under the balanced frame in 38 of 50 decoupled runs, so a real cloud read under a frame that is not its own is expected to fire; the frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not evidence of hub structure.",
+ "BAL_SENT": "A flat cloud clustered under the frame of record fires under the balanced frame in 38 of 50 decoupled runs, so a real cloud read under a frame that is not its own is expected to fire. The frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not evidence of hub structure.",
  "CEIL_TRIP": "0.90",
  "CEIL_TRIP_MIN": "0.85",
  "CEIL_TRIP_LO": "0.85",

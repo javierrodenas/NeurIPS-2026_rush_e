@@ -7,6 +7,12 @@ un fichero de `rebuttal/results/`; ningún número se ha teclado a mano salvo la
 la tabla de calibración (sin CSV; ver `TODO_author.md`). Los seis protocolos vigentes de `CODE_MAP.md`
 no se han tocado.
 
+
+> **Numeración actual de tablas (desde la limpieza del 22-09, con la tabla de Khrulkov en §5.1):** 1 Khrulkov (§5.1), 2 censo (§5.2);
+> apéndice por orden de primera cita: 3 robustez, 4 calibración, 5 censo completo, 6 panel de modelos, 7 texto, 8 muestra
+> (Khrulkov en el panel b), 9 profundidad, 10 potencia, 11 mapa de árboles, 12 WordNet, 13 local, 14 corolario, 15 procedencia.
+> Las entradas anteriores a §49 usan la numeración de su momento (profundidad = 8, potencia = 9, muestra = 3, corolario = 13).
+
 ## 0. Desviación importante respecto al brief (y por qué)
 
 El brief asumía que las cachés por imagen de ImageNet existían en esta máquina ("all CPU, all cheap").
@@ -1892,7 +1898,7 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   medidas de expR58 entre los 435 pares de remuestreos del mismo modelo (ARI al corte de 30, correlación cofenética, acuerdo en las
   mismas 10^4 tripletas de expR58). Techo de tripletas: media sobre modelos 0.902, backbone más bajo 0.849 (DINOv2-L); seis
   backbones por debajo de 0.9 (ViT-S 0.88, ViT-B 0.86, DINOv2-S 0.86, -B 0.86, -L 0.85, -G 0.88); ARI al corte 0.79 de media,
-  cofenética 0.94. Ficheros: `expR84_tree_ceiling.csv`, `expR84_tree_ceiling_summary.csv`; Tabla q6, panel (c) nuevo.
+  cofenética 0.94. Ficheros: `expR84_tree_ceiling.csv`, `expR84_tree_ceiling_summary.csv`; Tabla 11, panel (c) nuevo.
 - **(1) Frame balanceado**: la frase de (e) es la lectura de desajuste del autor, con los dos recuentos como rellenos: "A flat cloud
   clustered under the frame of record fires under the balanced frame in 38 of 50 decoupled runs, so a real cloud read under a frame
   that is not its own is expected to fire; the frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not
@@ -1907,7 +1913,7 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   cluster orientations. A hierarchy below the frame expressed in how clusters open would be removed with the orientations and counted
   as alignment, so no hub hierarchy means no hierarchy among the frame's hubs."; en (iii) "It certifies alignment above its frame
   only: a hierarchy below the frame … so no hub hierarchy means none among the frame's hubs." Resumen y §1: "not that the hubs of the
-  frame form a hierarchy"; el mismo titular en los pies de la Figura 4 y de la Tabla 9 (depth), por coherencia. El resumen sube a
+  frame form a hierarchy"; el mismo titular en los pies de la Figura 4 y de la Tabla 9, por coherencia. El resumen sube a
   303 palabras sin fórmulas, tres por encima de tu tope de 300 (decisión pendiente, TODO).
 - **(4) Techo y tesis**: la regla del brief se cumple por poco (0.902 ≥ 0.9), así que la tesis no cambia ("moderately shared", "does
   not converge to one common tree") y §5.4 dice el techo: "Both sit below the within-model ceiling of 0.90, the agreement two
@@ -1974,3 +1980,45 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Cierre (2026-09-22, 16:20)**: §7 en la línea 457 de la página 9, statements en la 487 (página 10), referencias en la 506 (página
   10); 36 páginas; 0 `??`. Sweep 219/220: sólo falla el tope del resumen, que con tu frase nueva queda en 318 palabras sin fórmulas,
   ocho sobre el tope de 310 (TODO). Versión paralela reconstruida; resumen exportado a OpenReview.
+
+## 52. Pasada consolidada (2026-09-22, noche, brief del autor): resumen, tesis, glosas de §1, frases, Figura 5.
+
+- **(1) Resumen** verbatim del autor (con {{N_GEN}} = 44 y {{N_IN}} = 4 como rellenos, como siempre). Tiene 361 palabras sin fórmulas,
+  51 por encima del tope de 310 que fija el mismo brief; el check del tope falla y no toco el texto (TODO). El assert del builder
+  sube a 400 para poder construir.
+- **(2) Tesis** = última frase del resumen, verbatim en §7; check de la tesis actualizado (dos veces exactas, y la última frase del
+  resumen debe ser la tesis). Resumen exportado a OpenReview.
+- **(3) §1**: glosas en el primer uso, "the superclass centers, which we call hubs" y "the grouping of classes into superclasses, which
+  we call the frame"; "decoupled control" pasa a "once cluster orientations are randomized" en el párrafo de la respuesta y en la
+  contribución 2; la frase del compartir del párrafo y la contribución 3 espejan la del resumen ("the trees agree on which classes
+  group together almost as well as two readings of the same model do, but not on the distances between them"). El sweep exige las
+  glosas antes del primer uso y que "decoupled control" no aparezca en §1.
+- **(4) Frases de más de 45 palabras en §3–§6** (sin listas de citas): sólo dos, ambas partidas en una afirmación por frase: la
+  Definición 8 ("… Haar rotation. A verdict that survives the decoupling is carried by the arrangement of the hubs; one that does not
+  …") y la lectura de desajuste de frames de §5.3(e) ("… is expected to fire. The frozen ViT-B firing in 7 of 10 there …"). Regla
+  nueva en el sweep: ninguna frase de más de 45 palabras en §3–§6 salvo las que llevan cita.
+- **(5) Figura 5** redibujada en el lenguaje de las Figuras 3 y 4 (`make_figs_final.py`): (a) ARI medio de cada modelo con los otros
+  once, hueco bajo la configuración ingenua y relleno bajo la seleccionada, unidos por un segmento (exp23); (b) acuerdo de tripletas
+  bajo la seleccionada (expR58) contra la banda del techo intra-modelo de expR84 (rango sobre pares de remuestreos, raya en la
+  media); (c) sin cambios. Pie del autor. Las dos matrices de ARI pasan al apéndice como figura (`fig_treemap_matrices_final`, junto a
+  la Tabla 11) con su pie y los dos valores (0.03 y 0.38). La figura queda anclada ([t]) al principio de §5.4 y la primera frase de
+  la sección la cita con la frase del autor; el check del puntero exime ese párrafo. `final_fig5_values.json` guarda además las
+  medias por modelo y las bandas.
+- **Sweep**: literales del resumen, §1, contribución 2 y 3, Definición 8 y frase del frame rehechos; forma larga "no hub hierarchy is
+  found in the nine backbones where the decoupled control…" sólo en el pie de la Figura 4 (en §1 va con la glosa); check nuevo de la
+  pasada; dos figuras en el apéndice; nombres de los checks con la numeración actual de tablas (clave arriba).
+- **Presupuesto**: el resumen nuevo ocupa seis líneas más en la página 1 y las glosas de §1 dos, y el texto pasaba doce líneas a la
+  página 10. Recortes sin tocar cifras ni frases del autor: Figura 5 compacta (2.1 in de alto, tres paneles en el ancho de línea),
+  pies de la Tabla 1 y de las Figuras 3 y 4 acortados, §3 "as Proposition 1 states for a structureless cloud" y la lista de
+  geometrías de referencia fundida en la frase anterior, §3.3 fuera "Rank-based calibration gives the score its finite-sample
+  validity." y "The word tree-like is reserved…" y la cláusula de $n$ pequeño frente a $d$, §3.5 fuera "Each model's hierarchy is a
+  dendrogram over the shared class centroids." y el detalle del nulo por permutación, §3.6 las dos frases de los readouts fundidas en
+  una, §4 "in three sizes" (MERU), §5.2 "the two sets with a real hierarchy", §5.3 (g) "where Lorentz and Euclidean distances almost
+  coincide" y (e) el puntero a la Tabla 9 (citada en a, f y g). Dos párrafos quedan en dos frases por el presupuesto ("What a genuine
+  excess means.", "Three readouts are compared…"; exentos en el sweep, anotado). Aun así el texto principal termina seis líneas
+  dentro de la página 10 (las limitaciones (vi)–(ix)); lo que falta es lo que añade el resumen de 361 palabras sobre el tope de 310:
+  recortándolo a tu tope, la página 9 vuelve a cerrar. No he cortado contenido tuyo para forzarla (TODO).
+- **Cierre (2026-09-22, 17:20)**: §7 en la línea 463 de la página 9, limitaciones (vi)–(ix) en la página 10, statements en la 493
+  (página 10), referencias en la 512; 37 páginas; 0 `??`; Figura 5 en lo alto de la página 8, donde empieza §5.4, y las matrices
+  en el apéndice (página 28). Sweep 220/221: sólo falla el tope del resumen (361 palabras). Versión paralela reconstruida; resumen
+  exportado a OpenReview (361 palabras).

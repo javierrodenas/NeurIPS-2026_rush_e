@@ -2,8 +2,8 @@
 
 ## Page budget
 
-- PDF pages: 36. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 506).
-- Appendix: Proofs on page 13, tables from page 13 to page 36 (24 pages including the proofs).
+- PDF pages: 37. Main text (through the Conclusion and Limitations section) ends on page 10; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 493); the references start on page 10 (line 512).
+- Appendix: Proofs on page 13, tables from page 13 to page 37 (25 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
 
@@ -11,15 +11,15 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 33 | 22.8 | 69 |
+| Introduction | 33 | 24.6 | 86 |
 | Related Work | 5 | 39.8 | 60 |
-| Methodology | 37 | 19.6 | 45 |
-| Experimental Setup | 14 | 18.6 | 33 |
-| Results | 78 | 18.9 | 58 |
+| Methodology | 32 | 20.8 | 45 |
+| Experimental Setup | 14 | 18.4 | 33 |
+| Results | 78 | 19.1 | 40 |
 | Implications for Hyperbolic Representation Learning | 10 | 15.9 | 34 |
 | Conclusion and Limitations | 20 | 22.9 | 50 |
 
-Non-verbatim prose of S3–S7: 144 sentences, mean 19.2 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 139 sentences, mean 19.6 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -61,10 +61,9 @@ Non-verbatim prose of S3–S7: 144 sentences, mean 19.2 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 218/220 checks passed.
+- Total: 219/221 checks passed.
 - Final-version checks:
 
-    PASS final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form 
     PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), eight definitions inline and unframed (the decoupling control since the cleanup of 2026-09-22), six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
     PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
     PASS final: the eight defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
@@ -72,7 +71,7 @@ Non-verbatim prose of S3–S7: 144 sentences, mean 19.2 words (rule: mean ≤ 22
     PASS final: every result file named in a provenance comment of the main text exists 
     PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
     PASS final: every main-text figure caption opens with a bold takeaway and names its source files 
-    PASS final: the Figure 5 caption states the naive and the selected DINOv2-vs-block agreement read from the figure's data 
+    PASS final: the appendix ARI-matrix figure states the naive and the selected DINOv2-vs-block agreement read from the figure's data, and Figure 5 carries the author's caption (consolidated pass) 
     PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 
     PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
     PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 

@@ -151,37 +151,62 @@ fig.subplots_adjust(left=0.18, right=0.98, top=0.90, bottom=0.22)
 save(fig, "fig_implant_final")
 print(f"implant: detection real {dict((float(k), round(float(v), 3)) for k, v in pr.items())}; shrunk {dict((float(k), round(float(v), 3)) for k, v in pt.items())}")
 
-# ---------------- Figure 5: (a)(b) two ARI matrices, sequential palette, rectangle around the DINOv2 block; (c) sibling triplets under cosine and Euclidean distance per backbone
+# ---------------- Figure 5 (consolidated pass, 2026-09-22): (a) mean ARI at the 30-cut with the other eleven, naive (hollow) against selected (filled), joined;
+# (b) triplet agreement under the selected configuration (expR58) against the within-model ceiling band of expR84 (range over resample pairs, line at the mean);
+# (c) sibling triplets under cosine and Euclidean distance (CIFAR-100, exp10). The two ARI matrices become an appendix figure (fig_treemap_matrices_final).
 z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True); S = z["summary_in"].item()
 diag = json.load(open(RES/"exp23_config_diagnostics.json")); adm = {k: v for k, v in diag.items() if k.startswith("imagenet|") and v["maxfrac"] <= 0.5}
 sel = max(adm, key=lambda k: adm[k]["cpcc"]).split("|")[1:]; SELKEY = "('{}', '{}')".format(*sel); assert SELKEY == "('cosine', 'average')", SELKEY
-cmap = LinearSegmentedColormap.from_list("family_seq", ["#FFFFFF", "#9FBFD6", FAMILY_COLORS["supervised"], "#123B57"])
 NAMES = [NM[m] for m in M]; sup = [0, 1, 2, 3, 9, 10, 11]; big = [6, 7, 8]
 e10 = {r["model"]: r for r in csv.DictReader(open(RES/"exp10_local_vs_global.csv"))}
-W, H = 5.5, 2.5; s = 1.4; bot = 0.72                       # matrices of side s; panel (c) shares their bottom and height
-fig = plt.figure(figsize=(W, H))
-axes = [fig.add_axes([0.42/W, bot/H, s/W, s/H]), fig.add_axes([(0.42+s+0.10)/W, bot/H, s/W, s/H])]
-cax = fig.add_axes([(0.42+2*s+0.16)/W, bot/H, 0.07/W, s/H]); axc = fig.add_axes([(0.42+2*s+0.78)/W, bot/H, (W-(0.42+2*s+0.78)-0.04)/W, s/H])
-vals = []
-for ax, (key, title) in zip(axes, [("('euclid', 'average')", "(a) naive: Euclidean, average"), (SELKEY, "(b) selected: cosine, average")]):
-    Mx = np.asarray(S[key]["ari"], dtype=float); im = ax.imshow(Mx, vmin=0, vmax=1, cmap=cmap); ax.grid(False)
-    v = float(np.mean([Mx[i, j] for i in big for j in sup])); vals.append(v)
-    ax.add_patch(Rectangle((4.5, 4.5), 4, 4, fill=False, edgecolor=FAMILY_COLORS["ssl"], lw=1.0, zorder=4))
-    ax.set_title(title, pad=3); ax.set_xticks(range(12)); ax.set_xticklabels(NAMES, rotation=90); ax.set_yticks(range(12)); ax.set_yticklabels(NAMES if ax is axes[0] else [])
-    ax.tick_params(length=1.5, pad=1)
-    for sp in ax.spines.values(): sp.set_edgecolor("0.62")
-cb = fig.colorbar(im, cax=cax); cb.ax.tick_params(labelsize=8, length=1.5, pad=1); cb.outline.set_visible(False); cax.set_title("ARI", fontsize=8, pad=3)
-ax = axc; tri = {}
+Mn = np.asarray(S["('euclid', 'average')"]["ari"], dtype=float); Ms = np.asarray(S[SELKEY]["ari"], dtype=float)
+vals = [float(np.mean([Mx[i, j] for i in big for j in sup])) for Mx in (Mn, Ms)]
+mean_other = lambda Mx, i: float(np.mean([Mx[i, j] for j in range(len(M)) if j != i]))
+p58 = pd.read_csv(RES/"expR58_treemap_cutfree.csv"); p58 = p58[(p58.dataset == "imagenet") & (p58.metric == "cosine") & (p58.linkage == "average")]; assert len(p58) == 66, len(p58)
+trip = {m: float(p58[(p58.model_a == m) | (p58.model_b == m)].triplet_agree.mean()) for m in M}
+c84 = pd.read_csv(RES/"expR84_tree_ceiling.csv"); c84 = c84[c84.kind == "boot_pair"]
+band = {m: (float(c84[c84.model == m].triplet_agree.min()), float(c84[c84.model == m].triplet_agree.max()), float(c84[c84.model == m].triplet_agree.mean())) for m in M}
+ys = {m: len(M) - 1 - i for i, m in enumerate(M)}
+fig, axes = plt.subplots(1, 3, figsize=(5.5, 2.1), gridspec_kw={"width_ratios": [1.25, 1.05, 1.35]})
+ax = axes[0]
+for i, m in enumerate(M):
+    y = ys[m]; a, b = mean_other(Mn, i), mean_other(Ms, i)
+    ax.plot([a, b], [y, y], color=fam_color(m), lw=0.9, zorder=2); ax.plot(a, y, "o", mfc="white", mec=fam_color(m), ms=4, mew=0.9, zorder=3); ax.plot(b, y, "o", color=fam_color(m), ms=4, zorder=4)
+for y in (ys["i21k_l"] - 0.5, ys["dinov2_g"] - 0.5): ax.axhline(y, color=LIGHT, lw=0.5, zorder=1)
+ax.set_yticks([ys[m] for m in M]); ax.set_yticklabels(NAMES); ax.set_ylim(-0.7, len(M) - 0.3); ax.tick_params(axis="y", length=0)
+ax.set_xlim(0, 0.75); ax.set_xticks([0, 0.25, 0.5, 0.75]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75"]); ax.set_xlabel("mean ARI with the other eleven", labelpad=1); ax.set_title("(a) the island is the cut", pad=3)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+ax = axes[1]
+for i, m in enumerate(M):
+    y = ys[m]; lo, hi, mu = band[m]
+    ax.plot([lo, hi], [y, y], color=GRAY, lw=5, alpha=0.45, solid_capstyle="butt", zorder=1); ax.plot([mu, mu], [y - 0.32, y + 0.32], color="0.35", lw=0.8, zorder=2); ax.plot(trip[m], y, "o", color=fam_color(m), ms=4, zorder=4)
+for y in (ys["i21k_l"] - 0.5, ys["dinov2_g"] - 0.5): ax.axhline(y, color=LIGHT, lw=0.5, zorder=1)
+ax.set_yticks([ys[m] for m in M]); ax.set_yticklabels([]); ax.set_ylim(-0.7, len(M) - 0.3); ax.tick_params(axis="y", length=0)
+ax.set_xlim(0.6, 1.0); ax.set_xticks([0.6, 0.8, 1.0]); ax.set_xticklabels(["0.6", "0.8", "1.0"]); ax.set_xlabel("triplet agreement", labelpad=1); ax.set_title("(b) topology, against the ceiling", pad=3)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+ax = axes[2]; tri = {}
 for i, m in enumerate(M):
     c, e = float(e10[m]["c100_sibtrip_c"]), float(e10[m]["c100_sibtrip_e"]); tri[m] = (c, e)
     ax.bar(i - 0.2, c, 0.4, color=fam_color(m), zorder=3); ax.bar(i + 0.2, e, 0.4, facecolor="white", edgecolor=fam_color(m), hatch="////", linewidth=0.6, zorder=3)
 ax.axhline(0.5, color="k", lw=0.8, ls="--", zorder=2)
 ax.set_xticks(range(len(M))); ax.set_xticklabels(NAMES, rotation=90); ax.set_xlim(-0.7, len(M) - 0.3); ax.tick_params(axis="x", length=0)
 ax.set_ylim(0, 1.0); ax.set_yticks([0, 0.5, 1.0]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("triplet agreement", labelpad=2)
-ax.set_title("(c) where the tree lives:\nsibling triplets, CIFAR-100", pad=3, linespacing=1.1)
+ax.set_title("(c) sibling triplets, CIFAR-100", pad=3)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-hd = [Patch(color="k", label="cosine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="Euclidean"), plt.Line2D([], [], ls="--", color="k", lw=0.8, label="chance")]
-ax.legend(handles=hd, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.50), ncol=3, handlelength=1.2, handletextpad=0.4, columnspacing=1.0, borderaxespad=0)
+hd = [plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4, label="naive"), plt.Line2D([], [], marker="o", color="k", ls="", ms=4, label="corrected"), Patch(color=GRAY, alpha=0.45, label="within-model ceiling"),
+      Patch(color="k", label="cosine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="Euclidean"), plt.Line2D([], [], ls="--", color="k", lw=0.8, label="chance")]
+fig.legend(handles=hd, frameon=False, loc="lower center", ncol=6, handlelength=1.2, handletextpad=0.4, columnspacing=0.9, bbox_to_anchor=(0.5, -0.01))
+fig.subplots_adjust(left=0.11, right=0.99, top=0.89, bottom=0.40, wspace=0.22)
 save(fig, "fig_treemap_final")
-json.dump({"naive_dinov2_vs_block": vals[0], "selected_dinov2_vs_block": vals[1], "sibtrip_c100": {m: {"cosine": tri[m][0], "euclid": tri[m][1]} for m in M}}, open(RES/"final_fig5_values.json", "w"), indent=1)
-d2 = {m: tri[m][0] - tri[m][1] for m in M}; print(f"treemap: DINOv2-B/L/G vs block naive {vals[0]:.2f}, selected {vals[1]:.2f}; triplet cosine-Euclid gap: DINOv2 {min(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}..{max(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}, others max {max(abs(d2[m]) for m in M if not m.startswith('dinov2')):.2f}")
+json.dump({"naive_dinov2_vs_block": vals[0], "selected_dinov2_vs_block": vals[1], "sibtrip_c100": {m: {"cosine": tri[m][0], "euclid": tri[m][1]} for m in M}, "mean_ari_other": {m: [mean_other(Mn, i), mean_other(Ms, i)] for i, m in enumerate(M)}, "triplet_selected": trip, "ceiling_band": band}, open(RES/"final_fig5_values.json", "w"), indent=1)
+d2 = {m: tri[m][0] - tri[m][1] for m in M}; print(f"treemap: DINOv2-B/L/G vs block naive {vals[0]:.2f}, selected {vals[1]:.2f}; triplet cosine-Euclid gap: DINOv2 {min(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}..{max(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}")
+# ---------------- Appendix figure: the two ARI matrices, formerly Figure 5ab
+cmap = LinearSegmentedColormap.from_list("family_seq", ["#FFFFFF", "#9FBFD6", FAMILY_COLORS["supervised"], "#123B57"])
+W, H = 4.2, 2.2; s = 1.45; bot = 0.62
+fig = plt.figure(figsize=(W, H)); axes = [fig.add_axes([0.55/W, bot/H, s/W, s/H]), fig.add_axes([(0.55+s+0.12)/W, bot/H, s/W, s/H])]; cax = fig.add_axes([(0.55+2*s+0.20)/W, bot/H, 0.07/W, s/H])
+for ax, (Mx, title) in zip(axes, [(Mn, "(a) naive: Euclidean, average"), (Ms, "(b) selected: cosine, average")]):
+    im = ax.imshow(Mx, vmin=0, vmax=1, cmap=cmap); ax.grid(False); ax.add_patch(Rectangle((4.5, 4.5), 4, 4, fill=False, edgecolor=FAMILY_COLORS["ssl"], lw=1.0, zorder=4))
+    ax.set_title(title, pad=3); ax.set_xticks(range(12)); ax.set_xticklabels(NAMES, rotation=90); ax.set_yticks(range(12)); ax.set_yticklabels(NAMES if ax is axes[0] else []); ax.tick_params(length=1.5, pad=1)
+    for sp in ax.spines.values(): sp.set_edgecolor("0.62")
+cb = fig.colorbar(im, cax=cax); cb.ax.tick_params(labelsize=8, length=1.5, pad=1); cb.outline.set_visible(False); cax.set_title("ARI", fontsize=8, pad=3)
+save(fig, "fig_treemap_matrices_final")

@@ -969,7 +969,7 @@ def main_khrulkov():
     rows = [f"{NMD[d]} & {S.loc[d, 'theirs']:.2f} & {S.loc[d, 'ours_raw_mean']:.3f} & ${S.loc[d, 'excess_mean']:+.4f}$ & {int(round(S.loc[d, 'r_above_mean']))}/200, {S.loc[d, 'p_left_max']:.3f} \\\\" for d in ("cifar10", "cifar100", "cub", "miniimagenet")]
     L = ["% prov: expR78_khrulkov_replication_summary.csv", r"\begin{table}[t]", r"\centering", r"\footnotesize", r"\setlength{\tabcolsep}{5pt}", r"\begin{tabular}{lcccc}", r"\toprule",
          r"dataset & their $\delta_{\text{rel}}$ & ours, their estimator & excess & $r$/200, largest $p$ \\", r"\midrule"] + rows + [r"\bottomrule", r"\end{tabular}",
-         r"\caption{\textbf{A published reading reproduced and calibrated.} ResNet-34 setting of \citet{Khrulkov_2020_CVPR}: their relative hyperbolicity, ours with their estimator, the excess over the matched null, and the rank of 200 replicates with the largest left-tail $p$ over batches. % expR78_khrulkov_replication_summary.csv", "}", r"\label{tab:khrulkov}", r"\end{table}"]
+         r"\caption{\textbf{A published reading reproduced and calibrated.} ResNet-34 setting of \citet{Khrulkov_2020_CVPR}: their relative hyperbolicity, ours with their estimator, the excess, and the rank of 200 with the largest left-tail $p$. % expR78_khrulkov_replication_summary.csv", "}", r"\label{tab:khrulkov}", r"\end{table}"]
     (HERE / "tab_khrulkov_final.tex").write_text("\n".join(L) + "\n"); print("wrote tab_khrulkov_final.tex from expR78_khrulkov_replication_summary.csv")
 
 if __name__ == "__main__":

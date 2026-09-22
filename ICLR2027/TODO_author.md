@@ -307,3 +307,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   mínimo y la media, no el rango (rangos reales 0.64–0.94 y 0.91–0.97, medias 0.79 y 0.94). Si preferías rango mínimo–media, dímelo.
 - (Tesis tras expR84) El resumen queda en 318 palabras sin fórmulas con tu frase nueva del compartir, ocho sobre el tope de 310 que
   fijaste; el check del sweep falla hasta que recortes o subas el tope.
+- (Pasada consolidada, 2026-09-22 noche) Tu resumen nuevo tiene 361 palabras sin fórmulas y tu tope es 310: el check del sweep
+  falla por eso y por nada más. O recortas unas 50 palabras o subes el tope (dime a cuánto).
+- (Pasada consolidada) La página 9 depende del mismo recorte: con el resumen de 361 palabras el texto principal termina seis
+  líneas dentro de la página 10 (limitaciones vi–ix). Con el resumen en tu tope de 310 cierra en la 9 sin tocar más texto.

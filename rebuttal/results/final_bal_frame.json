@@ -3,7 +3,7 @@
  "fa_record": 8,
  "high": false,
  "rule": "high if fa_bal >= 2 * fa_record",
- "sentence": "A flat cloud clustered under the frame of record fires under the balanced frame in 38 of 50 decoupled runs, so a real cloud read under a frame that is not its own is expected to fire; the frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not evidence of hub structure.",
+ "sentence": "A flat cloud clustered under the frame of record fires under the balanced frame in 38 of 50 decoupled runs, so a real cloud read under a frame that is not its own is expected to fire. The frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not evidence of hub structure.",
  "author_sentence": "tenth review: the frame-mismatch reading (2026-09-22)",
  "mismatch_construction_fired": 38,
  "mismatch_intact_fired": 5
