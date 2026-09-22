@@ -4,8 +4,8 @@ Each question of the third review, answered from the main text alone; line numbe
 
 ## Q1. The matched star's hubs are Gaussian; a star with the real hubs' spectrum could pass the depth test too.
 
-- **Abstract** (line ?): The abstract states that the four certified backbones are the same under a star whose hubs carry the real hubs' spectrum.
-- **Section 4, 'A spectrum-matched star confirms the four'** (line ?): Hubs drawn as a Haar resample of the real hubs (exact hub spectrum, ten star seeds): the certified set is unchanged, z from -2.0 to -3.7; on the implanted clouds the new star raises 0 of 60 false alarms at s = 0 and detects one implant in sixty at s = 1; read as a rank over the star seeds (resolution 1/11) the verdict does not separate certified from uncertified backbones while z does. Table 6 has both stars per backbone.
+- **Abstract** (line 20): The abstract states that the four certified backbones are the same under a star whose hubs carry the real hubs' spectrum.
+- **Section 4, 'A spectrum-matched star confirms the four'** (line 341): Hubs drawn as a Haar resample of the real hubs (exact hub spectrum, ten star seeds): the certified set is unchanged, z from -2.0 to -3.7; on the implanted clouds the new star raises 0 of 60 false alarms at s = 0 and detects one implant in sixty at s = 1; read as a rank over the star seeds (resolution 1/11) the verdict does not separate certified from uncertified backbones while z does. Table 6 has both stars per backbone.
 
 ## Q2. The certified ViTs were trained on the hierarchical IN-21k label set; the depth may be the label hierarchy.
 
