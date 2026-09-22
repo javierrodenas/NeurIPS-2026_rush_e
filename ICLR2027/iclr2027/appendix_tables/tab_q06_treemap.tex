@@ -1,4 +1,4 @@
-% prov: exp22_tree_similarity_imagenet.npz, exp23_treemap_controls.npz, exp23_config_diagnostics.json, expR58_treemap_cutfree_summary.csv
+% prov: exp22_tree_similarity_imagenet.npz, exp23_treemap_controls.npz, exp23_config_diagnostics.json, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling.csv, expR84_tree_ceiling_summary.csv
 \begin{table}[H]
 \centering
 \scriptsize
@@ -52,7 +52,35 @@ CIFAR-100 & cosine-ward & 0.56 / 0.61 & 0.74 / 0.73 & 0.76 / 0.76 \\
 \end{tabular}
 \par\vspace{5pt}
 \endgroup
-\caption{\textbf{The categorical island is a chaining artifact of the naive cut; a moderate gap remains under every admissible configuration and closes only in triplet agreement under cosine-average.} (a) Six configurations (metric $\times$ linkage) per dataset with the two quantities that drive the selection criterion of \S\ref{sec:content}: the degeneracy diagnostic (largest-cluster fraction at the reference cut, worst model) and the mean cophenetic fidelity (CPCC) of each model's dendrogram to its own distance matrix; configurations with max-cluster fraction $>0.5$ are excluded and, among the rest, the highest CPCC selects the marked row; then the mean pairwise ARI between the cuts at 30 (ImageNet) or 20 (CIFAR-100) clusters. (b) Dendrograms rebuilt from the census cache: ARI at the cut, Pearson correlation between the two trees' cophenetic distance vectors, and agreement on which pair merges first over $10^4$ random class triplets. Under the naive ImageNet configuration, cross-family ARI between the supervised ViTs and the contrastive VLMs reaches 0.82 while every DINOv2-vs-block pair stays at or below 0.06, and the worst model's largest cluster holds 97\% of the classes. Under the selected configuration the DINOv2 family agrees with the block at 0.38 against 0.48 within the block. Under the other 3 admissible ImageNet configurations the DINOv2-vs-block agreement is 0.13--0.17 against 0.50--0.55 within the block; over the admissible configurations and the three measures the median fraction of within-block agreement missing is 0.34, about a third. % exp22_tree_similarity_imagenet.npz, exp23_treemap_controls.npz, exp23_config_diagnostics.json, expR58_treemap_cutfree_summary.csv
+\begingroup
+\noindent\textbf{(c) Within-model ceiling under the selected ImageNet configuration: the three measures of (b) between pairs of the 30 bootstrap centroid sets of each backbone (mean $\pm$ s.d.\ over the 435 pairs) and the lowest triplet agreement over pairs.}\par\vspace{1.5pt}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc|c}
+\toprule
+model & ARI at the cut & cophenetic corr. & triplet agreement & lowest triplet \\
+\midrule
+ViT-T & 0.81 $\pm$ 0.03 & 0.94 $\pm$ 0.02 & 0.93 $\pm$ 0.04 & 0.85 \\
+ViT-S & 0.80 $\pm$ 0.11 & 0.94 $\pm$ 0.01 & 0.88 $\pm$ 0.08 & 0.70 \\
+ViT-B & 0.94 $\pm$ 0.01 & 0.94 $\pm$ 0.01 & 0.86 $\pm$ 0.04 & 0.75 \\
+ViT-L & 0.84 $\pm$ 0.06 & 0.96 $\pm$ 0.01 & 0.96 $\pm$ 0.02 & 0.87 \\
+\midrule
+DINO-B & 0.78 $\pm$ 0.10 & 0.94 $\pm$ 0.01 & 0.96 $\pm$ 0.01 & 0.95 \\
+DINOv2-S & 0.66 $\pm$ 0.05 & 0.91 $\pm$ 0.01 & 0.86 $\pm$ 0.05 & 0.69 \\
+DINOv2-B & 0.64 $\pm$ 0.09 & 0.93 $\pm$ 0.01 & 0.86 $\pm$ 0.03 & 0.77 \\
+DINOv2-L & 0.78 $\pm$ 0.05 & 0.94 $\pm$ 0.01 & 0.85 $\pm$ 0.04 & 0.71 \\
+DINOv2-G & 0.76 $\pm$ 0.05 & 0.95 $\pm$ 0.01 & 0.88 $\pm$ 0.02 & 0.84 \\
+\midrule
+CLIP-B & 0.87 $\pm$ 0.04 & 0.94 $\pm$ 0.01 & 0.93 $\pm$ 0.02 & 0.88 \\
+CLIP-L & 0.82 $\pm$ 0.06 & 0.97 $\pm$ 0.01 & 0.95 $\pm$ 0.01 & 0.92 \\
+SigLIP-B & 0.79 $\pm$ 0.07 & 0.95 $\pm$ 0.02 & 0.91 $\pm$ 0.03 & 0.84 \\
+\midrule
+mean over backbones & 0.79 $\pm$ 0.08 & 0.94 $\pm$ 0.01 & 0.90 $\pm$ 0.04 & 0.85 \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{\textbf{The categorical island is a chaining artifact of the naive cut; a moderate gap remains under every admissible configuration and closes only in triplet agreement under cosine-average.} (a) Six configurations (metric $\times$ linkage) per dataset with the two quantities that drive the selection criterion of \S\ref{sec:content}: the degeneracy diagnostic (largest-cluster fraction at the reference cut, worst model) and the mean cophenetic fidelity (CPCC) of each model's dendrogram to its own distance matrix; configurations with max-cluster fraction $>0.5$ are excluded and, among the rest, the highest CPCC selects the marked row; then the mean pairwise ARI between the cuts at 30 (ImageNet) or 20 (CIFAR-100) clusters. (b) Dendrograms rebuilt from the census cache: ARI at the cut, Pearson correlation between the two trees' cophenetic distance vectors, and agreement on which pair merges first over $10^4$ random class triplets. Under the naive ImageNet configuration, cross-family ARI between the supervised ViTs and the contrastive VLMs reaches 0.82 while every DINOv2-vs-block pair stays at or below 0.06, and the worst model's largest cluster holds 97\% of the classes. Under the selected configuration the DINOv2 family agrees with the block at 0.38 against 0.48 within the block. Under the other 3 admissible ImageNet configurations the DINOv2-vs-block agreement is 0.13--0.17 against 0.50--0.55 within the block; over the admissible configurations and the three measures the median fraction of within-block agreement missing is 0.34, about a third. (c) Two resamples of the same model agree on 0.90 of the triplets on average, 0.85 for the lowest backbone: the ceiling against which the cross-model 0.77 and the within-block 0.76 are read. % expR84_tree_ceiling_summary.csv % exp22_tree_similarity_imagenet.npz, exp23_treemap_controls.npz, exp23_config_diagnostics.json, expR58_treemap_cutfree_summary.csv
 }
 \label{tab:q6-treemap}
 \end{table}

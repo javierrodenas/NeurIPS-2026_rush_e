@@ -95,6 +95,40 @@ CLIP-L & IN & 75.0 & 74.5 & 98.4 & 98.6 & +0.01 & +0.00 & +0.22 & $10^{-8}$\,($-
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
+\noindent\textbf{(b) Correlation between the raw supremum $\delta_{\text{norm}}$ and the metric gain within each dataset ($n{=}10$ backbones), with bootstrap CI95 and the family-identity control (demeaned: both variables centered within family; within-family $r$ for ViT and DINOv2, sign only for CLIP).}\par\vspace{1.5pt}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llccccc}
+\toprule
+gain & dataset & $r$ [CI95] & demeaned & ViT & DINOv2 & CLIP \\
+\midrule
+NC H$-$R & ImageNet & $-0.83$ [-0.97, -0.65] & $-0.73$ & $-0.99$ & $-0.77$ & (-1) \\
+ & CIFAR-100 & $-0.87$ [-0.97, -0.78] & $-0.45$ & $-0.68$ & $-0.33$ & (-1) \\
+ & CIFAR-10 & $-0.63$ [-0.97, -0.06] & $-0.31$ & $+0.01$ & $-0.98$ & (+1) \\
+ & DTD & $-0.46$ [-0.90, +0.22] & $-0.57$ & $-0.78$ & $-0.76$ & (+1) \\
+ & pooled (cluster bootstrap) & $-0.45$ [-0.60, -0.36] & -- & -- & -- & -- \\
+\midrule
+FS H$-$R & ImageNet & $-0.57$ [-0.91, +0.14] & $-0.73$ & $-0.04$ & $-0.97$ & (-1) \\
+ & CIFAR-100 & $-0.67$ [-0.95, -0.15] & $-0.63$ & $-0.41$ & $-0.96$ & (+1) \\
+ & CIFAR-10 & $-0.78$ [-0.93, -0.23] & $-0.64$ & $-0.22$ & $-0.79$ & (-1) \\
+ & DTD & $-0.71$ [-0.94, -0.32] & $-0.86$ & $-0.95$ & $-0.98$ & (+1) \\
+ & pooled (cluster bootstrap) & $-0.18$ [-0.50, +0.12] & -- & -- & -- & -- \\
+\midrule
+FS best$-$R & ImageNet & $-0.64$ -- & $-0.71$ & $-0.57$ & $-0.90$ & (-1) \\
+ & CIFAR-100 & $-0.83$ -- & $-0.82$ & $-0.58$ & $-0.96$ & (+1) \\
+ & CIFAR-10 & $-0.63$ -- & $-0.55$ & $-0.26$ & $-0.65$ & (-1) \\
+ & DTD & $-0.60$ -- & $-0.70$ & $-0.95$ & $-0.88$ & (+1) \\
+\bottomrule
+\end{tabular}
+\par\vspace{5pt}
+\endgroup
+\caption{(continued) (b) Within-dataset correlations of the raw supremum reading; bootstrap CI95 from 10k resamples of the 10 models, pooled rows by cluster bootstrap over datasets; family control: both variables centered within family before correlating, and within-family correlations (ViT, DINOv2: 4 models each; CLIP has two, so only its sign is shown). Without DINOv2 (six backbones) the raw NC correlation holds on ImageNet and CIFAR-100 ($-0.87$/$-0.65$) but not on CIFAR-10/DTD ($+0.23$/$-0.34$); pooled cross-dataset correlations of the best-metric advantage do not survive the family control ($-0.31\to-0.18$ over all 60 cells, $-0.33\to-0.04$ on hierarchical cells) and are family-driven. On the record excess the nearest-centroid prediction survives (CI95 excluding zero) on ImageNet, CIFAR-100, CIFAR-10, DTD and the few-shot prediction on CIFAR-100, CIFAR-10, DTD; the depth verdict predicts no gain in any dataset. (c) The gain per backbone and which readout collects it. % night/correlation_cis.csv, exp20_null_ztable.csv, exp2_metric_controls.csv
+}
+\end{table}
+\begin{table}[tbp]\ContinuedFloat
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
 \noindent\textbf{(c) Best zero-cost metric per backbone: few-shot advantage over Euclidean, mean over the four hierarchical datasets, and which metric collects it (either: within $0.15$pp).}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{5pt}

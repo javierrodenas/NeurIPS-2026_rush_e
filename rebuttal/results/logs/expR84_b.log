@@ -1,0 +1,5 @@
+dinov1_b  boot pairs 435: ARI@30 0.779  coph 0.944  triplets 0.965 (min 0.946)  (29s)
+dinov2_s  boot pairs 435: ARI@30 0.659  coph 0.908  triplets 0.855 (min 0.694)  (17s)
+dinov2_b  boot pairs 435: ARI@30 0.643  coph 0.931  triplets 0.859 (min 0.769)  (26s)
+dinov2_g  boot pairs 435: ARI@30 0.764  coph 0.949  triplets 0.883 (min 0.837)  (52s)
+Done ['dinov1_b', 'dinov2_s', 'dinov2_b', 'dinov2_g']

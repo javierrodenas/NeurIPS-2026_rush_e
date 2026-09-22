@@ -297,3 +297,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   frames." (§4). Cámbialas si prefieres otras. Y la frase acordada del frame balanceado va en §5.3(e) sin los dos recuentos entre
   paréntesis (están una sola vez en (c), como pide "each number once"): "That frame's matched flat control does not fire once
   decoupled, so this is not a false alarm: … even once decoupled, so frames are not interchangeable."
+- (Décima revisión, 2026-09-22 noche) Dos avisos: (a) "not that the hubs of the frame form a hierarchy" sube el resumen a 303
+  palabras sin fórmulas, tres sobre tu tope de 300; el check del sweep falla hasta que recortes tres palabras o subas el tope (no he
+  tocado tu texto). (b) El techo intra-modelo de tripletas es 0.90 de media (0.85 en DINOv2-L), justo en el umbral de tu regla; seis
+  de los doce backbones quedan por debajo de 0.9. He aplicado la rama "keep" y la tesis no cambia; si prefieres leerlo como cercano
+  al 0.76, dímelo y cambio la tesis a "share their trees up to the noise of the comparison".

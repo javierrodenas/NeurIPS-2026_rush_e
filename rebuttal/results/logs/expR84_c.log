@@ -1,0 +1,5 @@
+dinov2_l  boot pairs 435: ARI@30 0.778  coph 0.938  triplets 0.849 (min 0.714)  (36s)
+clip_b    boot pairs 435: ARI@30 0.865  coph 0.939  triplets 0.930 (min 0.881)  (18s)
+clip_l    boot pairs 435: ARI@30 0.820  coph 0.965  triplets 0.951 (min 0.923)  (25s)
+siglip_b  boot pairs 435: ARI@30 0.793  coph 0.945  triplets 0.912 (min 0.839)  (28s)
+Done ['dinov2_l', 'clip_b', 'clip_l', 'siglip_b']

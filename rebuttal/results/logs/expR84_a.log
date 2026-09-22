@@ -1,0 +1,5 @@
+i21k_t    boot pairs 435: ARI@30 0.809  coph 0.936  triplets 0.926 (min 0.854)  (10s)
+i21k_s    boot pairs 435: ARI@30 0.797  coph 0.940  triplets 0.880 (min 0.698)  (16s)
+i21k_b    boot pairs 435: ARI@30 0.940  coph 0.938  triplets 0.860 (min 0.754)  (31s)
+i21k_l    boot pairs 435: ARI@30 0.836  coph 0.959  triplets 0.955 (min 0.874)  (35s)
+Done ['i21k_t', 'i21k_s', 'i21k_b', 'i21k_l']

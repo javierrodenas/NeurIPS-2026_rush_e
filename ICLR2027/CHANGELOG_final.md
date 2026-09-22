@@ -1883,3 +1883,58 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   Numeración: la tabla de Khrulkov es ahora la Tabla 1 y el censo la Tabla 2, y las del apéndice corren una posición (todo va por
   `\ref`; los nombres de los checks del sweep y las notas anteriores de este registro siguen la numeración vieja, Tabla 8 = depth, Tabla 9
   = power). El rango de razones de los tres ciegos es 1.5 a 3.0 (ViT-T 1.55 redondea a 1.5 en el relleno).
+
+## 50. Décima revisión (2026-09-22, noche, brief del autor): desajuste de frames, qué se sabe de la alineación, techo intra-modelo (expR84).
+
+- **Run previo, expR84** (`expR84_tree_ceiling.py`, CPU, tres shards, unos 4 min): para cada uno de los 12 backbones de ImageNet, los
+  30 conjuntos de centroides bootstrap de expR59 (RandomState(b), las 100 imágenes cacheadas por clase remuestreadas con reemplazo),
+  dendrogramas bajo la configuración seleccionada (coseno, average; comprobada desde `exp23_config_diagnostics.json`) y las tres
+  medidas de expR58 entre los 435 pares de remuestreos del mismo modelo (ARI al corte de 30, correlación cofenética, acuerdo en las
+  mismas 10^4 tripletas de expR58). Techo de tripletas: media sobre modelos 0.902, backbone más bajo 0.849 (DINOv2-L); seis
+  backbones por debajo de 0.9 (ViT-S 0.88, ViT-B 0.86, DINOv2-S 0.86, -B 0.86, -L 0.85, -G 0.88); ARI al corte 0.79 de media,
+  cofenética 0.94. Ficheros: `expR84_tree_ceiling.csv`, `expR84_tree_ceiling_summary.csv`; Tabla q6, panel (c) nuevo.
+- **(1) Frame balanceado**: la frase de (e) es la lectura de desajuste del autor, con los dos recuentos como rellenos: "A flat cloud
+  clustered under the frame of record fires under the balanced frame in 38 of 50 decoupled runs, so a real cloud read under a frame
+  that is not its own is expected to fire; the frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not
+  evidence of hub structure." En (c) queda sólo el 0 de 50 emparejado (cada número una vez).
+- **(2) Qué se sabe de la alineación**: en (b) "The alignment is relational, needing both the real hubs and the real orientation of each
+  cluster relative to them: randomizing either removes it, 0 of 60 with random hubs and 0 of 4 with random orientations." y, tras el
+  control radial, "The implanted principal-axis alignment reproduces the verdict in the supervised ViTs and CLIP-B but not in DINOv2-L,
+  and the exact geometric form of the alignment is not resolved here." En (iii): "The alignment is thus relational, not radial, and
+  reproduced by a principal-axis implant in the supervised ViTs and CLIP-B but not in DINOv2-L; its exact geometric form is not
+  resolved here."
+- **(3) Qué separa el desacoplado**: en (d) "The decoupling separates structure among the hubs of the frame from structure carried by
+  cluster orientations. A hierarchy below the frame expressed in how clusters open would be removed with the orientations and counted
+  as alignment, so no hub hierarchy means no hierarchy among the frame's hubs."; en (iii) "It certifies alignment above its frame
+  only: a hierarchy below the frame … so no hub hierarchy means none among the frame's hubs." Resumen y §1: "not that the hubs of the
+  frame form a hierarchy"; el mismo titular en los pies de la Figura 4 y de la Tabla 9 (depth), por coherencia. El resumen sube a
+  303 palabras sin fórmulas, tres por encima de tu tope de 300 (decisión pendiente, TODO).
+- **(4) Techo y tesis**: la regla del brief se cumple por poco (0.902 ≥ 0.9), así que la tesis no cambia ("moderately shared", "does
+  not converge to one common tree") y §5.4 dice el techo: "Both sit below the within-model ceiling of 0.90, the agreement two
+  resamples of the same model reach, 0.85 for the lowest backbone." (rellenos de expR84; el builder exige la rama y que 0.77 y 0.76
+  queden por debajo del mínimo; `final_tree_ceiling.json` registra la rama). Aviso al autor: es marginal, seis de doce backbones
+  tienen su techo por debajo de 0.9.
+- **(5) Limitación (vi)** nueva al final de las del instrumento: "The analysis rests on many choices, frames, stars and null variants
+  among them, and a single pre-specified analysis is future work."; las de alcance pasan a (vii)–(ix).
+- **(6) Tabla 14(b)** (correlaciones del supremo bruto con la ganancia, IC bootstrap y control de familia) restaurada: sale de `DROP`
+  en el builder; el sweep la exige.
+- **Sweep**: check nuevo de la décima revisión (frase de (e) desde los ficheros, frases de (b), (d) y (iii), "hubs of the frame" en
+  resumen, §1 y pies, techo desde expR84 con la rama, panel (c) de la tabla q6, limitación (vi) y renumeración, Tabla 14(b));
+  exenciones (3, 2) para "Controlling the cut…" y de 35 palabras para las dos frases largas del autor; techo en HEADLINE.
+- **Presupuesto**: las adiciones (b, d, iii, vi, §5.4) pasaban diez líneas a la página 10. Recortes, §6 y §5.5 ya al mínimo de tres
+  frases: en (d) sobra la frase de los niveles de WordNet (su punto lo hacen las dos frases nuevas del desacoplado), en (b) y (c) los
+  punteros se acortan, §3.3 pierde dos frases que duplican la limitación (ii) y el pie de la Figura 2 ("The null moves with the
+  dimension…", "The spectrum null conditions on the second moments…"), §3.4 la frase de la estrella que §5.2 ya da y la del frame que
+  §4 ya da, §3 la lista de geometrías de referencia (queda "confirms this (Table 3)") y "proved in Appendix A", §4 "which also read
+  DBpedia Classes and HierarCaps", §5.2 "Every family contributes genuine cells." y el puntero del censo, (a) "It never fires in the
+  other direction.", (f) "and taxonomy alignment is recipe-dependent", (g) "The control therefore tests the objective rather than a
+  curved geometry.", §5.4 "for DINOv2-L and DINOv2-G" y el criterio de selección referido a §3.5 (queda "Under the selected
+  configuration, cosine distances with average linkage on ImageNet"); pies de las Figuras 2, 4b y 5c acortados; la tabla de Khrulkov a
+  `\footnotesize`. Ninguna cifra ni frase del autor tocada.
+- **Sweep**: la regla de la copia final de la tabla del corolario vuelve a exigir todos sus números (el panel (b) ya no se descarta);
+  el check de la séptima revisión deja de prohibir "frame" en el arranque de §1 (tu "hubs of the frame"); "The alignment is
+  relational, needing both the real hubs and the orientation…" a 35 palabras; exención (2, 2) para el párrafo del frame (tu frase con
+  dos recuentos); el literal "its trained positive control" pasa a "trained positive control" (ahora empieza frase).
+- **Cierre (2026-09-22, 16:05)**: §7 en la línea 455 de la página 9, statements en la 484 (página 9), referencias en la 503 (página
+  10); 36 páginas; 0 `??`. Sweep 218/219: sólo falla el tope de 300 palabras del resumen (303 con "hubs of the frame"; TODO). Versión
+  paralela reconstruida (36 páginas, 0 `??`); resumen exportado a OpenReview (303 palabras).

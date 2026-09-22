@@ -2,6 +2,14 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-22 16:20 — tenth review: expR84 (within-model tree ceiling) run and integrated
+
+- **expR84** (`expR84_tree_ceiling.py`, 3 CPU shards, ~4 min): pairs of the 30 expR59 bootstrap centroid sets per ImageNet backbone
+  under the selected configuration (cosine-average); triplet ceiling 0.902 mean over models, 0.849 lowest (DINOv2-L); ARI at the cut
+  0.79, cophenetic 0.94. The brief's keep branch (>= 0.9) applies, marginally; the thesis is unchanged and the ceiling is stated in
+  S5.4 and Table q6(c). CHANGELOG §50.
+- **Second seed**: still running; nothing else on the parallel track.
+
 ## 2026-09-22 15:20 — balanced-frame sentence in the author's words; seed 1 to be integrated tomorrow under the written rule
 
 - §5.3 carries the author's sentence with the three counts as fills (matched 0 of 50, frozen ViT-B 7 of 10, mismatched 38 of 50);

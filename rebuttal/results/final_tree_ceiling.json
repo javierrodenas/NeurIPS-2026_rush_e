@@ -1,0 +1,11 @@
+{
+ "branch": "keep",
+ "rule": "keep if mean triplet ceiling >= 0.9",
+ "triplet_ceiling_mean": 0.902052164750958,
+ "triplet_ceiling_min": 0.8486735632183903,
+ "cross_model": [
+  0.77,
+  0.76
+ ],
+ "n_backbones_below_0.9": 6
+}

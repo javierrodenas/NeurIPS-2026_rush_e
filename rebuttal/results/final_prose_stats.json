@@ -2,8 +2,8 @@
  "sections": {
   "Introduction": {
    "sentences": 33,
-   "avg_words": 22.3,
-   "max_words": 66
+   "avg_words": 22.4,
+   "max_words": 69
   },
   "Related Work": {
    "sentences": 5,
@@ -11,19 +11,19 @@
    "max_words": 60
   },
   "Methodology": {
-   "sentences": 41,
-   "avg_words": 20.4,
+   "sentences": 37,
+   "avg_words": 19.6,
    "max_words": 45
   },
   "Experimental Setup": {
    "sentences": 15,
-   "avg_words": 18.2,
+   "avg_words": 17.7,
    "max_words": 33
   },
   "Results": {
-   "sentences": 81,
-   "avg_words": 18.3,
-   "max_words": 51
+   "sentences": 77,
+   "avg_words": 19.0,
+   "max_words": 58
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 10,
@@ -31,13 +31,13 @@
    "max_words": 34
   },
   "Conclusion and Limitations": {
-   "sentences": 17,
-   "avg_words": 21.7,
+   "sentences": 20,
+   "avg_words": 22.6,
    "max_words": 50
   }
  },
- "avg_nonverbatim": 18.9,
- "n_nonverbatim_sentences": 149,
+ "avg_nonverbatim": 19.2,
+ "n_nonverbatim_sentences": 144,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -116,8 +116,7 @@
     "0 of 5",
     "8 of 50",
     "-4.19 to -4.82",
-    "0 of 50",
-    "38 of 50"
+    "0 of 50"
    ]
   },
   {
@@ -129,6 +128,7 @@
    "section": "Results",
    "lead": "The certified set depends on the frame.",
    "numbers": [
+    "38 of 50",
     "7 of 10"
    ]
   },
@@ -151,7 +151,9 @@
    "section": "Results",
    "lead": "Controlling the cut leaves a moderate gap.",
    "numbers": [
-    "0.77 against 0.76"
+    "0.77 against 0.76",
+    "0.90",
+    "0.85"
    ]
   },
   {
