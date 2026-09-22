@@ -11,15 +11,15 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 33 | 21.8 | 64 |
+| Introduction | 33 | 22.2 | 65 |
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 42 | 19.8 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 83 | 17.1 | 42 |
+| Results | 84 | 17.4 | 44 |
 | Implications for Hyperbolic Representation Learning | 11 | 15.4 | 29 |
-| Conclusion and Limitations | 15 | 23.3 | 50 |
+| Conclusion and Limitations | 16 | 23.2 | 56 |
 
-Non-verbatim prose of S3–S7: 150 sentences, mean 18.1 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 152 sentences, mean 18.3 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -33,11 +33,12 @@ Non-verbatim prose of S3–S7: 150 sentences, mean 18.1 words (rule: mean ≤ 22
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The depth test certifies that clusters are oriented toward t | 4 of 12 |
-| Results | No hierarchy above the superclasses is found in the supervis | -1.61, -1.61 to -1.76, 4 of 5, 1.3 to 2.0, 2.1, 2.0, 3.0 to 3.9 |
+| Results | No hub hierarchy is found where the control has power. | -1.61, -1.61 to -1.76, 4 of 5 |
+| Results | The power of the test follows the backbone, not its ratio or | 0.80 to 1.00, 0.00 to 0.45, 1.5 to 2.0, 3.9 |
 | Results | The alignment is not the spread of feature norms. | -2.26 to -3.99 |
 | Results | A deep hierarchy at the real noise level is detected. | 4 of 5, 0 of 5, 8 of 50, -4.19 to -4.82, -1.61 to -1.76 |
+| Results | A trained hierarchy survives decoupling. | 10 of 10, 0 of 10, 7 of 10 |
 | Results | The test never fires on randomized hubs. | 0 of 60, 0 of 60, 0 of 4 |
-| Results | The two-level implant is missed at ImageNet's noise level. | — |
 | Results | The certified set depends on the frame. | — |
 | Results | Leaf labels can produce the depth but do not guarantee it. | — |
 | Results | Imposing the geometry does not create detected depth. | — |
@@ -46,7 +47,7 @@ Non-verbatim prose of S3–S7: 150 sentences, mean 18.1 words (rule: mean ≤ 22
 | Results | The self-supervised tree is angular. | — |
 | Results | Alignment with WordNet follows supervision and recipe. | — |
 | Results | The recovery is not WordNet circularity. | — |
-| Results | Text depends on recipe, scale and probe. | 7 of 15 |
+| Results | Text depends on recipe and scale. | 7 of 15 |
 | Results | Models share neighborhoods, not metrics. | — |
 | Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5 |
 | Implications for Hyperbolic  | Both readings predict the gain, and the depth verdict predic | +0.41 against +0.28 |

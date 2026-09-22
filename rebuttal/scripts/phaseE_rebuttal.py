@@ -16,7 +16,8 @@ def insert_after_paragraph(text, lead, new_par):
     return text[:j] + "\n\n" + new_par + text[j:]
 tables = []
 # ---- S5.3: the trained positive control
-if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'expR77_positive_control_verdict.json'):
+IN77 = "\\paragraph{A trained hierarchy survives decoupling.}" in T
+if not IN77 and os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'expR77_positive_control_verdict.json'):
     P = pd.read_csv(R + 'expR77_positive_control.csv').set_index('model'); V = json.load(open(R + 'expR77_positive_control_verdict.json'))['verdict']
     v0 = next((v for v in V if v['seed'] == 'seed0'), None); h = P.loc['hier_seed0']; c = P.loc['ce_seed0']; f = P.loc['frozen']
     cert = lambda r: (r.z_wn30 <= -2) and (r.z_wn30bal <= -2); dec = lambda r: (r.zdec_mean_wn30 <= -2) and (r.zdec_mean_wn30bal <= -2)
@@ -37,7 +38,7 @@ if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'exp
                   "centroids of the census subset; census excess under the centered Haar null (200 replicates), depth test with the matched anisotropic star on the WordNet-30 frame of record and on the balanced frame (10 star seeds), and the decoupling control (real hubs kept, offsets Haar-rotated, 10 seeds; in parentheses the fraction of seeds certified). "
                   + ("Success criterion met." if met else "Success criterion not met.") + " % expR77_positive_control.csv\n}\n\\label{tab:r1-positive}\n\\end{table}\n")
     status['positive_control'] = dict(written=True, criterion_met=met, hier_z=[float(h.z_wn30), float(h.z_wn30bal)], hier_dec=[float(h.zdec_mean_wn30), float(h.zdec_mean_wn30bal)])
-else: status['positive_control'] = dict(written=False, reason="expR77 results not available")
+else: status['positive_control'] = dict(written=False, reason="in the submission" if IN77 else "expR77 results not available")
 # ---- S5.3: priority 1b (expR79): synthetic deep hierarchy with ViT-L's spectrum, and the WordNet Poincare embeddings, through the depth test
 if not IN79 and os.path.exists(R + 'expR79_synthetic_deep_poincare.csv') and pd.read_csv(R + 'expR79_synthetic_deep_poincare.csv').cloud.str.startswith('wordnet_poincare_d50').any():   # the last row of the run: partial results never enter
     E = pd.read_csv(R + 'expR79_synthetic_deep_poincare.csv'); E['cert'] = E.z <= -2; E['dec_cert'] = E.zdec_mean <= -2

@@ -25,5 +25,17 @@
  "RATIO_DINOB": "2.1",
  "RATIO_VITB": "2.0",
  "Z_RAD_HI": "-2.26",
- "Z_RAD_LO": "-3.99"
+ "Z_RAD_LO": "-3.99",
+ "P81_COVERED": "ViT-L, DINOv2-L, DINOv2-G, CLIP-L and SigLIP-B",
+ "P81_UNCOVERED": "ViT-T/S/B, DINO-B, DINOv2-S/B and CLIP-B",
+ "P81_COV_LO": "0.80",
+ "P81_COV_HI": "1.00",
+ "P81_UNC_LO": "0.00",
+ "P81_UNC_HI": "0.45",
+ "RATIO_VIT3_LO": "1.5",
+ "RATIO_VIT3_HI": "2.0",
+ "RATIO_DINOLG": "3.9",
+ "PC_HIER_DEC": "10",
+ "PC_CE_DEC": "0",
+ "PC_FROZEN_BAL": "7"
 }

@@ -84,4 +84,12 @@ SIXTH = """
 - **Parallel track, priority 1b (CPU):** a synthetic cloud with ViT-L's real ImageNet spectrum and a deep implanted hierarchy at the real within/between ratio, and the WordNet Poincare embeddings of Nickel & Kiela, both through the depth test (`expR79_synthetic_deep_poincare.py`).
 """
 out.append(SIXTH)
+SEVENTH = """
+## Seventh and eighth reviews, closing pass (2026-09-21/22): power per backbone, the radial control and the trained control
+
+- **Power of the depth test per backbone (expR81, Table 9(e)).** The three-level synthetic hierarchy rebuilt with each backbone's real ImageNet spectrum and within/between ratio, 5 seeds (DINOv2: 20): power 0.80 or more in ViT-L, DINOv2-L, DINOv2-G, CLIP-L and SigLIP-B, and 0.45 or less in ViT-T/S/B, DINO-B, DINOv2-S/B and CLIP-B. The power follows the backbone, not its ratio or family (three supervised ViTs at ratios 1.5-2.0 miss the implant; DINOv2-L and G detect it at 3.9). The headline is scoped accordingly in the seven places (abstract, S1, contribution 2, S5.3, Figure 4 and Table 8 captions, thesis).
+- **The alignment is not the spread of feature norms (expR82, Table 8(e)).** Removing the radial component of every offset keeps z <= -2 in the four certified backbones under both stars (-2.26 to -3.99 under the anisotropic star); full L2 normalization keeps it in ViT-B and ViT-L only.
+- **The trained positive control (expR76/expR77, S5.3 and Table 8(d)).** ViT-B/16 fine-tuned on ImageNet-1k with leaf CE and with leaf CE + hierarchical CE (WordNet 30/6/2), one seed, identical batches: the hierarchical model is certified on both frames and keeps firing once decoupled (10 of 10), the leaf-CE and frozen models do not (0 of 10) on the frame of record; on the balanced frame the frozen checkpoint fires in 7 of 10. The pre-set criterion (leaf-CE and frozen not certified intact) is not met because ViT-B is certified by alignment; the discriminating comparison is the decoupled one. A second seed of both runs is in progress for the rebuttal file.
+"""
+out.append(SEVENTH)
 open("ICLR2027/REVIEWER_CHECKLIST_third.md", "w").write("\n".join(out)); print("\n".join(out)); print("missing anchors:", missing)

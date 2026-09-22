@@ -273,3 +273,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   (iii) sustituí sólo la frase de "in progress" y dejé "It certifies alignment above its frame only, and its one trained positive
   control is inconclusive." (leí "the sentence before it" como la primera mitad de esa misma frase). El rango −2.26 a −3.99 es el de la
   estrella anisótropa; bajo la estrella Haar-hub el rango es −2.08 a −3.57, también todo ≤ −2.
+- (Pase de cierre, 2026-09-22) Decisiones de forma mías, por si las quieres cambiar: el párrafo "The two-level implant is missed at
+  ImageNet's noise level" sale de §5.3 (su contenido está en tu frase, la Figura 4b y la Tabla 9; el puntero a la Figura 4b pasa al
+  párrafo del desacoplamiento); "Text depends on recipe, scale and probe" pierde las dos frases de la sonda y las plantillas y su
+  entradilla pasa a "Text depends on recipe and scale"; en el control positivo "the WordNet 30, 6 and 2 cuts" va con palabras ("cuts
+  of thirty, six and two superclasses") por la regla de números; la frase de los recuentos se parte tras "on the frame of record".

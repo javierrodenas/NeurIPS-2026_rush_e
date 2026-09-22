@@ -1,0 +1,7 @@
+ce_seed1 ep 0 step 0/5004 40 img/s acc 0.004 leaf 8.505 (534 min left)
+ce_seed1 ep 0 step 50/5004 61 img/s acc 0.195 leaf 5.136 (349 min left)
+ce_seed1 ep 0 step 100/5004 65 img/s acc 0.742 leaf 1.429 (320 min left)
+ce_seed1 ep 0 step 150/5004 68 img/s acc 0.910 leaf 0.487 (303 min left)
+ce_seed1 ep 0 step 200/5004 70 img/s acc 0.910 leaf 0.597 (293 min left)
+ce_seed1 ep 0 step 250/5004 71 img/s acc 0.918 leaf 0.637 (287 min left)
+ce_seed1 ep 0 step 300/5004 71 img/s acc 0.883 leaf 0.524 (282 min left)

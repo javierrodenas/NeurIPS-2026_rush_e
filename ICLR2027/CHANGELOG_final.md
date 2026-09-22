@@ -1687,3 +1687,37 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Potencia final por backbone: ViT-T/S/B 0.00, ViT-L 0.80; DINO-B 0.00; DINOv2-S 0.00, DINOv2-B 0.45, DINOv2-L 0.95, DINOv2-G 1.00
   (20 semillas); CLIP-B 0.20, CLIP-L 1.00, SigLIP-B 1.00. Ninguna familia ≥ 0.8. La acotación por familias del envío no se sostiene;
   decisión del autor el 23 (PARALLEL_STATUS). Sin cambios en el envío.
+
+## 46. Pase de cierre (2026-09-22, brief del autor): acotación por backbone, la potencia sigue al backbone, control positivo en el envío.
+
+- **(1)** La acotación por familias sale de sus siete sitios. Resumen y tesis (y §7): "no hub hierarchy is found in the five backbones
+  where the control detects an implanted one, and the test is blind in the other seven"; §1 igual tras "whereas an implanted hierarchy,
+  synthetic or trained in, survives it"; contribución 2: "no hub hierarchy in the five backbones where the control detects an implanted
+  one, a blind test in the other seven"; pie de la Figura 4 y de la Tabla 8 con la forma del resumen; §5.3, párrafo nuevo "The power
+  of the test follows the backbone, not its ratio or family." con la lista de expR81 como rellenos ({{P81_COVERED}} = "ViT-L, DINOv2-L,
+  DINOv2-G, CLIP-L and SigLIP-B", potencia {{P81_COV_LO}}--{{P81_COV_HI}} = 0.80--1.00; {{P81_UNCOVERED}} = "ViT-T/S/B, DINO-B,
+  DINOv2-S/B and CLIP-B", 0.00--0.45; el constructor comprueba que son cinco y siete). "noise level at which the test was validated"
+  desaparece en todas partes (el sweep lo exige). La entradilla del párrafo del desacoplamiento pasa a "No hub hierarchy is found where
+  the control has power."
+- **(2)** "Three supervised ViTs at ratios {{RATIO_VIT3_LO}} to {{RATIO_VIT3_HI}} miss the implant, whereas DINOv2-L and DINOv2-G
+  detect it at {{RATIO_DINOLG}}." (1.5 a 2.0; 3.9; de expR64b). Limitación (iii) reescrita: la potencia sigue al backbone, ≥ 0.80 en
+  cinco y ≤ 0.45 en los otros siete, el veredicto vale en los cinco; sigue lo del implante de dos niveles y el sesgo del desacoplado;
+  "its trained positive control, one seed, discriminates the objectives only once decoupled"; la frase de la dispersión radial.
+- **(3)** Control positivo en el envío: párrafo "A trained hierarchy survives decoupling." en §5.3 tras la jerarquía sintética, con los
+  recuentos como rellenos de expR77 (10 de 10, 0 de 10, 7 de 10) y la frase sobre el criterio previo tal cual pidió el autor; Tabla 8,
+  panel (d) regenerado desde expR77 (sustituye al control de dos pasadas de expR65). Sale de la versión paralela (`phaseE_rebuttal.py`
+  lo omite si está en el envío). Resumen: "whereas an implanted hierarchy, synthetic or trained in, survives it".
+- Tabla 9, panel (e) nuevo: potencia por backbone de expR81 (razón, semillas, potencia, z medio, potencia y z desacoplados).
+- **(4)** Sweep: el recuento de palabras del resumen quita las fórmulas y une los guiones; checks de la acotación por backbone (listas y
+  rangos rederivados de expR81), de la frase de la potencia, del control positivo (recuentos de expR77, criterio no cumplido en el
+  JSON) y de los dos paneles nuevos; exenciones de los tres párrafos. Lista del revisor: bloque nuevo (potencia por backbone, control
+  radial, control entrenado). Presupuesto (§6 y §5.5 primero, luego §5.4): "Table 3 gives the band" (§6), la frase cofenética/tripletes
+  de "Controlling the cut", las dos frases de la sonda y las plantillas de "Text depends…" (entradilla "Text depends on recipe and
+  scale."), y el párrafo "The two-level implant is missed…" entero (su contenido está en la frase del autor, la Figura 4b y la Tabla 9;
+  el puntero a la Figura 4b pasa al párrafo del desacoplamiento).
+- **(5)** Segunda semilla de los dos fine-tunings lanzada a las 08:55 (GPU 0 CE, GPU 1 jerárquica, `--seed 1`), sólo para la versión
+  paralela; ~22 h.
+- **Cierre del pase (2026-09-22, 10:30)**: §7 en la línea 457 de la página 9, statements en la 482 (página 9), referencias en la 500
+  (página 10); 34 páginas, 0 avisos. Sweep 216/217: sólo el tope de 250 palabras del resumen (299, contadas sin fórmulas ni guiones).
+  El check de conservación de decimales del apéndice viejo exceptúa B39 (control de dos pasadas de expR65, sustituido por expR77).
+  Versión paralela = envío congelado sin añadidos hasta que llegue la segunda semilla. Lista del revisor regenerada con el bloque nuevo.

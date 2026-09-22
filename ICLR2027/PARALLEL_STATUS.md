@@ -2,6 +2,15 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-22 08:55 — closing pass ordered: per-backbone scoping, trained control into the submission; second seed launched
+
+- The author's closing brief: the family scoping is replaced by the per-backbone form from expR81 in its seven places, the power
+  sentence enters §5.3 with limitation (iii) rewritten, and the trained positive control moves from the rebuttal file into §5.3 and
+  Table 8(d) with the pre-set criterion stated as not met and the decoupled comparison as the discriminating one. Table 9 gains the
+  power per backbone (panel e). CHANGELOG §46.
+- **Second seed** of both fine-tuning runs launched at 08:55 (`--seed 1`, GPU 0 leaf CE, GPU 1 hierarchical), for the rebuttal file
+  only; ~9 h per run at 40–85 img/s, then `expR77_positive_control_tests.py --models ce_seed1 hier_seed1`.
+
 ## 2026-09-22 01:10 — expR81 complete, DINOv2 at 20 seeds; every parallel-track run finished
 
 - Final power for the deep three-level hierarchy at each backbone's own spectrum and ratio (K = 30, z <= -2): ViT-T 0.00, ViT-S 0.00,
