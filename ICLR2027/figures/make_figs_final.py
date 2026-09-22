@@ -166,22 +166,24 @@ p58 = pd.read_csv(RES/"expR58_treemap_cutfree.csv"); p58 = p58[(p58.dataset == "
 trip = {m: float(p58[(p58.model_a == m) | (p58.model_b == m)].triplet_agree.mean()) for m in M}
 c84 = pd.read_csv(RES/"expR84_tree_ceiling.csv"); c84 = c84[c84.kind == "boot_pair"]
 band = {m: (float(c84[c84.model == m].triplet_agree.min()), float(c84[c84.model == m].triplet_agree.max()), float(c84[c84.model == m].triplet_agree.mean())) for m in M}
-ys = {m: len(M) - 1 - i for i, m in enumerate(M)}
+ys = {}; _y = 0.0   # shared y axis of (a) and (b): backbones top to bottom in the order of M, a small gap between families (layout brief, 2026-09-22)
+for i, m in enumerate(M):
+    if i in (4, 9): _y -= 0.6
+    ys[m] = _y; _y -= 1.0
+YLIM = (min(ys.values()) - 0.7, 0.7)
 fig, axes = plt.subplots(1, 3, figsize=(5.5, 2.1), gridspec_kw={"width_ratios": [1.25, 1.05, 1.35]})
 ax = axes[0]
 for i, m in enumerate(M):
     y = ys[m]; a, b = mean_other(Mn, i), mean_other(Ms, i)
     ax.plot([a, b], [y, y], color=fam_color(m), lw=0.9, zorder=2); ax.plot(a, y, "o", mfc="white", mec=fam_color(m), ms=4, mew=0.9, zorder=3); ax.plot(b, y, "o", color=fam_color(m), ms=4, zorder=4)
-for y in (ys["i21k_l"] - 0.5, ys["dinov2_g"] - 0.5): ax.axhline(y, color=LIGHT, lw=0.5, zorder=1)
-ax.set_yticks([ys[m] for m in M]); ax.set_yticklabels(NAMES); ax.set_ylim(-0.7, len(M) - 0.3); ax.tick_params(axis="y", length=0)
+ax.set_yticks([ys[m] for m in M]); ax.set_yticklabels(NAMES, fontsize=7); ax.set_ylim(*YLIM); ax.tick_params(axis="y", length=0)
 ax.set_xlim(0, 0.75); ax.set_xticks([0, 0.25, 0.5, 0.75]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75"]); ax.set_xlabel("mean ARI with the other eleven", labelpad=1); ax.set_title("(a) the island is the cut", pad=3)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax = axes[1]
 for i, m in enumerate(M):
     y = ys[m]; lo, hi, mu = band[m]
     ax.plot([lo, hi], [y, y], color=GRAY, lw=5, alpha=0.45, solid_capstyle="butt", zorder=1); ax.plot([mu, mu], [y - 0.32, y + 0.32], color="0.35", lw=0.8, zorder=2); ax.plot(trip[m], y, "o", color=fam_color(m), ms=4, zorder=4)
-for y in (ys["i21k_l"] - 0.5, ys["dinov2_g"] - 0.5): ax.axhline(y, color=LIGHT, lw=0.5, zorder=1)
-ax.set_yticks([ys[m] for m in M]); ax.set_yticklabels([]); ax.set_ylim(-0.7, len(M) - 0.3); ax.tick_params(axis="y", length=0)
+ax.set_yticks([ys[m] for m in M]); ax.set_yticklabels([]); ax.set_ylim(*YLIM); ax.tick_params(axis="y", length=0)
 ax.set_xlim(0.6, 1.0); ax.set_xticks([0.6, 0.8, 1.0]); ax.set_xticklabels(["0.6", "0.8", "1.0"]); ax.set_xlabel("triplet agreement", labelpad=1); ax.set_title("(b) topology, against the ceiling", pad=3)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax = axes[2]; tri = {}
@@ -189,14 +191,15 @@ for i, m in enumerate(M):
     c, e = float(e10[m]["c100_sibtrip_c"]), float(e10[m]["c100_sibtrip_e"]); tri[m] = (c, e)
     ax.bar(i - 0.2, c, 0.4, color=fam_color(m), zorder=3); ax.bar(i + 0.2, e, 0.4, facecolor="white", edgecolor=fam_color(m), hatch="////", linewidth=0.6, zorder=3)
 ax.axhline(0.5, color="k", lw=0.8, ls="--", zorder=2)
-ax.set_xticks(range(len(M))); ax.set_xticklabels(NAMES, rotation=90); ax.set_xlim(-0.7, len(M) - 0.3); ax.tick_params(axis="x", length=0)
+ax.set_xticks(range(len(M))); ax.set_xticklabels(NAMES, rotation=90, fontsize=7); ax.set_xlim(-0.7, len(M) - 0.3); ax.tick_params(axis="x", length=0)
+for lab, m in zip(ax.get_xticklabels(), M): lab.set_color(fam_color(m))   # family colors on the names (layout brief)
 ax.set_ylim(0, 1.0); ax.set_yticks([0, 0.5, 1.0]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("triplet agreement", labelpad=2)
 ax.set_title("(c) sibling triplets, CIFAR-100", pad=3)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 hd = [plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4, label="naive"), plt.Line2D([], [], marker="o", color="k", ls="", ms=4, label="corrected"), Patch(color=GRAY, alpha=0.45, label="within-model ceiling"),
       Patch(color="k", label="cosine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="Euclidean"), plt.Line2D([], [], ls="--", color="k", lw=0.8, label="chance")]
 fig.legend(handles=hd, frameon=False, loc="lower center", ncol=6, handlelength=1.2, handletextpad=0.4, columnspacing=0.9, bbox_to_anchor=(0.5, -0.01))
-fig.subplots_adjust(left=0.11, right=0.99, top=0.89, bottom=0.40, wspace=0.22)
+fig.subplots_adjust(left=0.11, right=0.99, top=0.89, bottom=0.40, wspace=0.45)
 save(fig, "fig_treemap_final")
 json.dump({"naive_dinov2_vs_block": vals[0], "selected_dinov2_vs_block": vals[1], "sibtrip_c100": {m: {"cosine": tri[m][0], "euclid": tri[m][1]} for m in M}, "mean_ari_other": {m: [mean_other(Mn, i), mean_other(Ms, i)] for i, m in enumerate(M)}, "triplet_selected": trip, "ceiling_band": band}, open(RES/"final_fig5_values.json", "w"), indent=1)
 d2 = {m: tri[m][0] - tri[m][1] for m in M}; print(f"treemap: DINOv2-B/L/G vs block naive {vals[0]:.2f}, selected {vals[1]:.2f}; triplet cosine-Euclid gap: DINOv2 {min(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}..{max(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}")

@@ -313,3 +313,6 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   líneas dentro de la página 10 (limitaciones vi–ix). Con el resumen en tu tope de 310 cierra en la 9 sin tocar más texto.
 - (Resumen de las 17:25) 337 palabras sin fórmulas: 27 sobre el tope de 310. La página 9 tampoco cierra con él (seis líneas de
   las limitaciones vi–ix en la página 10): o recortas ~6 líneas de contenido tuyo (limitaciones o §5.4), o aceptas la página 10.
+- (Figura 5, disposición, 17:30) Página 9: tras vaciar §5.5 y §6 hasta párrafos de dos frases, la página 9 acaba en la limitación
+  (vi) con una línea libre y el párrafo de alcance (vii)–(ix), de cuatro líneas, pasa entero a la 10 (la clase impide partirlo con
+  una línea libre). Faltan tres líneas de contenido tuyo: por ejemplo fundir (vii)–(ix) en dos frases, o recortar (iii).

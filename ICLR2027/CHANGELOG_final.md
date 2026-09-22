@@ -2031,3 +2031,20 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   contribución 3 conservan "but not on the distances between them", el resumen dice "but not on their distances").
 - Página 9: sin cambio, el texto principal sigue terminando seis líneas dentro de la página 10 (limitaciones vi–ix); el recorte del
   resumen no mueve el salto de la página 1 a la 2 porque la Figura 1 lo absorbe. Sigue en el TODO. Resumen exportado a OpenReview.
+## 54. Figura 5, sólo disposición (2026-09-22, 17:30, brief del autor).
+
+- `make_figs_final.py`: altura 2.1 in (la que ya tenía, así que la figura no cuesta líneas nuevas); (a) y (b) comparten el eje y, con
+  los nombres sólo en (a) a 7 pt y un hueco entre familias en lugar de líneas separadoras; `wspace` 0.45, de modo que ninguna etiqueta
+  de (c) toca el eje de (b); en (c) los nombres van rotados a 7 pt con el color de su familia. Comprobado a 100 dpi en
+  `qa_pages_final/p-08.png`: sin solapes. Sin cambios de datos.
+- Presupuesto, en el orden que marcas (§5.5 y §6, nunca figuras): §5.5 en dos frases (las dos primeras fundidas); §6: fuera la
+  primera frase de "Both readings predict…" (la entradilla ya lo dice), "tracking the width of the backbone", el puntero "Table 4
+  gives the band." y la frase de consejo "Before imposing curvature, certify…" (la entradilla del párrafo la contiene); el puntero al
+  corolario pasa al final del tercer párrafo. Además el pie de la Tabla 2 una línea más corto y dos punteros de §5.3 fundidos. Tres
+  párrafos más quedan en dos frases (exentos, anotados: "The raw reading cannot select a curvature.", "Both readings predict…",
+  "Models share neighborhoods, not metrics."). Con todo, la página 9 acaba en la limitación (vi) con una línea libre y el párrafo de
+  alcance (vii)–(ix), cuatro líneas, pasa entero a la 10 (la clase pone `\widowpenalty` y `\clubpenalty` a 10000, así que no se
+  parte con una sola línea libre). Faltan tres líneas, y ya no quedan en §5.5 ni en §6: sólo en contenido tuyo (TODO).
+- **Cierre (2026-09-22, 17:45)**: §7 en la línea 460 de la página 9; limitación (vi) cierra la página 9; alcance (vii)–(ix),
+  statements y referencias en la 10; 37 páginas; 0 `??`. Sweep 220/221: sólo falla el tope del resumen (337 palabras). Versión paralela
+  reconstruida.

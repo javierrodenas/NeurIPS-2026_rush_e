@@ -76,8 +76,7 @@ lines += [r"\bottomrule", r"\end{tabular}",
   r"\label{tab:census}", r"\end{table}"]
 if not FINAL_ONLY: open(HERE/"tab_census.tex", "w").write("\n".join(lines) + "\n")
 # the final version (main_iclr2027_final.tex) inputs the same layout, from the centered Haar record, with a caption of one takeaway and one sentence on what is shown
-short = [r"\caption{\textbf{Structure beyond the second moments is the rule at the class level.} Per backbone: raw ImageNet reading $\hat\delta_{99.9}$, excess over the Haar null mean, rank $r$/200 with left-tail $p$, "
-         r"genuine = BH $p\le0.05$ over 72 cells ($^{\circ}$: not genuine; bold: above the null), the CIFAR-100 and CIFAR-10 excess, and $\rho_{\text{WN}}$, the Spearman correlation with WordNet distances. % " + src + ", exp3_alignment.csv" + "\n}", r"\label{tab:census}", r"\end{table}"]
+short = [r"\caption{\textbf{Structure beyond the second moments is the rule at the class level.} Per backbone: raw ImageNet reading $\hat\delta_{99.9}$, excess over the Haar null mean, rank $r$/200 with left-tail $p$ ($^{\circ}$: not genuine at BH $p\le0.05$ over 72 cells; bold: above the null), the CIFAR-100 and CIFAR-10 excess, and the Spearman correlation $\rho_{\text{WN}}$ with WordNet distances. % " + src + ", exp3_alignment.csv" + "\n}", r"\label{tab:census}", r"\end{table}"]
 assert lines[-2] == r"\label{tab:census}" and lines[-1] == r"\end{table}"
 if FINAL_ONLY: open(HERE/"tab_census_final.tex", "w").write("\n".join(lines[:-3] + short) + "\n")
 for r in rows: print(r[0], f"{r[1]} d={r[2]:.3f} exc={r[3]:+.3f} r={r[4]}/{N} p={r[5]:.3f} G={r[6]} c100={r[7]:+.3f} c10={r[9]:+.3f} rho={r[11]:+.2f}")
