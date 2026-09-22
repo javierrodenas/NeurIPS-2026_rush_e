@@ -1,0 +1,3 @@
+built,frame,n_intact,intact_fired,intact_z_mean,n_decoupled,decoupled_fired,decoupled_rate,dec_z_mean,dec_z_min,dec_z_max
+balanced,balanced,5,0,-0.45622437256914294,50,0,0.0,-0.6544192027995658,-1.52003423592007,0.2566562156209352
+wn30,balanced,5,5,-3.129179694034613,50,38,0.76,-2.3331967544575454,-3.7480793122616594,-1.5590639515673803

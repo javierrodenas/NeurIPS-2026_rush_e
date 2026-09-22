@@ -1,0 +1,9 @@
+{
+ "fa_bal": 0,
+ "fa_record": 8,
+ "high": false,
+ "rule": "high if fa_bal >= 2 * fa_record",
+ "sentence": "That frame's flat control fires once decoupled in 0 of 50 runs, so ViT-B shows hub structure under that grouping and the frame of record does not.",
+ "mismatch_construction_fired": 38,
+ "mismatch_intact_fired": 5
+}

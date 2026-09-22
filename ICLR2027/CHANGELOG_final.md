@@ -1721,3 +1721,84 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   (página 10); 34 páginas, 0 avisos. Sweep 216/217: sólo el tope de 250 palabras del resumen (299, contadas sin fórmulas ni guiones).
   El check de conservación de decimales del apéndice viejo exceptúa B39 (control de dos pasadas de expR65, sustituido por expR77).
   Versión paralela = envío congelado sin añadidos hasta que llegue la segunda semilla. Lista del revisor regenerada con el bloque nuevo.
+
+## 47. Novena revisión (2026-09-22, brief del autor): un solo criterio de potencia, frame balanceado, vocabulario, Figura 4b.
+
+- **Run previo, expR83** (`expR83_flat_balanced.py`, CPU, diez shards a nice 5, 10:05–11:11): el control plano de expR79 (espectro y
+  razón de ViT-L, 5 semillas) leído en el frame balanceado de treinta superclases (enlace elegido en `expR67_frame_choice.json`, como
+  en expR77), intacto y desacoplado (10 semillas, 50 runs). Dos construcciones: la emparejada, con los hubs planos asignados por el
+  propio frame balanceado (como el 8 de 50 lo está a WordNet-30), y la literal, los clouds de expR79 con hubs por WordNet-30 leídos en
+  el balanceado. Resultado: emparejada 0 de 5 intacto (z medio −0.46) y 0 de 50 desacoplado (z medio −0.65, rango +0.26 a −1.52);
+  literal 5 de 5 intacto (z medio −3.13) y 38 de 50 desacoplado (z medio −2.33, rango −1.56 a −3.75). La literal mide el desajuste
+  de frames, un cloud agrupado por otro frame dispara ya intacto, no profundidad; la tasa que va al texto es la emparejada. Tabla 9,
+  panel (f) nuevo con las dos filas y su nota. Ficheros: `expR83_flat_balanced.csv`, `expR83_flat_balanced_summary.csv`.
+- **(1)** Criterio único, la potencia desacoplada de la Tabla 9(e) (≥ 0.8): nueve cubiertos (ViT-S/B/L, DINOv2-B/L/G, CLIP-B/L y
+  SigLIP-B; 0.83 a 1.00) y tres ciegos (ViT-T, DINO-B y DINOv2-S; 0.01 a 0.60). El builder rederiva las listas de `dec_power` (el
+  compresor por familia admite CLIP) y comprueba nueve y tres. Forma larga "no hub hierarchy is found in the nine backbones where the
+  decoupled control detects an implanted one, and the test is blind in the other three" en la frase propia del resumen, en §1 tras
+  "survives it;", en la contribución 2 ("a blind test in the other three"), en §5.3 ("so no hub hierarchy is found in the nine and the
+  test is blind in the other three") y en los pies de la Figura 4 y la Tabla 8; forma corta "no hub hierarchy is found where the test
+  has power" como tesis en el resumen y en §7. La tasa de falsas alarmas desacoplada al lado: §5.3 "Its false-alarm rate on the flat
+  control are {{FA_DEC}} of 50 decoupled runs on the frame of record." y limitación (iii) "Under the decoupled control it is
+  {{P81_COV_LO}} or more in nine backbones and {{P81_UNC_HI}} or less in the other three. The verdict of no hub hierarchy therefore
+  holds in the nine only, at {{FA_DEC}} of 50 false alarms on flat clouds." La frase de
+  las razones pasa a "The three blind backbones sit at ratios {{RATIO_BLIND_LO}} to {{RATIO_BLIND_HI}}, inside the {{RATIO_COV_LO}}
+  to {{RATIO_COV_HI}} of the nine covered." (1.6 a 3.0 dentro de 1.3 a 3.9, de expR64b; el builder comprueba la inclusión y que
+  cada familia tiene cubiertos). Los rellenos RATIO_VIT3_* y RATIO_DINOLG desaparecen; el párrafo
+  apunta a la Tabla 9 y a la Figura 4b.
+- **(2)** ViT-B congelado en el frame balanceado: la tasa emparejada es baja (0 de 50), así que entra la segunda rama del brief, tras
+  "On the balanced frame the frozen checkpoint also fires in 7 of 10.": "That frame's flat control fires once decoupled in 0 of 50 runs,
+  so ViT-B shows hub structure under that grouping and the frame of record does not." Regla registrada en `final_bal_frame.json`:
+  "alta" si la tasa es al menos el doble de la del frame de registro (16 de 50 o más); el sweep reproduce la regla y la frase. Matiz
+  para el autor en el TODO: la construcción literal enseña que un cloud organizado por un frame dispara en el otro incluso desacoplado
+  (38 de 50), así que el 7 de 10 del ViT-B congelado en el balanceado admite también esa lectura de desajuste.
+- **(3)** B.7: el párrafo "A trained control, inconclusive." (control de dos pasadas, expR65) sale del apéndice; en su lugar "A trained
+  positive control." con puntero a la Tabla 8(d).
+- **(4)** Vocabulario: Definición 6 "measures structure above the clusters of the frame only"; entradillas "Leaf labels can produce the
+  alignment but do not guarantee it." e "Imposing the geometry does not create hub structure."; contribución 1 "a nominally hyperbolic
+  backbone as the control for imposing the geometry"; §5.4 "Under it the island shrinks to a moderate gap: the sibling-triplet
+  agreement of DINOv2 with the block is {{TRIP_BIG}} against {{TRIP_WITHIN}} within the block. About a third of the within-block
+  agreement is missing under the admissible configurations as a whole." (0.77 y 0.76 de `expR58_treemap_cutfree_summary.csv`, fila
+  imagenet/cosine/average). La mediana del "about a third" (0.34, `final_pass_island_gap.json`) es sobre las doce medidas de las cuatro
+  configuraciones admisibles, la seleccionada incluida; sobre las otras nueve medidas sale 0.50, por eso el texto dice "as a whole" y
+  no "the other" (decisión del autor pendiente, TODO).
+- **(5)** §6: la banda 0.104/0.061/0.046 de la Tabla 3 es la columna `delta_max` de `exp1_delta_controls.csv`, el supremo muestreado
+  (línea 77 del generador), y las curvaturas {{C_LO}} a {{C_HI}} ya se calculaban con ella (assert del builder), así que no hay nada que
+  recalcular. El texto lo dice: "The rule, calibrated with the supremum, assigns structureless clouds on the Gaussian band, itself the
+  sampled supremum rather than the census percentile, a curvature from…"; pie de la Tabla 3: "Gaussian row: the sampled
+  supremum from the released control file, the statistic the curvature rule uses".
+- **(6)** Pies sin IDs de experimento: Tabla 8(a′) "the decoupling control of expR74" → "the decoupling control"; Tabla 10(b) "(expR59)"
+  y "(expR73)" fuera; los ficheros siguen en la línea `% prov:` de cada tabla y en los comentarios `% source`. Final de la prueba de la
+  Proposición 1(b): "Part (b) is the dimension confound alone. The statistic confound is separate and elementary: a maximum over a
+  growing sample of quadruples is non-decreasing in the sample size, so the sampled supremum can only rise with the budget." Moreira,
+  Marques, Costeira y Hauptmann (WACV 2024, pp. 2082–2090; entrada `moreira2024hyperbolic` verificada en CVF open access) en el tercer
+  párrafo de §6: "In few-shot learning a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes
+  \citep{moreira2024hyperbolic}."
+- **(7)** Figura 4b: doce barras de potencia desacoplada por backbone (`dec_power` de expR81, colores de familia, línea en 0.8, rellenas
+  a 0.8 o más con el valor dentro); leyenda común "certified (z ≤ −2) or power ≥ 0.8" / "not certified or power below 0.8"; pie "(b)
+  Decoupled power per backbone for an implanted three-level hierarchy at the backbone's own spectrum and noise level, filled at 0.8 or
+  more; line at 0.8." Las curvas del implante de dos niveles pasan a `fig_implant_final` en el apéndice, delante de la Tabla 9
+  (`\label{fig:implant}`), con pie desde `final_fig_implant.json` (detección 0.05 a plena fuerza con la dispersión real contra 1.00 con
+  la reducida; 0.00 en s = 0 con la real; el builder lo comprueba). El puntero de §5.3 "Figure 4b the detection rates" pasa a la figura
+  del apéndice. `final_fig4.json` registra panel_b = decoupled_power_per_backbone y los nueve cubiertos.
+- **Sweep**: split nueve/tres rederivado de `dec_power`; literales nuevos en los checks del cierre, de la séptima revisión, de 1b y de
+  las decisiones; tesis corta dos veces; forma larga dos veces en el cuerpo (§1 y pie de la Figura 4); check nuevo de la novena revisión
+  (nueve/tres, ningún "five backbones"/"other seven"/"in the five only" en el tex, la tasa desacoplada junto al split en §5.3 y (iii),
+  la frase del frame balanceado igual al JSON y a la regla, vocabulario, 0.77/0.76 de expR58, supremo en §6 y Tabla 3, Moreira en la
+  bib con páginas, final de la prueba, ningún `exp…` en ningún pie, `final_fig4.json`, figura del implante en el apéndice y exactamente
+  un `\includegraphics` allí, B.7). HEADLINE con los rangos de potencia y de razones, "0.77 against 0.76" y el "0 of 50", leídos de los
+  ficheros; exenciones (5, 2) para "The power of the test follows…" y "A trained hierarchy survives decoupling."; frase de 35+ palabras
+  exenta "The decoupled control detects an implanted hierarchy in".
+- **Presupuesto**: con los siete puntos el texto pasaba cuatro líneas a la página 10. Recortes, §6 primero: la frase de la regla
+  objetiva contra coseno ("The objective rule beats cosine by +0.41 against +0.28 pp…; among non-circular policies cosine is best.",
+  el puntero pasa a "Table 13 gives both predictions and the policies."), la frase del supremo fundida en una ("The rule, calibrated
+  with the supremum, assigns structureless clouds on the Gaussian band, itself the sampled supremum rather than the census
+  percentile, a curvature from…"), Moreira en una frase corta; en §5.3 sobra "and every family has covered members" y en (iii) las dos
+  frases nuevas se aprietan ("Under the decoupled control it is 0.83 or more in nine backbones and 0.60 or less in the other three.
+  The verdict of no hub hierarchy therefore holds in the nine only, at 8 of 50 false alarms on flat clouds."). Los rellenos
+  POL_RULE_H/POL_COS_H quedan sin uso. Tablas 8(d) y 9(f) estrechadas (cabeceras "dec. z", etiquetas cortas, colsep 3pt): sin overfull.
+- **Cierre del pase (2026-09-22, 11:25)**: §7 en la línea 463 de la página 9, statements en la 487 (página 10), referencias en la 506
+  (página 10); 34 páginas; 0 `??`. Sweep 216/217: sólo falla el tope de 250 palabras del resumen (ahora 300 tokens brutos en
+  `OPENREVIEW_abstract.txt`, unas 285 palabras sin fórmulas), decisión del autor pendiente. Versión paralela reconstruida sobre el
+  envío nuevo (34 páginas, 0 `??`, sin párrafos insertados porque todo está en el envío; sólo la subsección del apéndice). Lista del
+  revisor regenerada (anclas de la tercera revisión que ya no existen, cosmético). Commit y push.

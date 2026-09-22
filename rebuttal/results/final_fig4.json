@@ -1,9 +1,20 @@
 {
  "legend": [
-  "certified ($z\\leq-2$)",
-  "not detected",
-  "real spread",
-  "shrunk spread"
+  "certified ($z\\leq-2$) or power $\\geq0.8$",
+  "not certified or power below 0.8"
  ],
- "implanted_alignment_curve": false
+ "implanted_alignment_curve": false,
+ "panel_b": "decoupled_power_per_backbone",
+ "n_covered": 9,
+ "covered": [
+  "i21k_s",
+  "i21k_b",
+  "i21k_l",
+  "dinov2_b",
+  "dinov2_l",
+  "dinov2_g",
+  "clip_b",
+  "clip_l",
+  "siglip_b"
+ ]
 }

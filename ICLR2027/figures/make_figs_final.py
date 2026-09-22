@@ -2,7 +2,7 @@
 """Final-version figures (author's brief 'Final version — plain, short, nine pages', 2026-09-18), bar language for every data figure:
 light dashed grid behind the axes, family palette, 8 pt labels, model names as tick labels, filled = passes the test, hatched = does
 not, the threshold or the null as a dashed line or a gray band, numbers only on bars that pass, short legends inside the panel.
-Writes fig_overview_final, fig_excess_final, fig_depth_final and fig_treemap_final (pdf+png) next to the other figures; the v1/v2/v3
+Writes fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final and the appendix fig_implant_final (pdf+png) next to the other figures; the v1/v2/v3
 figure files are untouched. Data: expR52_census_haar_p999_200.csv, expR62_samplelevel_record.csv, exp1_delta_controls.csv,
 expR56_depth_variants.csv, expR64b_wn30.csv, exp23_treemap_controls.npz, phaseC_fig2b.json."""
 import csv, os, sys, json, importlib
@@ -96,12 +96,11 @@ fig.legend(handles=hd, frameon=False, loc="lower center", ncol=3, handlelength=1
 fig.subplots_adjust(left=0.10, right=0.995, top=0.91, bottom=0.25, wspace=0.12)
 save(fig, "fig_excess_final")
 
-# ---------------- Figure 4: (a) twelve bars of depth z, filled when certified, dashed line at -2, z printed inside the certified bars; (b) detection curves; one legend below both panels
+# ---------------- Figure 4: (a) twelve bars of depth z, filled when certified, dashed line at -2, z printed inside the certified bars; (b) twelve bars of decoupled power per backbone
+# for an implanted three-level hierarchy at the backbone's own spectrum and ratio (expR81), filled at >= 0.8, line at 0.8 (ninth review, 2026-09-22); one legend below both panels
 dv = pd.read_csv(RES/"expR56_depth_variants.csv"); an = {r.model: float(r.z_depth) for r in dv[(dv.dataset == "imagenet") & (dv.K == 30) & (dv.variant == "aniso")].itertuples()}
-d64 = pd.read_csv(RES/"expR64b_wn30.csv"); dep = d64[(d64.kind == "depth") & (d64.partition == "rand6") & (d64.s != "real")].copy(); dep["s"] = dep.s.astype(float)
-tg = d64[(d64.kind == "depth") & (d64.partition == "rand6_t06")].copy(); tg["s"] = tg.s.astype(float)
-pr = dep.groupby("s").z.apply(lambda z: (z <= -2).mean()); pt = tg.groupby("s").z.apply(lambda z: (z <= -2).mean())
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.9), gridspec_kw={"width_ratios": [1.6, 1]})
+s81 = pd.read_csv(RES/"expR81_deep_per_backbone_summary.csv").set_index("model"); dpw = {m: float(s81.loc[m, "dec_power"]) for m in M}
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.9), gridspec_kw={"width_ratios": [1, 1]})
 ax = axes[0]
 ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=2); ax.axhline(0, color=GRAY, lw=0.5, zorder=1)
 for i, m in enumerate(M):
@@ -109,28 +108,48 @@ for i, m in enumerate(M):
     if cert: ax.text(i, z / 2, f"{z:+.1f}".replace("-", "−").replace("+", ""), ha="center", va="center", rotation=90, fontsize=8, color="white", zorder=5)
 ax.set_xticks(range(len(M))); ax.set_xticklabels([NM[m] for m in M], rotation=60, ha="right"); ax.set_xlim(-0.7, len(M) - 0.3)
 ax.set_ylim(-4.6, 1.2); ax.set_yticks([-4, -2, 0]); ax.set_yticklabels(["−4", "−2", "0"]); ax.set_ylabel("depth test $z$")
-ax.set_title("(a) depth above the WordNet superclasses, ImageNet"); ax.tick_params(axis="x", length=0)
+ax.set_title("(a) depth above the WordNet superclasses"); ax.tick_params(axis="x", length=0)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax = axes[1]
+ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=2)
+for i, m in enumerate(M):
+    p = dpw[m]; cov = p >= 0.8; bar(ax, i, p, fam_color(m), cov, width=0.76)
+    if cov: ax.text(i, p / 2, f"{p:.2f}", ha="center", va="center", rotation=90, fontsize=7, color="white", zorder=5)
+ax.set_xticks(range(len(M))); ax.set_xticklabels([NM[m] for m in M], rotation=60, ha="right"); ax.set_xlim(-0.7, len(M) - 0.3)
+ax.set_ylim(0, 1.12); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"]); ax.set_ylabel("decoupled power")
+ax.set_title("(b) power for an implanted hierarchy"); ax.tick_params(axis="x", length=0)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+hd = [Patch(color="k", label="certified ($z\\leq-2$) or power $\\geq0.8$"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not certified or power below 0.8")]
+covered = [m for m in M if dpw[m] >= 0.8]
+json.dump({"legend": [h.get_label() for h in hd], "implanted_alignment_curve": False, "panel_b": "decoupled_power_per_backbone", "n_covered": len(covered), "covered": covered}, open(RES/"final_fig4.json", "w"), indent=1)   # read by the sweep
+fig.legend(handles=hd, frameon=False, loc="lower center", ncol=2, handlelength=1.4, handletextpad=0.4, columnspacing=1.2, bbox_to_anchor=(0.5, -0.01))
+fig.subplots_adjust(left=0.09, right=0.99, top=0.89, bottom=0.40, wspace=0.30)
+save(fig, "fig_depth_final")
+print(f"depth: certified {sum(v <= -2 for v in an.values())}/12; decoupled power >= 0.8 in {len(covered)}/12: {covered}")
+
+# ---------------- Appendix figure (ninth review): the two-level implant detection curves, formerly Figure 4b
+d64 = pd.read_csv(RES/"expR64b_wn30.csv"); dep = d64[(d64.kind == "depth") & (d64.partition == "rand6") & (d64.s != "real")].copy(); dep["s"] = dep.s.astype(float)
+tg = d64[(d64.kind == "depth") & (d64.partition == "rand6_t06")].copy(); tg["s"] = tg.s.astype(float)
+pr = dep.groupby("s").z.apply(lambda z: (z <= -2).mean()); pt = tg.groupby("s").z.apply(lambda z: (z <= -2).mean())
+fig, ax = plt.subplots(figsize=(2.75, 1.9))
 l1, = ax.plot(pr.index, pr.values, "-o", color="k", ms=3, lw=1.0, label="real spread", zorder=3)
 l2, = ax.plot(pt.index, pt.values, "--s", color=GRAY, ms=3, lw=1.0, label="shrunk spread", zorder=3)
-l3 = None   # priority 1c (expR80): the implanted-alignment curve enters the submission only when the decision rule of the brief is met
+l3 = None   # priority 1c (expR80): the implanted-alignment curve enters only when the decision rule of the brief is met
 if (RES/"expR80_decision.csv").exists() and (RES/"expR80_implanted_alignment_summary.csv").exists():
     d80 = list(csv.DictReader(open(RES/"expR80_decision.csv")))[0]
     if d80["rule_power_ge_0_8_fa_le_0_05"] == "True":
         s80 = list(csv.DictReader(open(RES/"expR80_implanted_alignment_summary.csv")))
         l3, = ax.plot([float(r["s"]) for r in s80], [float(r["detection_rate"]) for r in s80], ":^", color=FAMILY_COLORS["supervised"], ms=3, lw=1.0, label="implanted alignment", zorder=3)
-ax.annotate("no false alarms at $s{=}0$ (real spread)", (0, pr.loc[0.0]), xytext=(12, 5), textcoords="offset points", fontsize=8, ha="left", va="bottom", arrowprops=dict(arrowstyle="-", color="k", lw=0.6))   # seventh review: the label sits on the real-spread curve
+ax.annotate("no false alarms at $s{=}0$ (real spread)", (0, pr.loc[0.0]), xytext=(12, 5), textcoords="offset points", fontsize=8, ha="left", va="bottom", arrowprops=dict(arrowstyle="-", color="k", lw=0.6))
 ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"]); ax.set_xlabel("implant strength $s$", labelpad=1)
 ax.set_ylim(-0.04, 1.08); ax.set_yticks([0, 0.5, 1]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("detection rate")
-ax.set_title("(b) false alarms and power on real clouds")
+ax.set_title("two-level implant on the real clouds")
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-hd = [Patch(color="k", label="certified ($z\\leq-2$)"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not detected"), l1, l2] + ([l3] if l3 is not None else [])
-json.dump({"legend": [h.get_label() for h in hd], "implanted_alignment_curve": l3 is not None}, open(RES/"final_fig4.json", "w"), indent=1)   # read by the sweep (priority 1c)
-fig.legend(handles=hd, frameon=False, loc="lower center", ncol=len(hd), handlelength=1.4, handletextpad=0.4, columnspacing=1.2, bbox_to_anchor=(0.5, -0.01))
-fig.subplots_adjust(left=0.09, right=0.99, top=0.89, bottom=0.40, wspace=0.35)
-save(fig, "fig_depth_final")
-print(f"depth: certified {sum(v <= -2 for v in an.values())}/12; detection real {dict((float(k), round(float(v), 3)) for k, v in pr.items())}; shrunk {dict((float(k), round(float(v), 3)) for k, v in pt.items())}")
+ax.legend(handles=[l1, l2] + ([l3] if l3 is not None else []), frameon=False, loc="center right", handlelength=1.4, handletextpad=0.4)
+json.dump({"real": {str(float(k)): float(v) for k, v in pr.items()}, "shrunk": {str(float(k)): float(v) for k, v in pt.items()}, "implanted_alignment_curve": l3 is not None}, open(RES/"final_fig_implant.json", "w"), indent=1)   # read by the builder (caption)
+fig.subplots_adjust(left=0.18, right=0.98, top=0.90, bottom=0.22)
+save(fig, "fig_implant_final")
+print(f"implant: detection real {dict((float(k), round(float(v), 3)) for k, v in pr.items())}; shrunk {dict((float(k), round(float(v), 3)) for k, v in pt.items())}")
 
 # ---------------- Figure 5: (a)(b) two ARI matrices, sequential palette, rectangle around the DINOv2 block; (c) sibling triplets under cosine and Euclidean distance per backbone
 z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True); S = z["summary_in"].item()

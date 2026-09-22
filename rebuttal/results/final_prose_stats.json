@@ -2,8 +2,8 @@
  "sections": {
   "Introduction": {
    "sentences": 33,
-   "avg_words": 22.2,
-   "max_words": 65
+   "avg_words": 22.3,
+   "max_words": 66
   },
   "Related Work": {
    "sentences": 5,
@@ -21,23 +21,23 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 84,
-   "avg_words": 17.4,
+   "sentences": 87,
+   "avg_words": 17.6,
    "max_words": 44
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 11,
-   "avg_words": 15.4,
-   "max_words": 29
+   "avg_words": 15.3,
+   "max_words": 34
   },
   "Conclusion and Limitations": {
-   "sentences": 16,
-   "avg_words": 23.2,
-   "max_words": 56
+   "sentences": 17,
+   "avg_words": 21.7,
+   "max_words": 50
   }
  },
  "avg_nonverbatim": 18.3,
- "n_nonverbatim_sentences": 152,
+ "n_nonverbatim_sentences": 156,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -104,10 +104,11 @@
    "section": "Results",
    "lead": "The power of the test follows the backbone, not its ratio or family.",
    "numbers": [
-    "0.80 to 1.00",
-    "0.00 to 0.45",
-    "1.5 to 2.0",
-    "3.9"
+    "0.83 to 1.00",
+    "0.01 to 0.60",
+    "8 of 50",
+    "1.5 to 3.0",
+    "1.3 to 3.9"
    ]
   },
   {
@@ -134,7 +135,8 @@
    "numbers": [
     "10 of 10",
     "0 of 10",
-    "7 of 10"
+    "7 of 10",
+    "0 of 50"
    ]
   },
   {
@@ -153,12 +155,12 @@
   },
   {
    "section": "Results",
-   "lead": "Leaf labels can produce the depth but do not guarantee it.",
+   "lead": "Leaf labels can produce the alignment but do not guarantee it.",
    "numbers": []
   },
   {
    "section": "Results",
-   "lead": "Imposing the geometry does not create detected depth.",
+   "lead": "Imposing the geometry does not create hub structure.",
    "numbers": []
   },
   {
@@ -169,7 +171,9 @@
   {
    "section": "Results",
    "lead": "Controlling the cut leaves a moderate gap.",
-   "numbers": []
+   "numbers": [
+    "0.77 against 0.76"
+   ]
   },
   {
    "section": "Results",
@@ -208,9 +212,7 @@
   {
    "section": "Implications for Hyperbolic Representation Learning",
    "lead": "Both readings predict the gain, and the depth verdict predicts none.",
-   "numbers": [
-    "+0.41 against +0.28"
-   ]
+   "numbers": []
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",

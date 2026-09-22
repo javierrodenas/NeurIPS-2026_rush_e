@@ -2,6 +2,19 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-22 11:15 — ninth review: expR83 (balanced-frame false alarms) done and integrated; second seed still running
+
+- **expR83** (`expR83_flat_balanced.py`, 10 CPU shards, 10:05–11:11): the flat control of expR79 read on the balanced thirty-superclass
+  frame, intact and decoupled (50 runs), in two constructions. Matched hubs (assigned by the balanced frame itself): intact 0 of 5,
+  decoupled 0 of 50 (mean z −0.65). Mismatched hubs (expR79's clouds, WordNet-30 hubs, read on the balanced frame): intact 5 of 5,
+  decoupled 38 of 50 (mean z −2.33), i.e. frame mismatch fires even after decoupling. The matched rate is the frame's false-alarm rate
+  and enters §5.3 (brief's low-rate branch); both rows are Table 9(f). CHANGELOG §47.
+- **Submission**: one power criterion (decoupled, Table 9(e)): nine covered (ViT-S/B/L, DINOv2-B/L/G, CLIP-B/L, SigLIP-B) and three
+  blind (ViT-T, DINO-B, DINOv2-S); the seven places rewritten; Figure 4b is now the decoupled-power bars and the implant curves are an
+  appendix figure; the other ninth-review items (vocabulary, 0.77/0.76, supremum band, captions without IDs, proof end, Moreira, B.7).
+- **Second seed** of both fine-tunings: still running (launched 08:55; ETA 06:00–07:00 on 23 September); then
+  `expR77_positive_control_tests.py --models ce_seed1 hier_seed1` and the rebuttal file only.
+
 ## 2026-09-22 08:55 — closing pass ordered: per-backbone scoping, trained control into the submission; second seed launched
 
 - The author's closing brief: the family scoping is replaced by the per-backbone form from expR81 in its seven places, the power

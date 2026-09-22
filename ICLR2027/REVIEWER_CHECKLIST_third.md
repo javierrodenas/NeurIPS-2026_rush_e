@@ -5,7 +5,7 @@ Each question of the third review, answered from the main text alone; line numbe
 ## Q1. The matched star's hubs are Gaussian; a star with the real hubs' spectrum could pass the depth test too.
 
 - **Abstract** (line 20): The abstract states that the four certified backbones are the same under a star whose hubs carry the real hubs' spectrum.
-- **Section 4, 'A spectrum-matched star confirms the four'** (line 341): Hubs drawn as a Haar resample of the real hubs (exact hub spectrum, ten star seeds): the certified set is unchanged, z from -2.0 to -3.7; on the implanted clouds the new star raises 0 of 60 false alarms at s = 0 and detects one implant in sixty at s = 1; read as a rank over the star seeds (resolution 1/11) the verdict does not separate certified from uncertified backbones while z does. Table 6 has both stars per backbone.
+- **Section 4, 'A spectrum-matched star confirms the four'** (line 342): Hubs drawn as a Haar resample of the real hubs (exact hub spectrum, ten star seeds): the certified set is unchanged, z from -2.0 to -3.7; on the implanted clouds the new star raises 0 of 60 false alarms at s = 0 and detects one implant in sixty at s = 1; read as a rank over the star seeds (resolution 1/11) the verdict does not separate certified from uncertified backbones while z does. Table 6 has both stars per backbone.
 
 ## Q2. The certified ViTs were trained on the hierarchical IN-21k label set; the depth may be the label hierarchy.
 
@@ -40,7 +40,7 @@ Each question of the third review, answered from the main text alone; line numbe
 ## Q8. The text census: Table 13 and Table 14 disagreed on GPT-2 S/M, and the prose followed the older table.
 
 - **Section 5, 'In text, clustered structure depends on recipe, scale and probe'** (line ?): One census, the record (Table 11): GPT-2 S genuine at p = 0.020 and flipping under the supremum and under cosine, M not genuine under the record, L and XL genuine under every construction, Pythia at every scale. The 3-replicate original extraction table is removed and the template table's caption is rewritten from the record.
-- **Section 1, 'The raw reading is confounded'** (line 67): The introduction's example now names GPT-2 M, the size that sits at its null under the record.
+- **Section 1, 'The raw reading is confounded'** (line 66): The introduction's example now names GPT-2 M, the size that sits at its null under the record.
 
 ## Q9. Minor: 'pre-registered', the ordering trees < hyperbolic < spherical, the repeated sentence in A.3, the old illustration, bold in Table 1, the bridges and the number density.
 

@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 34. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 482); the references start on page 10 (line 500).
+- PDF pages: 34. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 506).
 - Appendix: Proofs on page 13, tables from page 13 to page 34 (22 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
@@ -11,15 +11,15 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 33 | 22.2 | 65 |
+| Introduction | 33 | 22.3 | 66 |
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 42 | 19.8 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 84 | 17.4 | 44 |
-| Implications for Hyperbolic Representation Learning | 11 | 15.4 | 29 |
-| Conclusion and Limitations | 16 | 23.2 | 56 |
+| Results | 87 | 17.6 | 44 |
+| Implications for Hyperbolic Representation Learning | 11 | 15.3 | 34 |
+| Conclusion and Limitations | 17 | 21.7 | 50 |
 
-Non-verbatim prose of S3–S7: 152 sentences, mean 18.3 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 156 sentences, mean 18.3 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -34,23 +34,23 @@ Non-verbatim prose of S3–S7: 152 sentences, mean 18.3 words (rule: mean ≤ 22
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The depth test certifies that clusters are oriented toward t | 4 of 12 |
 | Results | No hub hierarchy is found where the control has power. | -1.61, -1.61 to -1.76, 4 of 5 |
-| Results | The power of the test follows the backbone, not its ratio or | 0.80 to 1.00, 0.00 to 0.45, 1.5 to 2.0, 3.9 |
+| Results | The power of the test follows the backbone, not its ratio or | 0.83 to 1.00, 0.01 to 0.60, 8 of 50, 1.5 to 3.0, 1.3 to 3.9 |
 | Results | The alignment is not the spread of feature norms. | -2.26 to -3.99 |
 | Results | A deep hierarchy at the real noise level is detected. | 4 of 5, 0 of 5, 8 of 50, -4.19 to -4.82, -1.61 to -1.76 |
-| Results | A trained hierarchy survives decoupling. | 10 of 10, 0 of 10, 7 of 10 |
+| Results | A trained hierarchy survives decoupling. | 10 of 10, 0 of 10, 7 of 10, 0 of 50 |
 | Results | The test never fires on randomized hubs. | 0 of 60, 0 of 60, 0 of 4 |
 | Results | The certified set depends on the frame. | — |
-| Results | Leaf labels can produce the depth but do not guarantee it. | — |
-| Results | Imposing the geometry does not create detected depth. | — |
+| Results | Leaf labels can produce the alignment but do not guarantee i | — |
+| Results | Imposing the geometry does not create hub structure. | — |
 | Results | The naive map manufactures an island. | — |
-| Results | Controlling the cut leaves a moderate gap. | — |
+| Results | Controlling the cut leaves a moderate gap. | 0.77 against 0.76 |
 | Results | The self-supervised tree is angular. | — |
 | Results | Alignment with WordNet follows supervision and recipe. | — |
 | Results | The recovery is not WordNet circularity. | — |
 | Results | Text depends on recipe and scale. | 7 of 15 |
 | Results | Models share neighborhoods, not metrics. | — |
 | Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5 |
-| Implications for Hyperbolic  | Both readings predict the gain, and the depth verdict predic | +0.41 against +0.28 |
+| Implications for Hyperbolic  | Both readings predict the gain, and the depth verdict predic | — |
 | Implications for Hyperbolic  | The calibration certifies structure and does not choose the  | +0.9 to +1.3 |
 
 ## Appendix material deleted from the final (kept in the frozen v1 file and its tables)
@@ -64,10 +64,9 @@ Non-verbatim prose of S3–S7: 152 sentences, mean 18.3 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 215/216 checks passed.
+- Total: 215/217 checks passed.
 - Final-version checks:
 
-    PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
     PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
     PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 
     PASS final: no bridge sentences anywhere in the body 

@@ -282,3 +282,13 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   doce ya no existen en la prosa actual (p. ej. "Supervision on leaf labels alone can produce this depth", "The calibrated reading
   predicts the zero-cost gain") y el script las señala como "missing anchors" sin dejar de escribir la lista. Cosmético; se pueden
   actualizar a las frases actuales si la lista se va a entregar.
+- (Novena revisión, 2026-09-22) Dos decisiones tuyas: (a) "about a third" en §5.4: la mediana de agreement que falta (0.34) es
+  sobre las doce medidas de las cuatro configuraciones admisibles de ImageNet, la seleccionada incluida; sobre las otras nueve medidas
+  sale 0.50. El texto dice ahora "About a third of the within-block agreement is missing under the admissible configurations as a
+  whole."; si quieres que se refiera a las otras configuraciones, lo honesto es "about half". (b) Frame balanceado: la construcción
+  emparejada (hubs por el propio frame) da 0 de 50 desacoplado, y por tu regla entró "ViT-B shows hub structure under that grouping and
+  the frame of record does not". Pero la literal (clouds planos agrupados por WordNet-30 y leídos en el balanceado) dispara 5 de 5
+  intacta y 38 de 50 desacoplada: un cloud organizado por un frame dispara en el otro aunque se desacople. El 7 de 10 del ViT-B
+  congelado en el balanceado admite esa lectura de desajuste de frames; si prefieres decirlo así, la frase sería "That frame's flat
+  control fires once decoupled in 0 of 50 runs, but a flat cloud clustered by the frame of record fires on it in 38 of 50, so the
+  balanced-frame reading of ViT-B may be frame mismatch". Las dos filas están en la Tabla 9(f).

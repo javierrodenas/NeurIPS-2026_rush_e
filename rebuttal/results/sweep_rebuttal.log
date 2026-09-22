@@ -92,7 +92,6 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
-PASS final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence) 
 PASS final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives 
 PASS final: no metaphor outside Figure 1 and its caption (shadow, star caveat, Aristotelian, geometric face, the intent of the supremum) 
 PASS final: no bridge sentences anywhere in the body 
@@ -115,6 +114,7 @@ PASS final (priority 1c as a limitation): the author's sentence with the percent
 PASS final (priority 1b): the S5.3 deep-hierarchy paragraph after the decoupling paragraph with its counts re-derived from expR79_synthetic_deep_poincare.csv (4 of 5 deep, 0 of 5 flat, every deep seed under decoupling and deeper, Poincare never), the author's sentence in S5.3 and S1, the abstract sentence, the thesis, limitation (iii), Table 9d, and no 'left open' or 'no power' wording anywhere 
 PASS final (priority 2): the S5.1 published-reading paragraph after the lead-in, its claims re-derived from expR78_khrulkov_replication_summary.csv (all four within 0.03, excess negative everywhere, p <= 0.05 on CIFAR-100 and MiniImageNet only), the new lead-in, limitation (vi), and Table 3(b) with the four published and reproduced values 
 PASS final (7th review): headline scoped in the abstract (twice), S1, contribution 2, S5.3 lead-in, Figure 4 and Table 8 captions and the thesis; decoupled flat control false alarms (8 of 50) and the observation sentence in S5.3 from the files; limitation (iii) with ViT-L's ratio 1.9 and the DINOv2 range from expR64b; Figure 1 caption 'read alike, all low'; no unproved extension in the proof of Proposition 1(b) 
+PASS final (9th review): nine covered / three blind from the decoupled power of Table 9(e); the long form in S1 and the Figure 4 caption, the short form as the thesis twice, the abstract sentence, no five/seven left; decoupled false alarms next to the split in S5.3 and (iii); the balanced-frame sentence from expR83 (matched hubs) with the recorded rule; vocabulary (structure above the clusters, alignment, hub structure, nominally hyperbolic); triplet 0.77 vs 0.76 from expR58; Gaussian band named as the sampled supremum in S6 and Table 3; Moreira 2024 cited with a verified entry; proof end tied to the statistic confound; no experiment IDs in any caption; Figure 4b = decoupled-power bars; implant curves as an appendix figure; B.7 points to Table 8(d) 
 PASS final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row 
 PASS final: every cross-reference of the final resolves 
 PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
@@ -122,5 +122,5 @@ PASS final: AI Use Statement with exactly the three declared items and the respo
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
 PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
-[phaseB re-total] 215/216
+[phaseB re-total] 216/217
 FAIL(all): final: abstract is the recorded text (250 words or fewer, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 
