@@ -278,3 +278,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   párrafo del desacoplamiento); "Text depends on recipe, scale and probe" pierde las dos frases de la sonda y las plantillas y su
   entradilla pasa a "Text depends on recipe and scale"; en el control positivo "the WordNet 30, 6 and 2 cuts" va con palabras ("cuts
   of thirty, six and two superclasses") por la regla de números; la frase de los recuentos se parte tras "on the frame of record".
+- (Lista del revisor) `make_reviewer_checklist_third.py` busca en el PDF frases ancla de la tercera revisión para citar líneas; unas
+  doce ya no existen en la prosa actual (p. ej. "Supervision on leaf labels alone can produce this depth", "The calibrated reading
+  predicts the zero-cost gain") y el script las señala como "missing anchors" sin dejar de escribir la lista. Cosmético; se pueden
+  actualizar a las frases actuales si la lista se va a entregar.
