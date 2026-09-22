@@ -2,6 +2,15 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-22 15:20 — balanced-frame sentence in the author's words; seed 1 to be integrated tomorrow under the written rule
+
+- §5.3 carries the author's sentence with the three counts as fills (matched 0 of 50, frozen ViT-B 7 of 10, mismatched 38 of 50);
+  the abstract cap of the sweep is 300 words by the author's decision. CHANGELOG §48.
+- **Second seed**: both runs at global step ~6600 of ~25000 at 15:00 (about 17 steps/min), ETA around 08:30 on 23 September. Then,
+  under the rule already written (brief of 2026-09-20 and closing pass): `expR77_positive_control_tests.py --models ce_seed1
+  hier_seed1`, the rebuttal file only (`rebuttal_rebuild.sh`), this log, and a report to the author; nothing enters the submission
+  without the author's decision.
+
 ## 2026-09-22 11:15 — ninth review: expR83 (balanced-frame false alarms) done and integrated; second seed still running
 
 - **expR83** (`expR83_flat_balanced.py`, 10 CPU shards, 10:05–11:11): the flat control of expR79 read on the balanced thirty-superclass

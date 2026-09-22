@@ -39,7 +39,7 @@
  "TRIP_BIG": "0.77",
  "TRIP_WITHIN": "0.76",
  "FA_BAL": "0",
- "BAL_SENT": "That frame's flat control fires once decoupled in 0 of 50 runs, so ViT-B shows hub structure under that grouping and the frame of record does not.",
+ "BAL_SENT": "That frame's matched flat control fires once decoupled in 0 of 50 runs, so the 7 of 10 is not a false alarm: ViT-B shows hub structure under that grouping that the frame of record does not resolve; and a cloud organized under one frame fires under the other even once decoupled (38 of 50), so frames are not interchangeable.",
  "IMPL_REAL_S1": "0.05",
  "IMPL_SHRUNK_S1": "1.00",
  "IMPL_REAL_S0": "0.00",

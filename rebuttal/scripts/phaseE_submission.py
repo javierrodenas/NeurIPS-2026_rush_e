@@ -195,10 +195,10 @@ F['PC_FROZEN_BAL'] = str(int(round(_pc.loc['frozen', 'dec_frac_cert_wn30bal'] * 
 F['PROV81'] = ', expR81_deep_per_backbone.csv' if os.path.exists(R + 'expR81_deep_per_backbone.csv') else ''
 # ---- ninth review: the balanced frame's decoupled false-alarm rate (expR83; flat hubs assigned by the balanced frame itself = matched construction, as the 8 of 50 is matched to WordNet-30)
 _s83 = pd.read_csv(R + 'expR83_flat_balanced_summary.csv').set_index('built'); assert {'balanced', 'wn30'} <= set(_s83.index) and bool((_s83.n_decoupled == 50).all()) and bool((_s83.n_intact == 5).all()), _s83
-_fab = int(_s83.loc['balanced', 'decoupled_fired']); F['FA_BAL'] = str(_fab); _high = _fab >= 2 * int(F['FA_DEC'])   # 'high' = at least twice the frame of record's rate
-F['BAL_SENT'] = (f"That frame over-fires, its flat control firing once decoupled in {_fab} of 50 runs against {F['FA_DEC']} of 50 on the frame of record, and is kept as a robustness frame only." if _high
-                 else f"That frame's flat control fires once decoupled in {_fab} of 50 runs, so ViT-B shows hub structure under that grouping and the frame of record does not.")
-json.dump({"fa_bal": _fab, "fa_record": int(F['FA_DEC']), "high": bool(_high), "rule": "high if fa_bal >= 2 * fa_record", "sentence": F['BAL_SENT'], "mismatch_construction_fired": int(_s83.loc['wn30', 'decoupled_fired']), "mismatch_intact_fired": int(_s83.loc['wn30', 'intact_fired'])}, open(R + 'final_bal_frame.json', 'w'), indent=1)
+_fab = int(_s83.loc['balanced', 'decoupled_fired']); _mis = int(_s83.loc['wn30', 'decoupled_fired']); F['FA_BAL'] = str(_fab); _high = _fab >= 2 * int(F['FA_DEC'])   # 'high' = at least twice the frame of record's rate
+assert not _high and _mis > 25, (_fab, _mis)   # the author's sentence (brief of 2026-09-22, afternoon): 'not a false alarm' needs the matched rate below the rule's bar; 'fires under the other even once decoupled' needs a majority
+F['BAL_SENT'] = f"That frame's matched flat control fires once decoupled in {_fab} of 50 runs, so the {F['PC_FROZEN_BAL']} of 10 is not a false alarm: ViT-B shows hub structure under that grouping that the frame of record does not resolve; and a cloud organized under one frame fires under the other even once decoupled ({_mis} of 50), so frames are not interchangeable."
+json.dump({"fa_bal": _fab, "fa_record": int(F['FA_DEC']), "high": bool(_high), "rule": "high if fa_bal >= 2 * fa_record", "sentence": F['BAL_SENT'], "author_sentence": True, "mismatch_construction_fired": _mis, "mismatch_intact_fired": int(_s83.loc['wn30', 'intact_fired'])}, open(R + 'final_bal_frame.json', 'w'), indent=1)
 DEC_OBS_KIND = "open"
 if os.path.exists(R + 'expR81_deep_per_backbone.csv'):
     _e81 = pd.read_csv(R + 'expR81_deep_per_backbone.csv'); _v = _e81[_e81.model == 'i21k_l']

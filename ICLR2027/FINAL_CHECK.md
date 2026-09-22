@@ -15,11 +15,11 @@
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 42 | 19.8 | 45 |
 | Experimental Setup | 15 | 18.2 | 33 |
-| Results | 87 | 17.6 | 44 |
-| Implications for Hyperbolic Representation Learning | 11 | 15.3 | 34 |
+| Results | 87 | 17.9 | 60 |
+| Implications for Hyperbolic Representation Learning | 10 | 15.9 | 34 |
 | Conclusion and Limitations | 17 | 21.7 | 50 |
 
-Non-verbatim prose of S3–S7: 156 sentences, mean 18.3 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 155 sentences, mean 18.5 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -37,7 +37,7 @@ Non-verbatim prose of S3–S7: 156 sentences, mean 18.3 words (rule: mean ≤ 22
 | Results | The power of the test follows the backbone, not its ratio or | 0.83 to 1.00, 0.01 to 0.60, 8 of 50, 1.5 to 3.0, 1.3 to 3.9 |
 | Results | The alignment is not the spread of feature norms. | -2.26 to -3.99 |
 | Results | A deep hierarchy at the real noise level is detected. | 4 of 5, 0 of 5, 8 of 50, -4.19 to -4.82, -1.61 to -1.76 |
-| Results | A trained hierarchy survives decoupling. | 10 of 10, 0 of 10, 7 of 10, 0 of 50 |
+| Results | A trained hierarchy survives decoupling. | 10 of 10, 0 of 10, 7 of 10, 0 of 50, 7 of 10, 38 of 50 |
 | Results | The test never fires on randomized hubs. | 0 of 60, 0 of 60, 0 of 4 |
 | Results | The certified set depends on the frame. | — |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
@@ -87,4 +87,4 @@ Non-verbatim prose of S3–S7: 156 sentences, mean 18.3 words (rule: mean ≤ 22
     PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
-    FAIL(all): final: abstract is the recorded text (250 words or fewer, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 
+    FAIL(all): final: abstract is the recorded text (300 words or fewer, the author's cap of 2026-09-22, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 

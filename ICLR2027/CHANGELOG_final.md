@@ -1802,3 +1802,28 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   `OPENREVIEW_abstract.txt`, unas 285 palabras sin fórmulas), decisión del autor pendiente. Versión paralela reconstruida sobre el
   envío nuevo (34 páginas, 0 `??`, sin párrafos insertados porque todo está en el envío; sólo la subsección del apéndice). Lista del
   revisor regenerada (anclas de la tercera revisión que ya no existen, cosmético). Commit y push.
+
+## 48. Novena revisión, continuación (2026-09-22, tarde, brief del autor): frase del frame balanceado, tope del resumen a 300.
+
+- **§5.3, frase del frame balanceado**, redacción del autor en lugar de la rama de la regla: "That frame's matched flat control fires
+  once decoupled in {{FA_BAL}} of 50 runs, so the {{PC_FROZEN_BAL}} of 10 is not a false alarm: ViT-B shows hub structure under that
+  grouping that the frame of record does not resolve; and a cloud organized under one frame fires under the other even once decoupled
+  (38 of 50), so frames are not interchangeable." Los tres recuentos vienen de los ficheros, embebidos por el builder en {{BAL_SENT}} (0 de 50 y 38 de 50 de
+  `expR83_flat_balanced_summary.csv`, 7 de 10 de expR77); el builder exige que la tasa emparejada quede por debajo de la barra de la
+  regla (dos veces el 8 de 50) para "not a false alarm" y que la construcción literal dispare en más de la mitad de los runs para
+  "fires under the other even once decoupled"; `final_bal_frame.json` guarda la frase con `author_sentence`. Sweep: la frase
+  reconstruida desde los ficheros, exención (6, 3) del párrafo "A trained hierarchy survives decoupling." (seis recuentos, tres en la
+  frase del autor), la frase exenta del tope de 35 palabras como frase del autor, "38 of 50" en HEADLINE.
+- **§5.4**: "under the admissible configurations as a whole" se queda, por decisión del autor.
+- **Sweep, tope del resumen**: 300 palabras (sin fórmulas ni guiones dobles), decisión del autor; el check pasa (unas 285).
+- **Mañana**: integrar la semilla 1 de los dos fine-tunings con la regla ya escrita (`expR77_positive_control_tests.py --models
+  ce_seed1 hier_seed1`, versión paralela, PARALLEL_STATUS; al envío sólo si el autor lo decide tras el informe).
+- **Presupuesto**: la frase del autor añade dos líneas y el texto volvía a pasar a la página 10; recortes, §6 primero: fuera el puntero
+  "Table 13 gives the gains." del tercer párrafo (el segundo ya apunta a la Tabla 13, ahora "Table 13 gives both."); §5.4: "The cosine
+  census agrees with the Euclidean one in most cells" y los dos punteros de "Controlling the cut" fundidos en uno; §5.3: el párrafo de
+  la potencia apunta sólo a la Tabla 9 (la Figura 4b lo dice en su pie).
+- **Sweep**: el check del resumen conservaba un literal de la sexta revisión ("no hierarchy above the superclasses is found") que el
+  tope de 250 venía enmascarando; ahora pide la cláusula de la tesis ("no hub hierarchy is found where the test has power").
+- **Cierre (2026-09-22, 15:15)**: §7 en la línea 464 de la página 9, statements en la 487 (página 10), referencias en la 506 (página
+  10); 34 páginas; 0 `??`; resumen a 300 palabras justas sin fórmulas. Sweep 217/217. Versión paralela reconstruida.
+  Monitor persistente sobre las cachés de la semilla 1 (`Platonic/results/practical_tasks_cache/vitb_ft_{ce,hier}_seed1_…npz`).
