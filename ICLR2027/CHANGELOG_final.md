@@ -2631,3 +2631,31 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Sweep 230/230 con comprobación nueva de la estructura del apéndice (página de lectura, glosario, un párrafo por tabla, pies de
   60 palabras o menos, paneles borrados ausentes, sin "of record"); los pines que citaban frases de los pies largos se han
   eliminado o reapuntado. Texto principal en la página 9 y byte a byte idéntico hasta `\appendix`.
+## 80. Glosario, "the reading", el panel del corolario y la versión con cajas (2026-09-23, 21:00, brief del autor).
+
+- **(1) Glosario del apéndice**, tus tres correcciones, las dos primeras porque lo que yo había escrito era falso:
+  "The reading used in the paper: the 99.9th-percentile statistic on Euclidean distances between class centroids, against the
+  centered Haar null, 200 replicates; the cosine census is a robustness column (Table 5c)"; "excess: … Negative means more
+  tree-like than a random cloud of the same shape; positive, less" (la Definición 4 resta la media del nulo, y $\delta$ crece al
+  alejarse del árbol: negativo = más arbóreo, justo lo contrario de lo que yo puse); "no cell of an appendix table is bold; in the
+  main-text census table bold marks cells above the null" (comprobado: la Tabla 2 tiene una celda en negrita y su pie dice
+  "bold: above the null"). Barrido del apéndice en busca de otras frases sobre el signo o la geometría: no queda ninguna; el título
+  del panel (c) del censo ("The same census on cosine geometry…") y el párrafo de esa tabla ya eran correctos.
+- **(2) "reading of record" → "the reading"** en el texto principal: Definición 2 pasa a llamarse `[reading]` y dice
+  "$\delta_{\text{norm}}$ …, is the statistic used throughout; we call it the reading"; el pie de la Tabla 2 dice "Excess of the
+  reading over its matched null…". Cero apariciones de "reading of record" en el envío. La comprobación de vocabulario del sweep
+  nombra ahora la Definición 2 "reading". **"frame of record" sigue** (2 veces, §5.3): no estaba en el brief, dime si también.
+- **(3) El panel del corolario no había que restaurarlo**: el rango "+0.9 to +1.3 pp" sale de `exp2b_normalized_stack.csv`
+  (columna FS_HN_COS_diff, backbones contrastivos en CIFAR-100, CIFAR-10 y DTD) y esos seis valores (+0.90, +0.91, +1.21, +1.23,
+  +1.24, +1.29) están en la última columna de la Tabla 14(a), que está en el apéndice. Los paneles borrados (e), (f), (g) eran
+  políticas de selección de métrica y el barrido del radio de proyección, que sostenían frases de prosa del apéndice ya retiradas.
+  **72**: 12 backbones × 6 conjuntos (§4) y además escrito en el pie de la Tabla 2 ("BH over 72 cells"). **47**: es el número de
+  clases de DTD; no lo dice ni §4 ni ninguna tabla, así que la frase "datasets with 47 classes or more" se apoya en un dato que el
+  lector no ve: dime si lo añado a §4 o al panel de modelos. **34**: falsa alarma mía, sólo aparece en "ResNet-34", nombre de
+  modelo, no es un número citado.
+- **(4) `ICLR2027/iclr2027/main_iclr2027_boxes.tex`** (envío intacto), generado por `rebuttal/scripts/make_boxes.py`: las 8
+  definiciones en caja azul claro y la Proposición 1 en ámbar, con `tcolorbox`, filete fino a la izquierda, sin marco, 3 pt de
+  relleno y la misma fuente; el título en negrita ("Definition 3 (Haar null).") es la cabecera de amsthm dentro de la caja. Compila
+  en 32 páginas: la Conclusión abre en la 9 y las declaraciones en la 10, es decir, **el texto principal acaba en la página 10**,
+  una más que el envío. No he recortado nada, como pediste. PDF en `ICLR2027/main_iclr2027_boxes.pdf`.
+- Envío recompilado: texto principal en la página 9, sweep 230/230, apéndice en 16 páginas.

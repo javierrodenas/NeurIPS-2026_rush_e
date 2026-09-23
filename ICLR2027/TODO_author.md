@@ -343,4 +343,6 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - (Apéndice, 2026-09-23 20:00) Tres decisiones tuyas: (i) el apéndice queda en 16 páginas, una por encima de tu tope, y bajar a 15
   exige quitar material citado (Tabla 5(b) o 5(c) son las candidatas); (ii) "of record" sigue en el texto principal y ya no en el
   apéndice; (iii) cuatro números que cita el texto principal ya no están escritos en el apéndice (72, 47, 34, +0.9).
+- (2026-09-23 21:00) Dos decisiones: "frame of record" sigue en §5.3 (el brief sólo renombraba "reading of record"); y "47 classes
+  or more" se apoya en el número de clases de DTD, que no aparece en §4 ni en ninguna tabla.
 

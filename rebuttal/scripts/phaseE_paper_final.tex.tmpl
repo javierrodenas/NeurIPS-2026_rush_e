@@ -22,9 +22,9 @@ For a quadruple $(w,x,y,z)$ with the pairing sums of Eq.~\ref{eq:pairings} sorte
 
 %%ESTIMATION%%
 
-\begin{definition}[reading of record]
+\begin{definition}[reading]
 \label{def:record}
-The reading of record of a cloud is $\delta_{\text{norm}}$ of Eq.~\ref{eq:deltanorm}, with $\hat\delta_{99.9}$ computed over half a million sampled quadruples per seed and averaged over 10 seeds.
+$\delta_{\text{norm}}$ of Eq.~\ref{eq:deltanorm}, with $\hat\delta_{99.9}$ computed over half a million sampled quadruples per seed and averaged over 10 seeds, is the statistic used throughout; we call it the reading.
 \end{definition}
 
 \begin{proposition}[range bound and dimension confound]
@@ -145,7 +145,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_excess_final.pdf}
-\caption{\textbf{Most cells show structure beyond the second moments.} Excess of the reading of record over its matched null per dataset and backbone, filled when genuine; band: two null standard deviations. % expR52_census_haar_p999_200.csv
+\caption{\textbf{Most cells show structure beyond the second moments.} Excess of the reading over its matched null per dataset and backbone, filled when genuine; band: two null standard deviations. % expR52_census_haar_p999_200.csv
 }
 \label{fig:excess}
 \end{figure}

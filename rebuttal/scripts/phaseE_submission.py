@@ -309,12 +309,12 @@ and its caption gives the answer and names the columns.
 
 \paragraph{Symbols and column names.} The same words are used here and in the main text.
 \begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item \emph{The reading used in the paper}: the 99.9th-percentile statistic on cosine geometry against the centered Haar null, 200 replicates. Other constructions appear beside it as columns.
-\item \emph{excess}: the real reading minus the mean of its matched null replicates. Negative means less tree-like than the null, which is the direction a hierarchy would not take.
+\item \emph{The reading used in the paper}: the 99.9th-percentile statistic on Euclidean distances between class centroids, against the centered Haar null, 200 replicates; the cosine census is a robustness column (Table~\ref{tab:q1-census}c). Other constructions appear beside it as columns.
+\item \emph{excess}: the real reading minus the mean of its matched null replicates. Negative means more tree-like than a random cloud of the same shape; positive, less.
 \item \emph{exc./null}: the excess as a fraction of the null reading, so that cells of different size can be compared.
 \item \emph{$r$/200}: how many of the 200 null replicates read above the real cloud. \emph{$p$}: the left-tail add-one $p$-value built from that rank.
 \item \emph{BH}: the Benjamini--Hochberg correction applied over all cells of a census. \emph{genuine}: BH-corrected $p\le0.05$. \emph{$^{\circ}$}: not genuine. \emph{$^{\dagger}$} and \emph{$^{\ddagger}$}: the cell passes one of two criteria and fails the other, as the caption says.
-\item \emph{Bold} marks the answer sentence of a caption and the title of a panel; no cell of a table is bold.
+\item \emph{Bold} marks the answer sentence of a caption and the title of a panel; no cell of an appendix table is bold, and in the main-text census table bold marks cells above the null.
 \item \emph{frame}: the grouping of classes into superclasses. \emph{hub}: the center of one superclass. \emph{matched star}: a cloud with the same clusters and hubs drawn from a matched distribution, which is what a real cloud is read against. \emph{Haar-hub star}: the same with the real hubs resampled by a Haar rotation.
 \item \emph{$z$}: the depth statistic, the real excess minus the star's, divided by the combined spread. A cloud is certified when $z\le-2$ under both stars.
 \item \emph{decoupled}: the real hubs kept and each cluster's offsets rotated independently, which removes the orientation of clusters and keeps the arrangement of hubs.
