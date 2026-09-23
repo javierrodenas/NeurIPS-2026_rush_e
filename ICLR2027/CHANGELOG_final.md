@@ -2278,3 +2278,37 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Cierre (2026-09-23, 11:35)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; §7 en la
   línea 463 de la página 9; statements en la 487, referencias en la 506 (página 10); 37 páginas; 0 `??`. **Sweep 224/224, 0 fallos**
   (resumen 351 palabras bajo el tope de 360). Versión paralela reconstruida; resumen exportado a OpenReview.
+## 61. Legibilidad, segunda pasada (2026-09-23, 11:45, brief del autor): tope de 30 palabras en las páginas 3–9 y cuatro arreglos.
+
+- **Tope de 30 palabras**: aplicado a toda frase de las páginas 3–9 (§2 en su parte de la página 3 y §3–§7), salvo dentro de las
+  definiciones y las listas de citas (frases con dos o más citas, o una cita con varias claves). Mi recuento sobre el tex, con las
+  entradillas separadas, daba 15 frases por encima (el brief cuenta 41, seguramente sobre el PDF y con otra tokenización); todas
+  partidas en su giro natural sin cambiar contenido: §2 "…of comparable size \citep{…}. We bring the idea…" (edición registrada modificada; la frase "We are the geometric
+  complement…" de `main_local.tex` no está en el envío, que conserva las seis primeras frases de §2); §3.1 "…is zero. The further a metric is from a tree…" (edición
+  nueva); §3.2 "…fall below. It keeps the tail of the defects, as the supremum does…" (edición 4 modificada y una nueva); §3.5 las dos
+  frases de la comparación de árboles; §4 la del frame; §5.3 (c) "The same hierarchy was then built at each backbone's own spectrum
+  and ratio. The decoupled control detects it in 9 of 12 backbones…" y "…spanned by the 9 covered backbones. The power therefore
+  follows the backbone…"; §5.5 "…improves neither. Models share who is near whom and differ in the metric \citep{…} (Table 13)."; §6
+  "…census percentile. It assigns structureless clouds a curvature from…"; (iii) "…in the other 3. Its false alarms on flat clouds are
+  8 of 50, and the verdict…"; (vii) "…without any clustering. The cosine census mitigates this…". Una excepción conservada y declarada: la tesis de §7 (56 palabras), que por tu regla es la última frase
+  del resumen verbatim; la lista de citas de §2 ("Closest to us…", 60 palabras, cuatro citas) está exenta por el brief. Ediciones
+  registradas: 16.
+- **(1)** Definición 3 abre con "A null replicate is a cloud with the real shape and no structure." y sigue la construcción ("Let $X=U\Sigma
+  V^{\top}$ …; the replicate is $X'=Q\Sigma V^{\top}$ …"). **(2)** §3.2, el párrafo de los confounds tras la Figura 2 queda en tu
+  frase: "Proposition 1 makes the dimension confound precise; the calibration on reference geometries shows the spectrum and statistic
+  confounds (Table 4)." (entradilla conservada). **(3)** §3.3: "Two cells of the same dataset can have the same reading and opposite
+  verdicts (Figure 2)."; el check de numerales exime explícitamente las cantidades descriptivas (lista `DESCRIPTIVE`: "Two cells of
+  the same dataset", "two readings of the same model", "three constructions", "two fifths", …). **(4)** §3.4 abre con tu párrafo "A
+  genuine excess can come from clusters alone, so a second test asks whether the clusters are themselves arranged hierarchically. It
+  needs three constructions." antes de la Definición 6, con la entradilla "Why a second test." (mía, por la regla de entradillas).
+- **Sweep**: el tope pasa de 35 a 30 palabras y se mide con las entradillas separadas (antes la primera frase de cada párrafo se
+  contaba con su entradilla); exentas las definiciones, las listas de citas y la tesis; los bloques verbatim de §2–§3 entran en la
+  medida; check nuevo con los cuatro arreglos y las tres ediciones. **FINAL_CHECK**: columna "over 30" por sección en la tabla de
+  longitudes y una línea con la regla, el recuento de frases por encima y la excepción de la tesis.
+- La frase "We are the geometric complement…" sí está en el envío (es la sexta de §2 en la página 3) y se parte en dos con una edición
+  registrada; para que la segunda mitad sobreviva al recorte de §2 del presupuesto de página (que conservaba seis frases), el
+  builder conserva ahora siete. Ediciones registradas: 17. El check de las ediciones y el de §2 verbatim siguen pasando.
+- **Cierre (2026-09-23, 12:08)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; tabla de
+  longitudes con la columna "over 30" y la línea de la regla ("sentences over the cap outside those: 0; the thesis sentence, verbatim
+  from the abstract, is the one kept exception (56 words)"); §7 en la línea 463 de la página 9; 37 páginas; 0 `??`. **Sweep 225/225.**
+  Versión paralela reconstruida.

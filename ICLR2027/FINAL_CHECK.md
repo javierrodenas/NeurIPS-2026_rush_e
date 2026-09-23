@@ -9,17 +9,18 @@
 
 ## Sentence length per section (compiled text of the final file; verbatim sections included in the statistics, the rules are enforced on the non-verbatim prose)
 
-| section | sentences | mean words | longest |
-|---|---|---|---|
-| Introduction | 33 | 24.8 | 87 |
-| Related Work | 5 | 39.8 | 60 |
-| Methodology | 33 | 20.5 | 45 |
-| Experimental Setup | 15 | 17.3 | 32 |
-| Results | 88 | 18.5 | 32 |
-| Implications for Hyperbolic Representation Learning | 7 | 15.7 | 31 |
-| Conclusion and Limitations | 19 | 20.7 | 56 |
+| section | sentences | mean words | longest | over 30 |
+|---|---|---|---|---|
+| Introduction | 33 | 24.8 | 87 | 0 |
+| Related Work | 7 | 28.6 | 60 | 0 |
+| Methodology | 37 | 18.1 | 30 | 0 |
+| Experimental Setup | 16 | 16.2 | 25 | 0 |
+| Results | 91 | 17.9 | 30 | 0 |
+| Implications for Hyperbolic Representation Learning | 8 | 13.8 | 21 | 0 |
+| Conclusion and Limitations | 20 | 19.8 | 56 | 0 |
 
-Non-verbatim prose of S3–S7: 147 sentences, mean 18.8 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 155 sentences, mean 17.8 words (rule: mean ≤ 22).
+Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (56 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -61,10 +62,9 @@ Non-verbatim prose of S3–S7: 147 sentences, mean 18.8 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 223/224 checks passed.
+- Total: 224/225 checks passed.
 - Final-version checks:
 
-    PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 
     PASS final: every result file named in a provenance comment of the main text exists 
     PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
     PASS final: every main-text figure caption opens with a bold takeaway and names its source files 

@@ -24,9 +24,11 @@ out = ["# FINAL_CHECK — `main_iclr2027_final.pdf`", "",
        f"- Cut order applied (brief §5): {', '.join(A['cuts']) if A['cuts'] else 'none'} = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.",
        "- Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.", "",
        "## Sentence length per section (compiled text of the final file; verbatim sections included in the statistics, the rules are enforced on the non-verbatim prose)", "",
-       "| section | sentences | mean words | longest |", "|---|---|---|---|"]
-for k, v in S["sections"].items(): out.append(f"| {k} | {v['sentences']} | {v['avg_words']} | {v['max_words']} |")
-out += ["", f"Non-verbatim prose of S3–S7: {S['n_nonverbatim_sentences']} sentences, mean {S['avg_nonverbatim']} words (rule: mean ≤ 22, none > 35).", "",
+       "| section | sentences | mean words | longest | over 30 |", "|---|---|---|---|---|"]
+for k, v in S["sections"].items(): out.append(f"| {k} | {v['sentences']} | {v['avg_words']} | {v['max_words']} | {v.get('over30', '')} |")
+R30 = S.get("over30_rule", {})
+out += ["", f"Non-verbatim prose of S3–S7: {S['n_nonverbatim_sentences']} sentences, mean {S['avg_nonverbatim']} words (rule: mean ≤ 22).",
+        f"Rule of 2026-09-23: no sentence over {R30.get('cap', 30)} words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: {R30.get('n_over30', '?')}; the thesis sentence, verbatim from the abstract, is the one kept exception ({(R30.get('thesis_words') or ['?'])[0]} words).", "",
         "## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)", "",
         "| section | paragraph | numbers |", "|---|---|---|"]
 for p in S["numbers_per_paragraph_S5_S6"]: out.append(f"| {p['section'][:28]} | {p['lead'][:60]} | {', '.join(p['numbers']) if p['numbers'] else '—'} |")

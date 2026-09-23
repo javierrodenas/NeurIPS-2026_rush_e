@@ -3,41 +3,56 @@
   "Introduction": {
    "sentences": 33,
    "avg_words": 24.8,
-   "max_words": 87
+   "max_words": 87,
+   "over30": 0
   },
   "Related Work": {
-   "sentences": 5,
-   "avg_words": 39.8,
-   "max_words": 60
+   "sentences": 7,
+   "avg_words": 28.6,
+   "max_words": 60,
+   "over30": 0
   },
   "Methodology": {
-   "sentences": 33,
-   "avg_words": 20.5,
-   "max_words": 45
+   "sentences": 37,
+   "avg_words": 18.1,
+   "max_words": 30,
+   "over30": 0
   },
   "Experimental Setup": {
-   "sentences": 15,
-   "avg_words": 17.3,
-   "max_words": 32
+   "sentences": 16,
+   "avg_words": 16.2,
+   "max_words": 25,
+   "over30": 0
   },
   "Results": {
-   "sentences": 88,
-   "avg_words": 18.5,
-   "max_words": 32
+   "sentences": 91,
+   "avg_words": 17.9,
+   "max_words": 30,
+   "over30": 0
   },
   "Implications for Hyperbolic Representation Learning": {
-   "sentences": 7,
-   "avg_words": 15.7,
-   "max_words": 31
+   "sentences": 8,
+   "avg_words": 13.8,
+   "max_words": 21,
+   "over30": 0
   },
   "Conclusion and Limitations": {
-   "sentences": 19,
-   "avg_words": 20.7,
-   "max_words": 56
+   "sentences": 20,
+   "avg_words": 19.8,
+   "max_words": 56,
+   "over30": 0
   }
  },
- "avg_nonverbatim": 18.8,
- "n_nonverbatim_sentences": 147,
+ "avg_nonverbatim": 17.8,
+ "n_nonverbatim_sentences": 155,
+ "over30_rule": {
+  "cap": 30,
+  "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
+  "n_over30": 0,
+  "thesis_words": [
+   56
+  ]
+ },
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
