@@ -281,6 +281,8 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{What the test can see.} The test misses an implanted two-level tree at this noise level but detects a three-level hierarchy with ViT-L's spectrum and noise in 4 of 5 seeds, and that detection survives orientation randomization, whereas none of the four real verdicts does. The decoupling control fires on every deep seed and reads deeper than the intact cloud. The deeper reading comes from both sides: decoupling shrinks the star spread and deepens the excess below the star. The decoupled control detects the same hierarchy, built at each backbone's own spectrum and ratio, in nine backbones (decoupled power 0.83--1.00) and not in the other three (power 0.01--0.60). The three blind backbones sit at ratios 1.5 to 3.0, inside the 1.3 to 3.9 of the nine covered, so the power follows the backbone, not its ratio or family. ViT-B fine-tuned with a hierarchical cross-entropy at three WordNet cuts keeps firing once decoupled, 10 of 10, whereas the leaf-CE and frozen models do not, 0 of 10, on the frame of record. The pre-set criterion asked the leaf-CE and frozen models not to be certified intact, which they are, by alignment, so the discriminating comparison is the decoupled one. A flat control with the same spectrum and ratio as the deep one fires in 0 of 5 intact and in 8 of 50 decoupled runs. The decoupled test is therefore biased toward firing, so the four real backbones not firing once decoupled is conservative evidence, and the synthetic hierarchy at $z$ $-4.19$ to $-4.82$ stands well clear of that bias. On the balanced frame the matched flat control fires in 0 of 50 decoupled runs. The WordNet Poincar\'{e} embeddings \citep{nickel2017poincare}, read with Euclidean distances, do not fire (Tables~\ref{tab:q5-power}, \ref{tab:q4-depth}). % expR79_synthetic_deep_poincare.csv, expR81_deep_per_backbone.csv, expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv, expR77_positive_control.csv, expR77_positive_control_verdict.json, expR83_flat_balanced_summary.csv
 
+\paragraph{A second seed of the trained control.} A second seed of both fine-tunings repeats the pattern of the first. The hierarchical model is certified on both frames, $z$ $-4.22$ and $-5.82$, and keeps firing once decoupled, 10 of 10 on the frame of record and 10 of 10 on the balanced frame. The leaf-CE model is certified intact as well, $z$ $-3.18$ and $-2.94$, and this time also fires once decoupled on the frame of record, 6 of 10 at a mean $z$ of $-2.02$ against $-2.63$ for the hierarchical model. The success criterion fixed before the run is not met for this seed either, and the outcome is reported as it is. Table~\ref{tab:r1-positive} gives both seeds. % expR77_positive_control.csv, expR77_positive_control_verdict.json
+
 \paragraph{No hub hierarchy is found where the test has power.} The power is the decoupled control's: it detects an implanted hierarchy in ViT-S/B/L, DINOv2-B/L/G, CLIP-B/L and SigLIP-B, and the test is blind in ViT-T, DINO-B and DINOv2-S. The decoupling separates structure among the hubs of the frame from structure carried by cluster orientations. A hierarchy below the frame expressed in how clusters open would be removed with the orientations and counted as alignment, so no hub hierarchy means no hierarchy among the frame's hubs. Figure~\ref{fig:implant} and Table~\ref{tab:q5-power} give the detection rates and the power. % expR81_deep_per_backbone_summary.csv, final_wordnet_levels.json, expR64b_wn30.csv
 
 \paragraph{The certified set depends on the frame.} Under a balanced frame ViT-T joins the certified set and ViT-S and DINOv2-L leave it, and other WordNet cuts change the set again. Only ViT-B and ViT-L are certified under every frame. A flat cloud clustered under the frame of record fires under the balanced frame in 38 of 50 decoupled runs, so a real cloud read under a frame that is not its own is expected to fire. The frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not evidence of hub structure. % expR56_depth_variants.csv, expR64b_wn30bal_summary.csv, expR77_positive_control.csv, expR83_flat_balanced_summary.csv
@@ -461,6 +463,29 @@ On HierarCaps \citep{alper2024hierarcaps} (1000 four-level caption chains), text
 \FloatBarrier
 \subsection{Provenance}
 \label{app:provenance}
+\FloatBarrier
+\subsection{Parallel track: the trained positive control, the deep-hierarchy and implanted-alignment controls, and the replicated reading}
+% prov: expR77_positive_control.csv
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccc}
+\toprule
+model & excess ($r$, $p$) & $z$, WordNet-30 & $z$, balanced & decoupled $z$, WN-30 (cert.) & decoupled $z$, balanced (cert.) \\
+\midrule
+frozen checkpoint & $-0.0162$ (200, 0.005) & $-3.62$ & $-2.82$ & $-1.40$ (0.0) & $-2.10$ (0.7) \\
+leaf CE & $-0.0243$ (200, 0.005) & $-2.45$ & $-2.09$ & $-0.72$ (0.0) & $-1.38$ (0.0) \\
+leaf CE + hierarchical CE & $-0.0293$ (200, 0.005) & $-2.97$ & $-3.57$ & $-2.38$ (1.0) & $-3.51$ (1.0) \\
+leaf CE (seed 1) & $-0.0242$ (200, 0.005) & $-3.18$ & $-2.94$ & $-2.02$ (0.6) & $-3.02$ (1.0) \\
+leaf CE + hierarchical CE (seed 1) & $-0.0295$ (200, 0.005) & $-4.22$ & $-5.82$ & $-2.63$ (1.0) & $-3.44$ (1.0) \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Trained positive control.} ViT-B/16 from the census checkpoint fine-tuned on the full ImageNet-1k training set (5 epochs, AdamW, lr $10^{-5}$ encoder / $10^{-3}$ heads, batch 256, seed 0) with leaf cross-entropy alone and with an added hierarchical cross-entropy at the WordNet 30/6/2 cuts (weights 1/2/4); centroids of the census subset; census excess under the centered Haar null (200 replicates), depth test with the matched anisotropic star on the WordNet-30 frame of record and on the balanced frame (10 star seeds), and the decoupling control (real hubs kept, offsets Haar-rotated, 10 seeds; in parentheses the fraction of seeds certified). Success criterion not met. % expR77_positive_control.csv
+}
+\label{tab:r1-positive}
+\end{table}
+
 \input{appendix_tables/final/tab_z_provenance_final}
 
 

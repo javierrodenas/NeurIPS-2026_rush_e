@@ -17,7 +17,7 @@ def insert_after_paragraph(text, lead, new_par):
 tables = []
 # ---- S5.3: the trained positive control
 IN77 = "keeps firing once decoupled" in T
-if not IN77 and os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'expR77_positive_control_verdict.json'):
+if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'expR77_positive_control_verdict.json') and (not IN77 or 'hier_seed1' in pd.read_csv(R + 'expR77_positive_control.csv').model.values):   # seed 0 in the submission -> the second seed goes to the rebuttal file only (rule of 2026-09-20)
     P = pd.read_csv(R + 'expR77_positive_control.csv').set_index('model'); V = json.load(open(R + 'expR77_positive_control_verdict.json'))['verdict']
     v0 = next((v for v in V if v['seed'] == 'seed0'), None); h = P.loc['hier_seed0']; c = P.loc['ce_seed0']; f = P.loc['frozen']
     cert = lambda r: (r.z_wn30 <= -2) and (r.z_wn30bal <= -2); dec = lambda r: (r.zdec_mean_wn30 <= -2) and (r.zdec_mean_wn30bal <= -2)
@@ -29,8 +29,17 @@ if not IN77 and os.path.exists(R + 'expR77_positive_control.csv') and os.path.ex
            f"Under the record the hierarchical model {s_h}, and {s_c}. "
            + ("The success criterion fixed before the run is met: the injected hierarchy lives in the hubs and the test sees it." if met else "The success criterion fixed before the run is not met, and the outcome is reported as it is.")
            + " Table~\\ref{tab:r1-positive} gives the readings. % expR77_positive_control.csv, expR77_positive_control_verdict.json")
-    LEAD53 = next(l for l in ("No hierarchy above the superclasses is found in the supervised and contrastive backbones.", "No hierarchy above the superclasses is found.", "Whether the superclasses form a hierarchy is left open.") if ("\\paragraph{" + l + "}") in T)
-    T = insert_after_paragraph(T, LEAD53, par)
+    if not IN77:
+        LEAD53 = next(l for l in ("No hierarchy above the superclasses is found in the supervised and contrastive backbones.", "No hierarchy above the superclasses is found.", "Whether the superclasses form a hierarchy is left open.") if ("\\paragraph{" + l + "}") in T)
+        T = insert_after_paragraph(T, LEAD53, par)
+    else:   # 2026-09-23: the second seed (expR76 --seed 1, expR77 shards) after S5.3's 'What the test can see.', numbers from the csv
+        h1, c1 = P.loc['hier_seed1'], P.loc['ce_seed1']; v1 = next((v for v in V if v['seed'] == 'seed1'), None); met1 = bool(v1 and v1['criterion_met'])
+        par = ("\\paragraph{A second seed of the trained control.} A second seed of both fine-tunings repeats the pattern of the first. "
+               f"The hierarchical model is certified on both frames, $z$ ${h1.z_wn30:+.2f}$ and ${h1.z_wn30bal:+.2f}$, and keeps firing once decoupled, {int(round(h1.dec_frac_cert_wn30 * 10))} of 10 on the frame of record and {int(round(h1.dec_frac_cert_wn30bal * 10))} of 10 on the balanced frame. "
+               f"The leaf-CE model is certified intact as well, $z$ ${c1.z_wn30:+.2f}$ and ${c1.z_wn30bal:+.2f}$, and this time also fires once decoupled on the frame of record, {int(round(c1.dec_frac_cert_wn30 * 10))} of 10 at a mean $z$ of ${c1.zdec_mean_wn30:+.2f}$ against ${h1.zdec_mean_wn30:+.2f}$ for the hierarchical model. "
+               + ("The success criterion fixed before the run is met for this seed." if met1 else "The success criterion fixed before the run is not met for this seed either, and the outcome is reported as it is.")
+               + " Table~\\ref{tab:r1-positive} gives both seeds. % expR77_positive_control.csv, expR77_positive_control_verdict.json")
+        T = insert_after_paragraph(T, "What the test can see.", par)
     rows = [f"{NM.get(m, m)} & ${r.excess:+.4f}$ ({int(r.r_above)}, {r.p_left:.3f}) & ${r.z_wn30:+.2f}$ & ${r.z_wn30bal:+.2f}$ & ${r.zdec_mean_wn30:+.2f}$ ({r.dec_frac_cert_wn30:.1f}) & ${r.zdec_mean_wn30bal:+.2f}$ ({r.dec_frac_cert_wn30bal:.1f}) \\\\" for m, r in P.iterrows()]
     tables.append("% prov: expR77_positive_control.csv\n\\begin{table}[tbp]\n\\centering\n\\footnotesize\n\\setlength{\\tabcolsep}{4pt}\n\\begin{tabular}{lccccc}\n\\toprule\n"
                   "model & excess ($r$, $p$) & $z$, WordNet-30 & $z$, balanced & decoupled $z$, WN-30 (cert.) & decoupled $z$, balanced (cert.) \\\\\n\\midrule\n" + "\n".join(rows) +

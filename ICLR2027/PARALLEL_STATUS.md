@@ -2,6 +2,26 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-23 08:10 — seed 1 of the trained control tested (expR77 shards done 08:05); rebuttal file only
+
+- Results (census excess under the centered Haar null, depth test on both frames, decoupling control, 10 seeds; times ~23 min per model):
+
+  | model | excess | z WordNet-30 | z balanced | decoupled z WN-30 (cert.) | decoupled z balanced (cert.) |
+  |---|---|---|---|---|---|
+  | leaf CE (seed 1) | −0.024 (200/200, p 0.005) | −3.18 | −2.94 | −2.02 (6 of 10) | −3.02 (10 of 10) |
+  | leaf + hierarchical CE (seed 1) | −0.029 (200/200, p 0.005) | −4.22 | −5.82 | −2.63 (10 of 10) | −3.44 (10 of 10) |
+
+  Seed 0 for reference: leaf CE −2.45 / −2.09 intact, −0.72 (0 of 10) / −1.38 (0 of 10) decoupled; hierarchical −2.97 / −3.57 intact,
+  −2.38 (10 of 10) / −3.51 (10 of 10) decoupled. The seed-0 rows of record are unchanged (checked against the backup to 1e-9).
+- **Pre-set criterion**: not met for seed 1 either (the leaf-CE model and the frozen checkpoint are certified intact, by alignment).
+  New for seed 1: the leaf-CE model also fires once decoupled on the frame of record (6 of 10, mean z −2.02), whereas seed 0's did not
+  (0 of 10, −0.72); the hierarchical model still fires more strongly (−2.63, 10 of 10). The submission's sentence "the discriminating
+  comparison is the decoupled one" rests on seed 0; with seed 1 the decoupled separation between the objectives is smaller. Reported
+  to the author; nothing enters the submission without the author's decision.
+- `phaseE_rebuttal.py`: a paragraph "A second seed of the trained control." after S5.3's 'What the test can see.' with the seed-1
+  numbers from the csv, and the positive-control table with both seeds in the parallel-track appendix; `main_iclr2027_rebuttal.tex`
+  rebuilt. Parallel track complete: nothing else running.
+
 ## 2026-09-23 07:41 — seed 1 of both fine-tunings finished (caches 07:39); expR77 tests launched as shards
 
 - `vitb_ft_ce_seed1_imagenet_train.npz` and `vitb_ft_hier_seed1_imagenet_train.npz` written at 07:39 (about 22.7 h per run).
