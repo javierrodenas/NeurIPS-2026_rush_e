@@ -2573,3 +2573,9 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   verificados.
 - Sweep: comprobación nueva (todas las claves de (A) citadas en el texto principal o en la tabla del panel; toda entrada citada con
   fuente; los tres cambios de (B); las frases de MERU con el relleno desde expR71); dos literales de §5.1 con las citas nuevas.
+## 77. Bibliografía, dos comprobaciones (2026-09-23, 18:40, brief del autor).
+
+- aggarwal2001surprising: título de vuelta al singular, "…in High Dimensional Space" (como en la página de Springer; DBLP escribe
+  "Spaces"). Sweep: literal de la comprobación del pase de exactitud actualizado.
+- koepke2026cave: confirmado, `note={arXiv preprint arXiv:2604.18572}` (más `eprint`/`url` de arXiv); la comprobación del sweep lo
+  exige.
