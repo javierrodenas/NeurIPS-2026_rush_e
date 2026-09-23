@@ -2410,3 +2410,16 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   palabras con mayúscula fuera de llaves en los títulos: el resto son mayúsculas de título (Title Case) que el .bst reduce bien.
 - Sweep: comprobación nueva sobre `references.bib` (claves únicas, toda clave citada presente, Gröger como ICML 2026 con Shuo Wen,
   sin `\_`, Gromov protegido, las tres entradas conservadas). Sin cambio en el texto principal.
+## 67. Abstract, cuatro ediciones (2026-09-23, 13:50, brief del autor); tesis sin cambios.
+
+- (1) Frase 2: "…and a hierarchy test whose ability to detect a hierarchy is measured". (2) Frase 6: "the hierarchy test finds
+  structure". (3) Frase 7: "no hierarchy as strong as the planted one is found". (4) Tras la frase 8: "In text, the result depends
+  on the model's recipe and size." (5) Frase 9 partida en dos: "Across models, the usual comparison makes the self-supervised models
+  look like outliers, an artifact of how trees are cut into groups. Compared properly, the trees agree on which classes group
+  together well above chance, though less than two readings of the same model, and not on distances; the self-supervised models
+  organize classes by direction rather than by distance."
+- Abstract de 359 palabras (tope del sweep 360). `OPENREVIEW_abstract.txt` regenerado desde el tex. §1 conserva sus dos frases
+  espejo con "though short of what two readings of the same model reach" (no estaban en el brief); §5.3(d) conserva "none as strong
+  as the planted one is found".
+- Sweep: literales del abstract (frases 7 y 9, recuento de la frase de acuerdo 3 → 2, "none as strong…" 2 → 1) y comprobaciones de las
+  tres frases nuevas; sin cambio de números.
