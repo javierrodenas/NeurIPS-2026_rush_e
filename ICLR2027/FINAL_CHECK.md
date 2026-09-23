@@ -62,7 +62,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 226/227 checks passed.
+- Total: 227/227 checks passed.
 - Final-version checks:
 
     PASS final: every main-text figure caption opens with a bold takeaway and names its source files 
