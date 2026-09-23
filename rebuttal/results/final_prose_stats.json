@@ -25,14 +25,14 @@
    "over30": 0
   },
   "Results": {
-   "sentences": 85,
-   "avg_words": 17.6,
+   "sentences": 77,
+   "avg_words": 17.7,
    "max_words": 30,
    "over30": 0
   },
   "Implications for Hyperbolic Representation Learning": {
-   "sentences": 8,
-   "avg_words": 13.8,
+   "sentences": 7,
+   "avg_words": 15.9,
    "max_words": 21,
    "over30": 0
   },
@@ -43,8 +43,8 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 17.6,
- "n_nonverbatim_sentences": 150,
+ "avg_nonverbatim": 17.8,
+ "n_nonverbatim_sentences": 141,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
@@ -181,20 +181,11 @@
   },
   {
    "section": "Results",
-   "lead": "Controlling the cut leaves a moderate gap.",
+   "lead": "Controlled, the trees share their topology, not their metric.",
    "numbers": [
-    "0.85 to 0.96",
-    "0.90",
     "0.77",
-    "0.76",
-    "0.91 to 0.97",
-    "0.94",
-    "0.48",
-    "0.78",
-    "0.64 to 0.94",
-    "0.79",
-    "0.39",
-    "0.48"
+    "0.90",
+    "0.33"
    ]
   },
   {
@@ -204,7 +195,7 @@
   },
   {
    "section": "Results",
-   "lead": "Alignment with WordNet follows supervision and recipe.",
+   "lead": "Agreement with WordNet follows supervision and recipe.",
    "numbers": []
   },
   {

@@ -621,7 +621,7 @@ def q_wordnet():
             f"Circularity controls: WordNet-coherent groupings read a lower raw $\\delta$ than random ones in {grp} of 12 models, and single-image distances still correlate with WordNet at up to ${rho1:+.2f}$.")
     ltxt = ""
     if L70:
-        ltxt = f" The two leaf-label ViT-B/16 of Table~\\ref{{tab:q4-depth}}: the augreg recipe is aligned with WordNet like the IN-21k ViTs ($\\rho_{{\\text{{WN}}}}$ {float(L70['vit_b_in1k']['spearman_wn']):+.2f}) while DeiT-B is nearly unaligned ({float(L70['deit_b']['spearman_wn']):+.2f}) yet recovers the CIFAR-100 superclasses at ARI up to {float(L70['deit_b']['ari_max']):.2f}, so WordNet alignment is recipe-dependent even among leaf-supervised ViTs."
+        ltxt = f" The two leaf-label ViT-B/16 of Table~\\ref{{tab:q4-depth}}: the augreg recipe agrees with WordNet like the IN-21k ViTs ($\\rho_{{\\text{{WN}}}}$ {float(L70['vit_b_in1k']['spearman_wn']):+.2f}) while DeiT-B barely agrees with it ({float(L70['deit_b']['spearman_wn']):+.2f}) yet recovers the CIFAR-100 superclasses at ARI up to {float(L70['deit_b']['ari_max']):.2f}, so agreement with WordNet is recipe-dependent even among leaf-supervised ViTs."
     T.newpart()
     # (c) DBpedia
     db = load("exp14_dbpedia.csv"); rec = {a["model"]: a for a in load("expR61_dbpedia_record.csv")} if ex("expR61_dbpedia_record.csv") else {}
@@ -645,7 +645,7 @@ def q_wordnet():
     h = load("exp16_hierarcaps.csv")
     rows = [f"{NAME[a['model']]} & {float(a['rho_mean']):+.2f}$\\pm${float(a['rho_sd']):.2f} & {100*float(a['pct_monotone']):.1f} & {float(a['trip_L1_cos']):.2f} & {float(a['trip_L2_cos']):.2f} & {float(a['delta_leaves']):.3f} & {float(a['excess']):+.3f} \\\\" for a in h]
     T.panel("(d) HierarCaps (1000 four-level caption chains): a multi-level text hierarchy with no class set.", "lcccccc", [r"model & $\rho$(level, radius) & \% monotone & trip.\ L1 & trip.\ L2 & $\hat\delta$ leaves & excess \\"], rows, size=r"\footnotesize", colsep="4pt")
-    T.write(r"\textbf{Alignment with the human taxonomy follows supervision and recipe, the superclasses are recovered by every family, and the recovery is not WordNet circularity.} "
+    T.write(r"\textbf{Agreement with the human taxonomy follows supervision and recipe, the superclasses are recovered by every family, and the recovery is not WordNet circularity.} "
             r"(a) $\rho_{\text{WN}}$: Spearman correlation between inter-centroid and WordNet tree distances on ImageNet, with the label-shuffle and Gaussian-cloud controls; single image: the same correlation on single-image distances (one image per class); WordNet / random groups: raw $\hat\delta$ of WordNet-coherent against random class groupings. (b) ARI of the 20-cluster cut against the true CIFAR-100 superclasses per configuration (degenerate configurations marked; the criterion-selected one is cosine-complete)." + atxt + ltxt
             + r" % exp3_alignment.csv, exp28_recovery_per_config.csv, exp8_p1_recovery.csv, exp1_delta_controls.csv, exp8_p6_pooling.csv, expR70_inet1k_supervised.csv",
             contd=[r"(c) Excess under the original supremum reading (3 Gaussian replicates) and under the census of record (Haar null, 99.9th-percentile statistic, 200 replicates; $r$ = replicates above the real value, left-tail $p$), sibling-triplet agreement, and the metric gains, marginal as the diagnostic predicts." + tm

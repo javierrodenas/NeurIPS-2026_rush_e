@@ -2352,3 +2352,29 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Cierre (2026-09-23, 12:35)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; §7 en la línea
   455 de la página 9 y los statements empiezan en la 481, también en la página 9; referencias en la 500 (página 10); 37 páginas; 0
   `??`. Sweep 225/225. Versión paralela reconstruida.
+## 64. Legibilidad, final de §5.3 a §7 (2026-09-23, 12:40, brief del autor): ocho puntos.
+
+- **(1)** "Agreement with WordNet follows supervision and recipe." como entradilla de §5.4, y "agrees with WordNet" en el párrafo de las
+  etiquetas de hoja (§5.3 f); el pie de la Tabla 12 (WordNet) pasa a "Agreement with the human taxonomy…" y su frase sobre los dos
+  ViT-B de hoja a "the augreg recipe agrees with WordNet…", "DeiT-B barely agrees with it" y "agreement with WordNet is
+  recipe-dependent". "Alignment" queda sólo con el sentido de la orientación de los clusters hacia sus hubs (barrido: ningún
+  "align*" a menos de 80 caracteres de WordNet/taxonomy/correlation en plantilla, abstract ni pies).
+- **(2)** §5.4, "Controlling the cut…" → entradilla "Controlled, the trees share their topology, not their metric." y cuerpo con tu
+  frase, partida en tres por los topes de 30 palabras y de dos números por frase: "Across models, triplet agreement reaches
+  {{TRIP_BIG}}, against {{CEIL_TRIP}} for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach
+  about half their within-model ceiling (Table 11)." Los demás números del párrafo (rangos y medias de las tres medidas, valores
+  entre modelos) quedan en la Tabla 11(c); fuera la frase de "about a third". **Aviso sobre el azar**: tu frase decía "0.5 by
+  chance", pero el acuerdo de tripletas de expR58 es sobre cuál de los tres pares de una tripleta se fusiona primero, y dos árboles
+  independientes coinciden en un tercio de los casos; el 0.5 es el azar de las tripletas de hermanos de CIFAR-100 de la Figura 5(c)
+  (elección binaria). El texto dice 0.33; si preferías otra lectura, dímelo.
+- **(3)** §6, segundo párrafo: "The raw and calibrated readings predict the gain of a non-Euclidean readout equally well, and the depth
+  verdict predicts none. Calibration tells what a low $\delta$ means, not which readout to use." (tu frase, partida en los dos puntos
+  por el tope de 30 palabras: tenía 32); fuera la frase repetida y la de "buys interpretation".
+- **(4)** §6, primer párrafo: "Applied, with the supremum it was calibrated for, to structureless Gaussian clouds, it assigns curvatures
+  from {{C_LO}} to {{C_HI}}." en lugar de las dos frases anteriores.
+- **(5)** MERU: "no hub structure". **(6)** §5.5: fuera "Models share who is near whom and differ in the metric"; la cita queda en la
+  frase del párrafo. **(7)** Limitación (iii): "it tests hierarchy among the frame's hubs only". **(8)** Conclusión: "Cosine collects
+  most of what is there."
+- Sweep: literales de las revisiones quinta, novena, décima, duodécima y de la tesis actualizados a las frases nuevas (los cocientes
+  entre modelos y techo siguen comprobados desde los ficheros); "0.33" en HEADLINE; "two resamples of the same model" como cantidad
+  descriptiva; exenciones de la nueva entradilla de §5.4.

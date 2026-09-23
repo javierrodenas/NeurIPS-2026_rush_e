@@ -316,3 +316,10 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - (Figura 5, disposición, 17:30) Página 9: tras vaciar §5.5 y §6 hasta párrafos de dos frases, la página 9 acaba en la limitación
   (vi) con una línea libre y el párrafo de alcance (vii)–(ix), de cuatro líneas, pasa entero a la 10 (la clase impide partirlo con
   una línea libre). Faltan tres líneas de contenido tuyo: por ejemplo fundir (vii)–(ix) en dos frases, o recortar (iii).
+- (Legibilidad §5.3–§7, 2026-09-23 12:45) §5.4 "Controlled, the trees share their topology, not their metric.": tu frase decía "0.5 by
+  chance", pero el acuerdo de tripletas de expR58/expR84 es cuál de los tres pares de cada tripleta se fusiona primero, y dos árboles
+  independientes coinciden en 1 de 3; el 0.5 es el azar de la tarea binaria de tripletas de hermanos de CIFAR-100 (Figura 5c). El
+  texto dice "Chance gives 0.33." (frase aparte por el tope de dos números). Si quieres el 0.5, la frase tendría que referirse a la
+  Figura 5c y no a la Tabla 11. Fuera también "about a third" (resuelto por tu brief). La frase de §6 "The raw and calibrated
+  readings…" tenía 32 palabras y va partida en los dos puntos. El pie de la Figura 5 sigue diciendo "shared almost up to noise".
+

@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 37. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 481); the references start on page 10 (line 500).
+- PDF pages: 37. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 476); the references start on page 10 (line 494).
 - Appendix: Proofs on page 13, tables from page 13 to page 37 (25 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
@@ -15,11 +15,11 @@
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 37 | 18.1 | 30 | 0 |
 | Experimental Setup | 16 | 16.2 | 25 | 0 |
-| Results | 85 | 17.6 | 30 | 0 |
-| Implications for Hyperbolic Representation Learning | 8 | 13.8 | 21 | 0 |
+| Results | 77 | 17.7 | 30 | 0 |
+| Implications for Hyperbolic Representation Learning | 7 | 15.9 | 21 | 0 |
 | Conclusion and Limitations | 21 | 19.8 | 56 | 0 |
 
-Non-verbatim prose of S3–S7: 150 sentences, mean 17.6 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 141 sentences, mean 17.8 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (56 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -41,9 +41,9 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
 | Results | MERU's objective does not create hub structure. | — |
 | Results | The naive map manufactures an island. | 12 |
-| Results | Controlling the cut leaves a moderate gap. | 0.85 to 0.96, 0.90, 0.77, 0.76, 0.91 to 0.97, 0.94, 0.48, 0.78, 0.64 to 0.94, 0.79, 0.39, 0.48 |
+| Results | Controlled, the trees share their topology, not their metric | 0.77, 0.90, 0.33 |
 | Results | The self-supervised tree is angular. | — |
-| Results | Alignment with WordNet follows supervision and recipe. | — |
+| Results | Agreement with WordNet follows supervision and recipe. | — |
 | Results | The recovery is not WordNet circularity. | — |
 | Results | Text depends on recipe and scale. | 7 of 15 |
 | Results | Models share neighborhoods, not metrics. | 66 |
@@ -62,7 +62,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 222/225 checks passed.
+- Total: 225/225 checks passed.
 - Final-version checks:
 
     PASS final: every result file named in a provenance comment of the main text exists 
