@@ -11,7 +11,7 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 33 | 24.8 | 87 | 0 |
+| Introduction | 33 | 24.1 | 87 | 0 |
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 37 | 18.1 | 30 | 0 |
 | Experimental Setup | 16 | 16.2 | 25 | 0 |

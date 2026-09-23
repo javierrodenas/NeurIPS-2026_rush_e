@@ -2429,3 +2429,17 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   palabras, la excepción declarada a la regla de 30). `OPENREVIEW_abstract.txt` regenerado.
 - Sweep: literal de la tesis actualizado (comprobación de la tesis y comprobación de la duodécima revisión, que la exigen idéntica en
   abstract y §7); sin cambio de números.
+## 69. Abstract y tesis, dos ediciones (2026-09-23, 15:45, brief del autor).
+
+- (1) Las dos frases entre modelos del abstract ("Across models, the usual comparison makes… by direction rather than by distance.")
+  sustituidas por tu frase: "Across models, the trees agree on which classes group together well above chance, though less than two
+  readings of the same model, and not on distances; the self-supervised models organize classes by direction rather than by
+  distance, which a comparison by distance misses." La isla queda sólo en §5.4 (y en la contribución 3 de §1, "The island is an
+  artifact of the cut; …", que no tocaba el brief: dime si también sale de ahí).
+- Espejo en §1: el párrafo de respuesta usaba la misma redacción ("Across models, the usual way of comparing trees makes the
+  self-supervised models look like outliers… by direction rather than by distance.") y lleva ahora la misma frase nueva, idéntica a
+  la del abstract. La cláusula de la tesis no aparece en §1, así que (2) no tiene espejo allí.
+- (2) Tesis "agree on which classes group together": ya estaba desde §68 (commit f3bb6e9); sin cambio adicional.
+- Abstract: 344 palabras. `OPENREVIEW_abstract.txt` regenerado. Sweep: literal del abstract, la frase nueva exigida dos veces (abstract y
+  §1, la segunda tras \section{Introduction}), "look like outliers" ausente del envío, y el recuento de "though short of what two
+  readings of the same model reach" 2 → 1 (sólo la contribución 3).
