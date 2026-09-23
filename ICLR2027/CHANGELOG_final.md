@@ -2675,3 +2675,22 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   (1) y (2) aplicadas al heredarlas del envío. **No cabe en la página 9: el texto principal se desborda una línea** (la línea 486
   cae en la página 10, con las declaraciones detrás), así que no promociono el fichero y no toco nada más, como pediste.
 - Envío recompilado: texto principal en la página 9, sweep 230/230.
+## 82. Un panel, una tabla numerada (2026-09-23, 22:00, brief del autor).
+
+- Cada panel de las tablas del apéndice es ahora una tabla numerada aparte, con su propio pie de **40 palabras o menos** (frase en
+  negrita con la respuesta, luego qué son las columnas) y su propia etiqueta. El apéndice pasa de 12 tablas con paneles a **38
+  tablas numeradas** (Tablas 3 a 40), repartidas en los mismos 12 ficheros y las mismas 12 subsecciones, una por pregunta.
+- El título en negrita que encabezaba cada panel desaparece: lo dice el pie. Las etiquetas son la de la pregunta para la primera
+  tabla del grupo y `-b`, `-c`, `-d`, `-e`, `-f`, `-ap` para las demás; cuando el panel (a) se había borrado (potencia), la etiqueta
+  base viaja a la primera tabla superviviente, de modo que ninguna referencia queda colgando (`?? count: 0`).
+- **Referencias actualizadas** (once en el texto principal): el exceso de la estrella → Tabla 8; el bootstrap → Tabla 4; los detalles
+  del censo → Tablas 9 y 5; las lecturas sin centrar y gaussiana → Tabla 10; el censo coseno → Tabla 11; "both stars" → Tablas 16 y
+  17; las corridas → Tablas 24 y 20; MERU → Tabla 19; las tasas de detección y la potencia → Tabla 25; los acuerdos cofenético y de
+  corte → Tablas 27 y 28; DBpedia y HierarCaps → Tablas 31 y 32.
+- La página de lectura sigue agrupando por pregunta: cada línea nombra ahora el rango de tablas de esa pregunta. El párrafo llano de
+  2 a 4 frases se mantiene uno por pregunta, delante de su primera tabla, y ya no habla de "paneles" sino de tablas.
+- Sweep: comprobaciones del apéndice adaptadas (pie de 40 palabras o menos, una etiqueta por tabla, orden de aparición comparado por
+  pregunta, pines que citaban títulos de panel reapuntados a los pies nuevos); una relajación: un paréntesis que sólo contiene un
+  puntero a tablas ("(Tables 27 and 28)") deja de contar como paréntesis de prosa. El constructor de la vía paralela detectaba el
+  material ya incorporado por un título de panel: ahora lo detecta por el pie.
+- Envío: texto principal en la página 9, apéndice en 16 páginas, PDF de 31, sweep 230/230.

@@ -4,7 +4,6 @@
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \begingroup
-\noindent\textbf{(a) Selection diagnostics and mean pairwise ARI at the reference cut.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{llcc|ccc}
 \toprule
@@ -28,16 +27,15 @@ CIFAR-100 & cosine-ward & 0.14 & 0.584 & 0.56 & 0.62 & 0.61 \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The island is an artifact of the cut; the trees share topology well above chance and not the distances.} Panels: the selection diagnostics per configuration, the three agreement measures of the self-supervised models against the rest, and the within-model ceiling under resampling.
+\caption{\textbf{The island belongs to the naive cut, not to the models.} Per configuration of metric and linkage: the degeneracy diagnostics, the cophenetic fidelity that selects one, and the mean pairwise agreement at the cut.
 }
 \label{tab:q6-treemap}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \begingroup
-\noindent\textbf{(b) Three measures of DINOv2-B/L/G against the supervised+contrastive block, each written as vs block / within block.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{ll|ccc}
 \toprule
@@ -60,14 +58,15 @@ CIFAR-100 & cosine-ward & 0.56 / 0.61 & 0.74 / 0.73 & 0.76 / 0.76 \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The self-supervised models sit apart on distances, not on topology.} The three agreement measures for DINOv2 against the supervised and contrastive block, each written as against the block over within the block.
+}
+\label{tab:q6-treemap-b}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \begingroup
-\noindent\textbf{(c) Within-model ceiling under the selected ImageNet configuration.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccc|c}
@@ -94,5 +93,7 @@ mean over backbones & 0.79 $\pm$ 0.08 & 0.94 $\pm$ 0.01 & 0.90 $\pm$ 0.04 & 0.85
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{Two resamples of one model set the ceiling any pair of models can reach.} Per backbone: the three measures between pairs of the 30 bootstrap centroid sets, with their mean, spread and minimum.
+}
+\label{tab:q6-treemap-c}
 \end{table}

@@ -4,7 +4,6 @@
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
 \begingroup
-\noindent\textbf{(a) The 12 backbones under the star with Gaussian hubs.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{2.2pt}
 \begin{tabular}{lcc@{\hspace{5pt}}cccc@{\hspace{5pt}}c}
 \toprule
@@ -30,16 +29,15 @@ SigLIP-B & $-0.021$ (-2.17) & $-0.76$ & $-0.011$ (-0.90) & $-1.66$ & $-1.12$ \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The hierarchy test certifies that clusters are oriented toward their hubs in a few backbones, and finds no hierarchy among the hubs.} Panels: the 12 backbones under both matched stars, the leaf-label ViTs, a hyperbolic backbone with its Euclidean twin, the trained control and the radial control.
+\caption{\textbf{Clusters are oriented toward their hubs in 4 of 12 backbones under the star with Gaussian hubs.} Per backbone: the depth statistic and its $z$ on CIFAR-100 and on ImageNet, the WordNet cut at 3 sizes, and the balanced frame.
 }
 \label{tab:q4-depth}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
 \begingroup
-\noindent\textbf{(a$'$) The same backbones under the star whose hubs are a Haar resample of the real hubs (ImageNet, $K{=}30$); last column.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lcccc}
 \toprule
@@ -63,14 +61,15 @@ SigLIP-B & $+0.0024$ & $-0.0121$ (-0.78) & 1/10 & $-0.84$ $\pm$ $0.18$ (0/10) \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The same 4 backbones are certified under the star whose hubs are a Haar resample of the real ones.} Per backbone: the star's excess, the depth $z$, the star spread and the decoupling control over 10 seeds.
+}
+\label{tab:q4-depth-ap}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
 \begingroup
-\noindent\textbf{(b) Two ViT-B/16 supervised on ImageNet-1k leaf labels only, through the census protocol, against the IN-21k census backbone.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lcccc}
 \toprule
@@ -83,13 +82,14 @@ ViT-B, augreg, IN-21k (census) & $-0.0162$ (200) & $+0.0057$ (43) & $-0.0335$ (-
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{Supervision on leaf labels can produce the alignment but does not guarantee it.} The 2 ViT-B/16 trained on ImageNet-1k leaf labels, through the census protocol: excess, depth $z$ and agreement with WordNet.
+}
+\label{tab:q4-depth-b}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
-\noindent\textbf{(c) A hyperbolic backbone and its Euclidean twin under the census and the hierarchy test.}\par\vspace{1.5pt}
 \begin{tabular}{llccc@{\hspace{8pt}}ccc}
 \toprule
  & & \multicolumn{3}{c}{CIFAR-100 ($K{=}20$, $n{=}100$: false alarms uncontrolled)} & \multicolumn{3}{c}{ImageNet ($K{=}30$, $n{=}1000$: false alarms controlled)} \\
@@ -112,14 +112,15 @@ CLIP ViT-L & prompts & $-0.012$ (200) & $0.098$/$0.092$ & $+0.48$ & $+0.006^{\ci
 \bottomrule
 \end{tabular}
 \par\vspace{2pt}
-\caption{(continued)}
+\caption{\textbf{Training in hyperbolic space creates no hub structure.} MERU and its Euclidean twin at 3 sizes: the census excess, the depth $z$ and the radii of the embeddings in units of the curvature scale.
+}
+\label{tab:q4-depth-c}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
 \begingroup
-\noindent\textbf{(d) A trained positive control: leaf cross-entropy against leaf plus hierarchical, 2 seeds, identical batches.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lccccc}
@@ -135,14 +136,15 @@ leaf + hierarchical, seed 1 & $-0.0295$ (200) & $-4.22$ & $-2.63$ (1.0) & $-5.82
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The trained control separates the objectives by degree.} ViT-B/16 fine-tuned with leaf cross-entropy and with an added hierarchical term, 2 seeds: excess, depth $z$ intact and decoupled, on both frames.
+}
+\label{tab:q4-depth-d}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
 \begingroup
-\noindent\textbf{(e) Radial control: centroids normalized, offsets stripped of their radial part.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lccc|ccc}
@@ -168,5 +170,7 @@ SigLIP-B & $-1.13$ & $-0.88$ & $-0.51$ (0.0) & $-1.12$ & $-1.07$ & $-0.89$ (0.0)
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The alignment is not the radial spread of feature norms.} The same clouds after removing the radial part of every offset and after full L2 normalization: the depth $z$ under both stars.
+}
+\label{tab:q4-depth-e}
 \end{table}

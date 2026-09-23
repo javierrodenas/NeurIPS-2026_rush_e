@@ -4,7 +4,6 @@
 \scriptsize
 \setlength{\tabcolsep}{2pt}
 \begingroup
-\noindent\textbf{(b) Implanted two-level trees on the real ImageNet centroids.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{1.8pt}
 \begin{tabular}{lcccccc|cc|ccc}
 \toprule
@@ -29,16 +28,15 @@ SigLIP-B & $-0.90$ & 1.5 & 0/0/0 & -- & $-1.55$ & $-2.09$/$-5.04$/$-11.03$ & 0/0
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The test detects a planted hierarchy where the cloud is quiet enough, and its false alarms are measured.} Panels: implanted two-level trees, implanted hub alignment, a deep hierarchy at the real noise level, the power per backbone and the false alarms of the balanced frame.
+\caption{\textbf{A two-level implant at the real spread is missed.} Implanted trees on the real ImageNet centroids at growing strength: the detection rate at the certification bar, with the real spread and with it shrunk.
 }
-\label{tab:q5-power}
+\label{tab:q5-power}\label{tab:q5-power-b}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2pt}
 \begingroup
-\noindent\textbf{(c) Implanted hub alignment on the real ImageNet clouds.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{6pt}
 \begin{tabular}{lccccc}
@@ -64,14 +62,15 @@ SigLIP-B & 0.0 & 0.0 & 1.0 & 0.8 & 0.6 \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{Implanted hub alignment reproduces the verdict in the supervised ViTs and CLIP-B.} From the decoupled cloud, each cluster's principal axis rotated toward its hub: the detection rate per backbone and seed.
+}
+\label{tab:q5-power-c}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2pt}
 \begingroup
-\noindent\textbf{(d) A deep hierarchy at the real noise level.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccccc}
@@ -96,14 +95,15 @@ WordNet Poincar\'e, $d{=}50$ & 0 & 50 & $+0.0354$ (0) & $+1.53$ & $-2.22$ $\pm$ 
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{A deep hierarchy at the real noise level is detected, and a flat control is not.} Synthetic clouds with ViT-L's spectrum and ratio: the depth $z$ intact and decoupled for the hierarchy and for the flat control.
+}
+\label{tab:q5-power-d}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2pt}
 \begingroup
-\noindent\textbf{(e) Power per backbone for a deep hierarchy at the backbone's own noise level.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lcccccc}
@@ -128,14 +128,15 @@ SigLIP-B & 1.54 & 5 & 1.00 & $-2.49$ & 1.00 & $-4.86$ \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The power follows the backbone.} The same deep hierarchy built with each backbone's spectrum and ratio: the intact and decoupled power per backbone, and the within-between ratio it sits at.
+}
+\label{tab:q5-power-e}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2pt}
 \begingroup
-\noindent\textbf{(f) False alarms of the balanced frame.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lcc|ccc}
@@ -148,5 +149,7 @@ mismatched hubs (WordNet-30 frame) & 5/5 & $-3.13$ & 38/50 & $-2.33$ & $-1.56$ t
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The balanced frame raises no false alarm.} The flat control of the deep experiment read on the balanced grouping: the intact and decoupled firing counts.
+}
+\label{tab:q5-power-f}
 \end{table}

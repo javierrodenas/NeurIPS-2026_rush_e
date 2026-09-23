@@ -10,7 +10,7 @@ R = os.environ.get('PLATONIC_RESULTS', 'rebuttal/results').rstrip('/') + '/'; TE
 SRC = TEX + 'main_iclr2027_final.tex'; DST = TEX + 'main_iclr2027_rebuttal.tex'
 NM = {"frozen": "frozen checkpoint", "ce_seed0": "leaf CE", "hier_seed0": "leaf CE + hierarchical CE", "ce_seed1": "leaf CE (seed 1)", "hier_seed1": "leaf CE + hierarchical CE (seed 1)"}
 T = open(SRC).read(); status = {}
-IN78 = "\\paragraph{A published reading is reproduced and calibrated.}" in T; IN79 = ("detects a three-level hierarchy with ViT-L\'s spectrum and noise" in T) or ("given a three-level hierarchy with ViT-L\'s spectrum and noise" in T); IN80 = "Implanted alignment is detected in" in T or "(c) Implanted hub alignment on the real ImageNet clouds" in open(FD + "tab_q05_power_final.tex").read()   # already in the submission (brief of 2026-09-21; since 2026-09-23 only Table 10(c) carries the percentage, the (iii) sentence went with the page budget)
+IN78 = "\\paragraph{A published reading is reproduced and calibrated.}" in T; IN79 = ("detects a three-level hierarchy with ViT-L\'s spectrum and noise" in T) or ("given a three-level hierarchy with ViT-L\'s spectrum and noise" in T); IN80 = "Implanted alignment is detected in" in T or "Implanted hub alignment reproduces the verdict in the supervised ViTs and CLIP-B." in open(FD + "tab_q05_power_final.tex").read()   # already in the submission (brief of 2026-09-21; since 2026-09-23 only Table 10(c) carries the percentage, the (iii) sentence went with the page budget)
 def insert_after_paragraph(text, lead, new_par):
     i = text.index("\\paragraph{" + lead + "}"); j = text.index("\n\n", i)
     return text[:j] + "\n\n" + new_par + text[j:]

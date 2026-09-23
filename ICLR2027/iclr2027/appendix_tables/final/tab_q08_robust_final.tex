@@ -4,7 +4,6 @@
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
 \begingroup
-\noindent\textbf{(a) Quadruple budget under the census reading (Haar null, p99.9, 200 replicates).}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{2.6pt}
 \begin{tabular}{llcccccc|cc}
 \toprule
@@ -23,16 +22,15 @@ CLIP-B & DTD & $-0.0243$ & $-0.0235$ & $-0.0242$ & $-0.0240$ & $-0.0243$ & $-0.0
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The reading does not move with the quadruple budget, with the images behind each centroid or with the number of classes.} Panels: the excess at growing budgets, a bootstrap over resampled images, the genuine count under null, bootstrap and estimator noise together, and the excess on smaller class sets.
+\caption{\textbf{The excess does not move with the quadruple budget.} Per cell: the excess at budgets from $10^4$ to $2\times10^6$ sampled quadruples per seed, and its drift over budgets as a fraction of the null spread.
 }
 \label{tab:q8-robust}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
 \begingroup
-\noindent\textbf{(b) Centroid bootstrap under the census reading (Haar null, p99.9).}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{llcccccc}
 \toprule
@@ -80,14 +78,15 @@ SigLIP-B & DTD & 80 & 200 & $-0.0233$ & $-0.0234$ & $0.0014$ & 1.00 \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The genuine count survives resampling of the images behind each centroid.} Per cell: the excess over 30 bootstrap resamples, its spread, and how many resamples stay genuine under the correction across cells.
+}
+\label{tab:q8-robust-b}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
 \begingroup
-\noindent\textbf{(c) Joint sensitivity of the genuine count.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{2.6pt}
 \begin{tabular}{lcccccc}
 \toprule
@@ -111,14 +110,15 @@ SigLIP-B & $-1.7$ (0)$^{\circ}$ & $-4.3$ (30) & $-1.7$ (29)$^{\dagger}$ & $-4.0$
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{Null, bootstrap and estimator noise together leave the verdicts standing.} Per cell: a joint score that divides the excess by the combined spread, and the genuine count it implies.
+}
+\label{tab:q8-robust-c}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
 \begingroup
-\noindent\textbf{(d) Class count: the excess shrinks with the number of classes.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{lr|cccc|cccc}
@@ -137,5 +137,7 @@ DINOv2-L & 1000 & 0.030 & -0.014 & 1/1 & +0.57 & --- & --- & --- & --- \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The excess shrinks with the number of classes.} ImageNet subsets of growing size, drawn at random across the hierarchy or as WordNet siblings: the reading, the excess and the verdict per subset.
+}
+\label{tab:q8-robust-d}
 \end{table}

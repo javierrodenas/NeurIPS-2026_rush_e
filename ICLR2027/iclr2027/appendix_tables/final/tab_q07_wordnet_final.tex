@@ -4,7 +4,6 @@
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(a) Alignment with WordNet on ImageNet.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lcccc|c}
@@ -33,16 +32,15 @@ ViT-B (augreg, IN-1k) & $+0.52$ & $+0.01$ & -- & -- & -- \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{Agreement with the human taxonomy follows supervision and recipe, and the superclasses are recovered by every family.} Panels: the correlation with WordNet on ImageNet, the recovery of the CIFAR-100 superclasses per configuration, and the same readings on DBpedia Classes and on the HierarCaps caption chains.
+\caption{\textbf{Agreement with the human taxonomy follows supervision and recipe.} Per backbone: the correlation between inter-centroid and WordNet distances on ImageNet, with the superclass recovery beside it.
 }
 \label{tab:q7-wordnet}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(b) Recovery of the CIFAR-100 superclasses.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccccc}
@@ -70,14 +68,15 @@ ViT-B (augreg, IN-1k) & 0.30 & 0.44 & 0.40 & 0.42 & 0.48 \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{Every family recovers the CIFAR-100 superclasses.} Per backbone and configuration: the agreement of the 20-cluster cut with the coarse labels, with the degenerate configurations marked.
+}
+\label{tab:q7-wordnet-b}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(c) DBpedia Classes (219 leaf classes, 3 levels), a text hierarchy independent of WordNet; gains in pp.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{2.5pt}
 \begin{tabular}{lcc|ccc|ccc}
 \toprule
@@ -91,14 +90,15 @@ GTE-base & 0.132 & -0.024 & 0.088 & -0.017 & 200 (0.005) & 0.89 & -0.82 & +0.08$
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The recovery is not WordNet circularity.} On DBpedia Classes, an ontology built independently: the reading, the excess, the triplet agreement and the metric gains per text embedder.
+}
+\label{tab:q7-wordnet-c}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(d) HierarCaps (1000 four-level caption chains).}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lcccccc}
@@ -115,5 +115,7 @@ SigLIP-B & +0.32$\pm$0.55 & 9.8 & 0.83 & 0.91 & 0.138 & +0.014 \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{A caption hierarchy with no class set reads the same way.} On HierarCaps: the correlation between level and radius, the share of monotone chains, the triplet agreements and the leaf excess per encoder.
+}
+\label{tab:q7-wordnet-d}
 \end{table}

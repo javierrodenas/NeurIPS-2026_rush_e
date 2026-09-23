@@ -1113,7 +1113,7 @@ def final_checks():
             gs = [g for g in gs if g not in counts_]   # counts with their noun are not result numbers (numeral rule, 2026-09-23)
             if off: bad.append(f"{name}: number outside the headline set {off}: {par[:60]!r}")
             for m in _re.finditer(r"\(([^()]*)\)", cp):
-                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")
+                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and not _re.fullmatch(r"(Table|Tables|Figure|Figures) REF( and REF)?", m.group(1)) and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")
             for s_ in sents:
                 if s_.count(";") >= 2 and not s_.startswith("Read correctly, foundation models"): bad.append(f"{name}: semicolon chain: {s_[:80]}")   # the author's thesis lists its clauses with semicolons
             low = cp.lower()
@@ -1188,9 +1188,9 @@ def final_checks():
     for f in sorted(FD.glob("tab_q*.tex")):   # the final copies (v1 tables split by panel, plus the tables regenerated for the final: robustness, depth, wordnet)
         m = _re.search(r"\\label\{(tab:q[^}]*)\}", f.read_text())
         if m: labels[f.stem] = m.group(1)
-    cited = []
+    cited = []; _base = lambda l_: _re.sub(r"-(ap|[b-f])$", "", l_)   # since the split of 2026-09-23 a question has one table per former panel
     for m in _re.finditer(r"\\ref\{(tab:q[^}]*)\}", main_f):
-        if m.group(1) not in cited: cited.append(m.group(1))
+        if _base(m.group(1)) not in cited: cited.append(_base(m.group(1)))
     order = [labels[s] for s in inputs if s in labels]
     kept = [s for s in inputs if s.startswith("tab_q")]
     chk("final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/",
@@ -1202,7 +1202,7 @@ def final_checks():
         and "null variants" not in rob.lower() and rob.count("DINOv2-L & 100 &") == 1 and rob.count("non-hierarchical fine-tuning") == 0 and "supremum, Gaussian" not in rob
         and all(("\\noindent\\textbf{" + p_) not in (FD/(f_ + ".tex")).read_text() for f_, p_ in (("tab_q02_text", "(b)"), ("tab_q03_sample_final", "(b)"), ("tab_q05_power_final", "(a)"), ("tab_q08_robust_final", "(e)"), ("tab_q09_corollary", "(e)"), ("tab_q09_corollary", "(f)"), ("tab_q09_corollary", "(g)")))
         and all(x not in (FD/"tab_q04_depth_final.tex").read_text() for x in ("iso.\\ $z$", "iso.\\ star"))
-        and "(b) Correlation between the raw supremum" in (FD/"tab_q09_corollary.tex").read_text())   # tenth review: Table 14(b) restored
+        and "The raw reading predicts the gain within datasets." in (FD/"tab_q09_corollary.tex").read_text())   # tenth review: Table 14(b) restored
     chk("final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen", all(("% prov:" in (FD/(s + ".tex")).read_text()) for s in kept) and (FD/"tab_z_provenance_final.tex").read_text().count("\\texttt{tab\\_") == 12)
     def _caps_of(src_):   # captions by brace matching: the short caption ends on its own line, a continued one on the same line
         out_ = []
@@ -1215,11 +1215,11 @@ def final_checks():
             out_.append(src_[m_.end():j_ - 1])
         return out_
     _appx = TF[TF.index("\\appendix"):]; _capsF = [c for f_ in inputs for c in _caps_of(nocom((FD/(f_ + ".tex")).read_text()))]
-    chk("final (appendix cleanup, 2026-09-23): the appendix opens with the reading page and the glossary, every table is preceded by one plain paragraph of 2-4 sentences, every caption is at most 60 words with a bold answer, and the uncited panels, the ARI-matrix figure and the isotropic star are gone",
+    chk("final (appendix cleanup, 2026-09-23): the appendix opens with the reading page and the glossary, every table is preceded by one plain paragraph of 2-4 sentences, one numbered table per former panel, every caption at most 40 words with a bold answer, and the uncited panels, the ARI-matrix figure and the isotropic star are gone",
         "\\subsection{How to read this appendix}" in _appx and "\\paragraph{Symbols and column names.}" in _appx and all(w in _appx for w in ("the reading used in the paper", "excess", "$r$/200", "left-tail add-one", "BH", "$^{\\circ}$", "Bold", "frame", "hub", "matched star", "Haar-hub star", "decoupled", "power", "false alarms"))
         and _appx.count("\\paragraph{What this table answers.}") == 12 and all(2 <= len(_re.split(r"(?<=[.])\s+", p_.strip())) <= 4 for p_ in _re.findall(r"\\paragraph\{What this table answers\.\}(.*?)\n", _appx))
-        and all(len(_re.sub(r"%.*", "", c).split()) <= 60 for c in _capsF) and sum(1 for c in _capsF if c.lstrip().startswith("\\textbf{")) == 12 and "of record" not in _appx,
-        f"captions over 60 words: {[len(_re.sub(chr(37) + '.*', '', c).split()) for c in _capsF if len(_re.sub(chr(37) + '.*', '', c).split()) > 60]}")
+        and all(len(_re.sub(r"%.*", "", c).split()) <= 40 for c in _capsF) and sum(1 for c in _capsF if c.lstrip().startswith("\\textbf{")) >= 30 and len(_capsF) >= 30 and "of record" not in _appx,
+        f"captions over 40 words: {[len(_re.sub(chr(37) + '.*', '', c).split()) for c in _capsF if len(_re.sub(chr(37) + '.*', '', c).split()) > 60]}")
     # the final copies are the v1 tables split into one floating table per panel: same numbers, same captions, [tbp] instead of [H]
     same = []
     for s in kept:
@@ -1254,7 +1254,7 @@ def final_checks():
     fam_ok = all(pm80.loc[m, 1.0] == 1.0 for m in ("i21k_t", "i21k_s", "i21k_b", "i21k_l", "clip_b")) and all(pm80.loc[m, 1.0] == 0.0 for m in ("dinov2_s", "dinov2_b", "dinov2_l"))
     chk("final (priority 1c as a limitation): the author's sentence with the percentage and the family statement re-derived from expR80_implanted_alignment.csv, Table 10c per backbone and pooled with the rule's outcome, no 'measured power' certification wording, no dotted curve unless the rule was met",
         fam_ok and "Implanted alignment is detected in" not in bf
-        and "(c) Implanted hub alignment on the real ImageNet clouds" in pw and "pooled (12 backbones" in pw and "with measured power:" not in bf and "certifies hub alignment with measured power" not in bf
+        and "Implanted hub alignment reproduces the verdict in the supervised ViTs and CLIP-B." in pw and "pooled (12 backbones" in pw and "with measured power:" not in bf and "certifies hub alignment with measured power" not in bf
         and bool(f4.get("implanted_alignment_curve", False)) == (d80["rule_power_ge_0_8_fa_le_0_05"] == "True"), f"pct {pct} fam {fam_ok}")
     LEADS53 = ["The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.", "What it certifies is alignment.", "What the test can see.", "No hub hierarchy is found where the test has power.", "The certified set depends on the frame.", "Leaf labels can produce the alignment but do not guarantee it.", "MERU's objective does not create hub structure."]   # cleanup of 2026-09-22; MERU lead-in since the twelfth review
     E79 = pd.read_csv(R/"expR79_synthetic_deep_poincare.csv"); deep = E79[E79.cloud == "synthetic_deep_vitl_spectrum"]; flat = E79[E79.cloud == "synthetic_flat_vitl_spectrum"]; poi = E79[E79.cloud.str.startswith("wordnet_poincare")]
@@ -1263,8 +1263,8 @@ def final_checks():
         nd == 4 and nf == 0 and dec_all and poi_none and len(deep) == 5 and len(flat) == 5 and len(poi) == 2
         and [bf.index("\\paragraph{" + l + "}") for l in LEADS53] == sorted(bf.index("\\paragraph{" + l + "}") for l in LEADS53)
         and f"A flat control with the same spectrum and ratio as the deep one fires in {nf} of {len(flat)} intact and in {int(round(flat.dec_frac_cert.sum() * 10))} of 50 decoupled runs." in bf and "read with Euclidean distances, do not fire" not in bf
-        and f"it detects it in {nd} of {len(deep)} seeds." in bf and "(d) A deep hierarchy at the real noise level" in pw
-        and "(iii)~The hierarchy test's power for a three-level hierarchy follows the backbone rather than its within/between ratio or family" in bf and "left open" not in bf and "no power at this noise level" not in bf and "without power" not in bf and "\\paragraph{The two-level implant is missed" not in bf and "Figure~\\ref{fig:implant} and Table~\\ref{tab:q5-power} give the detection rates and the power." in bf,
+        and f"it detects it in {nd} of {len(deep)} seeds." in bf and "A deep hierarchy at the real noise level is detected, and a flat control is not." in pw
+        and "(iii)~The hierarchy test's power for a three-level hierarchy follows the backbone rather than its within/between ratio or family" in bf and "left open" not in bf and "no power at this noise level" not in bf and "without power" not in bf and "\\paragraph{The two-level implant is missed" not in bf and "Figure~\\ref{fig:implant} and Table~\\ref{tab:q5-power-e} give the detection rates and the power." in bf,
         f"deep {nd}/{len(deep)} flat {nf}/{len(flat)} dec_all {dec_all} poi_none {poi_none}")
     S78 = pd.read_csv(R/"expR78_khrulkov_replication_summary.csv").set_index("dataset"); allin = len(S78) == 4 and bool(S78.within_range.all()); low = set(S78.index[S78.p_left_max <= 0.05]); smp = (FD/"tab_q03_sample_final.tex").read_text()
     chk("final (priority 2): the S5.1 published-reading paragraph after the lead-in, its claims re-derived from expR78_khrulkov_replication_summary.csv (all four within 0.03, excess negative everywhere, p <= 0.05 on CIFAR-100 and MiniImageNet only), the new lead-in, limitation (vi), and Table 8(b) with the four published and reproduced values",
@@ -1280,7 +1280,7 @@ def final_checks():
     rad_ok = (dr82.model.nunique() == 4 and bool((dr82.z <= -2).all()) and set(l282[(l282.star == "aniso") & (l282.z <= -2)].model) == {"i21k_b", "i21k_l"}
               and f"Removing the radial component of every offset leaves it in all 4 certified backbones, $z$ from ${dra.max():.2f}$ to ${dra.min():.2f}$ under both stars; feature norms are not its source. Under full L2 normalization, which also moves the hubs, it survives in ViT-B and ViT-L only." in bf
               and "The alignment is not the radial spread of feature norms, which a control removes without changing the verdicts; full L2 normalization keeps it in 2 of the 4 backbones." in bf and "a control that removes it is in progress" not in bf
-              and ("(e) Radial control" in dep) == ((R/"expR82_radial_control_summary.csv").exists() and (lambda S_: S_.model.nunique() == 12 and len(S_) == 24 and bool((S_.dec_runs == 10).all()))(pd.read_csv(R/"expR82_radial_control_summary.csv"))))
+              and ("The alignment is not the radial spread of feature norms." in dep) == ((R/"expR82_radial_control_summary.csv").exists() and (lambda S_: S_.model.nunique() == 12 and len(S_) == 24 and bool((S_.dec_runs == 10).all()))(pd.read_csv(R/"expR82_radial_control_summary.csv"))))
     r64 = pd.read_csv(R/"expR64b_wn30_summary.csv").set_index("model").ratio_real
     S81 = pd.read_csv(R/"expR81_deep_per_backbone_summary.csv").set_index("model"); ORD = ["i21k_t", "i21k_s", "i21k_b", "i21k_l", "dinov1_b", "dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g", "clip_b", "clip_l", "siglip_b"]
     cov = [m for m in ORD if S81.loc[m, "dec_power"] >= 0.8]; unc = [m for m in ORD if S81.loc[m, "dec_power"] < 0.8]; rb, rc = r64[unc], r64[cov]   # ninth review: one criterion, the decoupled power
@@ -1292,7 +1292,7 @@ def final_checks():
     P77 = pd.read_csv(R/"expR77_positive_control.csv").set_index("model"); V77 = _j.load(open(R/"expR77_positive_control_verdict.json"))["verdict"][0]
     pc_ok = (P77.loc["hier_seed0", "z_wn30"] <= -2 and P77.loc["hier_seed0", "z_wn30bal"] <= -2 and P77.loc["ce_seed0", "z_wn30"] <= -2 and P77.loc["frozen", "z_wn30"] <= -2 and not V77["criterion_met"]
              and f"ViT-B fine-tuned with a hierarchical cross-entropy keeps firing once decoupled in {sum(int(round(P77.loc[f'hier_seed{s_}', 'dec_frac_cert_wn30'] * 10)) for s_ in (0, 1))} of 20 runs over 2 seeds, mean $z$ ${P77.loc[['hier_seed0', 'hier_seed1'], 'zdec_mean_wn30'].mean():.2f}$, on the WordNet frame. The leaf-only fine-tune fires in {sum(int(round(P77.loc[f'ce_seed{s_}', 'dec_frac_cert_wn30'] * 10)) for s_ in (0, 1))} of 20, mean $z$ ${P77.loc[['ce_seed0', 'ce_seed1'], 'zdec_mean_wn30'].mean():.2f}$, and the frozen checkpoint in none." in bf and int(round(P77.loc['frozen', 'dec_frac_cert_wn30'] * 10)) == 0 and "Fine-tuning itself adds some decoupled signal and the hierarchical objective adds more, so the trained control separates the objectives by degree." in bf and not any(v["criterion_met"] for v in _j.load(open(R/"expR77_positive_control_verdict.json"))["verdict"])
-             and "A pre-set criterion expecting no intact certification of the leaf and frozen models was not met, because they are aligned." in bf and "The pre-set criterion asked" not in bf and "(d) A trained positive control" in dep and f"Its trained control separates the objectives by degree, not absolutely: the leaf-only fine-tune also fires once decoupled, in {sum(int(round(P77.loc[f'ce_seed{s_}', 'dec_frac_cert_wn30'] * 10)) for s_ in (0, 1))} of 20 runs." in bf and "(seed 1)" not in bf and "2 seeds, identical batches" in dep
+             and "A pre-set criterion expecting no intact certification of the leaf and frozen models was not met, because they are aligned." in bf and "The pre-set criterion asked" not in bf and "The trained control separates the objectives by degree." in dep and f"Its trained control separates the objectives by degree, not absolutely: the leaf-only fine-tune also fires once decoupled, in {sum(int(round(P77.loc[f'ce_seed{s_}', 'dec_frac_cert_wn30'] * 10)) for s_ in (0, 1))} of 20 runs." in bf and "(seed 1)" not in bf and "2 seeds:" in dep
              and "one trained positive control is inconclusive" not in bf)
     LONGN_ = " in the supervised and contrastive backbones, whose noise level, ratios 1.3 to 2.0, the control covers, and not tested in the DINOv2 family, ratios 3.0 to 3.9"; SHORT_ = " in the supervised and contrastive backbones; the DINOv2 family lies beyond the noise level at which the test was validated"
     # ---- seventh review (2026-09-21): scoped headline, decoupled flat false alarms from expR79, the observation sentence from expR81 when its ViT-L rows exist, limitation (iii) ratios from expR64b, Figure 1 caption, the proof of Proposition 1(b) without the unproved extension, Figure 4b label
@@ -1318,7 +1318,7 @@ def final_checks():
     bal_ok = (S83 is not None and bool((S83.n_decoupled == 50).all()) and bool(bal) and int(bal["fa_bal"]) == int(S83.loc["balanced", "decoupled_fired"]) and bal["sentence"] in bf and bal.get("author_sentence")
               and bal["sentence"] == f"A flat cloud clustered under the WordNet frame fires under the balanced frame in {int(S83.loc['wn30', 'decoupled_fired'])} of 50 decoupled runs. A real cloud read under a frame that is not its own is therefore expected to fire. The frozen ViT-B firing in {int(round(P77.loc['frozen', 'dec_frac_cert_wn30bal'] * 10))} of 10 there is consistent with that mismatch and is not evidence of hub structure."
               and f"On the balanced frame the matched flat control fires in {int(S83.loc['balanced', 'decoupled_fired'])} of 50 decoupled runs." in bf and int(S83.loc["balanced", "decoupled_fired"]) == 0
-              and int(S83.loc["balanced", "decoupled_fired"]) < 2 * fa_dec and int(S83.loc["wn30", "decoupled_fired"]) > 25 and "(f) False alarms of the balanced frame" in pw)   # the author's sentence (2026-09-22, afternoon brief), its three counts from expR83 and expR77
+              and int(S83.loc["balanced", "decoupled_fired"]) < 2 * fa_dec and int(S83.loc["wn30", "decoupled_fired"]) > 25 and "The balanced frame raises no false alarm." in pw)   # the author's sentence (2026-09-22, afternoon brief), its three counts from expR83 and expR77
     chk("final (9th review): nine covered / three blind from the decoupled power of Table 10(e); the long form in S1 and the Figure 4 caption, the short form as the thesis twice, the abstract sentence, no five/seven left; decoupled false alarms next to the split in S5.3 and (iii); the balanced-frame sentence from expR83 (matched hubs) with the recorded rule; vocabulary (structure above the clusters, alignment, hub structure, nominally hyperbolic); triplet 0.77 vs 0.76 from expR58; Gaussian band named as the sampled supremum in S6 and Table 4; Moreira 2024 cited with a verified entry; proof end tied to the statistic confound; no experiment IDs in any caption; Figure 4b = decoupled-power bars; implant curves as an appendix figure; B.7 points to Table 9(d)",
         p81_ok and bf.count("no hub hierarchy is found in 9 of 12 backbones where the decoupled control detects an implanted one, and the test is blind in the other 3") == 0 and "\\paragraph{No hub hierarchy is found where the test has power.}" in bf
         and "Where a planted hierarchy is detected, in 9 of 12 backbones, no hierarchy as strong as the planted one is found; in the other 3 the test cannot tell." in abs_now and "five backbones" not in TF and "other seven" not in TF and "in the five only" not in TF and "in the five and" not in TF
@@ -1330,7 +1330,7 @@ def final_checks():
         and "a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \\citep{moreira2024hyperbolic} (Table" in bf and "@inproceedings{moreira2024hyperbolic" in bib and "2082--2090" in bib and "Winter Conference on Applications of Computer Vision" in bib
         and not caps_ids
         and f4.get("panel_b") == "decoupled_power_per_backbone" and f4.get("n_covered") == 9 and not f4.get("implanted_alignment_curve") and (TEX/"figures/fig_implant_final.pdf").exists() and fi.get("real", {}).get("0.0") == 0.0 and fi.get("real", {}).get("1.0", 1) < 0.5 <= fi.get("shrunk", {}).get("1.0", 0)
-        and "\\label{fig:implant}" in app_f and "Figure~\\ref{fig:implant} and Table~\\ref{tab:q5-power} give the detection rates and the power." in bf
+        and "\\label{fig:implant}" in app_f and "Figure~\\ref{fig:implant} and Table~\\ref{tab:q5-power-e} give the detection rates and the power." in bf
         and "A trained control, inconclusive" not in TF,
         f"cov {len(cov)} unc {len(unc)} bal {bal.get('fa_bal')} high {bal.get('high')} caps_ids {caps_ids}")
     # ---- full-pass cleanup (2026-09-22, evening brief): duplicates out, Definition 8, S5.3 in seven paragraphs with each number once, the Khrulkov table in S5.1, S5.2 cuts, S3.2 sentence dropped
@@ -1360,9 +1360,9 @@ def final_checks():
         and "and it tests hierarchy among the frame's hubs only." in bf
         and "not a hierarchy among those centers" in abs_now and TF.count("not that the hubs form a hierarchy") == TF.count("not that the hubs form a hierarchy within the grouping") and "not that the hubs form a hierarchy" not in dep
         and S84 is not None and len(S84) == 13 and bool(tc) and tc.get("branch") == "keep" and float(S84.loc["ALL", "triplet_agree_mean"]) >= 0.9 and f"Across models, triplet agreement reaches {c58.triplet_agree_big_vs_block:.2f}, against {S84.loc['ALL', 'triplet_agree_mean']:.2f} for two resamples of the same model. Chance gives 0.33." in bf
-        and c58.triplet_agree_big_vs_block < S84.loc["ALL", "triplet_agree_min"] and "(c) Within-model ceiling" in tm6 and f"mean over backbones & {S84.loc['ALL', 'ari_cut_mean']:.2f}" in tm6 and THESIS in bf
+        and c58.triplet_agree_big_vs_block < S84.loc["ALL", "triplet_agree_min"] and "Two resamples of one model set the ceiling any pair of models can reach." in tm6 and f"mean over backbones & {S84.loc['ALL', 'ari_cut_mean']:.2f}" in tm6 and THESIS in bf
         and "(vi)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work." in bf and "(viii)~The census" in bf and "(ix)~The objective--geometry" in bf and "(x)~Downstream" in bf
-        and "(b) Correlation between the raw supremum" in cor,
+        and "The raw reading predicts the gain within datasets." in cor,
         f"ceiling {tc.get('triplet_ceiling_mean')} min {tc.get('triplet_ceiling_min')} branch {tc.get('branch')}")
     # ---- thesis and S5.4 after expR84 (2026-09-22, evening brief): topology largely shared, metric not; ceilings per measure beside the cross-model values
     b84 = S84.drop("ALL") if S84 is not None else None
@@ -1370,7 +1370,7 @@ def final_checks():
         S84 is not None and THESIS in abs_now and bf.count(THESIS) == 2 and "moderately shared" not in bf and "does not converge to one common tree" not in bf
         and "In text, the result depends on the model's recipe and size." in abs_now and "a hierarchy test whose ability to detect a hierarchy is measured" in abs_now and "the hierarchy test finds structure" in abs_now and "Across models, the trees agree on which classes group together well above chance, though less than two readings of the same model, and not on distances; the self-supervised models organize classes by direction rather than by distance, which a comparison by distance misses." in abs_now and bf.count("well above chance, though short of what two readings of the same model reach") == 0 and "and not on distances" in abs_now and bf.count(NEW_CROSS) == 1 and "look like outliers" not in bf and bf.index(NEW_CROSS) < bf.index("\\section{Introduction}") and NEW_CROSS.replace("Across models, ", "\\emph{Across models,} ") in seg(bf, "\\section{Introduction}", "\\section{Related Work}")
         and "\\item \\textbf{The map of trees.} Across models, the trees agree on which classes group together but not on distances, and the self-supervised models organize classes by direction, which a comparison by distance misses." in bf and "\\item \\textbf{The instrument.} A calibrated reading of $\\delta$, compared with random clouds of the same shape, and a hierarchy test whose false-alarm rate and power are measured on real clouds." in bf and "\\item \\textbf{Consequences for practice.} The rule that derives curvature from a raw $\\delta$ assigns curvature to random clouds; we say what to measure before imposing curvature, and cosine collects most of the structure at no cost." in bf and "sharing is graded and supervision-dependent" not in bf and "largely shared" not in bf
-        and "The cophenetic and cut agreements reach about half their within-model ceiling (Table~\\ref{tab:q6-treemap})." in bf and "\\paragraph{Controlled, the trees share their topology, not their metric.}" in bf
+        and "The cophenetic and cut agreements reach about half their within-model ceiling (Tables~\\ref{tab:q6-treemap-b} and \\ref{tab:q6-treemap-c})." in bf and "\\paragraph{Controlled, the trees share their topology, not their metric.}" in bf
         and c58.triplet_agree_big_vs_block / S84.loc["ALL", "triplet_agree_mean"] >= 0.8 and 0.4 <= c58.coph_corr_big_vs_block / S84.loc["ALL", "coph_corr_mean"] <= 0.6 and 0.4 <= c58.ari_cut_big_vs_block / S84.loc["ALL", "ari_cut_mean"] <= 0.6 and tc.get("cross_over_ceiling", {}).get("triplet", 0) >= 0.8,
         f"cross/ceiling triplet {c58.triplet_agree_big_vs_block / S84.loc['ALL', 'triplet_agree_mean']:.2f} coph {c58.coph_corr_big_vs_block / S84.loc['ALL', 'coph_corr_mean']:.2f} ari {c58.ari_cut_big_vs_block / S84.loc['ALL', 'ari_cut_mean']:.2f}" if S84 is not None else "no expR84")
     # ---- consolidated pass (2026-09-22, night): abstract verbatim with the thesis as its last sentence, S1 glosses at first use, Figure 5 redrawn with the matrices in the appendix, 45-word splits

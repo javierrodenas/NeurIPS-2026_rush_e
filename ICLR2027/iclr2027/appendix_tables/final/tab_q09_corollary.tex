@@ -4,7 +4,6 @@
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(a) Task accuracies and zero-cost metric gains per cell (10 backbones with cached per-dataset features $\times$ 6 datasets).}\par\vspace{1.5pt}
 \scriptsize\renewcommand{\arraystretch}{0.88}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{llcccccccc}
@@ -86,16 +85,15 @@ CLIP-L & IN & 75.0 & 74.5 & 98.4 & 98.6 & +0.01 & +0.00 & +0.22 & $10^{-8}$\,($-
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{Both readings predict the gain of a non-Euclidean readout, and the hierarchy verdict predicts none.} Panels: accuracies and zero-cost gains per cell, the correlations under the raw reading and under the calibrated one, and the best zero-cost metric per backbone.
+\caption{\textbf{The zero-cost gains are modest and limited to prototype tasks.} Per cell: nearest-centroid and few-shot accuracy under the Euclidean and the Poincar\'{e} readout, the advantage of each zero-cost metric, and a paired test.
 }
 \label{tab:q9-corollary}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(b) Correlation between the raw supremum reading and the gain.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{llccccc}
 \toprule
@@ -121,14 +119,15 @@ FS best$-$R & ImageNet & $-0.64$ -- & $-0.71$ & $-0.57$ & $-0.90$ & (-1) \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The raw reading predicts the gain within datasets.} Per dataset and task: the correlation between the raw supremum reading and the metric gain, with bootstrap intervals and the family-demeaned value.
+}
+\label{tab:q9-corollary-b}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(c) Best zero-cost metric per backbone.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{lcc}
@@ -149,14 +148,15 @@ CLIP-L & $+0.65$ & H \\
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{Cosine collects the gain for the self-supervised models.} Per backbone: the best zero-cost advantage over the Euclidean readout, averaged over the hierarchical datasets, and which metric collects it.
+}
+\label{tab:q9-corollary-c}
 \end{table}
-\begin{table}[H]\ContinuedFloat
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(d) The same correlations on the calibrated reading and the hierarchy-test $z$.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{llcc|cc|c}
 \toprule
@@ -181,5 +181,7 @@ FS best$-$R & ImageNet & $-0.83$ [-0.96, -0.43] & $-0.50$ & $-0.08$ [-0.68, +0.5
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{(continued)}
+\caption{\textbf{The calibrated reading predicts the gain as well as the raw one, and the hierarchy verdict predicts none.} Per dataset and task: the same correlations for the raw statistic, the excess and the hierarchy-test $z$.
+}
+\label{tab:q9-corollary-d}
 \end{table}

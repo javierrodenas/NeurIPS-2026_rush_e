@@ -146,7 +146,7 @@ Let $d_{\min}$ and $d_{\max}$ be the smallest and the largest pairwise distance 
 A null replicate is a cloud with the real shape and no structure. Let $X=U\Sigma V^{\top}$ be the singular value decomposition of the centered cloud; the replicate is $X'=Q\Sigma V^{\top}$ with $Q$ the orthogonal factor of a column-centered Gaussian matrix, orthogonal to the all-ones vector and Haar-distributed on the centered subspace, so $X'$ has exactly the centered singular values of $X$ and structureless coefficients.
 \end{definition}
 
-\paragraph{The null is a cloud with the real shape and no structure.} Of the two constructions compared, Gaussian coefficients reproduce the spectrum only on average and inflate the excess of low-rank clouds. The centered Haar construction reproduces the centered spectrum exactly, so it is the record. The uncentered and the Gaussian readings are reported beside it (Table~\ref{tab:q1-census}).
+\paragraph{The null is a cloud with the real shape and no structure.} Of the two constructions compared, Gaussian coefficients reproduce the spectrum only on average and inflate the excess of low-rank clouds. The centered Haar construction reproduces the centered spectrum exactly, so it is the record. The uncentered and the Gaussian readings are reported beside it (Table~\ref{tab:q1-census-b}).
 
 \begin{definition}[excess]
 \label{def:excess}
@@ -258,11 +258,11 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Most cells show structure beyond the second moments.} It is genuine in 44 of 72 cells and 30 of 36 on the 3 datasets with 47 classes or more. On ImageNet and CIFAR-100 the count is 18 of 24. Figure~\ref{fig:excess} and Table~\ref{tab:census} give the census. % expR52_census_haar_p999_200.csv
 
-\paragraph{The count survives resampling.} Folding image resampling and the estimator's seeds into the null spread, or repeating the census on resampled centroids, keeps most of the count. Table~\ref{tab:q8-robust} gives the bootstrap. % expR66_joint_sensitivity_summary.csv
+\paragraph{The count survives resampling.} Folding image resampling and the estimator's seeds into the null spread, or repeating the census on resampled centroids, keeps most of the count. Table~\ref{tab:q8-robust-b} gives the bootstrap. % expR66_joint_sensitivity_summary.csv
 
-\paragraph{The structure depends on the class set more than on the model.} The smallest backbone is genuine on one dataset only, and the flat datasets have smaller and less consistent excesses; FMNIST is genuine in 5 of 12 backbones. A class-count control shows that the excess shrinks with the number of classes, so only the verdict carries across datasets. Tables~\ref{tab:q1-census} and \ref{tab:q8-robust} give the details. % expR52_census_haar_p999_200.csv, expR60_c_sweep_record.csv, expR45_convnet_rows.csv
+\paragraph{The structure depends on the class set more than on the model.} The smallest backbone is genuine on one dataset only, and the flat datasets have smaller and less consistent excesses; FMNIST is genuine in 5 of 12 backbones. A class-count control shows that the excess shrinks with the number of classes, so only the verdict carries across datasets. Tables~\ref{tab:q1-census} and \ref{tab:q8-robust-c} give the details. % expR52_census_haar_p999_200.csv, expR60_c_sweep_record.csv, expR45_convnet_rows.csv
 
-\paragraph{A star of clusters already passes the census.} A synthetic star with no hierarchy scores an excess as deep as any real cell, so a negative excess says structure beyond the second moments, not depth. Table~\ref{tab:q10-calibration} gives the star's excess. % expR42_star_calibration.csv
+\paragraph{A star of clusters already passes the census.} A synthetic star with no hierarchy scores an excess as deep as any real cell, so a negative excess says structure beyond the second moments, not depth. Table~\ref{tab:q10-calibration-b} gives the star's excess. % expR42_star_calibration.csv
 
 \paragraph{Neural collapse is the flat limit, not what the census sees.} Neural collapse predicts that supervised class means converge to a simplex frame \citep{papyan2020prevalence}, a star with no hierarchy. The census does not certify that frame: class means cluster around superclass hubs, which the superclass recovery of Section~\ref{sec:content} shows. % expR52_census_haar_p999_200.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
 
@@ -277,19 +277,19 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \label{fig:depth}
 \end{figure}
 
-\paragraph{The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test was run on the 12 ImageNet centroid clouds under both matched stars, with the WordNet cut into superclasses as the frame and the superclass centers as hubs. Figure~\ref{fig:depth}a shows the $z$ per backbone and Table~\ref{tab:q4-depth} gives both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
+\paragraph{The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test was run on the 12 ImageNet centroid clouds under both matched stars, with the WordNet cut into superclasses as the frame and the superclass centers as hubs. Figure~\ref{fig:depth}a shows the $z$ per backbone and Tables~\ref{tab:q4-depth} and \ref{tab:q4-depth-ap} give both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
 
 \paragraph{What it certifies is alignment.} Once the cluster orientations were randomized, the decoupling control of Definition~\ref{def:decoupling}, none of the 4 backbones fires. ViT-L then reads $-1.61$, within the $-1.61$ to $-1.76$ of the flat control: without its orientations the real cloud reads like a flat one. The alignment is relational: 0 of 60 runs fire with random hubs and 0 of 4 with random orientations, so it needs both the real hubs and the real orientations. Removing the radial component of every offset leaves it in all 4 certified backbones, $z$ from $-2.26$ to $-3.99$ under both stars; feature norms are not its source. Under full L2 normalization, which also moves the hubs, it survives in ViT-B and ViT-L only. The implanted principal-axis alignment reproduces it in the supervised ViTs and CLIP-B but not in DINOv2-L, and its geometric form is not resolved here. % expR74_decoupling_summary.csv, expR79_synthetic_deep_poincare.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30.csv, expR82_radial_control.csv, expR80_implanted_alignment.csv
 
-\paragraph{What the test can see.} Given an implanted two-level tree at this noise level, the test misses it; given a three-level hierarchy with ViT-L's spectrum and noise, it detects it in 4 of 5 seeds. That detection survives orientation randomization, whereas none of the 4 real verdicts does. The same hierarchy was then built at each backbone's own spectrum and ratio. The decoupled control detects it in 9 of 12 backbones (decoupled power 0.83--1.00) and not in the other 3 (power 0.01--0.60). The noise level of a cloud is its within-cluster spread relative to the distance between its hubs. The 3 blind backbones sit at ratios 1.5 to 3.0, inside the 1.3 to 3.9 spanned by the 9 covered backbones. The power therefore follows the backbone, not its ratio or family. ViT-B fine-tuned with a hierarchical cross-entropy keeps firing once decoupled in 20 of 20 runs over 2 seeds, mean $z$ $-2.51$, on the WordNet frame. The leaf-only fine-tune fires in 6 of 20, mean $z$ $-1.37$, and the frozen checkpoint in none. Fine-tuning itself adds some decoupled signal and the hierarchical objective adds more, so the trained control separates the objectives by degree. A flat control with the same spectrum and ratio as the deep one fires in 0 of 5 intact and in 8 of 50 decoupled runs. The decoupled test is therefore biased toward firing, so the 4 real backbones not firing once decoupled is conservative evidence. The synthetic hierarchy at $z$ $-4.19$ to $-4.82$ stands well clear of that bias. On the balanced frame the matched flat control fires in 0 of 50 decoupled runs. Tables~\ref{tab:q5-power} and \ref{tab:q4-depth} give the runs. % expR79_synthetic_deep_poincare.csv, expR81_deep_per_backbone.csv, expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv, expR77_positive_control.csv, expR77_positive_control_verdict.json, expR83_flat_balanced_summary.csv
+\paragraph{What the test can see.} Given an implanted two-level tree at this noise level, the test misses it; given a three-level hierarchy with ViT-L's spectrum and noise, it detects it in 4 of 5 seeds. That detection survives orientation randomization, whereas none of the 4 real verdicts does. The same hierarchy was then built at each backbone's own spectrum and ratio. The decoupled control detects it in 9 of 12 backbones (decoupled power 0.83--1.00) and not in the other 3 (power 0.01--0.60). The noise level of a cloud is its within-cluster spread relative to the distance between its hubs. The 3 blind backbones sit at ratios 1.5 to 3.0, inside the 1.3 to 3.9 spanned by the 9 covered backbones. The power therefore follows the backbone, not its ratio or family. ViT-B fine-tuned with a hierarchical cross-entropy keeps firing once decoupled in 20 of 20 runs over 2 seeds, mean $z$ $-2.51$, on the WordNet frame. The leaf-only fine-tune fires in 6 of 20, mean $z$ $-1.37$, and the frozen checkpoint in none. Fine-tuning itself adds some decoupled signal and the hierarchical objective adds more, so the trained control separates the objectives by degree. A flat control with the same spectrum and ratio as the deep one fires in 0 of 5 intact and in 8 of 50 decoupled runs. The decoupled test is therefore biased toward firing, so the 4 real backbones not firing once decoupled is conservative evidence. The synthetic hierarchy at $z$ $-4.19$ to $-4.82$ stands well clear of that bias. On the balanced frame the matched flat control fires in 0 of 50 decoupled runs. Tables~\ref{tab:q5-power-d} and \ref{tab:q4-depth-d} give the runs. % expR79_synthetic_deep_poincare.csv, expR81_deep_per_backbone.csv, expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv, expR77_positive_control.csv, expR77_positive_control_verdict.json, expR83_flat_balanced_summary.csv
 
-\paragraph{No hub hierarchy is found where the test has power.} In those 9 backbones, none as strong as the planted one is found. The decoupling separates structure among the hubs of the frame from structure carried by cluster orientations. A hierarchy below the frame expressed in how clusters open would be removed with the orientations and counted as alignment. No hub hierarchy therefore means no hierarchy among the frame's hubs. Figure~\ref{fig:implant} and Table~\ref{tab:q5-power} give the detection rates and the power. % expR81_deep_per_backbone_summary.csv, final_wordnet_levels.json, expR64b_wn30.csv
+\paragraph{No hub hierarchy is found where the test has power.} In those 9 backbones, none as strong as the planted one is found. The decoupling separates structure among the hubs of the frame from structure carried by cluster orientations. A hierarchy below the frame expressed in how clusters open would be removed with the orientations and counted as alignment. No hub hierarchy therefore means no hierarchy among the frame's hubs. Figure~\ref{fig:implant} and Table~\ref{tab:q5-power-e} give the detection rates and the power. % expR81_deep_per_backbone_summary.csv, final_wordnet_levels.json, expR64b_wn30.csv
 
 \paragraph{The certified set depends on the frame.} Rerun under a balanced grouping into superclasses, the balanced frame, ViT-T joins the certified set and ViT-S and DINOv2-L leave it; other WordNet cuts change the set again. Only ViT-B and ViT-L are certified under every frame. A flat cloud clustered under the WordNet frame fires under the balanced frame in 38 of 50 decoupled runs. A real cloud read under a frame that is not its own is therefore expected to fire. The frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not evidence of hub structure. % expR56_depth_variants.csv, expR64b_wn30bal_summary.csv, expR77_positive_control.csv, expR83_flat_balanced_summary.csv
 
 \paragraph{Leaf labels can produce the alignment but do not guarantee it.} Read like the census models, the augreg ViT-B trained on ImageNet-1k leaf labels is certified and agrees with WordNet like the ImageNet-21k ViTs. DeiT-B, trained on the same labels with another recipe, is neither. A hierarchical label set therefore does not explain the certified ViTs' alignment. % expR70_inet1k_supervised.csv
 
-\paragraph{MERU's objective does not create hub structure.} MERU embeds images on the Lorentz hyperboloid with an entailment objective, and its Euclidean twin shares backbone, data and recipe \citep{desai2023meru}. Read with the census and the hierarchy test, MERU shows the same clustering as its twin, and no hub structure is detected. The test's power at MERU's spectrum, however, was not measured. Its embeddings stay in the near-flat regime, 95 per cent of them within 0.29 of the curvature scale. Table~\ref{tab:q4-depth} gives the readings and the radii. % expR63_meru_record.csv, expR71_meru_radii.csv
+\paragraph{MERU's objective does not create hub structure.} MERU embeds images on the Lorentz hyperboloid with an entailment objective, and its Euclidean twin shares backbone, data and recipe \citep{desai2023meru}. Read with the census and the hierarchy test, MERU shows the same clustering as its twin, and no hub structure is detected. The test's power at MERU's spectrum, however, was not measured. Its embeddings stay in the near-flat regime, 95 per cent of them within 0.29 of the curvature scale. Table~\ref{tab:q4-depth-c} gives the readings and the radii. % expR63_meru_record.csv, expR71_meru_radii.csv
 
 \subsection{Whose tree}
 \label{sec:content}
@@ -304,13 +304,13 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The naive map manufactures an island.} Figure~\ref{fig:treemap} compares the trees of the 12 models in three ways. Panel (a) compares them as usually done, (b) under the criterion of Section~\ref{sec:f-treemap} against the within-model ceiling, and (c) by whether classes are grouped by direction or by distance. Compared with Euclidean distances and average linkage, the DINOv2 family agrees with the supervised and contrastive block far less than the block agrees with itself. The cause is chaining: DINOv2's Euclidean dendrograms put almost every class in one cluster, forcing the index to zero. % exp23_treemap_controls.npz, exp23_config_diagnostics.json
 
-\paragraph{Controlled, the trees share their topology, not their metric.} Across models, triplet agreement reaches 0.77, against 0.90 for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach about half their within-model ceiling (Table~\ref{tab:q6-treemap}). % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling_summary.csv
+\paragraph{Controlled, the trees share their topology, not their metric.} Across models, triplet agreement reaches 0.77, against 0.90 for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach about half their within-model ceiling (Tables~\ref{tab:q6-treemap-b} and \ref{tab:q6-treemap-c}). % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling_summary.csv
 
-\paragraph{The self-supervised tree is angular.} Sibling triplets were resolved under cosine and under Euclidean distance: DINOv2 resolves them far better under cosine, so its semantics concentrate in the angular component and its Euclidean dendrograms chain. Repeated on cosine geometry, the census agrees with the Euclidean one in most cells, and DINOv2 on ImageNet is genuine, more than chance would give, under both. Figure~\ref{fig:treemap}c shows the triplets and Table~\ref{tab:q1-census} gives the cosine census. % exp10_local_vs_global.csv, expR57_census_cosine_haar_p999_200.csv
+\paragraph{The self-supervised tree is angular.} Sibling triplets were resolved under cosine and under Euclidean distance: DINOv2 resolves them far better under cosine, so its semantics concentrate in the angular component and its Euclidean dendrograms chain. Repeated on cosine geometry, the census agrees with the Euclidean one in most cells, and DINOv2 on ImageNet is genuine, more than chance would give, under both. Figure~\ref{fig:treemap}c shows the triplets and Table~\ref{tab:q1-census-c} gives the cosine census. % exp10_local_vs_global.csv, expR57_census_cosine_haar_p999_200.csv
 
 \paragraph{Agreement with WordNet follows supervision and recipe.} The correlation between inter-centroid and WordNet distances is highest for the contrastive VLMs, then the supervised ViTs, and lowest for DINOv2. Supervision deepens the resemblance on average, and DeiT-B shows that the effect is recipe-dependent. Table~\ref{tab:q7-wordnet} gives the correlations. % exp3_alignment.csv, expR52_census_haar_p999_200.csv
 
-\paragraph{The recovery is not WordNet circularity.} On DBpedia Classes \citep{dbpedia}, an ontology independent of WordNet, the three text embedders read a genuine excess and recover the true partition under every configuration. On HierarCaps, a four-level caption hierarchy with no class set \citep{alper2024hierarcaps}, the encoders resolve sibling triplets far above chance. Table~\ref{tab:q7-wordnet} gives both. % expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
+\paragraph{The recovery is not WordNet circularity.} On DBpedia Classes \citep{dbpedia}, an ontology independent of WordNet, the three text embedders read a genuine excess and recover the true partition under every configuration. On HierarCaps, a four-level caption hierarchy with no class set \citep{alper2024hierarcaps}, the encoders resolve sibling triplets far above chance. Tables~\ref{tab:q7-wordnet-c} and \ref{tab:q7-wordnet-d} give both. % expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
 
 \paragraph{Text depends on recipe and scale.} On the ImageNet class names, 7 of 15 text models are genuine under the record. GPT-2 S is genuine at the margin, GPT-2 M is not, and GPT-2 L and XL are genuine under every reading, as are Pythia at every scale and OLMo-1B. Table~\ref{tab:q2-text} gives the census. % expR53_text_haar_p999_200.csv, expR53_text_haar_sup_200.csv, expR57_text_cosine_haar_p999_200.csv
 
@@ -370,28 +370,28 @@ Every table is generated by script from the released per-cell result files, and 
 
 \subsection{How to read this appendix}
 \label{app:howto}
-One table per question, in the order the main text first cites them. Each table opens with a plain paragraph saying what it answers,
-and its caption gives the answer and names the columns.
+One question per subsection, in the order the main text first cites them, with a plain paragraph saying what the group answers.
+Each table then carries its own caption: the answer in bold, then what the columns are.
 
 \begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item Is the reading robust to our choices? Table~\ref{tab:q8-robust}: the excess under the quadruple budget, resampling and the class count.
-\item Is a low raw reading evidence? Table~\ref{tab:q10-calibration}: known geometries and synthetic clusters read on the same scale.
-\item Is the structure beyond the second moments genuine? Table~\ref{tab:q1-census}: the vision census, per cell and per construction.
+\item Is the reading robust to our choices? Tables~\ref{tab:q8-robust}--\ref{tab:q8-robust-d}: the excess under the quadruple budget, resampling and the class count.
+\item Is a low raw reading evidence? Tables~\ref{tab:q10-calibration} and \ref{tab:q10-calibration-b}: known geometries and synthetic clusters read on the same scale.
+\item Is the structure beyond the second moments genuine? Tables~\ref{tab:q1-census}--\ref{tab:q1-census-d}: the vision census, per cell and per construction.
 \item Which models, and how were they read? Table~\ref{tab:q14-panel}: the model panel and the extraction.
-\item Is text the same? Table~\ref{tab:q2-text}: the census on the thousand ImageNet class names.
+\item Is text the same? Tables~\ref{tab:q2-text} and \ref{tab:q2-text-c}: the census on the thousand ImageNet class names, and the extraction.
 \item Does the premise survive where it is read? Table~\ref{tab:q3-sample}: the census on per-image features.
-\item Is the structure deeper than a star? Table~\ref{tab:q4-depth}: the hierarchy test and its controls.
-\item How much can the test see? Table~\ref{tab:q5-power}: power against planted hierarchies and false alarms on flat clouds.
-\item Is the island real? Table~\ref{tab:q6-treemap}: the tree map under every admissible configuration, against the within-model ceiling.
-\item Whose taxonomy? Table~\ref{tab:q7-wordnet}: agreement with WordNet, superclass recovery and an independent ontology.
+\item Is the structure deeper than a star? Tables~\ref{tab:q4-depth}--\ref{tab:q4-depth-e}: the hierarchy test and its controls.
+\item How much can the test see? Tables~\ref{tab:q5-power}--\ref{tab:q5-power-f}: power against planted hierarchies and false alarms on flat clouds.
+\item Is the island real? Tables~\ref{tab:q6-treemap}--\ref{tab:q6-treemap-c}: the tree map under every admissible configuration, against the within-model ceiling.
+\item Whose taxonomy? Tables~\ref{tab:q7-wordnet}--\ref{tab:q7-wordnet-d}: agreement with WordNet, superclass recovery, an independent ontology and a caption hierarchy.
 \item Is local structure shared? Table~\ref{tab:q13-local}: permutation-calibrated agreement across model pairs.
-\item What follows for practice? Table~\ref{tab:q9-corollary}: accuracies, zero-cost gains and what predicts them.
+\item What follows for practice? Tables~\ref{tab:q9-corollary}--\ref{tab:q9-corollary-d}: accuracies, zero-cost gains and what predicts them.
 \item Where does every number come from? Table~\ref{tab:provenance}: the result file behind each table.
 \end{itemize}
 
 \paragraph{Symbols and column names.} The same words are used here and in the main text.
 \begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item \emph{The reading used in the paper}: the 99.9th-percentile statistic on Euclidean distances between class centroids, against the centered Haar null, 200 replicates; the cosine census is a robustness column (Table~\ref{tab:q1-census}c). Other constructions appear beside it as columns.
+\item \emph{The reading used in the paper}: the 99.9th-percentile statistic on Euclidean distances between class centroids, against the centered Haar null, 200 replicates; the cosine census is a robustness column (Table~\ref{tab:q1-census-c}). Other constructions appear beside it as columns.
 \item \emph{excess}: the real reading minus the mean of its matched null replicates. Negative means more tree-like than a random cloud of the same shape; positive, less.
 \item \emph{exc./null}: the excess as a fraction of the null reading, so that cells of different size can be compared.
 \item \emph{$r$/200}: how many of the 200 null replicates read above the real cloud. \emph{$p$}: the left-tail add-one $p$-value built from that rank.
@@ -408,14 +408,14 @@ and its caption gives the answer and names the columns.
 \label{app:robust}
 \label{app:csweep}
 
-\paragraph{What this table answers.} Three choices could have made the reading look structured: how many quadruples we sample, which images stand behind each centroid, and how many classes a cell has. Each panel varies one of them and reads the same cells again. The verdicts move only where the excess was already at the edge of the null.
+\paragraph{What this table answers.} Three choices could have made the reading look structured: how many quadruples we sample, which images stand behind each centroid, and how many classes a cell has. Each table varies one of them and reads the same cells again. The verdicts move only where the excess was already at the edge of the null.
 \input{appendix_tables/final/tab_q08_robust_final}
 
 \FloatBarrier
 \subsection{Is a low raw reading evidence? Calibration on reference geometries and synthetic clusters}
 \label{app:calibration}
 \label{app:star}
-\paragraph{What this table answers.} A raw reading means nothing until something known is read on the same scale. The first panel reads geometries whose answer we know in advance, a tree, a hyperbolic region and a sphere. The second reads clouds we built ourselves, clusters with and without a hierarchy above them, against each null in turn.
+\paragraph{What this table answers.} A raw reading means nothing until something known is read on the same scale. The first table reads geometries whose answer we know in advance, a tree, a hyperbolic region and a sphere. The second reads clouds we built ourselves, clusters with and without a hierarchy above them, against each null in turn.
 \input{appendix_tables/final/tab_q10_calibration}
 
 \FloatBarrier
@@ -423,7 +423,7 @@ and its caption gives the answer and names the columns.
 \label{app:census}
 \label{app:nulls}
 
-\paragraph{What this table answers.} This is the census itself, one row per model and class set. The first panel gives the reading used in the paper, the second repeats the verdict under other constructions of the null and of the statistic, and the third repeats the census on cosine geometry. A cell is genuine when its excess survives the correction across cells.
+\paragraph{What this table answers.} This is the census itself, one row per model and class set. The first table gives the reading used in the paper, the second repeats the verdict under other constructions of the null and of the statistic, and the third repeats the census on cosine geometry. A cell is genuine when its excess survives the correction across cells.
 \input{appendix_tables/final/tab_q01_census_final}
 
 \FloatBarrier
@@ -437,7 +437,7 @@ and its caption gives the answer and names the columns.
 \label{app:textcensus}
 \label{app:templates}
 
-\paragraph{What this table answers.} The text census reads the thousand ImageNet class names through language models and sentence embedders. The verdicts follow the recipe and the scale of the model, not its family. Extraction is part of the measurement, so the last panel varies batch size and precision on the same prompts.
+\paragraph{What this table answers.} The text census reads the thousand ImageNet class names through language models and sentence embedders. The verdicts follow the recipe and the scale of the model, not its family. Extraction is part of the measurement, so the second table varies batch size and precision on the same prompts.
 \input{appendix_tables/final/tab_q02_text}
 
 \FloatBarrier
@@ -470,14 +470,14 @@ and its caption gives the answer and names the columns.
 \subsection{Is the island real? The tree map under six configurations}
 \label{app:treemap}
 
-\paragraph{What this table answers.} Trees of different models are compared as objects, without labels. The comparison depends on the cut, so the first panel gives the diagnostics of every admissible configuration and the criterion that selects one. The last panel reads two resamples of the same model, which is the ceiling any cross-model agreement can reach.
+\paragraph{What this table answers.} Trees of different models are compared as objects, without labels. The comparison depends on the cut, so the first table gives the diagnostics of every admissible configuration and the criterion that selects one. The last table reads two resamples of the same model, which is the ceiling any cross-model agreement can reach.
 \input{appendix_tables/final/tab_q06_treemap}
 
 \FloatBarrier
 \subsection{Whose taxonomy? WordNet alignment, superclass recovery, DBpedia and HierarCaps}
 \label{app:wordnet}
 \label{app:hierarcaps}
-\paragraph{What this table answers.} Here the trees are compared with a human taxonomy instead of with each other. The first two panels use WordNet on ImageNet and the coarse labels of CIFAR-100. The last two repeat the reading on an ontology built independently of WordNet and on a set of caption chains with no class set, so the recovery is not circular.
+\paragraph{What this table answers.} Here the trees are compared with a human taxonomy instead of with each other. The first two tables use WordNet on ImageNet and the coarse labels of CIFAR-100. The last two repeat the reading on an ontology built independently of WordNet and on a set of caption chains with no class set, so the recovery is not circular.
 \input{appendix_tables/final/tab_q07_wordnet_final}
 
 \FloatBarrier

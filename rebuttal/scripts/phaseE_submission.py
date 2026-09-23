@@ -272,44 +272,44 @@ left = re.findall(r"\{\{[A-Z0-9_]+\}\}", body); assert not left, left
 # ---- appendix cleanup (2026-09-23): one plain-language paragraph of 2-4 sentences before each table; every explanatory sentence of
 # the old captions and of the v1 prose that is not a claim of the main text is dropped (listed in the CHANGELOG).
 INTRO = {
- "tab_q08_robust": r"\paragraph{What this table answers.} Three choices could have made the reading look structured: how many quadruples we sample, which images stand behind each centroid, and how many classes a cell has. Each panel varies one of them and reads the same cells again. The verdicts move only where the excess was already at the edge of the null.",
- "tab_q10_calibration": r"\paragraph{What this table answers.} A raw reading means nothing until something known is read on the same scale. The first panel reads geometries whose answer we know in advance, a tree, a hyperbolic region and a sphere. The second reads clouds we built ourselves, clusters with and without a hierarchy above them, against each null in turn.",
- "tab_q01_census": r"\paragraph{What this table answers.} This is the census itself, one row per model and class set. The first panel gives the reading used in the paper, the second repeats the verdict under other constructions of the null and of the statistic, and the third repeats the census on cosine geometry. A cell is genuine when its excess survives the correction across cells.",
+ "tab_q08_robust": r"\paragraph{What this table answers.} Three choices could have made the reading look structured: how many quadruples we sample, which images stand behind each centroid, and how many classes a cell has. Each table varies one of them and reads the same cells again. The verdicts move only where the excess was already at the edge of the null.",
+ "tab_q10_calibration": r"\paragraph{What this table answers.} A raw reading means nothing until something known is read on the same scale. The first table reads geometries whose answer we know in advance, a tree, a hyperbolic region and a sphere. The second reads clouds we built ourselves, clusters with and without a hierarchy above them, against each null in turn.",
+ "tab_q01_census": r"\paragraph{What this table answers.} This is the census itself, one row per model and class set. The first table gives the reading used in the paper, the second repeats the verdict under other constructions of the null and of the statistic, and the third repeats the census on cosine geometry. A cell is genuine when its excess survives the correction across cells.",
  "tab_q14_panel": r"\paragraph{What this table answers.} Every model named anywhere in the paper appears here once, with its size and its role: census, control or text. The notes below the table say how features are taken from each kind of model, which is part of the measurement rather than a detail of implementation.",
- "tab_q02_text": r"\paragraph{What this table answers.} The text census reads the thousand ImageNet class names through language models and sentence embedders. The verdicts follow the recipe and the scale of the model, not its family. Extraction is part of the measurement, so the last panel varies batch size and precision on the same prompts.",
+ "tab_q02_text": r"\paragraph{What this table answers.} The text census reads the thousand ImageNet class names through language models and sentence embedders. The verdicts follow the recipe and the scale of the model, not its family. Extraction is part of the measurement, so the second table varies batch size and precision on the same prompts.",
  "tab_q03_sample": r"\paragraph{What this table answers.} The premise is read on per-image features, so this table reads the census there instead of on class centroids. Each cell gives the raw statistic beside the excess over its matched null. Where the excess survives, it removes a small fraction of the null reading.",
  "tab_q04_depth": r"\paragraph{What this table answers.} The census certifies structure beyond the second moments, and this table asks whether the clusters are arranged hierarchically. Each backbone is read against a matched star under both constructions of the star. The controls follow: the models supervised on leaf labels, a backbone trained in hyperbolic space with its Euclidean twin, a fine-tuned pair and a control that removes the radial part of every offset.",
  "tab_q05_power": r"\paragraph{What this table answers.} A negative verdict is worth reading only where the test can see. Here hierarchies of known strength are planted in real and synthetic clouds and the test is run again, which gives its power; flat clouds are read the same way, which gives its false alarms. The power depends on how quiet the cloud is, so it is reported per backbone.",
- "tab_q06_treemap": r"\paragraph{What this table answers.} Trees of different models are compared as objects, without labels. The comparison depends on the cut, so the first panel gives the diagnostics of every admissible configuration and the criterion that selects one. The last panel reads two resamples of the same model, which is the ceiling any cross-model agreement can reach.",
- "tab_q07_wordnet": r"\paragraph{What this table answers.} Here the trees are compared with a human taxonomy instead of with each other. The first two panels use WordNet on ImageNet and the coarse labels of CIFAR-100. The last two repeat the reading on an ontology built independently of WordNet and on a set of caption chains with no class set, so the recovery is not circular.",
+ "tab_q06_treemap": r"\paragraph{What this table answers.} Trees of different models are compared as objects, without labels. The comparison depends on the cut, so the first table gives the diagnostics of every admissible configuration and the criterion that selects one. The last table reads two resamples of the same model, which is the ceiling any cross-model agreement can reach.",
+ "tab_q07_wordnet": r"\paragraph{What this table answers.} Here the trees are compared with a human taxonomy instead of with each other. The first two tables use WordNet on ImageNet and the coarse labels of CIFAR-100. The last two repeat the reading on an ontology built independently of WordNet and on a set of caption chains with no class set, so the recovery is not circular.",
  "tab_q13_local": r"\paragraph{What this table answers.} Two models can place classes in the same neighborhoods and still disagree on distances. This table calibrates both readings against permutations of the class labels, so agreement is counted only where a shuffled pairing would not reach it.",
  "tab_q09_corollary": r"\paragraph{What this table answers.} The instrument certifies structure; this table asks what it buys downstream. Accuracies and zero-cost gains are read per cell, then correlated with the raw reading, with the calibrated one and with the hierarchy verdict. The gains are modest and limited to prototype tasks.",
 }
 
 HOWTO = r"""\subsection{How to read this appendix}
 \label{app:howto}
-One table per question, in the order the main text first cites them. Each table opens with a plain paragraph saying what it answers,
-and its caption gives the answer and names the columns.
+One question per subsection, in the order the main text first cites them, with a plain paragraph saying what the group answers.
+Each table then carries its own caption: the answer in bold, then what the columns are.
 
 \begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item Is the reading robust to our choices? Table~\ref{tab:q8-robust}: the excess under the quadruple budget, resampling and the class count.
-\item Is a low raw reading evidence? Table~\ref{tab:q10-calibration}: known geometries and synthetic clusters read on the same scale.
-\item Is the structure beyond the second moments genuine? Table~\ref{tab:q1-census}: the vision census, per cell and per construction.
+\item Is the reading robust to our choices? Tables~\ref{tab:q8-robust}--\ref{tab:q8-robust-d}: the excess under the quadruple budget, resampling and the class count.
+\item Is a low raw reading evidence? Tables~\ref{tab:q10-calibration} and \ref{tab:q10-calibration-b}: known geometries and synthetic clusters read on the same scale.
+\item Is the structure beyond the second moments genuine? Tables~\ref{tab:q1-census}--\ref{tab:q1-census-d}: the vision census, per cell and per construction.
 \item Which models, and how were they read? Table~\ref{tab:q14-panel}: the model panel and the extraction.
-\item Is text the same? Table~\ref{tab:q2-text}: the census on the thousand ImageNet class names.
+\item Is text the same? Tables~\ref{tab:q2-text} and \ref{tab:q2-text-c}: the census on the thousand ImageNet class names, and the extraction.
 \item Does the premise survive where it is read? Table~\ref{tab:q3-sample}: the census on per-image features.
-\item Is the structure deeper than a star? Table~\ref{tab:q4-depth}: the hierarchy test and its controls.
-\item How much can the test see? Table~\ref{tab:q5-power}: power against planted hierarchies and false alarms on flat clouds.
-\item Is the island real? Table~\ref{tab:q6-treemap}: the tree map under every admissible configuration, against the within-model ceiling.
-\item Whose taxonomy? Table~\ref{tab:q7-wordnet}: agreement with WordNet, superclass recovery and an independent ontology.
+\item Is the structure deeper than a star? Tables~\ref{tab:q4-depth}--\ref{tab:q4-depth-e}: the hierarchy test and its controls.
+\item How much can the test see? Tables~\ref{tab:q5-power}--\ref{tab:q5-power-f}: power against planted hierarchies and false alarms on flat clouds.
+\item Is the island real? Tables~\ref{tab:q6-treemap}--\ref{tab:q6-treemap-c}: the tree map under every admissible configuration, against the within-model ceiling.
+\item Whose taxonomy? Tables~\ref{tab:q7-wordnet}--\ref{tab:q7-wordnet-d}: agreement with WordNet, superclass recovery, an independent ontology and a caption hierarchy.
 \item Is local structure shared? Table~\ref{tab:q13-local}: permutation-calibrated agreement across model pairs.
-\item What follows for practice? Table~\ref{tab:q9-corollary}: accuracies, zero-cost gains and what predicts them.
+\item What follows for practice? Tables~\ref{tab:q9-corollary}--\ref{tab:q9-corollary-d}: accuracies, zero-cost gains and what predicts them.
 \item Where does every number come from? Table~\ref{tab:provenance}: the result file behind each table.
 \end{itemize}
 
 \paragraph{Symbols and column names.} The same words are used here and in the main text.
 \begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item \emph{The reading used in the paper}: the 99.9th-percentile statistic on Euclidean distances between class centroids, against the centered Haar null, 200 replicates; the cosine census is a robustness column (Table~\ref{tab:q1-census}c). Other constructions appear beside it as columns.
+\item \emph{The reading used in the paper}: the 99.9th-percentile statistic on Euclidean distances between class centroids, against the centered Haar null, 200 replicates; the cosine census is a robustness column (Table~\ref{tab:q1-census-c}). Other constructions appear beside it as columns.
 \item \emph{excess}: the real reading minus the mean of its matched null replicates. Negative means more tree-like than a random cloud of the same shape; positive, less.
 \item \emph{exc./null}: the excess as a fraction of the null reading, so that cells of different size can be compared.
 \item \emph{$r$/200}: how many of the 200 null replicates read above the real cloud. \emph{$p$}: the left-tail add-one $p$-value built from that rank.
@@ -377,7 +377,8 @@ for stem in KEEP:
     mm = re.search(r"\\label\{(tab:q[^}]*)\}", open(TEX + ("appendix_tables/final/" if stem in FINAL_SRC else "appendix_tables/") + fn + ".tex").read()); labels[mm.group(1)] = stem
 main = body[:body.index("\\appendix")]; cited = []
 for m in re.finditer(r"\\ref\{(tab:q[^}]*)\}", main):
-    if m.group(1) not in cited: cited.append(m.group(1))
+    _l = re.sub(r"-(ap|[b-f])$", "", m.group(1))   # one table per former panel since 2026-09-23: the question is what orders the appendix
+    if _l not in cited: cited.append(_l)
 order = [labels[l] for l in cited if l in labels] + [s for s in KEEP if s not in [labels[l] for l in cited if l in labels]]
 assert set(order) == set(KEEP), (order, KEEP)
 prov_block = bytab["tab_z_provenance"].replace("appendix_tables/tab_z_provenance", "appendix_tables/final/tab_z_provenance_final")
@@ -412,7 +413,7 @@ NEWCAP = {
  "tab_q01_census": r"\textbf{Structure beyond the second moments is the rule at the class level under every construction of the null.} Panels: the reading used in the paper per cell, the verdict under five constructions of null and statistic, the same census on cosine geometry, and the backbones read only on ImageNet.",
  "tab_q14_panel": r"\textbf{The models and the extraction.} Every backbone, language model and text embedder of the census and of the controls, with its parameter count, followed by how features are extracted and pooled.",
  "tab_q02_text": r"\textbf{In text, structure beyond the second moments depends on the recipe and the scale.} Columns: the statistic, its excess over the matched null, the rank among the replicates and the left-tail $p$ per model, and the same prompts under changes of batch size and precision.",
- "tab_q03_sample": r"\textbf{At the sample level, where the premise is read, the reading sits within null noise in most cells.} Columns: the statistic, its excess over the matched null, the excess as a fraction of the null reading, the rank among the replicates and the left-tail $p$.",
+ "tab_q03_sample": r"\textbf{At the sample level, where the premise is read, the reading sits within null noise in most cells.} Per cell: the statistic, the excess, the excess as a fraction of the null, the rank and the left-tail $p$.",
  "tab_q04_depth": r"\textbf{The hierarchy test certifies that clusters are oriented toward their hubs in a few backbones, and finds no hierarchy among the hubs.} Panels: the 12 backbones under both matched stars, the leaf-label ViTs, a hyperbolic backbone with its Euclidean twin, the trained control and the radial control.",
  "tab_q05_power": r"\textbf{The test detects a planted hierarchy where the cloud is quiet enough, and its false alarms are measured.} Panels: implanted two-level trees, implanted hub alignment, a deep hierarchy at the real noise level, the power per backbone and the false alarms of the balanced frame.",
  "tab_q06_treemap": r"\textbf{The island is an artifact of the cut; the trees share topology well above chance and not the distances.} Panels: the selection diagnostics per configuration, the three agreement measures of the self-supervised models against the rest, and the within-model ceiling under resampling.",
@@ -433,6 +434,48 @@ TITLE = {"(a) The 12 backbones under the stars with Gaussian hubs": "(a) The 12 
          "(b) Correlation between the raw supremum $\\delta_{\\text{norm}}$": "(b) Correlation between the raw supremum reading and the gain",
          "(d) The same correlations on the raw $\\hat\\delta_{99.9}$": "(d) The same correlations on the calibrated reading and the hierarchy-test $z$",
          "(d) Class count": "(d) Class count: the excess shrinks with the number of classes"}
+
+# ---- appendix (author's brief, 2026-09-23 22:00): one numbered table per former panel, each with its own caption (<= 40 words:
+# bold answer sentence, then what the columns are) and its own label; the panel letter survives only as the label suffix.
+PANELCAP = {
+ ("tab_q08_robust", "a"): r"\textbf{The excess does not move with the quadruple budget.} Per cell: the excess at budgets from $10^4$ to $2\times10^6$ sampled quadruples per seed, and its drift over budgets as a fraction of the null spread.",
+ ("tab_q08_robust", "b"): r"\textbf{The genuine count survives resampling of the images behind each centroid.} Per cell: the excess over 30 bootstrap resamples, its spread, and how many resamples stay genuine under the correction across cells.",
+ ("tab_q08_robust", "c"): r"\textbf{Null, bootstrap and estimator noise together leave the verdicts standing.} Per cell: a joint score that divides the excess by the combined spread, and the genuine count it implies.",
+ ("tab_q08_robust", "d"): r"\textbf{The excess shrinks with the number of classes.} ImageNet subsets of growing size, drawn at random across the hierarchy or as WordNet siblings: the reading, the excess and the verdict per subset.",
+ ("tab_q10_calibration", "a"): r"\textbf{Known geometries read as they should on this scale.} A tree, hyperbolic regions of growing radius, a sphere and Gaussian clouds of growing dimension: the absolute reading and the normalized one.",
+ ("tab_q10_calibration", "b"): r"\textbf{The excess certifies clusters, and a star of clusters passes it.} Synthetic clouds of clusters, with and without a hierarchy: the reading and the excess against the spectrum null and against the hub-randomizing null.",
+ ("tab_q01_census", "a"): r"\textbf{Structure beyond the second moments is the rule at the class level.} Per cell: the reading, its excess over the matched null, the excess as a fraction of the null, the rank among the replicates and the left-tail $p$.",
+ ("tab_q01_census", "b"): r"\textbf{The verdict holds under every construction of null and statistic.} Per cell: genuine or not under five constructions, the centered and uncentered Haar nulls, the Gaussian null and the two statistics, with the excess as a fraction of the null.",
+ ("tab_q01_census", "c"): r"\textbf{The census on cosine geometry agrees with the reading used in the paper.} Per cell, with L2-normalized centroids and geodesic distances: the reading, the excess, the rank and the verdict.",
+ ("tab_q01_census", "d"): r"\textbf{The backbones outside the ViT panel read like it.} The 2 self-supervised ResNets on the ImageNet centroid store: dimension, reading, excess and rank against the spectrum null.",
+ ("tab_q02_text", "a"): r"\textbf{In text the verdict follows the recipe and the scale.} Per model: dimension, the reading, the excess, the excess as a fraction of the null, the rank, the left-tail $p$ and the cosine reading beside it.",
+ ("tab_q02_text", "c"): r"\textbf{Extraction is part of the measurement.} The same thousand prompts under changes of batch size and of precision: the reading per setting for a causal language model of each family.",
+ ("tab_q04_depth", "a"): r"\textbf{Clusters are oriented toward their hubs in 4 of 12 backbones under the star with Gaussian hubs.} Per backbone: the depth statistic and its $z$ on CIFAR-100 and on ImageNet, the WordNet cut at 3 sizes, and the balanced frame.",
+ ("tab_q04_depth", "a$'$"): r"\textbf{The same 4 backbones are certified under the star whose hubs are a Haar resample of the real ones.} Per backbone: the star's excess, the depth $z$, the star spread and the decoupling control over 10 seeds.",
+ ("tab_q04_depth", "b"): r"\textbf{Supervision on leaf labels can produce the alignment but does not guarantee it.} The 2 ViT-B/16 trained on ImageNet-1k leaf labels, through the census protocol: excess, depth $z$ and agreement with WordNet.",
+ ("tab_q04_depth", "c"): r"\textbf{Training in hyperbolic space creates no hub structure.} MERU and its Euclidean twin at 3 sizes: the census excess, the depth $z$ and the radii of the embeddings in units of the curvature scale.",
+ ("tab_q04_depth", "d"): r"\textbf{The trained control separates the objectives by degree.} ViT-B/16 fine-tuned with leaf cross-entropy and with an added hierarchical term, 2 seeds: excess, depth $z$ intact and decoupled, on both frames.",
+ ("tab_q04_depth", "e"): r"\textbf{The alignment is not the radial spread of feature norms.} The same clouds after removing the radial part of every offset and after full L2 normalization: the depth $z$ under both stars.",
+ ("tab_q05_power", "b"): r"\textbf{A two-level implant at the real spread is missed.} Implanted trees on the real ImageNet centroids at growing strength: the detection rate at the certification bar, with the real spread and with it shrunk.",
+ ("tab_q05_power", "c"): r"\textbf{Implanted hub alignment reproduces the verdict in the supervised ViTs and CLIP-B.} From the decoupled cloud, each cluster's principal axis rotated toward its hub: the detection rate per backbone and seed.",
+ ("tab_q05_power", "d"): r"\textbf{A deep hierarchy at the real noise level is detected, and a flat control is not.} Synthetic clouds with ViT-L's spectrum and ratio: the depth $z$ intact and decoupled for the hierarchy and for the flat control.",
+ ("tab_q05_power", "e"): r"\textbf{The power follows the backbone.} The same deep hierarchy built with each backbone's spectrum and ratio: the intact and decoupled power per backbone, and the within-between ratio it sits at.",
+ ("tab_q05_power", "f"): r"\textbf{The balanced frame raises no false alarm.} The flat control of the deep experiment read on the balanced grouping: the intact and decoupled firing counts.",
+ ("tab_q06_treemap", "a"): r"\textbf{The island belongs to the naive cut, not to the models.} Per configuration of metric and linkage: the degeneracy diagnostics, the cophenetic fidelity that selects one, and the mean pairwise agreement at the cut.",
+ ("tab_q06_treemap", "b"): r"\textbf{The self-supervised models sit apart on distances, not on topology.} The three agreement measures for DINOv2 against the supervised and contrastive block, each written as against the block over within the block.",
+ ("tab_q06_treemap", "c"): r"\textbf{Two resamples of one model set the ceiling any pair of models can reach.} Per backbone: the three measures between pairs of the 30 bootstrap centroid sets, with their mean, spread and minimum.",
+ ("tab_q07_wordnet", "a"): r"\textbf{Agreement with the human taxonomy follows supervision and recipe.} Per backbone: the correlation between inter-centroid and WordNet distances on ImageNet, with the superclass recovery beside it.",
+ ("tab_q07_wordnet", "b"): r"\textbf{Every family recovers the CIFAR-100 superclasses.} Per backbone and configuration: the agreement of the 20-cluster cut with the coarse labels, with the degenerate configurations marked.",
+ ("tab_q07_wordnet", "c"): r"\textbf{The recovery is not WordNet circularity.} On DBpedia Classes, an ontology built independently: the reading, the excess, the triplet agreement and the metric gains per text embedder.",
+ ("tab_q07_wordnet", "d"): r"\textbf{A caption hierarchy with no class set reads the same way.} On HierarCaps: the correlation between level and radius, the share of monotone chains, the triplet agreements and the leaf excess per encoder.",
+ ("tab_q09_corollary", "a"): r"\textbf{The zero-cost gains are modest and limited to prototype tasks.} Per cell: nearest-centroid and few-shot accuracy under the Euclidean and the Poincar\'{e} readout, the advantage of each zero-cost metric, and a paired test.",
+ ("tab_q09_corollary", "b"): r"\textbf{The raw reading predicts the gain within datasets.} Per dataset and task: the correlation between the raw supremum reading and the metric gain, with bootstrap intervals and the family-demeaned value.",
+ ("tab_q09_corollary", "c"): r"\textbf{Cosine collects the gain for the self-supervised models.} Per backbone: the best zero-cost advantage over the Euclidean readout, averaged over the hierarchical datasets, and which metric collects it.",
+ ("tab_q09_corollary", "d"): r"\textbf{The calibrated reading predicts the gain as well as the raw one, and the hierarchy verdict predicts none.} Per dataset and task: the same correlations for the raw statistic, the excess and the hierarchy-test $z$.",
+}
+for _k, _v in PANELCAP.items(): assert len(_v.split()) <= 40, (_k, len(_v.split()))
+PANELLAB = {"a": "", "a$'$": "-ap", "b": "-b", "c": "-c", "d": "-d", "e": "-e", "f": "-f"}
+
 def short_title(t):
     """A panel title is a label: the text before the first colon outside math and braces, else its first sentence. Never cut math."""
     t = re.sub(r"\s+", " ", t).strip()
@@ -459,13 +502,13 @@ def title_line(l):
     return "\\noindent\\textbf{" + short_title(l[m.end():j-1]) + "}" + l[j:]
 
 
-def split_panels(src, drop=(), capfix=None, dropline=(), repl=(), per_panel=False, newcap=None):
+def split_panels(src, drop=(), capfix=None, dropline=(), repl=(), per_panel=False, newcap=None, stem_=None):
     for a, b in repl:
         assert src.count(a) == 1, a; src = src.replace(a, b)
     for a, b in REPL_ALL: src = src.replace(a, b)
     if dropline:
         n0 = len(src.split("\n")); src = "\n".join(l for l in src.split("\n") if not any(d in l for d in dropline)); assert len(src.split("\n")) == n0 - len(dropline), dropline
-    prov = [l for l in src.split("\n") if l.startswith("% prov:")]; out = list(prov); first = True; dropped = 0
+    prov = [l for l in src.split("\n") if l.startswith("% prov:")]; out = list(prov); first = True; dropped = 0; labbase = []; labbase_used = []
     blocks_ = re.findall(r"\\begin\{table\}\[(?:H|tbp|htbp)\](\\ContinuedFloat)?\n(.*?)\n\\end\{table\}", src, flags=re.S); assert blocks_, "no table block in the source"   # [tbp]: an already split copy (idempotent)
     for _, body in blocks_:
         L = body.split("\n"); hdr, rest = L[:3], L[3:]; assert hdr[0] == "\\centering", hdr
@@ -485,15 +528,27 @@ def split_panels(src, drop=(), capfix=None, dropline=(), repl=(), per_panel=Fals
         for P in panels:
             if isdrop(P): dropped += 1; continue
             letter = (re.search(r"\\noindent\\textbf\{\(([a-e])\)", "\n".join(P)) or [None, None])[1]
-            capP = (percap(cap, letter, first) if (per_panel and letter and cap_ok) else (cap if (first_kept and cap_ok and (first or not newcap)) else ["\\caption{(continued)}"]))
+            letter_raw = (re.search(r"\\noindent\\textbf\{\((a\$'\$|[a-h])\)", "\n".join(P)) or [None, None])[1]
+            lab = re.search(r"\\label\{(tab:[^}]*)\}", "\n".join(cap))
+            if lab: labbase.append(lab.group(1))
+            base = labbase[0] if labbase else "tab:unknown"
+            pc = PANELCAP.get((stem_, letter_raw)) if letter_raw else None
+            if pc:   # a former panel becomes its own numbered table (author's brief, 2026-09-23 22:00)
+                _suf = PANELLAB.get(letter_raw, "-x")
+                _labs = ("\\label{" + base + "}" + ("\\label{" + base + _suf + "}" if _suf else "")) if not labbase_used else ("\\label{" + base + _suf + "}")
+                labbase_used.append(True)
+                capP = ["\\caption{" + pc] + [l for l in cap if l.lstrip().startswith("%")] + ["}", _labs]
+                P = [l for l in P if not l.startswith("\\noindent\\textbf{(")]   # the panel title is now the caption
+            else:
+                capP = (cap if (first_kept and cap_ok and (first or not newcap)) else ["\\caption{(continued)}"])
             P = [("\\par\\vspace{2pt}" if l == "\\par\\vspace{5pt}" else ("\\par\\vspace{1pt}" if l == "\\par\\vspace{1.5pt}" else l)) for l in P]   # less air between panels (appendix cleanup, 2026-09-23)
-            out += ["\\begin{table}[H]" + ("" if first else "\\ContinuedFloat")] + hdr + P + capP + ["\\end{table}"]; first = False; first_kept = False
+            out += ["\\begin{table}[H]" ] + hdr + P + capP + ["\\end{table}"]; first = False; first_kept = False
     assert dropped == len(drop), (drop, dropped)
     return "\n".join(out) + "\n"
 for stem in order:
     fn = FINAL_SRC.get(stem, stem)
     src = open((FD if stem in FINAL_SRC else TEX + "appendix_tables/") + fn + ".tex").read()
-    open(FD + fn + ".tex", "w").write(split_panels(src, DROP.get(stem, ()), CAPFIX.get(stem), DROPLINE.get(stem, ()), REPL.get(stem, ()), per_panel=False, newcap=NEWCAP.get(stem)))   # Table 3: one caption segment per panel (twelfth review)
+    open(FD + fn + ".tex", "w").write(split_panels(src, DROP.get(stem, ()), CAPFIX.get(stem), DROPLINE.get(stem, ()), REPL.get(stem, ()), per_panel=False, newcap=NEWCAP.get(stem), stem_=stem))   # Table 3: one caption segment per panel (twelfth review)
 for f in os.listdir(FD):   # stale copies from earlier rounds are removed so the provenance index and the sweep see the current set only
     if f.endswith(".tex") and f[:-4] not in [FINAL_SRC.get(s, s) for s in order] + ["tab_z_provenance_final"]: os.remove(FD + f)
 appendix = head + "".join(bytab[s] for s in order) + prov_block
