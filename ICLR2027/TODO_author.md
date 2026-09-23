@@ -322,4 +322,9 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   texto dice "Chance gives 0.33." (frase aparte por el tope de dos números). Si quieres el 0.5, la frase tendría que referirse a la
   Figura 5c y no a la Tabla 11. Fuera también "about a third" (resuelto por tu brief). La frase de §6 "The raw and calibrated
   readings…" tenía 32 palabras y va partida en los dos puntos. El pie de la Figura 5 sigue diciendo "shared almost up to noise".
+- (Bibliografía, 2026-09-23 13:40) El fichero que compila es `references.bib`, no `iclr2027_conference.bib`: tus 52 entradas están ya
+  en `references.bib` (más las 3 citadas que faltaban en el tuyo). Si vuelves a tocar referencias, hazlo en `references.bib` o dime
+  que cambie la plantilla a `\bibliography{iclr2027_conference}`. Decisiones a confirmar: Gröger et al. como ICML 2026 (arXiv dice
+  "ICML 2026 camera-ready"; tu entrada era el CoRR) y "Shuo Wen" (la anterior decía "Song Wen"); Aggarwal et al. con "High
+  Dimensional Space" en singular (título del PDF de los autores; DBLP pone "Spaces").
 

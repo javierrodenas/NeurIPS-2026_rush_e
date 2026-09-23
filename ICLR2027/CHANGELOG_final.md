@@ -2388,3 +2388,25 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   leyenda sirve ahora a (b) y a (c) (0.5 en (c), elección binaria). Sin cambio de datos ni de altura de la figura.
 - §5.4 conserva "Chance gives 0.33.". Sweep: literal del pie actualizado y comprobación de que el script de figuras traza la línea en
   1/3 con ese título de panel y de que la frase de §5.4 sigue en el texto.
+## 66. Bibliografía del autor (2026-09-23, 13:40): `iclr2027_conference.bib` revisada e integrada en `references.bib`.
+
+- El fichero que compila el envío (y el de la vía paralela) es `references.bib` (`\bibliography{references}` en la plantilla); el sweep
+  también lo lee. Tus 52 entradas de `iclr2027_conference.bib` pasan a `references.bib` en tu orden; ese fichero tuyo queda como lo
+  dejaste. `references.bib` tenía 55 entradas: 46 idénticas a las tuyas, 6 solapadas con diferencias y 3 que las tuyas no tienen
+  (sala2018representation, gu2019learning, moreira2024hyperbolic, las tres citadas), que se conservan al final del fichero.
+- Solapadas con diferencias, verificadas: **CLIP** (tuya: ICML 2021 en PMLR; la anterior era el CoRR de bibsonomy; no se cita),
+  **BGE** (guiones; no se cita), **cifar10** (tuya: techreport de Toronto; no se cita), **groger2026aristotelian** (citada): la
+  página de arXiv 2602.14486 da los autores Fabian Gröger, Shuo Wen y Maria Brbić y "ICML 2026 camera-ready", así que la entrada
+  queda como inproceedings de ICML 2026 con "Shuo Wen" (la anterior decía "Song Wen", error) y el DOI/eprint de arXiv de la tuya;
+  **beyer1999nearest** (citada): tuya (DBLP, "Kevin S. Beyer", editores, DOI), con las comillas de apertura del título en LaTeX
+  (DBLP escribe '' a ambos lados y se imprimiría ”Nearest Neighbor”); **aggarwal2001surprising** (citada): tuya (DBLP, editores,
+  DOI) con el título en singular, "High Dimensional Space", como en el PDF de los autores y el repositorio de Konstanz (DBLP y
+  Semantic Scholar escriben "Spaces").
+- Dos defectos de impresión ya presentes: los DOI/URL de DBLP llevan `\_`, que bajo el `\doi` y `\url` verbatim del .bst imprime la
+  barra ("7\_34" en sarkar2011low en el PDF actual): quitadas las barras en los tres DOI y URL; y el .bst pone los títulos en
+  minúsculas, con lo que fournier2015computing imprimía "gromov": "{Gromov}" protegido; por la misma razón, protegidos "{Delaunay}"
+  (sarkar2011low, imprimía "delaunay"), "{Plato's}" (koepke2026cave), "{GloVe}" (tifrea2019poincare, imprimía "glove"),
+  "{Aristotelian}" y "{Platonic}" (groger2026aristotelian, huh2024platonic) y "{Chinese}" (BGE, no citada). Barrido de todas las
+  palabras con mayúscula fuera de llaves en los títulos: el resto son mayúsculas de título (Title Case) que el .bst reduce bien.
+- Sweep: comprobación nueva sobre `references.bib` (claves únicas, toda clave citada presente, Gröger como ICML 2026 con Shuo Wen,
+  sin `\_`, Gromov protegido, las tres entradas conservadas). Sin cambio en el texto principal.
