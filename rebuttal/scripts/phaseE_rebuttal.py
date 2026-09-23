@@ -17,7 +17,7 @@ def insert_after_paragraph(text, lead, new_par):
 tables = []
 # ---- S5.3: the trained positive control
 IN77 = "keeps firing once decoupled" in T
-if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'expR77_positive_control_verdict.json') and (not IN77 or 'hier_seed1' in pd.read_csv(R + 'expR77_positive_control.csv').model.values):   # seed 0 in the submission -> the second seed goes to the rebuttal file only (rule of 2026-09-20)
+if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'expR77_positive_control_verdict.json') and (not IN77 or ('hier_seed1' in pd.read_csv(R + 'expR77_positive_control.csv').model.values and 'in both seeds' not in T)):   # seed 0 in the submission -> the second seed goes to the rebuttal file only (rule of 2026-09-20)
     P = pd.read_csv(R + 'expR77_positive_control.csv').set_index('model'); V = json.load(open(R + 'expR77_positive_control_verdict.json'))['verdict']
     v0 = next((v for v in V if v['seed'] == 'seed0'), None); h = P.loc['hier_seed0']; c = P.loc['ce_seed0']; f = P.loc['frozen']
     cert = lambda r: (r.z_wn30 <= -2) and (r.z_wn30bal <= -2); dec = lambda r: (r.zdec_mean_wn30 <= -2) and (r.zdec_mean_wn30bal <= -2)

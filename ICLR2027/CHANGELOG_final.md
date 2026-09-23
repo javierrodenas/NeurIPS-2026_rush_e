@@ -2048,3 +2048,28 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Cierre (2026-09-22, 17:45)**: §7 en la línea 460 de la página 9; limitación (vi) cierra la página 9; alcance (vii)–(ix),
   statements y referencias en la 10; 37 páginas; 0 `??`. Sweep 220/221: sólo falla el tope del resumen (337 palabras). Versión paralela
   reconstruida.
+## 55. Semilla 1 del control entrenado en el envío (2026-09-23, 09:00, brief del autor).
+
+- **§5.3 (c)**, las frases del control entrenado con las dos semillas, todo como rellenos de `expR77_positive_control.csv`: "ViT-B
+  fine-tuned with a hierarchical cross-entropy at three WordNet cuts keeps firing once decoupled in {{PC_HIER_DEC}} of 10 runs in
+  both seeds, $z$ ${{PC_HIER_Z0}}$ and ${{PC_HIER_Z1}}$. The leaf-only fine-tune fires in {{PC_CE_DEC}} of 10 and {{PC_CE_DEC1}} of
+  10, $z$ ${{PC_CE_Z0}}$ and ${{PC_CE_Z1}}$, and the frozen checkpoint in {{PC_FROZEN_DEC}} of 10, on the frame of record.
+  Fine-tuning itself adds some decoupled signal in one seed and the hierarchical objective adds more, so the trained control
+  separates the objectives by degree." (10 de 10; −2.38 y −2.63; 0 de 10 y 6 de 10; −0.72 y −2.02; 0 de 10). El builder exige 10 de 10
+  en las dos semillas, 6 de 10 y 0 de 10, que el leaf CE de la semilla 1 dispare (z ≤ −2) y el de la 0 no, que el jerárquico de la
+  semilla 1 lea más profundo que su leaf CE, y que el criterio previo no se cumpla en ninguna semilla (JSON del veredicto).
+- **Limitación (iii)**: "Its trained control separates the objectives by degree, not absolutely: in one of two seeds the leaf-only
+  fine-tune also fires once decoupled." en lugar de "Its trained positive control, one seed, discriminates the objectives only once
+  decoupled."
+- **Tabla 9(d)** (depth; "Table 8(d)" en la numeración del brief): filas de la semilla 1 (leaf CE y jerárquica), etiquetas con la
+  semilla, pie "two seeds, identical batches within a seed" y nota con el 0 de 10 / 6 de 10 del leaf CE por semilla.
+- Resumen sin cambios. `phaseE_rebuttal.py` deja de insertar el párrafo de la segunda semilla cuando el envío ya dice "in both seeds".
+- **Sweep**: literales de (c) y (iii) rederivados del csv y del JSON; "0 of 10" puede aparecer dos veces en §5.3 (el brief lo escribe
+  dos veces) y "6 of 10" una; exención (16, 3) para (c); recuentos y pares de z en HEADLINE desde el csv; "(seed 1)" no aparece en el
+  cuerpo; la Tabla 9(d) dice "two seeds".
+- Ajustes de forma para el sweep: "fires in 0 of 10 in one seed and 6 of 10 in the other" (el contador de cifras leía "0 of 10 and 6
+  of 10" como un grupo raro) y la frase a 35 palabras.
+- **Cierre (2026-09-23, 09:10)**: §7 en la línea 464 de la página 9; el texto principal termina nueve líneas dentro de la página 10
+  (parte de la limitación iii y las de alcance), dos más que antes por las frases nuevas; statements en la 494, referencias en la
+  513; 37 páginas; 0 `??`. Sweep 220/221: sólo falla el tope del resumen (337 palabras contra 310). Versión paralela reconstruida sin
+  el párrafo de la segunda semilla (ya en el envío).

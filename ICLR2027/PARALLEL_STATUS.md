@@ -2,6 +2,12 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-23 09:00 — author's decision: seed 1 of the trained control enters the submission
+
+- The author's brief integrates both seeds into S5.3 (c) and limitation (iii) and adds the seed-1 rows to the depth table's panel (d);
+  the rebuttal file no longer carries a separate second-seed paragraph (the builder skips it once the submission says "in both
+  seeds"). CHANGELOG §55. The parallel track has nothing left to run.
+
 ## 2026-09-23 08:10 — seed 1 of the trained control tested (expR77 shards done 08:05); rebuttal file only
 
 - Results (census excess under the centered Haar null, depth test on both frames, decoupling control, 10 seeds; times ~23 min per model):
