@@ -2423,3 +2423,9 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   as the planted one is found".
 - Sweep: literales del abstract (frases 7 y 9, recuento de la frase de acuerdo 3 → 2, "none as strong…" 2 → 1) y comprobaciones de las
   tres frases nuevas; sin cambio de números.
+## 68. Tesis, una cláusula (2026-09-23, 15:30, brief del autor).
+
+- Abstract y §7: "agree on how those clusters nest" → "agree on which classes group together" en la frase de la tesis (sigue en 56
+  palabras, la excepción declarada a la regla de 30). `OPENREVIEW_abstract.txt` regenerado.
+- Sweep: literal de la tesis actualizado (comprobación de la tesis y comprobación de la duodécima revisión, que la exigen idéntica en
+  abstract y §7); sin cambio de números.
