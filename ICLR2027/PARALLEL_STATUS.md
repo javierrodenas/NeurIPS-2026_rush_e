@@ -376,3 +376,13 @@ Updated at every checkpoint. Newest entry first.
 - **§3**: not started, as ordered.
 - **Integration**: `main_iclr2027_rebuttal.tex` to be built from the frozen file plus one paragraph in §5.3 and one in §5.1 when
   results exist; sweep checks to be added for the new numbers.
+
+## 2026-09-23 17:05 — expR85 terminado y en la Tabla 1 del envío
+- Los 8 fragmentos (4 conjuntos × ensayos 0–4 / 5–9) acabaron a las 17:04 (unos 72 min por ensayo). Fusionados con `--merge`:
+  `expR85_khrulkov_sup.csv` (40 filas) y `expR85_khrulkov_sup_summary.csv` (n_trials 10 en los 4 conjuntos).
+- Resumen (excess_sup_mean; r_above_mean/200; p_left_max): CIFAR-10 −0.0205, 156, 0.701; CIFAR-100 −0.0353, 187, 0.299; CUB-200
+  −0.0218, 163, 0.488; MiniImageNet −0.0700, 200, 0.005. Ninguno por encima de la nube aleatoria; sólo MiniImageNet por debajo en
+  los 10 ensayos.
+- En el envío: dos columnas más en la Tabla 1 y la cláusula de §5.1 acordada en la duodécima revisión (5). Fichero de la vía
+  paralela reconstruido con la misma tabla. Nada queda en marcha.
+

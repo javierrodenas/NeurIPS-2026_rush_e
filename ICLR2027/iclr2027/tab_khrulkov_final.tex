@@ -1,19 +1,19 @@
-% prov: expR78_khrulkov_replication_summary.csv
+% prov: expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
 \begin{table}[t]
 \centering
 \footnotesize
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{lcccc}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lcccccc}
 \toprule
-dataset & their $\delta_{\text{rel}}$ & ours, their estimator & excess & $r$/200, largest $p$ \\
+dataset & their $\delta_{\text{rel}}$ & ours, their estimator & excess & $r$/200, largest $p$ & excess (sup.) & $r$/200, largest $p$ (sup.) \\
 \midrule
-CIFAR-10 & 0.26 & 0.275 & $-0.0037$ & 173/200, 0.333 \\
-CIFAR-100 & 0.25 & 0.261 & $-0.0087$ & 198/200, 0.030 \\
-CUB-200 & 0.25 & 0.270 & $-0.0043$ & 177/200, 0.249 \\
-MiniImageNet & 0.21 & 0.203 & $-0.0234$ & 200/200, 0.005 \\
+CIFAR-10 & 0.26 & 0.275 & $-0.0037$ & 173/200, 0.333 & $-0.0205$ & 156/200, 0.701 \\
+CIFAR-100 & 0.25 & 0.261 & $-0.0087$ & 198/200, 0.030 & $-0.0353$ & 187/200, 0.299 \\
+CUB-200 & 0.25 & 0.270 & $-0.0043$ & 177/200, 0.249 & $-0.0218$ & 163/200, 0.488 \\
+MiniImageNet & 0.21 & 0.203 & $-0.0234$ & 200/200, 0.005 & $-0.0700$ & 200/200, 0.005 \\
 \bottomrule
 \end{tabular}
-\caption{\textbf{A published reading reproduced and calibrated.} ResNet-34 setting of \citet{Khrulkov_2020_CVPR}: their relative hyperbolicity, ours with their estimator, the excess, and the rank of 200 with the largest left-tail $p$. % expR78_khrulkov_replication_summary.csv
+\caption{\textbf{A published reading reproduced and calibrated.} ResNet-34 setting of \citet{Khrulkov_2020_CVPR}: their relative hyperbolicity, ours with their estimator, then the excess and the rank of 200 with the largest left-tail $p$ for the record statistic (99.9th percentile) and for their own statistic, the supremum (sup.), against the same replicates. % expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
 }
 \label{tab:khrulkov}
 \end{table}

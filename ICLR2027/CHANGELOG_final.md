@@ -2490,3 +2490,22 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - `\vspace{2pt}` entre la imagen y el pie: la imagen, recortada con `trim`, tocaba la línea "Figure 1:" (página 2 de qa_pages).
 - Mecánica: dos ediciones más en la lista del constructor (30), sobre el texto verbatim de `main_local.tex`; sweep con el recuento
   30 y la frase y el `\vspace` fijados en la comprobación de §1.
+## 73. Tabla 1: columnas del supremo (expR85 terminado, 2026-09-23, 17:05) y la Figura 1 nueva del autor.
+
+- expR85 (`expR85_khrulkov_sup.py`, 8 fragmentos, 10 ensayos por conjunto, 200 réplicas por ensayo, supremo exacto de $\delta_{\text{rel}}$
+  en float32; unos 72 min por ensayo bajo carga, lanzado a las 10:59, terminado a las 17:04) fusionado en
+  `expR85_khrulkov_sup.csv` y `expR85_khrulkov_sup_summary.csv`. La Tabla 1 lleva ahora dos columnas más, "excess (sup.)" y
+  "$r$/200, largest $p$ (sup.)" (medias sobre los 10 ensayos; rango medio; el $p$ mayor de los 10): CIFAR-10 $-0.0205$
+  (156/200, 0.701), CIFAR-100 $-0.0353$ (187/200, 0.299), CUB-200 $-0.0218$ (163/200, 0.488), MiniImageNet $-0.0700$ (200/200,
+  0.005). §5.1 cierra con la cláusula acordada: "Table 1 gives the 4 rows, with their own statistic, the supremum, calibrated on the
+  same replicates beside the record statistic." (fuera la cláusula provisional del percentil). Procedencia: `% prov` de la tabla y
+  `% expR85_khrulkov_sup_summary.csv` en §5.1.
+- Lectura para el autor: con su propio estadístico ninguno de los 4 conjuntos lee por encima de la nube aleatoria; sólo MiniImageNet
+  queda por debajo en los 10 ensayos ($p$ mayor 0.005); CIFAR-100, que con el percentil "cae por debajo" (198/200, 0.030), con el
+  supremo queda en 187/200 con $p$ mayor 0.299, es decir, indistinguible por el criterio del $p$ mayor. La frase de §5.1
+  ("Calibrated, CIFAR-10 and CUB-200 are indistinguishable… CIFAR-100 and MiniImageNet fall below it") sigue refiriéndose al
+  estadístico de registro; si quieres una frase sobre la lectura con el supremo, dímela.
+- Figura 1: tu `fig1_concept.pdf` nuevo (commit f1c01ea, "All cast the same tree-shaped shadow", sombra "δ low") compila con el mismo
+  `trim` y el `\vspace{2pt}` de §72; comprobado en la página 2 de qa_pages.
+- Sweep: la comprobación del punto 5 de la duodécima revisión pasa a la rama "fusionado" (celdas de la tabla desde el resumen,
+  10 ensayos, cláusula de §5.1); la comprobación de limpieza de la Tabla 1 (`kt_ok`) actualizada a las 7 columnas.

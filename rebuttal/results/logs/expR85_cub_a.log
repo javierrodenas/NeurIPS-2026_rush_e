@@ -1,0 +1,6 @@
+cub          trial 0 delta_rel 0.2578 null 0.2922 +- 0.0197 excess -0.0345 r 198/200 p 0.015 (4285s)
+cub          trial 1 delta_rel 0.2686 null 0.2910 +- 0.0194 excess -0.0224 r 174/200 p 0.134 (4305s)
+cub          trial 2 delta_rel 0.2769 null 0.2910 +- 0.0195 excess -0.0141 r 147/200 p 0.269 (4274s)
+cub          trial 3 delta_rel 0.2676 null 0.2914 +- 0.0195 excess -0.0238 r 175/200 p 0.129 (4179s)
+cub          trial 4 delta_rel 0.2449 null 0.2921 +- 0.0195 excess -0.0472 r 200/200 p 0.005 (4328s)
+PART DONE cub [0, 1, 2, 3, 4]

@@ -1,0 +1,6 @@
+cifar100     trial 5 delta_rel 0.2576 null 0.2942 +- 0.0212 excess -0.0367 r 198/200 p 0.015 (4348s)
+cifar100     trial 6 delta_rel 0.2602 null 0.2956 +- 0.0217 excess -0.0354 r 196/200 p 0.025 (4424s)
+cifar100     trial 7 delta_rel 0.2659 null 0.2974 +- 0.0221 excess -0.0315 r 190/200 p 0.055 (4325s)
+cifar100     trial 8 delta_rel 0.2781 null 0.2957 +- 0.0214 excess -0.0176 r 156/200 p 0.224 (4234s)
+cifar100     trial 9 delta_rel 0.2560 null 0.2974 +- 0.0220 excess -0.0414 r 198/200 p 0.015 (4294s)
+PART DONE cifar100 [5, 6, 7, 8, 9]

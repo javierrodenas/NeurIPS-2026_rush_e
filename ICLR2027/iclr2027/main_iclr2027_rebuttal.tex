@@ -240,7 +240,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. Where it is genuine, the excess removes at most two fifths of the null reading. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
 
-\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet fall below it. Table~\ref{tab:khrulkov} gives the 4 rows; the calibration reads the percentile statistic $\hat\delta_{99.9}$, whereas their statistic is the supremum. % expR78_khrulkov_replication_summary.csv
+\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet fall below it. Table~\ref{tab:khrulkov} gives the 4 rows, with their own statistic, the supremum, calibrated on the same replicates beside the record statistic. % expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
 
 \input{tab_khrulkov_final}
 

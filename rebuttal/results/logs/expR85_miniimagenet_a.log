@@ -1,0 +1,6 @@
+miniimagenet trial 0 delta_rel 0.1927 null 0.2736 +- 0.0149 excess -0.0809 r 200/200 p 0.005 (4391s)
+miniimagenet trial 1 delta_rel 0.2149 null 0.2722 +- 0.0149 excess -0.0573 r 200/200 p 0.005 (4469s)
+miniimagenet trial 2 delta_rel 0.2269 null 0.2729 +- 0.0148 excess -0.0460 r 200/200 p 0.005 (4366s)
+miniimagenet trial 3 delta_rel 0.2055 null 0.2727 +- 0.0149 excess -0.0672 r 200/200 p 0.005 (4305s)
+miniimagenet trial 4 delta_rel 0.1780 null 0.2730 +- 0.0149 excess -0.0950 r 200/200 p 0.005 (4200s)
+PART DONE miniimagenet [0, 1, 2, 3, 4]
