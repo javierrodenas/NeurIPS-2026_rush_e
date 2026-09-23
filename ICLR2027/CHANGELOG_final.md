@@ -2326,3 +2326,29 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Sweep: literales de la entradilla de §5.1 y de la frase de Khrulkov actualizados; "weak and model-dependent" ya no se exige.
 - **Cierre (2026-09-23, 12:15)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; §7 en la línea
   463 de la página 9; 37 páginas; 0 `??`. Sweep 225/225. Versión paralela reconstruida.
+## 63. Legibilidad, §5.3 (2026-09-23, 12:20, brief del autor): seis puntos.
+
+- **(1)** Primer párrafo: fuera "It certifies 4 of 12:"; la lista sigue a la entradilla ("The depth test certifies that clusters are
+  oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L."), que el sweep exime del tope de 16 palabras;
+  el párrafo queda en dos frases (exento). La definición del nivel de ruido pasa a "What the test can see", justo antes de la frase de
+  las razones de los 3 ciegos y los 9 cubiertos.
+- **(2)** "What the test can see": las dos frases sobre el desacoplado leyendo más profundo ("The decoupling control fires on every deep
+  seed…" y "The deeper reading comes from both sides…") pasan a la nota (d) de la Tabla 10 (potencia), con los recuentos del fichero
+  y el lado de la observación desde `final_dec_obs.json`. "The pre-set criterion asked…" sale de §5.3 y entra en la limitación (iii)
+  como frase propia (el tope de 30 palabras impide la cláusula): "A pre-set criterion expecting no intact certification of the leaf
+  and frozen models was not met, because they are aligned."
+- **(3)** La frase de los Poincaré embeddings de WordNet pasa a la misma nota (d) con su explicación: "read with Euclidean distances,
+  do not fire: the hierarchy they carry lives in the curvature and is not visible to a Euclidean reading, so they are not a positive
+  control." El párrafo (c) cierra con "Tables 10 and 9 give the runs."
+- **(4)** "No hub hierarchy is found where the test has power.": sin las listas repetidas; "In those 9 backbones, none as strong as
+  the planted one is found." y las frases sobre qué significa "hub hierarchy". Las listas de cubiertos y ciegos quedan en la Tabla
+  10(e) (los rellenos P81_COVERED/P81_UNCOVERED siguen calculados y comprobados).
+- **(5)** Etiquetas de hoja: "…does not explain the certified ViTs' alignment."
+- **(6)** Pie de la Figura 4: "\textbf{What the depth test certifies, and where it can see a hierarchy.} (a) Depth $z$ per backbone,
+  filled when certified; line at $z=-2$. (b) Decoupled power for an implanted three-level hierarchy, filled at 0.8 or more; line at
+  0.8." La forma larga de los nueve y los tres deja de estar en el cuerpo (queda en §1 con la glosa y en el pie de la Tabla 9).
+- Sweep: literales de (a), (c), (d), (iii) y del pie de la Figura 4; las frases movidas se exigen en la nota (d) de la tabla de
+  potencia; la definición del nivel de ruido debe preceder a la frase de las razones.
+- **Cierre (2026-09-23, 12:35)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; §7 en la línea
+  455 de la página 9 y los statements empiezan en la 481, también en la página 9; referencias en la 500 (página 10); 37 páginas; 0
+  `??`. Sweep 225/225. Versión paralela reconstruida.
