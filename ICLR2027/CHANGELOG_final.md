@@ -2659,3 +2659,19 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   en 32 páginas: la Conclusión abre en la 9 y las declaraciones en la 10, es decir, **el texto principal acaba en la página 10**,
   una más que el envío. No he recortado nada, como pediste. PDF en `ICLR2027/main_iclr2027_boxes.pdf`.
 - Envío recompilado: texto principal en la página 9, sweep 230/230, apéndice en 16 páginas.
+## 81. Frame de WordNet, cuentas de clases, Figura 2 por familias y la variante con cajas (2026-09-23, 21:30, brief del autor).
+
+- **(1)** §5.3: "the frame of record" → "the WordNet frame" en las dos frases (el control entrenado y la frase del frame balanceado;
+  literal del sweep y `final_bal_frame.json` regenerados). §4 da ahora el número de clases en la primera mención: "The class sets are
+  ImageNet with 1000 classes and CIFAR-100 with 100 classes, which carry a real hierarchy, and CIFAR-10 with 10 classes and DTD with
+  47 classes. The flat sets are FMNIST and MNIST, 10 classes each." (dos frases por el tope de 30 palabras; las cinco cuentas son
+  frases de cuenta, exentas de la densidad de números). Con esto el 47 de §5.2 ya está en el papel.
+- **(2)** Figura 2(a): orden por familia y tamaño (ViT-T/S/B/L; DINO-B, DINOv2-S/B/L/G; CLIP-B, CLIP-L, SigLIP-B) en lugar de por
+  dimensión, y la referencia gaussiana pasa de una línea escalonada a un guion corto sobre cada par de barras. Pie: "…by family and
+  size; within each family the null falls as the dimension grows, and the gap is the excess."
+- **(3)** Variante con cajas (`main_iclr2027_boxes.tex`, envío intacto): cajas más apretadas (2 pt de relleno, 2 pt antes y después,
+  sin espacio extra tras el título), §5.5 movida al apéndice con un puntero de una frase al final de §5.4 ("Models share
+  neighborhoods, not metrics. Permutation-calibrated agreement across models survives, and Appendix B.12 gives the reading."), y
+  (1) y (2) aplicadas al heredarlas del envío. **No cabe en la página 9: el texto principal se desborda una línea** (la línea 486
+  cae en la página 10, con las declaraciones detrás), así que no promociono el fichero y no toco nada más, como pediste.
+- Envío recompilado: texto principal en la página 9, sweep 230/230.

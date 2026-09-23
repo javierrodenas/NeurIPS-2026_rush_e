@@ -38,7 +38,7 @@ def bar(ax, x, h, color, passes, width=0.38, zorder=3):
     return ax.bar(x, h, width, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
 
 # ---------------- Figure 2: raw reading next to its matched null, one pair of bars per backbone ordered by dimension
-order = sorted(M, key=lambda m: (DIMS[m], M.index(m)))
+order = list(M)   # family order, by size within family (author's brief, 2026-09-23): supervised ViTs, DINO/DINOv2, CLIP/SigLIP
 gauss = {int(r["d"]): float(r["delta_max"]) for r in csv.DictReader(open(RES/"exp1_delta_controls.csv")) if r["variant"] == "gauss"}
 fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.75), gridspec_kw={"width_ratios": [3.2, 1]})
 ax = axes[0]; X = np.arange(len(order))
@@ -46,14 +46,12 @@ for i, m in enumerate(order):
     r = by[(m, "imagenet")]
     ax.bar(i - 0.2, float(r["delta"]), 0.38, color=fam_color(m), zorder=3)
     ax.bar(i + 0.2, float(r["null_mean"]), 0.38, color=LIGHT, zorder=3)
-# the isotropic Gaussian reference steps with the dimension groups
-xs, ys = [], []
+# the isotropic Gaussian reference: one short dashed tick over each pair of bars, at the reading of a Gaussian cloud of that dimension
 for i, m in enumerate(order):
-    xs += [i - 0.5, i + 0.5]; ys += [gauss[DIMS[m]], gauss[DIMS[m]]]
-ax.plot(xs, ys, "--", color=GRAY, lw=0.9, zorder=4)
+    ax.plot([i - 0.42, i + 0.42], [gauss[DIMS[m]], gauss[DIMS[m]]], "--", color=GRAY, lw=0.9, dashes=(2.2, 1.4), zorder=4)
 ax.set_xticks(X); ax.set_xticklabels([NM[m] for m in order], rotation=60, ha="right"); ax.set_xlim(-0.6, len(order) - 0.4)
 ax.set_ylim(0, 0.12); ax.set_yticks([0, 0.04, 0.08, 0.12]); ax.set_yticklabels(["0.00", "0.04", "0.08", "0.12"]); ax.set_ylabel(r"$\delta_{\mathrm{norm}}$ (ImageNet)")
-ax.set_title("(a) raw reading and matched null, backbones by dimension")
+ax.set_title("(a) raw reading and matched null, by family and size")
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 hd = [Patch(color="k", label="raw reading"), Patch(color=LIGHT, label="matched null"), plt.Line2D([], [], ls="--", color=GRAY, label="isotropic Gaussian")]
 ax.set_ylim(0, 0.15); ax.set_yticks([0, 0.04, 0.08, 0.12]); ax.set_yticklabels(["0.00", "0.04", "0.08", "0.12"])

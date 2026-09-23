@@ -13,7 +13,8 @@ PRE = r"""
 % itself is unchanged. Thin left rule, no frame, 3pt padding, same font as the body.
 \usepackage[most]{tcolorbox}
 \tcbset{statementbox/.style={enhanced, breakable, boxrule=0pt, frame hidden, arc=0pt, outer arc=0pt, sharp corners,
-  left=3pt, right=3pt, top=3pt, bottom=3pt, boxsep=0pt, borderline west={1.2pt}{0pt}{#1}, before skip=4pt, after skip=4pt}}
+  left=2pt, right=2pt, top=2pt, bottom=2pt, boxsep=0pt, borderline west={1.2pt}{0pt}{#1}, before skip=2pt, after skip=2pt,
+  before upper={\setlength{\topsep}{0pt}\setlength{\partopsep}{0pt}\setlength{\parskip}{0pt}}}}
 \newtcolorbox{defbox}{statementbox=blue!55!black, colback=blue!4}
 \newtcolorbox{propbox}{statementbox=orange!70!black, colback=orange!8}
 """
@@ -23,7 +24,18 @@ t = t.replace(anchor, PRE.strip("\n") + "\n\n" + anchor)
 nd = t.count("\\begin{definition}"); npr = t.count("\\begin{proposition}")
 t = t.replace("\\begin{definition}", "\\begin{defbox}\n\\begin{definition}").replace("\\end{definition}", "\\end{definition}\n\\end{defbox}")
 t = t.replace("\\begin{proposition}", "\\begin{propbox}\n\\begin{proposition}").replace("\\end{proposition}", "\\end{proposition}\n\\end{propbox}")
-DST.write_text(t); print(f"{DST} written: {nd} definitions boxed in blue, {npr} proposition(s) in amber")
+# ---- S5.5 to the appendix, with a one-sentence pointer at the end of S5.4 (author's brief, 2026-09-23)
+i5 = t.index("\\subsection{What is shared is local}"); j5 = t.index("\\section{", i5)
+sub = t[i5:j5].rstrip() + "\n"
+body = re.search(r"\\paragraph\{[^}]*\}(.*)", sub, re.S).group(0).strip()
+t = t[:i5] + t[j5:]
+PTR = "\n\\paragraph{Models share neighborhoods, not metrics.} Permutation-calibrated agreement across models survives, and Appendix~\\ref{app:local} gives the reading. % exp21b_local_global_K200.csv\n"
+k4 = t.index("\\section{Implications for Hyperbolic Representation Learning}")
+t = t[:k4] + PTR.lstrip("\n") + "\n" + t[k4:]
+anchor_app = "\\input{appendix_tables/final/tab_q13_local}"
+assert t.count(anchor_app) == 1, "the local-agreement table is inputted once"
+t = t.replace(anchor_app, body + "\n" + anchor_app)
+DST.write_text(t); print(f"{DST} written: {nd} definitions boxed in blue, {npr} proposition(s) in amber; S5.5 moved to the appendix with a pointer in S5.4")
 if len(sys.argv) >= 3:
     tectonic, build = sys.argv[1], Path(sys.argv[2]); shutil.rmtree(build, ignore_errors=True); shutil.copytree(TEX, build)
     r = subprocess.run([tectonic, "-X", "compile", "--keep-logs", "-Z", "shell-escape", str(build / DST.name)], capture_output=True, text=True)

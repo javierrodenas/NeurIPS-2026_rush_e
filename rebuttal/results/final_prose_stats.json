@@ -19,9 +19,9 @@
    "over30": 0
   },
   "Experimental Setup": {
-   "sentences": 16,
+   "sentences": 17,
    "avg_words": 17.3,
-   "max_words": 25,
+   "max_words": 30,
    "over30": 0
   },
   "Results": {
@@ -44,7 +44,7 @@
   }
  },
  "avg_nonverbatim": 17.7,
- "n_nonverbatim_sentences": 148,
+ "n_nonverbatim_sentences": 149,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
