@@ -100,6 +100,10 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
          ('We build the instrument that reads $\\delta$ correctly.', 'We build the instrument that reads $\\delta$ against the right reference.'),
          ('They calibrate similarity across models;', '\\citet{groger2026aristotelian} calibrate similarity across models;'),
          ('adds a \\emph{depth test} whose', 'adds a \\emph{hierarchy test} whose')
+,
+         # Figure 1 caption (author's brief, 2026-09-23, 17:00): last sentence names what each test separates; 2pt between the image and the caption
+         ('The instrument reads the objects instead of the shadow: no structure beyond the null in the cloud, clusters without depth in the star, clusters with depth in the tree.', 'The instrument reads the objects instead of the shadow: the excess separates the random cloud from the other two, and the hierarchy test separates the star from the tree.'),
+         ("same-size placeholder)}}}\n\\caption{\\textbf{Plato's cave", "same-size placeholder)}}}\n\\vspace{2pt}\n\\caption{\\textbf{Plato's cave")
 ]
 def edit(s):
     for a, b in EDITS:

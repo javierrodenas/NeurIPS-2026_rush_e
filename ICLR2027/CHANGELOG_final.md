@@ -2482,3 +2482,11 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   "\emph{Across models,}"), recuento de "though short of what two readings…" 1 → 0, "nominally hyperbolic" → "hyperbolic-trained",
   comprobación nueva del renombrado (envío, tablas del apéndice, script de figuras, título de §3.4), y las entradillas exentas con el
   nombre nuevo.
+## 72. Figura 1, pie y separación (2026-09-23, 17:00, brief del autor).
+
+- Última frase del pie: "The instrument reads the objects instead of the shadow: the excess separates the random cloud from the other
+  two, and the hierarchy test separates the star from the tree." (antes "no structure beyond the null in the cloud, clusters without
+  depth in the star, clusters with depth in the tree"; de paso desaparece uno de los "depth" conceptuales pendientes).
+- `\vspace{2pt}` entre la imagen y el pie: la imagen, recortada con `trim`, tocaba la línea "Figure 1:" (página 2 de qa_pages).
+- Mecánica: dos ediciones más en la lista del constructor (30), sobre el texto verbatim de `main_local.tex`; sweep con el recuento
+  30 y la frase y el `\vspace` fijados en la comprobación de §1.
