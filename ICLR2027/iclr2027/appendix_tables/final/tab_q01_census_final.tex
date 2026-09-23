@@ -1,9 +1,9 @@
 % prov: expR75_census_centered_haar.csv, expR52_census_haar_p999_200.csv, expR54_census_haar_sup_200.csv, expR40b_p999census200.csv, expR39c_census200_cache.csv, expR57_census_cosine_haar_p999_200.csv, expR57_text_cosine_haar_p999_200.csv, exp10_local_vs_global.csv, expR45_convnet_rows.csv, exp20_null_ztable.csv
-\begin{table}[tbp]
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{1.4pt}
-\noindent\textbf{(a) The census of record per cell: Haar spectrum-matched null with $Q$ orthogonal to the all-ones vector, 99.9th-percentile statistic, 200 replicates.}\par\vspace{1.5pt}
+\noindent\textbf{(a) The census per cell.}\par\vspace{1.5pt}
 \begin{tabular}{lcccccccccccccccccc}
 \toprule
  & \multicolumn{3}{c}{IN} & \multicolumn{3}{c}{C100} & \multicolumn{3}{c}{C10} & \multicolumn{3}{c}{DTD} & \multicolumn{3}{c}{FMNIST} & \multicolumn{3}{c}{MNIST} \\
@@ -25,12 +25,12 @@ CLIP-L & $-0.009$ & 197 & .020 & $-0.018$ & 200 & .005 & $-0.020^{\circ}$ & 180 
 SigLIP-B & $-0.008^{\circ}$ & 189 & .060 & $-0.022$ & 200 & .005 & $-0.027$ & 197 & .020 & $-0.023$ & 200 & .005 & $-0.033$ & 195 & .030 & $-0.022^{\circ}$ & 176 & .124 \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
-\caption{\textbf{Structure beyond the second moments is the rule at the class level under every construction of the null and statistic, and the verdict does not depend on the metric.} (a) Per cell: excess of $\hat\delta_{99.9}$ over the null mean, $r$ = replicates above the real value, $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine = Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells ($^{\circ}$: not genuine). Genuine cells: 44/72 overall, 18/24 on ImageNet+CIFAR-100; sign agreement with the original 5-replicate Gaussian$\times$supremum census on the 72 comparable cells: 65/72. (b) Five symbols per cell in the order centered Haar$\times$p99.9 (the record, $Q\perp\mathbf{1}$), uncentered Haar$\times$p99.9, Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum, $\bullet$ = genuine under that construction; genuine counts 44/72, 49/72, 46/72, 52/72, 52/72. The percentage is the record excess divided by the mean null reading (ImageNet -33\% to -5\%; all cells -75\% to +18\%); the last column is the ImageNet excess of the supremum statistic under the same Haar null with its rank. The centered Haar construction reproduces the centered spectrum exactly, the uncentered one differs by a term of order $1/\sqrt{n}$ that moves the verdict only on the ten-class datasets; the Gaussian one does not at small $n$ and inflates excesses for low-rank clouds (Table~\ref{tab:q8-robust}). The supremum is decided by a few extreme quadruples and disagrees with the 99.9th percentile in both directions on DINOv2-S/B/G ImageNet.  % expR52_census_haar_p999_200.csv, expR54_census_haar_sup_200.csv, expR40b_p999census200.csv, expR39c_census200_cache.csv
+\par\vspace{2pt}
+\caption{\textbf{Structure beyond the second moments is the rule at the class level under every construction of the null.} Panels: the reading used in the paper per cell, the verdict under five constructions of null and statistic, the same census on cosine geometry, and the backbones read only on ImageNet.
 }
 \label{tab:q1-census}
 \end{table}
-\begin{table}[tbp]\ContinuedFloat
+\begin{table}[H]\ContinuedFloat
 \centering
 \scriptsize
 \setlength{\tabcolsep}{1.4pt}
@@ -57,16 +57,16 @@ CLIP-L & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-11\%$ & $\bullet$$\bull
 SigLIP-B & $\circ$$\circ$$\circ$$\bullet$$\bullet$ $-9\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-18\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-23\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-19\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-23\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $-0.015$ (194) \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
+\par\vspace{2pt}
 \endgroup
 \caption{(continued)}
 \end{table}
-\begin{table}[tbp]\ContinuedFloat
+\begin{table}[H]\ContinuedFloat
 \centering
 \scriptsize
 \setlength{\tabcolsep}{1.4pt}
 \begingroup
-\noindent\textbf{(c) The same census on cosine geometry (L2-normalized centroids, geodesic distances, Haar null on the normalized cloud): robustness, not the record.}\par\vspace{1.5pt}
+\noindent\textbf{(c) The same census on cosine geometry (L2-normalized centroids, geodesic distances, Haar null on the normalized cloud).}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{2.4pt}
 \begin{tabular}{lcccccccccccc}
 \toprule
@@ -89,12 +89,11 @@ CLIP-L & $-0.017$ & 200 & $-0.025$ & 200 & $-0.045$ & 199 & $-0.031$ & 200 & $-0
 SigLIP-B & $-0.013$ & 200 & $-0.025$ & 200 & $-0.053$ & 200 & $-0.027$ & 200 & $-0.052$ & 199 & $-0.044$ & 197 \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
+\par\vspace{2pt}
 \endgroup
-\caption{(continued) (c) Cosine reading, BH over 72 cells: sign-negative 70/72, genuine 56/72 and 22/24 on ImageNet+CIFAR-100, verdict agreement with the Euclidean record 60/72 cells. Text under the same cosine protocol (padding-free embeddings): genuine 8/15: gpt2-m, gpt2-l, gpt2-xl, pythia-410m, pythia-1b, pythia-2b8, olmo-1b, gte-qwen2. The angular tree: sibling-triplet agreement on CIFAR-100 for DINOv2-L is 0.91 under cosine against 0.71 under Euclidean distance. (d) Two self-supervised ResNet-50 backbones read the same clustered structure as the ViTs. % expR57_census_cosine_haar_p999_200.csv, expR57_text_cosine_haar_p999_200.csv, exp10_local_vs_global.csv, expR45_convnet_rows.csv
-}
+\caption{(continued)}
 \end{table}
-\begin{table}[tbp]\ContinuedFloat
+\begin{table}[H]\ContinuedFloat
 \centering
 \scriptsize
 \setlength{\tabcolsep}{1.4pt}
@@ -110,7 +109,7 @@ Barlow Twins (ResNet-50) & 2048 & $0.075$ & $-0.039$ ($-4.8$) & 20/20 \\
 BYOL (ResNet-50) & 2048 & $0.073$ & $-0.020$ ($-2.4$) & 20/20 \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
+\par\vspace{2pt}
 \endgroup
 \caption{(continued)}
 \end{table}

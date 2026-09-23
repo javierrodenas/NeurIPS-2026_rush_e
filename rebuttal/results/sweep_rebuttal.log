@@ -92,13 +92,13 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
-PASS final (scope sentences, 2026-09-23): S5.1 says the excess is conservative because the null keeps the spectrum, and what fails is the evidence the premise cites; S6 closes with the zero-cost scope sentence 
 PASS final (accuracy pass, 2026-09-23): every model and dataset cited at first mention (S4: ViT, ImageNet, DINO, DINOv2, CLIP, SigLIP, CIFAR, DTD, FMNIST, MNIST, GPT-2, Pythia, OLMo, ResNet, DeiT, augreg, MERU, WordNet; S3.3 Benjamini-Hochberg; S5.1 CUB-200 and MiniImageNet; S5.4 DBpedia; the embedders in the panel table); every cited entry has a DBLP/DOI/URL/arXiv source; park2024geometry ICLR 2025, koepke2026cave arXiv:2604.18572, aggarwal 'Spaces'; the MERU sentences with the 95th-percentile radius from expR71 
-PASS final: the appendix ARI-matrix figure states the naive and the selected DINOv2-vs-block agreement read from the figure's data, and Figure 5 carries the author's caption (consolidated pass) 
+PASS final: Figure 5 carries the author's caption (consolidated pass); the ARI-matrix figure is out of the appendix (cleanup of 2026-09-23: it is cited from nowhere) 
 PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 
 PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
 PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 
-PASS final: each final copy in appendix_tables/final/ carries the numbers and captions of its v1 table (minus the dropped panel in the census and corollary tables), floating and split by panel 
+PASS final (appendix cleanup, 2026-09-23): the appendix opens with the reading page and the glossary, every table is preceded by one plain paragraph of 2-4 sentences, every caption is at most 60 words with a bold answer, and the uncited panels, the ARI-matrix figure and the isotropic star are gone 
+PASS final: each final copy in appendix_tables/final/ carries only numbers of its v1 table (the cleanup of 2026-09-23 drops panels and shortens captions; nothing new appears), floats one panel at a time and opens with the short caption 
 PASS final (5th review): confounds stated as a reference level in S1 and S3.2; Proposition 1(b) for fixed n; Khrulkov's rule calibrated with the supremum; S4 210 quadruples; S5.2 flat datasets and 30 of 36; S5.3 WordNet levels and the decoupling control; S6 hierarchy verdict predicts no hyperbolic gain and the calibration paragraph; Figure 2(b) same dataset; no 'OLMo-7B was not extracted'; power table with two-decimal z; Table 14 and S B.12 'Both readings'; Table 6 with 8 causal LMs; AI statement in three items 
 PASS final (author's decisions, 2026-09-20): the record is the centered Haar null (44 of 72; five constructions in the census table with the uncentered census as a column; Table 2, Figure 3 and the joint sensitivity from it); the decoupling result rewrites the depth claim with the author's wording (abstract, S1, contribution 2, thesis, S5.3, MERU, Figure 4 caption); 'certified' only for the decoupling-tested structure 
 PASS final (priority 1c as a limitation): the author's sentence with the percentage and the family statement re-derived from expR80_implanted_alignment.csv, Table 10c per backbone and pooled with the rule's outcome, no 'measured power' certification wording, no dotted curve unless the rule was met 
@@ -122,4 +122,4 @@ PASS final: AI Use Statement with exactly the three declared items and the respo
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
 PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
-[phaseB re-total] 229/229
+[phaseB re-total] 230/230

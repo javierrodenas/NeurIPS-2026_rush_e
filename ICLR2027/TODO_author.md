@@ -340,4 +340,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   en dos en "…stays below it. The verdict for CIFAR-100…".
 - (Bibliografía, 2026-09-23 18:15) CUB-200-2011: el registro de Caltech Authors (cvm3y-5hh21) numera el informe CNS-TR-2010-001;
   el informe se cita habitualmente como CNS-TR-2011-001. La entrada lleva el número del registro. Cambia si prefieres el otro.
+- (Apéndice, 2026-09-23 20:00) Tres decisiones tuyas: (i) el apéndice queda en 16 páginas, una por encima de tu tope, y bajar a 15
+  exige quitar material citado (Tabla 5(b) o 5(c) son las candidatas); (ii) "of record" sigue en el texto principal y ya no en el
+  apéndice; (iii) cuatro números que cita el texto principal ya no están escritos en el apéndice (72, 47, 34, +0.9).
 

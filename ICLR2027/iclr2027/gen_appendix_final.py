@@ -311,11 +311,12 @@ def q_depth():
     DEC = {}
     if FINAL:   # two narrower panels: the stars with Gaussian hubs and the frames, then the star with Haar-resampled hubs
         split_ = lambda r: r[:-3].split(" & ")
-        rows_a = [" & ".join([split_(r)[k] for k in (0, 1, 2, 3, 4, 5, 6, 10)]) + r" \\" for r in rows]; rows_h = [" & ".join([split_(r)[k] for k in (0, 7, 8, 9)]) + r" \\" for r in rows]
+        rows_a = [" & ".join([split_(r)[k] for k in (0, 2, 4, 5, 6, 10)]) + r" \\" for r in rows]   # the isotropic-star columns (1, 3) are withdrawn material (appendix cleanup, 2026-09-23)
+        rows_h = [" & ".join([split_(r)[k] for k in (0, 7, 8, 9)]) + r" \\" for r in rows]
         T.panel("(a) The 12 backbones under the stars with Gaussian hubs: depth = excess B of the real centroids minus that of a matched star (negative = more hierarchical above the frame), with $z$ against the combined spread; the WordNet cut at $K{=}10$, 30 and 60 superclasses and the balanced frame.", "lcc@{\\hspace{5pt}}cccc@{\\hspace{5pt}}c",
-                [r" & \multicolumn{2}{c}{C100, $K{=}20$} & \multicolumn{4}{c}{ImageNet, anisotropic star} & bal.\ frame \\",
-                 r"\cmidrule(lr){2-3}\cmidrule(lr){4-7}\cmidrule(lr){8-8}",
-                 r"model & iso.\ $z$ & aniso.\ depth ($z$) & iso.\ $K{=}30$ $z$ & $K{=}10$ $z$ & $K{=}30$ depth ($z$) & $K{=}60$ $z$ & real $z$ \\"], rows_a, mids=(4, 9), colsep="2.2pt")
+                [r" & C100, $K{=}20$ & \multicolumn{3}{c}{ImageNet, matched star} & bal.\ frame \\",
+                 r"\cmidrule(lr){2-2}\cmidrule(lr){3-5}\cmidrule(lr){6-6}",
+                 r"model & depth ($z$) & $K{=}10$ $z$ & $K{=}30$ depth ($z$) & $K{=}60$ $z$ & real $z$ \\"], rows_a, mids=(4, 9), colsep="2.2pt")
         DEC = {a["model"]: a for a in load("expR74_decoupling_summary.csv")} if ex("expR74_decoupling_summary.csv") else {}
         if DEC: T.prov.append("expR74_decoupling_summary.csv")
         dcol = lambda m: ("" if not DEC else (" & --" if m not in DEC else f" & ${float(DEC[m]['dec_z_mean']):+.2f}$ $\\pm$ ${float(DEC[m]['dec_z_sd']):.2f}$ ({int(round(10*float(DEC[m]['frac_certified'])))}/10)"))

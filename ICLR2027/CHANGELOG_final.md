@@ -2598,3 +2598,36 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   diámetro (limitación (vii)).
 - Sweep: comprobación nueva de las dos frases (la de §5.1 tras "no more than chance would give", y §6 acabando en la de alcance);
   excepción del puntero documentada. Sin cambio de números.
+## 79. Limpieza del apéndice (2026-09-23, 20:00, brief del autor). Texto principal intacto byte a byte hasta `\appendix`.
+
+- **(1) Página de lectura y glosario** (`B.1 How to read this appendix`): una línea por sección (pregunta → tabla → qué muestra,
+  13 líneas) y un glosario de símbolos y columnas: "the reading used in the paper" (sustituye a "record"), excess, exc./null,
+  $r$/200, $p$ de cola izquierda, BH y genuine, $^{\circ}$ / $^{\dagger}$ / $^{\ddagger}$, negrita, frame, hub, matched star,
+  Haar-hub star, $z$, decoupled, power y false alarms. Las tablas ya no redefinen: remiten al glosario.
+- **(2) Pies de tabla**: uno por tabla, de 28 a 56 palabras (tope 60), con una frase en negrita que da la respuesta y otra que
+  nombra las columnas; los paneles continuados llevan sólo "(continued)". Cada tabla va precedida de un párrafo llano de 2 a 4
+  frases ("What this table answers"), que sustituye a los párrafos de la versión v1 y a la explicación que vivía en los pies.
+  Los títulos de panel pasan de 834 a 373 palabras: son etiquetas, no definiciones.
+- **(3) Paneles borrados** (ningún enunciado del texto principal se apoya en ellos): Tabla 3(e) intervenciones sobre la lectura
+  cruda dentro de una arquitectura; Tabla 7(b) plantillas de prompt; Tabla 8(b) la réplica de Khrulkov (ya es la Tabla 1 del texto
+  principal); Tabla 10(a) jerarquías sintéticas en el frame de hojas y en el de nivel superior; Tabla 14(e) políticas de selección
+  de métrica en few-shot, 14(f) las mismas en nearest-centroid y 14(g) sensibilidad al radio de proyección. **Comprobados y
+  conservados**: Tabla 5(d) (el texto principal nombra los dos ResNets auto-supervisados) y Tabla 12(d) HierarCaps (§5.4 lo cita);
+  los quité primero y la comprobación del sweep los recuperó. **Material retirado**: las columnas de la estrella isotrópica de la
+  Tabla 9(a) y la figura de matrices ARI (`fig:treemapmat`), que no citaba nadie. El implante de dos niveles se queda: el texto
+  principal lo cita (Figura 6 y §5.3).
+- **(4) Vocabulario**: "of record" desaparece del apéndice ("the census", "the reading", "under the census reading"); el glosario
+  dice una vez "the reading used in the paper". **Aviso**: el texto principal conserva "reading of record" y "frame of record"
+  (no se puede tocar por el propio brief), así que apéndice y texto principal difieren en esa expresión; dime si quieres que la
+  cambie también en el texto principal.
+- **(5) Comprobación de conservación relajada**: la copia final de cada tabla sólo puede perder números respecto de la v1, nunca
+  ganar, y debe abrir con el pie corto. Salen del apéndice 277 números (pies largos y paneles borrados). De ellos, cuatro los cita
+  el texto principal y ya no aparecen escritos en el apéndice: 72 (las filas del censo, que la tabla sigue mostrando), 47, 34 y
+  +0.9; los demás eran sólo del apéndice. Dime si quieres alguno de vuelta en un pie.
+- **Páginas**: el apéndice pasa de 25 a 16 páginas (proofs incluidos; el PDF, de 40 a 31). Falta una para tu tope de 15, y con la
+  regla de (3) aplicada no queda nada sin citar que borrar: para bajar a 15 habría que quitar material citado (p. ej. la Tabla 5(b)
+  de construcciones o la Tabla 5(c) del censo coseno). Los paneles ahora se colocan donde caen, no flotan, lo que llenó las páginas
+  medio vacías; `arraystretch` 0.92 y menos aire entre paneles.
+- Sweep 230/230 con comprobación nueva de la estructura del apéndice (página de lectura, glosario, un párrafo por tabla, pies de
+  60 palabras o menos, paneles borrados ausentes, sin "of record"); los pines que citaban frases de los pies largos se han
+  eliminado o reapuntado. Texto principal en la página 9 y byte a byte idéntico hasta `\appendix`.

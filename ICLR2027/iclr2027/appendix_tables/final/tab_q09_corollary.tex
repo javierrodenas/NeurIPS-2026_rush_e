@@ -1,5 +1,5 @@
 % prov: table1_regenerated.csv, exp2_metric_controls.csv, exp2b_normalized_stack.csv, exp13_mcnemar.csv, night/correlation_cis.csv, exp20_null_ztable.csv, expR68_corollary_excess.csv, exp24_val_metric_selection.csv, night/t_sweep.csv
-\begin{table}[tbp]
+\begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
@@ -84,18 +84,18 @@ CLIP-L & IN & 75.0 & 74.5 & 98.4 & 98.6 & +0.01 & +0.00 & +0.22 & $10^{-8}$\,($-
  & MNIST & 85.2 & 86.1 & 83.7 & 84.7 & +0.08 & +0.58 & +1.06 & $10^{-7}$\,(+) \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
+\par\vspace{2pt}
 \endgroup
-\caption{\textbf{Both readings predict the zero-cost gain within datasets, the hierarchy verdict predicts nothing, and cosine is the safe default.} (a) Nearest-centroid (NC) and 5-way 5-shot (FS, 1000 paired episodes) accuracy under Euclidean and Poincar\'e readouts, regenerated from the audited reruns; FS advantage of cosine and of the radial map with Euclidean distances (the map without the metric changes nothing) over Euclidean, and of the Poincar\'e readout over cosine after L2 normalization; McNemar $p$ for the NC test-set decisions, Poincar\'e vs Euclidean (order of magnitude when $p<10^{-3}$; sign of the NC advantage in parentheses). % table1_regenerated.csv, exp2_metric_controls.csv, exp2b_normalized_stack.csv, exp13_mcnemar.csv
+\caption{\textbf{Both readings predict the gain of a non-Euclidean readout, and the hierarchy verdict predicts none.} Panels: accuracies and zero-cost gains per cell, the correlations under the raw reading and under the calibrated one, and the best zero-cost metric per backbone.
 }
 \label{tab:q9-corollary}
 \end{table}
-\begin{table}[tbp]\ContinuedFloat
+\begin{table}[H]\ContinuedFloat
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(b) Correlation between the raw supremum $\delta_{\text{norm}}$ and the metric gain within each dataset ($n{=}10$ backbones), with bootstrap CI95 and the family-identity control (demeaned: both variables centered within family; within-family $r$ for ViT and DINOv2, sign only for CLIP).}\par\vspace{1.5pt}
+\noindent\textbf{(b) Correlation between the raw supremum reading and the gain.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{llccccc}
 \toprule
@@ -119,17 +119,16 @@ FS best$-$R & ImageNet & $-0.64$ -- & $-0.71$ & $-0.57$ & $-0.90$ & (-1) \\
  & DTD & $-0.60$ -- & $-0.70$ & $-0.95$ & $-0.88$ & (+1) \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
+\par\vspace{2pt}
 \endgroup
-\caption{(continued) (b) Within-dataset correlations of the raw supremum reading; bootstrap CI95 from 10k resamples of the 10 models, pooled rows by cluster bootstrap over datasets; family control: both variables centered within family before correlating, and within-family correlations (ViT, DINOv2: 4 models each; CLIP has two, so only its sign is shown). Without DINOv2 (6 backbones) the raw NC correlation holds on ImageNet and CIFAR-100 ($-0.87$/$-0.65$) but not on CIFAR-10/DTD ($+0.23$/$-0.34$); pooled cross-dataset correlations of the best-metric advantage do not survive the family control ($-0.31\to-0.18$ over all 60 cells, $-0.33\to-0.04$ on hierarchical cells) and are family-driven. On the record excess the nearest-centroid prediction survives (CI95 excluding zero) on ImageNet, CIFAR-100, CIFAR-10, DTD and the few-shot prediction on CIFAR-100, CIFAR-10, DTD; the hierarchy verdict predicts no gain in any dataset. (c) The gain per backbone and which readout collects it. % night/correlation_cis.csv, exp20_null_ztable.csv, exp2_metric_controls.csv
-}
+\caption{(continued)}
 \end{table}
-\begin{table}[tbp]\ContinuedFloat
+\begin{table}[H]\ContinuedFloat
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(c) Best zero-cost metric per backbone: few-shot advantage over Euclidean, mean over the four hierarchical datasets, and which metric collects it (either: within $0.15$pp).}\par\vspace{1.5pt}
+\noindent\textbf{(c) Best zero-cost metric per backbone.}\par\vspace{1.5pt}
 \footnotesize
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{lcc}
@@ -148,20 +147,20 @@ CLIP-B & $+0.67$ & H \\
 CLIP-L & $+0.65$ & H \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
+\par\vspace{2pt}
 \endgroup
 \caption{(continued)}
 \end{table}
-\begin{table}[tbp]\ContinuedFloat
+\begin{table}[H]\ContinuedFloat
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\noindent\textbf{(d) The same correlations on the raw $\hat\delta_{99.9}$, the record excess and the hierarchy-test $z$ (Fisher-$z$ CI95; dm: family-demeaned $r$).}\par\vspace{1.5pt}
+\noindent\textbf{(d) The same correlations on the calibrated reading and the hierarchy-test $z$.}\par\vspace{1.5pt}
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{llcc|cc|c}
 \toprule
- & & \multicolumn{2}{c|}{raw $\hat\delta_{99.9}$} & \multicolumn{2}{c|}{record excess} & depth $z$ \\
+ & & \multicolumn{2}{c|}{raw $\hat\delta_{99.9}$} & \multicolumn{2}{c|}{excess} & depth $z$ \\
 gain & dataset & $r$ [CI95] & dm & $r$ [CI95] & dm & $r$ [CI95] \\
 \midrule
 NC H$-$R & ImageNet & $-0.84$ [-0.96, -0.45] & $-0.83$ & $-0.73$ [-0.93, -0.19] & $-0.61$ & $-0.28$ [-0.77, +0.42] \\
@@ -180,74 +179,7 @@ FS best$-$R & ImageNet & $-0.83$ [-0.96, -0.43] & $-0.50$ & $-0.08$ [-0.68, +0.5
  & DTD & $-0.81$ [-0.95, -0.36] & $-0.78$ & $-0.90$ [-0.98, -0.63] & $-0.84$ & n/a \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
-\endgroup
-\caption{(continued) (d) The calibrated reading: the raw 99.9th-percentile statistic, the record excess and the hierarchy-test $z$ of Table~\ref{tab:q4-depth} as predictors. (e) Validation picking retains the oracle advantage and the zero-validation objective rule modestly beats always-cosine. (f) The gate's value is avoiding the Poincar\'e projection on flat-label data; cosine is a safe NC default everywhere. (g) The headline $t=1/\sqrt2\approx0.71$ was fixed a priori and is conservative for FS. % expR68_corollary_excess.csv, exp24_val_metric_selection.csv, night/t_sweep.csv
-}
-\end{table}
-\begin{table}[tbp]\ContinuedFloat
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.6pt}
-\begingroup
-\noindent\textbf{(e) Few-shot metric-selection policies on held-out episodes (500 validation / 500 test per cell).}\par\vspace{1.5pt}
-\footnotesize
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{lcc}
-\toprule
-policy (test advantage over Euclidean, pp) & all 60 cells & hierarchical (40) \\
-\midrule
-always cosine & +0.23 & +0.28 \\
-objective rule (zero validation) & +0.28 & +0.41 \\
-$\delta$-gated objective rule & +0.08 & +0.13 \\
-validation-picked per cell & +0.63 & +0.78 \\
-test oracle (reference) & +0.64 & +0.78 \\
-\bottomrule
-\end{tabular}
-\par\vspace{5pt}
-\endgroup
-\caption{(continued)}
-\end{table}
-\begin{table}[tbp]\ContinuedFloat
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.6pt}
-\begingroup
-\noindent\textbf{(f) Nearest-centroid metric-selection policies.}\par\vspace{1.5pt}
-\footnotesize
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{lccc}
-\toprule
-NC policy (advantage over Euclidean, pp) & all 60 & flat (20) & hierarchical (40) \\
-\midrule
-always cosine & +0.48 & +0.24 & +0.59 \\
-always Poincar\'e & -0.24 & -0.70 & -0.00 \\
-gated rule (flat$\to$R) & +0.34 & +0.00 & +0.51 \\
-$\delta$-gated rule & +0.19 & +0.00 & +0.29 \\
-\bottomrule
-\end{tabular}
-\par\vspace{5pt}
-\endgroup
-\caption{(continued)}
-\end{table}
-\begin{table}[tbp]\ContinuedFloat
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.6pt}
-\begingroup
-\noindent\textbf{(g) Sensitivity to the projection target $t$ (36 hierarchical cells).}\par\vspace{1.5pt}
-\footnotesize
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{lcccccccc}
-\toprule
-target $t$ & 0.25 & 0.35 & 0.41 & 0.45 & 0.50 & 0.58 & 0.71 & 0.95 \\
-\midrule
-FS adv.\ mean (pp) & +0.88 & +0.87 & +0.87 & +0.86 & +0.84 & +0.82 & +0.76 & +0.56 \\
-NC adv.\ mean (pp) & -0.30 & -0.25 & -0.23 & -0.21 & -0.17 & -0.12 & -0.01 & +0.15 \\
-\% cells FS $>0$ & 97 & 100 & 100 & 100 & 100 & 100 & 100 & 100 \\
-\bottomrule
-\end{tabular}
-\par\vspace{5pt}
+\par\vspace{2pt}
 \endgroup
 \caption{(continued)}
 \end{table}

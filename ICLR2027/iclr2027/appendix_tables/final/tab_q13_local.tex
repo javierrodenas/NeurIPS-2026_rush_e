@@ -1,5 +1,5 @@
 % prov: exp21b_local_global_K200.csv
-\begin{table}[tbp]
+\begin{table}[H]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{3pt}
@@ -13,8 +13,8 @@ linear CKA, Euclidean & $0.633$ & $0.108$ & $0.111$ & $0.577$ & $0.524$ & 66/66 
 linear CKA, Poincar\'e & $0.640$ & $0.108$ & $0.111$ & $0.586$ & $0.532$ & 66/66 \\
 \bottomrule
 \end{tabular}
-\par\vspace{5pt}
-\caption{\textbf{Cross-model agreement survives permutation calibration.} Means over the 66 model pairs of the 12 vision backbones on the 1000 ImageNet class centroids (census cache). Calibration of \citet{groger2026aristotelian} with $K{=}200$ permutations of the class correspondence and $\alpha{=}0.05$, scalar (no layer search): $\tau_{0.05}$ is the $\lceil0.95(K{+}1)\rceil$-th order statistic of the observed score and its nulls (eq.\ 9), $p=(1+\#\{\text{null}\ge\text{obs}\})/(K{+}1)$ (eq.\ 10), calibrated $=\max\{(\text{obs}-\tau_{0.05})/(1-\tau_{0.05}),0\}$ (eq.\ 12); ``null-centered'' is the earlier raw-minus-null-mean variant, kept for continuity. The mKNN null mean equals the analytic chance level $k/(n{-}1)=10/999$. % exp21b_local_global_K200.csv
+\par\vspace{2pt}
+\caption{\textbf{Cross-model agreement survives permutation calibration.} Columns: the raw measure, the null mean, the calibration threshold, the calibrated value and the number of model pairs that survive, for mutual-kNN agreement and for centroid CKA.
 }
 \label{tab:q13-local}
 \end{table}
