@@ -333,4 +333,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   "misses implanted depth". Di si los cambias (p. ej. "Hierarchy above the labelled clusters"). Tu contribución 2 dice
   "hyperbolic-trained backbone" y sustituye a "nominally hyperbolic backbone" (vocabulario de la novena revisión). Contribución 3
   ya no menciona la isla; la isla queda en §5.4.
+- (Tabla 1, 2026-09-23 17:20) Pediste en el pie "CIFAR-100 is not below the null at 0.05 under either"; con el estadístico de registro
+  CIFAR-100 queda por debajo (198/200, p mayor 0.030; §5.1 lo dice). El pie dice "Under the supremum, CIFAR-100 is not below the
+  null at 0.05." Confirma o da otra redacción.
 

@@ -2509,3 +2509,21 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   `trim` y el `\vspace{2pt}` de §72; comprobado en la página 2 de qa_pages.
 - Sweep: la comprobación del punto 5 de la duodécima revisión pasa a la rama "fusionado" (celdas de la tabla desde el resumen,
   10 ensayos, cláusula de §5.1); la comprobación de limpieza de la Tabla 1 (`kt_ok`) actualizada a las 7 columnas.
+## 74. §5.1 y §1 con la lectura del supremo; pie de la Tabla 1; duplicado de la Figura 1 (2026-09-23, 17:20, brief del autor).
+
+- §5.1, párrafo de Khrulkov: la cláusula de cierre pasa a tu frase "Under their own statistic, the supremum, calibrated against the
+  same replicates, CIFAR-100 joins CIFAR-10 and CUB-200 among the indistinguishable, and only MiniImageNet falls below the random
+  cloud." (27 palabras). Va antes del puntero "Table 1 gives the 4 rows.", que cierra el párrafo: la regla de prosa del sweep
+  (un puntero a tabla, en la última frase) fallaba con la frase nueva al final. El constructor comprueba desde
+  `expR85_khrulkov_sup_summary.csv` que el $p$ mayor de los 10 ensayos supera 0.05 en CIFAR-10, CIFAR-100 y CUB-200 y no en
+  MiniImageNet.
+- §1, respuesta (i): "…2 of them are indistinguishable from a random cloud, 3 under their own statistic" (comprobado: 3 conjuntos con
+  $p$ mayor $>0.05$ bajo el supremo).
+- Tabla 1: el rango del supremo es ahora la **mediana** de los 10 ensayos (`r_above_median`, columna nueva del resumen de expR85;
+  antes la media), $p$ el mayor; pie: "For the supremum the excess is the mean and the rank the median over the 10 trials, and $p$
+  the largest. Under the supremum, CIFAR-100 is not below the null at 0.05." **Aviso**: pedías "under either", pero con el
+  estadístico de registro CIFAR-100 sí queda por debajo a 0.05 (198/200, $p$ mayor 0.030, y §5.1 dice que "falls below"); el pie
+  dice sólo "under the supremum", y el generador y el sweep lo comprueban desde los dos resúmenes. Si querías otro criterio, dímelo.
+- `ICLR2027/figures/fig1_concept.pdf` (copia antigua, distinta de la tuya) borrado con `git rm`; el tex lee
+  `iclr2027/figures/fig1_concept.pdf`, que es tu fichero de f1c01ea; página 2 comprobada tras recompilar.
+- Sweep: comprobación del punto 5 con la mediana, la frase de §5.1, el "3" de §1 y las dos frases del pie, todas desde los ficheros.

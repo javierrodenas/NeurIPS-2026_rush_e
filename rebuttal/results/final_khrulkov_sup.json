@@ -12,5 +12,12 @@
   "cub": 0.488,
   "miniimagenet": 0.005
  },
- "all_negative": true
+ "all_negative": true,
+ "n_indistinguishable_sup": 3,
+ "r_above_median": {
+  "cifar10": 167.0,
+  "cifar100": 196.0,
+  "cub": 174.5,
+  "miniimagenet": 200.0
+ }
 }
