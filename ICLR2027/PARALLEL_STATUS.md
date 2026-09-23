@@ -2,6 +2,13 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-23 10:59 — expR85 restarted in float32 (the float64 min-max product ran at 34 s per supremum under the 8-process load)
+
+- After 78 min no trial had finished: under load one exact delta_rel took 34 s (17 s alone), i.e. about 1.9 h per trial and ~9.5 h
+  per shard. The min-max product now runs in float32 with 8-row chunks (17 s under load; the exact delta differs by 2e-6, below the
+  3 decimals reported), so a trial costs about an hour and the 8 shards should finish around 16:00. The kill also took down the
+  monitor (a self-matching pkill); a new monitor watches the part files. Nothing else on the parallel track.
+
 ## 2026-09-23 09:41 — expR85 launched: the published statistic (exact supremum) calibrated on the Khrulkov batches (twelfth review, item 5)
 
 - `expR85_khrulkov_sup.py`, 8 CPU shards (dataset x trial halves, nice 5), logs `rebuttal/results/logs/expR85_<ds>_{a,b}.log`: per batch,

@@ -11,41 +11,41 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 33 | 24.8 | 86 |
+| Introduction | 33 | 24.8 | 87 |
 | Related Work | 5 | 39.8 | 60 |
-| Methodology | 32 | 20.8 | 45 |
-| Experimental Setup | 13 | 19.2 | 33 |
-| Results | 78 | 19.6 | 42 |
-| Implications for Hyperbolic Representation Learning | 7 | 15.9 | 28 |
-| Conclusion and Limitations | 19 | 20.6 | 56 |
+| Methodology | 33 | 20.5 | 45 |
+| Experimental Setup | 15 | 17.3 | 32 |
+| Results | 88 | 18.3 | 32 |
+| Implications for Hyperbolic Representation Learning | 7 | 15.7 | 31 |
+| Conclusion and Limitations | 19 | 20.7 | 56 |
 
-Non-verbatim prose of S3–S7: 134 sentences, mean 19.7 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 147 sentences, mean 18.7 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
 | section | paragraph | numbers |
 |---|---|---|
 | Results | Raw readings are not evidence, ours or published, and calibr | — |
-| Results | A published reading is reproduced and calibrated. | 0.03, 0.05 |
-| Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 47, 18 of 24 |
+| Results | A published reading is reproduced and calibrated. | 4, 0.03, 0.05, 4 |
+| Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 3, 47, 18 of 24 |
 | Results | The count survives resampling. | — |
 | Results | No family owns the structure. | 5 of 12 |
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
-| Results | The depth test certifies that clusters are oriented toward t | 4 of 12 |
-| Results | What it certifies is alignment. | -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, -2.26 to -3.99 |
-| Results | What the test can see. | 4 of 5, 0.83 to 1.00, 0.01 to 0.60, 1.5 to 3.0, 1.3 to 3.9, 20 of 20, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, -4.19 to -4.82, 0 of 50 |
+| Results | The depth test certifies that clusters are oriented toward t | 12, 4 of 12 |
+| Results | What it certifies is alignment. | 4, -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, 4, -2.26 to -3.99 |
+| Results | What the test can see. | 4 of 5, 4, 9 of 12, 0.83 to 1.00, 3, 0.01 to 0.60, 3, 1.5 to 3.0, 1.3 to 3.9, 9, 20 of 20, 2, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, 4, -4.19 to -4.82, 0 of 50 |
 | Results | No hub hierarchy is found where the test has power. | — |
 | Results | The certified set depends on the frame. | 38 of 50, 7 of 10 |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
 | Results | MERU's objective does not create hub structure. | — |
-| Results | The naive map manufactures an island. | — |
-| Results | Controlling the cut leaves a moderate gap. | 0.85 to 0.96, 0.90, 0.77, 0.76, 0.91 to 0.97, 0.94, 0.48 and 0.78, 0.64 to 0.94, 0.79, 0.39 and 0.48 |
+| Results | The naive map manufactures an island. | 12 |
+| Results | Controlling the cut leaves a moderate gap. | 0.85 to 0.96, 0.90, 0.77, 0.76, 0.91 to 0.97, 0.94, 0.48, 0.78, 0.64 to 0.94, 0.79, 0.39, 0.48 |
 | Results | The self-supervised tree is angular. | — |
 | Results | Alignment with WordNet follows supervision and recipe. | — |
 | Results | The recovery is not WordNet circularity. | — |
 | Results | Text depends on recipe and scale. | 7 of 15 |
-| Results | Models share neighborhoods, not metrics. | — |
+| Results | Models share neighborhoods, not metrics. | 66 |
 | Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5 |
 | Implications for Hyperbolic  | Both readings predict the gain, and the depth verdict predic | — |
 | Implications for Hyperbolic  | The calibration certifies structure and does not choose the  | +0.9 to +1.3 |
@@ -61,10 +61,9 @@ Non-verbatim prose of S3–S7: 134 sentences, mean 19.7 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 220/222 checks passed.
+- Total: 220/223 checks passed.
 - Final-version checks:
 
-    PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
     PASS final: the eight defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
     PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 
     PASS final: every result file named in a provenance comment of the main text exists 

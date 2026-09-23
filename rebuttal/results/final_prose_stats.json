@@ -3,7 +3,7 @@
   "Introduction": {
    "sentences": 33,
    "avg_words": 24.8,
-   "max_words": 86
+   "max_words": 87
   },
   "Related Work": {
    "sentences": 5,
@@ -11,33 +11,33 @@
    "max_words": 60
   },
   "Methodology": {
-   "sentences": 32,
-   "avg_words": 20.8,
+   "sentences": 33,
+   "avg_words": 20.5,
    "max_words": 45
   },
   "Experimental Setup": {
-   "sentences": 13,
-   "avg_words": 19.2,
-   "max_words": 33
+   "sentences": 15,
+   "avg_words": 17.3,
+   "max_words": 32
   },
   "Results": {
-   "sentences": 78,
-   "avg_words": 19.6,
-   "max_words": 42
+   "sentences": 88,
+   "avg_words": 18.3,
+   "max_words": 32
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 7,
-   "avg_words": 15.9,
-   "max_words": 28
+   "avg_words": 15.7,
+   "max_words": 31
   },
   "Conclusion and Limitations": {
    "sentences": 19,
-   "avg_words": 20.6,
+   "avg_words": 20.7,
    "max_words": 56
   }
  },
- "avg_nonverbatim": 19.7,
- "n_nonverbatim_sentences": 134,
+ "avg_nonverbatim": 18.7,
+ "n_nonverbatim_sentences": 147,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -48,8 +48,10 @@
    "section": "Results",
    "lead": "A published reading is reproduced and calibrated.",
    "numbers": [
+    "4",
     "0.03",
-    "0.05"
+    "0.05",
+    "4"
    ]
   },
   {
@@ -58,6 +60,7 @@
    "numbers": [
     "44 of 72",
     "30 of 36",
+    "3",
     "47",
     "18 of 24"
    ]
@@ -86,8 +89,9 @@
   },
   {
    "section": "Results",
-   "lead": "The depth test certifies that clusters are oriented toward their hubs in four backbones.",
+   "lead": "The depth test certifies that clusters are oriented toward their hubs in 4 of 12 backbones.",
    "numbers": [
+    "12",
     "4 of 12"
    ]
   },
@@ -95,10 +99,12 @@
    "section": "Results",
    "lead": "What it certifies is alignment.",
    "numbers": [
+    "4",
     "-1.61",
     "-1.61 to -1.76",
     "0 of 60",
     "0 of 4",
+    "4",
     "-2.26 to -3.99"
    ]
   },
@@ -107,16 +113,23 @@
    "lead": "What the test can see.",
    "numbers": [
     "4 of 5",
+    "4",
+    "9 of 12",
     "0.83 to 1.00",
+    "3",
     "0.01 to 0.60",
+    "3",
     "1.5 to 3.0",
     "1.3 to 3.9",
+    "9",
     "20 of 20",
+    "2",
     "-2.51",
     "6 of 20",
     "-1.37",
     "0 of 5",
     "8 of 50",
+    "4",
     "-4.19 to -4.82",
     "0 of 50"
    ]
@@ -147,7 +160,9 @@
   {
    "section": "Results",
    "lead": "The naive map manufactures an island.",
-   "numbers": []
+   "numbers": [
+    "12"
+   ]
   },
   {
    "section": "Results",
@@ -159,10 +174,12 @@
     "0.76",
     "0.91 to 0.97",
     "0.94",
-    "0.48 and 0.78",
+    "0.48",
+    "0.78",
     "0.64 to 0.94",
     "0.79",
-    "0.39 and 0.48"
+    "0.39",
+    "0.48"
    ]
   },
   {
@@ -190,7 +207,9 @@
   {
    "section": "Results",
    "lead": "Models share neighborhoods, not metrics.",
-   "numbers": []
+   "numbers": [
+    "66"
+   ]
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",
