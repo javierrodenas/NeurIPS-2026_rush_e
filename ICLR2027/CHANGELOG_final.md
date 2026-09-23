@@ -2104,3 +2104,38 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   línea 464 de la página 9, la limitación (ix) es la última línea de la página 9, statements en la 487 (página 10), referencias en la
   506; 37 páginas; 0 `??`. Sweep 220/221: sólo falla el tope del resumen (337 palabras contra 310, sin texto nuevo). Versión paralela
   reconstruida.
+## 57. Duodécima revisión (2026-09-23, 09:40, brief del autor): matices en el resumen y §5.3, tesis, MERU, normalización, Tabla 1, Tabla 3.
+
+- **(1)** "none is found in the real model" → "none as strong as the planted one is found" en el resumen (frase de los nueve y los
+  tres) y en §5.3 (d): "it detects an implanted hierarchy in {{P81_COVERED}}, where none as strong as the planted one is found, and
+  the test is blind in {{P81_UNCOVERED}}."
+- **(2)** "almost as well as two readings of the same model do" → "well above chance, though short of what two readings of the same
+  model reach" en el resumen, en el párrafo de §1 y en la contribución 3 (ediciones registradas) y en §5.4 ("The tree topology is
+  therefore shared well above chance, though short of what two readings of the same model reach, and the metric agrees at about half
+  of the ceiling."). Tesis, resumen y §7: "agree on how those clusters nest well above chance, though not as much as two readings of
+  one model, and not on the distances between them". El pie de la Figura 5 conserva tu "tree topology is shared almost up to noise"
+  (no lo pedías; dímelo si también cambia). El resumen sube a 349 palabras sin fórmulas (tope 310, único fallo del sweep).
+- **(3)** Entradilla de MERU en §5.3: "MERU's objective does not create hub structure."
+- **(4)** Limitación (vii) nueva, la última del instrumento: "The reading divides by the diameter, so heavier tails in real clouds
+  would lower $\delta_{\text{norm}}$ without any clustering; the cosine census mitigates this, and a percentile normalization is
+  future work."; las de alcance pasan a (viii)–(x).
+- **(5) Tabla 1**: los defectos de expR78 no están guardados (sólo los resúmenes por tanda), así que la columna se produce con un
+  cálculo nuevo, **expR85** (`expR85_khrulkov_sup.py`, lanzado a las 09:41 en ocho shards, CPU): las mismas tandas de 1500 puntos
+  (RandomState(t), como expR78) leídas con su propio estadístico, el supremo exacto por producto min-max (delta_rel = 2δ/diam), sobre
+  el cloud real y sobre las mismas 200 réplicas Haar centradas del registro (semillas 0–199): exceso y rango del supremo. Un supremo
+  exacto cuesta 10–17 s en 1500 puntos (unos 40 min por tanda, 40 tandas), fin previsto hacia las 13:00; la columna entra entonces
+  (hasta ese momento la Tabla 1 no cambia y no se añade la cláusula alternativa, que sólo procede si no puede producirse hoy).
+- **(6) Tabla 3** (robustez): sus cinco partes llevan ahora cada una el texto de su panel: (a) en el pie principal, (b) a (e) en los
+  pies "(continued)" (antes tres de ellos estaban vacíos y el de (c) arrastraba (d) y (e)); las fuentes van al pie de su panel. El
+  sweep exige cuatro pies continuados que empiecen por (b), (c), (d) y (e).
+- **Sweep**: check nuevo de la duodécima revisión (frases nuevas, tesis dos veces, entradilla de MERU, limitación (vii) y renumeración,
+  pies de la Tabla 3); literales anteriores actualizados.
+- **Presupuesto**: (2) y (4) añadían tres líneas; recuperadas sin tocar cifras ni frases del autor: §5.3 (b) "reproduces it in … and its
+  geometric form is not resolved here" (la última línea del párrafo era una palabra), §4 fuera "Two self-supervised ResNets read the
+  vision census." (están en la Tabla 5), §5.3 (f) fuera el puntero "Table 9 gives the two models." y su primera frase partida en dos
+  para mantener tres frases; la frase de (d) "it detects an implanted hierarchy in …, and the test is blind in …" partida: "Where
+  the implant is detected, none as strong as the planted one is found." (tope de 35 palabras).
+- **Cierre (2026-09-23, 10:00)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; §7 en la
+  línea 460 de la página 9, la limitación (x) es la última línea de la página 9; statements en la 487, referencias en la 506 (página
+  10); 37 páginas; 0 `??`. Sweep 221/222: sólo falla el tope del resumen (349 palabras contra 310). Versión paralela reconstruida;
+  resumen exportado a OpenReview. Pendiente de hoy: la columna del supremo en la Tabla 1 (expR85 en marcha).

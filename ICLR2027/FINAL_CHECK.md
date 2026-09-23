@@ -11,15 +11,15 @@
 
 | section | sentences | mean words | longest |
 |---|---|---|---|
-| Introduction | 33 | 24.6 | 86 |
+| Introduction | 33 | 24.8 | 86 |
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 32 | 20.8 | 45 |
-| Experimental Setup | 14 | 18.4 | 33 |
-| Results | 77 | 19.6 | 42 |
+| Experimental Setup | 13 | 19.2 | 33 |
+| Results | 78 | 19.6 | 42 |
 | Implications for Hyperbolic Representation Learning | 7 | 15.9 | 28 |
-| Conclusion and Limitations | 18 | 19.7 | 49 |
+| Conclusion and Limitations | 19 | 20.6 | 56 |
 
-Non-verbatim prose of S3–S7: 133 sentences, mean 19.5 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 134 sentences, mean 19.7 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -38,7 +38,7 @@ Non-verbatim prose of S3–S7: 133 sentences, mean 19.5 words (rule: mean ≤ 22
 | Results | No hub hierarchy is found where the test has power. | — |
 | Results | The certified set depends on the frame. | 38 of 50, 7 of 10 |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
-| Results | Imposing the geometry does not create hub structure. | — |
+| Results | MERU's objective does not create hub structure. | — |
 | Results | The naive map manufactures an island. | — |
 | Results | Controlling the cut leaves a moderate gap. | 0.85 to 0.96, 0.90, 0.77, 0.76, 0.91 to 0.97, 0.94, 0.48 and 0.78, 0.64 to 0.94, 0.79, 0.39 and 0.48 |
 | Results | The self-supervised tree is angular. | — |
@@ -61,10 +61,9 @@ Non-verbatim prose of S3–S7: 133 sentences, mean 19.5 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 219/221 checks passed.
+- Total: 220/222 checks passed.
 - Final-version checks:
 
-    PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), eight definitions inline and unframed (the decoupling control since the cleanup of 2026-09-22), six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
     PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
     PASS final: the eight defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
     PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 

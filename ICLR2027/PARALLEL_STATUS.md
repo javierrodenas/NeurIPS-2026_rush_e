@@ -2,6 +2,12 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-23 09:41 — expR85 launched: the published statistic (exact supremum) calibrated on the Khrulkov batches (twelfth review, item 5)
+
+- `expR85_khrulkov_sup.py`, 8 CPU shards (dataset x trial halves, nice 5), logs `rebuttal/results/logs/expR85_<ds>_{a,b}.log`: per batch,
+  the exact delta_rel of the real cloud and of the same 200 centered-Haar replicates; excess and rank of the supremum. About 40 min per
+  trial, ETA ~13:00; then `--merge`, the new Table 1 columns from `expR85_khrulkov_sup_summary.csv`, sweep, CHANGELOG.
+
 ## 2026-09-23 09:00 — author's decision: seed 1 of the trained control enters the submission
 
 - The author's brief integrates both seeds into S5.3 (c) and limitation (iii) and adds the seed-1 rows to the depth table's panel (d);

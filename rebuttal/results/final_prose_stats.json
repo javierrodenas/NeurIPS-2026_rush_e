@@ -2,7 +2,7 @@
  "sections": {
   "Introduction": {
    "sentences": 33,
-   "avg_words": 24.6,
+   "avg_words": 24.8,
    "max_words": 86
   },
   "Related Work": {
@@ -16,12 +16,12 @@
    "max_words": 45
   },
   "Experimental Setup": {
-   "sentences": 14,
-   "avg_words": 18.4,
+   "sentences": 13,
+   "avg_words": 19.2,
    "max_words": 33
   },
   "Results": {
-   "sentences": 77,
+   "sentences": 78,
    "avg_words": 19.6,
    "max_words": 42
   },
@@ -31,13 +31,13 @@
    "max_words": 28
   },
   "Conclusion and Limitations": {
-   "sentences": 18,
-   "avg_words": 19.7,
-   "max_words": 49
+   "sentences": 19,
+   "avg_words": 20.6,
+   "max_words": 56
   }
  },
- "avg_nonverbatim": 19.5,
- "n_nonverbatim_sentences": 133,
+ "avg_nonverbatim": 19.7,
+ "n_nonverbatim_sentences": 134,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -141,7 +141,7 @@
   },
   {
    "section": "Results",
-   "lead": "Imposing the geometry does not create hub structure.",
+   "lead": "MERU's objective does not create hub structure.",
    "numbers": []
   },
   {
