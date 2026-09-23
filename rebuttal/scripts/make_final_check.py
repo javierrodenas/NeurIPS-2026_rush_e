@@ -42,4 +42,27 @@ out += ["", "## Appendix material deleted from the final (kept in the frozen v1 
         "## Sweep (rebuttal/scripts/sweep_freeze.py)", "",
         f"- Total: {tot[-1][0]}/{tot[-1][1]} checks passed." if tot else "- Total: see log.", "- Final-version checks:", ""]
 out += [f"    {l}" for l in fin]
+# ---- cited bibliography entries and their sources (final accuracy pass, 2026-09-23): DBLP key from the biburl, else the DOI, else the publisher URL
+import glob
+bib = open("ICLR2027/iclr2027/references.bib").read(); tex = open("ICLR2027/iclr2027/main_iclr2027_final.tex").read() + "".join(open(f).read() for f in sorted(glob.glob("ICLR2027/iclr2027/appendix_tables/final/*.tex")) + sorted(glob.glob("ICLR2027/iclr2027/tab_*.tex")))   # the appendix tables are \input files
+cited = sorted({k.strip() for mm in re.finditer(r"\\cite[tp]?\*?(?:\[[^\]]*\])*\{([^}]*)\}", tex) for k in mm.group(1).split(",")})
+def bib_entry(k):
+    mm = re.search(r"@\w+\s*\{\s*" + re.escape(k) + r"\s*,", bib); st = mm.start(); d = 0; j = st + len(mm.group(0).split("{")[0])
+    while True:
+        if bib[j] == "{": d += 1
+        elif bib[j] == "}":
+            d -= 1
+            if d == 0: return bib[st:j + 1]
+        j += 1
+def source(e):
+    f = lambda name: (re.search(r"\n\s*" + name + r"\s*=\s*[{\"]([^}\"]*)[}\"]", e) or [None, None])[1]
+    bu = f("biburl")
+    if bu and "dblp.org/rec/" in bu: return "DBLP " + bu.split("dblp.org/rec/")[1].replace(".bib", "")
+    if f("doi"): return "DOI https://doi.org/" + f("doi")
+    if f("url"): return "URL " + f("url")
+    if f("eprint"): return "arXiv " + f("eprint")
+    return "NO SOURCE"
+out += ["", "## Cited bibliography entries and their sources (DBLP key, else DOI, else publisher URL)", "", "| key | source |", "|---|---|"]
+for k in cited: out.append(f"| {k} | {source(bib_entry(k))} |")
+out += ["", f"{len(cited)} entries cited; without a source: {sum(1 for k in cited if source(bib_entry(k)) == 'NO SOURCE')}."]
 open("ICLR2027/FINAL_CHECK.md", "w").write("\n".join(out) + "\n"); print("FINAL_CHECK.md written; main text ends p", p_main_end, "; statements p", p_stmt, "; references p", p_ref, "; pages", pages)

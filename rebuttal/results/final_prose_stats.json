@@ -20,13 +20,13 @@
   },
   "Experimental Setup": {
    "sentences": 16,
-   "avg_words": 16.2,
+   "avg_words": 17.3,
    "max_words": 25,
    "over30": 0
   },
   "Results": {
-   "sentences": 79,
-   "avg_words": 17.5,
+   "sentences": 81,
+   "avg_words": 17.4,
    "max_words": 30,
    "over30": 0
   },
@@ -44,7 +44,7 @@
   }
  },
  "avg_nonverbatim": 17.6,
- "n_nonverbatim_sentences": 143,
+ "n_nonverbatim_sentences": 145,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
@@ -170,7 +170,10 @@
   {
    "section": "Results",
    "lead": "MERU's objective does not create hub structure.",
-   "numbers": []
+   "numbers": [
+    "95",
+    "0.29"
+   ]
   },
   {
    "section": "Results",

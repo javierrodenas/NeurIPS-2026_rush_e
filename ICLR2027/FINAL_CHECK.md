@@ -2,8 +2,8 @@
 
 ## Page budget
 
-- PDF pages: 37. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 478); the references start on page 10 (line 497).
-- Appendix: Proofs on page 13, tables from page 13 to page 37 (25 pages including the proofs).
+- PDF pages: 40. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 481); the references start on page 10 (line 500).
+- Appendix: Proofs on page 16, tables from page 16 to page 40 (25 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
 
@@ -14,12 +14,12 @@
 | Introduction | 35 | 21.8 | 50 | 0 |
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 37 | 18.1 | 30 | 0 |
-| Experimental Setup | 16 | 16.2 | 25 | 0 |
-| Results | 79 | 17.5 | 30 | 0 |
+| Experimental Setup | 16 | 17.3 | 25 | 0 |
+| Results | 81 | 17.4 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 7 | 15.9 | 21 | 0 |
 | Conclusion and Limitations | 21 | 18.8 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 143 sentences, mean 17.6 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 145 sentences, mean 17.6 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -39,7 +39,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | No hub hierarchy is found where the test has power. | 9 |
 | Results | The certified set depends on the frame. | 38 of 50, 7 of 10 |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
-| Results | MERU's objective does not create hub structure. | — |
+| Results | MERU's objective does not create hub structure. | 95, 0.29 |
 | Results | The naive map manufactures an island. | 12 |
 | Results | Controlled, the trees share their topology, not their metric | 0.77, 0.90, 0.33 |
 | Results | The self-supervised tree is angular. | — |
@@ -62,10 +62,9 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 226/227 checks passed.
+- Total: 228/228 checks passed.
 - Final-version checks:
 
-    PASS final: every main-text figure caption opens with a bold takeaway and names its source files 
     PASS final: the appendix ARI-matrix figure states the naive and the selected DINOv2-vs-block agreement read from the figure's data, and Figure 5 carries the author's caption (consolidated pass) 
     PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 
     PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
@@ -76,3 +75,69 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
     PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
+
+## Cited bibliography entries and their sources (DBLP key, else DOI, else publisher URL)
+
+| key | source |
+|---|---|
+| BGE | DOI https://doi.org/10.1145/3626772.3657878 |
+| CLIP | DBLP conf/icml/RadfordKHRGASAM21 |
+| Gromov1987 | DOI https://doi.org/10.1007/978-1-4613-9586-7_3 |
+| Khrulkov_2020_CVPR | DOI https://doi.org/10.1109/CVPR42600.2020.00645 |
+| adcock2013treelike | DOI https://doi.org/10.1109/ICDM.2013.77 |
+| aggarwal2001surprising | DBLP conf/icdt/AggarwalHK01 |
+| alper2024hierarcaps | DOI https://doi.org/10.1007/978-3-031-72943-0_13 |
+| ansuini2019intrinsic | DBLP conf/nips/AnsuiniLMZ19 |
+| atigh2022hyperbolic | DOI https://doi.org/10.1109/CVPR52688.2022.00441 |
+| augreg | DBLP journals/tmlr/SteinerKZWUB22 |
+| bdeir2024fully | DBLP conf/iclr/BdeirSL24 |
+| benjamini1995controlling | DOI https://doi.org/10.1111/j.2517-6161.1995.tb02031.x |
+| beyer1999nearest | DBLP conf/icdt/BeyerGRS99 |
+| chami2019hyperbolic | DBLP conf/nips/ChamiYRL19 |
+| chen2022fully | DOI https://doi.org/10.18653/v1/2022.acl-long.389 |
+| cifar10 | URL https://www.cs.toronto.edu/~kriz/learning-features-2009-TR.pdf |
+| cub | URL https://authors.library.caltech.edu/records/cvm3y-5hh21 |
+| dbpedia | DBLP journals/semweb/LehmannIJJKMHMK15 |
+| deit | URL https://proceedings.mlr.press/v139/touvron21a.html |
+| desai2023meru | URL https://proceedings.mlr.press/v202/desai23a.html |
+| dinov1 | DOI https://doi.org/10.1109/ICCV48922.2021.00951 |
+| dinov2 | URL https://openreview.net/forum?id=a68SUt6zFt |
+| dosovitskiy2021an | URL https://openreview.net/forum?id=YicbFdNTTy |
+| dtd | DBLP conf/cvpr/CimpoiMKMV14 |
+| e5 | DBLP journals/corr/abs-2212-03533 |
+| ermolov2022hyperbolic | DBLP conf/cvpr/ErmolovMKSO22 |
+| fashion | DBLP journals/corr/abs-1708-07747 |
+| fournier2015computing | DOI https://doi.org/10.1016/j.ipl.2015.02.002 |
+| ganea2018hyperbolic | URL https://proceedings.neurips.cc/paper_files/paper/2018/hash/dbab2adc8f9d078009ee3fa810bea142-Abstract.html |
+| gpt2 | URL https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf |
+| groger2026aristotelian | DBLP journals/corr/abs-2602-14486 |
+| gte | DBLP journals/corr/abs-2308-03281 |
+| gu2019learning | DBLP conf/iclr/GuSGR19 |
+| he2026helm | URL https://openreview.net/forum?id=RnbJPkakkm |
+| huh2024platonic | DBLP conf/icml/HuhC0I24 |
+| imagenet | DBLP conf/cvpr/DengDSLL009 |
+| kennedy2013hyperbolicity | DBLP journals/corr/KennedyNS13 |
+| koepke2026cave | URL https://arxiv.org/abs/2604.18572 |
+| kornblith2019cka | DBLP conf/icml/Kornblith0LH19 |
+| miniimagenet | DBLP conf/nips/VinyalsBLKW16 |
+| mnist | DBLP journals/pieee/LeCunBBH98 |
+| moreira2024hyperbolic | DOI https://doi.org/10.1109/WACV57701.2024.00208 |
+| narayan2011curvature | DOI https://doi.org/10.1103/PhysRevE.84.066108 |
+| nica2016strong | DOI https://doi.org/10.4171/GGD/372 |
+| nickel2017poincare | DBLP conf/nips/NickelK17 |
+| olmo | DBLP conf/acl/GroeneveldBWBKT24 |
+| pal2025compositional | URL https://openreview.net/forum?id=3i13Gev2hV |
+| papyan2020prevalence | DOI https://doi.org/10.1073/pnas.2015509117 |
+| park2024geometry | DBLP conf/iclr/0001CJV25 |
+| pope2021intrinsic | DBLP conf/iclr/PopeZAGG21 |
+| pythia | DBLP conf/icml/BidermanSABOHKP23 |
+| resnet | DOI https://doi.org/10.1109/CVPR.2016.90 |
+| sala2018representation | URL https://proceedings.mlr.press/v80/sala18a.html |
+| sarkar2011low | DBLP conf/gd/Sarkar11 |
+| siglip | DOI https://doi.org/10.1109/ICCV51070.2023.01100 |
+| sinha2024learning | DOI https://doi.org/10.52202/079017-2895 |
+| tifrea2019poincare | DBLP conf/iclr/TifreaBG19 |
+| wordnet | DOI https://doi.org/10.1145/219717.219748 |
+| yang2025hyperbolic | URL https://openreview.net/forum?id=TkEdQv0bXB |
+
+59 entries cited; without a source: 0.

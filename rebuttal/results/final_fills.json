@@ -8,6 +8,8 @@
  "C_LO": "0.48",
  "C_HI": "2.5",
  "N_GEN": "44",
+ "MERU_P95": "0.29",
+ "MERU_PCT": "95",
  "IMPL_PCT": "60",
  "FA_DEC": "8",
  "RATIO_VITL": "1.9",

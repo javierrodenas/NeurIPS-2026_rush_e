@@ -61,7 +61,7 @@ r=\#\{k:\ \delta_{\text{norm}}(X'_k)>\delta_{\text{norm}}(X)\},\qquad p=\frac{1+
 
 \begin{definition}[genuine]
 \label{def:genuine}
-Order the $m$ left-tail $p$-values of a census as $p_{(1)}\le\dots\le p_{(m)}$. A model--dataset cell is genuine when its $p$ is at or below the Benjamini--Hochberg threshold at level five per cent,
+Order the $m$ left-tail $p$-values of a census as $p_{(1)}\le\dots\le p_{(m)}$. A model--dataset cell is genuine when its $p$ is at or below the Benjamini--Hochberg threshold \citep{benjamini1995controlling} at level five per cent,
 \begin{equation}
 p\ \le\ p_{(i^{*})},\qquad i^{*}=\max\{i:\ p_{(i)}\le 0.05\, i/m\},
 \label{eq:bh}
@@ -119,13 +119,13 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \section{Experimental Setup}
 \label{sec:f-setup}
 
-\paragraph{The census has 12 backbones, 6 class sets and 15 text models.} The vision backbones are 4 supervised ViTs trained on ImageNet-21k, DINO-B, 4 DINOv2 sizes, CLIP-B, CLIP-L and SigLIP-B. The class sets are ImageNet and CIFAR-100, which carry a real hierarchy, CIFAR-10 and DTD, and the flat FMNIST and MNIST. The text models read the thousand ImageNet class names: 4 GPT-2 sizes, 3 Pythia sizes, OLMo-1B and 7 sentence embedders (Table~\ref{tab:q14-panel}).
+\paragraph{The census has 12 backbones, 6 class sets and 15 text models.} The vision backbones are 4 supervised ViTs \citep{dosovitskiy2021an} trained on ImageNet-21k \citep{imagenet}, DINO-B \citep{dinov1}, 4 DINOv2 sizes \citep{dinov2}, CLIP-B, CLIP-L \citep{CLIP} and SigLIP-B \citep{siglip}. The class sets are ImageNet and CIFAR-100 \citep{cifar10}, which carry a real hierarchy, CIFAR-10 and DTD \citep{dtd}, and the flat FMNIST \citep{fashion} and MNIST \citep{mnist}. The text models read the thousand ImageNet class names: 4 GPT-2 sizes \citep{gpt2}, 3 Pythia sizes \citep{pythia}, OLMo-1B \citep{olmo} and 7 sentence embedders (Table~\ref{tab:q14-panel}).
 
-\paragraph{Four controls test the alternatives.} Two self-supervised ResNets read the vision census. DeiT-B and the augreg ViT-B, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the alignment. MERU and its Euclidean CLIP twin test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
+\paragraph{Four controls test the alternatives.} Two self-supervised ResNets \citep{resnet} read the vision census. DeiT-B \citep{deit} and the augreg ViT-B \citep{augreg}, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the alignment. MERU and its Euclidean CLIP twin \citep{desai2023meru} test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
 
 \paragraph{The premise is read on images and hierarchy on centroids.} The sample-level reading uses about a thousand stratified training images per cell on CIFAR-100 and DTD. Class centroids average a hundred cached training images per class on ImageNet and the full cached split elsewhere. Causal language models give the last-token state of ``a photo of a \{class\}'', extracted one prompt at a time because batching alters GPT-2's hidden states. Embedders use their recommended pooling (Table~\ref{tab:q2-text}).
 
-\paragraph{Calibration budget and frames.} Each cell is read against 200 Haar replicates, with half a million sampled quadruples per seed and 10 seeds. With 10 classes there are only {{QUAD10}} quadruples, so $\hat\delta_{99.9}$ coincides with the supremum there. Benjamini--Hochberg runs over the vision census and, separately, over the text census. The frame, the grouping into superclasses, is the WordNet cut into 30 superclasses on ImageNet and the 20 coarse labels on CIFAR-100. A balanced grouping is the control, with 10 star seeds.
+\paragraph{Calibration budget and frames.} Each cell is read against 200 Haar replicates, with half a million sampled quadruples per seed and 10 seeds. With 10 classes there are only {{QUAD10}} quadruples, so $\hat\delta_{99.9}$ coincides with the supremum there. Benjamini--Hochberg runs over the vision census and, separately, over the text census. The frame, the grouping into superclasses, is the WordNet \citep{wordnet} cut into 30 superclasses on ImageNet and the 20 coarse labels on CIFAR-100. A balanced grouping is the control, with 10 star seeds.
 
 \section{Results}
 \label{sec:form}
@@ -135,7 +135,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. Where it is genuine, the excess removes at most two fifths of the null reading. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
 
-\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet fall below it. {{SUP_CLAUSE}}Table~\ref{tab:khrulkov} gives the 4 rows. % expR78_khrulkov_replication_summary.csv{{PROV85}}
+\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 \citep{cub} are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet \citep{miniimagenet} fall below it. {{SUP_CLAUSE}}Table~\ref{tab:khrulkov} gives the 4 rows. % expR78_khrulkov_replication_summary.csv{{PROV85}}
 
 \input{tab_khrulkov_final}
 
@@ -185,7 +185,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Leaf labels can produce the alignment but do not guarantee it.} Read like the census models, the augreg ViT-B trained on ImageNet-1k leaf labels is certified and agrees with WordNet like the ImageNet-21k ViTs. DeiT-B, trained on the same labels with another recipe, is neither. A hierarchical label set therefore does not explain the certified ViTs' alignment. % expR70_inet1k_supervised.csv
 
-\paragraph{MERU's objective does not create hub structure.} MERU embeds images on the Lorentz hyperboloid with an entailment objective, and its Euclidean twin shares backbone, data and recipe \citep{desai2023meru}. Read with the census and the hierarchy test, MERU shows the same clustering, no hub structure, and embeddings that never leave the near-flat regime. Table~\ref{tab:q4-depth} gives the readings and the radii. % expR63_meru_record.csv, expR71_meru_radii.csv
+\paragraph{MERU's objective does not create hub structure.} MERU embeds images on the Lorentz hyperboloid with an entailment objective, and its Euclidean twin shares backbone, data and recipe \citep{desai2023meru}. Read with the census and the hierarchy test, MERU shows the same clustering as its twin, and no hub structure is detected. The test's power at MERU's spectrum, however, was not measured. Its embeddings stay in the near-flat regime, {{MERU_PCT}} per cent of them within {{MERU_P95}} of the curvature scale. Table~\ref{tab:q4-depth} gives the readings and the radii. % expR63_meru_record.csv, expR71_meru_radii.csv
 
 \subsection{Whose tree}
 \label{sec:content}
@@ -206,7 +206,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Agreement with WordNet follows supervision and recipe.} The correlation between inter-centroid and WordNet distances is highest for the contrastive VLMs, then the supervised ViTs, and lowest for DINOv2. Supervision deepens the resemblance on average, and DeiT-B shows that the effect is recipe-dependent. Table~\ref{tab:q7-wordnet} gives the correlations. % exp3_alignment.csv, expR52_census_haar_p999_200.csv
 
-\paragraph{The recovery is not WordNet circularity.} On DBpedia Classes, an ontology independent of WordNet, the three text embedders read a genuine excess and recover the true partition under every configuration. On HierarCaps, a four-level caption hierarchy with no class set \citep{alper2024hierarcaps}, the encoders resolve sibling triplets far above chance. Table~\ref{tab:q7-wordnet} gives both. % expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
+\paragraph{The recovery is not WordNet circularity.} On DBpedia Classes \citep{dbpedia}, an ontology independent of WordNet, the three text embedders read a genuine excess and recover the true partition under every configuration. On HierarCaps, a four-level caption hierarchy with no class set \citep{alper2024hierarcaps}, the encoders resolve sibling triplets far above chance. Table~\ref{tab:q7-wordnet} gives both. % expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
 
 \paragraph{Text depends on recipe and scale.} On the ImageNet class names, {{TEXT_GEN}} of 15 text models are genuine under the record. GPT-2 S is genuine at the margin, GPT-2 M is not, and GPT-2 L and XL are genuine under every reading, as are Pythia at every scale and OLMo-1B. Table~\ref{tab:q2-text} gives the census. % expR53_text_haar_p999_200.csv, expR53_text_haar_sup_200.csv, expR57_text_cosine_haar_p999_200.csv
 

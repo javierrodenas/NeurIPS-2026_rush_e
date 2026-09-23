@@ -338,4 +338,6 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   null at 0.05." Confirma o da otra redacción.
 - (Tabla 1, 2026-09-23 17:40) Resuelto con tu criterio de la mediana (§75). La frase nueva de §5.1 tenía 35 palabras y va partida
   en dos en "…stays below it. The verdict for CIFAR-100…".
+- (Bibliografía, 2026-09-23 18:15) CUB-200-2011: el registro de Caltech Authors (cvm3y-5hh21) numera el informe CNS-TR-2010-001;
+  el informe se cita habitualmente como CNS-TR-2011-001. La entrada lleva el número del registro. Cambia si prefieres el otro.
 

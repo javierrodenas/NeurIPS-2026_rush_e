@@ -2542,3 +2542,34 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - (4) Sweep y constructor y generador: desde el resumen de expR85, $p$ mediana $<0.05$ en CIFAR-100 y MiniImageNet, $>0.05$ en
   CIFAR-10 y CUB-200, y $p$ mayor de CIFAR-100 $>0.05$; celdas de la tabla y las tres frases fijadas. El aviso de §74 queda resuelto
   con este criterio.
+## 76. Pase final de exactitud (2026-09-23, 18:00, brief del autor): citas de modelos y datos, bibliografía, MERU, fuentes.
+
+- **(A) Citas en la primera mención.** §4: ViT \citep{dosovitskiy2021an}, ImageNet \citep{imagenet}, DINO \citep{dinov1}, DINOv2
+  \citep{dinov2}, CLIP \citep{CLIP}, SigLIP \citep{siglip}, CIFAR-10/100 \citep{cifar10}, DTD \citep{dtd}, FMNIST \citep{fashion},
+  MNIST \citep{mnist}, GPT-2 \citep{gpt2}, Pythia \citep{pythia}, OLMo \citep{olmo}, ResNet \citep{resnet}, DeiT \citep{deit},
+  augreg \citep{augreg}, MERU \citep{desai2023meru}, WordNet \citep{wordnet}; §3.3 Benjamini--Hochberg
+  \citep{benjamini1995controlling} donde se define el umbral; §5.1 CUB-200 \citep{cub} y MiniImageNet \citep{miniimagenet}; §5.4
+  DBpedia \citep{dbpedia}; los embedders (BGE, GTE, E5) citados en la tabla del panel del apéndice, único sitio donde se nombran.
+  Las citas van dentro de las frases existentes; el texto principal sigue en la página 9 (ver FINAL_CHECK). La lista de
+  referencias pasa de 35 a 59 entradas citadas y de 3 a 6 páginas (10–15; PDF de 40 páginas): las entradas de DBLP llevan editores,
+  título completo de las actas y URL. Si quieres acortarla, dime si quito editores y URL en el .bib o cambio el .bst.
+- **Entradas nuevas verificadas** (metadatos del registro del editor vía Crossref y clave DBLP vía Semantic Scholar; sin metadatos
+  escritos a mano): siglip, deit, augreg, cub, miniimagenet, wordnet, dbpedia, resnet, benjamini1995controlling. Detalle de fuentes en
+  la sección nueva de FINAL_CHECK. Fuentes usadas: Crossref (registros del editor: IEEE para SigLIP y ResNet, ACM para WordNet,
+  Semantic Web para DBpedia, JRSS-B para Benjamini--Hochberg), páginas de actas de PMLR (DeiT) y NeurIPS (MiniImageNet), el
+  registro de Caltech Authors (CUB: el registro da el número CNS-TR-2010-001, no el CNS-TR-2011-001 que suele citarse; se toma el
+  del registro) y la referencia de revista del propio arXiv para augreg (TMLR, 05/2022). DBLP y OpenReview bloquean el acceso
+  automático; la clave DBLP de gu2019learning (conf/iclr/GuSGR19) viene de Semantic Scholar.
+- **(B) Bibliografía**: park2024geometry → inproceedings, International Conference on Learning Representations, 2025;
+  koepke2026cave → note "arXiv preprint arXiv:2604.18572"; aggarwal2001surprising → título "…in High Dimensional Spaces" (tu
+  decisión; DBLP).
+- **(C) §5.3 MERU**: tu frase, partida en tres por el tope de 30 palabras: "Read with the census and the hierarchy test, MERU shows
+  the same clustering as its twin, and no hub structure is detected. The test's power at MERU's spectrum, however, was not measured.
+  Its embeddings stay in the near-flat regime, 95 per cent of them within {{MERU_P95}} of the curvature scale." El 0.29 es el
+  relleno MERU_P95: máximo, sobre los 3 MERU y los 2 conjuntos, del percentil 95 de la norma espacial por $\sqrt{c}$
+  (`expR71_meru_radii.csv`, columna radius_sqrtc_p95; 0.287 en MERU-L/ImageNet).
+- **(D) FINAL_CHECK**: sección nueva "Cited bibliography entries and their sources" con la clave DBLP (de `biburl`), el DOI o la URL
+  del editor de cada entrada citada; a las entradas citadas que no tenían campo de fuente se les añade `biburl`/`doi`/`url`
+  verificados.
+- Sweep: comprobación nueva (todas las claves de (A) citadas en el texto principal o en la tabla del panel; toda entrada citada con
+  fuente; los tres cambios de (B); las frases de MERU con el relleno desde expR71); dos literales de §5.1 con las citas nuevas.

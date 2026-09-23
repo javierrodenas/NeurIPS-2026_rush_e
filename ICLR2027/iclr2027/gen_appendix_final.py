@@ -859,7 +859,7 @@ def q_panel():
          ("SSL (vision)", ["DINO-B & 86M", "DINOv2-S & 22M", "DINOv2-B & 86M", "DINOv2-L & 307M", "DINOv2-G & 1.1B"]),
          ("Contrastive (vision)", ["CLIP-B & 86M", "CLIP-L & 307M", "SigLIP-B & 86M"]),
          ("Causal LM", ["GPT-2 S & 117M", "GPT-2 M & 345M", "GPT-2 L & 774M", "GPT-2 XL & 1.5B", "Pythia-410M & 410M", "Pythia-1B & 1.0B", "Pythia-2.8B & 2.8B", "OLMo-1B & 1.0B", "OLMo-7B & 7.0B"]),
-         ("Text embedder", ["BGE-base & 110M", "BGE-large & 335M", "GTE-base & 110M", "GTE-large & 335M", "GTE-Qwen2-1.5B & 1.5B", "E5-base & 110M", "E5-large & 335M"]),
+         ("Text embedder", ["BGE-base \\citep{BGE} & 110M", "BGE-large & 335M", "GTE-base \\citep{gte} & 110M", "GTE-large & 335M", "GTE-Qwen2-1.5B & 1.5B", "E5-base \\citep{e5} & 110M", "E5-large & 335M"]),
          ("Controls (vision)", ["DeiT-B/16 (IN-1k, no distillation) & 86M", "ViT-B/16 augreg (IN-1k) & 86M", "MERU ViT-S/B/L and CLIP twins & 22M/86M/307M", "Barlow Twins, BYOL (ResNet-50) & 24M"])]
     rows = []; mids = []
     for ty, ms in P:
