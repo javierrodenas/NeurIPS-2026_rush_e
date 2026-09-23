@@ -224,7 +224,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The census has 12 backbones, 6 class sets and 15 text models.} The vision backbones are 4 supervised ViTs trained on ImageNet-21k, DINO-B, 4 DINOv2 sizes, CLIP-B, CLIP-L and SigLIP-B. The class sets are ImageNet and CIFAR-100, which carry a real hierarchy, CIFAR-10 and DTD, and the flat FMNIST and MNIST. The text models read the thousand ImageNet class names: 4 GPT-2 sizes, 3 Pythia sizes, OLMo-1B and 7 sentence embedders (Table~\ref{tab:q14-panel}).
 
-\paragraph{Four controls test the alternatives.} Two self-supervised ResNets read the vision census. DeiT-B and the augreg ViT-B, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the depth. MERU and its Euclidean CLIP twin test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
+\paragraph{Four controls test the alternatives.} Two self-supervised ResNets read the vision census. DeiT-B and the augreg ViT-B, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the alignment. MERU and its Euclidean CLIP twin test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
 
 \paragraph{The premise is read on images and hierarchy on centroids.} The sample-level reading uses about a thousand stratified training images per cell on CIFAR-100 and DTD. Class centroids average a hundred cached training images per class on ImageNet and the full cached split elsewhere. Causal language models give the last-token state of ``a photo of a \{class\}'', extracted one prompt at a time because batching alters GPT-2's hidden states. Embedders use their recommended pooling (Table~\ref{tab:q2-text}).
 
@@ -236,9 +236,9 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \subsection{The premise at the sample level}
 \label{sec:f-sample}
 
-\paragraph{Raw readings are not evidence, ours or published, and calibrated ones are weak and model-dependent.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. Where it is genuine, the excess removes at most two fifths of the null reading. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
+\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. Where it is genuine, the excess removes at most two fifths of the null reading. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
 
-\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. The same clouds were then calibrated: the excess is negative on every dataset, and only CIFAR-100 and MiniImageNet fall below the null in every batch at the 0.05 level. Table~\ref{tab:khrulkov} gives the 4 rows; the calibration reads the percentile statistic $\hat\delta_{99.9}$, whereas their statistic is the supremum. % expR78_khrulkov_replication_summary.csv
+\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet fall below it. Table~\ref{tab:khrulkov} gives the 4 rows; the calibration reads the percentile statistic $\hat\delta_{99.9}$, whereas their statistic is the supremum. % expR78_khrulkov_replication_summary.csv
 
 \input{tab_khrulkov_final}
 
@@ -259,11 +259,11 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The count survives resampling.} Folding image resampling and the estimator's seeds into the null spread, or repeating the census on resampled centroids, keeps most of the count. Table~\ref{tab:q8-robust} gives the bootstrap. % expR66_joint_sensitivity_summary.csv
 
-\paragraph{No family owns the structure.} The smallest backbone is genuine on one dataset only, and the flat datasets have smaller and less consistent excesses; FMNIST is genuine in 5 of 12 backbones. A class-count control shows that the excess shrinks with the number of classes, so only the verdict carries across datasets. Tables~\ref{tab:q1-census} and \ref{tab:q8-robust} give the details. % expR52_census_haar_p999_200.csv, expR60_c_sweep_record.csv, expR45_convnet_rows.csv
+\paragraph{The structure depends on the class set more than on the model.} The smallest backbone is genuine on one dataset only, and the flat datasets have smaller and less consistent excesses; FMNIST is genuine in 5 of 12 backbones. A class-count control shows that the excess shrinks with the number of classes, so only the verdict carries across datasets. Tables~\ref{tab:q1-census} and \ref{tab:q8-robust} give the details. % expR52_census_haar_p999_200.csv, expR60_c_sweep_record.csv, expR45_convnet_rows.csv
 
-\paragraph{A star of clusters already passes the census.} A star of clusters has structure beyond second moments. A synthetic star with no hierarchy scores an excess as deep as any real cell, so a negative excess says structure beyond the second moments, not depth. Table~\ref{tab:q10-calibration} gives the star's excess. % expR42_star_calibration.csv
+\paragraph{A star of clusters already passes the census.} A synthetic star with no hierarchy scores an excess as deep as any real cell, so a negative excess says structure beyond the second moments, not depth. Table~\ref{tab:q10-calibration} gives the star's excess. % expR42_star_calibration.csv
 
-\paragraph{Neural collapse is the flat limit, not what the census sees.} Neural collapse predicts that supervised class means converge to a simplex frame \citep{papyan2020prevalence}, a star with no hierarchy. The census does not certify that frame: class means cluster around superclass hubs, which the superclass recovery of Section~\ref{sec:content} shows and the depth test reads as hub alignment. % expR52_census_haar_p999_200.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
+\paragraph{Neural collapse is the flat limit, not what the census sees.} Neural collapse predicts that supervised class means converge to a simplex frame \citep{papyan2020prevalence}, a star with no hierarchy. The census does not certify that frame: class means cluster around superclass hubs, which the superclass recovery of Section~\ref{sec:content} shows. % expR52_census_haar_p999_200.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
 
 \subsection{Depth above the labelled clusters}
 \label{sec:f-depth}

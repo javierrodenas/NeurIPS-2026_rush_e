@@ -2312,3 +2312,17 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   longitudes con la columna "over 30" y la línea de la regla ("sentences over the cap outside those: 0; the thesis sentence, verbatim
   from the abstract, is the one kept exception (56 words)"); §7 en la línea 463 de la página 9; 37 páginas; 0 `??`. **Sweep 225/225.**
   Versión paralela reconstruida.
+## 62. Legibilidad, §4–§5.2 (2026-09-23, 12:10, brief del autor): seis arreglos de frase.
+
+- **(1)** Entradilla de §5.1: "The premise does not survive calibration where it is read." (sustituye a "Raw readings are not evidence,
+  ours or published, and calibrated ones are weak and model-dependent."). **(2)** Frase de Khrulkov en §5.1: "Calibrated, CIFAR-10
+  and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet fall below it." (el sweep comprueba desde
+  `expR78_khrulkov_replication_summary.csv` que el p mayor supera 0.05 exactamente en CIFAR-10 y CUB-200 y queda por debajo en
+  CIFAR-100 y MiniImageNet). **(3)** §5.2 "A star of clusters already passes the census.": fuera la primera frase, que repetía la
+  entradilla; el párrafo queda en dos frases (exento del recuento). **(4)** §5.2 neural collapse: el párrafo termina en "…which the
+  superclass recovery of Section 5.4 shows." (fuera "and the depth test reads as hub alignment"). **(5)** Entradilla de §5.2 "No
+  family owns the structure." → "The structure depends on the class set more than on the model.". **(6)** §4: "explains the depth" →
+  "explains the alignment".
+- Sweep: literales de la entradilla de §5.1 y de la frase de Khrulkov actualizados; "weak and model-dependent" ya no se exige.
+- **Cierre (2026-09-23, 12:15)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; §7 en la línea
+  463 de la página 9; 37 páginas; 0 `??`. Sweep 225/225. Versión paralela reconstruida.

@@ -25,8 +25,8 @@
    "over30": 0
   },
   "Results": {
-   "sentences": 91,
-   "avg_words": 17.9,
+   "sentences": 90,
+   "avg_words": 17.8,
    "max_words": 30,
    "over30": 0
   },
@@ -43,8 +43,8 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 17.8,
- "n_nonverbatim_sentences": 155,
+ "avg_nonverbatim": 17.7,
+ "n_nonverbatim_sentences": 154,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
@@ -56,7 +56,7 @@
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
-   "lead": "Raw readings are not evidence, ours or published, and calibrated ones are weak and model-dependent.",
+   "lead": "The premise does not survive calibration where it is read.",
    "numbers": []
   },
   {
@@ -65,7 +65,6 @@
    "numbers": [
     "4",
     "0.03",
-    "0.05",
     "4"
    ]
   },
@@ -87,7 +86,7 @@
   },
   {
    "section": "Results",
-   "lead": "No family owns the structure.",
+   "lead": "The structure depends on the class set more than on the model.",
    "numbers": [
     "5 of 12"
    ]

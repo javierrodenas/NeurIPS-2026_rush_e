@@ -15,22 +15,22 @@
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 37 | 18.1 | 30 | 0 |
 | Experimental Setup | 16 | 16.2 | 25 | 0 |
-| Results | 91 | 17.9 | 30 | 0 |
+| Results | 90 | 17.8 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 8 | 13.8 | 21 | 0 |
 | Conclusion and Limitations | 20 | 19.8 | 56 | 0 |
 
-Non-verbatim prose of S3–S7: 155 sentences, mean 17.8 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 154 sentences, mean 17.7 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (56 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
 | section | paragraph | numbers |
 |---|---|---|
-| Results | Raw readings are not evidence, ours or published, and calibr | — |
-| Results | A published reading is reproduced and calibrated. | 4, 0.03, 0.05, 4 |
+| Results | The premise does not survive calibration where it is read. | — |
+| Results | A published reading is reproduced and calibrated. | 4, 0.03, 4 |
 | Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 3, 47, 18 of 24 |
 | Results | The count survives resampling. | — |
-| Results | No family owns the structure. | 5 of 12 |
+| Results | The structure depends on the class set more than on the mode | 5 of 12 |
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The depth test certifies that clusters are oriented toward t | 12, 4 of 12 |
