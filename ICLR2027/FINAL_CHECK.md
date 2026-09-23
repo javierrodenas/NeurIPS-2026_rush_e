@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 37. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 476); the references start on page 10 (line 494).
+- PDF pages: 37. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 471); the references start on page 10 (line 490).
 - Appendix: Proofs on page 13, tables from page 13 to page 37 (25 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
@@ -17,10 +17,10 @@
 | Experimental Setup | 16 | 16.2 | 25 | 0 |
 | Results | 77 | 17.7 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 7 | 15.9 | 21 | 0 |
-| Conclusion and Limitations | 21 | 19.8 | 56 | 0 |
+| Conclusion and Limitations | 21 | 18.8 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 141 sentences, mean 17.8 words (rule: mean ≤ 22).
-Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (56 words).
+Non-verbatim prose of S3–S7: 141 sentences, mean 17.7 words (rule: mean ≤ 22).
+Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -62,7 +62,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 225/226 checks passed.
+- Total: 224/226 checks passed.
 - Final-version checks:
 
     PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 

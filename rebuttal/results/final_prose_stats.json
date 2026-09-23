@@ -38,19 +38,19 @@
   },
   "Conclusion and Limitations": {
    "sentences": 21,
-   "avg_words": 19.8,
-   "max_words": 56,
+   "avg_words": 18.8,
+   "max_words": 34,
    "over30": 0
   }
  },
- "avg_nonverbatim": 17.8,
+ "avg_nonverbatim": 17.7,
  "n_nonverbatim_sentences": 141,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
   "n_over30": 0,
   "thesis_words": [
-   56
+   34
   ]
  },
  "numbers_per_paragraph_S5_S6": [

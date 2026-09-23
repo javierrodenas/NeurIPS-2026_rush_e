@@ -2443,3 +2443,12 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Abstract: 344 palabras. `OPENREVIEW_abstract.txt` regenerado. Sweep: literal del abstract, la frase nueva exigida dos veces (abstract y
   §1, la segunda tras \section{Introduction}), "look like outliers" ausente del envío, y el recuento de "though short of what two
   readings of the same model reach" 2 → 1 (sólo la contribución 3).
+## 70. Tesis nueva (2026-09-23, 16:15, brief del autor).
+
+- Abstract y §7 (idéntica): "Read correctly, foundation models organize classes into clusters that they partly share, show no
+  hierarchy among the superclasses where the test can see one, and their raw tree-likeness is not evidence for hyperbolic geometry."
+  (34 palabras; antes 56). Sigue siendo la única excepción declarada a la regla de 30 palabras en las páginas 3–9 (FINAL_CHECK
+  recalcula el recuento). La tesis no aparece en §1, así que no hay espejo que actualizar.
+- Abstract: 322 palabras. `OPENREVIEW_abstract.txt` regenerado.
+- Sweep: literal THESIS actualizado (comprobación de la tesis y de la duodécima revisión; la cláusula "though not as much as two
+  readings of one model" sustituida por "clusters that they partly share" y el recuento de 34 palabras); sin cambio de números.
