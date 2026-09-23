@@ -2378,3 +2378,13 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Sweep: literales de las revisiones quinta, novena, décima, duodécima y de la tesis actualizados a las frases nuevas (los cocientes
   entre modelos y techo siguen comprobados desde los ficheros); "0.33" en HEADLINE; "two resamples of the same model" como cantidad
   descriptiva; exenciones de la nueva entradilla de §5.4.
+## 65. Figura 5, pie y panel (b) (2026-09-23, 13:10, brief del autor).
+
+- Pie: "\textbf{The island is the cut; tree topology is shared well above chance, though short of the within-model ceiling; the
+  self-supervised structure is angular.}" con las tres cláusulas de panel sin cambios (la de (b) sigue diciendo "against the
+  within-model ceiling (band)"; la línea de azar la explica la leyenda).
+- Panel (b): título "(b) topology, against chance and the ceiling" y línea vertical discontinua en 1/3, el azar de la elección a tres
+  (qué par de la tripleta se fusiona primero); eje x ampliado de 0.6–1.0 a 0.25–1.0 con marca en 0.33. La entrada "chance" de la
+  leyenda sirve ahora a (b) y a (c) (0.5 en (c), elección binaria). Sin cambio de datos ni de altura de la figura.
+- §5.4 conserva "Chance gives 0.33.". Sweep: literal del pie actualizado y comprobación de que el script de figuras traza la línea en
+  1/3 con ese título de panel y de que la frase de §5.4 sigue en el texto.

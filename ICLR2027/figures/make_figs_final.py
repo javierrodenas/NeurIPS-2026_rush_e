@@ -152,7 +152,7 @@ save(fig, "fig_implant_final")
 print(f"implant: detection real {dict((float(k), round(float(v), 3)) for k, v in pr.items())}; shrunk {dict((float(k), round(float(v), 3)) for k, v in pt.items())}")
 
 # ---------------- Figure 5 (consolidated pass, 2026-09-22): (a) mean ARI at the 30-cut with the other eleven, naive (hollow) against selected (filled), joined;
-# (b) triplet agreement under the selected configuration (expR58) against the within-model ceiling band of expR84 (range over resample pairs, line at the mean);
+# (b) triplet agreement under the selected configuration (expR58) against the within-model ceiling band of expR84 (range over resample pairs, line at the mean) and the chance level 1/3 (dashed);
 # (c) sibling triplets under cosine and Euclidean distance (CIFAR-100, exp10). The two ARI matrices become an appendix figure (fig_treemap_matrices_final).
 z = np.load(RES/"exp23_treemap_controls.npz", allow_pickle=True); S = z["summary_in"].item()
 diag = json.load(open(RES/"exp23_config_diagnostics.json")); adm = {k: v for k, v in diag.items() if k.startswith("imagenet|") and v["maxfrac"] <= 0.5}
@@ -184,7 +184,8 @@ for i, m in enumerate(M):
     y = ys[m]; lo, hi, mu = band[m]
     ax.plot([lo, hi], [y, y], color=GRAY, lw=5, alpha=0.45, solid_capstyle="butt", zorder=1); ax.plot([mu, mu], [y - 0.32, y + 0.32], color="0.35", lw=0.8, zorder=2); ax.plot(trip[m], y, "o", color=fam_color(m), ms=4, zorder=4)
 ax.set_yticks([ys[m] for m in M]); ax.set_yticklabels([]); ax.set_ylim(*YLIM); ax.tick_params(axis="y", length=0)
-ax.set_xlim(0.6, 1.0); ax.set_xticks([0.6, 0.8, 1.0]); ax.set_xticklabels(["0.6", "0.8", "1.0"]); ax.set_xlabel("triplet agreement", labelpad=1); ax.set_title("(b) topology, against the ceiling", pad=3)
+ax.axvline(1 / 3, color="k", lw=0.8, ls="--", zorder=2)   # chance for the three-way triplet choice (which of the three pairs merges first); caption brief of 2026-09-23
+ax.set_xlim(0.25, 1.0); ax.set_xticks([1 / 3, 0.6, 0.8, 1.0]); ax.set_xticklabels(["0.33", "0.6", "0.8", "1.0"]); ax.set_xlabel("triplet agreement", labelpad=1); ax.set_title("(b) topology, against chance and the ceiling", pad=3)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax = axes[2]; tri = {}
 for i, m in enumerate(M):
