@@ -4,8 +4,8 @@ Each question of the third review, answered from the main text alone; line numbe
 
 ## Q1. The matched star's hubs are Gaussian; a star with the real hubs' spectrum could pass the depth test too.
 
-- **Abstract** (line 20): The abstract states that the four certified backbones are the same under a star whose hubs carry the real hubs' spectrum.
-- **Section 4, 'A spectrum-matched star confirms the four'** (line 342): Hubs drawn as a Haar resample of the real hubs (exact hub spectrum, ten star seeds): the certified set is unchanged, z from -2.0 to -3.7; on the implanted clouds the new star raises 0 of 60 false alarms at s = 0 and detects one implant in sixty at s = 1; read as a rank over the star seeds (resolution 1/11) the verdict does not separate certified from uncertified backbones while z does. Table 6 has both stars per backbone.
+- **Abstract** (line ?): The abstract states that the four certified backbones are the same under a star whose hubs carry the real hubs' spectrum.
+- **Section 4, 'A spectrum-matched star confirms the four'** (line 317): Hubs drawn as a Haar resample of the real hubs (exact hub spectrum, ten star seeds): the certified set is unchanged, z from -2.0 to -3.7; on the implanted clouds the new star raises 0 of 60 false alarms at s = 0 and detects one implant in sixty at s = 1; read as a rank over the star seeds (resolution 1/11) the verdict does not separate certified from uncertified backbones while z does. Table 6 has both stars per backbone.
 
 ## Q2. The certified ViTs were trained on the hierarchical IN-21k label set; the depth may be the label hierarchy.
 
@@ -20,7 +20,7 @@ Each question of the third review, answered from the main text alone; line numbe
 ## Q4. MERU's embeddings may sit where the hyperboloid is essentially flat, so the control may not test curvature.
 
 - **Section 4, 'Imposing the geometry does not create detected depth'** (line ?): Stated in the text: MERU's embeddings sit in the near-flat regime (learned c = 0.10, radius x sqrt(c) at the median 0.258-0.279, Lorentz-to-Euclidean distance ratio 0.997), so the control tests the training objective, not a curved geometry; the lead-in now says 'does not create detected depth'.
-- **Abstract** (line 25): The abstract says so in one clause.
+- **Abstract** (line ?): The abstract says so in one clause.
 
 ## Q5. 'Budget-stable' rested on a supremum-statistic sweep whose ImageNet magnitudes drifted by 0.02.
 
@@ -40,7 +40,7 @@ Each question of the third review, answered from the main text alone; line numbe
 ## Q8. The text census: Table 13 and Table 14 disagreed on GPT-2 S/M, and the prose followed the older table.
 
 - **Section 5, 'In text, clustered structure depends on recipe, scale and probe'** (line ?): One census, the record (Table 11): GPT-2 S genuine at p = 0.020 and flipping under the supremum and under cosine, M not genuine under the record, L and XL genuine under every construction, Pythia at every scale. The 3-replicate original extraction table is removed and the template table's caption is rewritten from the record.
-- **Section 1, 'The raw reading is confounded'** (line 66): The introduction's example now names GPT-2 M, the size that sits at its null under the record.
+- **Section 1, 'The raw reading is confounded'** (line ?): The introduction's example now names GPT-2 M, the size that sits at its null under the record.
 
 ## Q9. Minor: 'pre-registered', the ordering trees < hyperbolic < spherical, the repeated sentence in A.3, the old illustration, bold in Table 1, the bridges and the number density.
 
@@ -78,3 +78,15 @@ Each question of the third review, answered from the main text alone; line numbe
 - **Power of the depth test per backbone (expR81, Table 9(e)).** The three-level synthetic hierarchy rebuilt with each backbone's real ImageNet spectrum and within/between ratio, 5 seeds (DINOv2: 20): power 0.80 or more in ViT-L, DINOv2-L, DINOv2-G, CLIP-L and SigLIP-B, and 0.45 or less in ViT-T/S/B, DINO-B, DINOv2-S/B and CLIP-B. The power follows the backbone, not its ratio or family (three supervised ViTs at ratios 1.5-2.0 miss the implant; DINOv2-L and G detect it at 3.9). The headline is scoped accordingly in the seven places (abstract, S1, contribution 2, S5.3, Figure 4 and Table 8 captions, thesis).
 - **The alignment is not the spread of feature norms (expR82, Table 8(e)).** Removing the radial component of every offset keeps z <= -2 in the four certified backbones under both stars (-2.26 to -3.99 under the anisotropic star); full L2 normalization keeps it in ViT-B and ViT-L only.
 - **The trained positive control (expR76/expR77, S5.3 and Table 8(d)).** ViT-B/16 fine-tuned on ImageNet-1k with leaf CE and with leaf CE + hierarchical CE (WordNet 30/6/2), one seed, identical batches: the hierarchical model is certified on both frames and keeps firing once decoupled (10 of 10), the leaf-CE and frozen models do not (0 of 10) on the frame of record; on the balanced frame the frozen checkpoint fires in 7 of 10. The pre-set criterion (leaf-CE and frozen not certified intact) is not met because ViT-B is certified by alignment; the discriminating comparison is the decoupled one. A second seed of both runs is in progress for the rebuttal file.
+
+
+## Final accuracy pass (2026-09-23): the rebuttal list W1-W5 (no action now)
+
+Five analyses a reviewer can ask for. None is run; each is named in the paper as a limitation or a scope sentence, and each has a
+defined design if the rebuttal needs it.
+
+- **W1. Sample-level power curve with planted trees.** Section 5.1 reports a negative on per-image features without a power curve there: the hierarchy test's power is measured on centroid clouds (Table 10), not at the sample level. Design: plant two- and three-level trees of growing strength into the per-image features of each cell at the real within/between ratio, and report the detection rate against the planted strength, as expR81 does for centroids. Answers "the premise fails where it is read, but how strong a hierarchy would you have seen?".
+- **W2. Minimum detectable effect per backbone.** The paper reports power at one planted strength per backbone and the verdict "the test is blind in the other 3" (Section 5.3, limitation iii). Design: sweep the planted strength per backbone and report the smallest one detected with power 0.80, turning "blind" into a number in the units of the within/between ratio. The machinery is expR81's, run over a grid instead of a single point.
+- **W3. Data-derived frame with sample splitting.** The frame of record is WordNet's cut and the control is a balanced grouping (Section 4), so the certified set depends on a frame chosen outside the data (Section 5.3, limitation iii). Design: derive the frame by clustering the centroids of one half of the images, test on the other half, and repeat over splits, so the verdict never uses the same images for the frame and for the test.
+- **W4. Single pre-specified path on a held-out dataset.** Limitation (vi) concedes that the analysis choices (null, statistic, frame, linkage) were fixed along the way. Design: pre-specify one path in full, run it once on a dataset absent from the census, and report that single verdict beside the census, so one number is free of the choices the census made.
+- **W5. Median-distance normalization.** Limitation (vii) says the reading divides by the diameter, so heavier tails lower it without any clustering, and names a percentile normalization as future work. Design: recompute the census with the median pairwise distance in place of the diameter, and report the verdicts that change. The cosine census already mitigates the effect, so the expected change is small; the point is to show it.

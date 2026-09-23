@@ -2579,3 +2579,22 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   "Spaces"). Sweep: literal de la comprobación del pase de exactitud actualizado.
 - koepke2026cave: confirmado, `note={arXiv preprint arXiv:2604.18572}` (más `eprint`/`url` de arXiv); la comprobación del sweep lo
   exige.
+## 78. Dos frases de alcance y la lista W1-W5 (2026-09-23, 19:00, brief del autor).
+
+- **§5.1**, tras la frase de que la premisa no sobrevive a la calibración, tu frase partida en dos por el tope de 30 palabras (tenía
+  34): "The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What
+  fails is the evidence the premise cites, not the possibility of a hierarchy." El párrafo queda en cinco frases (tope 6) y el
+  puntero a la Tabla 5 sigue en la última.
+- **§6**, al final de la sección: "We test zero-cost readouts only; whether training in hyperbolic space helps for reasons other than
+  the latent hyperbolicity it cites is outside this study." (24 palabras). Va después de la frase que cita la Tabla 14, así que el
+  último párrafo de §6 se añade a la excepción de la regla "el puntero a tabla va en la última frase" (ya la tenía la entradilla de
+  §5.4, que cita la Figura 5 en la primera). Es la única regla de prosa que toca.
+- **Lista de réplica W1-W5** en `REVIEWER_CHECKLIST_third.md` (sección nueva, y en su generador), sin acción, cada una con su diseño:
+  W1 curva de potencia a nivel de muestra con árboles plantados (§5.1 da un negativo sin curva de potencia allí: la potencia está
+  medida en centroides, Tabla 10); W2 efecto mínimo detectable por backbone (convierte "the test is blind in the other 3" en un
+  número, barriendo la fuerza plantada de expR81); W3 frame derivado de los datos con partición de la muestra (frame en una mitad,
+  test en la otra, frente al corte de WordNet y al control balanceado); W4 un único camino preespecificado en un conjunto retenido
+  (limitación (vi): las decisiones de análisis se fijaron sobre la marcha); W5 normalización por la distancia mediana en lugar del
+  diámetro (limitación (vii)).
+- Sweep: comprobación nueva de las dos frases (la de §5.1 tras "no more than chance would give", y §6 acabando en la de alcance);
+  excepción del puntero documentada. Sin cambio de números.

@@ -1105,7 +1105,7 @@ def final_checks():
                 for s_ in sents:
                     if len([g for g in groups(s_) if g not in counts_]) > smax: bad.append(f"{name}: >{smax} number in a sentence: {s_[:80]}")
                 ptr = [i for i, s_ in enumerate(sents) if ("Table REF" in s_ or "Figure REF" in s_ or "Tables REF" in s_)]
-                if ptr and ptr != [len(sents) - 1] and (lead.group(1) if lead else "") != "The naive map manufactures an island.": bad.append(f"{name}: table/figure pointer not confined to the last sentence: {par[:60]!r}")   # the S5.4 opener cites Figure 5 first (consolidated pass, 2026-09-22)
+                if ptr and ptr != [len(sents) - 1] and (lead.group(1) if lead else "") not in ("The naive map manufactures an island.", "The calibration certifies structure and does not choose the readout."): bad.append(f"{name}: table/figure pointer not confined to the last sentence: {par[:60]!r}")   # the S5.4 opener cites Figure 5 first (consolidated pass), and the S6 closing paragraph ends with the scope sentence after the pointer (author's brief, 2026-09-23 19:00)   # (consolidated pass, 2026-09-22)
             if name in ("Methodology", "Experimental Setup", "Results", "Implications for Hyperbolic Representation Learning"):
                 for s_ in sents:
                     if len(s_.split()) > 45 and "\\cite" not in s_: bad.append(f"{name}: sentence over 45 words ({len(s_.split())}): {s_[:80]}")   # consolidated pass: one claim per sentence in S3-S6
@@ -1155,6 +1155,8 @@ def final_checks():
     _tabs_final = "".join(f.read_text() for f in sorted((TEX/"appendix_tables"/"final").glob("*.tex"))) + "".join(f.read_text() for f in sorted(TEX.glob("tab_*.tex")))
     chk("final (S1 rewrite, 2026-09-23): 'depth test' renamed 'hierarchy test' throughout (text, captions, section titles, tables, figure label); 'depth' kept only for the statistic; the S3.4 subsection titled 'Hierarchy test'",
         "depth test" not in TF.lower() and "depth-test" not in TF and "depth verdict" not in TF and TF.count("hierarchy test") >= 8 and "\\subsection{Hierarchy test}" in bf and "depth test" not in _tabs_final.lower() and "depth-test" not in _tabs_final and "depth verdict" not in _tabs_final and 'ax.set_ylabel("hierarchy test $z$")' in FIGSRC and "hierarchy-test $z$" in TF and "the depth statistic and its standardized form" in bf)
+    chk("final (scope sentences, 2026-09-23): S5.1 says the excess is conservative because the null keeps the spectrum, and what fails is the evidence the premise cites; S6 closes with the zero-cost scope sentence",
+        "no more than chance would give. The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What fails is the evidence the premise cites, not the possibility of a hierarchy." in bf and nocom(seg(bf, "\\section{Implications for Hyperbolic Representation Learning}", "\\section{Conclusion and Limitations}")).strip().endswith("We test zero-cost readouts only; whether training in hyperbolic space helps for reasons other than the latent hyperbolicity it cites is outside this study."))
     # ---- final accuracy pass (2026-09-23): citations at first mention, verified bib entries with a source each, the three bib edits, the MERU sentence from expR71
     _bib = (TEX/"references.bib").read_text()
     def _bibentry(k):

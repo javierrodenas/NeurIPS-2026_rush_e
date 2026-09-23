@@ -25,15 +25,15 @@
    "over30": 0
   },
   "Results": {
-   "sentences": 81,
+   "sentences": 83,
    "avg_words": 17.4,
    "max_words": 30,
    "over30": 0
   },
   "Implications for Hyperbolic Representation Learning": {
-   "sentences": 7,
-   "avg_words": 15.9,
-   "max_words": 21,
+   "sentences": 8,
+   "avg_words": 16.9,
+   "max_words": 24,
    "over30": 0
   },
   "Conclusion and Limitations": {
@@ -43,8 +43,8 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 17.6,
- "n_nonverbatim_sentences": 145,
+ "avg_nonverbatim": 17.7,
+ "n_nonverbatim_sentences": 148,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",

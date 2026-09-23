@@ -133,7 +133,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \subsection{The premise at the sample level}
 \label{sec:f-sample}
 
-\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. Where it is genuine, the excess removes at most two fifths of the null reading. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
+\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What fails is the evidence the premise cites, not the possibility of a hierarchy. Where it is genuine, the excess removes at most two fifths of the null reading. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
 
 \paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 \citep{cub} are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet \citep{miniimagenet} fall below it. {{SUP_CLAUSE}}Table~\ref{tab:khrulkov} gives the 4 rows. % expR78_khrulkov_replication_summary.csv{{PROV85}}
 
@@ -222,7 +222,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Both readings predict the gain, and the hierarchy verdict predicts none.} The raw and calibrated readings predict the gain of a non-Euclidean readout equally well, and the hierarchy verdict predicts none. Calibration tells what a low $\delta$ means, not which readout to use. % expR68_corollary_excess.csv, exp24_val_metric_selection.csv
 
-\paragraph{The calibration certifies structure and does not choose the readout.} Cosine collects the self-supervised structure. The Poincar\'{e} readout adds ${{GAIN_LO}}$ to ${{GAIN_HI}}$ pp over cosine for the contrastive VLMs on prototype tasks and nothing consistent elsewhere. In few-shot learning a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \citep{moreira2024hyperbolic} (Table~\ref{tab:q9-corollary}). % exp2b_normalized_stack.csv, exp2_metric_controls.csv, exp24_val_metric_selection.csv
+\paragraph{The calibration certifies structure and does not choose the readout.} Cosine collects the self-supervised structure. The Poincar\'{e} readout adds ${{GAIN_LO}}$ to ${{GAIN_HI}}$ pp over cosine for the contrastive VLMs on prototype tasks and nothing consistent elsewhere. In few-shot learning a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \citep{moreira2024hyperbolic} (Table~\ref{tab:q9-corollary}). We test zero-cost readouts only; whether training in hyperbolic space helps for reasons other than the latent hyperbolicity it cites is outside this study. % exp2b_normalized_stack.csv, exp2_metric_controls.csv, exp24_val_metric_selection.csv
 
 \section{Conclusion and Limitations}
 \label{sec:discussion}

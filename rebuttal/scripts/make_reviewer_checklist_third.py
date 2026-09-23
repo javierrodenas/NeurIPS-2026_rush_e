@@ -92,4 +92,17 @@ SEVENTH = """
 - **The trained positive control (expR76/expR77, S5.3 and Table 8(d)).** ViT-B/16 fine-tuned on ImageNet-1k with leaf CE and with leaf CE + hierarchical CE (WordNet 30/6/2), one seed, identical batches: the hierarchical model is certified on both frames and keeps firing once decoupled (10 of 10), the leaf-CE and frozen models do not (0 of 10) on the frame of record; on the balanced frame the frozen checkpoint fires in 7 of 10. The pre-set criterion (leaf-CE and frozen not certified intact) is not met because ViT-B is certified by alignment; the discriminating comparison is the decoupled one. A second seed of both runs is in progress for the rebuttal file.
 """
 out.append(SEVENTH)
+EIGHTH = """
+## Final accuracy pass (2026-09-23): the rebuttal list W1-W5 (no action now)
+
+Five analyses a reviewer can ask for. None is run; each is named in the paper as a limitation or a scope sentence, and each has a
+defined design if the rebuttal needs it.
+
+- **W1. Sample-level power curve with planted trees.** Section 5.1 reports a negative on per-image features without a power curve there: the hierarchy test's power is measured on centroid clouds (Table 10), not at the sample level. Design: plant two- and three-level trees of growing strength into the per-image features of each cell at the real within/between ratio, and report the detection rate against the planted strength, as expR81 does for centroids. Answers "the premise fails where it is read, but how strong a hierarchy would you have seen?".
+- **W2. Minimum detectable effect per backbone.** The paper reports power at one planted strength per backbone and the verdict "the test is blind in the other 3" (Section 5.3, limitation iii). Design: sweep the planted strength per backbone and report the smallest one detected with power 0.80, turning "blind" into a number in the units of the within/between ratio. The machinery is expR81's, run over a grid instead of a single point.
+- **W3. Data-derived frame with sample splitting.** The frame of record is WordNet's cut and the control is a balanced grouping (Section 4), so the certified set depends on a frame chosen outside the data (Section 5.3, limitation iii). Design: derive the frame by clustering the centroids of one half of the images, test on the other half, and repeat over splits, so the verdict never uses the same images for the frame and for the test.
+- **W4. Single pre-specified path on a held-out dataset.** Limitation (vi) concedes that the analysis choices (null, statistic, frame, linkage) were fixed along the way. Design: pre-specify one path in full, run it once on a dataset absent from the census, and report that single verdict beside the census, so one number is free of the choices the census made.
+- **W5. Median-distance normalization.** Limitation (vii) says the reading divides by the diameter, so heavier tails lower it without any clustering, and names a percentile normalization as future work. Design: recompute the census with the median pairwise distance in place of the diameter, and report the verdicts that change. The cosine census already mitigates the effect, so the expected change is small; the point is to show it.
+"""
+out.append(EIGHTH)
 open("ICLR2027/REVIEWER_CHECKLIST_third.md", "w").write("\n".join(out)); print("\n".join(out)); print("missing anchors:", missing)

@@ -92,7 +92,7 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
-PASS final (S1 rewrite, 2026-09-23): 'depth test' renamed 'hierarchy test' throughout (text, captions, section titles, tables, figure label); 'depth' kept only for the statistic; the S3.4 subsection titled 'Hierarchy test' 
+PASS final (scope sentences, 2026-09-23): S5.1 says the excess is conservative because the null keeps the spectrum, and what fails is the evidence the premise cites; S6 closes with the zero-cost scope sentence 
 PASS final (accuracy pass, 2026-09-23): every model and dataset cited at first mention (S4: ViT, ImageNet, DINO, DINOv2, CLIP, SigLIP, CIFAR, DTD, FMNIST, MNIST, GPT-2, Pythia, OLMo, ResNet, DeiT, augreg, MERU, WordNet; S3.3 Benjamini-Hochberg; S5.1 CUB-200 and MiniImageNet; S5.4 DBpedia; the embedders in the panel table); every cited entry has a DBLP/DOI/URL/arXiv source; park2024geometry ICLR 2025, koepke2026cave arXiv:2604.18572, aggarwal 'Spaces'; the MERU sentences with the 95th-percentile radius from expR71 
 PASS final: the appendix ARI-matrix figure states the naive and the selected DINOv2-vs-block agreement read from the figure's data, and Figure 5 carries the author's caption (consolidated pass) 
 PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 
@@ -122,4 +122,4 @@ PASS final: AI Use Statement with exactly the three declared items and the respo
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
 PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
-[phaseB re-total] 228/228
+[phaseB re-total] 229/229
