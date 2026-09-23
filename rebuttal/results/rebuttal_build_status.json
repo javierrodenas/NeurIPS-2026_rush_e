@@ -1,15 +1,7 @@
 {
  "positive_control": {
-  "written": true,
-  "criterion_met": false,
-  "hier_z": [
-   -2.9660880869750303,
-   -3.565812707509637
-  ],
-  "hier_dec": [
-   -2.3796805954843188,
-   -3.5087326201035283
-  ]
+  "written": false,
+  "reason": "in the submission"
  },
  "deep_synthetic": {
   "written": false,
