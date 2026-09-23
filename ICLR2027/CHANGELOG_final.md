@@ -2073,3 +2073,34 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   (parte de la limitación iii y las de alcance), dos más que antes por las frases nuevas; statements en la 494, referencias en la
   513; 37 páginas; 0 `??`. Sweep 220/221: sólo falla el tope del resumen (337 palabras contra 310). Versión paralela reconstruida sin
   el párrafo de la segunda semilla (ya en el envío).
+## 56. Presupuesto de página (2026-09-23, 09:15, brief del autor): la página 9 cierra con (2); semillas agrupadas.
+
+- Orden del brief: (1) resumen, (2) limitación (iii) a la mitad, (3) frase de ejemplos de §1, (4) neural collapse en una frase, (5)
+  fundir las frases de las semillas; parar cuando quepa. **(1)**: el brief dice "the version above" pero no trae texto nuevo; el
+  resumen vigente es el tuyo de las 17:25 del 22 (337 palabras), así que no cambia nada y el tope sigue en 310 (el check sigue
+  fallando por 27 palabras). **(2)**: la limitación (iii) pasa de 256 a 142 palabras conservando la potencia por backbone ("Under the
+  decoupled control it is {{P81_COV_LO}} or more in nine backbones and {{P81_UNC_HI}} or less in the other three, at {{FA_DEC}} of 50
+  false alarms on flat clouds. The verdict of no hub hierarchy therefore holds in the nine only."), la cláusula radial ("The alignment
+  is not the radial spread of feature norms, which a control removes without changing the verdicts; full L2 normalization keeps it
+  in two of the four backbones, and its exact form is not resolved here.") y "by degree". Salen de (iii): la frase del 60 % del
+  implante de alineación (el porcentaje sigue en la Tabla 10(c) y el sweep lo exige allí), la explicación larga de "alignment above
+  its frame only" (queda la cláusula; la explicación sigue en §5.3 (d)), "which makes the real verdicts under decoupling
+  conservative" y "The alignment is thus relational, not radial…". Con (2) sola el texto principal termina en la página 9, así que
+  (3), (4) y (5) no se aplican.
+- **Semillas agrupadas** (mensaje del autor de las 09:16): §5.3 (c) "ViT-B fine-tuned with a hierarchical cross-entropy at three
+  WordNet cuts keeps firing once decoupled in {{PC_HIER_POOL}} of 20 runs over two seeds, mean $z$ ${{PC_HIER_ZM}}$, the leaf-only
+  fine-tune in {{PC_CE_POOL}} of 20, mean $z$ ${{PC_CE_ZM}}$, and the frozen checkpoint in none, on the frame of record. Fine-tuning
+  itself adds some decoupled signal and the hierarchical objective adds more, so the trained control separates the objectives by
+  degree." (20 de 20, −2.51; 6 de 20, −1.37: recuentos sumados sobre semillas y z medio de las dos medias por semilla, del csv de
+  expR77); (iii): "…not absolutely: the leaf-only fine-tune also fires once decoupled, in {{PC_CE_POOL}} of 20 runs." Las filas por
+  semilla siguen en la Tabla 9(d). Asserts del builder sobre los recuentos agrupados (20, 6, 0; z jerárquico < z leaf < 0); sweep con
+  la frase reconstruida del csv, "20 of 20" y "6 of 20" una vez en §5.3, exención de 35 palabras para la frase del autor.
+- Ajustes de forma: la frase agrupada del autor pasaba de 45 palabras (46) y pierde "at three WordNet cuts" (los cortes están en el pie
+  de la Tabla 9(d)); en (iii) la frase de la potencia y la radial se parten en dos para el tope de 35 palabras ("The verdict of no hub
+  hierarchy therefore holds in the nine only."; "Its exact form is not resolved here."). `phaseE_rebuttal.py`: el indicador de que
+  el control de alineación implantada ya está en el envío se lee ahora de la Tabla 10(c) (la frase de (iii) desapareció), y el
+  párrafo de la segunda semilla se omite también cuando el envío dice "over two seeds".
+- **Cierre (2026-09-23, 09:25)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; §7 en la
+  línea 464 de la página 9, la limitación (ix) es la última línea de la página 9, statements en la 487 (página 10), referencias en la
+  506; 37 páginas; 0 `??`. Sweep 220/221: sólo falla el tope del resumen (337 palabras contra 310, sin texto nuevo). Versión paralela
+  reconstruida.

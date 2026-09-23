@@ -92,6 +92,7 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
+PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), eight definitions inline and unframed (the decoupling control since the cleanup of 2026-09-22), six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
 PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
 PASS final: the eight defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
 PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 
@@ -119,9 +120,8 @@ PASS final: every cross-reference of the final resolves
 PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
 PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
 PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
-FAIL rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 1 inserted paragraphs; diff at char 31849
+FAIL rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 0 inserted paragraphs; diff at char 31800
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
-PASS rebuttal (priority 1): every z of the trained positive control matches expR77_positive_control.csv and the verdict sentence matches the pre-set criterion in expR77_positive_control_verdict.json 
-[phaseB re-total] 220/222
+[phaseB re-total] 219/221
 FAIL(all): final: abstract is the recorded text (310 words or fewer, the author's cap of 2026-09-22 evening, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 
-FAIL(all): rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 1 inserted paragraphs; diff at char 31849
+FAIL(all): rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 0 inserted paragraphs; diff at char 31800

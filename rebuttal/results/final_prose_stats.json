@@ -21,9 +21,9 @@
    "max_words": 33
   },
   "Results": {
-   "sentences": 78,
-   "avg_words": 19.7,
-   "max_words": 40
+   "sentences": 77,
+   "avg_words": 19.6,
+   "max_words": 42
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 7,
@@ -31,13 +31,13 @@
    "max_words": 28
   },
   "Conclusion and Limitations": {
-   "sentences": 20,
-   "avg_words": 23.4,
-   "max_words": 50
+   "sentences": 18,
+   "avg_words": 19.7,
+   "max_words": 49
   }
  },
- "avg_nonverbatim": 20.1,
- "n_nonverbatim_sentences": 136,
+ "avg_nonverbatim": 19.5,
+ "n_nonverbatim_sentences": 133,
  "numbers_per_paragraph_S5_S6": [
   {
    "section": "Results",
@@ -111,12 +111,10 @@
     "0.01 to 0.60",
     "1.5 to 3.0",
     "1.3 to 3.9",
-    "10 of 10",
-    "-2.38 and -2.63",
-    "0 of 10",
-    "6 of 10",
-    "-0.72 and -2.02",
-    "0 of 10",
+    "20 of 20",
+    "-2.51",
+    "6 of 20",
+    "-1.37",
     "0 of 5",
     "8 of 50",
     "-4.19 to -4.82",

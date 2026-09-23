@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 37. Main text (through the Conclusion and Limitations section) ends on page 10; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 494); the references start on page 10 (line 513).
+- PDF pages: 37. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 506).
 - Appendix: Proofs on page 13, tables from page 13 to page 37 (25 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
@@ -15,11 +15,11 @@
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 32 | 20.8 | 45 |
 | Experimental Setup | 14 | 18.4 | 33 |
-| Results | 78 | 19.7 | 40 |
+| Results | 77 | 19.6 | 42 |
 | Implications for Hyperbolic Representation Learning | 7 | 15.9 | 28 |
-| Conclusion and Limitations | 20 | 23.4 | 50 |
+| Conclusion and Limitations | 18 | 19.7 | 49 |
 
-Non-verbatim prose of S3–S7: 136 sentences, mean 20.1 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 133 sentences, mean 19.5 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -34,7 +34,7 @@ Non-verbatim prose of S3–S7: 136 sentences, mean 20.1 words (rule: mean ≤ 22
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The depth test certifies that clusters are oriented toward t | 4 of 12 |
 | Results | What it certifies is alignment. | -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, -2.26 to -3.99 |
-| Results | What the test can see. | 4 of 5, 0.83 to 1.00, 0.01 to 0.60, 1.5 to 3.0, 1.3 to 3.9, 10 of 10, -2.38 and -2.63, 0 of 10, 6 of 10, -0.72 and -2.02, 0 of 10, 0 of 5, 8 of 50, -4.19 to -4.82, 0 of 50 |
+| Results | What the test can see. | 4 of 5, 0.83 to 1.00, 0.01 to 0.60, 1.5 to 3.0, 1.3 to 3.9, 20 of 20, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, -4.19 to -4.82, 0 of 50 |
 | Results | No hub hierarchy is found where the test has power. | — |
 | Results | The certified set depends on the frame. | 38 of 50, 7 of 10 |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
@@ -61,9 +61,10 @@ Non-verbatim prose of S3–S7: 136 sentences, mean 20.1 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 220/222 checks passed.
+- Total: 219/221 checks passed.
 - Final-version checks:
 
+    PASS final: skeleton unchanged from v3 (seven sections, eleven subsections), eight definitions inline and unframed (the decoupling control since the cleanup of 2026-09-22), six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text 
     PASS final: plain-prose rules on the non-verbatim prose of S3-S7 (avg <= 22 words, none > 35, paragraphs of 3-6 sentences with a plain bold lead-in, S5-S6 <= 1 number per sentence and <= 2 per paragraph with one pointer in the last sentence, only headline numbers, no parenthetical over three words, no semicolon chains, no banned phrases, provenance comment on every results paragraph) 
     PASS final: the eight defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
     PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 
