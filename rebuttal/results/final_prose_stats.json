@@ -2,7 +2,7 @@
  "sections": {
   "Introduction": {
    "sentences": 35,
-   "avg_words": 21.9,
+   "avg_words": 21.8,
    "max_words": 50,
    "over30": 0
   },
@@ -25,8 +25,8 @@
    "over30": 0
   },
   "Results": {
-   "sentences": 78,
-   "avg_words": 17.6,
+   "sentences": 79,
+   "avg_words": 17.5,
    "max_words": 30,
    "over30": 0
   },
@@ -44,7 +44,7 @@
   }
  },
  "avg_nonverbatim": 17.6,
- "n_nonverbatim_sentences": 142,
+ "n_nonverbatim_sentences": 143,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",

@@ -13,7 +13,18 @@
   "miniimagenet": 0.005
  },
  "all_negative": true,
- "n_indistinguishable_sup": 3,
+ "p_left_median": {
+  "cifar10": 0.169,
+  "cifar100": 0.025,
+  "cub": 0.132,
+  "miniimagenet": 0.005
+ },
+ "p_left_min": {
+  "cifar10": 0.005,
+  "cifar100": 0.005,
+  "cub": 0.005,
+  "miniimagenet": 0.005
+ },
  "r_above_median": {
   "cifar10": 167.0,
   "cifar100": 196.0,

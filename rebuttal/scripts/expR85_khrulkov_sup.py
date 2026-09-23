@@ -46,7 +46,7 @@ def run(ds, trials):
 
 def merge():
     df = pd.concat([pd.read_csv(p) for p in sorted(glob.glob(str(OUT / "expR85_khrulkov_sup.part_*.csv")))]).drop_duplicates(subset=["dataset", "trial"]).sort_values(["dataset", "trial"]); df.to_csv(OUT / "expR85_khrulkov_sup.csv", index=False)
-    S = df.groupby("dataset").agg(n_trials=("trial", "count"), delta_rel_sup_mean=("delta_rel_sup", "mean"), null_mean=("null_mean", "mean"), excess_sup_mean=("excess_sup", "mean"), excess_sup_sd=("excess_sup", "std"), r_above_mean=("r_above", "mean"), r_above_median=("r_above", "median"), p_left_max=("p_left", "max"), p_left_min=("p_left", "min")).reset_index()
+    S = df.groupby("dataset").agg(n_trials=("trial", "count"), delta_rel_sup_mean=("delta_rel_sup", "mean"), null_mean=("null_mean", "mean"), excess_sup_mean=("excess_sup", "mean"), excess_sup_sd=("excess_sup", "std"), r_above_mean=("r_above", "mean"), r_above_median=("r_above", "median"), p_left_median=("p_left", "median"), p_left_max=("p_left", "max"), p_left_min=("p_left", "min")).reset_index()
     S.to_csv(OUT / "expR85_khrulkov_sup_summary.csv", index=False); print(S.round(4).to_string())
 
 if __name__ == "__main__":

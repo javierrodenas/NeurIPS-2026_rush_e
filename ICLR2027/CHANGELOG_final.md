@@ -2527,3 +2527,18 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - `ICLR2027/figures/fig1_concept.pdf` (copia antigua, distinta de la tuya) borrado con `git rm`; el tex lee
   `iclr2027/figures/fig1_concept.pdf`, que es tu fichero de f1c01ea; página 2 comprobada tras recompilar.
 - Sweep: comprobación del punto 5 con la mediana, la frase de §5.1, el "3" de §1 y las dos frases del pie, todas desde los ficheros.
+## 75. Lectura del supremo corregida: decide la mediana (2026-09-23, 17:40, brief del autor).
+
+- Del fichero de ensayos (`expR85_khrulkov_sup.csv`): $p$ mediana de los 10 ensayos CIFAR-10 0.169, CIFAR-100 0.025, CUB-200 0.132,
+  MiniImageNet 0.005; $p$ mayor de CIFAR-100 0.299 (por debajo de 0.05 en 7 de 10 ensayos). El resumen lleva ahora `p_left_median`.
+- (1) §5.1: tu frase, partida en dos por el tope de 30 palabras (tenía 35): "Under their own statistic, the supremum, CIFAR-10 and
+  CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial
+  to trial, as the statistic confound predicts." Sigue antes del puntero "Table 1 gives the 4 rows.".
+- (2) §1, respuesta (i): fuera ", 3 under their own statistic".
+- (3) Tabla 1: para el supremo, excess = media, rango = mediana de los 10 ensayos y la columna de $p$ pasa a ser el **rango** de $p$
+  entre ensayos (cabecera "$r$/200, $p$ range (sup.)"); pie: la redacción del estadístico de registro se mantiene, y para el supremo
+  "the mean excess, the median rank over 10 trials and the range of $p$ across trials. CIFAR-100 is below the null in the median
+  trial but not in every trial."
+- (4) Sweep y constructor y generador: desde el resumen de expR85, $p$ mediana $<0.05$ en CIFAR-100 y MiniImageNet, $>0.05$ en
+  CIFAR-10 y CUB-200, y $p$ mayor de CIFAR-100 $>0.05$; celdas de la tabla y las tres frases fijadas. El aviso de §74 queda resuelto
+  con este criterio.

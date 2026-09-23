@@ -11,15 +11,15 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 35 | 21.9 | 50 | 0 |
+| Introduction | 35 | 21.8 | 50 | 0 |
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 37 | 18.1 | 30 | 0 |
 | Experimental Setup | 16 | 16.2 | 25 | 0 |
-| Results | 78 | 17.6 | 30 | 0 |
+| Results | 79 | 17.5 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 7 | 15.9 | 21 | 0 |
 | Conclusion and Limitations | 21 | 18.8 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 142 sentences, mean 17.6 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 143 sentences, mean 17.6 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -62,7 +62,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 227/227 checks passed.
+- Total: 226/227 checks passed.
 - Final-version checks:
 
     PASS final: every main-text figure caption opens with a bold takeaway and names its source files 

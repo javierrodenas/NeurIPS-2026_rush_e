@@ -336,4 +336,6 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - (Tabla 1, 2026-09-23 17:20) Pediste en el pie "CIFAR-100 is not below the null at 0.05 under either"; con el estadístico de registro
   CIFAR-100 queda por debajo (198/200, p mayor 0.030; §5.1 lo dice). El pie dice "Under the supremum, CIFAR-100 is not below the
   null at 0.05." Confirma o da otra redacción.
+- (Tabla 1, 2026-09-23 17:40) Resuelto con tu criterio de la mediana (§75). La frase nueva de §5.1 tenía 35 palabras y va partida
+  en dos en "…stays below it. The verdict for CIFAR-100…".
 
