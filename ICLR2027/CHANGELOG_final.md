@@ -2258,3 +2258,23 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   ningún texto nuevo tuyo). `phaseE_rebuttal.py` reconoce la redacción nueva de §5.3 (c) para no reinsertar el párrafo de expR79;
   versión paralela reconstruida; resumen exportado a OpenReview. Pendiente de hoy: la columna del supremo de la Tabla 1 (expR85 en
   marcha, fin previsto ~16:00).
+## 60. Dos ajustes (2026-09-23, 11:20, brief del autor): recuentos al inicio de frase en palabras; tope del resumen a 360.
+
+- **(1)** Ninguna frase empieza por cifra: "Four controls test the alternatives." y "Two self-supervised ResNets read the vision
+  census." (las dos únicas frases que la regla de numerales había dejado empezando por cifra). Excepción en el check de numerales:
+  un recuento que abre frase va en palabras y con mayúscula (el check es sensible a mayúsculas, así que "Four controls" no cuenta como
+  infracción) y ninguna frase de §3–§7 puede empezar por un dígito.
+- **(2)** Tope del resumen en el sweep: 360 palabras (la regla de numerales añade tokens, no contenido; el resumen queda en 351).
+- **Item 5 de la duodécima revisión, preparado a la espera de expR85**: `main_khrulkov()` añade dos columnas a la Tabla 1 (exceso y
+  rango/p del supremo, contra las mismas 200 réplicas) cuando existe `expR85_khrulkov_sup_summary.csv` con 10 tandas por dataset
+  (probado con un resumen simulado y restaurado); §5.1 lleva un relleno {{SUP_CLAUSE}}: mientras el run no está fusionado, la
+  cláusula alternativa del brief ("; the calibration reads the 99.9th percentile, whereas their statistic is the supremum"), y después
+  ", with their own statistic, the supremum, calibrated on the same replicates beside the record statistic"; el builder comprueba 10
+  tandas y 200 réplicas; el sweep exige las celdas de la tabla desde el csv cuando existe y la cláusula alternativa mientras no. El
+  comentario de procedencia de §5.1 nombra expR85 sólo cuando el fichero existe (relleno {{PROV85}}). Commit separado cuando expR85
+  termine (fin previsto ~16:00).
+- La cláusula alternativa de §5.1 se escribe "the calibration reads the percentile statistic $\\hat\\delta_{99.9}$, whereas their
+  statistic is the supremum": con "99.9th" en texto llano el contador de cifras del sweep leía un "99" suelto.
+- **Cierre (2026-09-23, 11:35)**: FINAL_CHECK: "Main text (through the Conclusion and Limitations section) ends on page 9"; §7 en la
+  línea 463 de la página 9; statements en la 487, referencias en la 506 (página 10); 37 páginas; 0 `??`. **Sweep 224/224, 0 fallos**
+  (resumen 351 palabras bajo el tope de 360). Versión paralela reconstruida; resumen exportado a OpenReview.

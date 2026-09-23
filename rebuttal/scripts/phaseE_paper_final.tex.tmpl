@@ -119,7 +119,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The census has 12 backbones, 6 class sets and 15 text models.} The vision backbones are 4 supervised ViTs trained on ImageNet-21k, DINO-B, 4 DINOv2 sizes, CLIP-B, CLIP-L and SigLIP-B. The class sets are ImageNet and CIFAR-100, which carry a real hierarchy, CIFAR-10 and DTD, and the flat FMNIST and MNIST. The text models read the thousand ImageNet class names: 4 GPT-2 sizes, 3 Pythia sizes, OLMo-1B and 7 sentence embedders (Table~\ref{tab:q14-panel}).
 
-\paragraph{4 controls test the alternatives.} 2 self-supervised ResNets read the vision census. DeiT-B and the augreg ViT-B, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the depth. MERU and its Euclidean CLIP twin test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
+\paragraph{Four controls test the alternatives.} Two self-supervised ResNets read the vision census. DeiT-B and the augreg ViT-B, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the depth. MERU and its Euclidean CLIP twin test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
 
 \paragraph{The premise is read on images and hierarchy on centroids.} The sample-level reading uses about a thousand stratified training images per cell on CIFAR-100 and DTD. Class centroids average a hundred cached training images per class on ImageNet and the full cached split elsewhere. Causal language models give the last-token state of ``a photo of a \{class\}'', extracted one prompt at a time because batching alters GPT-2's hidden states. Embedders use their recommended pooling (Table~\ref{tab:q2-text}).
 
@@ -133,7 +133,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Raw readings are not evidence, ours or published, and calibrated ones are weak and model-dependent.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. Where it is genuine, the excess removes at most two fifths of the null reading. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
 
-\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. The same clouds were then calibrated: the excess is negative on every dataset, and only CIFAR-100 and MiniImageNet fall below the null in every batch at the 0.05 level. Table~\ref{tab:khrulkov} gives the 4 rows. % expR78_khrulkov_replication_summary.csv
+\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. The same clouds were then calibrated: the excess is negative on every dataset, and only CIFAR-100 and MiniImageNet fall below the null in every batch at the 0.05 level. Table~\ref{tab:khrulkov} gives the 4 rows{{SUP_CLAUSE}}. % expR78_khrulkov_replication_summary.csv{{PROV85}}
 
 \input{tab_khrulkov_final}
 

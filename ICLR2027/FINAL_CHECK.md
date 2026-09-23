@@ -15,11 +15,11 @@
 | Related Work | 5 | 39.8 | 60 |
 | Methodology | 33 | 20.5 | 45 |
 | Experimental Setup | 15 | 17.3 | 32 |
-| Results | 88 | 18.3 | 32 |
+| Results | 88 | 18.5 | 32 |
 | Implications for Hyperbolic Representation Learning | 7 | 15.7 | 31 |
 | Conclusion and Limitations | 19 | 20.7 | 56 |
 
-Non-verbatim prose of S3–S7: 147 sentences, mean 18.7 words (rule: mean ≤ 22, none > 35).
+Non-verbatim prose of S3–S7: 147 sentences, mean 18.8 words (rule: mean ≤ 22, none > 35).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
@@ -61,10 +61,9 @@ Non-verbatim prose of S3–S7: 147 sentences, mean 18.7 words (rule: mean ≤ 22
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 220/223 checks passed.
+- Total: 223/224 checks passed.
 - Final-version checks:
 
-    PASS final: the eight defined terms are each defined once in S3 (one definition environment each) and 'premise' is fixed in S1 
     PASS final: no number appears in the final that is not in v1, in a table or in a fill traced to a result file 
     PASS final: every result file named in a provenance comment of the main text exists 
     PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
@@ -78,4 +77,3 @@ Non-verbatim prose of S3–S7: 147 sentences, mean 18.7 words (rule: mean ≤ 22
     PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
-    FAIL(all): final: abstract is the recorded text (310 words or fewer, the author's cap of 2026-09-22 evening, cell defined in its own sentence, the deep synthetic hierarchy detected and no hierarchy above the superclasses found), 15 text models 

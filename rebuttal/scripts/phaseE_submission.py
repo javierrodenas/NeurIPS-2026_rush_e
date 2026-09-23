@@ -198,6 +198,14 @@ assert F['PC_HIER_POOL'] == '20' and F['PC_CE_POOL'] == '6' and F['PC_FROZEN_DEC
 _v77 = json.load(open(R + 'expR77_positive_control_verdict.json'))['verdict']; assert {v['seed'] for v in _v77} == {'seed0', 'seed1'} and not any(v['criterion_met'] for v in _v77), "pre-set criterion not met in either seed"
 F['PC_FROZEN_BAL'] = str(int(round(_pc.loc['frozen', 'dec_frac_cert_wn30bal'] * 10))); assert F['PC_FROZEN_BAL'] == '7' and int(round(_pc.loc['ce_seed0', 'dec_frac_cert_wn30bal'] * 10)) == 0
 F['PROV81'] = ', expR81_deep_per_backbone.csv' if os.path.exists(R + 'expR81_deep_per_backbone.csv') else ''
+# ---- twelfth review (5): Table 1 carries the excess and rank of the published statistic itself, the supremum, once expR85 is merged; until then the brief's fallback clause
+if os.path.exists(R + 'expR85_khrulkov_sup_summary.csv'):
+    _s85 = pd.read_csv(R + 'expR85_khrulkov_sup_summary.csv').set_index('dataset'); assert set(_s85.index) == {'cifar10', 'cifar100', 'cub', 'miniimagenet'} and bool((_s85.n_trials == 10).all()), _s85[['n_trials']]
+    _e85 = pd.read_csv(R + 'expR85_khrulkov_sup.csv'); assert bool((_e85.n_rep == 200).all()) and len(_e85) == 40, len(_e85)
+    F['SUP_CLAUSE'] = ", with their own statistic, the supremum, calibrated on the same replicates beside the record statistic"; F['PROV85'] = ", expR85_khrulkov_sup_summary.csv"
+    json.dump({"n_trials": 10, "excess_sup_mean": _s85.excess_sup_mean.round(4).to_dict(), "p_left_max": _s85.p_left_max.round(3).to_dict(), "all_negative": bool((_s85.excess_sup_mean < 0).all())}, open(R + 'final_khrulkov_sup.json', 'w'), indent=1)
+else:
+    F['SUP_CLAUSE'] = "; the calibration reads the percentile statistic $\\hat\\delta_{99.9}$, whereas their statistic is the supremum"; F['PROV85'] = ""
 # ---- tenth review: the within-model ceiling of the tree agreements (expR84); the thesis branch of the brief: keep 'moderately shared' if the ceiling is 0.9 or more
 _s84 = pd.read_csv(R + 'expR84_tree_ceiling_summary.csv').set_index('model'); assert len(_s84) == 13 and int(_s84.loc['ALL', 'n_pairs']) == 12 * 435, _s84.shape
 F['CEIL_TRIP'], F['CEIL_TRIP_MIN'] = f"{_s84.loc['ALL', 'triplet_agree_mean']:.2f}", f"{_s84.loc['ALL', 'triplet_agree_min']:.2f}"
