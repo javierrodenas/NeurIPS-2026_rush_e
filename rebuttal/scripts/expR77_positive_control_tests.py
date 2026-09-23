@@ -44,7 +44,8 @@ def main(A):
             row[f"zdec_mean_{fname}"] = float(np.mean(zs)); row[f"zdec_sd_{fname}"] = float(np.std(zs, ddof=1)); row[f"dec_frac_cert_{fname}"] = float(np.mean(np.array(zs) <= -2))
         row["time_s"] = time.time() - t0; rows.append(row)
         print(f"{m:10s} excess {row['excess']:+.4f} (r {row['r_above']}/200, p {row['p_left']:.3f}) | z wn30 {row['z_wn30']:+.2f} bal {row['z_wn30bal']:+.2f} | decoupled z wn30 {row['zdec_mean_wn30']:+.2f} bal {row['zdec_mean_wn30bal']:+.2f} ({row['time_s']:.0f}s)")
-        pd.DataFrame(rows).to_csv(OUT / "expR77_positive_control.csv", index=False)
+        pd.DataFrame(rows).to_csv(OUT / (f"expR77_positive_control.part_{A.part}.csv" if A.part else "expR77_positive_control.csv"), index=False)
+    if A.part: print("PART DONE", A.part); return   # a shard (seed 1, 2026-09-23): merged into the main file and the verdict by --merge, so the seed-0 rows of record are never overwritten
     S = {r["model"]: r for r in rows}
     def cert(r, fr): return r[f"z_{fr}"] <= -2
     def fires_dec(r, fr): return r[f"zdec_mean_{fr}"] <= -2
@@ -59,5 +60,26 @@ def main(A):
     json.dump(dict(rows=rows, verdict=verdict, criterion="hier certified (z<=-2) under both frames and still fires with offsets decoupled; ce and frozen not certified"), open(OUT / "expR77_positive_control_verdict.json", "w"), indent=1)
     for v in verdict: print("VERDICT", v)
 
+def merge():
+    import glob
+    main_f = OUT / "expR77_positive_control.csv"; parts = sorted(glob.glob(str(OUT / "expR77_positive_control.part_*.csv")))
+    df = pd.concat([pd.read_csv(main_f)] + [pd.read_csv(f) for f in parts]).drop_duplicates(subset=["model"], keep="last")
+    order = ["frozen", "ce_seed0", "hier_seed0", "ce_seed1", "hier_seed1"]; df["_o"] = df.model.map({m: i for i, m in enumerate(order)}); df = df.sort_values("_o").drop(columns="_o"); df.to_csv(main_f, index=False)
+    rows = df.to_dict("records"); S = {r["model"]: r for r in rows}; FR = ("wn30", "wn30bal")
+    def cert(r, fr): return r[f"z_{fr}"] <= -2
+    def fires_dec(r, fr): return r[f"zdec_mean_{fr}"] <= -2
+    verdict = []
+    for seed in ("seed0", "seed1"):
+        h, c = S.get(f"hier_{seed}"), S.get(f"ce_{seed}")
+        if h is None: continue
+        ok_h = all(cert(h, fr) for fr in FR) and all(fires_dec(h, fr) for fr in FR)
+        ok_c = c is not None and not any(cert(c, fr) for fr in FR)
+        ok_f = "frozen" in S and not any(cert(S["frozen"], fr) for fr in FR)
+        verdict.append(dict(seed=seed, hier_certified_both_frames=all(cert(h, fr) for fr in FR), hier_fires_decoupled_both=all(fires_dec(h, fr) for fr in FR), ce_not_certified=ok_c, frozen_not_certified=ok_f, criterion_met=bool(ok_h and ok_c and ok_f)))
+    json.dump(dict(rows=rows, verdict=verdict, criterion="hier certified (z<=-2) under both frames and still fires with offsets decoupled; ce and frozen not certified"), open(OUT / "expR77_positive_control_verdict.json", "w"), indent=1)
+    print(df.round(3).to_string())
+    for v in verdict: print("VERDICT", v)
+
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("--models", nargs="+", default=["frozen", "ce_seed0", "hier_seed0"]); ap.add_argument("--n_star", type=int, default=10); ap.add_argument("--n_dec", type=int, default=10); main(ap.parse_args())
+    ap = argparse.ArgumentParser(); ap.add_argument("--models", nargs="+", default=["frozen", "ce_seed0", "hier_seed0"]); ap.add_argument("--part", default=None, help="write a shard file instead of the main csv (merge with --merge)"); ap.add_argument("--merge", action="store_true"); ap.add_argument("--n_star", type=int, default=10); ap.add_argument("--n_dec", type=int, default=10); A = ap.parse_args()
+    merge() if A.merge else main(A)

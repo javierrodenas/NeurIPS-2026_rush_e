@@ -2,6 +2,15 @@
 
 Updated at every checkpoint. Newest entry first.
 
+## 2026-09-23 07:41 — seed 1 of both fine-tunings finished (caches 07:39); expR77 tests launched as shards
+
+- `vitb_ft_ce_seed1_imagenet_train.npz` and `vitb_ft_hier_seed1_imagenet_train.npz` written at 07:39 (about 22.7 h per run).
+- `expR77_positive_control_tests.py` gained `--part` (a shard file per model) and `--merge` (main csv + verdict recomputed for seed 0
+  and seed 1), so the seed-0 rows of record are never overwritten (the old script rewrote the csv with the models run); the seed-0
+  csv and verdict are backed up as `.bak_20260923`. Two shards launched at 07:41 (`ce_seed1`, `hier_seed1`, nice 5, logs
+  `rebuttal/results/logs/expR77_{ce,hier}_seed1.log`); then `--merge`, the rebuttal file only, this log, and a report to the author.
+  Nothing enters the submission without the author's decision (rule of 2026-09-20).
+
 ## 2026-09-22 16:20 — tenth review: expR84 (within-model tree ceiling) run and integrated
 
 - **expR84** (`expR84_tree_ceiling.py`, 3 CPU shards, ~4 min): pairs of the 30 expR59 bootstrap centroid sets per ImageNet backbone
