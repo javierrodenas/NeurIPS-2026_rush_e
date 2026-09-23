@@ -327,4 +327,10 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   que cambie la plantilla a `\bibliography{iclr2027_conference}`. Decisiones a confirmar: Gröger et al. como ICML 2026 (arXiv dice
   "ICML 2026 camera-ready"; tu entrada era el CoRR) y "Shuo Wen" (la anterior decía "Song Wen"); Aggarwal et al. con "High
   Dimensional Space" en singular (título del PDF de los autores; DBLP pone "Spaces").
+- (§1 reescrita, 2026-09-23 16:50) "depth test" → "hierarchy test" hecho en todo el envío. Quedan con "depth" en sentido de concepto,
+  no de estadístico, y no los toqué: título de §5.3 "Depth above the labelled clusters", pie de la Figura 1 ("clusters without
+  depth… with depth"), §4 "creates depth", §3.3 "not depth", limitación (i) "depth needs the separate test", pie del apéndice
+  "misses implanted depth". Di si los cambias (p. ej. "Hierarchy above the labelled clusters"). Tu contribución 2 dice
+  "hyperbolic-trained backbone" y sustituye a "nominally hyperbolic backbone" (vocabulario de la novena revisión). Contribución 3
+  ya no menciona la isla; la isla queda en §5.4.
 

@@ -2452,3 +2452,33 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Abstract: 322 palabras. `OPENREVIEW_abstract.txt` regenerado.
 - Sweep: literal THESIS actualizado (comprobación de la tesis y de la duodécima revisión; la cláusula "though not as much as two
   readings of one model" sustituida por "clusters that they partly share" y el recuento de 34 palabras); sin cambio de números.
+## 71. §1 reescrita (2026-09-23, 16:30, brief del autor): texto sólo, sin cambio de números.
+
+- **(1) P1**: "…and they are read against the ideal values of a tree and of a non-hyperbolic space, never against what a structureless
+  cloud of the same dimension and spectrum would score". **(2) P3**: fuera la última frase (GPT-2 M y los sentence embedders).
+  **(3) P4**: "reads $\delta$ against the right reference"; "\citet{groger2026aristotelian} calibrate similarity across models";
+  "\emph{hierarchy test}".
+- **(4) "depth test" → "hierarchy test"** en todo el envío: plantilla (§3.4 pasa a titularse "Hierarchy test"; "The hierarchy test
+  compares…", "The hierarchy test certifies…", MERU, limitaciones (iii) y (iv), el título de la sección del apéndice "Is the structure
+  deeper than a star? The hierarchy test", el pie de la Figura 4), generador del apéndice (pies de las Tablas 3, 9, 10 y 14 y
+  "hierarchy-test $z$"), etiqueta del eje de la Figura 4(a) ("hierarchy test $z$"), pies del fichero de la vía paralela, y
+  "depth verdict" → "hierarchy verdict" (§6 y Tabla 14). El constructor aplica además el renombrado al documento ensamblado y
+  comprueba que no queda ningún "depth test". "Depth" se conserva donde nombra el estadístico $z$ ("Depth $z$", "depth statistic",
+  "depth ($z$)") y, **pendiente de tu decisión**, donde nombra el concepto: el título de §5.3 "Depth above the labelled clusters",
+  el pie de la Figura 1 ("clusters without depth… with depth"), §4 "creates depth", §3.3 "not depth", limitación (i) "depth needs
+  the separate test" y el pie del apéndice "misses implanted depth".
+- **(5) P5** en tres partes con etiquetas en línea, tu texto verbatim (con los rellenos {{N_GEN}}/{{N_IN}} del constructor donde
+  ya los usaba). La glosa del hub queda en P5 ("its superclass center, which we call its hub"); la de la frame sale de §1.
+  La comprobación de "hub glosado en su primer uso" ignora el pie de la Figura 1 ("clusters around a hub", tu pie verbatim).
+- **(6) Contribuciones**: los cuatro ítems sustituidos por los tuyos. Nota: "a nominally hyperbolic backbone" pasa a
+  "a hyperbolic-trained backbone" (era vocabulario de la novena revisión; ahora no aparece en el envío).
+- **(7) Glosa de la frame** en su primer uso, la Definición 6 de §3.4: "Given a grouping of classes into superclasses, which we call
+  the frame, assigning each centroid $x_i$ to a cluster $k(i)$…". §4 conserva su paráfrasis propia ("The frame, the grouping into
+  superclasses, is the WordNet cut…"). Es el primer "frame" del envío (§1 sólo tiene "frames the question").
+- Mecánica: 11 ediciones nuevas en la lista del constructor (28 en total): 4 sustituyen ediciones anteriores (su `a` es la `b`
+  anterior: P5, contribuciones 2 y 3, la frase de §2 "It adds a hierarchy test…") y 7 actúan sobre texto verbatim de
+  `main_local.tex`. La comprobación de las ediciones salta las `b` reemplazadas por una edición posterior.
+- Sweep: literales de §1 (P5, contribuciones, glosas, posición de la frase entre modelos: 1 vez en el abstract y en §1 con
+  "\emph{Across models,}"), recuento de "though short of what two readings…" 1 → 0, "nominally hyperbolic" → "hyperbolic-trained",
+  comprobación nueva del renombrado (envío, tablas del apéndice, script de figuras, título de §3.4), y las entradillas exentas con el
+  nombre nuevo.

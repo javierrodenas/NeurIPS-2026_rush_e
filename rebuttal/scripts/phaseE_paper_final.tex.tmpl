@@ -79,14 +79,14 @@ and the word is used in this sense only.
 \label{fig:overview}
 \end{figure}
 
-\subsection{Depth test}
+\subsection{Hierarchy test}
 \label{sec:f-depthtest}
 
 \paragraph{Why a second test.} A genuine excess can come from clusters alone, so a second test asks whether the clusters are themselves arranged hierarchically. It needs three constructions.
 
 \begin{definition}[hub null and excess B]
 \label{def:hubnull}
-Given a frame that assigns each centroid $x_i$ to a cluster $k(i)$ with hub $h_{k(i)}$, the cluster mean, write $x_i=h_{k(i)}+o_i$. The hub null keeps every offset $o_i$ and replaces the hubs by a Haar resample with their spectrum, $x'_i=h'_{k(i)}+o_i$, and the excess of Eq.~\ref{eq:excess} against this null, $e_B$, measures structure above the clusters of the frame only.
+Given a grouping of classes into superclasses, which we call the frame, assigning each centroid $x_i$ to a cluster $k(i)$ with hub $h_{k(i)}$, the cluster mean, write $x_i=h_{k(i)}+o_i$. The hub null keeps every offset $o_i$ and replaces the hubs by a Haar resample with their spectrum, $x'_i=h'_{k(i)}+o_i$, and the excess of Eq.~\ref{eq:excess} against this null, $e_B$, measures structure above the clusters of the frame only.
 \end{definition}
 
 \begin{definition}[matched star]
@@ -99,7 +99,7 @@ The matched star of a cloud keeps the real clusters, each as a Haar sample with 
 The decoupling control keeps the hubs of the frame and rotates each cluster's offsets by an independent Haar rotation. A verdict that survives the decoupling is carried by the arrangement of the hubs; one that does not is carried by the orientation of the clusters relative to their hubs, which we call alignment.
 \end{definition}
 
-\paragraph{The depth test compares the real cloud with its matched star.} With $e_B$ read on the real cloud and on its matched star, the depth statistic and its standardized form are
+\paragraph{The hierarchy test compares the real cloud with its matched star.} With $e_B$ read on the real cloud and on its matched star, the depth statistic and its standardized form are
 \begin{equation}
 \mathrm{depth}=e_B(X)-e_B(X_{\mathrm{star}}),\qquad z=\mathrm{depth}\,/\,\mathrm{s.d.},
 \label{eq:depth}
@@ -168,12 +168,12 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_depth_final.pdf}
-\caption{\textbf{What the depth test certifies, and where it can see a hierarchy.} (a) Depth $z$ per backbone, filled when certified; line at $z=-2$. (b) Decoupled power for an implanted three-level hierarchy, filled at 0.8 or more; line at 0.8. % expR56_depth_variants.csv, expR81_deep_per_backbone_summary.csv
+\caption{\textbf{What the hierarchy test certifies, and where it can see a hierarchy.} (a) Depth $z$ per backbone, filled when certified; line at $z=-2$. (b) Decoupled power for an implanted three-level hierarchy, filled at 0.8 or more; line at 0.8. % expR56_depth_variants.csv, expR81_deep_per_backbone_summary.csv
 }
 \label{fig:depth}
 \end{figure}
 
-\paragraph{The depth test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test was run on the 12 ImageNet centroid clouds under both matched stars, with the WordNet cut into superclasses as the frame and the superclass centers as hubs. Figure~\ref{fig:depth}a shows the $z$ per backbone and Table~\ref{tab:q4-depth} gives both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
+\paragraph{The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test was run on the 12 ImageNet centroid clouds under both matched stars, with the WordNet cut into superclasses as the frame and the superclass centers as hubs. Figure~\ref{fig:depth}a shows the $z$ per backbone and Table~\ref{tab:q4-depth} gives both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
 
 \paragraph{What it certifies is alignment.} Once the cluster orientations were randomized, the decoupling control of Definition~\ref{def:decoupling}, none of the 4 backbones fires. ViT-L then reads ${{Z_VITL_DEC}}$, within the ${{Z_FLAT_HI}}$ to ${{Z_FLAT_LO}}$ of the flat control: without its orientations the real cloud reads like a flat one. The alignment is relational: 0 of 60 runs fire with random hubs and 0 of 4 with random orientations, so it needs both the real hubs and the real orientations. Removing the radial component of every offset leaves it in all 4 certified backbones, $z$ from ${{Z_RAD_HI}}$ to ${{Z_RAD_LO}}$ under both stars; feature norms are not its source. Under full L2 normalization, which also moves the hubs, it survives in ViT-B and ViT-L only. The implanted principal-axis alignment reproduces it in the supervised ViTs and CLIP-B but not in DINOv2-L, and its geometric form is not resolved here. % expR74_decoupling_summary.csv, expR79_synthetic_deep_poincare.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30.csv, expR82_radial_control.csv, expR80_implanted_alignment.csv
 
@@ -185,7 +185,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Leaf labels can produce the alignment but do not guarantee it.} Read like the census models, the augreg ViT-B trained on ImageNet-1k leaf labels is certified and agrees with WordNet like the ImageNet-21k ViTs. DeiT-B, trained on the same labels with another recipe, is neither. A hierarchical label set therefore does not explain the certified ViTs' alignment. % expR70_inet1k_supervised.csv
 
-\paragraph{MERU's objective does not create hub structure.} MERU embeds images on the Lorentz hyperboloid with an entailment objective, and its Euclidean twin shares backbone, data and recipe \citep{desai2023meru}. Read with the census and the depth test, MERU shows the same clustering, no hub structure, and embeddings that never leave the near-flat regime. Table~\ref{tab:q4-depth} gives the readings and the radii. % expR63_meru_record.csv, expR71_meru_radii.csv
+\paragraph{MERU's objective does not create hub structure.} MERU embeds images on the Lorentz hyperboloid with an entailment objective, and its Euclidean twin shares backbone, data and recipe \citep{desai2023meru}. Read with the census and the hierarchy test, MERU shows the same clustering, no hub structure, and embeddings that never leave the near-flat regime. Table~\ref{tab:q4-depth} gives the readings and the radii. % expR63_meru_record.csv, expR71_meru_radii.csv
 
 \subsection{Whose tree}
 \label{sec:content}
@@ -220,7 +220,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The raw reading cannot select a curvature.} \citet{Khrulkov_2020_CVPR} set the curvature of the Poincar\'{e} ball from the relative hyperbolicity, $c=(0.144/\delta_{\text{rel}})^{2}$ with $\delta_{\text{rel}}=2\delta/\mathrm{diam}$. Applied, with the supremum it was calibrated for, to structureless Gaussian clouds, it assigns curvatures from {{C_LO}} to {{C_HI}}. % exp1_delta_controls.csv
 
-\paragraph{Both readings predict the gain, and the depth verdict predicts none.} The raw and calibrated readings predict the gain of a non-Euclidean readout equally well, and the depth verdict predicts none. Calibration tells what a low $\delta$ means, not which readout to use. % expR68_corollary_excess.csv, exp24_val_metric_selection.csv
+\paragraph{Both readings predict the gain, and the hierarchy verdict predicts none.} The raw and calibrated readings predict the gain of a non-Euclidean readout equally well, and the hierarchy verdict predicts none. Calibration tells what a low $\delta$ means, not which readout to use. % expR68_corollary_excess.csv, exp24_val_metric_selection.csv
 
 \paragraph{The calibration certifies structure and does not choose the readout.} Cosine collects the self-supervised structure. The Poincar\'{e} readout adds ${{GAIN_LO}}$ to ${{GAIN_HI}}$ pp over cosine for the contrastive VLMs on prototype tasks and nothing consistent elsewhere. In few-shot learning a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \citep{moreira2024hyperbolic} (Table~\ref{tab:q9-corollary}). % exp2b_normalized_stack.csv, exp2_metric_controls.csv, exp24_val_metric_selection.csv
 
@@ -229,7 +229,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{Conclusion.} Read correctly, foundation models organize classes into clusters that they partly share, show no hierarchy among the superclasses where the test can see one, and their raw tree-likeness is not evidence for hyperbolic geometry. Curvature should be measured rather than assumed. Cosine collects most of what is there.
 
-\paragraph{Limitations of the instrument.} (i)~The excess certifies structure beyond second moments, star-like clustering included, so depth needs the separate test. (ii)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess does not exclude hierarchy carried by the spectrum. (iii)~The depth test's power for a three-level hierarchy follows the backbone rather than its within/between ratio or family. Under the decoupled control it is {{P81_COV_LO}} or more in 9 of 12 backbones and {{P81_UNC_HI}} or less in the other 3. Its false alarms on flat clouds are {{FA_DEC}} of 50, and the verdict of no hub hierarchy therefore holds in those 9 only. It misses a two-level implant at this noise level, its decoupled form is biased toward firing, and it tests hierarchy among the frame's hubs only. Its trained control separates the objectives by degree, not absolutely: the leaf-only fine-tune also fires once decoupled, in {{PC_CE_POOL}} of 20 runs. A pre-set criterion expecting no intact certification of the leaf and frozen models was not met, because they are aligned. The alignment is not the radial spread of feature norms, which a control removes without changing the verdicts; full L2 normalization keeps it in 2 of the 4 backbones. Its exact form is not resolved here. (iv)~The depth test is Euclidean, and for the angular DINOv2 tree it may be conservative. (v)~A causal LM's class representation depends on the extraction protocol as much as on the model. (vi)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work. (vii)~The reading divides by the diameter, so heavier tails in real clouds would lower $\delta_{\text{norm}}$ without any clustering. The cosine census mitigates this, and a percentile normalization is future work. % expR80_implanted_alignment.csv, expR79_synthetic_deep_poincare.csv, expR81_deep_per_backbone_summary.csv
+\paragraph{Limitations of the instrument.} (i)~The excess certifies structure beyond second moments, star-like clustering included, so depth needs the separate test. (ii)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess does not exclude hierarchy carried by the spectrum. (iii)~The hierarchy test's power for a three-level hierarchy follows the backbone rather than its within/between ratio or family. Under the decoupled control it is {{P81_COV_LO}} or more in 9 of 12 backbones and {{P81_UNC_HI}} or less in the other 3. Its false alarms on flat clouds are {{FA_DEC}} of 50, and the verdict of no hub hierarchy therefore holds in those 9 only. It misses a two-level implant at this noise level, its decoupled form is biased toward firing, and it tests hierarchy among the frame's hubs only. Its trained control separates the objectives by degree, not absolutely: the leaf-only fine-tune also fires once decoupled, in {{PC_CE_POOL}} of 20 runs. A pre-set criterion expecting no intact certification of the leaf and frozen models was not met, because they are aligned. The alignment is not the radial spread of feature norms, which a control removes without changing the verdicts; full L2 normalization keeps it in 2 of the 4 backbones. Its exact form is not resolved here. (iv)~The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative. (v)~A causal LM's class representation depends on the extraction protocol as much as on the model. (vi)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work. (vii)~The reading divides by the diameter, so heavier tails in real clouds would lower $\delta_{\text{norm}}$ without any clustering. The cosine census mitigates this, and a percentile normalization is future work. % expR80_implanted_alignment.csv, expR79_synthetic_deep_poincare.csv, expR81_deep_per_backbone_summary.csv
 
 \paragraph{Limitations of scope.} (viii)~The census is class-centroid geometry on 6 datasets, and the sample-level reading covers 2 datasets, one image budget and one published setting. (ix)~The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label ViTs. (x)~Downstream scope is prototype-based metric tasks with modest gains.
 

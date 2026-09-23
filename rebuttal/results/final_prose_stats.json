@@ -1,9 +1,9 @@
 {
  "sections": {
   "Introduction": {
-   "sentences": 33,
-   "avg_words": 24.1,
-   "max_words": 87,
+   "sentences": 35,
+   "avg_words": 21.8,
+   "max_words": 50,
    "over30": 0
   },
   "Related Work": {
@@ -103,7 +103,7 @@
   },
   {
    "section": "Results",
-   "lead": "The depth test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.",
+   "lead": "The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.",
    "numbers": [
     "12"
    ]
@@ -226,7 +226,7 @@
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",
-   "lead": "Both readings predict the gain, and the depth verdict predicts none.",
+   "lead": "Both readings predict the gain, and the hierarchy verdict predicts none.",
    "numbers": []
   },
   {

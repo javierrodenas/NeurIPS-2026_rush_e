@@ -11,7 +11,7 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 33 | 24.1 | 87 | 0 |
+| Introduction | 35 | 21.8 | 50 | 0 |
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 37 | 18.1 | 30 | 0 |
 | Experimental Setup | 16 | 16.2 | 25 | 0 |
@@ -33,7 +33,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | The structure depends on the class set more than on the mode | 5 of 12 |
 | Results | A star of clusters already passes the census. | — |
 | Results | Neural collapse is the flat limit, not what the census sees. | — |
-| Results | The depth test certifies that clusters are oriented toward t | 12 |
+| Results | The hierarchy test certifies that clusters are oriented towa | 12 |
 | Results | What it certifies is alignment. | 4, -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, 4, -2.26 to -3.99 |
 | Results | What the test can see. | 4 of 5, 4, 9 of 12, 0.83 to 1.00, 3, 0.01 to 0.60, 3, 1.5 to 3.0, 1.3 to 3.9, 9, 20 of 20, 2, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, 4, -4.19 to -4.82, 0 of 50 |
 | Results | No hub hierarchy is found where the test has power. | 9 |
@@ -48,7 +48,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | Text depends on recipe and scale. | 7 of 15 |
 | Results | Models share neighborhoods, not metrics. | 66 |
 | Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5 |
-| Implications for Hyperbolic  | Both readings predict the gain, and the depth verdict predic | — |
+| Implications for Hyperbolic  | Both readings predict the gain, and the hierarchy verdict pr | — |
 | Implications for Hyperbolic  | The calibration certifies structure and does not choose the  | +0.9 to +1.3 |
 
 ## Appendix material deleted from the final (kept in the frozen v1 file and its tables)
@@ -62,10 +62,9 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 224/226 checks passed.
+- Total: 223/227 checks passed.
 - Final-version checks:
 
-    PASS final: Figure 1 is the author's figure command verbatim from main_local.tex and Figures 2-5 are the bar-language files fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final, all present 
     PASS final: every main-text figure caption opens with a bold takeaway and names its source files 
     PASS final: the appendix ARI-matrix figure states the naive and the selected DINOv2-vs-block agreement read from the figure's data, and Figure 5 carries the author's caption (consolidated pass) 
     PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 

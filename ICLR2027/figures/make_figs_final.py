@@ -107,7 +107,7 @@ for i, m in enumerate(M):
     z = an[m]; cert = z <= -2; bar(ax, i, z, fam_color(m), cert, width=0.76)
     if cert: ax.text(i, z / 2, f"{z:+.1f}".replace("-", "−").replace("+", ""), ha="center", va="center", rotation=90, fontsize=8, color="white", zorder=5)
 ax.set_xticks(range(len(M))); ax.set_xticklabels([NM[m] for m in M], rotation=60, ha="right"); ax.set_xlim(-0.7, len(M) - 0.3)
-ax.set_ylim(-4.6, 1.2); ax.set_yticks([-4, -2, 0]); ax.set_yticklabels(["−4", "−2", "0"]); ax.set_ylabel("depth test $z$")
+ax.set_ylim(-4.6, 1.2); ax.set_yticks([-4, -2, 0]); ax.set_yticklabels(["−4", "−2", "0"]); ax.set_ylabel("hierarchy test $z$")
 ax.set_title("(a) depth above the WordNet superclasses"); ax.tick_params(axis="x", length=0)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax = axes[1]
