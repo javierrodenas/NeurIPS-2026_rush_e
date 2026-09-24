@@ -34,6 +34,9 @@ by = {(r["model"], r["dataset"]): r for r in census}
 def save(fig, name):
     for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/f"{name}.pdf"); fig.savefig(o/f"{name}.png", dpi=200)
     print(name, "written")
+def hbar(ax, y, w, color, passes, height=0.72, zorder=3):
+    if passes: return ax.barh(y, w, height, color=color, edgecolor="white", linewidth=0.8, zorder=zorder)
+    return ax.barh(y, w, height, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
 def bar(ax, x, h, color, passes, width=0.38, zorder=3):
     if passes: return ax.bar(x, h, width, color=color, edgecolor="white", linewidth=0.8, zorder=zorder)
     return ax.bar(x, h, width, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
@@ -123,78 +126,58 @@ save(fig, "fig_instrument_final")
 print(f"instrument: genuine {sum(IN[m]['genuine_bh'] == 'True' for m in M)}/12, certified {sum(float(D74[m]['real_z']) <= -2 for m in M)}/12, power>=0.8 in {len(_covered)}/12")
 
 
-# ---------------- Figure 3 (author's brief, 2026-09-24): the premise where it is read. Panel (a) keeps the x axis of Figure 2;
-# panel (b) reads the published setting with their own estimator against a random cloud (expR85), filled by the calibrated verdict.
+# ---------------- Figure 3 (author's brief, 2026-09-24, late): the premise where it is read, in the language of Figure 4(a).
 SL = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_samplelevel_record.csv"))}
 K78 = {r["dataset"]: r for r in csv.DictReader(open(RES/"expR78_khrulkov_replication_summary.csv"))}
 K85 = list(csv.DictReader(open(RES/"expR85_khrulkov_sup.csv")))
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.2), gridspec_kw=dict(width_ratios=[1.85, 1.25]))
-# (a) the 24 sample-level cells: the raw reading and its matched random cloud, CIFAR-100 left and DTD right of each backbone
-ax = axes[0]
-for _ds, _dx, _mk in (("cifar100", -0.22, "o"), ("dtd", 0.22, "s")):
-    for _f, ms_, _ in FAMS:
-        ax.plot([XPOS[m] + _dx for m in ms_], [float(SL[(m, _ds)]["null_mean"]) for m in ms_], ls=DOT, color=GRAY, lw=0.9, zorder=2)
-        ax.plot([XPOS[m] + _dx for m in ms_], [float(SL[(m, _ds)]["delta_999"]) for m in ms_], "-", color=fam_color(ms_[0]), lw=1.1, zorder=3)
-    for m in M:
-        ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["null_mean"]), "D", color=GRAY, ms=3.0, mec="white", mew=0.5, zorder=4)
-        if SL[(m, _ds)]["genuine_bh"] == "True": ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["delta_999"]), _mk, color=fam_color(m), ms=4.0, mec="white", mew=0.5, zorder=5)
-        else: ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["delta_999"]), _mk, mfc="white", mec=fam_color(m), ms=4.0, mew=1.1, zorder=5)
-ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) per-image features, 24 cells", pad=3); famaxis(ax)
-# (b) the published setting: their value, our reproduction with their estimator and a random cloud read the same way
-ax = axes[1]
-DK = [("cifar10", "CIFAR-10"), ("cifar100", "CIFAR-100"), ("cub", "CUB-200"), ("miniimagenet", "Mini")]
-_col = fam_color("i21k_b")   # ResNet-34, a supervised backbone
-for _i, (_d, _lab) in enumerate(DK):
+fig = plt.figure(figsize=(5.5, 1.95))
+_gs3 = fig.add_gridspec(1, 2, width_ratios=[2.6, 3.0], wspace=0.34)
+# (a) the 24 sample-level cells as bars, two columns, the 12 backbones on y
+_ax3 = _gs3[0].subgridspec(1, 2, wspace=0.12).subplots(sharey=True)
+Y3 = np.arange(len(M))[::-1]
+for ax, (ds, lab) in zip(_ax3, (("cifar100", "CIFAR-100"), ("dtd", "DTD"))):
+    sd = np.median([float(SL[(m, ds)]["null_sd"]) for m in M])
+    ax.axvspan(-2*sd, 2*sd, color=BAND, alpha=BAND_ALPHA, lw=0, zorder=0); ax.axvline(0, color="k", lw=0.6, zorder=1)
+    for _i, m in enumerate(M): hbar(ax, Y3[_i], float(SL[(m, ds)]["excess"]), fam_color(m), SL[(m, ds)]["genuine_bh"] == "True")
+    ax.set_yticks(Y3); ax.set_yticklabels([NM[m] for m in M]); ax.set_ylim(-0.7, len(M) - 0.3)
+    ax.set_xlim(-0.030, 0.014); ax.set_xticks([-0.02, 0]); ax.set_xticklabels(["\u22120.02", "0"])
+    ax.set_title(lab, fontsize=7.2); ax.tick_params(axis="y", length=0)
+    for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+_ax3[0].annotate("(a) per-image features", xy=(0, 1), xytext=(0, 15), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)
+# (b) the published reading against a random cloud of the same shape, on their statistic
+axb3 = fig.add_subplot(_gs3[1])
+DK3 = [("cifar10", "CIFAR-10"), ("cifar100", "CIFAR-100"), ("cub", "CUB-200"), ("miniimagenet", "MiniImageNet")]
+_col3 = fam_color("i21k_b")   # ResNet-34, a supervised backbone
+YK = np.arange(len(DK3))[::-1]
+_inside = []
+for _i, (_d, _lab) in enumerate(DK3):
     _rows = [r for r in K85 if r["dataset"] == _d]
     _nul = sum(float(r["null_mean"]) for r in _rows) / len(_rows); _sd = sum(float(r["null_sd"]) for r in _rows) / len(_rows)
-    _ours = float(K78[_d]["ours_raw_mean"]); _below = float(K78[_d]["p_left_max"]) <= 0.05   # the calibrated verdict of the percentile reading
-    ax.plot([_i, _i], [_nul - 2 * _sd, _nul + 2 * _sd], "-", color=GRAY, lw=1.0, solid_capstyle="butt", zorder=2)
-    ax.plot(_i, _nul, "D", color=GRAY, ms=3.6, mec="white", mew=0.5, zorder=3)
-    ax.plot(_i, float(K78[_d]["theirs"]), "*", color="0.30", ms=7.5, mec="white", mew=0.5, zorder=4)
-    if _below: ax.plot(_i, _ours, "o", color=_col, ms=4.6, mec="white", mew=0.6, zorder=5)
-    else: ax.plot(_i, _ours, "o", mfc="white", mec=_col, ms=4.6, mew=1.2, zorder=5)
-    ax.annotate(f"{_ours:.2f}", (_i, _ours), xytext=(4.5, -0.5), textcoords="offset points", fontsize=6.3, color=_col, va="center", ha="left", zorder=6)
-ax.set_xlim(-0.55, 3.75); ax.set_xticks(range(4)); ax.set_xticklabels([l for _, l in DK], fontsize=5.6)
-ax.tick_params(axis="x", length=2, width=0.6, color="#BBBBBB", pad=1.5)
-ax.set_ylabel(r"$\delta_{\mathrm{rel}}$"); ax.set_title("(b) the published reading, calibrated", pad=3)
-for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.1, ms=4.0, mec="white", mew=0.5, label="CIFAR-100 (a), reproduction (b)"),
-      plt.Line2D([], [], marker="s", color="k", ls="-", lw=1.1, ms=4.0, mec="white", mew=0.5, label="DTD (a)"),
-      plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.0, mew=1.1, label="hollow: not genuine"),
-      plt.Line2D([], [], marker="D", color=GRAY, ls=DOT, lw=0.9, ms=3.4, mec="white", mew=0.5, label="random cloud, $\\pm2$ s.d. in (b)"),
-      plt.Line2D([], [], marker="*", color="0.30", ls="", ms=7.5, mec="white", mew=0.5, label="published value (b)")]
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.20))
-fig.subplots_adjust(left=0.075, right=0.995, top=0.90, bottom=0.42, wspace=0.26)
-_gen = sum(SL[(m, ds)]["genuine_bh"] == "True" for m in M for ds in ("cifar100", "dtd"))
-_ind = [d for d, _ in DK if float(K78[d]["p_left_max"]) > 0.05]
-json.dump({"sample_genuine": _gen, "indistinguishable": _ind, "published": {d: float(K78[d]["theirs"]) for d, _ in DK},
-           "ours_sup": {d: float(K78[d]["ours_raw_mean"]) for d, _ in DK}}, open(RES/"final_fig_premise.json", "w"), indent=1)
+    _ours = float(K78[_d]["ours_raw_mean"]); _in = _ours >= _nul - 2 * _sd; _inside.append(_in)
+    axb3.barh(YK[_i], 4 * _sd, 0.62, left=_nul - 2 * _sd, color=BAND, alpha=BAND_ALPHA, lw=0, zorder=0)
+    axb3.plot(float(K78[_d]["theirs"]), YK[_i] + 0.26, "*", color="0.30", ms=7.0, mec="white", mew=0.5, zorder=4)
+    if _in: axb3.plot(_ours, YK[_i] - 0.10, "o", mfc="white", mec=_col3, ms=4.6, mew=1.2, zorder=5)
+    else: axb3.plot(_ours, YK[_i] - 0.10, "o", color=_col3, ms=4.6, mec="white", mew=0.6, zorder=5)
+    axb3.annotate(f"{_ours:.2f}", (_ours, YK[_i] - 0.10), xytext=(5, -0.5), textcoords="offset points", fontsize=6.3, color=_col3, va="center", ha="left", zorder=6)
+axb3.set_yticks(YK); axb3.set_yticklabels([l for _, l in DK3], fontsize=6.5); axb3.set_ylim(-0.7, len(DK3) - 0.3)
+axb3.set_xlabel(r"$\delta_{\mathrm{rel}}$ on their statistic", labelpad=1); axb3.tick_params(axis="y", length=0)
+axb3.annotate("(b) the values of Khrulkov et al., calibrated", xy=(0, 1), xytext=(0, 15), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)
+for sp in ("top", "right"): axb3.spines[sp].set_visible(False)
+fig.text(0.215, 0.085, "excess over the matched null", ha="center", va="center", fontsize=8)
+hd = [Patch(color="k", label="genuine (a) / below the band (b)"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine (a)"),
+      plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.6, mew=1.2, label="inside the band (b)"),
+      plt.Line2D([], [], marker="*", color="0.30", ls="", ms=7.0, mec="white", mew=0.5, label="published value (b)"),
+      Patch(color=BAND, alpha=BAND_ALPHA, label="random cloud, $\\pm2$ s.d.")]
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.3, handletextpad=0.4, columnspacing=1.0, bbox_to_anchor=(0.5, -0.21))
+fig.subplots_adjust(left=0.115, right=0.995, top=0.87, bottom=0.235)
+_gen24 = sum(SL[(m, ds)]["genuine_bh"] == "True" for m in M for ds in ("cifar100", "dtd"))
+json.dump({"sample_genuine": _gen24, "n_cells": 24, "inside_band": [d for (d, _), _in in zip(DK3, _inside) if _in],
+           "published": {d: float(K78[d]["theirs"]) for d, _ in DK3}, "ours_sup": {d: float(K78[d]["ours_raw_mean"]) for d, _ in DK3}}, open(RES/"final_fig_premise.json", "w"), indent=1)
 save(fig, "fig_premise_final")
-print(f"premise: genuine {_gen}/24 sample-level cells, indistinguishable under calibration {_ind}")
+print(f"premise: {_gen24}/24 genuine; inside the band: {[d for (d, _), _in in zip(DK3, _inside) if _in]}")
 
-# ---------------- appendix figure: the same reading with opposite verdicts (panel (b) of the former Figure 2)
-fig, ax = plt.subplots(1, 1, figsize=(2.3, 1.75))
-D = json.load(open(RES/"final_fig2b.json")); assert D.get("mode") == "sample", D   # fifth review: same dataset, same reading, opposite verdict
-sl = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_samplelevel_record.csv"))}
-s_m, s_ds = D["sample_cell"]; c_m, c_ds = D["class_cell"]; cc = by[(c_m, c_ds)]; E = D["expected"]; ss = sl[(s_m, s_ds)]
-assert s_ds == c_ds and abs(float(ss["delta_999"]) - E["sample_delta"]) < 5e-4 and abs(float(ss["excess"]) - E["sample_excess"]) < 5e-4 and (ss["genuine_bh"] == "True") == E["sample_genuine"]
-assert abs(float(cc["delta"]) - E["class_delta"]) < 5e-4 and abs(float(cc["excess"]) - E["class_excess"]) < 5e-4 and (cc["genuine_bh"] == "True") == E["class_genuine"]
-cells = [(NM[s_m] + "\nimages", fam_color(s_m), float(sl[(s_m, s_ds)]["delta_999"]), float(sl[(s_m, s_ds)]["null_mean"])),
-         (NM[c_m] + "\ncentroids", fam_color(c_m), float(cc["delta"]), float(cc["null_mean"]))]
-for i, (lab, col, raw, null) in enumerate(cells):
-    ax.bar(i - 0.2, raw, 0.38, color=col, edgecolor="white", linewidth=0.8, zorder=3); ax.bar(i + 0.2, null, 0.38, color=LIGHT, edgecolor="white", linewidth=0.8, zorder=3)
-ax.set_xticks([0, 1]); ax.set_xticklabels([c[0] for c in cells], linespacing=1.1); ax.set_xlim(-0.7, 1.7)
-ax.set_ylim(0, 0.16); ax.set_yticks([0, 0.05, 0.10, 0.15]); ax.set_yticklabels(["0.00", "0.05", "0.10", "0.15"])
-ax.set_title("(b) " + DSL[s_ds] + ": same reading,\nopposite verdict", linespacing=1.1)
-for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-
-fig.subplots_adjust(left=0.20, right=0.97, top=0.84, bottom=0.26)
-save(fig, "fig_samereading_final")
 
 # ---------------- Figure 3: six narrow panels of twelve horizontal bars (excess), filled when genuine, hatched when not, the null band around zero
-def hbar(ax, y, w, color, passes, height=0.72, zorder=3):
-    if passes: return ax.barh(y, w, height, color=color, edgecolor="white", linewidth=0.8, zorder=zorder)
-    return ax.barh(y, w, height, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
 fig = plt.figure(figsize=(5.5, 2.2))
 _gs = fig.add_gridspec(1, 2, width_ratios=[4.25, 1.6], wspace=0.44)
 axg = _gs[0].subgridspec(1, 6, wspace=0.12).subplots(sharey=True)

@@ -1,7 +1,9 @@
 {
  "sample_genuine": 10,
- "indistinguishable": [
+ "n_cells": 24,
+ "inside_band": [
   "cifar10",
+  "cifar100",
   "cub"
  ],
  "published": {

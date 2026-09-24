@@ -1481,7 +1481,7 @@ def final_checks():
         and "\\end{equation}\nwhere the spread is taken over star seeds and null replicates, and a cloud is certified" in bf
         and "unbreakable" in TF and "breakable" not in TF.replace("unbreakable", "") and TF.count("\\begin{defbox}") == 8
         and "metric-selection heuristic" not in TF and "involves no human subjects and no personal data, and proposes an analysis methodology." in stm
-        and "two of four are indistinguishable from it, on their statistic, the supremum; filled and hollow dots follow the reading, which gives the same verdict." in bf
+        and "a dot inside the band is what chance gives, as in CIFAR-10 and CUB-200." in bf
         and bf.count("planted") >= 8,
         f"planted in the main text {bf.count('planted')}")
     # ---- main text without tables (author's brief, 2026-09-24): Table 2 and Table 1 move to the appendix, a figure takes their place
@@ -1490,13 +1490,14 @@ def final_checks():
         "\\begin{table}" not in bf and "\\input{tab_" not in bf and "\\begin{tabular}" not in bf
         and "\\input{tab_census_final}" not in TF and "\\input{tab_khrulkov_final}" in TF[TF.index("\\appendix"):] and (FD/"tab_q01_census_final.tex").read_text().count("\\label{tab:census}") == 1
         and "\\includegraphics[width=\\linewidth]{figures/fig_premise_final.pdf}" in bf and (TEX/"figures/fig_premise_final.pdf").exists()
-        and "\\caption{\\textbf{The premise where it is read.} (a) Per-image features: raw reading and a random cloud of the same shape; filled dots are genuine. (b) The published values, their reproduction and the random cloud: two of four are indistinguishable from it, on their statistic, the supremum; filled and hollow dots follow the reading, which gives the same verdict." in bf
-        and _prem["sample_genuine"] == int(_sl.genuine_bh.sum()) == 10 and _prem["indistinguishable"] == sorted(S78.index[S78.p_left_max > 0.05]) == ["cifar10", "cub"]
+        and f"\\caption{{\\textbf{{The premise where it is read.}} (a) Excess of the reading on per-image features; filled: genuine, {_prem['sample_genuine']} of 24 cells. (b) The values reported by \\citet{{Khrulkov_2020_CVPR}}, our reproduction with their estimator, and the random cloud of the same shape: a dot inside the band is what chance gives, as in CIFAR-10 and CUB-200." in bf
+        and _prem["sample_genuine"] == int(_sl.genuine_bh.sum()) == 10 and _prem["n_cells"] == 24 and _prem["inside_band"] == ["cifar10", "cifar100", "cub"]
         and all(abs(_prem["ours_sup"][d] - float(S78.loc[d, "ours_raw_mean"])) < 1e-9 and abs(_prem["published"][d] - float(S78.loc[d, "theirs"])) < 1e-9 for d in _prem["published"])
+        and '_ax3[0].annotate("(a) per-image features"' in FIGSRC and 'axb3.annotate("(b) the values of Khrulkov et al., calibrated"' in FIGSRC
         and 'ax.set_title("(a) raw reading, random ball and random cloud", pad=3)' in FIGSRC
         and "Figure~\\ref{fig:premise}a and Table~\\ref{tab:q3-sample} give the 24 cells." in bf
         and "2 of them are indistinguishable from a random cloud (Figure~\\ref{fig:premise})." in bf,
-        f"sample-level genuine {int(_sl.genuine_bh.sum())}/24; indistinguishable {_prem['indistinguishable']}")
+        f"sample-level genuine {int(_sl.genuine_bh.sum())}/24; inside the band {_prem['inside_band']}")
     # ---- template compliance and the page-9 recovery (author's brief, 2026-09-24): the preamble keeps no spacing override of the
     # style's; S7 keeps four limitations with the full list in the appendix; the moved paragraphs live in the appendix verbatim
     _pre_f = TF[:TF.index("\\begin{document}")]; _sty_f = (TEX/"iclr2027_conference.sty").read_text()

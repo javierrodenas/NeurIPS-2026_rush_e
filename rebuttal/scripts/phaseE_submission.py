@@ -165,6 +165,7 @@ F['SAMEREAD'] = f"${float(_c2.delta):.3f}$"
 # ---- main-text completeness (author's brief, 2026-09-24, night): the four sentences carry their numbers, each re-derived here
 _sl62 = pd.read_csv(R + 'expR62_samplelevel_record.csv'); assert len(_sl62) == 24
 F['SL_NOTGEN'] = str(int((~_sl62.genuine_bh).sum())); assert F['SL_NOTGEN'] == '14', F['SL_NOTGEN']
+F['SL_GEN'] = str(int(_sl62.genuine_bh.sum())); assert F['SL_GEN'] == '10', F['SL_GEN']
 _a3 = pd.read_csv(R + 'exp3_alignment.csv').set_index('model').spearman_wn
 def _wnrange(pref, n):
     ms = [m for m in _a3.index if m.startswith(pref)]; assert len(ms) == n, (pref, ms)

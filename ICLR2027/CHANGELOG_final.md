@@ -3162,3 +3162,20 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Como dejabas la condición explícita ("otherwise leave as is"), **se quedan en 5.6 pt**. Los quince nombres completos caben sin
   solaparse y el texto principal sigue acabando justo al pie de la página 9.
 - Sin cambios en el envío: 29 páginas, apéndice de 14, sweep 239/239.
+## 109. Figura 3 redibujada en el lenguaje de la 4(a) (2026-09-24, brief del autor). Misma altura.
+
+- **(a) "per-image features"**: dos columnas, CIFAR-100 y DTD, con los 12 backbones y su nombre completo en el eje y agrupados
+  por familia; una barra horizontal por celda con su exceso bajo la lectura, llena cuando es genuina y rayada si no, y la banda
+  de $\pm2$ desviaciones del nulo detrás. Son 10 de 24 genuinas.
+- **(b) "the values of Khrulkov et al., calibrated"**: una fila por conjunto (CIFAR-10, CIFAR-100, CUB-200, MiniImageNet), eje
+  horizontal $\delta_{\text{rel}}$ en su estadístico; banda gris azulada para la nube aleatoria (media $\pm2$ s.d.), punto para
+  nuestra reproducción con su valor impreso, lleno cuando cae por debajo de la banda y hueco cuando cae dentro, y estrella para
+  el valor publicado, desplazada en vertical para que nunca se solapen.
+- **Un detalle que te señalo**: con la banda de $\pm2$ s.d. sobre su estadístico, **tres** puntos caen dentro (CIFAR-10,
+  CIFAR-100 y CUB-200) y sólo MiniImageNet queda por debajo. Tu pie dice "as in CIFAR-10 and CUB-200", que leo como ejemplos, no
+  como lista cerrada, así que va literal. Es el caso que §5.1 describe: bajo su estadístico el veredicto de CIFAR-100 cambia de
+  ensayo en ensayo, y es la lectura del percentil la que lo pone por debajo.
+- Pie: el tuyo, el segundo, con la cita a \citet{Khrulkov_2020_CVPR}. El "10 of 24" es un relleno nuevo contado del fichero.
+- De paso quedaba en el script el bloque de la figura "same reading" que ya no se usa: fuera.
+- Envío de 29 páginas, texto principal hasta la página 9, apéndice de 14. Sweep **239/239**, rebuttal reconstruido (61/61),
+  qa_pages regeneradas.
