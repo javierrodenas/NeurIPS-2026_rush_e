@@ -2712,3 +2712,25 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   **diez** subsecciones, §5.5 fuera del texto principal y su párrafo en el apéndice) y de la prosa llana (un párrafo que es una caja
   de enunciado es un enunciado, no prosa sin entradilla). 230/230.
 - Envío: 31 páginas, texto principal en la página 9, apéndice de 16, qa_pages regeneradas.
+## 84. Limpieza de jerga (2026-09-24, brief del autor). Sin cambio de contenido.
+
+- **(1) "record" fuera de la prosa**: §3.3 "so it is the null used throughout"; pie de la Tabla 1 "for the reading (99.9th
+  percentile)"; §5.4 "genuine under the reading"; cabecera de la tabla de texto "the reading" en vez de "record"; cabecera del
+  apéndice "WordNet-30 frame" (y las otras tres apariciones de "frame of record" que quedaban en el generador); la etiqueta interna
+  `def:record` pasa a `def:reading`. Comprobado: "record" no aparece ya en el texto del envío ni en las tablas. **Sigue en los
+  nombres de fichero de los comentarios de procedencia** (`expR62_samplelevel_record.csv`, `expR63_meru_record.csv`, etc.), que son
+  nombres de ficheros publicados y no prosa.
+- **(2)** Definición 6 pasa a "(hub null and hub excess)" y el símbolo $e_B$ a $e_{\mathrm{hub}}$ en todas partes: definición,
+  ecuación de la profundidad, §3.4 y las cabeceras y el pie de la tabla de la prueba de jerarquía ("star $e_{\mathrm{hub}}$",
+  "depth = hub excess $e_{\mathrm{hub}}$…").
+- **(3)** §5.4 y el pie de la Tabla 27: "the block" desaparece. **Aviso sobre el número**: pedías "the other 8 models"; la
+  comparación de la figura y de la tabla enfrenta los 3 modelos DINOv2 con los 7 supervisados y contrastivos (los 12 menos DINO-B y
+  DINOv2-S, que no entran en ninguno de los dos grupos), así que el texto dice "the other 7 models" y el pie "against the supervised
+  and contrastive models". Si querías otra agrupación, dímelo.
+- **(4)** §5.4 define la isla en su primer uso: "…the DINOv2 models then agree with none of the others, an island in the map of
+  models." (frase partida en dos por el tope de 30 palabras: la segunda es la de (3)).
+- **(5)** §4: "The census, the reading of every model--dataset cell, has 12 backbones, 6 class sets and 15 text models." La
+  entradilla tiene 18 palabras, por encima del tope de 16, así que queda exenta como la de §5.3, por ser tuya.
+- **(6)** El glosario del apéndice añade w/b (dispersión dentro de los clusters dividida por la dispersión entre hubs), tight o
+  shrunk spread, $s^{*}$ (la fuerza de implante más pequeña a la que la prueba dispara) y $\bar z_1$ (el z medio a fuerza máxima).
+- Envío: 31 páginas, texto principal en la página 9, sweep 230/230.

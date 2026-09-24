@@ -23,7 +23,7 @@ For a quadruple $(w,x,y,z)$ with the pairing sums of Eq.~\ref{eq:pairings} sorte
 %%ESTIMATION%%
 
 \begin{definition}[reading]
-\label{def:record}
+\label{def:reading}
 $\delta_{\text{norm}}$ of Eq.~\ref{eq:deltanorm}, with $\hat\delta_{99.9}$ computed over half a million sampled quadruples per seed and averaged over 10 seeds, is the statistic used throughout; we call it the reading.
 \end{definition}
 
@@ -42,7 +42,7 @@ Let $d_{\min}$ and $d_{\max}$ be the smallest and the largest pairwise distance 
 A null replicate is a cloud with the real shape and no structure. Let $X=U\Sigma V^{\top}$ be the singular value decomposition of the centered cloud; the replicate is $X'=Q\Sigma V^{\top}$ with $Q$ the orthogonal factor of a column-centered Gaussian matrix, orthogonal to the all-ones vector and Haar-distributed on the centered subspace, so $X'$ has exactly the centered singular values of $X$ and structureless coefficients.
 \end{definition}
 
-\paragraph{The null is a cloud with the real shape and no structure.} Of the two constructions compared, Gaussian coefficients reproduce the spectrum only on average and inflate the excess of low-rank clouds. The centered Haar construction reproduces the centered spectrum exactly, so it is the record. The uncentered and the Gaussian readings are reported beside it (Table~\ref{tab:q1-census-b}).
+\paragraph{The null is a cloud with the real shape and no structure.} Of the two constructions compared, Gaussian coefficients reproduce the spectrum only on average and inflate the excess of low-rank clouds. The centered Haar construction reproduces the centered spectrum exactly, so it is the null used throughout. The uncentered and the Gaussian readings are reported beside it (Table~\ref{tab:q1-census-b}).
 
 \begin{definition}[excess]
 \label{def:excess}
@@ -84,9 +84,9 @@ and the word is used in this sense only.
 
 \paragraph{Why a second test.} A genuine excess can come from clusters alone, so a second test asks whether the clusters are themselves arranged hierarchically. It needs three constructions.
 
-\begin{definition}[hub null and excess B]
+\begin{definition}[hub null and hub excess]
 \label{def:hubnull}
-Given a grouping of classes into superclasses, which we call the frame, assigning each centroid $x_i$ to a cluster $k(i)$ with hub $h_{k(i)}$, the cluster mean, write $x_i=h_{k(i)}+o_i$. The hub null keeps every offset $o_i$ and replaces the hubs by a Haar resample with their spectrum, $x'_i=h'_{k(i)}+o_i$, and the excess of Eq.~\ref{eq:excess} against this null, $e_B$, measures structure above the clusters of the frame only.
+Given a grouping of classes into superclasses, which we call the frame, assigning each centroid $x_i$ to a cluster $k(i)$ with hub $h_{k(i)}$, the cluster mean, write $x_i=h_{k(i)}+o_i$. The hub null keeps every offset $o_i$ and replaces the hubs by a Haar resample with their spectrum, $x'_i=h'_{k(i)}+o_i$, and the excess of Eq.~\ref{eq:excess} against this null, $e_{\mathrm{hub}}$, measures structure above the clusters of the frame only.
 \end{definition}
 
 \begin{definition}[matched star]
@@ -99,9 +99,9 @@ The matched star of a cloud keeps the real clusters, each as a Haar sample with 
 The decoupling control keeps the hubs of the frame and rotates each cluster's offsets by an independent Haar rotation. A verdict that survives the decoupling is carried by the arrangement of the hubs; one that does not is carried by the orientation of the clusters relative to their hubs, which we call alignment.
 \end{definition}
 
-\paragraph{The hierarchy test compares the real cloud with its matched star.} With $e_B$ read on the real cloud and on its matched star, the depth statistic and its standardized form are
+\paragraph{The hierarchy test compares the real cloud with its matched star.} With $e_{\mathrm{hub}}$ read on the real cloud and on its matched star, the depth statistic and its standardized form are
 \begin{equation}
-\mathrm{depth}=e_B(X)-e_B(X_{\mathrm{star}}),\qquad z=\mathrm{depth}\,/\,\mathrm{s.d.},
+\mathrm{depth}=e_{\mathrm{hub}}(X)-e_{\mathrm{hub}}(X_{\mathrm{star}}),\qquad z=\mathrm{depth}\,/\,\mathrm{s.d.},
 \label{eq:depth}
 \end{equation}
 The spread is taken over star seeds and null replicates, and a cloud is certified against its matched star when $z\le-2$. The power of the test is the fraction of implanted hierarchies it detects, and its false-alarm rate is the fraction of flat controls that fire. Both are measured on real clouds in Section~\ref{sec:f-depth}.
@@ -119,7 +119,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \section{Experimental Setup}
 \label{sec:f-setup}
 
-\paragraph{The census has 12 backbones, 6 class sets and 15 text models.} The vision backbones are 4 supervised ViTs \citep{dosovitskiy2021an} trained on ImageNet-21k \citep{imagenet}, DINO-B \citep{dinov1}, 4 DINOv2 sizes \citep{dinov2}, CLIP-B, CLIP-L \citep{CLIP} and SigLIP-B \citep{siglip}. The class sets are ImageNet with 1000 classes and CIFAR-100 \citep{cifar10} with 100 classes, which carry a real hierarchy, and CIFAR-10 with 10 classes and DTD \citep{dtd} with 47 classes. The flat sets are FMNIST \citep{fashion} and MNIST \citep{mnist}, 10 classes each. The text models read the thousand ImageNet class names: 4 GPT-2 sizes \citep{gpt2}, 3 Pythia sizes \citep{pythia}, OLMo-1B \citep{olmo} and 7 sentence embedders (Table~\ref{tab:q14-panel}).
+\paragraph{The census, the reading of every model--dataset cell, has 12 backbones, 6 class sets and 15 text models.} The vision backbones are 4 supervised ViTs \citep{dosovitskiy2021an} trained on ImageNet-21k \citep{imagenet}, DINO-B \citep{dinov1}, 4 DINOv2 sizes \citep{dinov2}, CLIP-B, CLIP-L \citep{CLIP} and SigLIP-B \citep{siglip}. The class sets are ImageNet with 1000 classes and CIFAR-100 \citep{cifar10} with 100 classes, which carry a real hierarchy, and CIFAR-10 with 10 classes and DTD \citep{dtd} with 47 classes. The flat sets are FMNIST \citep{fashion} and MNIST \citep{mnist}, 10 classes each. The text models read the thousand ImageNet class names: 4 GPT-2 sizes \citep{gpt2}, 3 Pythia sizes \citep{pythia}, OLMo-1B \citep{olmo} and 7 sentence embedders (Table~\ref{tab:q14-panel}).
 
 \paragraph{Four controls test the alternatives.} Two self-supervised ResNets \citep{resnet} read the vision census. DeiT-B \citep{deit} and the augreg ViT-B \citep{augreg}, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the alignment. MERU and its Euclidean CLIP twin \citep{desai2023meru} test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
 
@@ -198,7 +198,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \label{fig:treemap}
 \end{figure}
 
-\paragraph{The naive map manufactures an island.} Figure~\ref{fig:treemap} compares the trees of the 12 models in three ways. Panel (a) compares them as usually done, (b) under the criterion of Section~\ref{sec:f-treemap} against the within-model ceiling, and (c) by whether classes are grouped by direction or by distance. Compared with Euclidean distances and average linkage, the DINOv2 family agrees with the supervised and contrastive block far less than the block agrees with itself. The cause is chaining: DINOv2's Euclidean dendrograms put almost every class in one cluster, forcing the index to zero. % exp23_treemap_controls.npz, exp23_config_diagnostics.json
+\paragraph{The naive map manufactures an island.} Figure~\ref{fig:treemap} compares the trees of the 12 models in three ways. Panel (a) compares them as usually done, (b) under the criterion of Section~\ref{sec:f-treemap} against the within-model ceiling, and (c) by whether classes are grouped by direction or by distance. Compared with Euclidean distances and average linkage, the DINOv2 models then agree with none of the others, an island in the map of models. They agree with the other 7 models far less than those models agree among themselves. The cause is chaining: DINOv2's Euclidean dendrograms put almost every class in one cluster, forcing the index to zero. % exp23_treemap_controls.npz, exp23_config_diagnostics.json
 
 \paragraph{Controlled, the trees share their topology, not their metric.} Across models, triplet agreement reaches {{TRIP_BIG}}, against {{CEIL_TRIP}} for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach about half their within-model ceiling (Tables~\ref{tab:q6-treemap-b} and \ref{tab:q6-treemap-c}). % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling_summary.csv
 
@@ -208,7 +208,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 
 \paragraph{The recovery is not WordNet circularity.} On DBpedia Classes \citep{dbpedia}, an ontology independent of WordNet, the three text embedders read a genuine excess and recover the true partition under every configuration. On HierarCaps, a four-level caption hierarchy with no class set \citep{alper2024hierarcaps}, the encoders resolve sibling triplets far above chance. Tables~\ref{tab:q7-wordnet-c} and \ref{tab:q7-wordnet-d} give both. % expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
 
-\paragraph{Text depends on recipe and scale.} On the ImageNet class names, {{TEXT_GEN}} of 15 text models are genuine under the record. GPT-2 S is genuine at the margin, GPT-2 M is not, and GPT-2 L and XL are genuine under every reading, as are Pythia at every scale and OLMo-1B. Table~\ref{tab:q2-text} gives the census. % expR53_text_haar_p999_200.csv, expR53_text_haar_sup_200.csv, expR57_text_cosine_haar_p999_200.csv
+\paragraph{Text depends on recipe and scale.} On the ImageNet class names, {{TEXT_GEN}} of 15 text models are genuine under the reading. GPT-2 S is genuine at the margin, GPT-2 M is not, and GPT-2 L and XL are genuine under every reading, as are Pythia at every scale and OLMo-1B. Table~\ref{tab:q2-text} gives the census. % expR53_text_haar_p999_200.csv, expR53_text_haar_sup_200.csv, expR57_text_cosine_haar_p999_200.csv
 
 \subsection{What is shared is local}
 \label{sec:f-local}

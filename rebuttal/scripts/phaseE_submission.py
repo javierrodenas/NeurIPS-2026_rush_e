@@ -319,6 +319,8 @@ Each table then carries its own caption: the answer in bold, then what the colum
 \item \emph{$z$}: the depth statistic, the real excess minus the star's, divided by the combined spread. A cloud is certified when $z\le-2$ under both stars.
 \item \emph{decoupled}: the real hubs kept and each cluster's offsets rotated independently, which removes the orientation of clusters and keeps the arrangement of hubs.
 \item \emph{power}: the fraction of planted hierarchies the test detects. \emph{false alarms}: the fraction of flat controls that fire.
+\item \emph{w/b}: the within-cluster spread of a cloud divided by the spread between its hubs, which is how quiet a cloud is. \emph{tight} or \emph{shrunk spread}: the within-cluster spread shrunk into the range the synthetic sweep covers.
+\item \emph{$s^{*}$}: the smallest implant strength at which the test fires. \emph{$\bar z_1$}: the mean $z$ at full implant strength.
 \end{itemize}
 
 """
@@ -462,7 +464,7 @@ PANELCAP = {
  ("tab_q05_power", "e"): r"\textbf{The power follows the backbone.} The same deep hierarchy built with each backbone's spectrum and ratio: the intact and decoupled power per backbone, and the within-between ratio it sits at.",
  ("tab_q05_power", "f"): r"\textbf{The balanced frame raises no false alarm.} The flat control of the deep experiment read on the balanced grouping: the intact and decoupled firing counts.",
  ("tab_q06_treemap", "a"): r"\textbf{The island belongs to the naive cut, not to the models.} Per configuration of metric and linkage: the degeneracy diagnostics, the cophenetic fidelity that selects one, and the mean pairwise agreement at the cut.",
- ("tab_q06_treemap", "b"): r"\textbf{The self-supervised models sit apart on distances, not on topology.} The three agreement measures for DINOv2 against the supervised and contrastive block, each written as against the block over within the block.",
+ ("tab_q06_treemap", "b"): r"\textbf{The self-supervised models sit apart on distances, not on topology.} The three agreement measures for DINOv2 against the supervised and contrastive models, each written as against those models over within them.",
  ("tab_q06_treemap", "c"): r"\textbf{Two resamples of one model set the ceiling any pair of models can reach.} Per backbone: the three measures between pairs of the 30 bootstrap centroid sets, with their mean, spread and minimum.",
  ("tab_q07_wordnet", "a"): r"\textbf{Agreement with the human taxonomy follows supervision and recipe.} Per backbone: the correlation between inter-centroid and WordNet distances on ImageNet, with the superclass recovery beside it.",
  ("tab_q07_wordnet", "b"): r"\textbf{Every family recovers the CIFAR-100 superclasses.} Per backbone and configuration: the agreement of the 20-cluster cut with the coarse labels, with the degenerate configurations marked.",

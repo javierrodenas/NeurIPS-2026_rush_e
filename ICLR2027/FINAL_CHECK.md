@@ -13,13 +13,13 @@
 |---|---|---|---|---|
 | Introduction | 35 | 21.8 | 50 | 0 |
 | Related Work | 7 | 28.6 | 60 | 0 |
-| Methodology | 37 | 18.1 | 30 | 0 |
+| Methodology | 37 | 18.2 | 30 | 0 |
 | Experimental Setup | 17 | 17.3 | 30 | 0 |
-| Results | 83 | 17.4 | 30 | 0 |
+| Results | 84 | 17.3 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 8 | 16.9 | 24 | 0 |
 | Conclusion and Limitations | 21 | 18.8 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 149 sentences, mean 17.6 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 150 sentences, mean 17.6 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -40,7 +40,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | The certified set depends on the frame. | 38 of 50, 7 of 10 |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
 | Results | MERU's objective does not create hub structure. | 95, 0.29 |
-| Results | The naive map manufactures an island. | 12 |
+| Results | The naive map manufactures an island. | 12, 7 |
 | Results | Controlled, the trees share their topology, not their metric | 0.77, 0.90, 0.33 |
 | Results | The self-supervised tree is angular. | — |
 | Results | Agreement with WordNet follows supervision and recipe. | — |
