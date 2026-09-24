@@ -2734,3 +2734,25 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **(6)** El glosario del apéndice añade w/b (dispersión dentro de los clusters dividida por la dispersión entre hubs), tight o
   shrunk spread, $s^{*}$ (la fuerza de implante más pequeña a la que la prueba dispara) y $\bar z_1$ (el z medio a fuerza máxima).
 - Envío: 31 páginas, texto principal en la página 9, sweep 230/230.
+## 85. Estilo de las figuras (2026-09-24, brief del autor). Sin cambio de datos ni de contenido.
+
+- **(1) Paleta**: `figures/palette.py` pasa a viridis discreto, supervisados #3B528B, auto-supervisados #21918C, contrastivos
+  #5EC962, modelos de texto #440154 (un solo color para LMs causales y embedders, que en las figuras del envío no aparecen: viven en
+  las tablas). Nulos, estrellas y controles siguen en gris #7F7F7F. Bandas y resaltes en #FDE725 al 35 %: la banda de dos
+  desviaciones de la Figura 3 y el techo dentro del modelo de la Figura 5(b), cada una junto a la línea que lleva la misma
+  información (el cero y la marca de la media), nunca como único portador.
+- **(2) Ejes**: fondo #F4F6F8 con rejilla blanca sólida de 1 pt, marco superior y derecho ocultos, los otros en #BBBBBB.
+- **(3) Marcas**: puntos con borde blanco de 0.8 pt y algo más grandes (4→5, y 4→4.5 los huecos); barras con borde blanco. Las
+  barras rayadas conservan el borde del color de la familia: es lo que dice "no genuino" y "no certificado".
+- **(4) Leyendas**: caja blanca redondeada con sombra suave (`frameon=True, fancybox=True, shadow=True, framealpha=0.95,
+  facecolor='white', edgecolor='#DDDDDD'`) en las seis leyendas.
+- **(5) Tipografía**: sans-serif con la lista TeX Gyre Heros, Helvetica, Nimbus Sans, Liberation Sans, DejaVu Sans; **en esta máquina
+  no hay ni TeX Gyre Heros ni Helvetica, así que se usa Nimbus Sans**, el clon de Helvetica de URW, con las mismas métricas; en tu
+  máquina tomará la primera que exista. Etiquetas de eje 9 pt, ticks 8 pt, leyendas 8 pt.
+- **Dos ajustes que exigió el tamaño nuevo**: el conjunto matemático `stixsans` se comía los dígitos dentro de `$...$` (la leyenda de
+  la Figura 4 decía "power ≥ ." en vez de "power ≥ 0.8"), así que las matemáticas usan `dejavusans`; y con ticks de 8 pt chocaban la
+  etiqueta intermedia del eje x de la Figura 3 (queda la rejilla, se quita el "−0.06") y los títulos de los paneles (b) y (c) de la
+  Figura 5, así que (b) pasa a "topology, chance and ceiling" (el literal del sweep va detrás).
+- Revisado en qa_pages a 100 dpi y en escala de grises: los cuatro colores se separan también en gris (0.15, 0.28, 0.5, 0.68 de
+  luminancia) y el relleno frente al rayado distingue las verdictos sin depender del color.
+- Envío: 31 páginas, texto principal en la página 9, sweep 230/230.
