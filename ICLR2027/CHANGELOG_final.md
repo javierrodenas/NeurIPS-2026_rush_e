@@ -3154,3 +3154,11 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - De paso: el script de figuras tenía **duplicado** el bloque de la Figura 3 (resto del borrado de la figura "same reading");
   queda una sola copia.
 - Envío de 29 páginas, apéndice de 14. Sweep **239/239**, rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 108. Etiquetas de la Figura 4(b): se quedan en 5.6 pt (2026-09-24, nota del autor).
+
+- Probado a 6.5 pt como pedías, de dos maneras: subiendo la figura de 2.2 a 2.45 in y, después, sin subirla, recuperando margen
+  por abajo (leyenda más baja y etiqueta de eje más pegada). En los dos casos el texto principal se pasa de la página 9: con la
+  figura más alta, la limitación (viii) entera cae en la 10; con el margen recuperado, la cola de la (vii) y la (viii).
+- Como dejabas la condición explícita ("otherwise leave as is"), **se quedan en 5.6 pt**. Los quince nombres completos caben sin
+  solaparse y el texto principal sigue acabando justo al pie de la página 9.
+- Sin cambios en el envío: 29 páginas, apéndice de 14, sweep 239/239.
