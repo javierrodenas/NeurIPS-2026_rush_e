@@ -43,20 +43,22 @@ def bar(ax, x, h, color, passes, width=0.38, zorder=3):
 # the 12 ImageNet backbones grouped by family, in size order, joined within a family by a line (Groger et al. 2026, Fig. 5).
 FAMS = [("sup.", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"]), ("SSL", ["dinov1_b", "dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"]),
         ("contr.", ["clip_b", "clip_l", "siglip_b"])]   # the family tags of Table 2
-XPOS, XFAM, _x = {}, [], 0.0
+XPOS, XFAM, XSEP, _x = {}, [], [], 0.0
 for _fname, _ms in FAMS:
     _start = _x
     for _m in _ms: XPOS[_m] = _x; _x += 1.0
-    XFAM.append((_fname, (_start + _x - 1.0) / 2)); _x += 0.9
-XLIM = (-0.8, _x - 0.9 + 0.8 - 1.0)
+    XFAM.append((_fname, (_start + _x - 1.0) / 2)); XSEP.append(_x + 0.5); _x += 2.0
+XLIM = (-0.9, _x - 2.0 + 0.9); XSEP = XSEP[:-1]   # no separator after the last family
 SHORT = {"i21k_t": "T", "i21k_s": "S", "i21k_b": "B", "i21k_l": "L", "dinov1_b": "v1", "dinov2_s": "S", "dinov2_b": "B", "dinov2_l": "L", "dinov2_g": "G",
          "clip_b": "B", "clip_l": "L", "siglip_b": "Sig"}   # the size inside the family (v1: DINO-B, Sig: SigLIP-B); the family is named under the axis
 def famaxis(ax, names=True):
     """The shared x axis: model names as ticks and the family name under the group."""
-    ax.set_xlim(*XLIM); ax.set_xticks([XPOS[m] for m in M])
-    ax.set_xticklabels([SHORT[m] for m in M] if names else [], rotation=0, fontsize=7)
-    ax.tick_params(axis="x", length=0, pad=1)
-    for fname, xc in XFAM: ax.annotate(fname, xy=(xc, 0), xytext=(0, -17), xycoords=("data", "axes fraction"), textcoords="offset points", ha="center", va="top", fontsize=7.2, color="0.25")
+    ax.set_xlim(*XLIM)
+    for xs_ in XSEP: ax.axvline(xs_, color="#D5D9DE", lw=0.8, zorder=0)
+    ax.set_xticks([XPOS[m] for m in M])
+    ax.set_xticklabels([SHORT[m] for m in M] if names else [], rotation=90, fontsize=7)   # rotated: upright, the 3-character labels are wider than their slot
+    ax.tick_params(axis="x", length=2, width=0.6, color="#BBBBBB", pad=1.5)   # a tick under each size label so they read apart
+    for fname, xc in XFAM: ax.annotate(fname, xy=(xc, 0), xytext=(0, -26), xycoords=("data", "axes fraction"), textcoords="offset points", ha="center", va="top", fontsize=7, color="0.25")
     for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 def famline(ax, ys, lw=0.9, alpha=0.85):
     for fname, ms_ in FAMS:
@@ -76,8 +78,8 @@ ax = axes[1]
 for m in M:
     r = IN[m]; e = float(r["excess"]); sd = float(r["null_sd"])
     bar(ax, XPOS[m], e, fam_color(m), r["genuine_bh"] == "True", width=0.72)
-    ax.plot([XPOS[m], XPOS[m]], [-2 * sd, 2 * sd], "-", color="0.35", lw=0.8, solid_capstyle="butt", zorder=5)
-ax.axhline(0, color="0.35", lw=0.6, zorder=1)
+    ax.plot([XPOS[m] - 0.48, XPOS[m] + 0.48], [-2 * sd, -2 * sd], "-", color="0.25", lw=1.1, solid_capstyle="butt", zorder=5)
+ax.axhline(0, color="0.35", lw=0.6, zorder=1); ax.set_ylim(top=0.0028)
 ax.set_ylabel("excess"); ax.set_title("(b) excess", pad=3); famaxis(ax)
 # (c) the hierarchy test, intact and with the cluster orientations randomized
 ax = axes[2]; famline(ax, {m: float(D74[m]["real_z"]) for m in M})
@@ -93,13 +95,13 @@ for m in M:
 ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=2)
 ax.set_ylim(0, 1.1); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"])
 ax.set_ylabel("power"); ax.set_title("(d) power for a\nplanted hierarchy", linespacing=1.15, pad=3); famaxis(ax)
-hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.8, label="reading of the model"),
-      plt.Line2D([], [], marker="D", color=GRAY, ls="", ms=3.4, mec="white", mew=0.7, label="random cloud / orientations randomized"),
-      Patch(color="k", label="genuine, certified or power $\\geq0.8$"),
-      Patch(facecolor="white", edgecolor="k", hatch="////", label="not"),
-      plt.Line2D([], [], color="0.35", lw=0.8, label="$\\pm$2 null s.d.")]
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.3, handletextpad=0.4, columnspacing=1.0, bbox_to_anchor=(0.5, -0.14))
-fig.subplots_adjust(left=0.075, right=0.995, top=0.90, bottom=0.235, wspace=0.62)
+hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.8, label="model (raw reading, intact test)"),
+      plt.Line2D([], [], marker="D", color=GRAY, ls="", ms=3.4, mec="white", mew=0.7, label="random cloud of the same shape / orientations randomized"),
+      Patch(color="k", label="filled: genuine or $\\geq0.8$ power"),
+      Patch(facecolor="white", edgecolor="k", hatch="////", label="hatched: not genuine or blind"),
+      plt.Line2D([], [], color="k", lw=0.8, ls="--", label="dashed: threshold")]
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=2, handlelength=1.4, handletextpad=0.5, columnspacing=1.4, bbox_to_anchor=(0.5, -0.155))
+fig.subplots_adjust(left=0.062, right=0.998, top=0.90, bottom=0.235, wspace=0.34)
 save(fig, "fig_instrument_final")
 _cert = [m for m in M if float(D74[m]["real_z"]) <= -2]; _gen = [m for m in M if IN[m]["genuine_bh"] == "True"]
 _covered = [m for m in M if float(D81[m]["dec_power"]) >= 0.8]

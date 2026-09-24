@@ -2786,3 +2786,17 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   reintentar: lo confirmo con la regla de la cadena (declaraciones en la página 9, referencias en la 10).
 - El apéndice pasa de 16 a 17 páginas por la figura que baja; el PDF, de 31 a 32. Sweep 230/230, texto principal en la página 9,
   qa_pages regeneradas.
+## 88. Figura 2, cuatro arreglos (2026-09-24, brief del autor). Sin cambio de datos.
+
+- **(1)** Una sola leyenda bajo los cuatro paneles, en caja blanca redondeada con sombra, con tus cinco entradas: punto (modelo,
+  lectura cruda y prueba intacta), rombo (nube aleatoria de la misma forma / orientaciones aleatorizadas), llena (genuino o potencia
+  $\ge 0.8$), rayada (no genuino o ciego) y discontinua (umbral).
+- **(2)** Panel (b): fuera las líneas verticales de $\pm$2 s.d.; ahora cada barra lleva una marca horizontal gris corta en $-2$
+  desviaciones del nulo, y la barra genuina la pasa por debajo. El eje deja un poco de aire sobre el cero para que se vea la línea.
+- **(3)** Eje x: una posición vacía entre familias con un separador vertical fino y claro en cada hueco; las tallas por familia
+  (T S B L | v1 S B L G | B L Sig) a 7 pt sobre su propia marca, y el nombre de la familia (sup., SSL, contr.) centrado debajo a
+  7 pt. **Nota**: a 7 pt en horizontal "v1" y "Sig" son más anchos que su hueco (6.6 pt por modelo) y se tocaban, así que las
+  etiquetas van giradas 90°, que a ese tamaño es lo único que cabe sin abreviar más. Si las prefieres en horizontal, hay que bajar a
+  una letra por modelo (D para DINO-B y S para SigLIP-B).
+- **(4)** Los paneles ocupan el ancho del texto: márgenes de 0.062 y 0.998 y separación entre paneles de 0.34 (antes 0.62).
+- Comprobado en qa_pages a 100 dpi. Envío en 32 páginas, texto principal en la página 9, sweep 230/230.
