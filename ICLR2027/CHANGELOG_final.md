@@ -2949,3 +2949,10 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   frase del punto 10 contaba 44 palabras), "fires in N of M" y "N of M decoupled/intact runs" cuentan como recuentos, y se
   exceptúan tu paréntesis de DINO-B y los dos puntos y coma de la frase de §4. Envío de 35 páginas, texto principal hasta la
   página 9, declaraciones en la 9, referencias en la 10. Fichero de rebuttal reconstruido (61/61) y qa_pages revisadas.
+## 96. FashionMNIST se presenta una vez y luego es FMNIST (2026-09-24, nota del autor).
+
+- §4, primera mención: "and the flat **FashionMNIST (FMNIST)** \citep{fashion} and MNIST \citep{mnist} (10 each)". El resto del
+  paper ya decía FMNIST: el texto (el párrafo del conjunto de clases, en el apéndice), las 14 apariciones de las tablas y los
+  ejes de las figuras. El literal del sweep sigue la frase nueva.
+- Sin cambio de números ni de maquetación: 35 páginas, texto principal hasta la página 9, declaraciones en la 9, referencias en
+  la 10. Sweep 233/233, fichero de rebuttal reconstruido (61/61), qa_pages y FINAL_CHECK regenerados.

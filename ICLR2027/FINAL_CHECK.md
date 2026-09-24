@@ -15,7 +15,7 @@
 | Introduction | 35 | 21.8 | 50 | 0 |
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 38 | 18.1 | 30 | 0 |
-| Experimental Setup | 16 | 17.8 | 32 | 0 |
+| Experimental Setup | 16 | 17.8 | 33 | 0 |
 | Results | 66 | 18.4 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 19 | 24 | 0 |
 | Conclusion and Limitations | 9 | 17.2 | 34 | 0 |

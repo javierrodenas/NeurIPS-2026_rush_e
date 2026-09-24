@@ -1399,7 +1399,7 @@ def final_checks():
     chk("final (full read, 2026-09-24): 'planted' everywhere, no 'implanted' left in the text, the appendix titles, the tables or the figure captions (file names and labels keep their spelling); the abstract adds the hierarchy test; S4 gives each class set its count in parentheses; the depth equation reads on into the 'where' clause; the statement boxes are unbreakable; the Ethics statement drops the metric-selection heuristic; Figure 3(b) names the supremum in the caption",
         "implant" not in _ident(TF).lower() and "implant" not in _ident(_tabs_final).lower()
         and "excess over many such clouds, and add a hierarchy test whose ability to detect a hierarchy is measured." in abs_now
-        and "The class sets are ImageNet (1000 classes) and CIFAR-100 \\citep{cifar10} (100), which carry a real hierarchy; DTD \\citep{dtd} (47) and CIFAR-10 (10); and the flat FashionMNIST \\citep{fashion} and MNIST \\citep{mnist} (10 each)." in bf
+        and "The class sets are ImageNet (1000 classes) and CIFAR-100 \\citep{cifar10} (100), which carry a real hierarchy; DTD \\citep{dtd} (47) and CIFAR-10 (10); and the flat FashionMNIST (FMNIST) \\citep{fashion} and MNIST \\citep{mnist} (10 each)." in bf
         and "\\end{equation}\nwhere the spread is taken over star seeds and null replicates, and a cloud is certified" in bf
         and "unbreakable" in TF and "breakable" not in TF.replace("unbreakable", "") and TF.count("\\begin{defbox}") == 8
         and "metric-selection heuristic" not in TF and "involves no human subjects and no personal data, and proposes an analysis methodology." in stm
