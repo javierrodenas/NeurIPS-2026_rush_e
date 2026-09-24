@@ -3,7 +3,7 @@
 ## Page budget
 
 - PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 508).
-- Appendix: Proofs on page 16, implementation and additional results from page 16 to page 29 (14 pages including the proofs).
+- Appendix: Proofs on page 16, implementation and additional results from page 17 to page 29 (14 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.
 - Template compliance (brief of 2026-09-24): the preamble no longer overrides the style's spacing. The display-skip block, `\textfloatsep`, `\abovecaptionskip`, `\parskip` and `\floatsep` are gone and the main text no longer sets `\raggedbottom`, so the style's `\parskip .5pc`, `\parindent 0pt` and `\flushbottom` apply. Page 9 was recovered by moving content to the appendix in the author's order: the limitations (four kept in S7, the ten in Appendix B), S6 to one paragraph, the WordNet, DBpedia, HierarCaps and text readings of S5.4 to one sentence each, the frames, leaf-label and MERU paragraphs of S5.3 to one sentence each with a pointer, and the class-set and neural-collapse paragraphs of S5.2 to Appendix C. Every moved sentence is verbatim in the appendix and figures were not resized.
@@ -58,15 +58,18 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 238/240 checks passed.
+- Total: 238/241 checks passed.
 - Final-version checks:
 
     PASS final: references.bib is the author's bib of 2026-09-23 merged with the three cited entries it lacked: keys unique, every cited key present, Groger et al. as ICML 2026 with Shuo Wen, no escaped underscores in doi/url (they print a backslash), Gromov protected 
     PASS final: every cross-reference of the final resolves 
+    FAIL final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve | 0 equations in Appendix A
     PASS final: every row of the model panel carries its citation, inline after the model name since it fits the text width (author's brief, 2026-09-24), Barlow Twins and BYOL among them, and both new entries have a publisher source 
     PASS final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
-    PASS final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise 
+    FAIL final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise 
+    FAIL(all): final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve | 0 equations in Appendix A
+    FAIL(all): final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise 
 
 ## Cited bibliography entries and their sources (DBLP key, else DOI, else publisher URL)
 

@@ -614,7 +614,7 @@ T1 = open(P1).read(); pre = T1[:T1.index("\\begin{abstract}")]
 # template compliance (author's brief, 2026-09-24): the style sets \flushbottom, so the main text does not override it; the
 # appendix keeps \raggedbottom, where [H] tables and [t] figures would otherwise stretch the text of a half-empty page.
 pre = pre.replace("\\raggedbottom   % final pass: [t] figures and [H] tables leave short pages; ragged bottoms instead of underfull vertical boxes\n", "")
-pre = pre.replace("\\usepackage{array}\n", "\\usepackage{array}\n\\usepackage{amsthm}\n", 1)
+pre = pre.replace("\\usepackage{array}\n", "\\usepackage{array}\n\\usepackage{amsthm}\n\\usepackage{amssymb}\n", 1)
 pre = pre.replace("\\begin{document}\n", "\\newtheoremstyle{inline}{3pt}{3pt}{}{}{\\bfseries}{.}{ }{}\n\\newtheoremstyle{inlineit}{3pt}{3pt}{\\itshape}{}{\\bfseries}{.}{ }{}\n"
                   "\\theoremstyle{inline}\n\\newtheorem{definition}{Definition}\n\\theoremstyle{inlineit}\n\\newtheorem{proposition}{Proposition}\n"
                   ""   # display skips: the template's own (compliance pass, 2026-09-24)

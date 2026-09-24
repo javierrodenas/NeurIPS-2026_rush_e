@@ -365,3 +365,6 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   porque la frase completa vuelve a empujar la Figura 5 y con ella tres líneas. (ii) El texto principal deja ahora tres líneas
   libres al pie de la página 9 y la Declaración de Reproducibilidad empieza ahí; si prefieres que empiece en la página 10,
   puedo devolver al texto principal alguno de los párrafos de §5.2 que están en el apéndice.
+- (Apéndice A, 2026-09-24) Tu demostración ampliada deja fuera el argumento del confundido del estadístico (el supremo muestral
+  sólo puede subir con el presupuesto) y la frase "Part (b) is the dimension confound alone". Si lo quieres, lo devuelvo como un
+  tercer párrafo, "Proof of the statistic confound", detrás de la parte (b); cabe sin mover nada.

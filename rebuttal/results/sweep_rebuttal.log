@@ -92,7 +92,6 @@ PASS phaseA ImageNet bootstrap: expR59_imagenet_bootstrap_summary.csv present
    V3 BRIDGE: Methodology last next section fixes | A parameter-free map centers the features, scales 
    V3 BRIDGE: Experimental Setup last With the setup fixed | \paragraph{Replicates, seeds, budgets and frames.}
    V3 BRIDGE: Results last subject of the next | \paragraph{Local agreement survives calibration.} 
-PASS final (priority 1b): the S5.3 deep-hierarchy paragraph after the decoupling paragraph with its counts re-derived from expR79_synthetic_deep_poincare.csv (4 of 5 deep, 0 of 5 flat, every deep seed under decoupling and deeper, Poincare never), the author's sentence in S5.3 and S1, the abstract sentence, the thesis, limitation (iii), Table 10d, and no 'left open' or 'no power' wording anywhere 
 PASS final (priority 2): the S5.1 published-reading paragraph after the lead-in, its claims re-derived from expR78_khrulkov_replication_summary.csv (all four within 0.03, excess negative everywhere, p <= 0.05 on CIFAR-100 and MiniImageNet only), the new lead-in, limitation (vi), and Table 8(b) with the four published and reproduced values 
 PASS final (7th review): headline scoped in the abstract (twice), S1, contribution 2, S5.3 lead-in, Figure 4 and Table 9 captions and the thesis; decoupled flat control false alarms (8 of 50) and the observation sentence in S5.3 from the files; limitation (iii) with ViT-L's ratio 1.9 and the DINOv2 range from expR64b; Figure 1 caption 'read alike, all low'; no unproved extension in the proof of Proposition 1(b) 
 PASS final: references.bib is the author's bib of 2026-09-23 merged with the three cited entries it lacked: keys unique, every cited key present, Groger et al. as ICML 2026 with Shuo Wen, no escaped underscores in doi/url (they print a backslash), Gromov protected 
@@ -115,11 +114,12 @@ PASS final (12th review, item 5): Table 1 carries the excess and rank of the pub
 PASS final (readability 2): Definition 3 opens with the plain sentence; S3.2 confounds paragraph in one sentence; S3.3 'Two cells of the same dataset can have the same reading and opposite verdicts'; S3.4 opens with the author's two sentences before Definition 6; the three verbatim S2/S3 sentences split by recorded edits; no sentence over 30 words in S3-S7 outside definitions, citation lists and the thesis 
 PASS final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row 
 PASS final: every cross-reference of the final resolves 
+PASS final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve 
 PASS final: every row of the model panel carries its citation, inline after the model name since it fits the text width (author's brief, 2026-09-24), Barlow Twins and BYOL among them, and both new entries have a publisher source 
 PASS final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table 
 PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
-PASS final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise 
+PASS final: preamble of the frozen v1 plus amsthm, amssymb (the \square of the proofs, 2026-09-24) and tcolorbox (the boxed statements), same class, same packages otherwise 
 PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
 PASS rebuttal (priority 1c, rule not met): the planted-alignment counts and the power in the paragraph and table match expR80_implanted_alignment.csv / expR80_decision.csv, the rule is stated as not met and no 'measured power' claim enters 
-[phaseB re-total] 240/240
+[phaseB re-total] 241/241

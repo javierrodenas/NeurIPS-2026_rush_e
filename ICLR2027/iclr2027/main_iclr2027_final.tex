@@ -17,6 +17,7 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{amsthm}
+\usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{nicefrac}
@@ -360,13 +361,41 @@ In this work, we used generative AI tools for writing assistance; for the retrie
 \clearpage
 \appendix
 \raggedbottom
-\section{Proofs}
-\label{app:proofs}
+\section{Proofs}\label{app:proofs}
 
-\begin{proof}[Proof of Proposition~\ref{prop:bound}]
-(a) Each pairing sum in Eq.~\ref{eq:pairings} adds two distances of the space, each of which lies in $[d_{\min}, d_{\max}]$. Hence $S_{\max}\le 2d_{\max}$ and $S_{\mathrm{mid}}\ge 2d_{\min}$, so the defect $\tfrac12(S_{\max}-S_{\mathrm{mid}})$ is at most $d_{\max}-d_{\min}$ for every quadruple, and so is its supremum $\delta$. Dividing by the diameter $d_{\max}$ gives $\delta_{\text{norm}}\le 1-d_{\min}/d_{\max}$; the same bound holds for the 99.9th percentile of the sampled defects, which never exceeds their supremum.
-(b) Let $x_1,\dots,x_n$ be iid standard Gaussian in $\mathbb{R}^d$ with $n$ fixed. For any pair $i\ne j$ the coordinates of $x_i-x_j$ are iid with variance $2$, so $\|x_i-x_j\|^2/(2d)\to1$ almost surely as $d\to\infty$ by the law of large numbers, and the convergence holds jointly over the finitely many pairs. Therefore $d_{\min}/d_{\max}\to1$, and by part (a) $\delta_{\text{norm}}\to0$. The rate is the distance-concentration rate of \citet{beyer1999nearest} and \citet{aggarwal2001surprising}: the relative contrast $(d_{\max}-d_{\min})/d_{\min}$ vanishes as $d^{-1/2}$. Part (b) is the dimension confound alone. The statistic confound is separate and elementary: a maximum over a growing sample of quadruples is non-decreasing in the sample size, so the sampled supremum can only rise with the budget.
-\end{proof}
+\textbf{Proposition~\ref{prop:bound}} (range bound and dimension confound).
+\emph{Let $d_{\min}$ and $d_{\max}$ be the smallest and the largest pairwise distance of a finite metric space.
+(a) For any quadruple, the four-point defect is at most $d_{\max}-d_{\min}$; hence $\delta_{\text{norm}} \le 1 - d_{\min}/d_{\max}$.
+(b) For an iid Gaussian cloud of $n$ points in dimension $d$, with $n$ fixed, $d_{\min}/d_{\max}\to 1$ as $d$ grows, so $\delta_{\text{norm}}\to 0$ without any structure.}
+
+\paragraph{Intuition.} The defect is half the difference between two sums of distances. If all distances are nearly equal, every sum is nearly equal, and the difference cannot be large. Part (a) makes this exact; part (b) shows that a random cloud in high dimension has nearly equal distances.
+
+\paragraph{Proof of (a).} Take any four points and their three pairing sums (Eq.~\ref{eq:pairings}). Each sum adds two distances, and every distance lies between $d_{\min}$ and $d_{\max}$, so every sum lies between $2d_{\min}$ and $2d_{\max}$:
+\begin{equation}
+2d_{\min} \;\le\; S_{\min} \;\le\; S_{\mathrm{mid}} \;\le\; S_{\max} \;\le\; 2d_{\max}.
+\end{equation}
+The defect is therefore bounded by the width of that interval:
+\begin{equation}
+\tfrac12\bigl(S_{\max}-S_{\mathrm{mid}}\bigr) \;\le\; \tfrac12\bigl(2d_{\max}-2d_{\min}\bigr) \;=\; d_{\max}-d_{\min}.
+\end{equation}
+The bound holds for every quadruple, so it holds for their supremum $\delta$ and for any percentile of the sampled defects, which never exceeds the supremum. The diameter of the set is $d_{\max}$; dividing by it gives
+\begin{equation}
+\delta_{\text{norm}} \;\le\; \frac{d_{\max}-d_{\min}}{d_{\max}} \;=\; 1-\frac{d_{\min}}{d_{\max}}. \qquad\square
+\end{equation}
+
+\paragraph{Proof of (b).} Let $x_1,\dots,x_n\in\mathbb{R}^d$ have iid standard Gaussian coordinates. For one pair $i\neq j$, the squared distance is a sum of $d$ independent terms:
+\begin{equation}
+\|x_i-x_j\|^2 \;=\; \sum_{k=1}^{d}\bigl(x_{ik}-x_{jk}\bigr)^2 .
+\end{equation}
+Each term is the square of a Gaussian of variance 2, so it has mean 2. By the law of large numbers, the average of the $d$ terms tends to its mean:
+\begin{equation}
+\frac{\|x_i-x_j\|^2}{2d} \;\longrightarrow\; 1 \qquad \text{almost surely, as } d\to\infty .
+\end{equation}
+With $n$ fixed there are finitely many pairs, $n(n-1)/2$, so the convergence holds for all of them at once, and in particular for the smallest and the largest distance:
+\begin{equation}
+\frac{d_{\min}}{\sqrt{2d}} \to 1, \qquad \frac{d_{\max}}{\sqrt{2d}} \to 1, \qquad\text{hence}\qquad \frac{d_{\min}}{d_{\max}} \to 1 .
+\end{equation}
+Part (a) then gives $\delta_{\text{norm}} \le 1-d_{\min}/d_{\max} \to 0$. The relative contrast between the farthest and the nearest pair vanishes at rate $d^{-1/2}$ \citep{beyer1999nearest, aggarwal2001surprising}: this is the dimension confound, with no structure in the cloud. $\square$
 
 \renewcommand{\topfraction}{0.95}\renewcommand{\bottomfraction}{0.95}\renewcommand{\textfraction}{0.03}\renewcommand{\floatpagefraction}{0.85}\setcounter{topnumber}{4}\setcounter{bottomnumber}{4}\setcounter{totalnumber}{6}\renewcommand{\arraystretch}{0.92}
 % final version: the tables float ([tbp], one float per panel) within their subsection (a \FloatBarrier closes each one)

@@ -3217,3 +3217,22 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Página 9**: el pie crece cuatro líneas y se come justo la holgura que había quedado en la ronda anterior. El texto principal
   sigue acabando en la página 9 y la Declaración de Reproducibilidad vuelve al principio de la página 10, como antes.
 - Envío de 29 páginas, apéndice de 14. Sweep **240/240**, rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 112. Apéndice A: tu demostración ampliada de la Proposición 1 (2026-09-24, brief del autor)
+
+- El bloque va literal: proposición reenunciada, párrafo de intuición, y las dos partes demostradas con seis ecuaciones
+  numeradas (7--12). Sale del entorno `proof` y pasa a `\paragraph{Proof of (a).}` y `\paragraph{Proof of (b).}`, con el
+  $\square$ al cierre de cada una, como lo escribiste.
+- **Un solo cambio sobre tu texto**: `\textbf{Proposition 1}` se escribe `\textbf{Proposition~\ref{prop:bound}}`. Imprime
+  exactamente "Proposition 1" y evita un número escrito a mano que se rompería si algún día hubiera una segunda proposición.
+- **Etiquetas comprobadas**: `prop:bound` (imprime 1), `eq:pairings` (imprime Eq. 1) y `app:proofs` existen y resuelven;
+  tectonic no deja ni una referencia `undefined` ni ninguna caja `Overfull`.
+- **`\usepackage{amssymb}`** entra en el preámbulo: sin él `\square` no está definido (amsfonts sólo trae las fuentes). Es el
+  tercer paquete añadido sobre el v1 congelado, con amsthm y tcolorbox; la comprobación del preámbulo lo recoge.
+- **Lo que tu texto deja fuera**, y te lo señalo por si lo quieres de vuelta: las dos frases finales de la versión anterior
+  sobre el confundido del estadístico ("a maximum over a growing sample of quadruples is non-decreasing in the sample size, so
+  the sampled supremum can only rise with the budget") y la frase "Part (b) is the dimension confound alone". El término sigue
+  usándose en §3.2 y en la tabla de calibración, pero el argumento elemental ya no está en ningún sitio.
+- **Páginas**: el apéndice A pasa de media página a una entera y la Tabla 1 baja a la página 17; el envío sigue en 29 páginas,
+  apéndice de 14, y el texto principal acaba en la página 9 con la Declaración de Reproducibilidad en la 10.
+- Sweep **241/241** (comprobación nueva del apéndice A: proposición por referencia, intuición, las dos partes, seis ecuaciones,
+  los dos $\square$ y las etiquetas citadas). Rebuttal reconstruido (61/61), qa_pages regeneradas.
