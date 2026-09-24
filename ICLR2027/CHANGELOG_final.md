@@ -3136,3 +3136,21 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   regeneraron; no queda ninguna aparición de #FDE725 ni de #FDB813 fuera de la comprobación que lo prohíbe.
 - Envío de 29 páginas, texto principal hasta la página 9 (no ha hecho falta tocar la conclusión), apéndice de 14. Sweep
   **239/239** con la comprobación nueva de paleta. Rebuttal reconstruido (61/61) y qa_pages regeneradas.
+## 107. Figura 4(b) en el lenguaje de 4(a) y nombres completos en todos los ejes (2026-09-24, brief del autor).
+
+- **(1)** El panel (b) deja de ser dispersión y pasa a barras horizontales como (a): los **15 modelos de texto** con su nombre
+  completo en el eje y, en tu orden (GPT-2 S, M, L, XL; Pythia-410M, 1B, 2.8B; OLMo-1B; BGE-base, BGE-large, GTE-base, GTE-large,
+  GTE-Qwen2-1.5B, E5-base, E5-large), una barra por modelo con su exceso bajo la lectura, llena cuando es genuina y rayada si no,
+  la banda de $\pm2$ desviaciones del nulo detrás, morado #440154 para los causales y gris para los embedders. Pie: tu cláusula.
+  El párrafo de §5.4 queda en tu texto, partido en dos frases en el punto y coma (la frase única eran 41 palabras).
+- **(2)** La paleta ya iba así desde la ronda anterior y queda comprobada: banda **#DDE3EA** al 60 por ciento en todas las
+  figuras y jerarquía plantada en **#222222**, discontinua con triángulos, en la Figura 2(c) y su leyenda.
+- **(3) Nombres completos en todos los ejes de modelo**: ViT-T … SigLIP-B a 6.5 pt girados 45 grados donde corren por la x
+  (Figuras 2, 3 y la figura de ganancias del apéndice), y los nombres de familia en palabras debajo: **supervised**,
+  **self-supervised** y **contrastive**. El hueco entre DINO y DINOv2 se queda, pero ya no lleva rótulo propio: los nombres
+  completos lo dicen. Fuera "sup.", "contr." y las letras sueltas.
+- Las figuras crecen lo justo para las etiquetas (Figura 2 de 3.2 a 3.45 in, Figura 3 de 1.9 a 2.2, Figura 4 de 2.05 a 2.2) y el
+  texto principal **sigue acabando en la página 9**, así que no ha hecho falta tocar la conclusión.
+- De paso: el script de figuras tenía **duplicado** el bloque de la Figura 3 (resto del borrado de la figura "same reading");
+  queda una sola copia.
+- Envío de 29 páginas, apéndice de 14. Sweep **239/239**, rebuttal reconstruido (61/61), qa_pages regeneradas.

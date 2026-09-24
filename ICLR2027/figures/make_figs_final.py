@@ -41,10 +41,10 @@ def bar(ax, x, h, color, passes, width=0.38, zorder=3):
 
 # ---------------- Figure 2 (author's brief, 2026-09-24, 2x2): the instrument in one figure. The same x axis in the four panels:
 # the 12 ImageNet backbones by family with a one-position gap; color means family throughout.
-FAMS = [("sup.", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"], 2.0), ("DINO", ["dinov1_b"], 1.4), ("DINOv2", ["dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"], 2.0),
-        ("contr.", ["clip_b", "clip_l", "siglip_b"], 0.0)]   # DINO and DINOv2 are named apart, closer to each other than to the other families
-SHORT = {"i21k_t": "T", "i21k_s": "S", "i21k_b": "B", "i21k_l": "L", "dinov1_b": "B", "dinov2_s": "S", "dinov2_b": "B", "dinov2_l": "L", "dinov2_g": "G",
-         "clip_b": "B", "clip_l": "L", "siglip_b": "Sig"}   # the size inside the family; the family is named under the axis
+FAMS = [("supervised", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"], 2.0), ("DINO", ["dinov1_b"], 1.4), ("DINOv2", ["dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"], 2.0),
+        ("contrastive", ["clip_b", "clip_l", "siglip_b"], 0.0)]   # DINO and DINOv2 keep their own gap, under one family name
+FAMLAB = [("supervised", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"]), ("self-supervised", ["dinov1_b", "dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"]),
+          ("contrastive", ["clip_b", "clip_l", "siglip_b"])]   # the family names in words (author's brief, 2026-09-24)
 PLANT = "#222222"   # the planted three-level hierarchy: black, dashed, triangles (author's brief, 2026-09-24)
 XPOS, XFAM, XSEP, _x = {}, [], [], 0.0
 for _fname, _ms, _gap in FAMS:
@@ -56,10 +56,11 @@ XLIM = (-0.9, _x - 1.0 + 0.9)
 def famaxis(ax, names=True):
     ax.set_xlim(*XLIM)
     for xs_ in XSEP: ax.axvline(xs_, color="white", lw=1.4, zorder=0)
-    ax.set_xticks([XPOS[m] for m in M]); ax.set_xticklabels([SHORT[m] for m in M] if names else [], fontsize=6.3)
+    ax.set_xticks([XPOS[m] for m in M]); ax.set_xticklabels([NM[m] for m in M] if names else [], fontsize=6.5, rotation=45, ha="right", rotation_mode="anchor")
     ax.tick_params(axis="x", length=2, width=0.6, color="#BBBBBB", pad=1.5)
     if names:
-        for fname, xc in XFAM: ax.annotate(fname, xy=(xc, 0), xytext=(0, -14), xycoords=("data", "axes fraction"), textcoords="offset points", ha="center", va="top", fontsize=6.6, color="0.25")
+        for fname, ms_ in FAMLAB:
+            ax.annotate(fname, xy=((XPOS[ms_[0]] + XPOS[ms_[-1]]) / 2, 0), xytext=(0, -34), xycoords=("data", "axes fraction"), textcoords="offset points", ha="center", va="top", fontsize=6.8, color="0.25")
     for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 def curve(ax, vals, style, color=None, marker="o", ms=4.4, filled=None, zorder=3):
     """One curve per family: the models joined, with their markers on top."""
@@ -73,7 +74,7 @@ IN = {m: by[(m, "imagenet")] for m in M}
 D74 = {r["model"]: r for r in csv.DictReader(open(RES/"expR74_decoupling_summary.csv"))}
 D81 = {r["model"]: r for r in csv.DictReader(open(RES/"expR81_deep_per_backbone_summary.csv"))}
 DOT = (0, (1, 1.6))
-fig, axes = plt.subplots(2, 2, figsize=(5.5, 3.2))
+fig, axes = plt.subplots(2, 2, figsize=(5.5, 3.45))
 # (a) the raw reading and a random cloud of the same shape
 ax = axes[0][0]
 _gauss = {int(r["d"]): float(r["delta_max"]) for r in csv.DictReader(open(RES/"exp1_delta_controls.csv")) if r["variant"] == "gauss"}   # iid Gaussian: the dimension alone, no spectrum (Table 4)
@@ -82,7 +83,7 @@ for _fname, ms_, _ in FAMS:
 for m in M: ax.plot(XPOS[m], _gauss[DIMS[m]], "s", mfc="white", mec="#B6B6B6", ms=3.6, mew=0.9, zorder=2)
 curve(ax, {m: float(IN[m]["null_mean"]) for m in M}, DOT, color=GRAY, marker="D", ms=3.4, zorder=2)
 curve(ax, {m: float(IN[m]["delta"]) for m in M}, "-", filled={m: IN[m]["genuine_bh"] == "True" for m in M}, ms=4.6, zorder=4)
-ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) raw reading, random ball and random cloud", pad=3); famaxis(ax)
+ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) raw reading, random ball and random cloud", pad=3); famaxis(ax, names=False)
 # (b) the excess, filled when genuine, with the two-null-s.d. mark
 ax = axes[0][1]
 for m in M:
@@ -90,7 +91,7 @@ for m in M:
     bar(ax, XPOS[m], e, fam_color(m), IN[m]["genuine_bh"] == "True", width=0.74)
     ax.plot([XPOS[m] - 0.48, XPOS[m] + 0.48], [-2 * sd, -2 * sd], "-", color="0.25", lw=1.1, solid_capstyle="butt", zorder=5)
 ax.axhline(0, color="0.35", lw=0.6, zorder=1); ax.set_ylim(top=0.003)
-ax.set_ylabel("excess"); ax.set_title("(b) excess over the random cloud", pad=3); famaxis(ax)
+ax.set_ylabel("excess"); ax.set_title("(b) excess over the random cloud", pad=3); famaxis(ax, names=False)
 # (c) the hierarchy test: the real cloud, the real cloud randomized, and a planted hierarchy randomized
 ax = axes[1][0]
 ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=1)
@@ -114,8 +115,8 @@ hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.5, ms=4.6, mec="whi
       Patch(color="k", label="genuine / power $\\geq0.8$"),
       Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine / blind"),
       Patch(color=LIGHT, label="power intact (d)")]
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.135))
-fig.subplots_adjust(left=0.085, right=0.995, top=0.94, bottom=0.20, wspace=0.24, hspace=0.62)
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.12))
+fig.subplots_adjust(left=0.085, right=0.995, top=0.95, bottom=0.30, wspace=0.24, hspace=0.42)
 _covered = [m for m in M if float(D81[m]["dec_power"]) >= 0.8]
 json.dump({"legend": [h.get_label() for h in hd], "implanted_alignment_curve": False, "panel_b": "decoupled_power_per_backbone", "n_covered": len(_covered), "covered": _covered}, open(RES/"final_fig4.json", "w"), indent=1)
 save(fig, "fig_instrument_final")
@@ -127,7 +128,7 @@ print(f"instrument: genuine {sum(IN[m]['genuine_bh'] == 'True' for m in M)}/12, 
 SL = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_samplelevel_record.csv"))}
 K78 = {r["dataset"]: r for r in csv.DictReader(open(RES/"expR78_khrulkov_replication_summary.csv"))}
 K85 = list(csv.DictReader(open(RES/"expR85_khrulkov_sup.csv")))
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.9), gridspec_kw=dict(width_ratios=[1.85, 1.25]))
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.2), gridspec_kw=dict(width_ratios=[1.85, 1.25]))
 # (a) the 24 sample-level cells: the raw reading and its matched random cloud, CIFAR-100 left and DTD right of each backbone
 ax = axes[0]
 for _ds, _dx, _mk in (("cifar100", -0.22, "o"), ("dtd", 0.22, "s")):
@@ -163,56 +164,7 @@ hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.1, ms=4.0, mec="whi
       plt.Line2D([], [], marker="D", color=GRAY, ls=DOT, lw=0.9, ms=3.4, mec="white", mew=0.5, label="random cloud, $\\pm2$ s.d. in (b)"),
       plt.Line2D([], [], marker="*", color="0.30", ls="", ms=7.5, mec="white", mew=0.5, label="published value (b)")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.20))
-fig.subplots_adjust(left=0.075, right=0.995, top=0.90, bottom=0.26, wspace=0.26)
-_gen = sum(SL[(m, ds)]["genuine_bh"] == "True" for m in M for ds in ("cifar100", "dtd"))
-_ind = [d for d, _ in DK if float(K78[d]["p_left_max"]) > 0.05]
-json.dump({"sample_genuine": _gen, "indistinguishable": _ind, "published": {d: float(K78[d]["theirs"]) for d, _ in DK},
-           "ours_sup": {d: float(K78[d]["ours_raw_mean"]) for d, _ in DK}}, open(RES/"final_fig_premise.json", "w"), indent=1)
-save(fig, "fig_premise_final")
-print(f"premise: genuine {_gen}/24 sample-level cells, indistinguishable under calibration {_ind}")
-
-# ---------------- Figure 3 (author's brief, 2026-09-24): the premise where it is read. Panel (a) keeps the x axis of Figure 2;
-# panel (b) reads the published setting with their own estimator against a random cloud (expR85), filled by the calibrated verdict.
-SL = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_samplelevel_record.csv"))}
-K78 = {r["dataset"]: r for r in csv.DictReader(open(RES/"expR78_khrulkov_replication_summary.csv"))}
-K85 = list(csv.DictReader(open(RES/"expR85_khrulkov_sup.csv")))
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.9), gridspec_kw=dict(width_ratios=[1.85, 1.25]))
-# (a) the 24 sample-level cells: the raw reading and its matched random cloud, CIFAR-100 left and DTD right of each backbone
-ax = axes[0]
-for _ds, _dx, _mk in (("cifar100", -0.22, "o"), ("dtd", 0.22, "s")):
-    for _f, ms_, _ in FAMS:
-        ax.plot([XPOS[m] + _dx for m in ms_], [float(SL[(m, _ds)]["null_mean"]) for m in ms_], ls=DOT, color=GRAY, lw=0.9, zorder=2)
-        ax.plot([XPOS[m] + _dx for m in ms_], [float(SL[(m, _ds)]["delta_999"]) for m in ms_], "-", color=fam_color(ms_[0]), lw=1.1, zorder=3)
-    for m in M:
-        ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["null_mean"]), "D", color=GRAY, ms=3.0, mec="white", mew=0.5, zorder=4)
-        if SL[(m, _ds)]["genuine_bh"] == "True": ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["delta_999"]), _mk, color=fam_color(m), ms=4.0, mec="white", mew=0.5, zorder=5)
-        else: ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["delta_999"]), _mk, mfc="white", mec=fam_color(m), ms=4.0, mew=1.1, zorder=5)
-ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) per-image features, 24 cells", pad=3); famaxis(ax)
-# (b) the published setting: their value, our reproduction with their estimator and a random cloud read the same way
-ax = axes[1]
-DK = [("cifar10", "CIFAR-10"), ("cifar100", "CIFAR-100"), ("cub", "CUB-200"), ("miniimagenet", "Mini")]
-_col = fam_color("i21k_b")   # ResNet-34, a supervised backbone
-for _i, (_d, _lab) in enumerate(DK):
-    _rows = [r for r in K85 if r["dataset"] == _d]
-    _nul = sum(float(r["null_mean"]) for r in _rows) / len(_rows); _sd = sum(float(r["null_sd"]) for r in _rows) / len(_rows)
-    _ours = float(K78[_d]["ours_raw_mean"]); _below = float(K78[_d]["p_left_max"]) <= 0.05   # the calibrated verdict of the percentile reading
-    ax.plot([_i, _i], [_nul - 2 * _sd, _nul + 2 * _sd], "-", color=GRAY, lw=1.0, solid_capstyle="butt", zorder=2)
-    ax.plot(_i, _nul, "D", color=GRAY, ms=3.6, mec="white", mew=0.5, zorder=3)
-    ax.plot(_i, float(K78[_d]["theirs"]), "*", color="0.30", ms=7.5, mec="white", mew=0.5, zorder=4)
-    if _below: ax.plot(_i, _ours, "o", color=_col, ms=4.6, mec="white", mew=0.6, zorder=5)
-    else: ax.plot(_i, _ours, "o", mfc="white", mec=_col, ms=4.6, mew=1.2, zorder=5)
-    ax.annotate(f"{_ours:.2f}", (_i, _ours), xytext=(4.5, -0.5), textcoords="offset points", fontsize=6.3, color=_col, va="center", ha="left", zorder=6)
-ax.set_xlim(-0.55, 3.75); ax.set_xticks(range(4)); ax.set_xticklabels([l for _, l in DK], fontsize=5.6)
-ax.tick_params(axis="x", length=2, width=0.6, color="#BBBBBB", pad=1.5)
-ax.set_ylabel(r"$\delta_{\mathrm{rel}}$"); ax.set_title("(b) the published reading, calibrated", pad=3)
-for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.1, ms=4.0, mec="white", mew=0.5, label="CIFAR-100 (a), reproduction (b)"),
-      plt.Line2D([], [], marker="s", color="k", ls="-", lw=1.1, ms=4.0, mec="white", mew=0.5, label="DTD (a)"),
-      plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.0, mew=1.1, label="hollow: not genuine"),
-      plt.Line2D([], [], marker="D", color=GRAY, ls=DOT, lw=0.9, ms=3.4, mec="white", mew=0.5, label="random cloud, $\\pm2$ s.d. in (b)"),
-      plt.Line2D([], [], marker="*", color="0.30", ls="", ms=7.5, mec="white", mew=0.5, label="published value (b)")]
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.20))
-fig.subplots_adjust(left=0.075, right=0.995, top=0.90, bottom=0.26, wspace=0.26)
+fig.subplots_adjust(left=0.075, right=0.995, top=0.90, bottom=0.42, wspace=0.26)
 _gen = sum(SL[(m, ds)]["genuine_bh"] == "True" for m in M for ds in ("cifar100", "dtd"))
 _ind = [d for d, _ in DK if float(K78[d]["p_left_max"]) > 0.05]
 json.dump({"sample_genuine": _gen, "indistinguishable": _ind, "published": {d: float(K78[d]["theirs"]) for d, _ in DK},
@@ -243,8 +195,8 @@ save(fig, "fig_samereading_final")
 def hbar(ax, y, w, color, passes, height=0.72, zorder=3):
     if passes: return ax.barh(y, w, height, color=color, edgecolor="white", linewidth=0.8, zorder=zorder)
     return ax.barh(y, w, height, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
-fig = plt.figure(figsize=(5.5, 2.05))
-_gs = fig.add_gridspec(1, 2, width_ratios=[4.35, 1.45], wspace=0.30)
+fig = plt.figure(figsize=(5.5, 2.2))
+_gs = fig.add_gridspec(1, 2, width_ratios=[4.25, 1.6], wspace=0.44)
 axg = _gs[0].subgridspec(1, 6, wspace=0.12).subplots(sharey=True)
 Y = np.arange(len(M))[::-1]
 for ax, ds in zip(axg, DSO):
@@ -254,39 +206,34 @@ for ax, ds in zip(axg, DSO):
         r = by[(m, ds)]; hbar(ax, Y[i], float(r["excess"]), fam_color(m), str(r["genuine_bh"]) == "True")
     ax.set_yticks(Y); ax.set_yticklabels([NM[m] for m in M]); ax.set_ylim(-0.7, len(M) - 0.3)
     ax.set_xlim(-0.145, 0.03); ax.set_xticks([-0.12, -0.06, 0]); ax.set_xticklabels(["\u22120.12", "", "0"])   # the middle tick keeps its gridline; its label crowded the 8 pt ticks (style brief, 2026-09-24)
-    ax.set_title(DSL[ds]); ax.tick_params(axis="y", length=0)
+    ax.set_title(DSL[ds], fontsize=7.2); ax.tick_params(axis="y", length=0)
     for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 axg[0].annotate("(a) class centroids, per dataset", xy=(0, 1), xytext=(0, 24), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)
-# ---- (b) the text models by size (author's brief, 2026-09-24): the same reading on the ImageNet class names
+# ---- (b) the 15 text models on the ImageNet class names, in the language of (a) (author's brief, 2026-09-24)
 TXT = {r["model"]: r for r in csv.DictReader(open(RES/"expR53_text_haar_p999_200.csv"))}
-PARAMS = {"gpt2": 117e6, "gpt2_m": 345e6, "gpt2_l": 774e6, "gpt2_xl": 1.5e9, "pythia_410m": 410e6, "pythia_1b": 1.0e9, "pythia_2b8": 2.8e9,
-          "olmo_1b": 1.0e9, "bge_base": 110e6, "bge_large": 335e6, "gte_base": 110e6, "gte_large": 335e6, "gte_qwen2": 1.5e9, "e5_base": 110e6, "e5_large": 335e6}   # the model panel's counts
+TXTORD = [("gpt2", "GPT-2 S"), ("gpt2_m", "GPT-2 M"), ("gpt2_l", "GPT-2 L"), ("gpt2_xl", "GPT-2 XL"), ("pythia_410m", "Pythia-410M"), ("pythia_1b", "Pythia-1B"),
+          ("pythia_2b8", "Pythia-2.8B"), ("olmo_1b", "OLMo-1B"), ("bge_base", "BGE-base"), ("bge_large", "BGE-large"), ("gte_base", "GTE-base"), ("gte_large", "GTE-large"),
+          ("gte_qwen2", "GTE-Qwen2-1.5B"), ("e5_base", "E5-base"), ("e5_large", "E5-large")]
 LM, EMB = FAMILY_COLORS["causal_lm"], GRAY
 axb = fig.add_subplot(_gs[1])
-def _pt(ax, m, col, mk="o", ms=4.4):
-    g = TXT[m]["genuine_bh"] == "True"; x, y = PARAMS[m], float(TXT[m]["excess"])
-    if g: ax.plot(x, y, mk, color=col, ms=ms, mec="white", mew=0.6, zorder=4)
-    else: ax.plot(x, y, mk, mfc="white", mec=col, ms=ms, mew=1.2, zorder=4)
-axb.axhline(0, color="k", lw=0.6, zorder=1)
-for fam_ in (["gpt2", "gpt2_m", "gpt2_l", "gpt2_xl"], ["pythia_410m", "pythia_1b", "pythia_2b8"]):
-    axb.plot([PARAMS[m] for m in fam_], [float(TXT[m]["excess"]) for m in fam_], "-", color=LM, lw=1.1, zorder=3)
-    for m in fam_: _pt(axb, m, LM)
-_pt(axb, "olmo_1b", LM, "^", 4.6)
-for m in ("bge_base", "bge_large", "gte_base", "gte_large", "gte_qwen2", "e5_base", "e5_large"): _pt(axb, m, EMB, "D", 3.6)
-axb.set_xscale("log"); axb.set_xlabel("parameters", labelpad=1); axb.set_ylabel("excess", labelpad=1)
-axb.set_xticks([1e8, 1e9]); axb.set_xticklabels(["100M", "1B"])
-axb.annotate("(b) text models by size", xy=(0, 1), xytext=(0, 24), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)
+_sdT = np.median([float(TXT[m]["null_sd"]) for m, _ in TXTORD])
+axb.axvspan(-2*_sdT, 2*_sdT, color=BAND, alpha=BAND_ALPHA, lw=0, zorder=0); axb.axvline(0, color="k", lw=0.6, zorder=1)
+YT = np.arange(len(TXTORD))[::-1]
+for _i, (m, _lab) in enumerate(TXTORD):
+    hbar(axb, YT[_i], float(TXT[m]["excess"]), LM if _i < 8 else EMB, TXT[m]["genuine_bh"] == "True")
+axb.set_yticks(YT); axb.set_yticklabels([l for _, l in TXTORD], fontsize=5.6); axb.set_ylim(-0.7, len(TXTORD) - 0.3)
+axb.tick_params(axis="y", length=0); axb.set_xlabel("excess", labelpad=1)
+axb.annotate("(b) text models, ImageNet class names", xy=(0, 1), xytext=(0, 24), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)
 for sp in ("top", "right"): axb.spines[sp].set_visible(False)
-fig.text(0.34, 0.135, "excess over the matched null", ha="center", va="center", fontsize=8)
+json.dump({"text_genuine": sum(TXT[m]["genuine_bh"] == "True" for m, _ in TXTORD), "n_text": len(TXTORD), "order": [m for m, _ in TXTORD],
+           "excess": {m: float(TXT[m]["excess"]) for m, _ in TXTORD}, "labels": {m: l for m, l in TXTORD}}, open(RES/"final_fig_text.json", "w"), indent=1)
+fig.text(0.33, 0.115, "excess over the matched null", ha="center", va="center", fontsize=8)
 hd = [Patch(color="k", label="genuine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine"), Patch(color=BAND, alpha=BAND_ALPHA, label="\u00b12 null s.d."),
-      plt.Line2D([], [], marker="o", color=LM, ls="-", lw=1.1, ms=4.4, mec="white", mew=0.6, label="causal LM (b)"),
-      plt.Line2D([], [], marker="D", color=EMB, ls="", ms=3.6, mec="white", mew=0.6, label="embedder (b)")]
+      Patch(color=LM, label="causal LM (b)"), Patch(color=EMB, label="embedder (b)")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=5, handlelength=1.2, handletextpad=0.4, columnspacing=1.0, bbox_to_anchor=(0.5, -0.03))
 fig.subplots_adjust(left=0.10, right=0.995, top=0.83, bottom=0.27)
-json.dump({"text_genuine": sum(TXT[m]["genuine_bh"] == "True" for m in PARAMS), "n_text": len(PARAMS),
-           "params": {m: PARAMS[m] for m in PARAMS}, "excess": {m: float(TXT[m]["excess"]) for m in PARAMS}}, open(RES/"final_fig_text.json", "w"), indent=1)
 save(fig, "fig_excess_final")
-print(f"text panel: {sum(TXT[m]['genuine_bh'] == 'True' for m in PARAMS)}/{len(PARAMS)} genuine on the class names")
+print(f"text panel: {sum(TXT[m]['genuine_bh'] == 'True' for m, _ in TXTORD)}/{len(TXTORD)} genuine on the class names")
 
 # ---------------- the former Figure 4 (depth bars and power bars) is now panels (c) and (d) of Figure 2 (brief of 2026-09-24)
 # ---------------- Appendix figure (ninth review): the two-level implant detection curves, formerly Figure 4b

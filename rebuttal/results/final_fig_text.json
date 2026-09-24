@@ -1,23 +1,23 @@
 {
  "text_genuine": 7,
  "n_text": 15,
- "params": {
-  "gpt2": 117000000.0,
-  "gpt2_m": 345000000.0,
-  "gpt2_l": 774000000.0,
-  "gpt2_xl": 1500000000.0,
-  "pythia_410m": 410000000.0,
-  "pythia_1b": 1000000000.0,
-  "pythia_2b8": 2800000000.0,
-  "olmo_1b": 1000000000.0,
-  "bge_base": 110000000.0,
-  "bge_large": 335000000.0,
-  "gte_base": 110000000.0,
-  "gte_large": 335000000.0,
-  "gte_qwen2": 1500000000.0,
-  "e5_base": 110000000.0,
-  "e5_large": 335000000.0
- },
+ "order": [
+  "gpt2",
+  "gpt2_m",
+  "gpt2_l",
+  "gpt2_xl",
+  "pythia_410m",
+  "pythia_1b",
+  "pythia_2b8",
+  "olmo_1b",
+  "bge_base",
+  "bge_large",
+  "gte_base",
+  "gte_large",
+  "gte_qwen2",
+  "e5_base",
+  "e5_large"
+ ],
  "excess": {
   "gpt2": -0.013172069988778344,
   "gpt2_m": -0.005121559323126647,
@@ -34,5 +34,22 @@
   "gte_qwen2": 0.002300297147953281,
   "e5_base": 0.004054672829251496,
   "e5_large": 0.002340348913369844
+ },
+ "labels": {
+  "gpt2": "GPT-2 S",
+  "gpt2_m": "GPT-2 M",
+  "gpt2_l": "GPT-2 L",
+  "gpt2_xl": "GPT-2 XL",
+  "pythia_410m": "Pythia-410M",
+  "pythia_1b": "Pythia-1B",
+  "pythia_2b8": "Pythia-2.8B",
+  "olmo_1b": "OLMo-1B",
+  "bge_base": "BGE-base",
+  "bge_large": "BGE-large",
+  "gte_base": "GTE-base",
+  "gte_large": "GTE-large",
+  "gte_qwen2": "GTE-Qwen2-1.5B",
+  "e5_base": "E5-base",
+  "e5_large": "E5-large"
  }
 }
