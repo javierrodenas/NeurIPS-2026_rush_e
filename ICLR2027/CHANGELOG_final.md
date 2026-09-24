@@ -3107,3 +3107,19 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   datasets"; y la limitación (ii) pierde su primera frase, que repetía la segunda.
 - **Apéndice: 14 páginas** (eran 17), envío de **29**. Ahora son 23 tablas y 9 figuras. Sweep **237/237** con la comprobación
   nueva (recuentos, ninguna celda con dos números, las dos figuras fuera y el título de MERU). Rebuttal reconstruido (61/61).
+## 105. Figura 4(b): los modelos de texto por tamaño (2026-09-24, brief del autor).
+
+- La Figura 4 pasa a dos paneles: **(a)** el de siempre, las seis columnas de barras por conjunto, y **(b)** nuevo, "text models
+  by size": eje x el número de parámetros en escala logarítmica, eje y el exceso sobre los nombres de clase de ImageNet bajo la
+  lectura. GPT-2 (S→XL) y Pythia (410M→2.8B) van como una línea cada familia en el morado de los modelos de texto (#440154),
+  OLMo-1B como triángulo suelto del mismo color y los 7 embedders como rombos grises; relleno cuando la celda es genuina y hueco
+  cuando no. Los datos son los de la tabla del censo de texto (`expR53_text_haar_p999_200.csv`) y los tamaños son los del panel
+  de modelos, que el sweep compara uno a uno.
+- El pie gana su cláusula: "(b) The same reading on the ImageNet class names against model size."
+- **§5.4, párrafo de texto**, recortado a lo que el panel no enseña: "The verdict depends on the probe as well: the template and
+  the batching move the reading, so verdicts at the margin are fragile. The sentence embedders are not genuine on the class names
+  but are on DBpedia. Figure~4b and Table~6 give the census per model." Se van de ahí el "7 de 15" y el detalle por modelo, que
+  ahora se ven en el panel.
+- **No ha hecho falta tocar la conclusión**: el texto principal sigue acabando en la página 9. Envío de 29 páginas, apéndice de
+  14. Sweep **238/238** con la comprobación nueva del panel (excesos de expR53, tamaños del panel de modelos, 7 de 15 genuinos).
+  Rebuttal reconstruido (61/61) y qa_pages regeneradas.

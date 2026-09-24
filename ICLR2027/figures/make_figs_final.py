@@ -243,7 +243,9 @@ save(fig, "fig_samereading_final")
 def hbar(ax, y, w, color, passes, height=0.72, zorder=3):
     if passes: return ax.barh(y, w, height, color=color, edgecolor="white", linewidth=0.8, zorder=zorder)
     return ax.barh(y, w, height, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
-fig, axg = plt.subplots(1, 6, figsize=(5.5, 2.05), sharey=True)
+fig = plt.figure(figsize=(5.5, 2.05))
+_gs = fig.add_gridspec(1, 2, width_ratios=[4.35, 1.45], wspace=0.30)
+axg = _gs[0].subgridspec(1, 6, wspace=0.12).subplots(sharey=True)
 Y = np.arange(len(M))[::-1]
 for ax, ds in zip(axg, DSO):
     sd = np.median([float(by[(m, ds)]["null_sd"]) for m in M])
@@ -251,14 +253,40 @@ for ax, ds in zip(axg, DSO):
     for i, m in enumerate(M):
         r = by[(m, ds)]; hbar(ax, Y[i], float(r["excess"]), fam_color(m), str(r["genuine_bh"]) == "True")
     ax.set_yticks(Y); ax.set_yticklabels([NM[m] for m in M]); ax.set_ylim(-0.7, len(M) - 0.3)
-    ax.set_xlim(-0.145, 0.03); ax.set_xticks([-0.12, -0.06, 0]); ax.set_xticklabels(["−0.12", "", "0"])   # the middle tick keeps its gridline; its label crowded the 8 pt ticks (style brief, 2026-09-24)
+    ax.set_xlim(-0.145, 0.03); ax.set_xticks([-0.12, -0.06, 0]); ax.set_xticklabels(["\u22120.12", "", "0"])   # the middle tick keeps its gridline; its label crowded the 8 pt ticks (style brief, 2026-09-24)
     ax.set_title(DSL[ds]); ax.tick_params(axis="y", length=0)
     for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-fig.text(0.5, 0.135, "excess over the matched null", ha="center", va="center", fontsize=8)
-hd = [Patch(color="k", label="genuine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine"), Patch(color=BAND, alpha=BAND_ALPHA, label="±2 null s.d.")]
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.2, handletextpad=0.4, columnspacing=1.5, bbox_to_anchor=(0.5, -0.01))
-fig.subplots_adjust(left=0.10, right=0.995, top=0.91, bottom=0.25, wspace=0.12)
+axg[0].annotate("(a) class centroids, per dataset", xy=(0, 1), xytext=(0, 24), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)
+# ---- (b) the text models by size (author's brief, 2026-09-24): the same reading on the ImageNet class names
+TXT = {r["model"]: r for r in csv.DictReader(open(RES/"expR53_text_haar_p999_200.csv"))}
+PARAMS = {"gpt2": 117e6, "gpt2_m": 345e6, "gpt2_l": 774e6, "gpt2_xl": 1.5e9, "pythia_410m": 410e6, "pythia_1b": 1.0e9, "pythia_2b8": 2.8e9,
+          "olmo_1b": 1.0e9, "bge_base": 110e6, "bge_large": 335e6, "gte_base": 110e6, "gte_large": 335e6, "gte_qwen2": 1.5e9, "e5_base": 110e6, "e5_large": 335e6}   # the model panel's counts
+LM, EMB = FAMILY_COLORS["causal_lm"], GRAY
+axb = fig.add_subplot(_gs[1])
+def _pt(ax, m, col, mk="o", ms=4.4):
+    g = TXT[m]["genuine_bh"] == "True"; x, y = PARAMS[m], float(TXT[m]["excess"])
+    if g: ax.plot(x, y, mk, color=col, ms=ms, mec="white", mew=0.6, zorder=4)
+    else: ax.plot(x, y, mk, mfc="white", mec=col, ms=ms, mew=1.2, zorder=4)
+axb.axhline(0, color="k", lw=0.6, zorder=1)
+for fam_ in (["gpt2", "gpt2_m", "gpt2_l", "gpt2_xl"], ["pythia_410m", "pythia_1b", "pythia_2b8"]):
+    axb.plot([PARAMS[m] for m in fam_], [float(TXT[m]["excess"]) for m in fam_], "-", color=LM, lw=1.1, zorder=3)
+    for m in fam_: _pt(axb, m, LM)
+_pt(axb, "olmo_1b", LM, "^", 4.6)
+for m in ("bge_base", "bge_large", "gte_base", "gte_large", "gte_qwen2", "e5_base", "e5_large"): _pt(axb, m, EMB, "D", 3.6)
+axb.set_xscale("log"); axb.set_xlabel("parameters", labelpad=1); axb.set_ylabel("excess", labelpad=1)
+axb.set_xticks([1e8, 1e9]); axb.set_xticklabels(["100M", "1B"])
+axb.annotate("(b) text models by size", xy=(0, 1), xytext=(0, 24), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)
+for sp in ("top", "right"): axb.spines[sp].set_visible(False)
+fig.text(0.34, 0.135, "excess over the matched null", ha="center", va="center", fontsize=8)
+hd = [Patch(color="k", label="genuine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine"), Patch(color=BAND, alpha=BAND_ALPHA, label="\u00b12 null s.d."),
+      plt.Line2D([], [], marker="o", color=LM, ls="-", lw=1.1, ms=4.4, mec="white", mew=0.6, label="causal LM (b)"),
+      plt.Line2D([], [], marker="D", color=EMB, ls="", ms=3.6, mec="white", mew=0.6, label="embedder (b)")]
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=5, handlelength=1.2, handletextpad=0.4, columnspacing=1.0, bbox_to_anchor=(0.5, -0.03))
+fig.subplots_adjust(left=0.10, right=0.995, top=0.83, bottom=0.27)
+json.dump({"text_genuine": sum(TXT[m]["genuine_bh"] == "True" for m in PARAMS), "n_text": len(PARAMS),
+           "params": {m: PARAMS[m] for m in PARAMS}, "excess": {m: float(TXT[m]["excess"]) for m in PARAMS}}, open(RES/"final_fig_text.json", "w"), indent=1)
 save(fig, "fig_excess_final")
+print(f"text panel: {sum(TXT[m]['genuine_bh'] == 'True' for m in PARAMS)}/{len(PARAMS)} genuine on the class names")
 
 # ---------------- the former Figure 4 (depth bars and power bars) is now panels (c) and (d) of Figure 2 (brief of 2026-09-24)
 # ---------------- Appendix figure (ninth review): the two-level implant detection curves, formerly Figure 4b

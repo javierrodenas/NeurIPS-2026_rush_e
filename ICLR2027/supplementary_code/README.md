@@ -35,7 +35,7 @@ The paper carries no hand-transcribed value. Every table and figure is written b
 | `fig:concept` (`figures/fig1_concept.pdf`) | `figures/make_figs_final.py` | (drawn by the authors) |
 | `fig:instrument` (`figures/fig_instrument_final.pdf`) | `figures/make_figs_final.py` | `expR75_census_centered_haar.csv`, `expR74_decoupling_summary.csv`, `expR81_deep_per_backbone_summary.csv` |
 | `fig:premise` (`figures/fig_premise_final.pdf`) | `figures/make_figs_final.py` | `expR62_samplelevel_record.csv`, `expR78_khrulkov_replication_summary.csv`, `expR85_khrulkov_sup.csv` |
-| `fig:excess` (`figures/fig_excess_final.pdf`) | `figures/make_figs_final.py` | `expR52_census_haar_p999_200.csv` |
+| `fig:excess` (`figures/fig_excess_final.pdf`) | `figures/make_figs_final.py` | `expR52_census_haar_p999_200.csv`, `expR53_text_haar_p999_200.csv` |
 | `fig:treemap` (`figures/fig_treemap_final.pdf`) | `figures/make_figs_final.py` | `exp23_treemap_controls.npz`, `expR58_treemap_cutfree.csv`, `expR84_tree_ceiling.csv`, `exp10_local_vs_global.csv` |
 | `fig:budget` (`figures/fig_budget_final.pdf`) | `figures/make_figs_final.py` | `expR72_budget_record.csv` |
 | `fig:implant` (`figures/fig_implant_final.pdf`) | `figures/make_figs_final.py` | `expR64b_wn30.csv` |
@@ -62,10 +62,8 @@ Every sentence of the main text carries its result file in a source comment. The
 - `expR49_template_nulls_bs1.csv`
 - `expR52_census_haar_p999_200.csv`
 - `expR53_text_haar_p999_200.csv`
-- `expR53_text_haar_sup_200.csv`
 - `expR56_depth_variants.csv`
 - `expR57_census_cosine_haar_p999_200.csv`
-- `expR57_text_cosine_haar_p999_200.csv`
 - `expR58_treemap_cutfree.csv`
 - `expR58_treemap_cutfree_summary.csv`
 - `expR61_dbpedia_record.csv`
@@ -96,4 +94,4 @@ Every sentence of the main text carries its result file in a source comment. The
 - `expR85_khrulkov_sup_summary.csv`
 - `final_wordnet_levels.json`
 
-(28 tables, 9 figures, 49 result files named in the main text.)
+(28 tables, 9 figures, 47 result files named in the main text.)

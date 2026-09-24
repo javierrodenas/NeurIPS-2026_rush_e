@@ -1401,6 +1401,18 @@ def final_checks():
         
         and len(rob_c) == 0 and rob.count("\\caption{(continued)}") == rob.count("\\ContinuedFloat"),   # appendix cleanup (2026-09-23): one short caption, the other floats plain '(continued)' 
         f"continued captions {[c.strip()[:12] for c in rob_c]}")
+    # ---- Figure 4(b), the text models by size (author's brief, 2026-09-24)
+    _ft = _j.load(open(R/"final_fig_text.json")); _t53 = {r_["model"]: r_ for r_ in load("expR53_text_haar_p999_200.csv")}
+    _pan = (FD/"tab_q14_panel.tex").read_text()
+    _PN = {"gpt2": "117M", "gpt2_m": "345M", "gpt2_l": "774M", "gpt2_xl": "1.5B", "pythia_410m": "410M", "pythia_1b": "1.0B", "pythia_2b8": "2.8B", "olmo_1b": "1.0B",
+           "bge_base": "110M", "bge_large": "335M", "gte_base": "110M", "gte_large": "335M", "gte_qwen2": "1.5B", "e5_base": "110M", "e5_large": "335M"}
+    _fmt = lambda v: (f"{v/1e9:.1f}B" if v >= 1e9 else f"{v/1e6:.0f}M")
+    chk("final (Figure 4b, 2026-09-24): the text panel reads the ImageNet class names per model, its excesses are expR53's and its parameter counts are the model panel's, 7 of 15 genuine; the S5.4 paragraph keeps the probe and DBpedia and points at the panel",
+        all(abs(_ft["excess"][m_] - float(_t53[m_]["excess"])) < 1e-12 for m_ in _ft["excess"]) and len(_ft["excess"]) == 15
+        and all(_fmt(_ft["params"][m_]) == _PN[m_] and _PN[m_] in _pan for m_ in _PN)
+        and _ft["text_genuine"] == sum(str(_t53[m_].get("genuine_bh")) == "True" for m_ in _t53)
+        and "(b) The same reading on the ImageNet class names against model size." in bf and "figures/fig_excess_final.pdf" in bf,
+        f"text genuine {_ft['text_genuine']}/15")
     # ---- counts instead of dots, no value in parentheses, two figures out (author's briefs of 2026-09-24, late)
     _cc = _j.load(open(R/"final_census_constructions.json")); _packed = _re.compile(r"\$?[-+0-9.]+\$?\s*\(\$?[-+0-9./]+\$?\)")
     _tabhits = {f_: [m_.group(0) for l_ in (FD/(f_ + ".tex")).read_text().split("\n") if "&" in l_ and not l_.startswith("%") for m_ in _packed.finditer(l_)] for f_ in inputs if (FD/(f_ + ".tex")).exists()}
@@ -1452,7 +1464,9 @@ def final_checks():
         and f"Its embeddings also stay nearly flat: 95 per cent lie within {_r71c.radius_sqrtc_p95.max():.2f} of the curvature scale (Table~\\ref{{tab:q4-depth-c}})." in bf
         and f"The correlation between inter-centroid and WordNet distances is highest for the contrastive VLMs ({_wnr(('clip', 'siglip'), 3)}), then the supervised ViTs ({_wnr('i21k', 4)}), and lowest for DINOv2 ({_wnr('dinov2', 4)})." in bf
         and "Among leaf-supervised ViTs it depends on the recipe (Section~\\ref{sec:f-depth})." in bf
-        and "GPT-2 L and XL are genuine under every reading while S and M change with it. Pythia is genuine at every size, and the sentence embedders are not on class names but are on DBpedia." in bf and _txt_ok,
+        and "The verdict depends on the probe as well: the template and the batching move the reading, so verdicts at the margin are fragile. The sentence embedders are not genuine on the class names but are on DBpedia." in bf
+        and "Figure~\\ref{fig:excess}b and Table~\\ref{tab:q2-text} give the census per model." in bf and _txt_ok
+        and (lambda _ft: _ft["text_genuine"] == 7 and _ft["n_text"] == 15 and set(_ft["params"]) == set(_ft["excess"]))(_j.load(open(R/"final_fig_text.json"))),
         f"sample-level not genuine {int((~_slc.genuine_bh).sum())} of {len(_slc)}; text ok {_txt_ok}")
     # ---- full read (author's brief, 2026-09-24, evening): vocabulary, S4 class sets, the statement boxes, the statements
     _ident = lambda s_: (nocom(s_).replace("fig_implant_final", "").replace("fig:implant", "").replace("expR80\\_implanted\\_alignment.csv", "")
