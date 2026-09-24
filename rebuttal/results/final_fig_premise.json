@@ -1,0 +1,19 @@
+{
+ "sample_genuine": 10,
+ "indistinguishable": [
+  "cifar10",
+  "cub"
+ ],
+ "published": {
+  "cifar10": 0.26,
+  "cifar100": 0.25,
+  "cub": 0.25,
+  "miniimagenet": 0.21
+ },
+ "ours_sup": {
+  "cifar10": 0.2751574871868441,
+  "cifar100": 0.2607644118257678,
+  "cub": 0.26963240309337466,
+  "miniimagenet": 0.20290823764729468
+ }
+}

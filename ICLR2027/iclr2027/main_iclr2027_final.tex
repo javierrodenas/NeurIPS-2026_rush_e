@@ -89,7 +89,7 @@ Why is the reading low? Gromov $\delta$ assigns zero to trees \citep{Gromov1987}
 
 We build the instrument that reads $\delta$ against the right reference. It calibrates the estimator on reference geometries, expresses every reading as an \emph{excess} over a null cloud matched in dimension and covariance spectrum, ranks that excess against matched replicates, and adds a \emph{hierarchy test} whose false-alarm rate and power are measured on real clouds. With it we ask of geometry what convergence work asks of similarity \citep{huh2024platonic, groger2026aristotelian}: what survives calibration, and is it shared? \citet{groger2026aristotelian} calibrate similarity across models; we calibrate geometry within a model, and comparing trees across models needs a calibration of its own.
 
-\textbf{The answer has three parts.} (i) \emph{Where the premise is read,} on image features, the calibrated reading is indistinguishable from a random cloud of the same shape in most model--dataset cells and small elsewhere. The 4 values reported by \citet{Khrulkov_2020_CVPR} are reproduced and, calibrated, 2 of them are indistinguishable from a random cloud. (ii) \emph{Within each model,} class centroids carry structure that a random cloud does not have, in 44 of 72 cells and 30 of 36 on datasets with 47 classes or more, but a star of clusters already produces it. The hierarchy test finds more in 4 of 12 ImageNet backbones: the orientation of each cluster relative to its superclass center, which we call its hub, not a hierarchy among the hubs. Randomizing the orientations removes every verdict, whereas an implanted hierarchy, synthetic or trained in, survives. In the 9 of 12 backbones where an implanted hierarchy is detected, none as strong is found; in the other 3 the test is blind. A backbone trained in hyperbolic space shows the same structure as its Euclidean twin and stays nearly flat. (iii) \emph{Across models,} the trees agree on which classes group together well above chance, though less than two readings of the same model, and not on distances; the self-supervised models organize classes by direction rather than by distance, which a comparison by distance misses.
+\textbf{The answer has three parts.} (i) \emph{Where the premise is read,} on image features, the calibrated reading is indistinguishable from a random cloud of the same shape in most model--dataset cells and small elsewhere. The 4 values reported by \citet{Khrulkov_2020_CVPR} are reproduced and, calibrated, 2 of them are indistinguishable from a random cloud (Figure~\ref{fig:premise}). (ii) \emph{Within each model,} class centroids carry structure that a random cloud does not have, in 44 of 72 cells and 30 of 36 on datasets with 47 classes or more, but a star of clusters already produces it. The hierarchy test finds more in 4 of 12 ImageNet backbones: the orientation of each cluster relative to its superclass center, which we call its hub, not a hierarchy among the hubs. Randomizing the orientations removes every verdict, whereas an implanted hierarchy, synthetic or trained in, survives. In the 9 of 12 backbones where an implanted hierarchy is detected, none as strong is found; in the other 3 the test is blind. A backbone trained in hyperbolic space shows the same structure as its Euclidean twin and stays nearly flat. (iii) \emph{Across models,} the trees agree on which classes group together well above chance, though less than two readings of the same model, and not on distances; the self-supervised models organize classes by direction rather than by distance, which a comparison by distance misses.
 
 \textbf{Our contributions are:}
 \begin{enumerate}[topsep=0pt,itemsep=1pt,leftmargin=*]
@@ -262,11 +262,17 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \subsection{The premise at the sample level}
 \label{sec:f-sample}
 
-\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What fails is the evidence the premise cites, not the possibility of a hierarchy. Where it is genuine, the excess removes at most two fifths of the null reading. Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_premise_final.pdf}
+\caption{\textbf{The premise where it is read.} (a) Per-image features: raw reading and a random cloud of the same shape; filled dots are genuine. (b) The published values, their reproduction and the random cloud: two of four are indistinguishable from it. % expR62_samplelevel_record.csv, expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup.csv
+}
+\label{fig:premise}
+\end{figure}
 
-\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 \citep{cub} are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet \citep{miniimagenet} fall below it. Under their own statistic, the supremum, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. Table~\ref{tab:khrulkov} gives the 4 rows. % expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
+\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in most cells, that is, no more than chance would give. The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What fails is the evidence the premise cites, not the possibility of a hierarchy. Where it is genuine, the excess removes at most two fifths of the null reading. Figure~\ref{fig:premise}a shows the 24 cells and Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
 
-\input{tab_khrulkov_final}
+\paragraph{A published reading is reproduced and calibrated.} Their estimator was run on our extraction; it reproduces the raw $\delta_{\text{rel}}$ that \citet{Khrulkov_2020_CVPR} report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 \citep{cub} are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet \citep{miniimagenet} fall below it. Under their own statistic, the supremum, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. Figure~\ref{fig:premise}b shows the 4 datasets and Table~\ref{tab:khrulkov} gives the rows. % expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
 
 \subsection{Structure beyond the second moments at the class level}
 \label{sec:f-class}
@@ -278,8 +284,6 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 }
 \label{fig:excess}
 \end{figure}
-
-\input{tab_census_final}
 
 \paragraph{Most cells show structure beyond the second moments.} It is genuine in 44 of 72 cells and 30 of 36 on the 3 datasets with 47 classes or more. On ImageNet and CIFAR-100 the count is 18 of 24. Figure~\ref{fig:excess} and Table~\ref{tab:census} give the census. % expR52_census_haar_p999_200.csv
 
@@ -459,6 +463,7 @@ Each table then carries its own caption: the answer in bold, then what the colum
 \label{app:nulls}
 
 \paragraph{What this table answers.} This is the census itself, one row per model and class set. The first table gives the reading used in the paper, the second repeats the verdict under other constructions of the null and of the statistic, and the third repeats the census on cosine geometry. A cell is genuine when its excess survives the correction across cells.
+\input{tab_census_final}
 \input{appendix_tables/final/tab_q01_census_final}
 
 \FloatBarrier
@@ -486,6 +491,7 @@ Each table then carries its own caption: the answer in bold, then what the colum
 }
 \label{fig:samereading}
 \end{figure}
+\input{tab_khrulkov_final}
 \input{appendix_tables/final/tab_q03_sample_final}
 
 \FloatBarrier

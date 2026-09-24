@@ -2,9 +2,10 @@
 
 ## Page budget
 
-- PDF pages: 34. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 509).
-- Appendix: Proofs on page 16, tables from page 17 to page 34 (19 pages including the proofs).
+- PDF pages: 35. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 477); the references start on page 10 (line 498).
+- Appendix: Proofs on page 16, tables from page 17 to page 35 (20 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
+- Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.
 - Template compliance (brief of 2026-09-24): the preamble no longer overrides the style's spacing. The display-skip block, `\textfloatsep`, `\abovecaptionskip`, `\parskip` and `\floatsep` are gone and the main text no longer sets `\raggedbottom`, so the style's `\parskip .5pc`, `\parindent 0pt` and `\flushbottom` apply. Page 9 was recovered by moving content to the appendix in the author's order: the limitations (four kept in S7, the ten in Appendix B), S6 to one paragraph, the WordNet, DBpedia, HierarCaps and text readings of S5.4 to one sentence each, the frames, leaf-label and MERU paragraphs of S5.3 to one sentence each with a pointer, and the class-set and neural-collapse paragraphs of S5.2 to Appendix C. Every moved sentence is verbatim in the appendix and figures were not resized.
 - What still departs from the style, all of it typographic and reversible in `rebuttal/scripts/phaseE_submission.py`: the section, subsection and paragraph heading skips (0.3/0.3/0 ex before and 0.2/0.2/-1 em after, against the style's 2.0/1.8/1.5 ex and 1.5/0.8/-1 em); `\topsep`, `\partopsep` and `\parskip` zeroed inside the definition and proposition boxes only; the author's `\vspace{2pt}` between Figure 1 and its caption; and, after `\appendix`, `\raggedbottom`, the float-placement fractions and counters and `\arraystretch 0.92`.
 ## Sentence length per section (compiled text of the final file; verbatim sections included in the statistics, the rules are enforced on the non-verbatim prose)
@@ -15,18 +16,18 @@
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 38 | 18.0 | 30 | 0 |
 | Experimental Setup | 17 | 17.3 | 30 | 0 |
-| Results | 66 | 18.1 | 30 | 0 |
+| Results | 66 | 18.3 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 19 | 24 | 0 |
 | Conclusion and Limitations | 9 | 17.2 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 119 sentences, mean 17.9 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 119 sentences, mean 18.1 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
 
 | section | paragraph | numbers |
 |---|---|---|
-| Results | The premise does not survive calibration where it is read. | — |
+| Results | The premise does not survive calibration where it is read. | 24 |
 | Results | A published reading is reproduced and calibrated. | 4, 0.03, 4 |
 | Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 3, 47, 18 of 24 |
 | Results | The count survives resampling. | — |
@@ -57,17 +58,16 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 231/231 checks passed.
+- Total: 232/232 checks passed.
 - Final-version checks:
 
-    PASS final: Figure 5 carries the author's caption (consolidated pass); the ARI-matrix figure is out of the appendix (cleanup of 2026-09-23: it is cited from nowhere) 
     PASS final: the appendix inputs exactly the tables the main text cites (twelve question tables, robustness in its final form) plus the provenance index, in first-citation order, from appendix_tables/final/ 
     PASS final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them 
     PASS final: every kept appendix table keeps its provenance comments (% prov: lines and % source comments) and the provenance index lists all thirteen 
     PASS final: each final copy in appendix_tables/final/ carries only numbers of its v1 table (the cleanup of 2026-09-23 drops panels and shortens captions; nothing new appears), floats one panel at a time and opens with the short caption 
     PASS final: references.bib is the author's bib of 2026-09-23 merged with the three cited entries it lacked: keys unique, every cited key present, Groger et al. as ICML 2026 with Shuo Wen, no escaped underscores in doi/url (they print a backslash), Gromov protected 
     PASS final: every cross-reference of the final resolves 
-    PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
+    PASS final: the census table is the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census), inputted in the appendix since the main text carries no table (2026-09-24) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise 
 

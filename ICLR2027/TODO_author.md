@@ -352,3 +352,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   que los del estilo: quitarlos cuesta unas diez líneas y devuelve el texto a la página 10, así que los dejo hasta que digas.
   (iii) §6 pierde "Cosine collects the self-supervised structure" y la frase de Moreira (que está en el apéndice C); §5.4 pierde
   el detalle modelo a modelo de GPT-2, Pythia y OLMo (también en el apéndice C).
+- (Figura 3, 2026-09-24) Dos cosas: (i) en el panel (b) la nube aleatoria se lee con su estimador (el supremo) para que las tres
+  marcas sean comparables; el relleno hueco/lleno es el veredicto de la lectura por percentil. Dime si la quieres al revés.
+  (ii) Con las dos tablas fuera, la página 9 tiene sitio para un párrafo más: si quieres, vuelve al texto principal uno de los
+  dos de §5.2 que movimos al apéndice (el del conjunto de clases o el del colapso neuronal).

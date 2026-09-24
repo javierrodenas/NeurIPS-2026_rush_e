@@ -26,7 +26,7 @@
   },
   "Results": {
    "sentences": 66,
-   "avg_words": 18.1,
+   "avg_words": 18.3,
    "max_words": 30,
    "over30": 0
   },
@@ -43,7 +43,7 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 17.9,
+ "avg_nonverbatim": 18.1,
  "n_nonverbatim_sentences": 119,
  "over30_rule": {
   "cap": 30,
@@ -57,7 +57,9 @@
   {
    "section": "Results",
    "lead": "The premise does not survive calibration where it is read.",
-   "numbers": []
+   "numbers": [
+    "24"
+   ]
   },
   {
    "section": "Results",

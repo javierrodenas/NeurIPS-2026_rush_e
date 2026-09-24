@@ -104,6 +104,9 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
          # Figure 1 caption (author's brief, 2026-09-23, 17:00): last sentence names what each test separates; 2pt between the image and the caption
          ('The instrument reads the objects instead of the shadow: no structure beyond the null in the cloud, clusters without depth in the star, clusters with depth in the tree.', 'The instrument reads the objects instead of the shadow: the excess separates the random cloud from the other two, and the hierarchy test separates the star from the tree.'),
          ("same-size placeholder)}}}\n\\caption{\\textbf{Plato's cave", "same-size placeholder)}}}\n\\vspace{2pt}\n\\caption{\\textbf{Plato's cave")
+,
+         # main text without tables (author's brief, 2026-09-24): the S1 mirror of S5.1 points at the new figure
+         ("2 of them are indistinguishable from a random cloud.", "2 of them are indistinguishable from a random cloud (Figure~\\ref{fig:premise})."),   # main text without tables (2026-09-24): the S1 mirror points at the new figure
 ]
 def edit(s):
     for a, b in EDITS:
@@ -377,6 +380,12 @@ _figSR = ("\\begin{figure}[H]\n\\centering\n\\includegraphics[width=0.45\\linewi
           "\\caption{\\textbf{The same reading, opposite verdicts.} The raw reading of ViT-B on CIFAR-100 images and of DINO-B on CIFAR-100 centroids, each beside the mean of its matched null: the same reading, and only one of them is genuine. % expR62_samplelevel_record.csv, expR52_census_haar_p999_200.csv, final_fig2b.json\n}\n\\label{fig:samereading}\n\\end{figure}\n")
 assert bytab["tab_q03_sample"].count("\\input{appendix_tables/tab_q03_sample_final}") == 1
 bytab["tab_q03_sample"] = bytab["tab_q03_sample"].replace("\\input{appendix_tables/tab_q03_sample_final}", _figSR + "\\input{appendix_tables/tab_q03_sample_final}")
+# main text without tables (author's brief, 2026-09-24): Table 1 goes beside the sample-level table and Table 2 beside the census
+_tabK = "\\input{tab_khrulkov_final}\n"
+bytab["tab_q03_sample"] = bytab["tab_q03_sample"].replace("\\input{appendix_tables/tab_q03_sample_final}", _tabK + "\\input{appendix_tables/tab_q03_sample_final}")
+_tabC = "\\input{tab_census_final}\n"
+assert bytab["tab_q01_census"].count("\\input{appendix_tables/tab_q01_census_final}") == 1
+bytab["tab_q01_census"] = bytab["tab_q01_census"].replace("\\input{appendix_tables/tab_q01_census_final}", _tabC + "\\input{appendix_tables/tab_q01_census_final}")
 labels = {}
 for stem in KEEP:
     fn = FINAL_SRC.get(stem, stem)

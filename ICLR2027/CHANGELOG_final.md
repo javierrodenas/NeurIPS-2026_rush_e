@@ -2888,3 +2888,31 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Envío: **34 páginas**, texto principal hasta la página 9, declaraciones en la 10, referencias en la 10, apéndice de la 16 a la
   34. Sweep **231/231** con la comprobación nueva de cumplimiento (preámbulo limpio, cuatro limitaciones, lista de diez en el
   apéndice, ocho párrafos movidos, §6 en un párrafo). qa_pages regeneradas y revisadas.
+## 94. Texto principal sin tablas y figura nueva en §5.1 (2026-09-24, brief del autor). Sin cambio de datos.
+
+- **(1) Figura 2**, panel (a): el título pasa a "(a) raw reading, random ball and random cloud".
+- **(2) Las dos tablas del texto principal se van al apéndice**, cada una junto a la pregunta que contesta: la Tabla 2 (censo,
+  `tab_census_final`) encabeza ahora "Is the structure beyond the second moments genuine?" y la Tabla 1 (lectura publicada,
+  `tab_khrulkov_final`) va con la pregunta del nivel de imagen. La Tabla 1 conserva **todas** sus columnas, incluida la del
+  supremo, y con `tabcolsep` 2.0 pt ya no se sale del ancho del texto. El texto principal no tiene ninguna tabla.
+- **(3) Figura 3 nueva, "The premise where it is read"**, ancho de texto, 1.9 in, estilo de la Figura 2, en §5.1:
+  - (a) las 24 celdas de nivel de imagen, 12 backbones × CIFAR-100 y DTD, con el eje x por familias de la Figura 2. CIFAR-100 a la
+    izquierda de cada backbone (círculos) y DTD a la derecha (cuadrados), llenos cuando la celda es genuina bajo BH, con la nube
+    aleatoria emparejada en rombos grises y línea punteada. Son 10 de 24 genuinas, contadas del fichero.
+  - (b) los cuatro conjuntos publicados: estrella gris = su $\delta_{\text{rel}}$ publicado; punto de color = nuestra
+    reproducción con su estimador, con el valor impreso al lado (0.28, 0.26, 0.27, 0.20); rombo gris con barra de $\pm2$
+    desviaciones = la nube aleatoria. El punto va hueco cuando la lectura es indistinguible de la nube: CIFAR-10 y CUB-200, que
+    son los "two of four" del pie.
+  - Pie: el tuyo, verbatim. Leyenda compartida debajo, tres columnas, como en la Figura 2.
+- **Una decisión que te señalo**: en (b) la nube aleatoria está leída **con su estimador** (el supremo, expR85), no con el
+  percentil, para que la estrella, el punto y el rombo estén en la misma escala y "two of four" se vea. Lo que decide el relleno
+  (hueco = indistinguible) sí es la calibración del percentil, y coincide con la mediana del supremo (§5.1 ya lo dice). Si
+  prefieres el rombo bajo el percentil, es una línea.
+- **(4) Referencias**: §5.1 primer párrafo cierra con "Figure 3a shows the 24 cells and Table 16 gives the reading per cell" y el
+  segundo con "Figure 3b shows the 4 datasets and Table 15 gives the rows"; el espejo de §1 añade "(Figure~\ref{fig:premise})"
+  tras "2 of them are indistinguishable from a random cloud". Las figuras se renumeran solas: la del exceso es la 4 y el mapa de
+  árboles la 5.
+- **Página**: el texto principal sigue acabando en la página 9 y, al irse las dos tablas, las declaraciones vuelven a la 9 y las
+  referencias a la 10. No ha hecho falta mover más contenido. Envío de 35 páginas (el apéndice crece una con las dos tablas),
+  sweep **232/232** con la comprobación nueva (sin tablas en el texto principal, las dos en el apéndice, la figura y sus valores
+  desde expR62, expR78 y expR85), qa_pages regeneradas y revisadas.
