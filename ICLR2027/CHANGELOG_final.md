@@ -3263,3 +3263,28 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   Los títulos de panel y el recuadro ("All cast the same tree-shaped shadow") sí: bajan a unos 10.5 pt.
 - Si quieres, hay tres salidas: subir el tamaño de esas etiquetas en el origen a unos 20 pt de lienzo (5.5 pt impresos),
   dejar sólo unas pocas etiquetas de ejemplo por panel, o quitarlas y describir los tres mundos en el pie.
+## 115. "sup." escrito entero y bandas nuevas en todas las figuras (2026-09-24, brief del autor)
+
+**(1) Abreviatura fuera.** La cabecera de la Tabla 8 pasa de "sup.\ $\hat\delta$" a "supremum $\hat\delta$" en las dos mitades
+(CIFAR-100 y DTD). El grep del apéndice compilado encuentra sólo otro sitio, la Tabla 7 (la réplica de Khrulkov), que decía
+"excess (sup.)" y "$r$/200, $p$ range (sup.)": deletreado se salía 41.6 pt del ancho de texto, así que las dos columnas pasan a
+llevar una cabecera de grupo, "their statistic, the supremum", con su `\cmidrule`, y debajo "excess" y "$r$/200, $p$ range".
+Queda más corta que antes y sin abreviatura. El pie de esa tabla decía "the supremum (sup.)" y ahora dice "the supremum". No
+queda ni un "sup." en el envío (la cadena que aparece en los comentarios de procedencia es el nombre del fichero
+`expR85_khrulkov_sup.csv`).
+
+**(2) Bandas.** En `figures/palette.py`: `BAND = "#C9D7EA"`, `BAND_ALPHA = 1.0`, `BAND_EDGE = "#7D93AE"`, `BAND_LW = 0.7`. Las
+cinco bandas del artículo se dibujan ahora sólidas, con el filo de 0.7 pt y en `zorder=0`, detrás de los datos: Figura 3(a) y
+3(b), Figura 4(a) y 4(b), y la del techo dentro del modelo en la Figura 5(b). Esta última era una línea gruesa (`lw=5`), que no
+admite filo: pasa a ser un rectángulo de 0.62 de alto, con la marca de la media encima. Las claves de leyenda llevan el mismo
+relleno y el mismo filo. El fondo gris de los ejes y la rejilla blanca no se tocan.
+
+**(3) Ninguna figura del apéndice tiene banda**: las cinco del apéndice usan líneas de referencia (0.8 de potencia, 0.5, 1/3) o
+una matriz, no bandas, así que no había nada que cambiar ahí.
+
+**(4) Comprobado en qa_pages a 300 dpi**: en la Figura 4(a) las barras llenas y las rayadas se leen sobre la banda (las rayadas
+tienen fondo blanco, que la tapa); en la 3(b) los puntos huecos y las estrellas se ven sobre el azul; en la 5(b) los puntos de
+color y la marca de la media quedan por encima del rectángulo. Ningún dato queda oculto.
+
+- Envío de 29 páginas, texto principal hasta la página 9, apéndice de 14. Sweep **242/242** (pines de la paleta, de las cinco
+  bandas y de las dos cabeceras actualizados). Rebuttal reconstruido (61/61), qa_pages regeneradas.

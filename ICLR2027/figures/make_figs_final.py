@@ -22,7 +22,7 @@ RES = Path(os.environ.get("PLATONIC_RESULTS", HERE.parents[1] / "rebuttal/result
 plt.style.use(str(HERE / "style.mplstyle"))
 plt.rcParams.update({"xtick.labelsize": 8, "ytick.labelsize": 8, "axes.labelsize": 8, "legend.fontsize": 8, "axes.titlesize": 8, "hatch.linewidth": 0.6})
 sys.path.insert(0, str(HERE))
-from palette import FAMILY_COLORS, color as fam_color, BAND, BAND_ALPHA
+from palette import FAMILY_COLORS, color as fam_color, BAND, BAND_ALPHA, BAND_EDGE, BAND_LW
 GRAY = FAMILY_COLORS["null"]; LIGHT = "#C9C9C9"
 LEG = dict(frameon=True, fancybox=True, shadow=True, framealpha=0.95, facecolor="white", edgecolor="#DDDDDD")   # legends: white rounded box with a soft shadow (brief of 2026-09-24)
 M = ["i21k_t","i21k_s","i21k_b","i21k_l","dinov1_b","dinov2_s","dinov2_b","dinov2_l","dinov2_g","clip_b","clip_l","siglip_b"]
@@ -137,7 +137,7 @@ _ax3 = _gs3[0].subgridspec(1, 2, wspace=0.12).subplots(sharey=True)
 Y3 = np.arange(len(M))[::-1]
 for ax, (ds, lab) in zip(_ax3, (("cifar100", "CIFAR-100"), ("dtd", "DTD"))):
     sd = np.median([float(SL[(m, ds)]["null_sd"]) for m in M])
-    ax.axvspan(-2*sd, 2*sd, color=BAND, alpha=BAND_ALPHA, lw=0, zorder=0); ax.axvline(0, color="k", lw=0.6, zorder=1)
+    ax.axvspan(-2*sd, 2*sd, facecolor=BAND, alpha=BAND_ALPHA, edgecolor=BAND_EDGE, lw=BAND_LW, zorder=0); ax.axvline(0, color="k", lw=0.6, zorder=1)
     for _i, m in enumerate(M): hbar(ax, Y3[_i], float(SL[(m, ds)]["excess"]), fam_color(m), SL[(m, ds)]["genuine_bh"] == "True")
     ax.set_yticks(Y3); ax.set_yticklabels([NM[m] for m in M]); ax.set_ylim(-0.7, len(M) - 0.3)
     ax.set_xlim(-0.030, 0.014); ax.set_xticks([-0.02, 0]); ax.set_xticklabels(["\u22120.02", "0"])
@@ -154,7 +154,7 @@ for _i, (_d, _lab) in enumerate(DK3):
     _rows = [r for r in K85 if r["dataset"] == _d]
     _nul = sum(float(r["null_mean"]) for r in _rows) / len(_rows); _sd = sum(float(r["null_sd"]) for r in _rows) / len(_rows)
     _ours = float(K78[_d]["ours_raw_mean"]); _in = _ours >= _nul - 2 * _sd; _inside.append(_in)
-    axb3.barh(YK[_i], 4 * _sd, 0.62, left=_nul - 2 * _sd, color=BAND, alpha=BAND_ALPHA, lw=0, zorder=0)
+    axb3.barh(YK[_i], 4 * _sd, 0.62, left=_nul - 2 * _sd, facecolor=BAND, alpha=BAND_ALPHA, edgecolor=BAND_EDGE, lw=BAND_LW, zorder=0)
     axb3.plot(float(K78[_d]["theirs"]), YK[_i] + 0.26, "*", color="0.30", ms=7.0, mec="white", mew=0.5, zorder=4)
     if _in: axb3.plot(_ours, YK[_i] - 0.10, "o", mfc="white", mec=_col3, ms=4.6, mew=1.2, zorder=5)
     else: axb3.plot(_ours, YK[_i] - 0.10, "o", color=_col3, ms=4.6, mec="white", mew=0.6, zorder=5)
@@ -167,7 +167,7 @@ fig.text(0.215, 0.085, "excess over the matched null", ha="center", va="center",
 hd = [Patch(color="k", label="genuine (a) / below the band (b)"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine (a)"),
       plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.6, mew=1.2, label="inside the band (b)"),
       plt.Line2D([], [], marker="*", color="0.30", ls="", ms=7.0, mec="white", mew=0.5, label="published value (b)"),
-      Patch(color=BAND, alpha=BAND_ALPHA, label="random cloud, $\\pm2$ s.d.")]
+      Patch(facecolor=BAND, edgecolor=BAND_EDGE, lw=BAND_LW, label="random cloud, $\\pm2$ s.d.")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.3, handletextpad=0.4, columnspacing=1.0, bbox_to_anchor=(0.5, -0.21))
 fig.subplots_adjust(left=0.115, right=0.995, top=0.87, bottom=0.235)
 _gen24 = sum(SL[(m, ds)]["genuine_bh"] == "True" for m in M for ds in ("cifar100", "dtd"))
@@ -184,7 +184,7 @@ axg = _gs[0].subgridspec(1, 6, wspace=0.12).subplots(sharey=True)
 Y = np.arange(len(M))[::-1]
 for ax, ds in zip(axg, DSO):
     sd = np.median([float(by[(m, ds)]["null_sd"]) for m in M])
-    ax.axvspan(-2*sd, 2*sd, color=BAND, alpha=BAND_ALPHA, lw=0, zorder=0); ax.axvline(0, color="k", lw=0.6, zorder=1)
+    ax.axvspan(-2*sd, 2*sd, facecolor=BAND, alpha=BAND_ALPHA, edgecolor=BAND_EDGE, lw=BAND_LW, zorder=0); ax.axvline(0, color="k", lw=0.6, zorder=1)
     for i, m in enumerate(M):
         r = by[(m, ds)]; hbar(ax, Y[i], float(r["excess"]), fam_color(m), str(r["genuine_bh"]) == "True")
     ax.set_yticks(Y); ax.set_yticklabels([NM[m] for m in M]); ax.set_ylim(-0.7, len(M) - 0.3)
@@ -200,7 +200,7 @@ TXTORD = [("gpt2", "GPT-2 S"), ("gpt2_m", "GPT-2 M"), ("gpt2_l", "GPT-2 L"), ("g
 LM, EMB = FAMILY_COLORS["causal_lm"], GRAY
 axb = fig.add_subplot(_gs[1])
 _sdT = np.median([float(TXT[m]["null_sd"]) for m, _ in TXTORD])
-axb.axvspan(-2*_sdT, 2*_sdT, color=BAND, alpha=BAND_ALPHA, lw=0, zorder=0); axb.axvline(0, color="k", lw=0.6, zorder=1)
+axb.axvspan(-2*_sdT, 2*_sdT, facecolor=BAND, alpha=BAND_ALPHA, edgecolor=BAND_EDGE, lw=BAND_LW, zorder=0); axb.axvline(0, color="k", lw=0.6, zorder=1)
 YT = np.arange(len(TXTORD))[::-1]
 for _i, (m, _lab) in enumerate(TXTORD):
     hbar(axb, YT[_i], float(TXT[m]["excess"]), LM if _i < 8 else EMB, TXT[m]["genuine_bh"] == "True")
@@ -211,7 +211,7 @@ for sp in ("top", "right"): axb.spines[sp].set_visible(False)
 json.dump({"text_genuine": sum(TXT[m]["genuine_bh"] == "True" for m, _ in TXTORD), "n_text": len(TXTORD), "order": [m for m, _ in TXTORD],
            "excess": {m: float(TXT[m]["excess"]) for m, _ in TXTORD}, "labels": {m: l for m, l in TXTORD}}, open(RES/"final_fig_text.json", "w"), indent=1)
 fig.text(0.33, 0.115, "excess over the matched null", ha="center", va="center", fontsize=8)
-hd = [Patch(color="k", label="genuine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine"), Patch(color=BAND, alpha=BAND_ALPHA, label="\u00b12 null s.d."),
+hd = [Patch(color="k", label="genuine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine"), Patch(facecolor=BAND, edgecolor=BAND_EDGE, lw=BAND_LW, label="\u00b12 null s.d."),
       Patch(color=LM, label="causal LM (b)"), Patch(color=EMB, label="embedder (b)")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=5, handlelength=1.2, handletextpad=0.4, columnspacing=1.0, bbox_to_anchor=(0.5, -0.03))
 fig.subplots_adjust(left=0.10, right=0.995, top=0.83, bottom=0.27)
@@ -274,7 +274,7 @@ for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax = axes[1]
 for i, m in enumerate(M):
     y = ys[m]; lo, hi, mu = band[m]
-    ax.plot([lo, hi], [y, y], color=BAND, lw=5, alpha=BAND_ALPHA, solid_capstyle="butt", zorder=1); ax.plot([mu, mu], [y - 0.32, y + 0.32], color="0.35", lw=0.8, zorder=2); ax.plot(trip[m], y, "o", color=fam_color(m), ms=5, mec="white", mew=0.8, zorder=4)
+    ax.barh(y, hi - lo, 0.62, left=lo, facecolor=BAND, alpha=BAND_ALPHA, edgecolor=BAND_EDGE, lw=BAND_LW, zorder=0); ax.plot([mu, mu], [y - 0.32, y + 0.32], color="0.35", lw=0.8, zorder=2); ax.plot(trip[m], y, "o", color=fam_color(m), ms=5, mec="white", mew=0.8, zorder=4)
 ax.set_yticks([ys[m] for m in M]); ax.set_yticklabels([]); ax.set_ylim(*YLIM); ax.tick_params(axis="y", length=0)
 ax.axvline(1 / 3, color="k", lw=0.8, ls="--", zorder=2)   # chance for the three-way triplet choice (which of the three pairs merges first); caption brief of 2026-09-23
 ax.set_xlim(0.25, 1.0); ax.set_xticks([1 / 3, 0.6, 0.8, 1.0]); ax.set_xticklabels(["0.33", "0.6", "0.8", "1.0"]); ax.set_xlabel("triplet agreement", labelpad=1); ax.set_title("(b) topology, chance and ceiling", pad=3)
@@ -289,7 +289,7 @@ ax.set_xticks(range(len(M))); ax.set_xticklabels(NAMES, rotation=90, fontsize=7)
 ax.set_ylim(0, 1.0); ax.set_yticks([0, 0.5, 1.0]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("triplet agreement", labelpad=2)
 ax.set_title("(c) sibling triplets, CIFAR-100", pad=3)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-hd = [plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.5, mew=1.0, label="naive"), plt.Line2D([], [], marker="o", color="k", ls="", ms=5, mec="white", mew=0.8, label="corrected"), Patch(color=BAND, alpha=BAND_ALPHA, label="within-model ceiling"),
+hd = [plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.5, mew=1.0, label="naive"), plt.Line2D([], [], marker="o", color="k", ls="", ms=5, mec="white", mew=0.8, label="corrected"), Patch(facecolor=BAND, edgecolor=BAND_EDGE, lw=BAND_LW, label="within-model ceiling"),
       Patch(color="k", label="cosine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="Euclidean"), plt.Line2D([], [], ls="--", color="k", lw=0.8, label="chance")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=6, handlelength=1.2, handletextpad=0.4, columnspacing=0.9, bbox_to_anchor=(0.5, -0.01))
 fig.subplots_adjust(left=0.11, right=0.99, top=0.93, bottom=0.34, wspace=0.45)
