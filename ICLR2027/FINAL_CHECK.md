@@ -58,14 +58,14 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 236/236 checks passed.
+- Total: 235/236 checks passed.
 - Final-version checks:
 
     PASS final: each final copy in appendix_tables/final/ carries only numbers of its v1 table (the cleanup of 2026-09-23 drops panels and shortens captions; nothing new appears), floats one panel at a time and opens with the short caption 
     PASS final: references.bib is the author's bib of 2026-09-23 merged with the three cited entries it lacked: keys unique, every cited key present, Groger et al. as ICML 2026 with Shuo Wen, no escaped underscores in doi/url (they print a backslash), Gromov protected 
     PASS final: every cross-reference of the final resolves 
     PASS final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table 
-    PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
+    PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise 
 
 ## Cited bibliography entries and their sources (DBLP key, else DOI, else publisher URL)

@@ -3075,3 +3075,11 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   queda anotado como excepción en el sweep.
 - Envío de 29 páginas, texto principal hasta la página 9, declaraciones en la 9 y referencias en la 10. Sweep **236/236**,
   rebuttal reconstruido (61/61) y qa_pages regeneradas.
+## 103. La declaración de reproducibilidad apunta al suplementario (2026-09-24, nota del autor).
+
+- "The full pipeline with fixed seeds **is provided in the supplementary material; its `tool/` directory** ships the instrument
+  as one script that reproduces any cell de la Tabla 2 desde su matriz de centroides." Fuera el "will be released in the
+  anonymized repository (TODO(author))".
+- **Cero apariciones** de "TODO", "anonymized repository" y "ANONYMIZED" en el `.tex` del envío, en los ficheros que incluye
+  (tablas del apéndice), en el PDF, y también en el fichero y el PDF del rebuttal. El sweep lo comprueba ahora en cada pasada.
+- Envío de 29 páginas, texto principal hasta la página 9. Sweep **236/236**, rebuttal reconstruido (61/61), qa_pages regeneradas.
