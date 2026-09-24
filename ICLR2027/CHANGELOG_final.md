@@ -2694,3 +2694,21 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   puntero a tablas ("(Tables 27 and 28)") deja de contar como paréntesis de prosa. El constructor de la vía paralela detectaba el
   material ya incorporado por un título de panel: ahora lo detecta por el pie.
 - Envío: texto principal en la página 9, apéndice en 16 páginas, PDF de 31, sweep 230/230.
+## 83. La variante con cajas pasa a ser el envío (2026-09-24, brief del autor).
+
+- **(1)** Cabecera de la tabla de potencia: "WordNet-30 frame of record" → "WordNet-30 frame".
+- **(2) No había línea que recuperar: me equivoqué al medir.** Ayer informé de que la variante con cajas se desbordaba una línea;
+  contaba como línea de texto el número de margen 486 de la página 10. Con la regla que usa la propia cadena (la ranura de la
+  declaración de Reproducibilidad, 487, dividida entre las 54 líneas por página) el texto principal de la variante con cajas acaba
+  en la **página 9**, igual que el envío sin cajas. Así que no he acortado ninguna frase: no hacía falta y el brief sólo lo pedía
+  para recuperar esa línea.
+- **Promoción hecha en el constructor**, no como post-proceso: `phaseE_submission.py` escribe ahora `main_iclr2027_final.tex` con
+  las 8 definiciones en caja azul claro, la Proposición 1 en ámbar y §5.5 en el apéndice, y guarda el mismo texto sin cajas y con
+  §5.5 en su sitio como `main_iclr2027_final_noboxes.tex`. `make_boxes.py` y los ficheros `*_boxes.*` desaparecen: la
+  transformación vive en el constructor y la cadena la aplica en cada compilación.
+- El puntero de §5.4 nombra la tabla además del apéndice ("…and Table~\ref{tab:q13-local} in Appendix~\ref{app:local} gives the
+  reading"), de modo que el texto principal sigue citando todas las tablas del apéndice.
+- Sweep: comprobación del preámbulo (ahora amsthm y tcolorbox, con el recuento de cajas 8 y 1), del esqueleto (siete secciones y
+  **diez** subsecciones, §5.5 fuera del texto principal y su párrafo en el apéndice) y de la prosa llana (un párrafo que es una caja
+  de enunciado es un enunciado, no prosa sin entradilla). 230/230.
+- Envío: 31 páginas, texto principal en la página 9, apéndice de 16, qa_pages regeneradas.

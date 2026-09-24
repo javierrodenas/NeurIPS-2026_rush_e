@@ -26,7 +26,7 @@
   },
   "Results": {
    "sentences": 83,
-   "avg_words": 17.5,
+   "avg_words": 17.4,
    "max_words": 30,
    "over30": 0
   },
@@ -43,7 +43,7 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 17.7,
+ "avg_nonverbatim": 17.6,
  "n_nonverbatim_sentences": 149,
  "over30_rule": {
   "cap": 30,
@@ -216,9 +216,7 @@
   {
    "section": "Results",
    "lead": "Models share neighborhoods, not metrics.",
-   "numbers": [
-    "66"
-   ]
+   "numbers": []
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",

@@ -453,7 +453,7 @@ def q_power():
             h = Hs.get(r["model"]); hh = (f"{int(h['fa_s0_haar'])}/{int(h['hits_s1_haar'])} & ${float(h['z_mean_s1_haar']):{zf}}$") if h else "-- & --"
             rows.append(f"{NAME[r['model']]} & ${float(r['real_z']):{zf}}$ & {float(r['ratio_real']):.1f} & {hb(r)} & {ss} & ${float(r['z_mean_s1']):{zf}}$ & {tz} & {hh} & {bb} \\\\")
         T.panel("(b) Implanted two-level trees on the real ImageNet centroids: the hub arrangement replaced at strength $s$, every within-cluster offset kept; hits = implant seeds with $z\\le-2$ at $s{=}0/0.5/1$, $\\bar z_1$ = mean $z$ at $s{=}1$, w/b = within/between spread.", "lcccccc|cc|ccc",
-                [r" & \multicolumn{6}{c|}{WordNet-30 frame of record, Gaussian-hub star} & \multicolumn{2}{c|}{Haar-hub star} & \multicolumn{3}{c}{balanced frame (pre-specified)} \\",
+                [r" & \multicolumn{6}{c|}{WordNet-30 frame, Gaussian-hub star} & \multicolumn{2}{c|}{Haar-hub star} & \multicolumn{3}{c}{balanced frame (pre-specified)} \\",
                  r"model & real $z$ & w/b & hits & $s^*$ & $\bar z_1$ & tight $z$ at $s{=}0/0.5/1$ & hits $s{=}0/1$ & $\bar z_1$ & real $z$ & hits & $s^*$ \\"], rows, mids=(4, 9), colsep="1.8pt")
         dep = [a for a in load("expR64b_wn30.csv") if a["kind"] == "depth" and a["partition"] == "rand6" and a["s"] != "real"]
         pw = {s: sum(float(a["z"]) <= -2 for a in dep if float(a["s"]) == s)/max(1, sum(1 for a in dep if float(a["s"]) == s)) for s in (0.0, 0.25, 0.5, 0.75, 1.0)}

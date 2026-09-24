@@ -1032,10 +1032,10 @@ def final_checks():
     chk("final: thesis verbatim exactly twice (abstract's last sentence, S7 conclusion), no short form", bf.count(THESIS) == 2 and "no license for curvature" not in bf and THESIS in bf[bf.index("\\paragraph{Conclusion.}"):] and "occasionally hierarchical" not in bf)
     # ---- structure: classic skeleton, seven inline unframed definitions, seven equations, Proposition 1 (a)(b) proved in Appendix A, no boxes
     secs_ = _re.findall(r"\\section\{([^}]*)\}", bf); subs_ = _re.findall(r"\\subsection\{([^}]*)\}", bf); prop = bf[bf.index("\\begin{proposition}"):bf.index("\\end{proposition}")]
-    chk("final: skeleton unchanged from v3 (seven sections, eleven subsections), eight definitions inline and unframed (the decoupling control since the cleanup of 2026-09-22), six numbered equations (the curvature rule inline since the brief of 2026-09-21), Proposition 1 (a)(b) with its one proof in Appendix A, no boxes and no colored text",
-        len(secs_) == 7 and secs_[2] == "Methodology" and secs_[-1] == "Conclusion and Limitations" and len(subs_) == 11 and bf.count("\\begin{definition}[") == 8 and bf.count("\\begin{proposition}") == 1 and "(a)" in prop and "(b)" in prop
+    chk("final: skeleton of seven sections and ten subsections (S5.5 moved to the appendix on 2026-09-24), eight definitions in light-blue boxes and Proposition 1 in amber (promotion of the boxed variant), six numbered equations, Proposition 1 (a)(b) with its one proof in Appendix A",
+        len(secs_) == 7 and secs_[2] == "Methodology" and secs_[-1] == "Conclusion and Limitations" and len(subs_) == 10 and "What is shared is local" not in TF[:TF.index("\\appendix")] and "Models share neighborhoods, not metrics." in bf and bf.count("\\begin{definition}[") == 8 and bf.count("\\begin{proposition}") == 1 and "(a)" in prop and "(b)" in prop
         and bf.count("\\begin{equation}") == 6 and all(("\\label{eq:%s}" % e) in bf for e in ("pairings", "deltanorm", "excess", "rank", "bh", "depth")) and TF.count("\\begin{proof}") == 1 and "\\label{app:proofs}" in TF and TF.index("\\section{Proofs}") > TF.index("\\appendix")
-        and "tcolorbox" not in TF and "\\textcolor" not in bf and "\\colorbox" not in bf and "\\begin{lemma}" not in bf and "\\begin{corollary}" not in bf and "\\begin{remark" not in bf and "\\newtheorem{definition}" in TF)
+        and "tcolorbox" in TF and "\\textcolor" not in bf and "\\colorbox" not in bf and "\\begin{lemma}" not in bf and "\\begin{corollary}" not in bf and "\\begin{remark" not in bf and "\\newtheorem{definition}" in TF)
     # ---- prose rules on the non-verbatim prose of S3-S7 (definitions, equations, captions and tables excluded)
     src = nocom(bf); src = _re.sub(r"\\begin\{(figure|table|tabular|center)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\begin\{equation\*?\}.*?\\end\{equation\*?\}", " EQUATION. ", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
     def clean(par):
@@ -1079,7 +1079,7 @@ def final_checks():
     blocks = _re.split(r"\\section\{([^}]*)\}", src); blocks = [(blocks[i], blocks[i+1]) for i in range(1, len(blocks), 2)]
     for name, text in blocks:
         results = name in ("Results", "Implications for Hyperbolic Representation Learning"); prose = name not in ("Introduction", "Related Work")
-        pars = [q.strip() for q in _re.split(r"\n\s*\n", text) if q.strip() and not q.strip().startswith(("\\begin{definition}", "\\begin{proposition}", "\\label", "\\subsection", "\\begin{equation}"))]
+        pars = [q.strip() for q in _re.split(r"\n\s*\n", text) if q.strip() and not q.strip().startswith(("\\begin{definition}", "\\begin{proposition}", "\\begin{defbox}", "\\begin{propbox}", "\\end{defbox}", "\\end{propbox}", "\\label", "\\subsection", "\\begin{equation}"))]
         ws = []
         for par in pars:
             vb = isverb(par) or not prose; cp = clean(par); sents = sent_split(cp); w = [len(s.split()) for s in sents]; ws += w
@@ -1427,7 +1427,8 @@ def final_checks():
     # ---- statements
     AI = "In this work, we used generative AI tools for writing assistance; for the retrieval of references; and for research ideation or execution, namely the implementation and execution of experiments under the authors' direction and LLM-simulated reviews used as methodological feedback. We have not used generative AI tools for other tasks with required disclosure. We have reviewed all AI-assisted work, and we take responsibility for the final content of this work, including text, claims or artifacts produced with the aid of generative AI."
     chk("final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present", AI in stm and "anonymized repository" in stm and "TODO(author)" in stm and "Ethics Statement" in stm)
-    chk("final: preamble of the frozen v1 plus amsthm only (same class, same packages)", TF[:TF.index("\\usepackage{amsthm}")] == T1[:T1.index("\\usepackage{array}\n") + len("\\usepackage{array}\n")] and TF.count("\\usepackage") == T1.count("\\usepackage") + 1)
+    chk("final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise", TF[:TF.index("\\usepackage{amsthm}")] == T1[:T1.index("\\usepackage{array}\n") + len("\\usepackage{array}\n")] and TF.count("\\usepackage") == T1.count("\\usepackage") + 2 and "\\usepackage[most]{tcolorbox}" in TF
+        and TF.count("\\begin{defbox}") == TF.count("\\begin{definition}") == 8 and TF.count("\\begin{propbox}") == TF.count("\\begin{proposition}") == 1)
 final_checks()
 def rebuttal_checks():
     """Parallel track (brief of 2026-09-20): main_iclr2027_rebuttal.tex = the frozen submission file plus the parallel-track paragraphs

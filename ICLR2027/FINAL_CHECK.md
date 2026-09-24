@@ -15,11 +15,11 @@
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 37 | 18.1 | 30 | 0 |
 | Experimental Setup | 17 | 17.3 | 30 | 0 |
-| Results | 83 | 17.5 | 30 | 0 |
+| Results | 83 | 17.4 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 8 | 16.9 | 24 | 0 |
 | Conclusion and Limitations | 21 | 18.8 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 149 sentences, mean 17.7 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 149 sentences, mean 17.6 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -46,7 +46,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | Agreement with WordNet follows supervision and recipe. | — |
 | Results | The recovery is not WordNet circularity. | — |
 | Results | Text depends on recipe and scale. | 7 of 15 |
-| Results | Models share neighborhoods, not metrics. | 66 |
+| Results | Models share neighborhoods, not metrics. | — |
 | Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5 |
 | Implications for Hyperbolic  | Both readings predict the gain, and the hierarchy verdict pr | — |
 | Implications for Hyperbolic  | The calibration certifies structure and does not choose the  | +0.9 to +1.3 |
@@ -74,7 +74,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
     PASS final: every cross-reference of the final resolves 
     PASS final: Table 1 is the census on the centered Haar record with the short caption (tab_census_final from expR75, twelve rows, same layout as v1's tab_census) 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility with the anonymized-repository placeholder; Ethics present 
-    PASS final: preamble of the frozen v1 plus amsthm only (same class, same packages) 
+    PASS final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise 
 
 ## Cited bibliography entries and their sources (DBLP key, else DOI, else publisher URL)
 
