@@ -192,7 +192,7 @@ and the word is used in this sense only.
 \end{definition}
 \end{defbox}
 
-\paragraph{What a genuine excess means.} A negative genuine excess, more than chance would give, certifies structure beyond the second moments; clustering is its most plausible reading, supported by the superclass recovery of Section~\ref{sec:content}. Two cells of the same dataset can have the same reading and opposite verdicts (Figure~\ref{fig:samereading}).
+\paragraph{What a genuine excess means.} A negative genuine excess, more than chance would give, certifies structure beyond the second moments; clustering is its most plausible reading, supported by the superclass recovery of Section~\ref{sec:content}. Two cells of the same dataset can read $0.082$ alike, ViT-B on CIFAR-100 images and DINO-B on its centroids, and only the second is genuine.
 
 \begin{figure}[t]
 \centering
@@ -271,9 +271,9 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 \label{fig:premise}
 \end{figure}
 
-\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in 14 of 24 cells, that is, no more than chance would give. The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What fails is the evidence the premise cites, not the possibility of a hierarchy. Where it is genuine, the excess removes at most two fifths of the null reading. Figure~\ref{fig:premise}a shows the 24 cells and Table~\ref{tab:q3-sample} gives the reading per cell. % expR62_samplelevel_record.csv
+\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in 14 of 24 cells, that is, no more than chance would give. The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What fails is the evidence the premise cites, not the possibility of a hierarchy. Where it is genuine, the excess removes at most two fifths of the null reading. Figure~\ref{fig:premise}a and Table~\ref{tab:q3-sample} give the 24 cells. % expR62_samplelevel_record.csv
 
-\paragraph{A published reading is reproduced and calibrated.} The estimator of \citet{Khrulkov_2020_CVPR}, run on our extraction, reproduces the raw $\delta_{\text{rel}}$ they report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 \citep{cub} are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet \citep{miniimagenet} fall below it. Under their own statistic, the supremum, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. Figure~\ref{fig:premise}b shows the 4 datasets and Table~\ref{tab:khrulkov} gives the rows. % expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
+\paragraph{A published reading is reproduced and calibrated.} The estimator of \citet{Khrulkov_2020_CVPR}, run on our extraction, reproduces the raw $\delta_{\text{rel}}$ they report for ResNet-34 on 4 datasets within 0.03. Calibrated, CIFAR-10 and CUB-200 \citep{cub} are indistinguishable from a random cloud, and CIFAR-100 and MiniImageNet \citep{miniimagenet} fall below it. Under their own statistic, the supremum, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. Figure~\ref{fig:premise}b and Table~\ref{tab:khrulkov} give the 4 datasets. % expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
 
 \subsection{Structure beyond the second moments at the class level}
 \label{sec:f-class}
@@ -326,7 +326,7 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 
 \paragraph{The naive map manufactures an island.} Figure~\ref{fig:treemap} compares the trees of the 12 models in three ways. Panel (a) compares them as usually done, (b) under the criterion of Section~\ref{sec:f-treemap} against the within-model ceiling, and (c) by whether classes are grouped by direction or by distance. Compared with Euclidean distances and average linkage, the DINOv2 models then agree with none of the others, an island in the map of models. They agree with the 7 supervised and contrastive models far less than those 7 agree among themselves (DINO-B is not part of the island). The cause is chaining: DINOv2's Euclidean dendrograms put almost every class in one cluster, forcing the index to zero. % exp23_treemap_controls.npz, exp23_config_diagnostics.json
 
-\paragraph{Controlled, the trees share their topology, not their metric.} Across models, triplet agreement reaches 0.77, against 0.90 for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach about half their within-model ceiling (Table~\ref{tab:q6-treemap-b} and Figure~\ref{fig:ceiling}). Calibrated local agreement across models survives, as \citet{groger2026aristotelian} find for similarity (Table~\ref{tab:q13-local}). % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling_summary.csv, exp21b_local_global_K200.csv
+\paragraph{Controlled, the trees share their topology, not their metric.} Across models, triplet agreement reaches 0.77, against 0.90 for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach about half their within-model ceiling (Table~\ref{tab:q6-treemap-b} and Figure~\ref{fig:treemap}b). Calibrated local agreement across models survives, as \citet{groger2026aristotelian} find for similarity (Table~\ref{tab:q13-local}). % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling_summary.csv, exp21b_local_global_K200.csv
 
 \paragraph{The self-supervised tree is angular.} Sibling triplets were resolved under cosine and under Euclidean distance: DINOv2 resolves them far better under cosine, so its semantics concentrate in the angular component and its Euclidean dendrograms chain. Repeated on cosine geometry, the census agrees with the Euclidean one in most cells, and DINOv2 on ImageNet is genuine, more than chance would give, under both. Figure~\ref{fig:treemap}c shows the triplets and Table~\ref{tab:q1-census-c} gives the cosine census. % exp10_local_vs_global.csv, expR57_census_cosine_haar_p999_200.csv
 
@@ -343,9 +343,9 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 \section{Conclusion and Limitations}
 \label{sec:discussion}
 
-\paragraph{Conclusion.} Read correctly, foundation models organize classes into clusters that they partly share, show no hierarchy among the superclasses where the test can see one, and their raw tree-likeness is not evidence for hyperbolic geometry. Curvature should be measured rather than assumed. Cosine collects most of what is there.
+\paragraph{Conclusion.} Read correctly, foundation models organize classes into clusters that they partly share, show no hierarchy among the superclasses where the test can see one, and their raw tree-likeness is not evidence for hyperbolic geometry. Cosine collects most of what is there.
 
-\paragraph{Limitations.} (i)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess does not exclude hierarchy carried by the spectrum. (ii)~The hierarchy test's power follows the backbone. The verdict of no hub hierarchy holds only in the 9 of 12 backbones where the decoupled control detects a planted hierarchy. (iii)~The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative. (iv)~The text census depends on the probe: template and batching move the reading, so verdicts at the margin are fragile. (v)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work. (vi)~The census is class-centroid geometry on 6 datasets, and the sample-level reading covers 2 datasets, one image budget and one published setting. (vii)~The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label ViTs. (viii)~The reading divides by the diameter, so heavier tails in real clouds would lower $\delta_{\text{norm}}$ without any clustering; the cosine census mitigates this. % expR47_extraction_variance.csv, expR49_template_nulls_bs1.csv, expR81_deep_per_backbone_summary.csv
+\paragraph{Limitations.} (i)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess does not exclude hierarchy carried by the spectrum. (ii)~The verdict of no hub hierarchy holds only in the 9 of 12 backbones where the decoupled control detects a planted hierarchy. (iii)~The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative. (iv)~The text census depends on the probe: template and batching move the reading, so verdicts at the margin are fragile. (v)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work. (vi)~The census is class-centroid geometry on 6 datasets, and the sample-level reading covers 2 datasets, one image budget and one published setting. (vii)~The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label ViTs. (viii)~The reading divides by the diameter, so heavier tails in real clouds would lower $\delta_{\text{norm}}$ without any clustering; the cosine census mitigates this. % expR47_extraction_variance.csv, expR49_template_nulls_bs1.csv, expR81_deep_per_backbone_summary.csv
 
 \subsubsection*{Reproducibility Statement}
 Every number in the paper is produced by a script from a result file; the README of the supplementary material maps each table and figure to its script and file. The full pipeline with fixed seeds is provided in the supplementary material; its \texttt{tool/} directory ships the instrument as one script that reproduces any cell of Table~\ref{tab:census} from its centroid matrix. Estimator settings are stated in Section~\ref{sec:f-setup} and the model panel in Table~\ref{tab:q14-panel}.
@@ -414,13 +414,6 @@ Every table is generated by script from the released per-cell result files, and 
 \subsection{Does the premise survive at the sample level? The census on per-image features}
 \label{app:sample}
 \paragraph{What this table answers.} The premise is read on per-image features, so this table reads the census there instead of on class centroids. Each cell gives the raw statistic beside the excess over its matched null. Where the excess survives, it removes a small fraction of the null reading.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.45\linewidth]{figures/fig_samereading_final.pdf}
-\caption{\textbf{The same reading, opposite verdicts.} The raw reading of ViT-B on CIFAR-100 images and of DINO-B on CIFAR-100 centroids, each beside the mean of its matched null: the same reading, and only one of them is genuine. % expR62_samplelevel_record.csv, expR52_census_haar_p999_200.csv, final_fig2b.json
-}
-\label{fig:samereading}
-\end{figure}
 \input{tab_khrulkov_final}
 \input{appendix_tables/final/tab_q03_sample_final}
 
@@ -473,13 +466,6 @@ Every table is generated by script from the released per-cell result files, and 
 \label{app:treemap}
 
 \paragraph{What this table answers.} Trees of different models are compared as objects, without labels. The comparison depends on the cut, so the first table gives the diagnostics of every admissible configuration and the criterion that selects one. The last table reads two resamples of the same model, which is the ceiling any cross-model agreement can reach.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.92\linewidth]{figures/fig_ceiling_final.pdf}
-\caption{\textbf{Every tree stays under its own ceiling and well above chance.} Per backbone: triplet agreement with the other 11 (dot) against the band of its own bootstrap copies, worst to mean. % expR84_tree_ceiling_summary.csv, expR58_treemap_cutfree.csv
-}
-\label{fig:ceiling}
-\end{figure}
 \input{appendix_tables/final/tab_q06_treemap}
 
 \FloatBarrier

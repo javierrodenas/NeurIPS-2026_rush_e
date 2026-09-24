@@ -42,19 +42,19 @@ ViT-B (augreg, IN-1k) & $+0.52$ & $+0.01$ & -- & -- & -- \\
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
 \setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{lcc|ccc|ccc}
+\begin{tabular}{lcc|cccc|ccc}
 \toprule
- & \multicolumn{2}{c|}{supremum, Haar} & \multicolumn{3}{c|}{census} & & & \\
-model & $\hat\delta_{\max}$ & excess & $\hat\delta_{99.9}$ & excess & $r$ ($p$) & trip.\ & NC H$-$R & FS H$-$R \\
+ & \multicolumn{2}{c|}{supremum, Haar} & \multicolumn{4}{c|}{census} & & & \\
+model & $\hat\delta_{\max}$ & excess & $\hat\delta_{99.9}$ & excess & $r$/200 & $p$ & trip.\ & NC H$-$R & FS H$-$R \\
 \midrule
-BGE-base & 0.122 & -0.032 & 0.082 & -0.021 & 200 (0.005) & 0.89 & -0.59 & +0.05$\pm$0.05 \\
-E5-base & 0.127 & -0.028 & 0.086 & -0.017 & 200 (0.005) & 0.89 & -0.43 & +0.04$\pm$0.03 \\
-GTE-base & 0.132 & -0.024 & 0.088 & -0.017 & 200 (0.005) & 0.89 & -0.82 & +0.08$\pm$0.06 \\
+BGE-base & 0.122 & -0.032 & 0.082 & -0.021 & 200 & 0.005 & 0.89 & -0.59 & +0.05$\pm$0.05 \\
+E5-base & 0.127 & -0.028 & 0.086 & -0.017 & 200 & 0.005 & 0.89 & -0.43 & +0.04$\pm$0.03 \\
+GTE-base & 0.132 & -0.024 & 0.088 & -0.017 & 200 & 0.005 & 0.89 & -0.82 & +0.08$\pm$0.06 \\
 \bottomrule
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The recovery is not WordNet circularity.} On DBpedia Classes, an ontology built independently: the reading, the excess, the triplet agreement and the metric gains per text embedder.
+\caption{\textbf{The recovery is not WordNet circularity.} On DBpedia Classes, an ontology built independently: the reading, the excess, the triplet agreement and the metric gains per text embedder. $r$/200: replicates above the real value.
 }
 \label{tab:q7-wordnet-c}
 \end{table}

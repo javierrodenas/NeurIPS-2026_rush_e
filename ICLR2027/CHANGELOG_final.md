@@ -3083,3 +3083,27 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Cero apariciones** de "TODO", "anonymized repository" y "ANONYMIZED" en el `.tex` del envío, en los ficheros que incluye
   (tablas del apéndice), en el PDF, y también en el fichero y el PDF del rebuttal. El sweep lo comprueba ahora en cada pasada.
 - Envío de 29 páginas, texto principal hasta la página 9. Sweep **236/236**, rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 104. Tablas del apéndice: recuentos, columnas sin paréntesis y pasada de redundancia (2026-09-24, tres briefs del autor).
+
+- **(A) Fuera las filas de puntos.** La tabla del censo por construcciones da ahora **$k$/5** por celda (cuántas de las cinco
+  construcciones la llaman genuina) y la del texto **$k$/4**. Los pies nombran las construcciones en orden: centrada Haar, Haar
+  sin centrar y Gaussiana con el percentil 99.9, y luego Haar y Gaussiana con el supremo (las cinco, en ese orden, son las que
+  hay en los ficheros; tu descripción decía "la Haar centrada con el supremo y su mediana", que no corresponde a ninguna de las
+  columnas). El pie dice además que **las cinco coinciden en 37 de 72 celdas**, contado del fichero.
+- **(B) Ningún valor entre paréntesis.** Se parten en dos columnas con cabecera propia todas las celdas que empaquetaban dos
+  números: "$r$/200" y "$p$" en el censo por celda, el nivel de imagen y DBpedia; "depth" y "$z$" en las tres primeras tablas de
+  la prueba de jerarquía; "excess" y "$r$" en las etiquetas de hoja, MERU, el control entrenado y la jerarquía profunda;
+  "decoupled $z$" y "cert." en las cuatro tablas que lo llevaban. Nueve paneles en total; la única aparición de paréntesis que
+  queda es la etiqueta de las nubes sintéticas ("tight (0.1)"), que no es un valor.
+- **(C) Redundancia.** Fuera la figura del techo intramodelo (duplicaba la Figura 5b; su referencia apunta ya a la 5b) y la del
+  "same reading, opposite verdicts" (la frase de §3.3 lo dice en palabras: dos celdas leen 0.082 y sólo la de centroides es
+  genuina). **Las tablas 5 y 6 se funden** en "Does the verdict change with how it is measured?", con $k$/5 y el veredicto en
+  geometría coseno por celda y sin las columnas que repetían el censo; responde también a la referencia de la antigua tabla del
+  coseno. La tabla de MERU se titula "Training in hyperbolic space shows no detected hub structure" (es la **Tabla 13** ahora,
+  no la 14: la fusión corrió la numeración).
+- **Para volver a la página 9** (las dos referencias nuevas y la frase en palabras la pasaban por cuatro líneas) he recortado,
+  en tu orden: la conclusión pierde "Curvature should be measured rather than assumed."; la frase del same-reading queda
+  compacta; los dos punteros de §5.1 pasan a "Figure 3a and Table 8 give the 24 cells" y "Figure 3b and Table 7 give the 4
+  datasets"; y la limitación (ii) pierde su primera frase, que repetía la segunda.
+- **Apéndice: 14 páginas** (eran 17), envío de **29**. Ahora son 23 tablas y 9 figuras. Sweep **237/237** con la comprobación
+  nueva (recuentos, ninguna celda con dos números, las dos figuras fuera y el título de MERU). Rebuttal reconstruido (61/61).

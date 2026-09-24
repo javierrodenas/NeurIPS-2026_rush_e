@@ -171,6 +171,55 @@ json.dump({"sample_genuine": _gen, "indistinguishable": _ind, "published": {d: f
 save(fig, "fig_premise_final")
 print(f"premise: genuine {_gen}/24 sample-level cells, indistinguishable under calibration {_ind}")
 
+# ---------------- Figure 3 (author's brief, 2026-09-24): the premise where it is read. Panel (a) keeps the x axis of Figure 2;
+# panel (b) reads the published setting with their own estimator against a random cloud (expR85), filled by the calibrated verdict.
+SL = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_samplelevel_record.csv"))}
+K78 = {r["dataset"]: r for r in csv.DictReader(open(RES/"expR78_khrulkov_replication_summary.csv"))}
+K85 = list(csv.DictReader(open(RES/"expR85_khrulkov_sup.csv")))
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.9), gridspec_kw=dict(width_ratios=[1.85, 1.25]))
+# (a) the 24 sample-level cells: the raw reading and its matched random cloud, CIFAR-100 left and DTD right of each backbone
+ax = axes[0]
+for _ds, _dx, _mk in (("cifar100", -0.22, "o"), ("dtd", 0.22, "s")):
+    for _f, ms_, _ in FAMS:
+        ax.plot([XPOS[m] + _dx for m in ms_], [float(SL[(m, _ds)]["null_mean"]) for m in ms_], ls=DOT, color=GRAY, lw=0.9, zorder=2)
+        ax.plot([XPOS[m] + _dx for m in ms_], [float(SL[(m, _ds)]["delta_999"]) for m in ms_], "-", color=fam_color(ms_[0]), lw=1.1, zorder=3)
+    for m in M:
+        ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["null_mean"]), "D", color=GRAY, ms=3.0, mec="white", mew=0.5, zorder=4)
+        if SL[(m, _ds)]["genuine_bh"] == "True": ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["delta_999"]), _mk, color=fam_color(m), ms=4.0, mec="white", mew=0.5, zorder=5)
+        else: ax.plot(XPOS[m] + _dx, float(SL[(m, _ds)]["delta_999"]), _mk, mfc="white", mec=fam_color(m), ms=4.0, mew=1.1, zorder=5)
+ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) per-image features, 24 cells", pad=3); famaxis(ax)
+# (b) the published setting: their value, our reproduction with their estimator and a random cloud read the same way
+ax = axes[1]
+DK = [("cifar10", "CIFAR-10"), ("cifar100", "CIFAR-100"), ("cub", "CUB-200"), ("miniimagenet", "Mini")]
+_col = fam_color("i21k_b")   # ResNet-34, a supervised backbone
+for _i, (_d, _lab) in enumerate(DK):
+    _rows = [r for r in K85 if r["dataset"] == _d]
+    _nul = sum(float(r["null_mean"]) for r in _rows) / len(_rows); _sd = sum(float(r["null_sd"]) for r in _rows) / len(_rows)
+    _ours = float(K78[_d]["ours_raw_mean"]); _below = float(K78[_d]["p_left_max"]) <= 0.05   # the calibrated verdict of the percentile reading
+    ax.plot([_i, _i], [_nul - 2 * _sd, _nul + 2 * _sd], "-", color=GRAY, lw=1.0, solid_capstyle="butt", zorder=2)
+    ax.plot(_i, _nul, "D", color=GRAY, ms=3.6, mec="white", mew=0.5, zorder=3)
+    ax.plot(_i, float(K78[_d]["theirs"]), "*", color="0.30", ms=7.5, mec="white", mew=0.5, zorder=4)
+    if _below: ax.plot(_i, _ours, "o", color=_col, ms=4.6, mec="white", mew=0.6, zorder=5)
+    else: ax.plot(_i, _ours, "o", mfc="white", mec=_col, ms=4.6, mew=1.2, zorder=5)
+    ax.annotate(f"{_ours:.2f}", (_i, _ours), xytext=(4.5, -0.5), textcoords="offset points", fontsize=6.3, color=_col, va="center", ha="left", zorder=6)
+ax.set_xlim(-0.55, 3.75); ax.set_xticks(range(4)); ax.set_xticklabels([l for _, l in DK], fontsize=5.6)
+ax.tick_params(axis="x", length=2, width=0.6, color="#BBBBBB", pad=1.5)
+ax.set_ylabel(r"$\delta_{\mathrm{rel}}$"); ax.set_title("(b) the published reading, calibrated", pad=3)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.1, ms=4.0, mec="white", mew=0.5, label="CIFAR-100 (a), reproduction (b)"),
+      plt.Line2D([], [], marker="s", color="k", ls="-", lw=1.1, ms=4.0, mec="white", mew=0.5, label="DTD (a)"),
+      plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.0, mew=1.1, label="hollow: not genuine"),
+      plt.Line2D([], [], marker="D", color=GRAY, ls=DOT, lw=0.9, ms=3.4, mec="white", mew=0.5, label="random cloud, $\\pm2$ s.d. in (b)"),
+      plt.Line2D([], [], marker="*", color="0.30", ls="", ms=7.5, mec="white", mew=0.5, label="published value (b)")]
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.20))
+fig.subplots_adjust(left=0.075, right=0.995, top=0.90, bottom=0.26, wspace=0.26)
+_gen = sum(SL[(m, ds)]["genuine_bh"] == "True" for m in M for ds in ("cifar100", "dtd"))
+_ind = [d for d, _ in DK if float(K78[d]["p_left_max"]) > 0.05]
+json.dump({"sample_genuine": _gen, "indistinguishable": _ind, "published": {d: float(K78[d]["theirs"]) for d, _ in DK},
+           "ours_sup": {d: float(K78[d]["ours_raw_mean"]) for d, _ in DK}}, open(RES/"final_fig_premise.json", "w"), indent=1)
+save(fig, "fig_premise_final")
+print(f"premise: genuine {_gen}/24 sample-level cells, indistinguishable under calibration {_ind}")
+
 # ---------------- appendix figure: the same reading with opposite verdicts (panel (b) of the former Figure 2)
 fig, ax = plt.subplots(1, 1, figsize=(2.3, 1.75))
 D = json.load(open(RES/"final_fig2b.json")); assert D.get("mode") == "sample", D   # fifth review: same dataset, same reading, opposite verdict
@@ -346,29 +395,6 @@ json.dump({"covered": _cov81, "n_covered": len(_cov81), "ratio_covered": [round(
            "ratio_blind": [round(float(R64[m]), 2) for m in M if m not in _cov81]}, open(RES/"final_fig_power.json", "w"), indent=1)
 save(fig, "fig_power_final")
 print(f"power: {len(_cov81)}/12 backbones at decoupled power 0.8 or more")
-
-# ---------------- the within-model ceiling against the cross-model agreement, per backbone
-S84f = pd.read_csv(RES/"expR84_tree_ceiling_summary.csv").set_index("model")
-C58 = pd.read_csv(RES/"expR58_treemap_cutfree.csv"); C58 = C58[(C58.dataset == "imagenet") & (C58.metric == "cosine") & (C58.linkage == "average")]
-fig, ax = plt.subplots(figsize=(5.5, 1.9))
-for m in M:
-    if m not in S84f.index: continue
-    lo, hi = float(S84f.loc[m, "triplet_agree_min"]), float(S84f.loc[m, "triplet_agree_mean"])
-    ax.plot([XPOS[m], XPOS[m]], [lo, hi], "-", color=BAND, lw=5, alpha=BAND_ALPHA, solid_capstyle="butt", zorder=1)
-    ax.plot([XPOS[m] - 0.3, XPOS[m] + 0.3], [hi, hi], "-", color="0.35", lw=0.8, zorder=2)
-    x_ = C58[(C58.model_a == m) | (C58.model_b == m)].triplet_agree.mean()
-    ax.plot(XPOS[m], x_, "o", color=fam_color(m), ms=4.6, mec="white", mew=0.6, zorder=4)
-ax.axhline(1 / 3, color="k", lw=0.8, ls="--", zorder=1)
-ax.set_ylabel("triplet agreement"); ax.set_title("each model's tree against its own ceiling", pad=3); famaxis(ax)
-hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.6, label="agreement with the other 11"),
-      Patch(color=BAND, alpha=BAND_ALPHA, label="within-model ceiling (worst to mean)"),
-      plt.Line2D([], [], color="k", lw=0.8, ls="--", label="chance, 0.33")]
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.20))
-fig.subplots_adjust(left=0.085, right=0.995, top=0.90, bottom=0.26)
-json.dump({"ceiling_mean": {m: round(float(S84f.loc[m, "triplet_agree_mean"]), 3) for m in M if m in S84f.index},
-           "cross_model": {m: round(float(C58[(C58.model_a == m) | (C58.model_b == m)].triplet_agree.mean()), 3) for m in M}}, open(RES/"final_fig_ceiling.json", "w"), indent=1)
-save(fig, "fig_ceiling_final")
-print("ceiling: 12 backbones, band from the worst bootstrap pair to the mean")
 
 # ---------------- the zero-cost gains per backbone
 E2 = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"exp2_metric_controls.csv"))}

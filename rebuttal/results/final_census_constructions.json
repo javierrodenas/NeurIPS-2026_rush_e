@@ -1,0 +1,19 @@
+{
+ "all_five": 37,
+ "counts": {
+  "Hc": 44,
+  "Hp": 49,
+  "Gp": 52,
+  "Hs": 46,
+  "Gs": 52
+ },
+ "order": [
+  "Hc",
+  "Hp",
+  "Gp",
+  "Hs",
+  "Gs"
+ ],
+ "cosine_agree": 60,
+ "cosine_genuine": 56
+}

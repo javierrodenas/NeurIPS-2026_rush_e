@@ -14,7 +14,7 @@
   },
   "Methodology": {
    "sentences": 38,
-   "avg_words": 18.1,
+   "avg_words": 18.3,
    "max_words": 30,
    "over30": 0
   },
@@ -26,7 +26,7 @@
   },
   "Results": {
    "sentences": 71,
-   "avg_words": 18.0,
+   "avg_words": 17.9,
    "max_words": 30,
    "over30": 0
   },
@@ -37,14 +37,14 @@
    "over30": 0
   },
   "Conclusion and Limitations": {
-   "sentences": 12,
-   "avg_words": 18.9,
+   "sentences": 10,
+   "avg_words": 21.3,
    "max_words": 34,
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.1,
- "n_nonverbatim_sentences": 126,
+ "avg_nonverbatim": 18.3,
+ "n_nonverbatim_sentences": 124,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",

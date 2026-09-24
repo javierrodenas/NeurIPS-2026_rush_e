@@ -36,63 +36,31 @@ BYOL-R50 & $-0.020$ & 1 & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- &
 \scriptsize
 \setlength{\tabcolsep}{1.4pt}
 \begingroup
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lcccccc|c}
-\toprule
-model & IN & C100 & C10 & DTD & FMNIST & MNIST & sup.\ IN exc.\ ($r$) \\
-\midrule
-ViT-T & $\circ$$\circ$$\bullet$$\circ$$\bullet$ $-5\%$ & $\circ$$\circ$$\bullet$$\circ$$\bullet$ $-5\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-9\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-11\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $+18\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-14\%$ & $-0.020$ (199) \\
-ViT-S & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $\circ$$\circ$$\bullet$$\circ$$\bullet$ $-0\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-33\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-21\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-21\%$ & $-0.020$ (200) \\
-ViT-B & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-23\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $+5\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-30\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-18\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-26\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-5\%$ & $-0.022$ (200) \\
-ViT-L & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-22\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-18\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-31\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-28\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-31\%$ & $\circ$$\circ$$\circ$$\bullet$$\bullet$ $-20\%$ & $-0.027$ (200) \\
-\midrule
-DINO-B & $\bullet$$\bullet$$\circ$$\bullet$$\circ$ $-27\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-28\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-32\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-22\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-1\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-21\%$ & $+0.000$ (96) \\
-DINOv2-S & $\bullet$$\bullet$$\circ$$\bullet$$\circ$ $-23\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-31\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-28\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-14\%$ & $\circ$$\circ$$\circ$$\bullet$$\bullet$ $-19\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $+2\%$ & $+0.017$ (0) \\
-DINOv2-B & $\bullet$$\bullet$$\circ$$\bullet$$\circ$ $-33\%$ & $\bullet$$\bullet$$\circ$$\bullet$$\bullet$ $-38\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-59\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-31\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-40\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-8\%$ & $+0.018$ (0) \\
-DINOv2-L & $\bullet$$\bullet$$\circ$$\bullet$$\bullet$ $-31\%$ & $\bullet$$\bullet$$\circ$$\bullet$$\bullet$ $-48\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-75\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-37\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-19\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-6\%$ & $+0.006$ (0) \\
-DINOv2-G & $\bullet$$\bullet$$\circ$$\bullet$$\circ$ $-20\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-56\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-75\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-34\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-26\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-11\%$ & $+0.020$ (0) \\
-\midrule
-CLIP-B & $\circ$$\circ$$\bullet$$\circ$$\bullet$ $-7\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-17\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-19\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-19\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $+4\%$ & $-0.023$ (199) \\
-CLIP-L & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-11\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-17\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-21\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-22\%$ & $\circ$$\circ$$\circ$$\circ$$\circ$ $-0\%$ & $-0.016$ (198) \\
-SigLIP-B & $\circ$$\circ$$\circ$$\bullet$$\bullet$ $-9\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-18\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-23\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-19\%$ & $\bullet$$\bullet$$\bullet$$\bullet$$\bullet$ $-23\%$ & $\circ$$\bullet$$\bullet$$\bullet$$\bullet$ $-16\%$ & $-0.015$ (194) \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{The verdict holds under every construction of null and statistic.} Per cell: genuine or not under five constructions, the centered and uncentered Haar nulls, the Gaussian null and the two statistics, with the excess as a fraction of the null.
-}
-\label{tab:q1-census-b}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{1.4pt}
-\begingroup
 \setlength{\tabcolsep}{2.4pt}
 \begin{tabular}{lcccccccccccc}
 \toprule
  & \multicolumn{2}{c}{IN} & \multicolumn{2}{c}{C100} & \multicolumn{2}{c}{C10} & \multicolumn{2}{c}{DTD} & \multicolumn{2}{c}{FMNIST} & \multicolumn{2}{c}{MNIST} \\
-model & exc.\ & $r$ & exc.\ & $r$ & exc.\ & $r$ & exc.\ & $r$ & exc.\ & $r$ & exc.\ & $r$ \\
+model & $k$/5 & cos & $k$/5 & cos & $k$/5 & cos & $k$/5 & cos & $k$/5 & cos & $k$/5 & cos \\
 \midrule
-ViT-T & $-0.012$ & 200 & $-0.014^{\circ}$ & 191 & $-0.043$ & 198 & $-0.017$ & 199 & $+0.007^{\circ}$ & 73 & $-0.026^{\circ}$ & 167 \\
-ViT-S & $-0.017$ & 200 & $-0.017$ & 200 & $-0.073$ & 200 & $-0.021$ & 200 & $-0.049$ & 200 & $-0.036^{\circ}$ & 183 \\
-ViT-B & $-0.022$ & 200 & $-0.006^{\circ}$ & 170 & $-0.066$ & 200 & $-0.021$ & 200 & $-0.041$ & 199 & $-0.010^{\circ}$ & 130 \\
-ViT-L & $-0.021$ & 200 & $-0.024$ & 200 & $-0.080$ & 200 & $-0.024$ & 200 & $-0.066$ & 200 & $-0.043$ & 196 \\
+ViT-T & 2/5 & $\bullet$ & 2/5 & $\circ$ & 0/5 & $\bullet$ & 5/5 & $\bullet$ & 0/5 & $\circ$ & 0/5 & $\circ$ \\
+ViT-S & 5/5 & $\bullet$ & 2/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 4/5 & $\bullet$ & 0/5 & $\circ$ \\
+ViT-B & 5/5 & $\bullet$ & 0/5 & $\circ$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 0/5 & $\circ$ \\
+ViT-L & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 2/5 & $\bullet$ \\
 \midrule
-DINO-B & $-0.021$ & 200 & $-0.035$ & 200 & $-0.070$ & 200 & $-0.024$ & 200 & $-0.006^{\circ}$ & 116 & $-0.038^{\circ}$ & 193 \\
-DINOv2-S & $-0.014$ & 200 & $-0.033$ & 200 & $-0.084$ & 200 & $-0.018$ & 200 & $-0.054$ & 200 & $-0.004^{\circ}$ & 113 \\
-DINOv2-B & $-0.013$ & 200 & $-0.032$ & 200 & $-0.140$ & 200 & $-0.021$ & 200 & $-0.081$ & 200 & $-0.019^{\circ}$ & 147 \\
-DINOv2-L & $-0.010$ & 200 & $-0.029$ & 200 & $-0.151$ & 200 & $-0.024$ & 200 & $-0.051$ & 200 & $-0.020^{\circ}$ & 145 \\
-DINOv2-G & $-0.006$ & 200 & $-0.029$ & 200 & $-0.169$ & 200 & $-0.017$ & 200 & $-0.064$ & 200 & $-0.023^{\circ}$ & 157 \\
+DINO-B & 3/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 0/5 & $\circ$ & 0/5 & $\circ$ \\
+DINOv2-S & 3/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 2/5 & $\bullet$ & 0/5 & $\circ$ \\
+DINOv2-B & 3/5 & $\bullet$ & 4/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 0/5 & $\circ$ \\
+DINOv2-L & 4/5 & $\bullet$ & 4/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 4/5 & $\bullet$ & 0/5 & $\circ$ \\
+DINOv2-G & 3/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 0/5 & $\circ$ \\
 \midrule
-CLIP-B & $-0.017$ & 200 & $-0.023$ & 200 & $-0.039$ & 197 & $-0.031$ & 200 & $-0.038^{\circ}$ & 185 & $+0.002^{\circ}$ & 93 \\
-CLIP-L & $-0.017$ & 200 & $-0.025$ & 200 & $-0.045$ & 199 & $-0.031$ & 200 & $-0.038^{\circ}$ & 192 & $-0.008^{\circ}$ & 124 \\
-SigLIP-B & $-0.013$ & 200 & $-0.025$ & 200 & $-0.053$ & 200 & $-0.027$ & 200 & $-0.052$ & 199 & $-0.044$ & 197 \\
+CLIP-B & 2/5 & $\bullet$ & 5/5 & $\bullet$ & 4/5 & $\bullet$ & 5/5 & $\bullet$ & 0/5 & $\circ$ & 0/5 & $\circ$ \\
+CLIP-L & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 4/5 & $\bullet$ & 5/5 & $\bullet$ & 0/5 & $\circ$ & 0/5 & $\circ$ \\
+SigLIP-B & 2/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 5/5 & $\bullet$ & 4/5 & $\bullet$ \\
 \bottomrule
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The census on cosine geometry agrees with the reading used in the paper.} Per cell, with L2-normalized centroids and geodesic distances: the reading, the excess, the rank and the verdict. $^{\circ}$: not genuine at the corrected threshold.
+\caption{\textbf{Does the verdict change with how it is measured?} Per cell, $k$/5: how many of five constructions call it genuine, centered Haar, uncentered Haar and Gaussian at $\hat\delta_{99.9}$, then Haar and Gaussian at the supremum; cos: the verdict on cosine geometry. All five agree on 37 of 72.
 }
-\label{tab:q1-census-c}
+\label{tab:q1-census-b}\label{tab:q1-census-c}
 \end{table}

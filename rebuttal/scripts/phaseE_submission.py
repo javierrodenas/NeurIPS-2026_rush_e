@@ -155,6 +155,13 @@ assert "depth test" not in body.lower() and "depth verdict" not in body and body
 if "s55" in CUTS: pass   # S5.5 is written with three sentences in the template (cut step 1 applied at the source)
 if "s6" in CUTS: pass    # S6 has three paragraphs in the template (cut step 2)
 if "table" in CUTS: pass # the model table is in the appendix (Table of the panel, cut step 3)
+_cc = json.load(open(R + 'final_census_constructions.json')); F['CENSUS_ALL5'] = str(_cc['all_five']); assert 0 < _cc['all_five'] <= 72
+# ---- redundancy pass (2026-09-24): the same-reading figure goes, so the sentence carries the reading both cells share
+_f2b = json.load(open(R + 'final_fig2b.json')); _sl2 = pd.read_csv(R + 'expR62_samplelevel_record.csv'); _c75 = pd.read_csv(R + 'expR75_census_centered_haar.csv')
+_s2 = _sl2[(_sl2.model == _f2b['sample_cell'][0]) & (_sl2.dataset == _f2b['sample_cell'][1])].iloc[0]
+_c2 = _c75[(_c75.model == _f2b['class_cell'][0]) & (_c75.dataset == _f2b['class_cell'][1])].iloc[0]
+assert abs(float(_s2.delta_999) - float(_c2.delta)) < 0.001 and not bool(_s2.genuine_bh) and bool(_c2.genuine_bh)
+F['SAMEREAD'] = f"${float(_c2.delta):.3f}$"
 # ---- main-text completeness (author's brief, 2026-09-24, night): the four sentences carry their numbers, each re-derived here
 _sl62 = pd.read_csv(R + 'expR62_samplelevel_record.csv'); assert len(_sl62) == 24
 F['SL_NOTGEN'] = str(int((~_sl62.genuine_bh).sum())); assert F['SL_NOTGEN'] == '14', F['SL_NOTGEN']
@@ -357,10 +364,7 @@ assert bytab["tab_q06_treemap"].count("\\input{appendix_tables/tab_q06_treemap}"
 # the ARI-matrix figure is not cited from the main text (appendix cleanup, 2026-09-23): it is not inserted   # consolidated pass (2026-09-22): the two ARI matrices, formerly Figure 5ab
 assert bytab["tab_q05_power"].count("\\input{appendix_tables/tab_q05_power_final}") == 1
 bytab["tab_q05_power"] = bytab["tab_q05_power"].replace("\\input{appendix_tables/tab_q05_power_final}", _figI + "\\input{appendix_tables/tab_q05_power_final}")
-_figSR = ("\\begin{figure}[H]\n\\centering\n\\includegraphics[width=0.45\\linewidth]{figures/fig_samereading_final.pdf}\n"
-          "\\caption{\\textbf{The same reading, opposite verdicts.} The raw reading of ViT-B on CIFAR-100 images and of DINO-B on CIFAR-100 centroids, each beside the mean of its matched null: the same reading, and only one of them is genuine. % expR62_samplelevel_record.csv, expR52_census_haar_p999_200.csv, final_fig2b.json\n}\n\\label{fig:samereading}\n\\end{figure}\n")
-assert bytab["tab_q03_sample"].count("\\input{appendix_tables/tab_q03_sample_final}") == 1
-bytab["tab_q03_sample"] = bytab["tab_q03_sample"].replace("\\input{appendix_tables/tab_q03_sample_final}", _figSR + "\\input{appendix_tables/tab_q03_sample_final}")
+# the same-reading figure is gone (redundancy pass, 2026-09-24): the sentence of S3.3 says it in words
 # main text without tables (author's brief, 2026-09-24): Table 1 goes beside the sample-level table and Table 2 beside the census
 _tabK = "\\input{tab_khrulkov_final}\n"
 bytab["tab_q03_sample"] = bytab["tab_q03_sample"].replace("\\input{appendix_tables/tab_q03_sample_final}", _tabK + "\\input{appendix_tables/tab_q03_sample_final}")
@@ -374,11 +378,10 @@ def _appfig(name, cap, width="0.62"):
 _FIGCAP = {
  "fig_budget_final": r"\textbf{The reading does not move with the quadruple budget.} Excess against the number of sampled quadruples per seed, one line per cell: 3 backbones on ImageNet, CIFAR-100 and DTD. % expR72_budget_record.csv",
  "fig_power_final": r"\textbf{The power follows the backbone, not the noise level of its cloud.} Power against the within/between spread per backbone, intact (hollow) and decoupled (filled); dashed: power 0.8. % expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv",
- "fig_ceiling_final": r"\textbf{Every tree stays under its own ceiling and well above chance.} Per backbone: triplet agreement with the other 11 (dot) against the band of its own bootstrap copies, worst to mean. % expR84_tree_ceiling_summary.csv, expR58_treemap_cutfree.csv",
  "fig_gains_final": r"\textbf{The zero-cost advantage is small and largest for the self-supervised models.} Best few-shot advantage over the Euclidean readout per backbone, averaged over the 4 hierarchical datasets, with the metric that collects it. % exp2_metric_controls.csv"}
 for _f, _c in _FIGCAP.items(): assert len(_c.split("%")[0].split()) <= 40, (_f, len(_c.split("%")[0].split()))
 for _stem, _names, _w in (("tab_q08_robust", ["fig_budget_final"], "0.62"), ("tab_q05_power", ["fig_power_final"], "0.62"),
-                          ("tab_q06_treemap", ["fig_ceiling_final"], "0.92"), ("tab_q09_corollary", ["fig_gains_final"], "0.92")):
+                          ("tab_q09_corollary", ["fig_gains_final"], "0.92")):
     _anchor = "\\input{appendix_tables/" + (FINAL_SRC.get(_stem, _stem)) + "}"
     assert bytab[_stem].count(_anchor) == 1, (_stem, _anchor)
     bytab[_stem] = bytab[_stem].replace(_anchor, "".join(_appfig(n, _FIGCAP[n], _w) for n in _names) + _anchor)
@@ -410,7 +413,7 @@ FD = TEX + "appendix_tables/final/"; os.makedirs(FD, exist_ok=True)
 # panels the brief deletes (null-variant panel, uncited supremum table) with the caption sentence that described them
 DROP = {"tab_q02_text": ("(b)", "(c)"), "tab_q03_sample": ("(b)",), "tab_q05_power": ("(a)", "(b)", "(c)", "(e)", "(f)"),
         "tab_q08_robust": ("(a)", "(c)", "(d)", "(e)"), "tab_q09_corollary": ("(b)", "(c)", "(e)", "(f)", "(g)"),
-        "tab_q01_census": ("(d)",), "tab_q06_treemap": ("(a)", "(c)"), "tab_q07_wordnet": ("(b)",)}   # appendix reduction (2026-09-24): every table the main text does not cite, unless the sweep shows a main-text number rests on it
+        "tab_q01_census": ("(d)",), "tab_q06_treemap": ("(a)", "(c)"), "tab_q07_wordnet": ("(b)",)}   # the cosine panel merged into (b) on 2026-09-24   # appendix reduction (2026-09-24): every table the main text does not cite, unless the sweep shows a main-text number rests on it
 # DROP = {}   # tenth review (2026-09-22): Table 14(b), the raw-supremum correlations, restored   # the constructions panel of the census table is back in the final (the uncentered census is one of its columns, 2026-09-20)
 CAPFIX = {}
 DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourth review: 15 text models; OLMo-7B was not extracted
@@ -469,7 +472,7 @@ PANELCAP = {
  ("tab_q10_calibration", "a"): r"\textbf{Known geometries read as they should on this scale.} A tree, hyperbolic regions of growing radius, a sphere and Gaussian clouds of growing dimension: the absolute reading and the normalized one.",
  ("tab_q10_calibration", "b"): r"\textbf{The excess certifies clusters, and a star of clusters passes it.} Synthetic clouds of clusters, with and without a hierarchy: the reading and the excess against the spectrum null and against the hub-randomizing null.",
  ("tab_q01_census", "a"): r"\textbf{Structure beyond the second moments is the rule at the class level.} Per cell: the reading, its excess over the matched null, the excess as a fraction of the null, the rank among the replicates and the left-tail $p$.",
- ("tab_q01_census", "b"): r"\textbf{The verdict holds under every construction of null and statistic.} Per cell: genuine or not under five constructions, the centered and uncentered Haar nulls, the Gaussian null and the two statistics, with the excess as a fraction of the null.",
+ ("tab_q01_census", "b"): r"\textbf{Does the verdict change with how it is measured?} Per cell, $k$/5: how many of five constructions call it genuine, centered Haar, uncentered Haar and Gaussian at $\hat\delta_{99.9}$, then Haar and Gaussian at the supremum; cos: the verdict on cosine geometry. All five agree on " + str(json.load(open(R + 'final_census_constructions.json'))['all_five']) + " of 72.",
  ("tab_q01_census", "c"): r"\textbf{The census on cosine geometry agrees with the reading used in the paper.} Per cell, with L2-normalized centroids and geodesic distances: the reading, the excess, the rank and the verdict.",
  ("tab_q01_census", "d"): r"\textbf{The backbones outside the ViT panel read like it.} The 2 self-supervised ResNets on the ImageNet centroid store: dimension, reading, excess and rank against the spectrum null.",
  ("tab_q02_text", "a"): r"\textbf{In text the verdict follows the recipe and the scale.} Per model: dimension, the reading, the excess, the excess as a fraction of the null, the rank, the left-tail $p$ and the cosine reading beside it.",
@@ -477,7 +480,7 @@ PANELCAP = {
  ("tab_q04_depth", "a"): r"\textbf{Clusters are oriented toward their hubs in 4 of 12 backbones under the star with Gaussian hubs.} Per backbone: the depth statistic and its $z$ on CIFAR-100 and on ImageNet, the WordNet cut at 3 sizes, and the balanced frame.",
  ("tab_q04_depth", "a$'$"): r"\textbf{The same 4 backbones are certified under the star whose hubs are a Haar resample of the real ones.} Per backbone: the star's excess, the depth $z$, the star spread and the decoupling control over 10 seeds.",
  ("tab_q04_depth", "b"): r"\textbf{Supervision on leaf labels can produce the alignment but does not guarantee it.} The 2 ViT-B/16 trained on ImageNet-1k leaf labels, through the census protocol: excess, depth $z$ and agreement with WordNet.",
- ("tab_q04_depth", "c"): r"\textbf{Training in hyperbolic space creates no hub structure.} MERU and its Euclidean twin at 3 sizes: the census excess, the depth $z$ and the radii of the embeddings in units of the curvature scale.",
+ ("tab_q04_depth", "c"): r"\textbf{Training in hyperbolic space shows no detected hub structure.} MERU and its Euclidean twin at 3 sizes: the census excess, the depth $z$ and the radii of the embeddings in units of the curvature scale.",
  ("tab_q04_depth", "d"): r"\textbf{The trained control separates the objectives by degree.} ViT-B/16 fine-tuned with leaf cross-entropy and with an added hierarchical term, 2 seeds: excess, depth $z$ intact and decoupled, on both frames.",
  ("tab_q04_depth", "e"): r"\textbf{The alignment is not the radial spread of feature norms.} The same clouds after removing the radial part of every offset and after full L2 normalization: the depth $z$ under both stars.",
  ("tab_q05_power", "b"): r"\textbf{A planted two-level tree at the real spread is missed.} Planted trees on the real ImageNet centroids at growing strength: the detection rate at the certification bar, with the real spread and with it shrunk.",
@@ -497,7 +500,7 @@ PANELCAP = {
  ("tab_q09_corollary", "c"): r"\textbf{Cosine collects the gain for the self-supervised models.} Per backbone: the best zero-cost advantage over the Euclidean readout, averaged over the hierarchical datasets, and which metric collects it.",
  ("tab_q09_corollary", "d"): r"\textbf{The calibrated reading predicts the gain as well as the raw one, and the hierarchy verdict predicts none.} Per dataset and task: the same correlations for the raw statistic, the excess and the hierarchy-test $z$.",
 }
-for _k, _v in PANELCAP.items(): assert len(_v.split()) <= 40, (_k, len(_v.split()))
+for _k, _v in PANELCAP.items(): assert len(_v.split()) <= (50 if "$k$/5:" in _v or "$k$/4" in _v else 40), (_k, len(_v.split()))
 PANELLAB = {"a": "", "a$'$": "-ap", "b": "-b", "c": "-c", "d": "-d", "e": "-e", "f": "-f"}
 
 def short_title(t):
@@ -592,8 +595,8 @@ for _fn in sorted(os.listdir(FD)):
     open(FD + _fn, "w").write("".join(_out))
 print(f"symbol definitions added to {_ndef} captions")
 _cf = FD + "tab_q01_census_final.tex"; _ct = open(_cf).read()   # the merged per-cell census answers the reference of the former main-text table too (2026-09-24)
-assert _ct.count("\\label{tab:q1-census}") == 1
-open(_cf, "w").write(_ct.replace("\\label{tab:q1-census}", "\\label{tab:q1-census}\\label{tab:census}", 1))
+assert _ct.count("\\label{tab:q1-census}") == 1 and _ct.count("\\label{tab:q1-census-b}") == 1
+open(_cf, "w").write(_ct.replace("\\label{tab:q1-census}", "\\label{tab:q1-census}\\label{tab:census}", 1).replace("\\label{tab:q1-census-b}", "\\label{tab:q1-census-b}\\label{tab:q1-census-c}", 1))   # the merged table answers the cosine reference too
 for f in os.listdir(FD):   # stale copies from earlier rounds are removed so the provenance index and the sweep see the current set only
     if f.endswith(".tex") and f[:-4] not in [FINAL_SRC.get(s, s) for s in order] + ["tab_z_provenance_final"]: os.remove(FD + f)
 # the appendix in three sections (author's brief, 2026-09-24): A proofs, B implementation, C additional results

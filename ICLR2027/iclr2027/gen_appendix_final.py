@@ -116,32 +116,25 @@ def q_census():
     T.panel("(a) The census of record per cell: Haar spectrum-matched null" + (" with $Q$ orthogonal to the all-ones vector" if FINAL else "") + ", 99.9th-percentile statistic, 200 replicates; the two self-supervised ResNets below the rule are read on ImageNet only, against 20 replicates of the spectrum null.", "l" + "ccc"*6,
             [" & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{DSH[d]}}}" for d in DS) + r" \\", r"model & " + " & ".join([r"exc.\ & $r$ & $p$"]*6) + r" \\"], rows, mids=(4, 9))
     # (b) four verdicts + normalized excess + supremum column
-    four = ([("Hc", "expR75_census_centered_haar.csv")] if FINAL else []) + [("Hp", "expR52_census_haar_p999_200.csv"), ("Hs", "expR54_census_haar_sup_200.csv"), ("Gp", "expR40b_p999census200.csv"), ("Gs", "expR39c_census200_cache.csv")]
+    four = ([("Hc", "expR75_census_centered_haar.csv")] if FINAL else []) + [("Hp", "expR52_census_haar_p999_200.csv"), ("Gp", "expR40b_p999census200.csv"), ("Hs", "expR54_census_haar_sup_200.csv"), ("Gs", "expR39c_census200_cache.csv")]
     V = {}
     for tag, f in four:
         rr = load(f); pb = bh([float(a["p_left"]) for a in rr]); V[tag] = {(a["model"], a["dataset"]): (float(a["excess"]), pb[i] <= 0.05, int(a["r_above"])) for i, a in enumerate(rr)}
     counts = {tag: sum(v[1] for v in V[tag].values()) for tag, _ in four}
     fr = {k: float(a["excess"]) / float(a["null_mean"]) for k, a in by.items()}
-    rows = []
-    for m in M12:
-        cs = ["".join(("$\\bullet$" if V[tag][(m, d)][1] else "$\\circ$") for tag, _ in four) + f" ${100*fr[(m,d)]:+.0f}\\%$" for d in DS]
-        sup = V["Hs"][(m, "imagenet")]; cs.append(f"${sup[0]:+.3f}$ ({sup[2]})")
-        rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
-    im_ = [fr[k] for k in fr if k[1] == "imagenet"]
-    T.panel("(b) Verdict under the " + ("five" if FINAL else "four") + " null$\\times$statistic constructions and the excess as a fraction of the null reading.", "l" + "c"*6 + "|c",
-            ["model & " + " & ".join(DSH[d] for d in DS) + r" & sup.\ IN exc.\ ($r$) \\"], rows, mids=(4, 9), colsep="3.5pt")
-    T.newpart()
-    # (c) cosine census
     cv = load("expR57_census_cosine_haar_p999_200.csv"); cby = {(a["model"], a["dataset"]): a for a in cv}
     cagree = sum(gb(cby[k]) == gb(by[k]) for k in cby if k in by); cgen = sum(gb(a) for a in cv); ctop = sum(gb(a) for a in cv if a["dataset"] in TOP); cneg = sum(float(a["excess"]) < 0 for a in cv)
     rows = []
     for m in M12:
         cs = []
         for d in DS:
-            a = cby[(m, d)]; cs += [f"${float(a['excess']):+.3f}" + ("" if gb(a) else r"^{\circ}") + "$", f"{int(a['r_above'])}"]
+            cs += [f"{sum(V[tag][(m, d)][1] for tag, _ in four)}/{len(four)}", ("$\\bullet$" if gb(cby[(m, d)]) else "$\\circ$")]
         rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
-    T.panel("(c) The same census on cosine geometry (L2-normalized centroids, geodesic distances, Haar null on the normalized cloud): robustness, not the record.", "l" + "cc"*6,
-            [" & " + " & ".join(f"\\multicolumn{{2}}{{c}}{{{DSH[d]}}}" for d in DS) + r" \\", r"model & " + " & ".join([r"exc.\ & $r$"]*6) + r" \\"], rows, mids=(4, 9), colsep="2.4pt")
+    _all5 = sum(all(V[tag][(m, d)][1] for tag, _ in four) for m in M12 for d in DS)
+    if FINAL: json.dump({"all_five": int(_all5), "counts": {t: int(counts[t]) for t, _ in four}, "order": [t for t, _ in four], "cosine_agree": int(cagree), "cosine_genuine": int(cgen)},
+              open(RES / "final_census_constructions.json", "w"), indent=1)
+    T.panel("(b) How many of the five null$\\times$statistic constructions call the cell genuine, and the verdict on cosine geometry.", "l" + "cc"*6,
+            [" & " + " & ".join(f"\\multicolumn{{2}}{{c}}{{{DSH[d]}}}" for d in DS) + r" \\", r"model & " + " & ".join([r"$k$/5 & cos"]*6) + r" \\"], rows, mids=(4, 9), colsep="2.4pt")
     txt = ""
     if ex("expR57_text_cosine_haar_p999_200.csv"):
         ct = load("expR57_text_cosine_haar_p999_200.csv"); txt = f" Text under the same cosine protocol (padding-free embeddings): genuine {sum(gb(a) for a in ct)}/15: " + ", ".join(a["model"].replace("_", "-") for a in ct if gb(a)) + "."
@@ -159,13 +152,10 @@ def q_census():
     T.write(r"\textbf{Clustered structure is the rule at the class level under every construction of the null and statistic, and the verdict does not depend on the metric.} "
             r"(a) Per cell: excess of $\hat\delta_{99.9}$ over the null mean, $r$ = replicates above the real value, $p=(1+\#\{\text{null}\le\text{real}\})/201$; genuine = Benjamini--Hochberg-corrected $p\le0.05$ over the 72 cells ($^{\circ}$: not genuine). "
             + f"Genuine cells: {gen}/72 overall, {genh}/24 on ImageNet+CIFAR-100; sign agreement with the original 5-replicate Gaussian$\\times$supremum census on the {comp} comparable cells: {agree}/{comp}. "
-            + ((r"(b) Five symbols per cell in the order centered Haar$\times$p99.9 (the record, $Q\perp\mathbf{1}$), uncentered Haar$\times$p99.9, Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum, $\bullet$ = genuine under that construction; "
-            + f"genuine counts {counts['Hc']}/72, {counts['Hp']}/72, {counts['Hs']}/72, {counts['Gp']}/72, {counts['Gs']}/72. The percentage is the record excess divided by the mean null reading (ImageNet {100*min(im_):+.0f}\\% to {100*max(im_):+.0f}\\%; all cells {100*min(fr.values()):+.0f}\\% to {100*max(fr.values()):+.0f}\\%); the last column is the ImageNet excess of the supremum statistic under the same Haar null with its rank. "
-            r"The centered Haar construction reproduces the centered spectrum exactly, the uncentered one differs by a term of order $1/\sqrt{n}$ that moves the verdict only on the ten-class datasets; the Gaussian one does not at small $n$ and inflates excesses for low-rank clouds (Table~\ref{tab:q8-robust}). The supremum is decided by a few extreme quadruples and disagrees with the 99.9th percentile in both directions on DINOv2-S/B/G ImageNet. ") if FINAL else (r"(b) Four symbols per cell in the order Haar$\times$p99.9 (the record), Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum, $\bullet$ = genuine under that construction; "
-            + f"genuine counts {counts['Hp']}/72, {counts['Hs']}/72, {counts['Gp']}/72, {counts['Gs']}/72. The percentage is the record excess divided by the mean null reading (ImageNet {100*min(im_):+.0f}\\% to {100*max(im_):+.0f}\\%; all cells {100*min(fr.values()):+.0f}\\% to {100*max(fr.values()):+.0f}\\%); the last column is the ImageNet excess of the supremum statistic under the same Haar null with its rank. "
-            r"The Haar construction reproduces the sample spectrum exactly; the Gaussian one does not at small $n$ and inflates excesses for low-rank clouds (Table~\ref{tab:q8-robust}). The supremum is decided by a few extreme quadruples and disagrees with the 99.9th percentile in both directions on DINOv2-S/B/G ImageNet. "))
-            + r" % expR52_census_haar_p999_200.csv, expR54_census_haar_sup_200.csv, expR40b_p999census200.csv, expR39c_census200_cache.csv",
-            contd=[f"(c) Cosine reading, BH over 72 cells: sign-negative {cneg}/72, genuine {cgen}/72 and {ctop}/24 on ImageNet+CIFAR-100, verdict agreement with the Euclidean record {cagree}/72 cells." + txt + trip + xtxt + r" % expR57_census_cosine_haar_p999_200.csv, expR57_text_cosine_haar_p999_200.csv, exp10_local_vs_global.csv, expR45_convnet_rows.csv"])
+            + (f"(b) $k$/5 = how many of the five null$\\times$statistic constructions call the cell genuine, in the order centered Haar, uncentered Haar and Gaussian at $\\hat\\delta_{{99.9}}$, then Haar and Gaussian at the supremum; "
+               f"genuine counts {counts['Hc']}/72, {counts['Hp']}/72, {counts['Gp']}/72, {counts['Hs']}/72, {counts['Gs']}/72, and all five agree on {_all5}/72. "
+               f"cos = the verdict on cosine geometry (L2-normalized centroids, geodesic distances): genuine {cgen}/72, agreeing with the reading used in the paper on {cagree}/72 cells. " if FINAL else "")
+            + r" % expR52_census_haar_p999_200.csv, expR54_census_haar_sup_200.csv, expR40b_p999census200.csv, expR39c_census200_cache.csv, expR57_census_cosine_haar_p999_200.csv")
 
 # ======================================================================================================================
 # Q8: robustness — budgets, null constructions, bootstrap, joint sensitivity, class count
@@ -273,10 +263,10 @@ def q_sample():
         cs = []
         for ds in ("cifar100", "dtd"):
             a = by[(m, ds)]; g = gb(a)
-            cs += [f"${float(a['delta_sup']):.3f}$", f"${float(a['delta_999']):.3f}$", f"${float(a['excess']):+.4f}" + ("" if g else r"^{\circ}") + "$", f"${100*float(a['excess'])/float(a['null_mean']):+.0f}\\%$", f"{int(a['r_above'])} ({float(a['p_left']):.3f})"]
+            cs += [f"${float(a['delta_sup']):.3f}$", f"${float(a['delta_999']):.3f}$", f"${float(a['excess']):+.4f}" + ("" if g else r"^{\circ}") + "$", f"${100*float(a['excess'])/float(a['null_mean']):+.0f}\\%$", f"{int(a['r_above'])}", f"{float(a['p_left']):.3f}"]
         rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
-    T.panel("(a) The census cells at the sample level." if FINAL else "", "lccccc|ccccc", [r"& \multicolumn{5}{c|}{CIFAR-100 (10 images/class, $n{=}1000$)} & \multicolumn{5}{c}{DTD (22 images/class, $n{=}1034$)} \\",
-            r"model & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & exc./null & $r/200$ ($p$) & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & exc./null & $r/200$ ($p$) \\"], rows, mids=(4, 9))
+    T.panel("(a) The census cells at the sample level." if FINAL else "", "lcccccc|cccccc", [r"& \multicolumn{6}{c|}{CIFAR-100 (10 images/class, $n{=}1000$)} & \multicolumn{6}{c}{DTD (22 images/class, $n{=}1034$)} \\",
+            r"model & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & exc./null & $r$/200 & $p$ & sup.\ $\hat\delta$ & $\hat\delta_{99.9}$ & excess & exc./null & $r$/200 & $p$ \\"], rows, mids=(4, 9))
     if FINAL and ex("expR78_khrulkov_replication_summary.csv"):   # priority 2 (brief of 2026-09-21): a published reading reproduced and calibrated
         S78 = pd.read_csv(RES / "expR78_khrulkov_replication_summary.csv").set_index("dataset"); T.prov += ["expR78_khrulkov_replication.csv", "expR78_khrulkov_replication_summary.csv"]
         DN78 = {"cifar10": "CIFAR-10", "cifar100": "CIFAR-100", "cub": "CUB-200", "miniimagenet": "MiniImageNet"}; order78 = [d for d in DN78 if d in S78.index]
@@ -302,36 +292,36 @@ def q_depth():
     dv = load("expR56_depth_variants.csv"); g2 = {(a["model"], a["dataset"], int(a["K"]), a["variant"]): a for a in dv}
     H = {a["model"]: a for a in load("expR69_depth_haarhubs_summary.csv")} if ex("expR69_depth_haarhubs_summary.csv") else {}
     BAL = {a["model"]: a for a in load("expR64b_wn30bal_summary.csv")} if ex("expR64b_wn30bal_summary.csv") else {}
-    def cell(a): return "--" if a is None else f"${float(a['depth_excess']):+.3f}$ ({float(a['z_depth']):{zf}})"
+    def cell(a): return "-- & --" if a is None else f"${float(a['depth_excess']):+.3f}$ & ${float(a['z_depth']):{zf}}$"   # two columns, no value in parentheses (2026-09-24)
     rows = []
     for m in M12:
         if FINAL:
             zonly = lambda a: "--" if a is None else f"${float(a['z_depth']):{zf}}$"
             cs = [zonly(g2.get((m,"cifar100",20,"iso"))), cell(g2.get((m,"cifar100",20,"aniso"))), zonly(g2.get((m,"imagenet",30,"iso"))), zonly(g2.get((m,"imagenet",10,"aniso"))), cell(g2.get((m,"imagenet",30,"aniso"))), zonly(g2.get((m,"imagenet",60,"aniso")))]
         else: cs = [cell(g2.get(k)) for k in [(m,"cifar100",20,"iso"),(m,"cifar100",20,"aniso"),(m,"imagenet",30,"iso"),(m,"imagenet",30,"aniso")]]
-        h = H.get(m); cs += ["--"]*3 if h is None else [f"${float(h['star_haar']):+.4f}$", f"${float(h['depth_haar']):+.4f}$ ({float(h['z_haar']):+.2f})", f"{int(h['r_star_haar'])}/10"]
+        h = H.get(m); cs += ["-- & --"] * 2 + ["--"] if h is None else [f"${float(h['star_haar']):+.4f}$", f"${float(h['depth_haar']):+.4f}$ & ${float(h['z_haar']):+.2f}$", f"{int(h['r_star_haar'])}/10"]
         b = BAL.get(m); cs.append("--" if b is None else f"${float(b['real_z']):{zf}}$")
         rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
     DEC = {}
     if FINAL:   # two narrower panels: the stars with Gaussian hubs and the frames, then the star with Haar-resampled hubs
         split_ = lambda r: r[:-3].split(" & ")
-        rows_a = [" & ".join([split_(r)[k] for k in (0, 2, 4, 5, 6, 10)]) + r" \\" for r in rows]   # the isotropic-star columns (1, 3) are withdrawn material (appendix cleanup, 2026-09-23)
-        rows_h = [" & ".join([split_(r)[k] for k in (0, 7, 8, 9)]) + r" \\" for r in rows]
+        rows_a = [" & ".join([split_(r)[k] for k in (0, 2, 3, 5, 6, 7, 8, 13)]) + r" \\" for r in rows]   # the isotropic-star columns (1, 3) are withdrawn material (appendix cleanup, 2026-09-23)
+        rows_h = [" & ".join([split_(r)[k] for k in (0, 9, 10, 11, 12)]) + r" \\" for r in rows]
         T.panel("(a) The 12 backbones under the stars with Gaussian hubs: depth = hub excess $e_{\\mathrm{hub}}$ of the real centroids minus that of a matched star (negative = more hierarchical above the frame), with $z$ against the combined spread; the WordNet cut at $K{=}10$, 30 and 60 superclasses and the balanced frame.", "lcc@{\\hspace{5pt}}cccc@{\\hspace{5pt}}c",
-                [r" & C100, $K{=}20$ & \multicolumn{3}{c}{ImageNet, matched star} & bal.\ frame \\",
-                 r"\cmidrule(lr){2-2}\cmidrule(lr){3-5}\cmidrule(lr){6-6}",
-                 r"model & depth ($z$) & $K{=}10$ $z$ & $K{=}30$ depth ($z$) & $K{=}60$ $z$ & real $z$ \\"], rows_a, mids=(4, 9), colsep="2.2pt")
+                [r" & \multicolumn{2}{c}{C100, $K{=}20$} & \multicolumn{4}{c}{ImageNet, matched star} & bal.\ frame \\",
+                 r"\cmidrule(lr){2-3}\cmidrule(lr){4-7}\cmidrule(lr){8-8}",
+                 r"model & depth & $z$ & $K{=}10$ $z$ & $K{=}30$ depth & $z$ & $K{=}60$ $z$ & real $z$ \\"], rows_a, mids=(4, 9), colsep="2.2pt")
         DEC = {a["model"]: a for a in load("expR74_decoupling_summary.csv")} if ex("expR74_decoupling_summary.csv") else {}
         if DEC: T.prov.append("expR74_decoupling_summary.csv")
-        dcol = lambda m: ("" if not DEC else (" & --" if m not in DEC else f" & ${float(DEC[m]['dec_z_mean']):+.2f}$ $\\pm$ ${float(DEC[m]['dec_z_sd']):.2f}$ ({int(round(10*float(DEC[m]['frac_certified'])))}/10)"))
+        dcol = lambda m: ("" if not DEC else (" & -- & --" if m not in DEC else f" & ${float(DEC[m]['dec_z_mean']):+.2f}$ $\\pm$ ${float(DEC[m]['dec_z_sd']):.2f}$ & {int(round(10*float(DEC[m]['frac_certified'])))}/10"))
         rows_h = [r[:-3] + dcol(M12[ri]) + r" \\" for ri, r in enumerate(rows_h)]
         if FINAL and ex("expR83_flat_balanced_summary.csv"):   # the balanced-frame counts of the flat control join this table as rows (author's brief, 2026-09-24)
             _S83 = pd.read_csv(RES / "expR83_flat_balanced_summary.csv").set_index("built"); T.prov += ["expR83_flat_balanced.csv", "expR83_flat_balanced_summary.csv"]
             _L83 = {"balanced": "flat control, balanced frame", "wn30": "flat control, frame mismatch"}
             for _b in ("balanced", "wn30"):
-                rows_h.append(f"{_L83[_b]} & -- & ${_S83.loc[_b, 'intact_z_mean']:+.2f}$ ({int(_S83.loc[_b, 'intact_fired'])}/{int(_S83.loc[_b, 'n_intact'])}) & -- & ${_S83.loc[_b, 'dec_z_mean']:+.2f}$ ({int(_S83.loc[_b, 'decoupled_fired'])}/{int(_S83.loc[_b, 'n_decoupled'])}) \\\\")
-        T.panel("(a$'$) The same backbones under the star whose hubs are a Haar resample of the real hubs (ImageNet, $K{=}30$)" + ("; last column: the decoupling control, the real hubs kept and each cluster's offsets rotated by an independent Haar rotation (mean $z$ $\\pm$ s.d.\\ over 10 seeds; seeds certified at $z\\le-2$)." if DEC else "."), "lccc" + ("c" if DEC else ""),
-                [r"model & star $e_{\mathrm{hub}}$ & depth ($z$) & $r_{\text{star}}$" + (r" & decoupled $z$ (cert.)" if DEC else "") + r" \\"], rows_h, mids=(4, 9), colsep="4pt")
+                rows_h.append(f"{_L83[_b]} & -- & -- & ${_S83.loc[_b, 'intact_z_mean']:+.2f}$ & {int(_S83.loc[_b, 'intact_fired'])}/{int(_S83.loc[_b, 'n_intact'])} & ${_S83.loc[_b, 'dec_z_mean']:+.2f}$ & {int(_S83.loc[_b, 'decoupled_fired'])}/{int(_S83.loc[_b, 'n_decoupled'])} \\\\")
+        T.panel("(a$'$) The same backbones under the star whose hubs are a Haar resample of the real hubs (ImageNet, $K{=}30$)" + ("; last column: the decoupling control, the real hubs kept and each cluster's offsets rotated by an independent Haar rotation (mean $z$ $\\pm$ s.d.\\ over 10 seeds; seeds certified at $z\\le-2$)." if DEC else "."), "lcccc" + ("cc" if DEC else ""),
+                [r"model & star $e_{\mathrm{hub}}$ & depth & $z$ & $r_{\text{star}}$" + (r" & decoupled $z$ & cert." if DEC else "") + r" \\"], rows_h, mids=(4, 9), colsep="4pt")
     else:
         T.panel("(a) The 12 backbones: depth = hub excess $e_{\\mathrm{hub}}$ of the real centroids minus that of a matched star (negative = more hierarchical above the frame), with $z$ against the combined spread.", "lcc@{\\hspace{5pt}}cc@{\\hspace{5pt}}ccc@{\\hspace{5pt}}c",
                 [r" & \multicolumn{2}{c}{C100, $K{=}20$, Gaussian hubs} & \multicolumn{2}{c}{IN, $K{=}30$, Gaussian hubs} & \multicolumn{3}{c}{IN, $K{=}30$, Haar-resampled hubs} & bal.\ frame \\",
@@ -357,11 +347,11 @@ def q_depth():
         L = {a["model"]: a for a in load("expR70_inet1k_supervised.csv")}; rec = {(a["model"], a["dataset"]): a for a in load("expR52_census_haar_p999_200.csv")}
         rows = []
         for m in ("deit_b", "vit_b_in1k"):
-            a = L[m]; rows.append(f"{NAME[m].replace(' (', ', ').replace(')', '')} & ${float(a['excess_in']):+.4f}$ ({int(a['r_in'])}) & ${float(a['excess_c100']):+.4f}$ ({int(a['r_c100'])}) & ${float(a['depth_gauss']):+.4f}$ ({float(a['z_gauss']):+.2f}) & ${float(a['depth_haar']):+.4f}$ ({float(a['z_haar']):+.2f}) \\\\")
+            a = L[m]; rows.append(f"{NAME[m].replace(' (', ', ').replace(')', '')} & ${float(a['excess_in']):+.4f}$ & {int(a['r_in'])} & ${float(a['excess_c100']):+.4f}$ & {int(a['r_c100'])} & ${float(a['depth_gauss']):+.4f}$ & ${float(a['z_gauss']):+.2f}$ & ${float(a['depth_haar']):+.4f}$ & ${float(a['z_haar']):+.2f}$ \\\\")
         rb = rec[("i21k_b","imagenet")]; rc = rec[("i21k_b","cifar100")]; hb = H.get("i21k_b")
-        rows.append(f"ViT-B, augreg, IN-21k (census) & ${float(rb['excess']):+.4f}$ ({int(rb['r_above'])}) & ${float(rc['excess']):+.4f}$ ({int(rc['r_above'])}) & " + (f"${float(hb['depth_gauss']):+.4f}$ ({float(hb['z_gauss']):+.2f}) & ${float(hb['depth_haar']):+.4f}$ ({float(hb['z_haar']):+.2f})" if hb else "-- & --") + r" \\")
-        T.panel("(b) Two ViT-B/16 supervised on ImageNet-1k leaf labels only, through the census protocol, against the IN-21k census backbone.", "lcccc",
-                [r"model & IN excess ($r$) & C100 excess ($r$) & depth, Gaussian hubs ($z$) & depth, Haar hubs ($z$) \\"], rows, colsep="4pt")
+        rows.append(f"ViT-B, augreg, IN-21k (census) & ${float(rb['excess']):+.4f}$ & {int(rb['r_above'])} & ${float(rc['excess']):+.4f}$ & {int(rc['r_above'])} & " + (f"${float(hb['depth_gauss']):+.4f}$ & ${float(hb['z_gauss']):+.2f}$ & ${float(hb['depth_haar']):+.4f}$ & ${float(hb['z_haar']):+.2f}$" if hb else "-- & -- & -- & --") + r" \\")
+        T.panel("(b) Two ViT-B/16 supervised on ImageNet-1k leaf labels only, through the census protocol, against the IN-21k census backbone.", "lcccccccc",
+                [r"model & IN excess & $r$ & C100 excess & $r$ & depth, Gaussian & $z$ & depth, Haar & $z$ \\"], rows, colsep="4pt")
         ltxt = " (b) Supervision on leaf labels can produce the depth (the augreg recipe is certified under both stars) and need not (DeiT-B is not detected): the hierarchical label set of IN-21k is not what makes the census ViTs deep; their WordNet alignment is in Table~\\ref{tab:q7-wordnet}."
     T.newpart()
     # (c) MERU
@@ -371,15 +361,15 @@ def q_depth():
         Mm = [m for m in ["meru_s","clip_s","meru_b","clip_b","meru_l","clip_l"] if any(a["model"] == m for a in R)]
         MN = {"meru_s":"MERU ViT-S","clip_s":"CLIP ViT-S","meru_b":"MERU ViT-B","clip_b":"CLIP ViT-B","meru_l":"MERU ViT-L","clip_l":"CLIP ViT-L"}
         def mc(a):
-            if a is None: return "-- & -- & --"
-            return f"${float(a['excess']):+.3f}" + ("" if gb(a) else r"^{\circ}") + f"$ ({int(a['r_above'])}) & ${float(a['delta_999_native']):.3f}$/${float(a['delta_999']):.3f}$ & ${float(a['z_depth']):{zf}}$"
+            if a is None: return "-- & -- & -- & --"
+            return f"${float(a['excess']):+.3f}" + ("" if gb(a) else r"^{\circ}") + f"$ & {int(a['r_above'])} & ${float(a['delta_999_native']):.3f}$/${float(a['delta_999']):.3f}$ & ${float(a['z_depth']):{zf}}$"
         rows = []; mids = []
         for mod, lab in (("image","images"),("text","prompts")):
             for m in Mm: rows.append(MN[m] + f" & {lab} & " + mc(by.get((m,"cifar100",mod))) + " & " + mc(by.get((m,"imagenet",mod))) + r" \\")
             mids.append(len(rows))
-        T.panel("(c) A hyperbolic backbone and its Euclidean twin under the census of record and the hierarchy test.", "llccc@{\\hspace{8pt}}ccc",
-                [r" & & \multicolumn{3}{c}{CIFAR-100 ($K{=}20$, $n{=}100$: depth unvalidated)} & \multicolumn{3}{c}{ImageNet ($K{=}30$, $n{=}1000$: depth validated)} \\", r"\cmidrule(lr){3-5}\cmidrule(lr){6-8}",
-                 r"model & input & exc.\ ($r$) & $\hat\delta_{99.9}$ nat./Eucl. & depth $z$ & exc.\ ($r$) & $\hat\delta_{99.9}$ nat./Eucl. & depth $z$ \\"], rows, mids=(mids[0],))
+        T.panel("(c) A hyperbolic backbone and its Euclidean twin under the census of record and the hierarchy test.", "llcccc@{\\hspace{8pt}}cccc",
+                [r" & & \multicolumn{4}{c}{CIFAR-100 ($K{=}20$, $n{=}100$: depth unvalidated)} & \multicolumn{4}{c}{ImageNet ($K{=}30$, $n{=}1000$: depth validated)} \\", r"\cmidrule(lr){3-6}\cmidrule(lr){7-10}",
+                 r"model & input & exc.\ & $r$ & $\hat\delta_{99.9}$ nat./Eucl. & depth $z$ & exc.\ & $r$ & $\hat\delta_{99.9}$ nat./Eucl. & depth $z$ \\"], rows, mids=(mids[0],))
         im_ = [a for a in R if a["dataset"] == "imagenet" and a["modality"] == "image"]; mer = [a for a in im_ if a["family"] == "meru"]; cli = [a for a in im_ if a["family"] == "clip"]
         rng = lambda L_, k: (max(float(a[k]) for a in L_), min(float(a[k]) for a in L_))
         me, ce, mz, cz = rng(mer,"excess"), rng(cli,"excess"), rng(mer,"z_depth"), rng(cli,"z_depth"); natgap = max(abs(float(a["delta_999_native"])-float(a["delta_999"])) for a in mer)
@@ -394,9 +384,9 @@ def q_depth():
     if FINAL and ex("expR77_positive_control.csv"):
         P77 = pd.read_csv(RES / "expR77_positive_control.csv").set_index("model"); T.prov += ["expR77_positive_control.csv", "expR77_positive_control_verdict.json"]
         LB = {"frozen": "frozen (census)", "ce_seed0": "leaf cross-entropy, seed 0", "hier_seed0": "leaf + hierarchical, seed 0", "ce_seed1": "leaf cross-entropy, seed 1", "hier_seed1": "leaf + hierarchical, seed 1"}
-        rows = [f"{LB[m]} & ${P77.loc[m, 'excess']:+.4f}$ ({int(P77.loc[m, 'r_above'])}) & ${P77.loc[m, 'z_wn30']:+.2f}$ & ${P77.loc[m, 'zdec_mean_wn30']:+.2f}$ ({P77.loc[m, 'dec_frac_cert_wn30']:.1f}) & ${P77.loc[m, 'z_wn30bal']:+.2f}$ & ${P77.loc[m, 'zdec_mean_wn30bal']:+.2f}$ ({P77.loc[m, 'dec_frac_cert_wn30bal']:.1f}) \\\\" for m in ("frozen", "ce_seed0", "hier_seed0", "ce_seed1", "hier_seed1") if m in P77.index]
-        T.panel("(d) A trained positive control: the census ViT-B/16 fine-tuned on the full ImageNet-1k training set with leaf cross-entropy alone and with an added hierarchical cross-entropy at the WordNet 30/6/2 cuts (weights 1/2/4), 2 seeds, identical batches within a seed; census excess under the centered Haar null, hierarchy test and decoupling control on both frames.", "lccccc",
-                [r"ViT-B/16 & excess ($r$) & $z$, WordNet-30 & dec.\ $z$ (cert.) & $z$, balanced & dec.\ $z$ (cert.) \\"], rows, size=r"\footnotesize", colsep="3pt")
+        rows = [f"{LB[m]} & ${P77.loc[m, 'excess']:+.4f}$ & {int(P77.loc[m, 'r_above'])} & ${P77.loc[m, 'z_wn30']:+.2f}$ & ${P77.loc[m, 'zdec_mean_wn30']:+.2f}$ & {P77.loc[m, 'dec_frac_cert_wn30']:.1f} & ${P77.loc[m, 'z_wn30bal']:+.2f}$ & ${P77.loc[m, 'zdec_mean_wn30bal']:+.2f}$ & {P77.loc[m, 'dec_frac_cert_wn30bal']:.1f} \\\\" for m in ("frozen", "ce_seed0", "hier_seed0", "ce_seed1", "hier_seed1") if m in P77.index]
+        T.panel("(d) A trained positive control: the census ViT-B/16 fine-tuned on the full ImageNet-1k training set with leaf cross-entropy alone and with an added hierarchical cross-entropy at the WordNet 30/6/2 cuts (weights 1/2/4), 2 seeds, identical batches within a seed; census excess under the centered Haar null, hierarchy test and decoupling control on both frames.", "lcccccccc",
+                [r"ViT-B/16 & excess & $r$ & $z$, WordNet-30 & dec.\ $z$ & cert. & $z$, balanced & dec.\ $z$ & cert. \\"], rows, size=r"\footnotesize", colsep="3pt")
         _c1 = int(round(P77.loc["ce_seed1", "dec_frac_cert_wn30"] * 10)) if "ce_seed1" in P77.index else None
         ftxt = (r" (d) Five epochs, AdamW, lr $10^{-5}$ encoder and $10^{-3}$ heads, batch 256, seeds 0 and 1; centroids of the census subset; decoupling over 10 seeds (fraction certified in parentheses). The hierarchical model is certified on both frames and keeps firing once decoupled in both seeds; the leaf-CE model and the frozen checkpoint are certified intact, the frozen checkpoint does not fire once decoupled on the frame"
                 + (f" and the leaf-CE model fires there in 0 of 10 decoupled seeds for seed 0 and {_c1} of 10 for seed 1" if _c1 is not None else " and the leaf-CE model does not either") + ", and the frozen checkpoint fires in 7 of 10 decoupled seeds on the balanced frame. "
@@ -408,9 +398,9 @@ def q_depth():
             T.prov += ["expR82_radial_control.csv", "expR82_radial_control_summary.csv"]; rows = []
             for m in M12:
                 a_ = S82[(S82.model == m) & (S82["transform"] == "l2norm")].iloc[0]; b_ = S82[(S82.model == m) & (S82["transform"] == "deradial")].iloc[0]
-                rows.append(NAME[m] + " & " + " & ".join(f"${x:+.2f}$" for x in (a_.z_aniso, a_.z_haarhubs)) + f" & ${a_.dec_z_mean:+.2f}$ ({a_.dec_frac_certified:.1f}) & " + " & ".join(f"${x:+.2f}$" for x in (b_.z_aniso, b_.z_haarhubs)) + f" & ${b_.dec_z_mean:+.2f}$ ({b_.dec_frac_certified:.1f}) \\\\")
-            T.panel("(e) Radial control: the hierarchy test on the same clouds after L2-normalizing every centroid and after removing the radial component of every offset (its projection onto the hub direction), under both matched stars, with the decoupling control on each transformed cloud.", "lccc|ccc",
-                    [r"& \multicolumn{3}{c|}{L2-normalized} & \multicolumn{3}{c}{radial component removed} \\", r"model & $z$ aniso & $z$ Haar-hub & decoupled $z$ (cert.) & $z$ aniso & $z$ Haar-hub & decoupled $z$ (cert.) \\"], rows, mids=(4, 9), size=r"\footnotesize", colsep="3pt")
+                rows.append(NAME[m] + " & " + " & ".join(f"${x:+.2f}$" for x in (a_.z_aniso, a_.z_haarhubs)) + f" & ${a_.dec_z_mean:+.2f}$ & {a_.dec_frac_certified:.1f} & " + " & ".join(f"${x:+.2f}$" for x in (b_.z_aniso, b_.z_haarhubs)) + f" & ${b_.dec_z_mean:+.2f}$ & {b_.dec_frac_certified:.1f} \\\\")
+            T.panel("(e) Radial control: the hierarchy test on the same clouds after L2-normalizing every centroid and after removing the radial component of every offset (its projection onto the hub direction), under both matched stars, with the decoupling control on each transformed cloud.", "lcccc|cccc",
+                    [r"& \multicolumn{4}{c|}{L2-normalized} & \multicolumn{4}{c}{radial component removed} \\", r"model & $z$ aniso & $z$ Haar-hub & decoupled $z$ & cert. & $z$ aniso & $z$ Haar-hub & decoupled $z$ & cert. \\"], rows, mids=(4, 9), size=r"\footnotesize", colsep="3pt")
             c_ = S82[S82.model.isin(["i21k_s", "i21k_b", "i21k_l", "dinov2_l"])]
             rtxt = f" (e) The four certified backbones keep $z\\le-2$ under both stars once the radial component is removed ({int((c_[c_['transform'] == 'deradial'].z_aniso <= -2).sum())} of 4), and {int((c_[c_['transform'] == 'l2norm'].z_aniso <= -2).sum())} of 4 under full L2 normalization; the decoupled transformed clouds fire in {int(round(c_[c_['transform'] == 'deradial'].dec_frac_certified.sum() * 10))} of 40 runs. % expR82_radial_control_summary.csv"
     T.write((r"\textbf{The hierarchy test certifies in 4 of 12 ImageNet backbones under both matched stars that clusters are oriented toward their hubs, not that the hubs of the frame form a hierarchy, and no hub hierarchy is found in 9 of 12 backbones where the decoupled control detects an planted one, and the test is blind in the other 3: none fires once cluster orientations are randomized, whereas a three-level hierarchy planted at the same noise level is detected and survives that randomization (Table~\ref{tab:q5-power}); imposing the geometry does not create the structure, and leaf-label supervision can produce it or not.} " if (FINAL and DEC) else r"\textbf{Hierarchy above the superclasses is certified in four ImageNet backbones under both matched stars, imposing the geometry does not create it, and leaf-label supervision can produce it or not.} ") +
@@ -488,9 +478,9 @@ def q_power():
     if FINAL and ex("expR79_synthetic_deep_poincare.csv"):   # priority 1b (brief of 2026-09-21): a deep hierarchy at the real noise level, and the WordNet Poincare embeddings
         E79 = pd.read_csv(RES / "expR79_synthetic_deep_poincare.csv"); T.prov += ["expR79_synthetic_deep_poincare.csv"]
         CL = {"synthetic_deep_vitl_spectrum": "three-level hierarchy, ViT-L spectrum", "synthetic_flat_vitl_spectrum": "flat control, ViT-L spectrum", "wordnet_poincare_d10": r"WordNet Poincar\'e, $d{=}10$", "wordnet_poincare_d50": r"WordNet Poincar\'e, $d{=}50$"}
-        rows = [f"{CL.get(r.cloud, r.cloud)} & {int(r.seed)} & {int(r.dim)} & ${r.excess:+.4f}$ ({int(r.r_above)}) & ${r.z:+.2f}$ & ${r.zdec_mean:+.2f}$ $\\pm$ {r.zdec_sd:.2f} ({r.dec_frac_cert:.1f}) \\\\" for _, r in E79.iterrows()]
-        T.panel("(d) A deep hierarchy at the real noise level: synthetic clouds with ViT-L's real ImageNet spectrum and a three-level planted hierarchy (nested 2/6/30 cuts of the frame) at ViT-L's real within/between ratio, a flat two-level control (30 iid hubs, same spectrum and ratio), 5 seeds each, and the WordNet Poincar\\'e embeddings of Nickel and Kiela trained on the transitive closure of the tree over the 1000 ImageNet leaves, read with Euclidean distances on the ball coordinates.", "lccccc",
-                [r"cloud & seed & $d$ & excess ($r$) & depth $z$ & decoupled $z$ (cert.) \\"], rows, mids=(5, 10), size=r"\footnotesize", colsep="4pt")
+        rows = [f"{CL.get(r.cloud, r.cloud)} & {int(r.seed)} & {int(r.dim)} & ${r.excess:+.4f}$ & {int(r.r_above)} & ${r.z:+.2f}$ & ${r.zdec_mean:+.2f}$ $\\pm$ {r.zdec_sd:.2f} & {r.dec_frac_cert:.1f} \\\\" for _, r in E79.iterrows()]
+        T.panel("(d) A deep hierarchy at the real noise level: synthetic clouds with ViT-L's real ImageNet spectrum and a three-level planted hierarchy (nested 2/6/30 cuts of the frame) at ViT-L's real within/between ratio, a flat two-level control (30 iid hubs, same spectrum and ratio), 5 seeds each, and the WordNet Poincar\\'e embeddings of Nickel and Kiela trained on the transitive closure of the tree over the 1000 ImageNet leaves, read with Euclidean distances on the ball coordinates.", "lccccccc",
+                [r"cloud & seed & $d$ & excess & $r$ & depth $z$ & decoupled $z$ & cert. \\"], rows, mids=(5, 10), size=r"\footnotesize", colsep="4pt")
         deep = E79[E79.cloud == "synthetic_deep_vitl_spectrum"]; flat = E79[E79.cloud == "synthetic_flat_vitl_spectrum"]
         ctxt79 = (f" (d) Census excess under the centered Haar null (rank in parentheses), hierarchy test with the matched anisotropic star at $K{{=}}30$ (10 star seeds), decoupling control (mean $\\pm$ s.d.\\ over 10 seeds; fraction certified in parentheses). The deep hierarchy fires in {int((deep.z <= -2).sum())} of {len(deep)} seeds and the flat control in {int((flat.z <= -2).sum())} of {len(flat)}; "
                   f"the decoupling control fires in {int((deep.zdec_mean <= -2).sum())} of {len(deep)} deep seeds and reads deeper than the intact cloud" + (", from both sides: decoupling shrinks the star spread and deepens the excess below the star" if (ex("final_dec_obs.json") and json.load(open(RES / "final_dec_obs.json")).get("kind") == "both") else "") + r". The WordNet Poincar\'e embeddings \citep{nickel2017poincare}, read with Euclidean distances, do not fire: the hierarchy they carry lives in the curvature and is not visible to a Euclidean reading, so they are not a positive control. % expR79_synthetic_deep_poincare.csv, final_dec_obs.json")
@@ -638,11 +628,11 @@ def q_wordnet():
     rows = []
     for a in db:
         nc = (float(a["NC_H"]) - float(a["NC_R"])) * 100; q = rec.get(a["model"])
-        recc = f"{float(q['delta_999']):.3f} & {float(q['excess']):+.3f} & {int(q['r_above'])} ({float(q['p_left']):.3f})" if q else "--- & --- & ---"
+        recc = f"{float(q['delta_999']):.3f} & {float(q['excess']):+.3f} & {int(q['r_above'])} & {float(q['p_left']):.3f}" if q else "--- & --- & --- & ---"
         sup_exc = float(q['excess_haar_sup']) if (FINAL and q) else float(a['excess'])   # final: the supremum read against the Haar null of the record (expR61), not the superseded Gaussian one (exp14)
         rows.append(f"{NAME[a['model']]} & {float(a['delta']):.3f} & {sup_exc:+.3f} & {recc} & {float(a['trip_cos']):.2f} & {nc:+.2f} & {float(a['FS_HR_pp']):+.2f}$\\pm${float(a['FS_HR_ci']):.2f} \\\\")
-    T.panel("(c) DBpedia Classes (219 leaf classes, 3 levels), a text hierarchy independent of WordNet; gains in pp.", "lcc|ccc|ccc",
-            [(r" & \multicolumn{2}{c|}{supremum, Haar} & \multicolumn{3}{c|}{census of record} & & & \\" if FINAL else r" & \multicolumn{2}{c|}{supremum, Gaussian} & \multicolumn{3}{c|}{census of record} & & & \\"), r"model & $\hat\delta_{\max}$ & excess & $\hat\delta_{99.9}$ & excess & $r$ ($p$) & trip.\ & NC H$-$R & FS H$-$R \\"], rows, colsep="2.5pt")
+    T.panel("(c) DBpedia Classes (219 leaf classes, 3 levels), a text hierarchy independent of WordNet; gains in pp.", "lcc|cccc|ccc",
+            [(r" & \multicolumn{2}{c|}{supremum, Haar} & \multicolumn{4}{c|}{census of record} & & & \\" if FINAL else r" & \multicolumn{2}{c|}{supremum, Gaussian} & \multicolumn{4}{c|}{census of record} & & & \\"), r"model & $\hat\delta_{\max}$ & excess & $\hat\delta_{99.9}$ & excess & $r$/200 & $p$ & trip.\ & NC H$-$R & FS H$-$R \\"], rows, colsep="2.5pt")
     tm = ""
     if ex("exp27_dbpedia_treemap.json"):
         d27 = json.load(open(RES/"exp27_dbpedia_treemap.json")); l2 = [x for v in d27.values() for x in v["ari_l2"].values()]; cm = [v["cross_model"] for v in d27.values()]
@@ -672,7 +662,7 @@ def q_text():
     for tag, tf in tfour:
         if ex(tf):
             tr = load(tf); pb = bh([float(a["p_left"]) for a in tr]); TV[tag] = {a["model"]: pb[i] <= 0.05 for i, a in enumerate(tr)}
-    def tcode(m): return "".join(("$\\bullet$" if TV[t].get(m, False) else "$\\circ$") for t, _ in tfour if t in TV)
+    def tcode(m): return f"{sum(TV[t].get(m, False) for t, _ in tfour if t in TV)}/{sum(1 for t, _ in tfour if t in TV)}"   # a count, not a row of dots (author's brief, 2026-09-24)
     kind = {a["model"]: a for a in load("exp18_text_nulls.csv")}
     cos = {a["model"]: a for a in load("expR57_text_cosine_haar_p999_200.csv")} if ex("expR57_text_cosine_haar_p999_200.csv") else {}
     ORDER = ["gpt2","gpt2_m","gpt2_l","gpt2_xl","pythia_410m","pythia_1b","pythia_2b8","olmo_1b","olmo_7b","bge_base","bge_large","gte_base","gte_large","gte_qwen2","e5_base","e5_large"]
@@ -685,7 +675,7 @@ def q_text():
         c = cos.get(m); cc = (f"${float(c['excess']):+.3f}" + ("" if gb(c) else r"^{\circ}") + f"$ & {int(c['r_above'])}") if c else "-- & --"
         rows.append(f"{NAME[m]} & {ty} & {d} & ${float(a['delta']):.3f}$ & ${float(a['excess']):+.3f}" + ("" if gb(a) else r"^{\circ}") + f"$ & ${100*float(a['excess'])/float(a['null_mean']):+.0f}\\%$ & {int(a['r_above'])} & {pfmt(float(a['p_left']))} & {tcode(m)} & {cc} \\\\")
     T.panel("(a) The census of record on the 1000 ImageNet class prompts: padding-free extraction, Haar null, 99.9th-percentile statistic, 200 replicates.", "llrccccccc|cc",
-            [r" & & & \multicolumn{6}{c|}{the reading} & \multicolumn{2}{c}{cosine} \\", r"model & type & $d$ & $\hat\delta_{99.9}$ & excess & exc./null & $r$/200 & $p$ & 2$\times$2 & exc.\ & $r$ \\"], rows, mids=(4, 9), colsep="3.5pt")
+            [r" & & & \multicolumn{6}{c|}{the reading} & \multicolumn{2}{c}{cosine} \\", r"model & type & $d$ & $\hat\delta_{99.9}$ & excess & exc./null & $r$/200 & $p$ & $k$/4 & exc.\ & $r$ \\"], rows, mids=(4, 9), colsep="3.5pt")
     ngen = sum(gb(a) for a in rows_)
     # (b) templates
     rows4, rows17 = load("exp4_prompt_variation.csv"), load("exp17_wordnet_prompts.csv"); prompts = {}
@@ -724,7 +714,7 @@ def q_text():
         xt = r" (c) Precision is irrelevant (fp16 equals fp32 to four decimals); for GPT-2, left-padded batching changes the hidden states (mean cosine to the padding-free extraction $0.98$) and moves $\hat\delta$ by up to $0.018$, while OLMo handles left padding correctly and is invariant, which is why padding-free extraction is the record."
     s, m_ = by["gpt2"], by["gpt2_m"]
     T.write(r"\textbf{In text, clustered structure depends on recipe and scale: genuine at every Pythia scale and at the larger GPT-2 sizes, at the margin for GPT-2 S, absent for GPT-2 M and for the sentence embedders on this probe.} "
-            r"(a) $r$ = replicates above the real value, $p$ the left-tail add-one $p$-value; genuine = BH-corrected $p\le0.05$ over the 15 models ($^{\circ}$: not genuine); exc./null: excess as a fraction of the null reading; the 2$\times$2 column gives the verdicts under Haar$\times$p99.9, Haar$\times$supremum, Gaussian$\times$p99.9, Gaussian$\times$supremum ($\bullet$ genuine); cosine: the same census on cosine geometry. "
+            r"(a) $r$ = replicates above the real value, $p$ the left-tail add-one $p$-value; genuine = BH-corrected $p\le0.05$ over the 15 models ($^{\circ}$: not genuine); exc./null: excess as a fraction of the null reading; the $k$/4 column counts the readings under which the model is genuine, in the order Haar$\times$p99.9, Haar$\times$supremum, Gaussian$\times$p99.9 and Gaussian$\times$supremum; cosine: the same census on cosine geometry. "
             + f"Genuine {ngen}/15; GPT-2 S is genuine at $p={pfmt(float(s['p_left']))}$ with excess ${float(s['excess']):+.3f}$ and GPT-2 M is not ($p={pfmt(float(m_['p_left']))}$, ${float(m_['excess']):+.3f}$), while L and XL are genuine under every construction. GTE-base has the highest effective rank and is not genuine, so genuineness is not a proxy for anisotropy; the only LLM-backboned embedder (GTE-Qwen2-1.5B) is not genuine. "
             + f"(b) Causal-LM values are template-sensitive (range of raw $\\hat\\delta$ up to {rng_lm:.3f} for causal LMs against $\\le{rng_emb:.3f}$ for embedders; ``gloss only'' contains no class name) but the scale ordering is template-robust: with only 3 null replicates per cell the starred S and M cells are borderline, as the 200-replicate record in (a) shows, whereas the L/XL cells are not in doubt." + xt
             + r" % expR53_text_haar_p999_200.csv, expR53_text_haar_sup_200.csv, expR53_text_gauss_p999_200.csv, expR48b_text_census200_bs1.csv, expR57_text_cosine_haar_p999_200.csv, exp18_text_nulls.csv, exp4_prompt_variation.csv, exp17_wordnet_prompts.csv, expR49_template_nulls_bs1.csv, expR47_extraction_variance.csv")
@@ -884,7 +874,7 @@ def conservation_check(verbose=True):
     """Every decimal token of the old appendix (snapshot) survives in the new appendix tables or the main text, except Table 13
     (the 3-replicate original text extraction, removed by the brief) and the 'original extraction' columns of the old Table 14."""
     OLD = RES / "final_pass_old_appendix"
-    order = [s for s in open(OLD / "INPUT_ORDER.txt").read().split() if s not in ("tab_b1_textnulls", "tab_b39_finetune")]   # B39 (the two-pass control of expR65) is superseded by the trained positive control of expR77 (closing pass, 2026-09-22)
+    order = [s for s in open(OLD / "INPUT_ORDER.txt").read().split() if s not in ("tab_b1_textnulls", "tab_b39_finetune", "tab_b32_cosine")]   # B32 (the cosine census excesses) left the paper when Tables 5 and 6 merged on 2026-09-24: the merged table keeps the cosine verdict, not its excess   # B39 (the two-pass control of expR65) is superseded by the trained positive control of expR77 (closing pass, 2026-09-22)
     old_tokens = {}
     for s in order:
         t = open(OLD / f"{s}.tex").read(); t = re.sub(r"(?m)(?<!\\)%.*$", "", t)

@@ -37,11 +37,9 @@ The paper carries no hand-transcribed value. Every table and figure is written b
 | `fig:premise` (`figures/fig_premise_final.pdf`) | `figures/make_figs_final.py` | `expR62_samplelevel_record.csv`, `expR78_khrulkov_replication_summary.csv`, `expR85_khrulkov_sup.csv` |
 | `fig:excess` (`figures/fig_excess_final.pdf`) | `figures/make_figs_final.py` | `expR52_census_haar_p999_200.csv` |
 | `fig:treemap` (`figures/fig_treemap_final.pdf`) | `figures/make_figs_final.py` | `exp23_treemap_controls.npz`, `expR58_treemap_cutfree.csv`, `expR84_tree_ceiling.csv`, `exp10_local_vs_global.csv` |
-| `fig:samereading` (`figures/fig_samereading_final.pdf`) | `figures/make_figs_final.py` | `expR62_samplelevel_record.csv`, `expR52_census_haar_p999_200.csv`, `final_fig2b.json` |
 | `fig:budget` (`figures/fig_budget_final.pdf`) | `figures/make_figs_final.py` | `expR72_budget_record.csv` |
 | `fig:implant` (`figures/fig_implant_final.pdf`) | `figures/make_figs_final.py` | `expR64b_wn30.csv` |
 | `fig:power` (`figures/fig_power_final.pdf`) | `figures/make_figs_final.py` | `expR81_deep_per_backbone_summary.csv`, `expR64b_wn30_summary.csv` |
-| `fig:ceiling` (`figures/fig_ceiling_final.pdf`) | `figures/make_figs_final.py` | `expR84_tree_ceiling_summary.csv`, `expR58_treemap_cutfree.csv` |
 | `fig:gains` (`figures/fig_gains_final.pdf`) | `figures/make_figs_final.py` | `exp2_metric_controls.csv` |
 
 ## Result files behind the main text
@@ -98,4 +96,4 @@ Every sentence of the main text carries its result file in a source comment. The
 - `expR85_khrulkov_sup_summary.csv`
 - `final_wordnet_levels.json`
 
-(28 tables, 11 figures, 49 result files named in the main text.)
+(28 tables, 9 figures, 49 result files named in the main text.)

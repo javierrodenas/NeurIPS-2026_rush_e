@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 484); the references start on page 10 (line 505).
+- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 483); the references start on page 10 (line 504).
 - Appendix: Proofs on page 16, implementation and additional results from page 16 to page 29 (14 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.
@@ -14,13 +14,13 @@
 |---|---|---|---|---|
 | Introduction | 35 | 21.8 | 50 | 0 |
 | Related Work | 7 | 28.6 | 60 | 0 |
-| Methodology | 38 | 18.1 | 30 | 0 |
+| Methodology | 38 | 18.3 | 30 | 0 |
 | Experimental Setup | 16 | 17.8 | 33 | 0 |
-| Results | 71 | 18.0 | 30 | 0 |
+| Results | 71 | 17.9 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 19.3 | 24 | 0 |
-| Conclusion and Limitations | 12 | 18.9 | 34 | 0 |
+| Conclusion and Limitations | 10 | 21.3 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 126 sentences, mean 18.1 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 124 sentences, mean 18.3 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -58,10 +58,9 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 235/236 checks passed.
+- Total: 237/237 checks passed.
 - Final-version checks:
 
-    PASS final: each final copy in appendix_tables/final/ carries only numbers of its v1 table (the cleanup of 2026-09-23 drops panels and shortens captions; nothing new appears), floats one panel at a time and opens with the short caption 
     PASS final: references.bib is the author's bib of 2026-09-23 merged with the three cited entries it lacked: keys unique, every cited key present, Groger et al. as ICML 2026 with Shuo Wen, no escaped underscores in doi/url (they print a backslash), Gromov protected 
     PASS final: every cross-reference of the final resolves 
     PASS final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table 
