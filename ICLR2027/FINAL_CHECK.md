@@ -17,7 +17,7 @@
 | Methodology | 38 | 18.1 | 30 | 0 |
 | Experimental Setup | 16 | 17.8 | 33 | 0 |
 | Results | 71 | 18.0 | 30 | 0 |
-| Implications for Hyperbolic Representation Learning | 6 | 19 | 24 | 0 |
+| Implications for Hyperbolic Representation Learning | 6 | 19.3 | 24 | 0 |
 | Conclusion and Limitations | 12 | 18.9 | 34 | 0 |
 
 Non-verbatim prose of S3–S7: 126 sentences, mean 18.1 words (rule: mean ≤ 22).

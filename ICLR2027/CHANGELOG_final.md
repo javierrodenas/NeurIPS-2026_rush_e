@@ -3064,3 +3064,14 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Páginas: 29** (eran 32). El apéndice, pruebas incluidas, ocupa de la 16 a la 29: **14 páginas** (eran 17). El texto principal
   sigue acabando en la página 9 y las declaraciones vuelven a la 9. Sweep **236/236**, rebuttal reconstruido (61/61), qa_pages
   regeneradas y README de suplementario escrito.
+## 102. Las dos tablas sin citar quedan citadas (2026-09-24, nota del autor). Sin cambio de números.
+
+- §5.3, en la frase del control radial: "…feature norms are not its source **(Table~\ref{tab:q4-depth-e})**", que se imprime
+  como **Tabla 16**, junto a los $z$ de $-2.26$ a $-3.99$ que salen de ella.
+- §6, en la frase de las dos lecturas: "…and the hierarchy verdict predicts none **(Table~\ref{tab:q9-corollary-d})**", que se
+  imprime como **Tabla 24**, la de las correlaciones calibradas con la columna de la lectura cruda.
+- Con eso **ninguna tabla del apéndice queda sin citar desde el texto principal**: la comprobación de la reducción pasa a exigir
+  la lista vacía. El puntero del párrafo de la alineación va en la frase cuyos números respalda, no en la última, como pediste;
+  queda anotado como excepción en el sweep.
+- Envío de 29 páginas, texto principal hasta la página 9, declaraciones en la 9 y referencias en la 10. Sweep **236/236**,
+  rebuttal reconstruido (61/61) y qa_pages regeneradas.
