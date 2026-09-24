@@ -1551,6 +1551,13 @@ def final_checks():
     refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
     chk("final: every cross-reference of the final resolves", refs <= defs, str(sorted(refs - defs)))
     tcf = open(TEX/"tab_census_final.tex").read()
+    _cor_a = (FD/"tab_q09_corollary.tex").read_text()
+    chk("final: the corollary panel drops the McNemar column (the main text never used it, author's brief 2026-09-24): 9 columns, 60 rows of accuracies and advantages, and a caption that defines Eucl. and Poinc. and gives the advantages in percentage points",
+        "McNemar" not in _cor_a and "NC H vs R" not in _cor_a and "exp13_mcnemar" not in _cor_a and "{llccccccc}" in _cor_a
+        and len([ln for ln in _cor_a.split(chr(10)) if ln.rstrip().endswith(chr(92) * 2) and ln.count("&") == 8]) == 61   # 60 cells plus the header row
+        and "nearest-centroid and few-shot accuracy under the Euclidean (Eucl.) and the Poincar\\'{e} (Poinc.) readout, then the advantage of each zero-cost metric in percentage points over the Euclidean readout." in _cor_a
+        and "McNemar" not in TF,
+        f"{_cor_a.count('&')} ampersands in the panel")
     _pfA = app_f[:app_f.index("\\section{Implementation}")]
     chk("final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve",
         _pfA.count("\\begin{equation}") == 6 and "\\textbf{Proposition~\\ref{prop:bound}} (range bound and dimension confound)." in _pfA

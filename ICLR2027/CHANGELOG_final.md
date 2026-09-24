@@ -3236,3 +3236,19 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   apéndice de 14, y el texto principal acaba en la página 9 con la Declaración de Reproducibilidad en la 10.
 - Sweep **241/241** (comprobación nueva del apéndice A: proposición por referencia, intuición, las dos partes, seis ecuaciones,
   los dos $\square$ y las etiquetas citadas). Rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 113. Tabla 22 (aciertos y ganancias del corolario): fuera la columna de McNemar (2026-09-24, brief del autor)
+
+- **Se borra la columna "NC H vs R"** (el $p$ de McNemar para las decisiones de nearest-centroid, Poincaré contra euclídeo): el
+  texto principal no la usaba. La tabla queda en nueve columnas y sesenta celdas: aciertos NC y FS bajo los dos readouts y las
+  tres ventajas.
+- **`exp13_mcnemar.csv` sale de la procedencia** de la tabla, del comentario `% prov:` y del README del suplementario, que ahora
+  lista 46 ficheros de resultados en vez de 47. La comprobación antigua del valor ($p\approx4\times10^{-38}$ en DINOv2-L /
+  CIFAR-100) se queda en el sweep como control del fichero, aunque ya no imprima nada en el artículo.
+- **Pie nuevo**, con las dos abreviaturas definidas y las unidades dichas: "Per cell: nearest-centroid and few-shot accuracy
+  under the Euclidean (Eucl.) and the Poincaré (Poinc.) readout, then the advantage of each zero-cost metric in percentage
+  points over the Euclidean readout." Son 39 palabras, por debajo del tope de 40.
+- La cabecera ya decía "FS advantage over Euclidean (pp)"; ahora el pie lo dice también, que es donde se lee sin descifrar la
+  cabecera.
+- **Sin efecto en el texto principal**: acaba en la página 9, Declaración de Reproducibilidad en la 10, 29 páginas, apéndice
+  de 14. Sweep **242/242** (comprobación nueva: ni "McNemar" ni "NC H vs R" en ningún sitio del envío, nueve columnas, sesenta
+  filas y el pie literal). Rebuttal reconstruido (61/61), qa_pages regeneradas.

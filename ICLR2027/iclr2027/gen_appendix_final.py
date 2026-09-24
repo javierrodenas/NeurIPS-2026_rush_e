@@ -737,20 +737,19 @@ def q_local():
 # Q9: the corollary — tasks, gains, correlations on raw and calibrated readings, policies
 # ======================================================================================================================
 def q_corollary():
-    T = Table("tab_q09_corollary.tex", "tab:q9-corollary", colsep="2.6pt"); T.prov += ["table1_regenerated.csv", "exp2_metric_controls.csv", "exp2b_normalized_stack.csv", "exp13_mcnemar.csv", "night/correlation_cis.csv", "exp20_null_ztable.csv", "expR68_corollary_excess.csv", "exp24_val_metric_selection.csv", "night/t_sweep.csv"]
+    T = Table("tab_q09_corollary.tex", "tab:q9-corollary", colsep="2.6pt"); T.prov += ["table1_regenerated.csv", "exp2_metric_controls.csv", "exp2b_normalized_stack.csv", "night/correlation_cis.csv", "exp20_null_ztable.csv", "expR68_corollary_excess.csv", "exp24_val_metric_selection.csv", "night/t_sweep.csv"]
     t1 = {(r["model"], r["dataset"]): r for r in load("table1_regenerated.csv")}; e2 = {(r["model"], r["dataset"]): r for r in load("exp2_metric_controls.csv")}
-    b2 = {(r["model"], r["dataset"]): r for r in load("exp2b_normalized_stack.csv")}; mc = {(r["model"], r["dataset"]): r for r in load("exp13_mcnemar.csv")}
+    b2 = {(r["model"], r["dataset"]): r for r in load("exp2b_normalized_stack.csv")}
     rows = []; mids = []
     for m in M10:
         for d in DS:
-            r = t1[(m, d)]; e = e2[(m, d)]; p = float(mc[(m, d)]["p_H_vs_R"]); sign = "+" if float(r["NC_adv"]) > 0 else "$-$"
-            ptxt = rf"$10^{{{max(-99, int(f'{p:.0e}'.split('e')[1]))}}}$" if p < 1e-3 else f"{p:.2f}"
+            r = t1[(m, d)]; e = e2[(m, d)]
             hn = f'{100*float(b2[(m, d)]["FS_HN_COS_diff"]):+.2f}' if (m, d) in b2 else "--"
-            rows.append(f"{NAME[m] if d == 'imagenet' else ''} & {DSH[d]} & {100*float(r['NC_R']):.1f} & {100*float(r['NC_H']):.1f} & {100*float(r['FS_R']):.1f} & {100*float(r['FS_H']):.1f} & {(float(e['FS_COS'])-float(e['FS_R']))*100:+.2f} & {(float(e['FS_RT'])-float(e['FS_R']))*100:+.2f} & {hn} & {ptxt}\\,({sign}) \\\\")
+            rows.append(f"{NAME[m] if d == 'imagenet' else ''} & {DSH[d]} & {100*float(r['NC_R']):.1f} & {100*float(r['NC_H']):.1f} & {100*float(r['FS_R']):.1f} & {100*float(r['FS_H']):.1f} & {(float(e['FS_COS'])-float(e['FS_R']))*100:+.2f} & {(float(e['FS_RT'])-float(e['FS_R']))*100:+.2f} & {hn} \\\\")
         mids.append(len(rows))
-    T.panel("(a) Task accuracies and zero-cost metric gains per cell (10 backbones with cached per-dataset features $\\times$ 6 datasets).", "llcccccccc",
-            [r" & & \multicolumn{2}{c}{NC acc.\ (\%)} & \multicolumn{2}{c}{FS acc.\ (\%)} & \multicolumn{3}{c}{FS advantage over Euclidean (pp)} & McNemar \\", r"\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-9}",
-             r"model & data & Eucl. & Poinc. & Eucl. & Poinc. & cosine & radial map & Poinc.$_{\text{N}}$ $-$ cos & NC H vs R \\"], rows, mids=tuple(mids[:-1]), size=r"\scriptsize\renewcommand{\arraystretch}{0.88}", colsep="3pt")
+    T.panel("(a) Task accuracies and zero-cost metric gains per cell (10 backbones with cached per-dataset features $\\times$ 6 datasets).", "llccccccc",
+            [r" & & \multicolumn{2}{c}{NC acc.\ (\%)} & \multicolumn{2}{c}{FS acc.\ (\%)} & \multicolumn{3}{c}{FS advantage over Euclidean (pp)} \\", r"\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-9}",
+             r"model & data & Eucl. & Poinc. & Eucl. & Poinc. & cosine & radial map & Poinc.$_{\text{N}}$ $-$ cos \\"], rows, mids=tuple(mids[:-1]), size=r"\scriptsize\renewcommand{\arraystretch}{0.88}", colsep="3pt")
     T.newpart()
     # (b) correlations: raw supremum delta (B5 + B12) and the calibrated reading (expR68)
     d20 = {(r["model"], r["dataset"]): float(r["delta"]) for r in load("exp20_null_ztable.csv")}
@@ -815,7 +814,7 @@ def q_corollary():
         dz = any(float(r["ci_hi"]) < 0 or float(r["ci_lo"]) > 0 for (p, g, d), r in C68.items() if p == "depth_z" and d != "pooled")
         surv = f" On the record excess the nearest-centroid prediction survives (CI95 excluding zero) on {', '.join(nc_ok)} and the few-shot prediction on {', '.join(fs_ok)}; the hierarchy verdict predicts {'one gain' if dz else 'no gain'} in any dataset."
     T.write(r"\textbf{The calibrated reading predicts the zero-cost gain within datasets, the hierarchy verdict predicts nothing, and cosine is the safe default.} "
-            r"(a) Nearest-centroid (NC) and 5-way 5-shot (FS, 1000 paired episodes) accuracy under Euclidean and Poincar\'e readouts, regenerated from the audited reruns; FS advantage of cosine and of the radial map with Euclidean distances (the map without the metric changes nothing) over Euclidean, and of the Poincar\'e readout over cosine after L2 normalization; McNemar $p$ for the NC test-set decisions, Poincar\'e vs Euclidean (order of magnitude when $p<10^{-3}$; sign of the NC advantage in parentheses). % table1_regenerated.csv, exp2_metric_controls.csv, exp2b_normalized_stack.csv, exp13_mcnemar.csv",
+            r"(a) Nearest-centroid (NC) and 5-way 5-shot (FS, 1000 paired episodes) accuracy under Euclidean and Poincar\'e readouts, regenerated from the audited reruns; FS advantage of cosine and of the radial map with Euclidean distances (the map without the metric changes nothing) over Euclidean, and of the Poincar\'e readout over cosine after L2 normalization. % table1_regenerated.csv, exp2_metric_controls.csv, exp2b_normalized_stack.csv",
             contd=[r"(b) Within-dataset correlations of the raw supremum reading; bootstrap CI95 from 10k resamples of the 10 models, pooled rows by cluster bootstrap over datasets; family control: both variables centered within family before correlating, and within-family correlations (ViT, DINOv2: 4 models each; CLIP has two, so only its sign is shown). "
                    + f"Without DINOv2 (6 backbones) the raw NC correlation holds on ImageNet and CIFAR-100 (${no_d2['imagenet']:+.2f}$/${no_d2['cifar100']:+.2f}$) but not on CIFAR-10/DTD (${no_d2['cifar10']:+.2f}$/${no_d2['dtd']:+.2f}$); pooled cross-dataset correlations of the best-metric advantage do not survive the family control (${pooled_all:+.2f}\\to{pooled_dm:+.2f}$ over all 60 cells, ${pooled_h:+.2f}\\to{pooled_hdm:+.2f}$ on hierarchical cells) and are family-driven." + surv
                    + r" (c) The gain per backbone and which readout collects it. % night/correlation_cis.csv, exp20_null_ztable.csv, exp2_metric_controls.csv",
