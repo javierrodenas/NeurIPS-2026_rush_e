@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 508).
+- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 484); the references start on page 10 (line 505).
 - Appendix: Proofs on page 16, implementation and additional results from page 16 to page 29 (14 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.
@@ -14,7 +14,7 @@
 |---|---|---|---|---|
 | Introduction | 35 | 21.8 | 50 | 0 |
 | Related Work | 7 | 28.6 | 60 | 0 |
-| Methodology | 38 | 18.3 | 30 | 0 |
+| Methodology | 38 | 18.2 | 30 | 0 |
 | Experimental Setup | 16 | 17.8 | 33 | 0 |
 | Results | 69 | 18.0 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 19.3 | 24 | 0 |
@@ -58,11 +58,12 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 239/239 checks passed.
+- Total: 239/240 checks passed.
 - Final-version checks:
 
     PASS final: references.bib is the author's bib of 2026-09-23 merged with the three cited entries it lacked: keys unique, every cited key present, Groger et al. as ICML 2026 with Shuo Wen, no escaped underscores in doi/url (they print a backslash), Gromov protected 
     PASS final: every cross-reference of the final resolves 
+    PASS final: every row of the model panel carries its citation, inline after the model name since it fits the text width (author's brief, 2026-09-24), Barlow Twins and BYOL among them, and both new entries have a publisher source 
     PASS final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table 
     PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm and tcolorbox (the boxed statements of 2026-09-24), same class, same packages otherwise 
@@ -101,6 +102,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | fournier2015computing | DOI https://doi.org/10.1016/j.ipl.2015.02.002 |
 | ganea2018hyperbolic | URL https://proceedings.neurips.cc/paper_files/paper/2018/hash/dbab2adc8f9d078009ee3fa810bea142-Abstract.html |
 | gpt2 | URL https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf |
+| grill2020bootstrap | URL https://proceedings.neurips.cc/paper/2020/hash/f3ada80d5c4ee70142b17b8192b2958e-Abstract.html |
 | groger2026aristotelian | DBLP journals/corr/abs-2602-14486 |
 | gte | DBLP journals/corr/abs-2308-03281 |
 | gu2019learning | DBLP conf/iclr/GuSGR19 |
@@ -130,5 +132,6 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | tifrea2019poincare | DBLP conf/iclr/TifreaBG19 |
 | wordnet | DOI https://doi.org/10.1145/219717.219748 |
 | yang2025hyperbolic | URL https://openreview.net/forum?id=TkEdQv0bXB |
+| zbontar2021barlow | URL https://proceedings.mlr.press/v139/zbontar21a.html |
 
-59 entries cited; without a source: 0.
+61 entries cited; without a source: 0.

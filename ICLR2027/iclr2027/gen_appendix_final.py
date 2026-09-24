@@ -855,15 +855,18 @@ def q_xi():
 # ======================================================================================================================
 def q_panel():
     T = Table("tab_q14_panel.tex", "tab:q14-panel", size=r"\scriptsize", colsep="4pt"); T.prov += ["(model panel: stated in the generator; parameter counts from the model cards)"]
-    P = [("Supervised ViT (vision)", ["ViT-T (i21k) & 5M", "ViT-S (i21k) & 22M", "ViT-B (i21k) & 86M", "ViT-L (i21k) & 307M"]),
-         ("SSL (vision)", ["DINO-B & 86M", "DINOv2-S & 22M", "DINOv2-B & 86M", "DINOv2-L & 307M", "DINOv2-G & 1.1B"]),
-         ("Contrastive (vision)", ["CLIP-B & 86M", "CLIP-L & 307M", "SigLIP-B & 86M"]),
-         ("Causal LM", ["GPT-2 S & 117M", "GPT-2 M & 345M", "GPT-2 L & 774M", "GPT-2 XL & 1.5B", "Pythia-410M & 410M", "Pythia-1B & 1.0B", "Pythia-2.8B & 2.8B", "OLMo-1B & 1.0B", "OLMo-7B & 7.0B"]),
-         ("Text embedder", ["BGE-base \\citep{BGE} & 110M", "BGE-large & 335M", "GTE-base \\citep{gte} & 110M", "GTE-large & 335M", "GTE-Qwen2-1.5B & 1.5B", "E5-base \\citep{e5} & 110M", "E5-large & 335M"]),
-         ("Controls (vision)", ["DeiT-B/16 (IN-1k, no distillation) & 86M", "ViT-B/16 augreg (IN-1k) & 86M", "MERU ViT-S/B/L and CLIP twins & 22M/86M/307M", "Barlow Twins, BYOL (ResNet-50) & 24M"])]
+    P = [("Supervised ViT (vision)", [("ViT-T (i21k)", "5M", "dosovitskiy2021an"), ("ViT-S (i21k)", "22M", "dosovitskiy2021an"), ("ViT-B (i21k)", "86M", "dosovitskiy2021an"), ("ViT-L (i21k)", "307M", "dosovitskiy2021an")]),
+         ("SSL (vision)", [("DINO-B", "86M", "dinov1"), ("DINOv2-S", "22M", "dinov2"), ("DINOv2-B", "86M", "dinov2"), ("DINOv2-L", "307M", "dinov2"), ("DINOv2-G", "1.1B", "dinov2")]),
+         ("Contrastive (vision)", [("CLIP-B", "86M", "CLIP"), ("CLIP-L", "307M", "CLIP"), ("SigLIP-B", "86M", "siglip")]),
+         ("Causal LM", [("GPT-2 S", "117M", "gpt2"), ("GPT-2 M", "345M", "gpt2"), ("GPT-2 L", "774M", "gpt2"), ("GPT-2 XL", "1.5B", "gpt2"), ("Pythia-410M", "410M", "pythia"),
+                        ("Pythia-1B", "1.0B", "pythia"), ("Pythia-2.8B", "2.8B", "pythia"), ("OLMo-1B", "1.0B", "olmo"), ("OLMo-7B", "7.0B", "olmo")]),
+         ("Text embedder", [("BGE-base", "110M", "BGE"), ("BGE-large", "335M", "BGE"), ("GTE-base", "110M", "gte"), ("GTE-large", "335M", "gte"), ("GTE-Qwen2-1.5B", "1.5B", "gte"),
+                            ("E5-base", "110M", "e5"), ("E5-large", "335M", "e5")]),
+         ("Controls (vision)", [("DeiT-B/16 (IN-1k, no distillation)", "86M", "deit"), ("ViT-B/16 augreg (IN-1k)", "86M", "augreg"), ("MERU ViT-S/B/L and CLIP twins", "22M/86M/307M", "desai2023meru"),
+                                ("Barlow Twins (ResNet-50)", "24M", "zbontar2021barlow"), ("BYOL (ResNet-50)", "24M", "grill2020bootstrap")])]   # every row carries its citation (author's brief, 2026-09-24)
     rows = []; mids = []
     for ty, ms in P:
-        for x in ms: rows.append(f"{ty} & {x} \\\\")
+        for nm, pr, key in ms: rows.append(f"{ty} & {nm} \\citep{{{key}}} & {pr} \\\\")
         mids.append(len(rows))
     T.panel("", "llr", [r"type & model & params \\"], rows, mids=(mids[2], mids[4]))
     T.write(r"\textbf{The model panel.} 12 vision backbones (all in the census; the 10 with cached per-dataset features, all but DINO-B and SigLIP-B, form the task grid), 9 causal LMs, 7 text embedders, and the vision models used only as controls. "

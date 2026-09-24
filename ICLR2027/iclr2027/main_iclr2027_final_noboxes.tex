@@ -207,7 +207,7 @@ The decoupling control keeps the hubs of the frame and rotates each cluster's of
 \mathrm{depth}=e_{\mathrm{hub}}(X)-e_{\mathrm{hub}}(X_{\mathrm{star}}),\qquad z=\mathrm{depth}\,/\,\mathrm{s.d.},
 \label{eq:depth}
 \end{equation}
-where the spread is taken over star seeds and null replicates, and a cloud is certified against its matched star when $z\le-2$. The power of the test is the fraction of planted hierarchies it detects, and its false-alarm rate is the fraction of flat controls that fire. Both are measured on real clouds in Section~\ref{sec:f-depth}.
+where the spread is taken over star seeds and null replicates, and a cloud is certified against its matched star when $z\le-2$. The power of the test is the fraction of planted hierarchies it detects, and its false-alarm rate is the fraction of flat controls that fire. Both are measured in Section~\ref{sec:f-depth}.
 
 \subsection{Comparing trees across models}
 \label{sec:f-treemap}
@@ -224,7 +224,7 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 
 \paragraph{The census, the reading of every model--dataset cell, has 12 backbones, 6 class sets and 15 text models.} The vision backbones are 4 supervised ViTs \citep{dosovitskiy2021an} trained on ImageNet-21k \citep{imagenet}, DINO-B \citep{dinov1}, 4 DINOv2 sizes \citep{dinov2}, CLIP-B, CLIP-L \citep{CLIP} and SigLIP-B \citep{siglip}. The class sets are ImageNet (1000 classes) and CIFAR-100 \citep{cifar10} (100), which carry a real hierarchy; DTD \citep{dtd} (47) and CIFAR-10 (10); and the flat FashionMNIST (FMNIST) \citep{fashion} and MNIST \citep{mnist} (10 each). The text models read the thousand ImageNet class names: 4 GPT-2 sizes \citep{gpt2}, 3 Pythia sizes \citep{pythia}, OLMo-1B \citep{olmo} and 7 sentence embedders (Table~\ref{tab:q14-panel}).
 
-\paragraph{Four controls test the alternatives.} Two self-supervised ResNets \citep{resnet} read the vision census. DeiT-B \citep{deit} and the augreg ViT-B \citep{augreg}, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the alignment. MERU and its Euclidean CLIP twin \citep{desai2023meru} test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
+\paragraph{Four controls test the alternatives.} Two self-supervised ResNets \citep{resnet,zbontar2021barlow,grill2020bootstrap} read the vision census. DeiT-B \citep{deit} and the augreg ViT-B \citep{augreg}, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the alignment. MERU and its Euclidean CLIP twin \citep{desai2023meru} test whether training in hyperbolic space creates depth. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
 
 \paragraph{The premise is read on images and hierarchy on centroids.} The sample-level reading uses about a thousand stratified training images per cell on CIFAR-100 and DTD. Class centroids average a hundred cached training images per class on ImageNet and the full cached split elsewhere. Causal language models give the last-token state of ``a photo of a \{class\}'', extracted one prompt at a time because batching alters GPT-2's hidden states. Embedders use their recommended pooling (Table~\ref{tab:q2-text}).
 

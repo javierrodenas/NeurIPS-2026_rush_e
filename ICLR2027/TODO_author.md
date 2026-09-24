@@ -360,3 +360,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   escribiste (13 es el identificador `tab:q13-local`); (ii) §4 dice ahora "FashionMNIST", mientras las figuras y las tablas usan
   "FMNIST": dime si prefieres una de las dos formas en todas partes; (iii) en §5.3 la frase del marco balanceado (0 de 50) va en
   el párrafo nuevo del control entrenado, que es donde cae por sentido.
+- (Tabla 1, 2026-09-24) Dos cosas: (i) para meter las citas de §4 sin pasar de la página 9 he recortado "on real clouds" de la
+  frase de §3.4 ("Both are measured in Section 5.3."); si la quieres entera, dime qué línea del texto principal suelto a cambio,
+  porque la frase completa vuelve a empujar la Figura 5 y con ella tres líneas. (ii) El texto principal deja ahora tres líneas
+  libres al pie de la página 9 y la Declaración de Reproducibilidad empieza ahí; si prefieres que empiece en la página 10,
+  puedo devolver al texto principal alguno de los párrafos de §5.2 que están en el apéndice.

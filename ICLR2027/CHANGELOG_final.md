@@ -3179,3 +3179,26 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - De paso quedaba en el script el bloque de la figura "same reading" que ya no se usa: fuera.
 - Envío de 29 páginas, texto principal hasta la página 9, apéndice de 14. Sweep **239/239**, rebuttal reconstruido (61/61),
   qa_pages regeneradas.
+## 110. Tabla 1 (panel de modelos): una cita por fila; Barlow Twins y BYOL en la bibliografía (2026-09-24, brief del autor)
+
+- **Dos entradas nuevas verificadas en la página del editor** (DBLP sigue detrás del reto de Anubis y no sirve BibTeX):
+  `zbontar2021barlow` de `https://proceedings.mlr.press/v139/zbontar21a.html` (ICML 2021, PMLR 139, pp. 12310--12320) y
+  `grill2020bootstrap` de `https://proceedings.neurips.cc/paper/2020/hash/f3ada80d5c4ee70142b17b8192b2958e-Abstract.html`
+  (NeurIPS 2020). Las dos llevan `url`, que es lo que el sweep exige como fuente.
+- **Cada fila de la Tabla 1 lleva su cita**, detrás del nombre del modelo: ViT, DINO, DINOv2, CLIP, SigLIP, GPT-2, Pythia, OLMo,
+  BGE, GTE, E5, DeiT, augreg, MERU y ahora Barlow Twins y BYOL. Son 32 filas, todas con cita.
+- **No hace falta la columna "ref."**: en línea la tabla ocupa menos que el ancho de texto (tectonic no da ningún `Overfull`),
+  así que se queda la forma que ya usaban los embedders. La fila de los dos ResNets se parte en dos, una por modelo, para que
+  cada uno tenga la suya.
+- **§4**: los dos controles se citan en su primera mención, dentro de la cita que ya estaba: "Two self-supervised ResNets
+  (He et al., 2016; Zbontar et al., 2021; Grill et al., 2020) read the vision census."
+- **El coste en página 9 y de dónde sale**: las dos citas añaden una línea en §4, y con ella la Figura 5 se iba a la página 9 y
+  el texto principal pasaba a la 10 (tres líneas de más). Como el párrafo de conclusión no puede ceder ninguna línea (la tesis
+  es literal y su última línea ya es corta), la línea se devuelve en §3.4: "Both are measured on real clouds in Section 5.3."
+  pasa a "Both are measured in Section 5.3." La potencia y la tasa de falsa alarma se miden sobre jerarquías plantadas con el
+  espectro de cada backbone, así que "on real clouds" tampoco era exacto. Probé a devolver la frase entera: vuelve a pasar a la
+  página 10, así que se queda recortada.
+- **Resultado**: el texto principal acaba en la página 9 con tres líneas de holgura, y por eso la Declaración de
+  Reproducibilidad empieza ahora al pie de la página 9 en vez de al principio de la 10; las referencias siguen en la 10.
+- Envío de 29 páginas, apéndice de 14. Sweep **240/240** (comprobación nueva: 32 filas del panel, todas con cita, ninguna
+  columna "ref.", y las dos entradas nuevas con su página de editor). Rebuttal reconstruido (61/61), qa_pages regeneradas.
