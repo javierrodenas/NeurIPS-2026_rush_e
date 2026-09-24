@@ -1452,13 +1452,15 @@ def final_checks():
     _lim_f = bf[bf.index("\\paragraph{Limitations.}"):]   # bf ends at the Reproducibility Statement
     _limapp = seg(TF, "\\section{Limitations in full}", "\\section{Detail from the main text}")
     _detapp = seg(TF, "\\section{Detail from the main text}", "\\renewcommand{\\topfraction}")
-    chk("final (template compliance, 2026-09-24): the preamble has no display-skip block and no textfloatsep, abovecaptionskip, floatsep, linespread or global parskip override, and the main text no \\raggedbottom, so the style's \\parskip .5pc, \\parindent 0 and \\flushbottom apply; S7 keeps four limitations with the full ten in Appendix~\\ref{app:limits}; the eight moved paragraphs in Appendix~\\ref{app:detail}; S6 in one paragraph; the only \\vspace is the author's before the Figure 1 caption",
+    chk("final (template compliance, 2026-09-24): the preamble has no display-skip block and no textfloatsep, abovecaptionskip, floatsep, linespread or global parskip override, and the main text no \\raggedbottom, so the style's \\parskip .5pc, \\parindent 0 and \\flushbottom apply; S7 keeps seven limitations (the Euclidean test, the text probe and the correlational link joined the four of the compliance pass) with the full ten in Appendix~\\ref{app:limits}; the eight moved paragraphs in Appendix~\\ref{app:detail}; S6 in one paragraph; the only \\vspace is the author's before the Figure 1 caption",
         all(w not in _pre_f for w in ("g@addto@macro", "abovedisplayskip", "\\textfloatsep", "\\abovecaptionskip", "\\floatsep", "\\linespread"))
         and _pre_f.count("\\setlength{\\parskip}") == 1 and "before upper={\\setlength{\\topsep}" in _pre_f
         and "\\parskip .5pc" in _sty_f and "\\parindent 0pt" in _sty_f and "\\flushbottom" in _sty_f
         and "\\raggedbottom" not in TF[:TF.index("\\appendix")] and TF.count("\\raggedbottom") == 1
         and TF.count("\\vspace") == 1 and "\\vspace{2pt}\n\\caption{\\textbf{Plato's cave" in TF
-        and [_lim_f.count("(%s)~" % r) for r in ("i", "ii", "iii", "iv", "v")] == [1, 1, 1, 1, 0]
+        and [_lim_f.count("(%s)~" % r) for r in ("i", "ii", "iii", "iv", "v", "vi", "vii", "viii")] == [1, 1, 1, 1, 1, 1, 1, 0]
+        and "The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative." in bf and "The text census depends on the probe: template and batching move the reading, so verdicts at the margin are fragile." in bf
+        and "The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label ViTs." in bf
         and "Appendix~\\ref{app:limits} gives the full list." in _lim_f and "\\label{app:limits}" in TF and "\\label{app:detail}" in TF
         and all(("(%s)~" % r) in _limapp for r in ("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"))
         and _s6_f.count("\\paragraph{") == 1 and _detapp.count("\\paragraph{") == 8

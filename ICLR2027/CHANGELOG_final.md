@@ -2976,3 +2976,18 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   línea. La frase de los tres rangos lleva excepción nombrada en el sweep para tu tope de dos números por frase.
 - Sweep **234/234** con la comprobación nueva (cada número de las cuatro frases contra su fichero). Envío de 35 páginas, texto
   principal hasta la página 9, declaraciones en la 9, referencias en la 10. Rebuttal reconstruido (61/61) y qa_pages revisadas.
+## 98. Tres limitaciones más en §7 (2026-09-24, brief del autor). Sin cambio de números.
+
+- El hueco de la página 9 se llena con tus tres, una línea cada una, en tu orden: **(iii)** "The hierarchy test is Euclidean, and
+  for the angular DINOv2 tree it may be conservative"; **(iv)** "The text census depends on the probe: template and batching move
+  the reading, so verdicts at the margin are fragile"; **(vii)** "The objective--geometry link is correlational, resting chiefly
+  on DINOv2's scale range and on 2 leaf-label ViTs". Las tres caben: el texto principal acaba justo al pie de la página 9 y la
+  página 10 abre con la declaración de reproducibilidad.
+- La (iii) y la (vii) son las del apéndice, verbatim. La (iv) la he escrito yo con lo que dice la tabla de texto: el panel de
+  plantillas mide el rango de $\hat\delta$ por plantilla (causales frente a embedders) y el de extracción mide que el batching
+  con relleno a la izquierda mueve los estados de GPT-2; de ahí "template and batching move the reading" y "verdicts at the
+  margin", que es el caso de GPT-2 S. Procedencia: `expR47_extraction_variance.csv`, `expR49_template_nulls_bs1.csv`.
+- Las siete van renumeradas (i)-(vii) y el puntero a la lista completa del apéndice sigue al final. La lista del apéndice no
+  cambia: sigue con sus diez.
+- Sweep **234/234** (la comprobación de cumplimiento verifica ya las siete y las tres frases nuevas). Envío de 35 páginas, texto
+  principal hasta la página 9, declaraciones y referencias en la 10. Rebuttal reconstruido (61/61) y qa_pages regeneradas.

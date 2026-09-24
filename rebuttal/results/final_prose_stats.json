@@ -37,14 +37,14 @@
    "over30": 0
   },
   "Conclusion and Limitations": {
-   "sentences": 9,
-   "avg_words": 17.2,
+   "sentences": 12,
+   "avg_words": 17.4,
    "max_words": 34,
    "over30": 0
   }
  },
  "avg_nonverbatim": 18.1,
- "n_nonverbatim_sentences": 123,
+ "n_nonverbatim_sentences": 126,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
