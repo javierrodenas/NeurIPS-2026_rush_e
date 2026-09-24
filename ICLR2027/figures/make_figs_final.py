@@ -121,8 +121,8 @@ for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 hd = [Patch(color="k", label="certified ($z\\leq-2$) or power $\\geq0.8$"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not certified or power below 0.8")]
 covered = [m for m in M if dpw[m] >= 0.8]
 json.dump({"legend": [h.get_label() for h in hd], "implanted_alignment_curve": False, "panel_b": "decoupled_power_per_backbone", "n_covered": len(covered), "covered": covered}, open(RES/"final_fig4.json", "w"), indent=1)   # read by the sweep
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=2, handlelength=1.4, handletextpad=0.4, columnspacing=1.2, bbox_to_anchor=(0.5, -0.01))
-fig.subplots_adjust(left=0.09, right=0.99, top=0.89, bottom=0.40, wspace=0.30)
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=2, handlelength=1.4, handletextpad=0.4, columnspacing=1.2, bbox_to_anchor=(0.5, -0.13))   # clear of the model names (2026-09-24)
+fig.subplots_adjust(left=0.09, right=0.99, top=0.92, bottom=0.40, wspace=0.30)
 save(fig, "fig_depth_final")
 print(f"depth: certified {sum(v <= -2 for v in an.values())}/12; decoupled power >= 0.8 in {len(covered)}/12: {covered}")
 
@@ -167,10 +167,10 @@ c84 = pd.read_csv(RES/"expR84_tree_ceiling.csv"); c84 = c84[c84.kind == "boot_pa
 band = {m: (float(c84[c84.model == m].triplet_agree.min()), float(c84[c84.model == m].triplet_agree.max()), float(c84[c84.model == m].triplet_agree.mean())) for m in M}
 ys = {}; _y = 0.0   # shared y axis of (a) and (b): backbones top to bottom in the order of M, a small gap between families (layout brief, 2026-09-22)
 for i, m in enumerate(M):
-    if i in (4, 9): _y -= 0.6
+    if i in (4, 9): _y -= 0.7
     ys[m] = _y; _y -= 1.0
 YLIM = (min(ys.values()) - 0.7, 0.7)
-fig, axes = plt.subplots(1, 3, figsize=(5.5, 2.1), gridspec_kw={"width_ratios": [1.25, 1.05, 1.35]})
+fig, axes = plt.subplots(1, 3, figsize=(5.5, 2.2), gridspec_kw={"width_ratios": [1.25, 1.05, 1.35]})   # the names of (a) get their room from the margins (2026-09-24)
 ax = axes[0]
 for i, m in enumerate(M):
     y = ys[m]; a, b = mean_other(Mn, i), mean_other(Ms, i)
@@ -192,14 +192,14 @@ for i, m in enumerate(M):
     ax.bar(i - 0.2, c, 0.4, color=fam_color(m), edgecolor="white", linewidth=0.8, zorder=3); ax.bar(i + 0.2, e, 0.4, facecolor="white", edgecolor=fam_color(m), hatch="////", linewidth=0.6, zorder=3)
 ax.axhline(0.5, color="k", lw=0.8, ls="--", zorder=2)
 ax.set_xticks(range(len(M))); ax.set_xticklabels(NAMES, rotation=90, fontsize=7); ax.set_xlim(-0.7, len(M) - 0.3); ax.tick_params(axis="x", length=0)
-for lab, m in zip(ax.get_xticklabels(), M): lab.set_color(fam_color(m))   # family colors on the names (layout brief)
+# the names of (c) are black (author's note, 2026-09-24); the bars carry the family color
 ax.set_ylim(0, 1.0); ax.set_yticks([0, 0.5, 1.0]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("triplet agreement", labelpad=2)
 ax.set_title("(c) sibling triplets, CIFAR-100", pad=3)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 hd = [plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.5, mew=1.0, label="naive"), plt.Line2D([], [], marker="o", color="k", ls="", ms=5, mec="white", mew=0.8, label="corrected"), Patch(color=BAND, alpha=BAND_ALPHA, label="within-model ceiling"),
       Patch(color="k", label="cosine"), Patch(facecolor="white", edgecolor="k", hatch="////", label="Euclidean"), plt.Line2D([], [], ls="--", color="k", lw=0.8, label="chance")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=6, handlelength=1.2, handletextpad=0.4, columnspacing=0.9, bbox_to_anchor=(0.5, -0.01))
-fig.subplots_adjust(left=0.11, right=0.99, top=0.89, bottom=0.40, wspace=0.45)
+fig.subplots_adjust(left=0.11, right=0.99, top=0.93, bottom=0.34, wspace=0.45)
 save(fig, "fig_treemap_final")
 json.dump({"naive_dinov2_vs_block": vals[0], "selected_dinov2_vs_block": vals[1], "sibtrip_c100": {m: {"cosine": tri[m][0], "euclid": tri[m][1]} for m in M}, "mean_ari_other": {m: [mean_other(Mn, i), mean_other(Ms, i)] for i, m in enumerate(M)}, "triplet_selected": trip, "ceiling_band": band}, open(RES/"final_fig5_values.json", "w"), indent=1)
 d2 = {m: tri[m][0] - tri[m][1] for m in M}; print(f"treemap: DINOv2-B/L/G vs block naive {vals[0]:.2f}, selected {vals[1]:.2f}; triplet cosine-Euclid gap: DINOv2 {min(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}..{max(d2[m] for m in ('dinov2_b','dinov2_l','dinov2_g')):.2f}")

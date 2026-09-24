@@ -2756,3 +2756,12 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Revisado en qa_pages a 100 dpi y en escala de grises: los cuatro colores se separan también en gris (0.15, 0.28, 0.5, 0.68 de
   luminancia) y el relleno frente al rayado distingue las verdictos sin depender del color.
 - Envío: 31 páginas, texto principal en la página 9, sweep 230/230.
+## 86. Tres retoques de figura (2026-09-24, nota del autor).
+
+- **Figura 4**: la leyenda tapaba los nombres de los modelos; baja fuera de ellos (`bbox_to_anchor` de $-0.01$ a $-0.13$) con un
+  margen inferior algo mayor. Misma altura, mismos datos.
+- **Figura 5(a)**: los nombres iban muy pegados. Las filas ganan aire desde los márgenes, no desde la altura: el eje pasa de ocupar
+  el 49 % de la figura al 59 % (`top` 0.89→0.93, `bottom` 0.40→0.34) con la figura en 2.2 in. Lo probé primero subiendo la altura a
+  2.45 in y el texto principal se iba a la página 10, así que lo hice por márgenes.
+- **Figura 5(c)**: los nombres de los modelos van en negro; el color de familia lo llevan las barras.
+- Envío: 31 páginas, texto principal en la página 9, sweep 230/230.
