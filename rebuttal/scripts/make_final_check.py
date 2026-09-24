@@ -12,7 +12,7 @@ def where(key):
     pre = txt[:i]; nums = [int(m.group(1)) for m in re.finditer(r"^\s*(\d{3})\s", pre, flags=re.M)]
     return pre.count("\f") + 1, (max(nums) + 1 if nums else None)
 pages = txt.count("\f")
-p_concl, _ = where("C ONCLUSION AND"); p_stmt, s_stmt = where("R EPRODUCIBILITY S TATEMENT"); p_ref, s_ref = where("R EFERENCES"); p_app, _ = where("O NE TABLE PER QUESTION"); p_proof, _ = where("P ROOFS")
+p_concl, _ = where("C ONCLUSION AND"); p_stmt, s_stmt = where("R EPRODUCIBILITY S TATEMENT"); p_ref, s_ref = where("R EFERENCES"); p_app, _ = where("A DDITIONAL RESULTS"); p_proof, _ = where("P ROOFS")
 # the last numbered line of the main text = the slot before the Reproducibility Statement
 p_main_end = (s_stmt - 2) // 54 + 1 if s_stmt else None
 S = json.load(open("rebuttal/results/final_prose_stats.json")); A = json.load(open("rebuttal/results/final_appendix.json"))
@@ -20,7 +20,7 @@ L = open(log).read(); fin = [l for l in L.splitlines() if "final:" in l and (l.s
 out = ["# FINAL_CHECK — `main_iclr2027_final.pdf`", "",
        "## Page budget", "",
        f"- PDF pages: {pages}. Main text (through the Conclusion and Limitations section) ends on page {p_main_end}; the Reproducibility, Ethics and AI Use statements start on page {p_stmt} (ICLR line {s_stmt}); the references start on page {p_ref} (line {s_ref}).",
-       f"- Appendix: Proofs on page {p_proof}, tables from page {p_app} to page {pages} ({pages - p_proof + 1} pages including the proofs).",
+       f"- Appendix: Proofs on page {p_proof}, implementation and additional results from page {p_app} to page {pages} ({pages - p_proof + 1} pages including the proofs).",
        f"- Cut order applied (brief §5): {', '.join(A['cuts']) if A['cuts'] else 'none'} = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.",
        "- Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.",
        "- Template compliance (brief of 2026-09-24): the preamble no longer overrides the style's spacing. The display-skip block, `\\textfloatsep`, `\\abovecaptionskip`, `\\parskip` and `\\floatsep` are gone and the main text no longer sets `\\raggedbottom`, so the style's `\\parskip .5pc`, `\\parindent 0pt` and `\\flushbottom` apply. Page 9 was recovered by moving content to the appendix in the author's order: the limitations (four kept in S7, the ten in Appendix B), S6 to one paragraph, the WordNet, DBpedia, HierarCaps and text readings of S5.4 to one sentence each, the frames, leaf-label and MERU paragraphs of S5.3 to one sentence each with a pointer, and the class-set and neural-collapse paragraphs of S5.2 to Appendix C. Every moved sentence is verbatim in the appendix and figures were not resized.",
