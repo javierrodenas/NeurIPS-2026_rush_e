@@ -323,27 +323,6 @@ json.dump({"cells": int(B72.groupby(["model", "dataset"]).ngroups), "budgets": s
 save(fig, "fig_budget_final")
 print(f"budget: {B72.groupby(['model','dataset']).ngroups} cells, drift above 1e5 at most {_drift:.4f}")
 
-# ---------------- the class count: the excess against the number of classes, random and WordNet subsets
-C60 = pd.read_csv(RES/"expR60_c_sweep_record.csv")
-fig, ax = plt.subplots(figsize=(3.3, 1.9))
-for m in sorted(C60.model.unique()):
-    for mode, ls, mk in (("random", "-", "o"), ("coherent", "--", "s")):
-        d_ = C60[(C60.model == m) & (C60["mode"] == mode)].groupby("C").excess.mean().sort_index()
-        ax.plot(d_.index, d_.values, ls, marker=mk, color=fam_color(m), lw=1.0, ms=3.4, mec="white", mew=0.5, zorder=3)
-ax.set_xscale("log"); ax.axhline(0, color="0.35", lw=0.6, zorder=1)
-ax.set_xlabel("classes in the subset", labelpad=1); ax.set_ylabel("excess")
-ax.set_title("the excess shrinks with the class count", pad=3)
-hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.0, ms=3.4, mec="white", mew=0.5, label="random classes"),
-      plt.Line2D([], [], marker="s", color="k", ls="--", lw=1.0, ms=3.4, mec="white", mew=0.5, label="WordNet siblings")]
-hd += [plt.Line2D([], [], color=fam_color(m), lw=2.0, label=NM[m]) for m in sorted(C60.model.unique())]
-ax.legend(handles=hd, **LEG, loc="lower right", ncol=2, handlelength=1.4, handletextpad=0.4, columnspacing=0.9, fontsize=6.2)
-for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-fig.subplots_adjust(left=0.17, right=0.99, top=0.90, bottom=0.24)
-json.dump({"models": sorted(C60.model.unique()), "C": sorted(int(c) for c in C60.C.unique()),
-           "excess_by_C_random": {str(int(k)): round(float(v), 4) for k, v in C60[C60["mode"] == "random"].groupby("C").excess.mean().items()}}, open(RES/"final_fig_classcount.json", "w"), indent=1)
-save(fig, "fig_classcount_final")
-print(f"class count: {sorted(C60.C.unique())} classes, {C60.model.nunique()} models, two modes")
-
 # ---------------- the power per backbone against the noise level of the cloud
 P81 = pd.read_csv(RES/"expR81_deep_per_backbone_summary.csv").set_index("model")
 R64 = pd.read_csv(RES/"expR64b_wn30_summary.csv").set_index("model").ratio_real

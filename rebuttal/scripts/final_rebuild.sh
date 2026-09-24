@@ -20,6 +20,7 @@ for key in ('C ONCLUSION', 'R EPRODUCIBILITY', 'R EFERENCES', 'P ROOFS'):
     i = txt.index(key); pre = txt[:i]; nums = [int(m.group(1)) for m in re.finditer(r'^\s*(\d{3})\s', pre, flags=re.M)]
     print(f"{key:18s} slot {max(nums)+1} page {pre.count(chr(12))+1}")
 EOF
+python3 rebuttal/scripts/make_supp_readme.py
 python3 rebuttal/scripts/sweep_freeze.py > rebuttal/results/sweep_final.log 2>&1 || true
 grep -n "FAIL\|phaseB re-total" rebuttal/results/sweep_final.log | cut -c1-200 | tail -n 5
 cp "$BUILD/main_iclr2027_final.pdf" ICLR2027/main_iclr2027_final.pdf

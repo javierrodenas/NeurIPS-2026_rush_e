@@ -3035,3 +3035,32 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Páginas: el envío pasa de 35 a 32.** El apéndice (pruebas incluidas, de la 16 a la 32) pasa de **20 a 17 páginas**. El texto
   principal sigue acabando en la página 9. Sweep **235/235** con la comprobación nueva de la reducción. Rebuttal reconstruido
   (61/61) y qa_pages regeneradas.
+## 101. Reducción final del apéndice (2026-09-24, brief del autor). 29 páginas, apéndice de 14.
+
+- **(1) El apéndice B desaparece.** §7 gana tu **(viii)** "The reading divides by the diameter, so heavier tails in real clouds
+  would lower $\delta_{\text{norm}}$ without any clustering; the cosine census mitigates this", y el puntero al apéndice se va.
+  Las otras tres ya estaban dichas: el exceso certifica estructura más allá de los segundos momentos (§3.3 y §3.4), el bloque
+  largo de la prueba de jerarquía (§5.3) y el alcance downstream (§6). **Una frase la he salvado**: "A pre-set criterion
+  expecting no intact certification of the leaf and frozen models was not met, because they are aligned" no estaba en ningún
+  otro sitio y es una frase de honestidad sobre un criterio previo no cumplido; va ahora en el párrafo de la pregunta de la
+  prueba de jerarquía. Dime si prefieres que desaparezca.
+- **(2) Fuera la guía de lectura y el glosario.** Cada símbolo que una tabla usa se define ahora en su propio pie: se han añadido
+  las definiciones de $^{\circ}$, $r$/200, w/b, $s^{*}$ y $\bar z_1$ a los pies que los usaban sin definirlos. El tope de 40
+  palabras sube a 50 sólo para esos pies.
+- **(3) Fuera la tabla de procedencia.** Su contenido es ahora `ICLR2027/supplementary_code/README.md`, que genera
+  `rebuttal/scripts/make_supp_readme.py` desde el paper construido (13 ficheros de tablas con sus 24 etiquetas, 11 figuras y los
+  49 ficheros de resultados que cita el texto principal) y que la cadena regenera en cada compilación. La declaración de
+  reproducibilidad dice ya tu frase.
+- **(4)** Fuera la figura del número de clases. **(5)** Fuera la tabla de alineación plantada y, con ella, la frase de §5.3; queda
+  "Its geometric form is not resolved here." **(6)** La tabla de correlaciones calibradas **sí** lleva la columna de la lectura
+  cruda ($\hat\delta_{99.9}$), así que la de correlaciones crudas se va, como pedías.
+- **(7)** Un solo censo por celda: la tabla que estaba en el texto principal se funde con la del apéndice y **Barlow-R50 y
+  BYOL-R50 entran como filas** (leídas sólo en ImageNet, contra 20 réplicas, dicho en el pie). Esa tabla responde también a la
+  referencia de la antigua Tabla 2. Los recuentos del marco balanceado son ahora **dos filas de la tabla de la estrella con hubs
+  Haar** ("flat control, balanced frame" y "flat control, frame mismatch").
+- **(8)** El apéndice C se disuelve: sus cuatro párrafos van a la pregunta que les toca (censo, censo, prueba de jerarquía,
+  corolario). **(9)** Orden final: **A Proofs; B Implementation** (panel de modelos y extracción); **C Additional results**, una
+  subsección por pregunta.
+- **Páginas: 29** (eran 32). El apéndice, pruebas incluidas, ocupa de la 16 a la 29: **14 páginas** (eran 17). El texto principal
+  sigue acabando en la página 9 y las declaraciones vuelven a la 9. Sweep **236/236**, rebuttal reconstruido (61/61), qa_pages
+  regeneradas y README de suplementario escrito.

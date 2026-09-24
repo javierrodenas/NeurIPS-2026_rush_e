@@ -26,7 +26,7 @@
   },
   "Results": {
    "sentences": 71,
-   "avg_words": 18.2,
+   "avg_words": 18.0,
    "max_words": 30,
    "over30": 0
   },
@@ -38,7 +38,7 @@
   },
   "Conclusion and Limitations": {
    "sentences": 12,
-   "avg_words": 17.3,
+   "avg_words": 18.9,
    "max_words": 34,
    "over30": 0
   }

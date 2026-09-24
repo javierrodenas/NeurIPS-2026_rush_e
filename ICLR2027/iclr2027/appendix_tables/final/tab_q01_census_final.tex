@@ -3,6 +3,38 @@
 \centering
 \scriptsize
 \setlength{\tabcolsep}{1.4pt}
+\begin{tabular}{lcccccccccccccccccc}
+\toprule
+ & \multicolumn{3}{c}{IN} & \multicolumn{3}{c}{C100} & \multicolumn{3}{c}{C10} & \multicolumn{3}{c}{DTD} & \multicolumn{3}{c}{FMNIST} & \multicolumn{3}{c}{MNIST} \\
+model & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ & exc.\ & $r$ & $p$ \\
+\midrule
+ViT-T & $-0.005^{\circ}$ & 169 & .159 & $-0.006^{\circ}$ & 151 & .249 & $-0.012^{\circ}$ & 148 & .264 & $-0.014$ & 195 & .030 & $+0.024^{\circ}$ & 19 & .905 & $-0.022^{\circ}$ & 168 & .164 \\
+ViT-S & $-0.012$ & 200 & .005 & $-0.000^{\circ}$ & 112 & .443 & $-0.042$ & 199 & .010 & $-0.018$ & 199 & .010 & $-0.027^{\circ}$ & 192 & .045 & $-0.034^{\circ}$ & 183 & .090 \\
+ViT-B & $-0.016$ & 200 & .005 & $+0.006^{\circ}$ & 42 & .791 & $-0.038$ & 196 & .025 & $-0.020$ & 200 & .005 & $-0.035$ & 198 & .015 & $-0.007^{\circ}$ & 122 & .393 \\
+ViT-L & $-0.016$ & 200 & .005 & $-0.020$ & 200 & .005 & $-0.037$ & 200 & .005 & $-0.030$ & 200 & .005 & $-0.041$ & 200 & .005 & $-0.031^{\circ}$ & 187 & .070 \\
+\midrule
+DINO-B & $-0.020$ & 200 & .005 & $-0.031$ & 200 & .005 & $-0.042$ & 199 & .010 & $-0.026$ & 200 & .005 & $-0.002^{\circ}$ & 104 & .483 & $-0.030^{\circ}$ & 182 & .095 \\
+DINOv2-S & $-0.016$ & 200 & .005 & $-0.030$ & 200 & .005 & $-0.033$ & 200 & .005 & $-0.017$ & 200 & .005 & $-0.025^{\circ}$ & 184 & .085 & $+0.003^{\circ}$ & 79 & .607 \\
+DINOv2-B & $-0.017$ & 200 & .005 & $-0.031$ & 200 & .005 & $-0.065$ & 200 & .005 & $-0.034$ & 200 & .005 & $-0.056$ & 199 & .010 & $-0.012^{\circ}$ & 142 & .294 \\
+DINOv2-L & $-0.014$ & 200 & .005 & $-0.034$ & 200 & .005 & $-0.084$ & 200 & .005 & $-0.041$ & 200 & .005 & $-0.024^{\circ}$ & 186 & .075 & $-0.009^{\circ}$ & 135 & .328 \\
+DINOv2-G & $-0.008$ & 200 & .005 & $-0.039$ & 200 & .005 & $-0.077$ & 200 & .005 & $-0.037$ & 200 & .005 & $-0.035$ & 197 & .020 & $-0.018^{\circ}$ & 163 & .189 \\
+\midrule
+CLIP-B & $-0.007^{\circ}$ & 172 & .144 & $-0.019$ & 200 & .005 & $-0.022^{\circ}$ & 184 & .085 & $-0.023$ & 200 & .005 & $-0.032^{\circ}$ & 185 & .080 & $+0.005^{\circ}$ & 81 & .597 \\
+CLIP-L & $-0.009$ & 197 & .020 & $-0.018$ & 200 & .005 & $-0.020^{\circ}$ & 180 & .104 & $-0.026$ & 200 & .005 & $-0.033^{\circ}$ & 186 & .075 & $-0.001^{\circ}$ & 97 & .517 \\
+SigLIP-B & $-0.008^{\circ}$ & 189 & .060 & $-0.022$ & 200 & .005 & $-0.027$ & 197 & .020 & $-0.023$ & 200 & .005 & $-0.033$ & 195 & .030 & $-0.022^{\circ}$ & 176 & .124 \\
+Barlow-R50 & $-0.039$ & 1 & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+BYOL-R50 & $-0.020$ & 1 & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}
+\caption{\textbf{Structure beyond the second moments is the rule at the class level.} Per cell: the reading, its excess over the matched null, the excess as a fraction of the null, the rank among the replicates and the left-tail $p$. $^{\circ}$: not genuine at the corrected threshold.
+}
+\label{tab:q1-census}\label{tab:census}
+\end{table}
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.4pt}
 \begingroup
 \setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{lcccccc|c}
@@ -29,7 +61,7 @@ SigLIP-B & $\circ$$\circ$$\circ$$\bullet$$\bullet$ $-9\%$ & $\bullet$$\bullet$$\
 \endgroup
 \caption{\textbf{The verdict holds under every construction of null and statistic.} Per cell: genuine or not under five constructions, the centered and uncentered Haar nulls, the Gaussian null and the two statistics, with the excess as a fraction of the null.
 }
-\label{tab:q1-census}\label{tab:q1-census-b}
+\label{tab:q1-census-b}
 \end{table}
 \begin{table}[H]
 \centering
@@ -60,7 +92,7 @@ SigLIP-B & $-0.013$ & 200 & $-0.025$ & 200 & $-0.053$ & 200 & $-0.027$ & 200 & $
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The census on cosine geometry agrees with the reading used in the paper.} Per cell, with L2-normalized centroids and geodesic distances: the reading, the excess, the rank and the verdict.
+\caption{\textbf{The census on cosine geometry agrees with the reading used in the paper.} Per cell, with L2-normalized centroids and geodesic distances: the reading, the excess, the rank and the verdict. $^{\circ}$: not genuine at the corrected threshold.
 }
 \label{tab:q1-census-c}
 \end{table}

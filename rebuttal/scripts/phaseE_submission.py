@@ -294,7 +294,7 @@ INTRO = {
  "tab_q14_panel": r"\paragraph{What this table answers.} Every model named anywhere in the paper appears here once, with its size and its role: census, control or text. The notes below the table say how features are taken from each kind of model, which is part of the measurement rather than a detail of implementation.",
  "tab_q02_text": r"\paragraph{What this table answers.} The text census reads the thousand ImageNet class names through language models and sentence embedders. The verdicts follow the recipe and the scale of the model, not its family. Extraction is part of the measurement, so the second table varies batch size and precision on the same prompts.",
  "tab_q03_sample": r"\paragraph{What this table answers.} The premise is read on per-image features, so this table reads the census there instead of on class centroids. Each cell gives the raw statistic beside the excess over its matched null. Where the excess survives, it removes a small fraction of the null reading.",
- "tab_q04_depth": r"\paragraph{What this table answers.} The census certifies structure beyond the second moments, and this table asks whether the clusters are arranged hierarchically. Each backbone is read against a matched star under both constructions of the star. The controls follow: the models supervised on leaf labels, a backbone trained in hyperbolic space with its Euclidean twin, a fine-tuned pair and a control that removes the radial part of every offset.",
+ "tab_q04_depth": r"\paragraph{What this table answers.} The census certifies structure beyond the second moments, and this table asks whether the clusters are arranged hierarchically. Each backbone is read against a matched star under both constructions of the star. The controls follow: the models supervised on leaf labels, a backbone trained in hyperbolic space with its Euclidean twin, a fine-tuned pair and a control that removes the radial part of every offset. A pre-set criterion expecting no intact certification of the leaf and frozen models was not met, because they are aligned.",
  "tab_q05_power": r"\paragraph{What this table answers.} A negative verdict is worth reading only where the test can see. Here hierarchies of known strength are planted in real and synthetic clouds and the test is run again, which gives its power; flat clouds are read the same way, which gives its false alarms. The power depends on how quiet the cloud is, so it is reported per backbone.",
  "tab_q06_treemap": r"\paragraph{What this table answers.} Trees of different models are compared as objects, without labels. The comparison depends on the cut, so the first table gives the diagnostics of every admissible configuration and the criterion that selects one. The last table reads two resamples of the same model, which is the ceiling any cross-model agreement can reach.",
  "tab_q07_wordnet": r"\paragraph{What this table answers.} Here the trees are compared with a human taxonomy instead of with each other. The first two tables use WordNet on ImageNet and the coarse labels of CIFAR-100. The last two repeat the reading on an ontology built independently of WordNet and on a set of caption chains with no class set, so the recovery is not circular.",
@@ -302,50 +302,15 @@ INTRO = {
  "tab_q09_corollary": r"\paragraph{What this table answers.} The instrument certifies structure; this table asks what it buys downstream. Accuracies and zero-cost gains are read per cell, then correlated with the raw reading, with the calibrated one and with the hierarchy verdict. The gains are modest and limited to prototype tasks.",
 }
 
-HOWTO = r"""\subsection{How to read this appendix}
-\label{app:howto}
-One question per subsection, in the order the main text first cites them, with a plain paragraph saying what the group answers.
-Each table and figure then carries its own caption: the answer in bold, then what the columns or the axes are.
+HOWTO = ""   # the reading page and the glossary go (author's brief, 2026-09-24): each caption defines what it uses
 
-\begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item Is a low raw reading evidence? Tables~\ref{tab:q10-calibration} and \ref{tab:q10-calibration-b}: known geometries and synthetic clusters read on the same scale.
-\item Is the structure beyond the second moments genuine? Tables~\ref{tab:census}, \ref{tab:q1-census-b} and \ref{tab:q1-census-c}: the census per backbone, under every construction of the null and on cosine geometry.
-\item Which models, and how were they read? Table~\ref{tab:q14-panel}: the model panel and the extraction.
-\item Is text the same? Table~\ref{tab:q2-text}: the census on the thousand ImageNet class names.
-\item Does the premise survive where it is read? Tables~\ref{tab:khrulkov} and \ref{tab:q3-sample} and Figure~\ref{fig:samereading}: the published reading reproduced and calibrated, the census on per-image features, and two cells with the same reading and opposite verdicts.
-\item Is the reading robust to our choices? Figures~\ref{fig:budget} and \ref{fig:classcount} and Table~\ref{tab:q8-robust-b}: the excess under the quadruple budget, under the class count and under resampling.
-\item Is the structure deeper than a star? Tables~\ref{tab:q4-depth}--\ref{tab:q4-depth-e}: the hierarchy test and its controls.
-\item How much can the test see? Figures~\ref{fig:implant} and \ref{fig:power} and Tables~\ref{tab:q5-power}--\ref{tab:q5-power-f}: power against planted hierarchies and false alarms on flat clouds.
-\item Is the island real? Table~\ref{tab:q6-treemap-b} and Figure~\ref{fig:ceiling}: the three agreement measures and every tree against its own ceiling.
-\item Is local structure shared? Table~\ref{tab:q13-local}: permutation-calibrated agreement across model pairs.
-\item Whose taxonomy? Tables~\ref{tab:q7-wordnet}, \ref{tab:q7-wordnet-c} and \ref{tab:q7-wordnet-d}: agreement with WordNet, an independent ontology and a caption hierarchy.
-\item What follows for practice? Tables~\ref{tab:q9-corollary}, \ref{tab:q9-corollary-b} and \ref{tab:q9-corollary-d} and Figure~\ref{fig:gains}: accuracies, what predicts the gain, and the gain per backbone.
-\item Where does every number come from? Table~\ref{tab:provenance}: the result file behind each table.
-\end{itemize}
-
-\paragraph{Symbols and column names.} The same words are used here and in the main text.
-\begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item \emph{The reading used in the paper}: the 99.9th-percentile statistic on Euclidean distances between class centroids, against the centered Haar null, 200 replicates; the cosine census is a robustness column (Table~\ref{tab:q1-census-c}). Other constructions appear beside it as columns.
-\item \emph{excess}: the real reading minus the mean of its matched null replicates. Negative means more tree-like than a random cloud of the same shape; positive, less.
-\item \emph{exc./null}: the excess as a fraction of the null reading, so that cells of different size can be compared.
-\item \emph{$r$/200}: how many of the 200 null replicates read above the real cloud. \emph{$p$}: the left-tail add-one $p$-value built from that rank.
-\item \emph{BH}: the Benjamini--Hochberg correction applied over all cells of a census. \emph{genuine}: BH-corrected $p\le0.05$. \emph{$^{\circ}$}: not genuine. \emph{$^{\dagger}$} and \emph{$^{\ddagger}$}: the cell passes one of two criteria and fails the other, as the caption says.
-\item \emph{Bold} marks the answer sentence of a caption and the title of a panel; no cell of an appendix table is bold, and in the main-text census table bold marks cells above the null.
-\item \emph{frame}: the grouping of classes into superclasses. \emph{hub}: the center of one superclass. \emph{matched star}: a cloud with the same clusters and hubs drawn from a matched distribution, which is what a real cloud is read against. \emph{Haar-hub star}: the same with the real hubs resampled by a Haar rotation.
-\item \emph{$z$}: the depth statistic, the real excess minus the star's, divided by the combined spread. A cloud is certified when $z\le-2$ under both stars.
-\item \emph{decoupled}: the real hubs kept and each cluster's offsets rotated independently, which removes the orientation of clusters and keeps the arrangement of hubs.
-\item \emph{power}: the fraction of planted hierarchies the test detects. \emph{false alarms}: the fraction of flat controls that fire.
-\item \emph{w/b}: the within-cluster spread of a cloud divided by the spread between its hubs, which is how quiet a cloud is. \emph{tight} or \emph{shrunk spread}: the within-cluster spread shrunk into the range the synthetic sweep covers.
-\item \emph{$s^{*}$}: the smallest planted-tree strength at which the test fires. \emph{$\bar z_1$}: the mean $z$ at full planted-tree strength.
-\end{itemize}
-
-"""
 
 # ---- appendix: the cited question tables of the v1 template, without figures, in the order the final text first cites them
 v1t = open(S + 'phaseE_paper.tex.tmpl').read(); app = v1t[v1t.index("\\section{Appendix: one table per question}"):v1t.index("\\end{document}")]
 for k, v in F.items(): app = app.replace("{{" + k + "}}", v)
 for _a, _b in (("Depth test", "Hierarchy test"), ("depth test", "hierarchy test"), ("depth-test", "hierarchy-test"), ("depth verdict", "hierarchy verdict")): app = app.replace(_a, _b)   # rename of 2026-09-23 (S1 rewrite brief) in the appendix prose of the v1 template
-head = app[:app.index("\\FloatBarrier")].replace("\\section{Appendix: one table per question}", "\\section{One table per question}\n\\renewcommand{\\arraystretch}{0.92}") + HOWTO
+app = app.replace("with their result files indexed in Table~\\ref{tab:provenance}.", "and the README of the supplementary material maps each table and figure to its script and its result file.", 1)
+head = app[:app.index("\\FloatBarrier")].replace("\\section{Appendix: one table per question}", "\\section{Additional results}\n\\renewcommand{\\arraystretch}{0.92}") + HOWTO
 blocks = [b for b in re.split(r"(?=\\FloatBarrier\n\\subsection\{)", app[app.index("\\FloatBarrier"):]) if b.strip()]
 bytab = {}
 for b in blocks:
@@ -399,9 +364,8 @@ bytab["tab_q03_sample"] = bytab["tab_q03_sample"].replace("\\input{appendix_tabl
 # main text without tables (author's brief, 2026-09-24): Table 1 goes beside the sample-level table and Table 2 beside the census
 _tabK = "\\input{tab_khrulkov_final}\n"
 bytab["tab_q03_sample"] = bytab["tab_q03_sample"].replace("\\input{appendix_tables/tab_q03_sample_final}", _tabK + "\\input{appendix_tables/tab_q03_sample_final}")
-_tabC = "\\input{tab_census_final}\n"
+# the per-cell census carries the label of the former main-text table too (author's brief, 2026-09-24): one census table
 assert bytab["tab_q01_census"].count("\\input{appendix_tables/tab_q01_census_final}") == 1
-bytab["tab_q01_census"] = bytab["tab_q01_census"].replace("\\input{appendix_tables/tab_q01_census_final}", _tabC + "\\input{appendix_tables/tab_q01_census_final}")
 
 # ---- appendix reduction (author's brief, 2026-09-24): five tables that showed a trend are figures now, in the style of Figure 2
 def _appfig(name, cap, width="0.62"):
@@ -409,16 +373,27 @@ def _appfig(name, cap, width="0.62"):
             "\\caption{" + cap + "\n}\n\\label{fig:" + name.replace("fig_", "").replace("_final", "") + "}\n\\end{figure}\n")
 _FIGCAP = {
  "fig_budget_final": r"\textbf{The reading does not move with the quadruple budget.} Excess against the number of sampled quadruples per seed, one line per cell: 3 backbones on ImageNet, CIFAR-100 and DTD. % expR72_budget_record.csv",
- "fig_classcount_final": r"\textbf{The excess shrinks with the number of classes.} Excess against the size of the ImageNet subset, drawn at random or as WordNet siblings, averaged over 5 seeds, for 3 backbones. % expR60_c_sweep_record.csv",
  "fig_power_final": r"\textbf{The power follows the backbone, not the noise level of its cloud.} Power against the within/between spread per backbone, intact (hollow) and decoupled (filled); dashed: power 0.8. % expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv",
  "fig_ceiling_final": r"\textbf{Every tree stays under its own ceiling and well above chance.} Per backbone: triplet agreement with the other 11 (dot) against the band of its own bootstrap copies, worst to mean. % expR84_tree_ceiling_summary.csv, expR58_treemap_cutfree.csv",
  "fig_gains_final": r"\textbf{The zero-cost advantage is small and largest for the self-supervised models.} Best few-shot advantage over the Euclidean readout per backbone, averaged over the 4 hierarchical datasets, with the metric that collects it. % exp2_metric_controls.csv"}
 for _f, _c in _FIGCAP.items(): assert len(_c.split("%")[0].split()) <= 40, (_f, len(_c.split("%")[0].split()))
-for _stem, _names, _w in (("tab_q08_robust", ["fig_budget_final", "fig_classcount_final"], "0.62"), ("tab_q05_power", ["fig_power_final"], "0.62"),
+for _stem, _names, _w in (("tab_q08_robust", ["fig_budget_final"], "0.62"), ("tab_q05_power", ["fig_power_final"], "0.62"),
                           ("tab_q06_treemap", ["fig_ceiling_final"], "0.92"), ("tab_q09_corollary", ["fig_gains_final"], "0.92")):
     _anchor = "\\input{appendix_tables/" + (FINAL_SRC.get(_stem, _stem)) + "}"
     assert bytab[_stem].count(_anchor) == 1, (_stem, _anchor)
     bytab[_stem] = bytab[_stem].replace(_anchor, "".join(_appfig(n, _FIGCAP[n], _w) for n in _names) + _anchor)
+DETAIL = {   # appendix reduction (2026-09-24): the paragraphs of the former Appendix C sit in the question they belong to
+  'tab_q01_census': '\\paragraph{The structure depends on the class set more than on the model.} The smallest backbone is genuine on one dataset only, and the flat datasets have smaller and less consistent excesses; FMNIST is genuine in {{FMNIST_GEN}} of 12 backbones. A class-count control shows that the excess shrinks with the number of classes, so only the verdict carries across datasets. Table~\\ref{tab:q1-census-b} gives the details. % expR52_census_haar_p999_200.csv, expR60_c_sweep_record.csv, expR45_convnet_rows.csv\n\n\\paragraph{Neural collapse is the flat limit, not what the census sees.} Neural collapse predicts that supervised class means converge to a simplex frame \\citep{papyan2020prevalence}, a star with no hierarchy. The census does not certify that frame: class means cluster around superclass hubs, which the superclass recovery of Section~\\ref{sec:content} shows. % expR52_census_haar_p999_200.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv',
+  'tab_q04_depth': '\\paragraph{The certified set under other frames.} Only ViT-B and ViT-L are certified under every frame. {{BAL_SENT}} % expR64b_wn30bal_summary.csv, expR77_positive_control.csv, expR83_flat_balanced_summary.csv',
+  'tab_q09_corollary': '\\paragraph{The zero-cost readout.} In few-shot learning a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \\citep{moreira2024hyperbolic} (Table~\\ref{tab:q9-corollary}). % exp2b_normalized_stack.csv, exp24_val_metric_selection.csv',
+}
+for _k, _v in DETAIL.items():
+    for _fk, _fv in F.items(): DETAIL[_k] = DETAIL[_k].replace('{{' + _fk + '}}', _fv)
+    assert '{{' not in DETAIL[_k], DETAIL[_k][:80]
+for _k, _v in DETAIL.items():
+    _a = '\n\\input{appendix_tables/' + FINAL_SRC.get(_k, _k) + '}'
+    assert bytab[_k].count(_a) == 1, _k
+    bytab[_k] = bytab[_k].replace(_a, '\n' + _v + '\n' + _a, 1)
 labels = {}
 for stem in KEEP:
     fn = FINAL_SRC.get(stem, stem)
@@ -433,9 +408,9 @@ prov_block = bytab["tab_z_provenance"].replace("appendix_tables/tab_z_provenance
 # ---- the final's copies of the kept tables: appendix_tables/final/, one floating [tbp] table per panel so the appendix pages pack (the [H] parts of v1 left every page half empty)
 FD = TEX + "appendix_tables/final/"; os.makedirs(FD, exist_ok=True)
 # panels the brief deletes (null-variant panel, uncited supremum table) with the caption sentence that described them
-DROP = {"tab_q02_text": ("(b)", "(c)"), "tab_q03_sample": ("(b)",), "tab_q05_power": ("(a)", "(b)", "(e)"),
-        "tab_q08_robust": ("(a)", "(c)", "(d)", "(e)"), "tab_q09_corollary": ("(c)", "(e)", "(f)", "(g)"),
-        "tab_q01_census": ("(a)", "(d)"), "tab_q06_treemap": ("(a)", "(c)"), "tab_q07_wordnet": ("(b)",)}   # appendix reduction (2026-09-24): every table the main text does not cite, unless the sweep shows a main-text number rests on it
+DROP = {"tab_q02_text": ("(b)", "(c)"), "tab_q03_sample": ("(b)",), "tab_q05_power": ("(a)", "(b)", "(c)", "(e)", "(f)"),
+        "tab_q08_robust": ("(a)", "(c)", "(d)", "(e)"), "tab_q09_corollary": ("(b)", "(c)", "(e)", "(f)", "(g)"),
+        "tab_q01_census": ("(d)",), "tab_q06_treemap": ("(a)", "(c)"), "tab_q07_wordnet": ("(b)",)}   # appendix reduction (2026-09-24): every table the main text does not cite, unless the sweep shows a main-text number rests on it
 # DROP = {}   # tenth review (2026-09-22): Table 14(b), the raw-supremum correlations, restored   # the constructions panel of the census table is back in the final (the uncentered census is one of its columns, 2026-09-20)
 CAPFIX = {}
 DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourth review: 15 text models; OLMo-7B was not extracted
@@ -598,13 +573,38 @@ for stem in order:
     fn = FINAL_SRC.get(stem, stem)
     src = open((FD if stem in FINAL_SRC else TEX + "appendix_tables/") + fn + ".tex").read()
     open(FD + fn + ".tex", "w").write(split_panels(src, DROP.get(stem, ()), CAPFIX.get(stem), DROPLINE.get(stem, ()), REPL.get(stem, ()), per_panel=False, newcap=NEWCAP.get(stem), stem_=stem))   # Table 3: one caption segment per panel (twelfth review)
+# every symbol is defined in the caption of the table that uses it (author's brief, 2026-09-24: the appendix glossary is gone)
+SYMDEF = [("^{\\circ}", " $^{\\circ}$: not genuine at the corrected threshold."), ("$r$/200", " $r$/200: replicates above the real value."),
+          ("w/b", " w/b: the within-cluster spread over the spread between hubs."), ("$s^{*}$", " $s^{*}$: the smallest strength at which the test fires."),
+          ("$\\bar z_1$", " $\\bar z_1$: the mean $z$ at full strength.")]
+_ndef = 0
+for _fn in sorted(os.listdir(FD)):
+    if not _fn.startswith("tab_q"): continue
+    _src = open(FD + _fn).read(); _out = []
+    for _blk in re.split(r"(?=\\begin\{table\})", _src):
+        _m = re.search(r"(\\caption\{)(.*?)(\n\})", _blk, re.S)
+        if _m:
+            _body = _blk[:_m.start()] + _blk[_m.end():]; _cap = _m.group(2); _add = ""
+            for _sym, _txt in SYMDEF:
+                if _sym in _body and _sym not in _cap: _add += _txt; _ndef += 1
+            if _add: _blk = _blk[:_m.start()] + _m.group(1) + _cap + _add + _m.group(3) + _blk[_m.end():]
+        _out.append(_blk)
+    open(FD + _fn, "w").write("".join(_out))
+print(f"symbol definitions added to {_ndef} captions")
+_cf = FD + "tab_q01_census_final.tex"; _ct = open(_cf).read()   # the merged per-cell census answers the reference of the former main-text table too (2026-09-24)
+assert _ct.count("\\label{tab:q1-census}") == 1
+open(_cf, "w").write(_ct.replace("\\label{tab:q1-census}", "\\label{tab:q1-census}\\label{tab:census}", 1))
 for f in os.listdir(FD):   # stale copies from earlier rounds are removed so the provenance index and the sweep see the current set only
     if f.endswith(".tex") and f[:-4] not in [FINAL_SRC.get(s, s) for s in order] + ["tab_z_provenance_final"]: os.remove(FD + f)
-appendix = head + "".join(bytab[s] for s in order) + prov_block
+# the appendix in three sections (author's brief, 2026-09-24): A proofs, B implementation, C additional results
+_pan = bytab["tab_q14_panel"]; _pre = "\\FloatBarrier\n\\subsection{The model panel and extraction}\n\\label{app:panel}\n"
+assert _pan.startswith(_pre), _pan[:120]
+_impl = "\\section{Implementation}\n\\label{app:panel}\n" + _pan[len(_pre):]
+appendix = _impl + head + "".join(bytab[s] for s in order if s != "tab_q14_panel")   # the provenance table is now the README of the supplementary material
 appendix = appendix.replace("\\input{appendix_tables/tab_", "\\input{appendix_tables/final/tab_")   # the \FloatBarrier before every subsection stays (fourth review: no heading is left empty)
-appendix = appendix.replace("\\section{One table per question}", "\\renewcommand{\\topfraction}{0.95}\\renewcommand{\\bottomfraction}{0.95}\\renewcommand{\\textfraction}{0.03}\\renewcommand{\\floatpagefraction}{0.85}\\setcounter{topnumber}{4}\\setcounter{bottomnumber}{4}\\setcounter{totalnumber}{6}\n"
-                            "% final version: the tables float ([tbp], one float per panel) within their subsection (a \\FloatBarrier closes each one)\n\\section{One table per question}", 1)
-assert "\\input{appendix_tables/final/tab_q08_robust_final}" in appendix and appendix.count("\\FloatBarrier") >= 12
+appendix = appendix.replace("\\section{Implementation}", "\\renewcommand{\\topfraction}{0.95}\\renewcommand{\\bottomfraction}{0.95}\\renewcommand{\\textfraction}{0.03}\\renewcommand{\\floatpagefraction}{0.85}\\setcounter{topnumber}{4}\\setcounter{bottomnumber}{4}\\setcounter{totalnumber}{6}\\renewcommand{\\arraystretch}{0.92}\n"
+                            "% final version: the tables float ([tbp], one float per panel) within their subsection (a \\FloatBarrier closes each one)\n\\section{Implementation}", 1)
+assert "\\input{appendix_tables/final/tab_q08_robust_final}" in appendix and appendix.count("\\FloatBarrier") >= 11
 body = body.replace("%%APPENDIX_QUESTIONS%%", appendix) + "\n\\end{document}\n"
 T1 = open(P1).read(); pre = T1[:T1.index("\\begin{abstract}")]
 # template compliance (author's brief, 2026-09-24): the style sets \flushbottom, so the main text does not override it; the

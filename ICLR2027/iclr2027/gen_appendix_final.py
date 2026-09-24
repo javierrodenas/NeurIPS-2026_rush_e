@@ -109,7 +109,11 @@ def q_census():
         for d in DS:
             a = by[(m, d)]; cs += [f"${float(a['excess']):+.3f}" + ("" if gb(a) else r"^{\circ}") + "$", f"{int(a['r_above'])}", pfmt(float(a["p_left"]))]
         rows.append(NAME[m] + " & " + " & ".join(cs) + r" \\")
-    T.panel("(a) The census of record per cell: Haar spectrum-matched null" + (" with $Q$ orthogonal to the all-ones vector" if FINAL else "") + ", 99.9th-percentile statistic, 200 replicates.", "l" + "ccc"*6,
+    if ex("expR45_convnet_rows.csv"):   # the two self-supervised ResNets join the census as rows (author's brief, 2026-09-24)
+        T.prov.append("expR45_convnet_rows.csv"); RNM = {"barlow_r50": "Barlow-R50", "byol_r50": "BYOL-R50"}
+        for a in load("expR45_convnet_rows.csv"):
+            rows.append(RNM.get(a["model"], a["model"]) + f" & ${float(a['excessA']):+.3f}$ & {int(float(a['rankA']))} & -- " + "& -- & -- & -- " * 5 + r"\\")
+    T.panel("(a) The census of record per cell: Haar spectrum-matched null" + (" with $Q$ orthogonal to the all-ones vector" if FINAL else "") + ", 99.9th-percentile statistic, 200 replicates; the two self-supervised ResNets below the rule are read on ImageNet only, against 20 replicates of the spectrum null.", "l" + "ccc"*6,
             [" & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{DSH[d]}}}" for d in DS) + r" \\", r"model & " + " & ".join([r"exc.\ & $r$ & $p$"]*6) + r" \\"], rows, mids=(4, 9))
     # (b) four verdicts + normalized excess + supremum column
     four = ([("Hc", "expR75_census_centered_haar.csv")] if FINAL else []) + [("Hp", "expR52_census_haar_p999_200.csv"), ("Hs", "expR54_census_haar_sup_200.csv"), ("Gp", "expR40b_p999census200.csv"), ("Gs", "expR39c_census200_cache.csv")]
@@ -321,6 +325,11 @@ def q_depth():
         if DEC: T.prov.append("expR74_decoupling_summary.csv")
         dcol = lambda m: ("" if not DEC else (" & --" if m not in DEC else f" & ${float(DEC[m]['dec_z_mean']):+.2f}$ $\\pm$ ${float(DEC[m]['dec_z_sd']):.2f}$ ({int(round(10*float(DEC[m]['frac_certified'])))}/10)"))
         rows_h = [r[:-3] + dcol(M12[ri]) + r" \\" for ri, r in enumerate(rows_h)]
+        if FINAL and ex("expR83_flat_balanced_summary.csv"):   # the balanced-frame counts of the flat control join this table as rows (author's brief, 2026-09-24)
+            _S83 = pd.read_csv(RES / "expR83_flat_balanced_summary.csv").set_index("built"); T.prov += ["expR83_flat_balanced.csv", "expR83_flat_balanced_summary.csv"]
+            _L83 = {"balanced": "flat control, balanced frame", "wn30": "flat control, frame mismatch"}
+            for _b in ("balanced", "wn30"):
+                rows_h.append(f"{_L83[_b]} & -- & ${_S83.loc[_b, 'intact_z_mean']:+.2f}$ ({int(_S83.loc[_b, 'intact_fired'])}/{int(_S83.loc[_b, 'n_intact'])}) & -- & ${_S83.loc[_b, 'dec_z_mean']:+.2f}$ ({int(_S83.loc[_b, 'decoupled_fired'])}/{int(_S83.loc[_b, 'n_decoupled'])}) \\\\")
         T.panel("(a$'$) The same backbones under the star whose hubs are a Haar resample of the real hubs (ImageNet, $K{=}30$)" + ("; last column: the decoupling control, the real hubs kept and each cluster's offsets rotated by an independent Haar rotation (mean $z$ $\\pm$ s.d.\\ over 10 seeds; seeds certified at $z\\le-2$)." if DEC else "."), "lccc" + ("c" if DEC else ""),
                 [r"model & star $e_{\mathrm{hub}}$ & depth ($z$) & $r_{\text{star}}$" + (r" & decoupled $z$ (cert.)" if DEC else "") + r" \\"], rows_h, mids=(4, 9), colsep="4pt")
     else:

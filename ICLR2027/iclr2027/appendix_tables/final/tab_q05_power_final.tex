@@ -5,40 +5,6 @@
 \setlength{\tabcolsep}{2pt}
 \begingroup
 \footnotesize
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{lccccc}
-\toprule
-model & $s{=}0$ & $s{=}0.25$ & $s{=}0.5$ & $s{=}0.75$ & $s{=}1$ \\
-\midrule
-ViT-T & 0.2 & 0.8 & 0.8 & 1.0 & 1.0 \\
-ViT-S & 0.0 & 0.4 & 1.0 & 1.0 & 1.0 \\
-ViT-B & 0.0 & 0.8 & 1.0 & 1.0 & 1.0 \\
-ViT-L & 0.0 & 0.6 & 1.0 & 1.0 & 1.0 \\
-\midrule
-DINO-B & 0.0 & 0.0 & 0.0 & 0.0 & 0.8 \\
-DINOv2-S & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-DINOv2-B & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
-DINOv2-L & 0.0 & 0.0 & 0.0 & 0.2 & 0.0 \\
-DINOv2-G & 0.0 & 0.0 & 0.0 & 0.2 & 0.4 \\
-\midrule
-CLIP-B & 0.0 & 0.0 & 1.0 & 1.0 & 1.0 \\
-CLIP-L & 0.0 & 0.2 & 0.2 & 0.4 & 0.4 \\
-SigLIP-B & 0.0 & 0.0 & 1.0 & 0.8 & 0.6 \\
-\midrule pooled (12 backbones $\times$ 5 seeds) & 0.02 & 0.23 & 0.50 & 0.55 & 0.60 \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{Planted hub alignment reproduces the verdict in the supervised ViTs and CLIP-B.} From the decoupled cloud, each cluster's principal axis rotated toward its hub: the detection rate per backbone and seed.
-}
-\label{tab:q5-power}\label{tab:q5-power-c}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2pt}
-\begingroup
-\footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccccc}
 \toprule
@@ -64,26 +30,5 @@ WordNet Poincar\'e, $d{=}50$ & 0 & 50 & $+0.0354$ (0) & $+1.53$ & $-2.22$ $\pm$ 
 \endgroup
 \caption{\textbf{A deep hierarchy at the real noise level is detected, and a flat control is not.} Synthetic clouds with ViT-L's spectrum and ratio: the depth $z$ intact and decoupled for the hierarchy and for the flat control.
 }
-\label{tab:q5-power-d}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2pt}
-\begingroup
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{lcc|ccc}
-\toprule
-flat control & intact fired & mean $z$ & decoupled fired & mean $z$ & range \\
-\midrule
-matched hubs (balanced frame) & 0/5 & $-0.46$ & 0/50 & $-0.65$ & $+0.26$ to $-1.52$ \\
-mismatched hubs (WordNet-30 frame) & 5/5 & $-3.13$ & 38/50 & $-2.33$ & $-1.56$ to $-3.75$ \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{The balanced frame raises no false alarm.} The flat control of the deep experiment read on the balanced grouping: the intact and decoupled firing counts.
-}
-\label{tab:q5-power-f}
+\label{tab:q5-power}\label{tab:q5-power-d}
 \end{table}

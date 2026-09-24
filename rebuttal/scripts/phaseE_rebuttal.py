@@ -10,6 +10,7 @@ R = os.environ.get('PLATONIC_RESULTS', 'rebuttal/results').rstrip('/') + '/'; TE
 SRC = TEX + 'main_iclr2027_final.tex'; DST = TEX + 'main_iclr2027_rebuttal.tex'
 NM = {"frozen": "frozen checkpoint", "ce_seed0": "leaf CE", "hier_seed0": "leaf CE + hierarchical CE", "ce_seed1": "leaf CE (seed 1)", "hier_seed1": "leaf CE + hierarchical CE (seed 1)"}
 T = open(SRC).read(); status = {}
+LEAD53 = next(l for l in ("No hub hierarchy is found where the test has power.", "No hierarchy above the superclasses is found in the supervised and contrastive backbones.", "No hierarchy above the superclasses is found.", "Whether the superclasses form a hierarchy is left open.") if ("\\paragraph{" + l + "}") in T)   # the S5.3 verdict paragraph, whatever it is called
 IN78 = "\\paragraph{A published reading is reproduced and calibrated.}" in T; IN79 = ("detects a three-level hierarchy with ViT-L\'s spectrum and noise" in T) or ("given a three-level hierarchy with ViT-L\'s spectrum and noise" in T); IN80 = "Planted alignment is detected in" in T or "Planted hub alignment reproduces the verdict in the supervised ViTs and CLIP-B." in open(FD + "tab_q05_power_final.tex").read()   # already in the submission (brief of 2026-09-21; since 2026-09-23 only Table 10(c) carries the percentage, the (iii) sentence went with the page budget)
 def insert_after_paragraph(text, lead, new_par):
     i = text.index("\\paragraph{" + lead + "}"); j = text.index("\n\n", i)
@@ -30,7 +31,6 @@ if os.path.exists(R + 'expR77_positive_control.csv') and os.path.exists(R + 'exp
            + ("The success criterion fixed before the run is met: the injected hierarchy lives in the hubs and the test sees it." if met else "The success criterion fixed before the run is not met, and the outcome is reported as it is.")
            + " Table~\\ref{tab:r1-positive} gives the readings. % expR77_positive_control.csv, expR77_positive_control_verdict.json")
     if not IN77:
-        LEAD53 = next(l for l in ("No hierarchy above the superclasses is found in the supervised and contrastive backbones.", "No hierarchy above the superclasses is found.", "Whether the superclasses form a hierarchy is left open.") if ("\\paragraph{" + l + "}") in T)
         T = insert_after_paragraph(T, LEAD53, par)
     else:   # 2026-09-23: the second seed (expR76 --seed 1, expR77 shards) after S5.3's 'What the test can see.', numbers from the csv
         h1, c1 = P.loc['hier_seed1'], P.loc['ce_seed1']; v1 = next((v for v in V if v['seed'] == 'seed1'), None); met1 = bool(v1 and v1['criterion_met'])
@@ -59,7 +59,7 @@ if not IN79 and os.path.exists(R + 'expR79_synthetic_deep_poincare.csv') and pd.
     par = ("\\paragraph{A deep hierarchy at the real noise level.} A synthetic cloud with ViT-L's real ImageNet spectrum and a three-level planted hierarchy at ViT-L's real within/between ratio was read by the same test. "
            f"At $K{{=}}30$ {s_deep}{s_flat}, and the decoupling control fires in {int(deep.dec_cert.sum()) if len(deep) else 0} of {len(deep)} deep seeds.{s_poi} "
            "Table~\\ref{tab:r1b-deep} gives every reading. % expR79_synthetic_deep_poincare.csv")
-    T = insert_after_paragraph(T, "Whether the superclasses form a hierarchy is left open.", par)
+    T = insert_after_paragraph(T, LEAD53, par)
     rows = [f"{r.cloud.replace('_', ' ')} & {int(r.seed)} & {int(r.dim)} & ${r.excess:+.4f}$ ({int(r.r_above)}) & ${r.z:+.2f}$ & ${r.zdec_mean:+.2f}$ $\\pm$ {r.zdec_sd:.2f} \\\\" for _, r in E.iterrows()]
     tables.append("% prov: expR79_synthetic_deep_poincare.csv\n\\begin{table}[tbp]\n\\centering\n\\footnotesize\n\\setlength{\\tabcolsep}{4pt}\n\\begin{tabular}{lccccc}\n\\toprule\n"
                   "cloud & seed & $d$ & excess ($r$) & depth $z$ & decoupled $z$ \\\\\n\\midrule\n" + "\n".join(rows) +
@@ -81,7 +81,7 @@ if not IN80 and os.path.exists(R + 'expR80_decision.csv') and os.path.exists(R +
                f"Planted alignment is detected in {h1} of {n1} runs at full strength and in {h0} of {n0} at zero, a power of {float(d80.power_s1):.2f} against the pre-set bar of 0.8, so the power of the test for alignment is not established on the real clouds and the submission keeps the certification without a power statement. "
                + (f"Detection at full strength is complete in {', '.join(full)} and absent in {', '.join(none_)}. " if full or none_ else "")
                + "Table~\\ref{tab:r1c-implant} gives the detection rate per backbone. % expR80_implanted_alignment.csv, expR80_decision.csv")
-        T = insert_after_paragraph(T, "Whether the superclasses form a hierarchy is left open.", par)
+        T = insert_after_paragraph(T, LEAD53, par)
         rows = [NM80.get(m, m) + " & " + " & ".join(f"{pm.loc[m, s]:.1f}" for s in SS) + " \\\\" for m in pm.index] + ["\\midrule pooled & " + " & ".join(f"{pooled[s]:.2f}" for s in SS) + " \\\\"]
         tables.append("% prov: expR80_implanted_alignment.csv, expR80_decision.csv\n\\begin{table}[tbp]\n\\centering\n\\footnotesize\n\\setlength{\\tabcolsep}{6pt}\n\\begin{tabular}{l" + "c" * len(SS) + "}\n\\toprule\n"
                       "model & " + " & ".join(f"$s{{=}}{s:g}$" for s in SS) + " \\\\\n\\midrule\n" + "\n".join(rows) +
@@ -114,7 +114,7 @@ if not IN78 and os.path.exists(R + 'expR78_khrulkov_replication_summary.csv'):
 else: status['replication'] = dict(written=False, reason="in the submission" if IN78 else "expR78 summary not available")
 # ---- appendix: the new tables before the provenance index; the rest is the frozen appendix
 if tables:
-    anchor = "\\input{appendix_tables/final/tab_z_provenance_final}"
+    anchor = "\\end{document}"
     T = T.replace(anchor, "\\FloatBarrier\n\\subsection{Parallel track: the trained positive control, the deep-hierarchy and planted-alignment controls, and the replicated reading}\n" + "".join(tables) + "\n" + anchor, 1)
 T = T.replace("% final version: classic structure, plain prose", "% rebuttal version = the frozen submission file plus the parallel-track paragraphs (phaseE_rebuttal.py); the frozen text and numbers are unchanged\n% final version: classic structure, plain prose", 1)
 open(DST, 'w').write(T); json.dump(status, open(R + 'rebuttal_build_status.json', 'w'), indent=1); print("rebuttal file written ->", DST, status)

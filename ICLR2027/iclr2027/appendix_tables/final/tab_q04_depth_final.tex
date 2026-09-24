@@ -1,4 +1,4 @@
-% prov: expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30bal_summary.csv, expR70_inet1k_supervised.csv, expR52_census_haar_p999_200.csv, expR63_meru_record.csv, expR65_hier_finetune.csv, expR74_decoupling_summary.csv, expR71_meru_radii.csv, expR77_positive_control.csv, expR77_positive_control_verdict.json, expR82_radial_control.csv, expR82_radial_control_summary.csv
+% prov: expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30bal_summary.csv, expR70_inet1k_supervised.csv, expR52_census_haar_p999_200.csv, expR63_meru_record.csv, expR65_hier_finetune.csv, expR74_decoupling_summary.csv, expR83_flat_balanced.csv, expR83_flat_balanced_summary.csv, expR71_meru_radii.csv, expR77_positive_control.csv, expR77_positive_control_verdict.json, expR82_radial_control.csv, expR82_radial_control_summary.csv
 \begin{table}[H]
 \centering
 \scriptsize
@@ -57,6 +57,8 @@ DINOv2-G & $-0.0021$ & $-0.0263$ (-1.50) & 0/10 & $-0.04$ $\pm$ $0.07$ (0/10) \\
 CLIP-B & $+0.0012$ & $-0.0171$ (-1.48) & 1/10 & $-1.25$ $\pm$ $0.09$ (0/10) \\
 CLIP-L & $+0.0018$ & $-0.0090$ (-0.74) & 2/10 & $-0.88$ $\pm$ $0.22$ (0/10) \\
 SigLIP-B & $+0.0024$ & $-0.0121$ (-0.78) & 1/10 & $-0.84$ $\pm$ $0.18$ (0/10) \\
+flat control, balanced frame & -- & $-0.46$ (0/5) & -- & $-0.65$ (0/50) \\
+flat control, frame mismatch & -- & $-3.13$ (5/5) & -- & $-2.33$ (38/50) \\
 \bottomrule
 \end{tabular}
 \par\vspace{2pt}
@@ -112,7 +114,7 @@ CLIP ViT-L & prompts & $-0.012$ (200) & $0.098$/$0.092$ & $+0.48$ & $+0.006^{\ci
 \bottomrule
 \end{tabular}
 \par\vspace{2pt}
-\caption{\textbf{Training in hyperbolic space creates no hub structure.} MERU and its Euclidean twin at 3 sizes: the census excess, the depth $z$ and the radii of the embeddings in units of the curvature scale.
+\caption{\textbf{Training in hyperbolic space creates no hub structure.} MERU and its Euclidean twin at 3 sizes: the census excess, the depth $z$ and the radii of the embeddings in units of the curvature scale. $^{\circ}$: not genuine at the corrected threshold.
 }
 \label{tab:q4-depth-c}
 \end{table}
