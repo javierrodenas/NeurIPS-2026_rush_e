@@ -2916,3 +2916,36 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   referencias a la 10. No ha hecho falta mover más contenido. Envío de 35 páginas (el apéndice crece una con las dos tablas),
   sweep **232/232** con la comprobación nueva (sin tablas en el texto principal, las dos en el apéndice, la figura y sus valores
   desde expR62, expR78 y expR85), qa_pages regeneradas y revisadas.
+## 95. Repaso completo: doce arreglos de texto y maquetación (2026-09-24, brief del autor). Sin cambio de números.
+
+- **(1)** Resumen: "…excess over many such clouds, and **add** a hierarchy test whose…". OpenReview actualizado (323 palabras).
+- **(2)** "planted" en todo el paper: texto, pies, tablas, figuras y literales del sweep. Cambian 108 apariciones de
+  "implanted"/"implant" en los seis ficheros fuente. No cambian los nombres de fichero (`expR80_implanted_alignment.csv`,
+  `expR64_implanted_depth.csv`), las etiquetas (`fig:implant`, `tab:r1c-implant`) ni las claves de los JSON. El sustantivo suelto
+  pasa a "planted two-level tree" y "planted-tree strength/seeds"; el título de la subsección del apéndice dice ya "planted".
+- **(3)** §5.1: "The estimator of \citet{Khrulkov_2020_CVPR}, run on our extraction, reproduces the raw δ_rel they report…".
+- **(4)** §5.3, "What the test can see": la definición del nivel de ruido abre el párrafo y el resto se parte en dos. El primero
+  queda con el implante de dos niveles que se pierde, la jerarquía de tres niveles que se detecta y sobrevive a la
+  aleatorización, la potencia por backbone (9 de 12 y 3 de 12) y la frase de que la potencia sigue al backbone. El segundo es
+  nuevo, **"A trained hierarchy survives, and the decoupled test leans toward firing."**, con el control entrenado de 2 semillas
+  (20 de 20, 6 de 20, ninguna, por grados), el control plano (8 de 50), la jerarquía sintética que queda lejos del sesgo y el
+  marco balanceado (0 de 50), y cierra con los punteros.
+- **(5)** §5.4: "They agree with the 7 supervised and contrastive models far less than those 7 agree among themselves (DINO-B is
+  not part of the island)."
+- **(6)** Fuera el párrafo "Models share neighborhoods, not metrics."; el párrafo del mapa de árboles cierra ahora con
+  "Calibrated local agreement across models survives, as \citet{groger2026aristotelian} find for similarity (Table~\ref{…})".
+  **Ojo**: esa tabla se imprime como **Tabla 31**, no 13; el 13 es el identificador interno (`tab:q13-local`), no su número.
+- **(7)** §4: "The class sets are ImageNet (1000 classes) and CIFAR-100 (100), which carry a real hierarchy; DTD (47) and
+  CIFAR-10 (10); and the flat FashionMNIST and MNIST (10 each)", con sus citas en su sitio.
+- **(8)** Las cajas de definición y proposición son `unbreakable`: ninguna se parte entre páginas. La Proposición 1 sube entera al
+  principio de la página 4 y la página 3 cierra con la Definición 2 completa.
+- **(9)** Ética: fuera "and a metric-selection heuristic".
+- **(10)** Tras la ecuación de profundidad: "…$z=\mathrm{depth}/\mathrm{s.d.}$, **where** the spread is taken over star seeds and
+  null replicates, and a cloud is certified…".
+- **(11)** Figura 3(b): se queda en la escala del supremo y el pie añade "on their statistic, the supremum; filled and hollow dots
+  follow the reading, which gives the same verdict".
+- **(12)** No he devuelto nada al texto principal: el hueco de la página 9 lo absorbe la partición del punto (4).
+- Sweep **233/233** con una comprobación nueva del repaso y tres reglas afinadas: una ecuación en display cierra frase (si no, la
+  frase del punto 10 contaba 44 palabras), "fires in N of M" y "N of M decoupled/intact runs" cuentan como recuentos, y se
+  exceptúan tu paréntesis de DINO-B y los dos puntos y coma de la frase de §4. Envío de 35 páginas, texto principal hasta la
+  página 9, declaraciones en la 9, referencias en la 10. Fichero de rebuttal reconstruido (61/61) y qa_pages revisadas.

@@ -356,3 +356,7 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   marcas sean comparables; el relleno hueco/lleno es el veredicto de la lectura por percentil. Dime si la quieres al revés.
   (ii) Con las dos tablas fuera, la página 9 tiene sitio para un párrafo más: si quieres, vuelve al texto principal uno de los
   dos de §5.2 que movimos al apéndice (el del conjunto de clases o el del colapso neuronal).
+- (Repaso completo, 2026-09-24) Tres detalles: (i) la tabla de acuerdo local se imprime como Tabla 31, no como la 13 que
+  escribiste (13 es el identificador `tab:q13-local`); (ii) §4 dice ahora "FashionMNIST", mientras las figuras y las tablas usan
+  "FMNIST": dime si prefieres una de las dos formas en todas partes; (iii) en §5.3 la frase del marco balanceado (0 de 50) va en
+  el párrafo nuevo del control entrenado, que es donde cae por sentido.

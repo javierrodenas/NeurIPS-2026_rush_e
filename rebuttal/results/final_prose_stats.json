@@ -14,19 +14,19 @@
   },
   "Methodology": {
    "sentences": 38,
-   "avg_words": 18.0,
+   "avg_words": 18.1,
    "max_words": 30,
    "over30": 0
   },
   "Experimental Setup": {
-   "sentences": 17,
-   "avg_words": 17.3,
-   "max_words": 30,
+   "sentences": 16,
+   "avg_words": 17.8,
+   "max_words": 32,
    "over30": 0
   },
   "Results": {
    "sentences": 66,
-   "avg_words": 18.3,
+   "avg_words": 18.4,
    "max_words": 30,
    "over30": 0
   },
@@ -43,8 +43,8 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.1,
- "n_nonverbatim_sentences": 119,
+ "avg_nonverbatim": 18.2,
+ "n_nonverbatim_sentences": 118,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
@@ -124,7 +124,13 @@
     "3",
     "1.5 to 3.0",
     "1.3 to 3.9",
-    "9",
+    "9"
+   ]
+  },
+  {
+   "section": "Results",
+   "lead": "A trained hierarchy survives, and the decoupled test leans toward firing.",
+   "numbers": [
     "20 of 20",
     "2",
     "-2.51",
@@ -164,6 +170,7 @@
    "lead": "The naive map manufactures an island.",
    "numbers": [
     "12",
+    "7",
     "7"
    ]
   },
@@ -192,11 +199,6 @@
    "numbers": [
     "7 of 15"
    ]
-  },
-  {
-   "section": "Results",
-   "lead": "Models share neighborhoods, not metrics.",
-   "numbers": []
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",

@@ -219,16 +219,16 @@ pr = dep.groupby("s").z.apply(lambda z: (z <= -2).mean()); pt = tg.groupby("s").
 fig, ax = plt.subplots(figsize=(2.75, 1.9))
 l1, = ax.plot(pr.index, pr.values, "-o", color="k", ms=4, mec="white", mew=0.8, lw=1.0, label="real spread", zorder=3)
 l2, = ax.plot(pt.index, pt.values, "--s", color=GRAY, ms=4, mec="white", mew=0.8, lw=1.0, label="shrunk spread", zorder=3)
-l3 = None   # priority 1c (expR80): the implanted-alignment curve enters only when the decision rule of the brief is met
+l3 = None   # priority 1c (expR80): the planted-alignment curve enters only when the decision rule of the brief is met
 if (RES/"expR80_decision.csv").exists() and (RES/"expR80_implanted_alignment_summary.csv").exists():
     d80 = list(csv.DictReader(open(RES/"expR80_decision.csv")))[0]
     if d80["rule_power_ge_0_8_fa_le_0_05"] == "True":
         s80 = list(csv.DictReader(open(RES/"expR80_implanted_alignment_summary.csv")))
-        l3, = ax.plot([float(r["s"]) for r in s80], [float(r["detection_rate"]) for r in s80], ":^", color=FAMILY_COLORS["supervised"], ms=4, mec="white", mew=0.8, lw=1.0, label="implanted alignment", zorder=3)
+        l3, = ax.plot([float(r["s"]) for r in s80], [float(r["detection_rate"]) for r in s80], ":^", color=FAMILY_COLORS["supervised"], ms=4, mec="white", mew=0.8, lw=1.0, label="planted alignment", zorder=3)
 ax.annotate("no false alarms at $s{=}0$ (real spread)", (0, pr.loc[0.0]), xytext=(12, 5), textcoords="offset points", fontsize=8, ha="left", va="bottom", arrowprops=dict(arrowstyle="-", color="k", lw=0.6))
-ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"]); ax.set_xlabel("implant strength $s$", labelpad=1)
+ax.set_xticks([0, 0.25, 0.5, 0.75, 1]); ax.set_xticklabels(["0", "0.25", "0.5", "0.75", "1"]); ax.set_xlabel("planted-tree strength $s$", labelpad=1)
 ax.set_ylim(-0.04, 1.08); ax.set_yticks([0, 0.5, 1]); ax.set_yticklabels(["0.0", "0.5", "1.0"]); ax.set_ylabel("detection rate")
-ax.set_title("two-level implant on the real clouds")
+ax.set_title("planted two-level tree on the real clouds")
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 ax.legend(handles=[l1, l2] + ([l3] if l3 is not None else []), **LEG, loc="center right", handlelength=1.4, handletextpad=0.4)
 json.dump({"real": {str(float(k)): float(v) for k, v in pr.items()}, "shrunk": {str(float(k)): float(v) for k, v in pt.items()}, "implanted_alignment_curve": l3 is not None}, open(RES/"final_fig_implant.json", "w"), indent=1)   # read by the builder (caption)
