@@ -41,17 +41,18 @@ def bar(ax, x, h, color, passes, width=0.38, zorder=3):
 
 # ---------------- Figure 2 (author's brief, 2026-09-24, 2x2): the instrument in one figure. The same x axis in the four panels:
 # the 12 ImageNet backbones by family with a one-position gap; color means family throughout.
-FAMS = [("sup.", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"]), ("SSL", ["dinov1_b", "dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"]),
-        ("contr.", ["clip_b", "clip_l", "siglip_b"])]
-SHORT = {"i21k_t": "T", "i21k_s": "S", "i21k_b": "B", "i21k_l": "L", "dinov1_b": "v1", "dinov2_s": "S", "dinov2_b": "B", "dinov2_l": "L", "dinov2_g": "G",
+FAMS = [("sup.", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"], 2.0), ("DINO", ["dinov1_b"], 1.4), ("DINOv2", ["dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"], 2.0),
+        ("contr.", ["clip_b", "clip_l", "siglip_b"], 0.0)]   # DINO and DINOv2 are named apart, closer to each other than to the other families
+SHORT = {"i21k_t": "T", "i21k_s": "S", "i21k_b": "B", "i21k_l": "L", "dinov1_b": "B", "dinov2_s": "S", "dinov2_b": "B", "dinov2_l": "L", "dinov2_g": "G",
          "clip_b": "B", "clip_l": "L", "siglip_b": "Sig"}   # the size inside the family; the family is named under the axis
 PLANT = "#FDB813"   # the planted three-level hierarchy
 XPOS, XFAM, XSEP, _x = {}, [], [], 0.0
-for _fname, _ms in FAMS:
+for _fname, _ms, _gap in FAMS:
     _start = _x
     for _m in _ms: XPOS[_m] = _x; _x += 1.0
-    XFAM.append((_fname, (_start + _x - 1.0) / 2)); XSEP.append(_x + 0.5); _x += 2.0
-XLIM = (-0.9, _x - 2.0 + 0.9); XSEP = XSEP[:-1]
+    XFAM.append((_fname, (_start + _x - 1.0) / 2))
+    if _gap: XSEP.append(_x - 1.0 + _gap / 2); _x += _gap
+XLIM = (-0.9, _x - 1.0 + 0.9)
 def famaxis(ax, names=True):
     ax.set_xlim(*XLIM)
     for xs_ in XSEP: ax.axvline(xs_, color="white", lw=1.4, zorder=0)
@@ -62,7 +63,7 @@ def famaxis(ax, names=True):
     for sp in ("top", "right"): ax.spines[sp].set_visible(False)
 def curve(ax, vals, style, color=None, marker="o", ms=4.4, filled=None, zorder=3):
     """One curve per family: the models joined, with their markers on top."""
-    for _fname, ms_ in FAMS:
+    for _fname, ms_, _ in FAMS:
         ax.plot([XPOS[m] for m in ms_], [vals[m] for m in ms_], ls=style, color=(color or fam_color(ms_[0])), lw=(1.5 if style == "-" else 1.0), zorder=zorder)
     for m in M:
         c = color or fam_color(m)
@@ -75,6 +76,10 @@ DOT = (0, (1, 1.6))
 fig, axes = plt.subplots(2, 2, figsize=(5.5, 3.2))
 # (a) the raw reading and a random cloud of the same shape
 ax = axes[0][0]
+_gauss = {int(r["d"]): float(r["delta_max"]) for r in csv.DictReader(open(RES/"exp1_delta_controls.csv")) if r["variant"] == "gauss"}   # iid Gaussian: the dimension alone, no spectrum (Table 4)
+for _fname, ms_, _ in FAMS:
+    ax.plot([XPOS[m] for m in ms_], [_gauss[DIMS[m]] for m in ms_], "--", color="#C9C9C9", lw=0.8, zorder=1)
+for m in M: ax.plot(XPOS[m], _gauss[DIMS[m]], "s", mfc="white", mec="#B6B6B6", ms=3.6, mew=0.9, zorder=2)
 curve(ax, {m: float(IN[m]["null_mean"]) for m in M}, DOT, color=GRAY, marker="D", ms=3.4, zorder=2)
 curve(ax, {m: float(IN[m]["delta"]) for m in M}, "-", filled={m: IN[m]["genuine_bh"] == "True" for m in M}, ms=4.6, zorder=4)
 ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) raw reading and its random cloud", pad=3); famaxis(ax)
@@ -104,6 +109,7 @@ ax.set_ylim(0, 1.1); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "
 ax.set_ylabel("power"); ax.set_title("(d) power for the planted hierarchy", pad=3); famaxis(ax)
 hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.5, ms=4.6, mec="white", mew=0.5, label="model"),
       plt.Line2D([], [], marker="D", color=GRAY, ls=DOT, lw=1.0, ms=3.4, mec="white", mew=0.5, label="random cloud (a) / real, randomized (c)"),
+      plt.Line2D([], [], marker="s", mfc="white", mec="#B6B6B6", ls="--", color="#C9C9C9", lw=0.8, ms=3.6, mew=0.9, label="random ball, same dimension (a)"),
       plt.Line2D([], [], marker="^", color=PLANT, ls="-", lw=1.5, ms=4.4, mec="white", mew=0.5, label="planted hierarchy, randomized (c)"),
       Patch(color="k", label="genuine / power $\\geq0.8$"),
       Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine / blind"),

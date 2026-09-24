@@ -2,6 +2,7 @@
  "legend": [
   "model",
   "random cloud (a) / real, randomized (c)",
+  "random ball, same dimension (a)",
   "planted hierarchy, randomized (c)",
   "genuine / power $\\geq0.8$",
   "not genuine / blind",

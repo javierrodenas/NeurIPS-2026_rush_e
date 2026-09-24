@@ -2840,3 +2840,14 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   de la prueba en el apéndice. La Figura 3 no se toca.
 - **No hizo falta recortar §6**: con la figura de 3.2 in el texto principal sigue acabando en la página 9. Envío en 32 páginas,
   sweep 230/230, qa_pages regeneradas y revisadas a 100 dpi.
+## 92. Figura 2, dos arreglos (2026-09-24, brief del autor). Sin cambio de datos.
+
+- **(1)** El panel (a) lleva una tercera serie: la referencia gaussiana isótropa a la dimensión de cada backbone (sólo dimensión,
+  sin espectro), en cuadrados abiertos gris claro sobre línea discontinua fina dentro de cada grupo, con los valores de
+  `exp1_delta_controls.csv` (variante gauss), los mismos de la Figura 2 antigua y de la Tabla 4. La leyenda gana "random ball, same
+  dimension (a)" y el pie dice tu frase: el hueco bola-nube es la parte del espectro y el hueco nube-modelo es el exceso. El título
+  del panel sigue siendo el que fijaste ("raw reading and its random cloud"); dime si lo quieres también con la bola.
+- **(2)** El eje x de los cuatro paneles separa el grupo auto-supervisado en dos: "DINO" bajo una sola marca "B" y "DINOv2" bajo
+  "S B L G", con un hueco menor que el de familia y un separador fino entre ambos. "sup." y "contr." no cambian. Los dos subgrupos
+  conservan el color de la familia, y la línea que une modelos se traza dentro de cada subgrupo.
+- Envío: 32 páginas, texto principal en la página 9, sweep 230/230, qa_pages regeneradas y revisadas a 100 dpi.
