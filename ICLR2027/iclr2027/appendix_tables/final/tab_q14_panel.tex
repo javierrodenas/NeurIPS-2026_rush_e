@@ -42,9 +42,11 @@ Controls (vision) & MERU ViT-S/B/L and CLIP twins \citep{desai2023meru} & 22M/86
 Controls (vision) & Barlow Twins (ResNet-50) \citep{zbontar2021barlow} & 24M \\
 Controls (vision) & BYOL (ResNet-50) \citep{grill2020bootstrap} & 24M \\
 \bottomrule
-\end{tabular}
+\end{tabular}\par\vspace{3pt}
+{\scriptsize Extraction: vision backbones use the encoder's default pooled embedding (timm, CLS or global pool per architecture); causal language models the last-token state of ``a photo of a \{class\}'', one prompt at a time, since batching alters GPT-2's hidden states; text embedders their recommended pooling, CLS for BGE, mean for GTE and E5, last token for GTE-Qwen2; the CLIP and SigLIP text towers their own text encoders.}
+
 \par\vspace{2pt}
-\caption{\textbf{The models and the extraction.} Every backbone, language model and text embedder of the census and of the controls, with its parameter count, followed by how features are extracted and pooled.
+\caption{\textbf{The models and the extraction.} Every backbone, language model and text embedder of the census and of the controls, with its parameter count; the note below the table says how features are extracted and pooled.
 }
 \label{tab:q14-panel}
 \end{table}

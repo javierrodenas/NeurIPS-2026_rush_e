@@ -368,3 +368,12 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - (Apéndice A, 2026-09-24) Tu demostración ampliada deja fuera el argumento del confundido del estadístico (el supremo muestral
   sólo puede subir con el presupuesto) y la frase "Part (b) is the dimension confound alone". Si lo quieres, lo devuelvo como un
   tercer párrafo, "Proof of the statistic confound", detrás de la parte (b); cabe sin mover nada.
+- (Lenguaje llano y correcciones, 2026-09-25) Cuatro cosas que decides tú: (i) "latent hyperbolicity" se queda en el resumen,
+  aunque sea término acuñado, porque es el nombre de la premisa y está en el título; dime si lo quieres fuera también.
+  (ii) La frase de Moreira en §2 ocupa el sitio de la última frase de esa sección ("It adds a hierarchy test measured on real
+  clouds, a hyperbolic backbone as the control..."), que el recorte de página deja fuera; sus tres elementos están en las
+  contribuciones 1 y 2 de §1. Si la quieres de vuelta, saco dos líneas de las limitaciones. (iii) Con BH sobre los 4 conjuntos
+  de Khrulkov sólo MiniImageNet sería genuino: CIFAR-100 ($p=0.030$) se queda en el rango 2 justo por encima del umbral 0.025.
+  El artículo usa el $p$ sin corregir ahí, y la figura llena el punto según la banda de $\pm2$ s.d.; tu pie nuevo lo cuenta bien
+  ("at its edge, its verdict changing from trial to trial"). Dime si prefieres decirlo también en §5.1. (iv) La Tabla 12 ya no
+  promete el acuerdo con WordNet de los dos ViT de etiquetas hoja: está en la Tabla 19, por si quieres un puntero explícito.

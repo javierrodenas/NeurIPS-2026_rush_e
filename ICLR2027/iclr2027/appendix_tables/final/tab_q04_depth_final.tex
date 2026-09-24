@@ -7,7 +7,7 @@
 \setlength{\tabcolsep}{2.2pt}
 \begin{tabular}{lcc@{\hspace{5pt}}cccc@{\hspace{5pt}}c}
 \toprule
- & \multicolumn{2}{c}{C100, $K{=}20$} & \multicolumn{4}{c}{ImageNet, matched star} & bal.\ frame \\
+ & \multicolumn{2}{c}{C100, $K{=}20$} & \multicolumn{4}{c}{ImageNet, matched star} & bal.\ grouping \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-7}\cmidrule(lr){8-8}
 model & depth & $z$ & $K{=}10$ $z$ & $K{=}30$ depth & $z$ & $K{=}60$ $z$ & real $z$ \\
 \midrule
@@ -29,7 +29,7 @@ SigLIP-B & $-0.021$ & $-2.17$ & $-0.76$ & $-0.011$ & $-0.90$ & $-1.66$ & $-1.12$
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{Clusters are oriented toward their hubs in 4 of 12 backbones under the star with Gaussian hubs.} Per backbone: the depth statistic and its $z$ on CIFAR-100 and on ImageNet, the WordNet cut at 3 sizes, and the balanced frame.
+\caption{\textbf{Clusters are oriented toward their hubs in 4 of 12 backbones under the star with Gaussian hubs.} Per backbone: the depth statistic and its $z$ on CIFAR-100 and on ImageNet, the WordNet cut at 3 sizes, and the balanced grouping.
 }
 \label{tab:q4-depth}
 \end{table}
@@ -41,7 +41,7 @@ SigLIP-B & $-0.021$ & $-2.17$ & $-0.76$ & $-0.011$ & $-0.90$ & $-1.66$ & $-1.12$
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lcccccc}
 \toprule
-model & star $e_{\mathrm{hub}}$ & depth & $z$ & $r_{\text{star}}$ & decoupled $z$ & cert. \\
+model & star $e_{\mathrm{hub}}$ & depth & $z$ & $r_{\text{star}}$ & $z$ rotated & cert. \\
 \midrule
 ViT-T & $+0.0011$ & $-0.0184$ & $-1.45$ & 0/10 & $-1.69$ $\pm$ $0.28$ & 1/10 \\
 ViT-S & $+0.0010$ & $-0.0257$ & $-2.04$ & 0/10 & $-1.30$ $\pm$ $0.19$ & 0/10 \\
@@ -57,13 +57,13 @@ DINOv2-G & $-0.0021$ & $-0.0263$ & $-1.50$ & 0/10 & $-0.04$ $\pm$ $0.07$ & 0/10 
 CLIP-B & $+0.0012$ & $-0.0171$ & $-1.48$ & 1/10 & $-1.25$ $\pm$ $0.09$ & 0/10 \\
 CLIP-L & $+0.0018$ & $-0.0090$ & $-0.74$ & 2/10 & $-0.88$ $\pm$ $0.22$ & 0/10 \\
 SigLIP-B & $+0.0024$ & $-0.0121$ & $-0.78$ & 1/10 & $-0.84$ $\pm$ $0.18$ & 0/10 \\
-flat control, balanced frame & -- & -- & $-0.46$ & 0/5 & $-0.65$ & 0/50 \\
-flat control, frame mismatch & -- & -- & $-3.13$ & 5/5 & $-2.33$ & 38/50 \\
+flat control, balanced grouping & -- & -- & $-0.46$ & 0/5 & $-0.65$ & 0/50 \\
+flat control, grouping mismatch & -- & -- & $-3.13$ & 5/5 & $-2.33$ & 38/50 \\
 \bottomrule
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The same 4 backbones are certified under the star whose hubs are a Haar resample of the real ones.} Per backbone: the star's excess, the depth $z$, the star spread and the decoupling control over 10 seeds.
+\caption{\textbf{The same 4 backbones are certified under the star whose hubs are a Haar resample of the real ones.} Per backbone: the star's excess, the depth $z$, the star spread and the same test with clusters rotated, over 10 seeds.
 }
 \label{tab:q4-depth-ap}
 \end{table}
@@ -84,7 +84,7 @@ ViT-B, augreg, IN-21k (census) & $-0.0162$ & 200 & $+0.0057$ & 43 & $-0.0335$ & 
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{Supervision on leaf labels can produce the alignment but does not guarantee it.} The 2 ViT-B/16 trained on ImageNet-1k leaf labels, through the census protocol: excess, depth $z$ and agreement with WordNet.
+\caption{\textbf{Supervision on leaf labels can produce the alignment but does not guarantee it.} The 2 ViT-B/16 trained on ImageNet-1k leaf labels, the excess and its rank on ImageNet and CIFAR-100, and the depth $z$ under both stars.
 }
 \label{tab:q4-depth-b}
 \end{table}
@@ -114,7 +114,7 @@ CLIP ViT-L & prompts & $-0.012$ & 200 & $0.098$/$0.092$ & $+0.48$ & $+0.006^{\ci
 \bottomrule
 \end{tabular}
 \par\vspace{2pt}
-\caption{\textbf{Training in hyperbolic space shows no detected hub structure.} MERU and its Euclidean twin at 3 sizes: the census excess, the depth $z$ and the radii of the embeddings in units of the curvature scale. $^{\circ}$: not genuine at the corrected threshold.
+\caption{\textbf{Training in hyperbolic space shows no detected hub structure.} MERU and its Euclidean twin at 3 sizes, on images and on prompts: the excess, the rank $r$ of 200, the reading in each model's own metric and the depth $z$. $^{\circ}$: not genuine at the corrected threshold.
 }
 \label{tab:q4-depth-c}
 \end{table}
@@ -127,7 +127,7 @@ CLIP ViT-L & prompts & $-0.012$ & 200 & $0.098$/$0.092$ & $+0.48$ & $+0.006^{\ci
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lcccccccc}
 \toprule
-ViT-B/16 & excess & $r$ & $z$, WordNet-30 & dec.\ $z$ & cert. & $z$, balanced & dec.\ $z$ & cert. \\
+ViT-B/16 & excess & $r$ & $z$, WordNet-30 & $z$ rotated & cert. & $z$, balanced & $z$ rotated & cert. \\
 \midrule
 frozen (census) & $-0.0162$ & 200 & $-3.62$ & $-1.40$ & 0.0 & $-2.82$ & $-2.10$ & 0.7 \\
 leaf cross-entropy, seed 0 & $-0.0243$ & 200 & $-2.45$ & $-0.72$ & 0.0 & $-2.09$ & $-1.38$ & 0.0 \\
@@ -138,7 +138,7 @@ leaf + hierarchical, seed 1 & $-0.0295$ & 200 & $-4.22$ & $-2.63$ & 1.0 & $-5.82
 \end{tabular}
 \par\vspace{2pt}
 \endgroup
-\caption{\textbf{The trained control separates the objectives by degree.} ViT-B/16 fine-tuned with leaf cross-entropy and with an added hierarchical term, 2 seeds: excess, depth $z$ intact and decoupled, on both frames.
+\caption{\textbf{The trained control separates the objectives by degree.} ViT-B/16 fine-tuned with leaf cross-entropy and with an added hierarchical term, 2 seeds: excess, depth $z$ intact and with clusters rotated, on both groupings.
 }
 \label{tab:q4-depth-d}
 \end{table}
@@ -152,7 +152,7 @@ leaf + hierarchical, seed 1 & $-0.0295$ & 200 & $-4.22$ & $-2.63$ & 1.0 & $-5.82
 \begin{tabular}{lcccc|cccc}
 \toprule
 & \multicolumn{4}{c|}{L2-normalized} & \multicolumn{4}{c}{radial component removed} \\
-model & $z$ aniso & $z$ Haar-hub & decoupled $z$ & cert. & $z$ aniso & $z$ Haar-hub & decoupled $z$ & cert. \\
+model & $z$ aniso & $z$ Haar-hub & $z$ rotated & cert. & $z$ aniso & $z$ Haar-hub & $z$ rotated & cert. \\
 \midrule
 ViT-T & $+0.27$ & $-0.17$ & $-0.78$ & 0.0 & $-2.06$ & $-2.07$ & $-1.74$ & 0.3 \\
 ViT-S & $-0.76$ & $-0.93$ & $-1.16$ & 0.0 & $-2.26$ & $-2.08$ & $-1.25$ & 0.0 \\

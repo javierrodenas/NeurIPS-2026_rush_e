@@ -5,7 +5,7 @@
   "random ball, same dimension (a)",
   "planted hierarchy, randomized (c)",
   "genuine / power $\\geq0.8$",
-  "not genuine / blind",
+  "not genuine (b) / no power (d)",
   "power intact (d)"
  ],
  "implanted_alignment_curve": false,

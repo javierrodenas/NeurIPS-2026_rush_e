@@ -116,7 +116,7 @@ hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.5, ms=4.6, mec="whi
       plt.Line2D([], [], marker="s", mfc="white", mec="#B6B6B6", ls="--", color="#C9C9C9", lw=0.8, ms=3.6, mew=0.9, label="random ball, same dimension (a)"),
       plt.Line2D([], [], marker="^", color=PLANT, ls=(0, (4, 1.8)), lw=1.5, ms=4.4, mec="white", mew=0.5, label="planted hierarchy, randomized (c)"),
       Patch(color="k", label="genuine / power $\\geq0.8$"),
-      Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine / blind"),
+      Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine (b) / no power (d)"),
       Patch(color=LIGHT, label="power intact (d)")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.12))
 fig.subplots_adjust(left=0.085, right=0.995, top=0.95, bottom=0.30, wspace=0.24, hspace=0.42)
@@ -342,7 +342,7 @@ ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=1)
 ax.set_ylim(-0.05, 1.08); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"])
 ax.set_xlabel("noise level of the cloud (within/between spread)", labelpad=1); ax.set_ylabel("power")
 ax.set_title("the power follows the backbone, not its noise level", pad=3)
-hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.6, label="decoupled"),
+hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.6, label="clusters rotated"),
       plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.2, mew=1.1, label="intact"),
       plt.Line2D([], [], color="k", lw=0.8, ls="--", label="power 0.8")]
 ax.legend(handles=hd, **LEG, loc="lower right", ncol=1, handlelength=1.4, handletextpad=0.4, fontsize=6.2)

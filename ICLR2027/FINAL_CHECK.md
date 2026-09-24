@@ -12,15 +12,15 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 35 | 21.8 | 50 | 0 |
-| Related Work | 7 | 28.6 | 60 | 0 |
+| Introduction | 35 | 22.0 | 51 | 0 |
+| Related Work | 7 | 26.4 | 60 | 0 |
 | Methodology | 38 | 18.2 | 30 | 0 |
-| Experimental Setup | 16 | 17.8 | 33 | 0 |
-| Results | 69 | 18.0 | 30 | 0 |
+| Experimental Setup | 16 | 17.7 | 33 | 0 |
+| Results | 71 | 18.0 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 19.3 | 24 | 0 |
-| Conclusion and Limitations | 10 | 21.3 | 34 | 0 |
+| Conclusion and Limitations | 10 | 21.7 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 122 sentences, mean 18.4 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 124 sentences, mean 18.4 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -33,11 +33,11 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | The count survives resampling. | — |
 | Results | A star of clusters already passes the census. | — |
 | Results | The hierarchy test certifies that clusters are oriented towa | 12 |
-| Results | What it certifies is alignment. | 4, -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, 4, -2.26 to -3.99 |
+| Results | What it certifies is alignment, how each cluster is oriented | 4, -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, 4, -2.08 to -3.99 |
 | Results | What the test can see. | 4 of 5, 4, 9 of 12, 0.83 to 1.00, 3, 0.01 to 0.60, 3, 1.5 to 3.0, 1.3 to 3.9, 9 |
-| Results | A trained hierarchy survives, and the decoupled test leans t | 20 of 20, 2, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, 4, -4.19 to -4.82, 0 of 50 |
+| Results | A trained hierarchy survives, and the test leans toward firi | 20 of 20, 2, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, 4, -4.19 to -4.82, 0 of 50 |
 | Results | No hub hierarchy is found where the test has power. | 9 |
-| Results | The certified set depends on the frame. | — |
+| Results | The certified set depends on the grouping. | — |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
 | Results | Training in hyperbolic space leaves the clustering unchanged | 95, 0.29 |
 | Results | The naive map manufactures an island. | 12, 7, 7 |
@@ -54,14 +54,13 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 - Appendix length: the brief asked for at most 14 pages; the kept material occupies 16 (proofs included) with the tables floating one panel at a time. Candidates if the author wants the last two pages: corollary panels (f) nearest-centroid policies and (g) sensitivity to the projection target (uncited from the main text), the text table's extraction panel (c), the model-panel table's per-model extraction notes.
 - Every appendix figure (depth on CIFAR-100, depth power, causal interventions, CIFAR-100 tree map, text nulls, best-metric scatter) and every reference to them.
 - The limitation item on ξ (former (viii)) went with the descriptor.
-- Kept, in first-citation order: tab_q10_calibration, tab_q01_census, tab_q14_panel, tab_q02_text, tab_q03_sample, tab_q08_robust, tab_q04_depth, tab_q05_power, tab_q06_treemap, tab_q13_local, tab_q07_wordnet, tab_q09_corollary, plus the provenance index (tab_z_provenance_final).
+- Kept, in first-citation order: tab_q10_calibration, tab_q01_census, tab_q14_panel, tab_q03_sample, tab_q08_robust, tab_q04_depth, tab_q05_power, tab_q06_treemap, tab_q13_local, tab_q07_wordnet, tab_q02_text, tab_q09_corollary, plus the provenance index (tab_z_provenance_final).
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 240/242 checks passed.
+- Total: 243/244 checks passed.
 - Final-version checks:
 
-    PASS final: references.bib is the author's bib of 2026-09-23 merged with the three cited entries it lacked: keys unique, every cited key present, Groger et al. as ICML 2026 with Shuo Wen, no escaped underscores in doi/url (they print a backslash), Gromov protected 
     PASS final: every cross-reference of the final resolves 
     PASS final: the corollary panel drops the McNemar column (the main text never used it, author's brief 2026-09-24): 9 columns, 60 rows of accuracies and advantages, and a caption that defines Eucl. and Poinc. and gives the advantages in percentage points 
     PASS final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve 

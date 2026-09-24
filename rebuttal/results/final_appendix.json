@@ -3,7 +3,6 @@
   "tab_q10_calibration",
   "tab_q01_census",
   "tab_q14_panel",
-  "tab_q02_text",
   "tab_q03_sample",
   "tab_q08_robust",
   "tab_q04_depth",
@@ -11,6 +10,7 @@
   "tab_q06_treemap",
   "tab_q13_local",
   "tab_q07_wordnet",
+  "tab_q02_text",
   "tab_q09_corollary"
  ],
  "deleted": [

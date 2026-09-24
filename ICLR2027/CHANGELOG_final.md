@@ -3288,3 +3288,54 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
 
 - Envío de 29 páginas, texto principal hasta la página 9, apéndice de 14. Sweep **242/242** (pines de la paleta, de las cinco
   bandas y de las dos cabeceras actualizados). Rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 116. Lenguaje llano en los términos acuñados (2026-09-25, brief del autor)
+
+- **Resumen**: entra tu frase del test y la siguiente, literales, con los números por relleno: "In {{N_IN}} of 12 ImageNet
+  backbones a second test finds more than clusters..." y "In the {{N_COV}} backbones where a planted hierarchy is detected, no
+  hierarchy as strong is found; in the other 3 the test cannot tell." El relleno nuevo `N_COV` se cuenta de
+  `expR81_deep_per_backbone_summary.csv`.
+- **Resumen y §1 sin término acuñado salvo "excess"**: "hierarchy test" pasa a "a second test" (también en el pie de la Figura 1
+  y en la contribución 1), "hub" desaparece de §1 (queda "superclass center", y el término se define en §3 como siempre),
+  "blind" pasa a "cannot see a planted hierarchy". *La única excepción que me he permitido*: "latent hyperbolicity" se queda,
+  porque es el nombre de la premisa que estudia el artículo, está en el título y la propia frase la define.
+- **Texto principal**: "frame" → "the grouping into superclasses" o "the WordNet grouping" fuera de las definiciones (dentro de
+  las Definiciones 6 y 8 se queda, como pedías); "decoupling/decoupled" → "rotating each cluster" / "with clusters rotated",
+  incluida la Definición 8, que ahora se titula "rotating each cluster"; "blind" → "cannot see a planted hierarchy".
+- **Términos que se quedan**, cada uno recordado en palabras llanas en su primer uso de cada sección: "genuine" (§5.2: "beyond a
+  random cloud of the same shape"), "excess" (§7: "a low excess over it"), "hierarchy test" y "matched star" (§5.3: "The test
+  compares each cloud with its matched star, the same clusters with no hierarchy above them"), "alignment" (§5.3, en el propio
+  ladillo: "What it certifies is alignment, how each cluster is oriented").
+- **Pies de figura y de tabla** con el mismo vocabulario: cabeceras "decoupled $z$" → "$z$ rotated", "decoupled power" → "power
+  rotated", "bal.\ frame" → "bal.\ grouping", leyendas "not genuine / blind" → "not genuine (b) / no power (d)" y "decoupled" →
+  "clusters rotated". Son 48 cadenas en el generador y 15 en el constructor.
+- **Resumen de OpenReview** regenerado (327 palabras).
+- 29 páginas, texto principal hasta la página 9. Sweep **244/244**, rebuttal 61/61.
+
+## 117. Correcciones finales, cada una verificada contra su fichero (2026-09-25, brief del autor)
+
+1. **"an planted" → "a planted"** en los 16 sitios donde lo había dejado el renombrado implanted→planted (§1 dos veces, §5.3,
+   apéndice y los pines del sweep). Grep de otros artículos rotos por ese renombrado: ninguno más.
+2. **Tabla 4**: el pie prometía la lectura y exc./null, que no están en la tabla; ahora nombra sólo lo que hay (exceso, $r$, $p$).
+   Las filas de Barlow y BYOL: `rankA` en `expR45_convnet_rows.csv` es la **fracción** de réplicas por encima del valor real
+   (1.0 y 1.0), no un rango; se imprimía "1". Ahora se imprime el recuento, **20/20**, y el pie dice "$r$ of 20" para esas filas.
+3. **Figura 3(b)**: tu pie, con la mediana del rango leída del fichero (`expR85`, CIFAR-100: 196/200).
+4. **C.8** apunta a la Figura 5b y da el techo en palabras (0.90 en tripletes, del relleno `CEIL_TRIP`).
+5. **Tabla 22 y Figura 9**: las dos dicen que el corolario cubre 10 backbones (DINO-B y SigLIP-B no evaluados) y nombran
+   ImageNet, CIFAR-100, CIFAR-10 y DTD en vez de "the 4 hierarchical datasets".
+6. **Tabla 1**: las notas de extracción que el pie prometía van ahora **debajo de la tabla** (pooling por familia y el prompt de
+   texto); el pie se queda corto y remite a ellas. La referencia de §4 pasa de la tabla de texto a la Tabla 1, que es donde está
+   el pooling; a cambio §5.4 cita la tabla de texto, que si no se quedaba sin cita.
+7. **§5.3**: "z from −2.26 to −3.99" → **"−2.08 to −3.99"**. El relleno tomaba sólo la estrella `aniso` mientras la frase dice
+   "under both stars"; ahora recorre las dos (`expR82_radial_control.csv`).
+8. **Tabla 13** prometía los radios de MERU y **Tabla 19** la recuperación de superclases: ninguna de las dos los tiene (la de
+   recuperación salió del apéndice en la reducción del 24), así que los pies nombran las columnas reales. **Tabla 23**: "dm" se
+   define en el pie.
+9. **§5.3** nombra los 3 backbones donde el test no ve una jerarquía plantada, del relleno: ViT-T, DINO-B y DINOv2-S.
+10. **§2** cita a \citet{moreira2024hyperbolic} en una frase.
+11. El paso de lenguaje llano va en la entrada 116.
+12. **Repaso de todos los pies contra su tabla o figura**. Encontrados y corregidos: Tabla 12 prometía "agreement with WordNet"
+    (no está; esa columna vive en la Tabla 19), Tabla 9 decía "how many resamples stay genuine" donde la columna es la fracción
+    con exceso negativo, la Tabla 18 no nombraba su columna "null-centered", la Tabla 6 no definía su columna $k$/4 y la Tabla 14
+    llevaba "dec.\ $z$" sin definir. Los demás pies nombran exactamente lo que imprimen.
+- 29 páginas, texto principal hasta la página 9, apéndice de 14. Sweep **244/244** con una comprobación nueva para estas
+  correcciones; rebuttal reconstruido (61/61), qa_pages regeneradas, resumen de OpenReview actualizado.
