@@ -1016,7 +1016,7 @@ def final_checks():
     grom = norm(edit(seg(LOC, "\\paragraph{Gromov $\\delta$.} ", "\\paragraph{Estimation and normalization.}").split("} ", 1)[1])); est = norm(edit(seg(LOC, "\\paragraph{Estimation and normalization.} ", "\\begin{figure}").split("} ", 1)[1]))
     chk("final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence)", grom in norm(bf) and est in norm(bf))
     chk("final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives",
-        len(ED) == 31 and all((a not in bf) or (a in b) for a, b in ED) and any("clusters oriented toward their hubs in a few" in b for _, b in ED) and any("In the 9 of 12 backbones where an planted hierarchy is detected, none as strong is found; in the other 3 the test is blind." in b for _, b in ED) and "49 of 72" not in bf and all((fillb(b) in bf) for _, b in ED if b and not any(a2 in b for a2, _ in ED if a2)) and sum(1 for a, _ in ED if "shadow" in a) == 3 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
+        len(ED) == 32 and all((a not in bf) or (a in b) for a, b in ED) and any("clusters oriented toward their hubs in a few" in b for _, b in ED) and any("In the 9 of 12 backbones where an planted hierarchy is detected, none as strong is found; in the other 3 the test is blind." in b for _, b in ED) and "49 of 72" not in bf and all((fillb(b) in bf) for _, b in ED if b and not any(a2 in b for a2, _ in ED if a2)) and sum(1 for a, _ in ED if "shadow" in a) == 3 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
         and any("three artifacts push it down" in a for a, _ in ED) and any("sala2018representation" in b and "gu2019learning" in b for _, b in ED)
         and bf.count("30 of 36") >= 2 and "cannot be called low on its own" in bf)
     # ---- metaphors, bridges and banned phrases anywhere in the body (Figure 1 and its caption excepted), thesis twice
@@ -1119,7 +1119,7 @@ def final_checks():
             gs = [g for g in gs if g not in counts_]   # counts with their noun are not result numbers (numeral rule, 2026-09-23)
             if off: bad.append(f"{name}: number outside the headline set {off}: {par[:60]!r}")
             for m in _re.finditer(r"\(([^()]*)\)", cp):
-                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and not _re.fullmatch(r"(Table|Tables|Figure|Figures) REF( and REF)?", m.group(1)) and m.group(1) != "DINO-B is not part of the island" and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")
+                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and not _re.fullmatch(r"(Table|Tables|Figure|Figures) REF( and (REF|Figure REF))?", m.group(1)) and m.group(1) != "DINO-B is not part of the island" and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")
             for s_ in sents:
                 if s_.count(";") >= 2 and not s_.startswith("Read correctly, foundation models") and not s_.startswith("The class sets are ImageNet"): bad.append(f"{name}: semicolon chain: {s_[:80]}")   # the author's thesis lists its clauses with semicolons
             low = cp.lower()
@@ -1185,7 +1185,7 @@ def final_checks():
         _mainkeys <= _citedbf and {"BGE", "gte", "e5"} <= _citedTF and all(_src(_bibentry(k)) for k in _citedTF) and len(_citedTF) >= 44
         and "4 supervised ViTs \\citep{dosovitskiy2021an} trained on ImageNet-21k \\citep{imagenet}, DINO-B \\citep{dinov1}, 4 DINOv2 sizes \\citep{dinov2}, CLIP-B, CLIP-L \\citep{CLIP} and SigLIP-B \\citep{siglip}" in bf and "the Benjamini--Hochberg threshold \\citep{benjamini1995controlling} at level five per cent" in bf and "On DBpedia Classes \\citep{dbpedia}" in bf and "the WordNet \\citep{wordnet} cut into 30 superclasses" in bf and "ResNets \\citep{resnet}" in bf and "DeiT-B \\citep{deit} and the augreg ViT-B \\citep{augreg}" in bf
         and "@inproceedings{park2024geometry" in _bib and "International Conference on Learning Representations" in _bibentry("park2024geometry") and "year={2025}" in _bibentry("park2024geometry").replace(" ", "") and "arXiv preprint arXiv:2604.18572" in _bibentry("koepke2026cave") and "High Dimensional\n                  Space}" in _bibentry("aggarwal2001surprising")
-        and f"Read with the census and the hierarchy test, MERU shows the same clustering as its twin, and no hub structure is detected. The test's power at MERU's spectrum, however, was not measured. Its embeddings stay in the near-flat regime, 95 per cent of them within {_r71.radius_sqrtc_p95.max():.2f} of the curvature scale." in TF and len(_r71) == 6 and float(_r71.radius_sqrtc_max.max()) < 0.5,
+        and "Read with the census and the hierarchy test, MERU shows the same clustering as its Euclidean twin. No hub structure is detected, although the test's power at MERU's spectrum was not measured." in bf and f"Its embeddings also stay nearly flat: 95 per cent lie within {_r71.radius_sqrtc_p95.max():.2f} of the curvature scale" in bf and len(_r71) == 6 and float(_r71.radius_sqrtc_max.max()) < 0.5,
         f"cited {len(_citedTF)}; missing main keys {sorted(_mainkeys - _citedbf)}; without source {[k for k in sorted(_citedTF) if not _src(_bibentry(k))]}")
     chk("final: Figure 5 carries the author's caption (consolidated pass); the ARI-matrix figure is out of the appendix (cleanup of 2026-09-23: it is cited from nowhere)", bool(v5) and "\\label{fig:treemapmat}" not in TF and "fig_treemap_matrices_final" not in TF and "\\textbf{The island is the cut; tree topology is shared well above chance, though short of the within-model ceiling; the self-supervised structure is angular.} (a) Mean agreement of each model's tree with the other 11, naive (hollow) and corrected (filled). (b) Triplet agreement under the corrected comparison against the within-model ceiling (band). (c) Sibling-triplet agreement under cosine and Euclidean distance." in bf and 'ax.axvline(1 / 3, color="k", lw=0.8, ls="--", zorder=2)' in FIGSRC and 'ax.set_title("(b) topology, chance and ceiling", pad=3)' in FIGSRC and "Chance gives 0.33." in bf)   # Figure 5(b): dashed chance line at 1/3 for the three-way triplet choice, matching the S5.4 sentence (caption brief, 2026-09-23)
     # ---- appendix: the cited tables only, in citation order, figures gone, xi/ORC/null-variant panel gone, provenance comments kept, cross-references resolve
@@ -1205,8 +1205,8 @@ def final_checks():
     gone = ["tab_q11_interventions", "tab_q12_xi"]; gone_lab = ["tab:q11-interventions", "tab:q12-xi", "fig:depth-c100", "fig:depthpower", "fig:causal", "fig:treemapc100", "fig:textnulls", "fig:bestmetric"]
     rob = (FD/"tab_q08_robust_final.tex").read_text()
     chk("final: xi, ORC/interventions table, appendix figures, null-variant panel and the class-count sweep are gone from the final and nothing refers to them",
-        all(g not in inputs for g in gone) and all(("\\ref{" + l + "}") not in TF for l in gone_lab) and app_f.count("\\includegraphics") == 2 and "figures/fig_implant_final.pdf" in app_f and "figures/fig_samereading_final.pdf" in app_f and "Ollivier" not in app_f
-        and "null variants" not in rob.lower() and rob.count("DINOv2-L & 100 &") == 1 and rob.count("non-hierarchical fine-tuning") == 0 and "supremum, Gaussian" not in rob
+        all(g not in inputs for g in gone) and all(("\\ref{" + l + "}") not in TF for l in gone_lab) and app_f.count("\\includegraphics") == 7 and "figures/fig_implant_final.pdf" in app_f and "figures/fig_samereading_final.pdf" in app_f and "Ollivier" not in app_f
+        and "null variants" not in rob.lower() and "DINOv2-L & 100 &" not in rob and rob.count("non-hierarchical fine-tuning") == 0 and "supremum, Gaussian" not in rob
         and all(("\\noindent\\textbf{" + p_) not in (FD/(f_ + ".tex")).read_text() for f_, p_ in (("tab_q02_text", "(b)"), ("tab_q03_sample_final", "(b)"), ("tab_q05_power_final", "(a)"), ("tab_q08_robust_final", "(e)"), ("tab_q09_corollary", "(e)"), ("tab_q09_corollary", "(f)"), ("tab_q09_corollary", "(g)")))
         and all(x not in (FD/"tab_q04_depth_final.tex").read_text() for x in ("iso.\\ $z$", "iso.\\ star"))
         and "The raw reading predicts the gain within datasets." in (FD/"tab_q09_corollary.tex").read_text())   # tenth review: Table 14(b) restored
@@ -1225,7 +1225,7 @@ def final_checks():
     chk("final (appendix cleanup, 2026-09-23): the appendix opens with the reading page and the glossary, every table is preceded by one plain paragraph of 2-4 sentences, one numbered table per former panel, every caption at most 40 words with a bold answer, and the uncited panels, the ARI-matrix figure and the isotropic star are gone",
         "\\subsection{How to read this appendix}" in _appx and "\\paragraph{Symbols and column names.}" in _appx and all(w in _appx for w in ("the reading used in the paper", "excess", "$r$/200", "left-tail add-one", "BH", "$^{\\circ}$", "Bold", "frame", "hub", "matched star", "Haar-hub star", "decoupled", "power", "false alarms"))
         and _appx.count("\\paragraph{What this table answers.}") == 12 and all(2 <= len(_re.split(r"(?<=[.])\s+", p_.strip())) <= 4 for p_ in _re.findall(r"\\paragraph\{What this table answers\.\}(.*?)\n", _appx))
-        and all(len(_re.sub(r"%.*", "", c).split()) <= 40 for c in _capsF) and sum(1 for c in _capsF if c.lstrip().startswith("\\textbf{")) >= 30 and len(_capsF) >= 30 and "of record" not in _appx,
+        and all(len(_re.sub(r"%.*", "", c).split()) <= 40 for c in _capsF) and sum(1 for c in _capsF if c.lstrip().startswith("\\textbf{")) >= 20 and len(_capsF) >= 20 and "of record" not in _appx,
         f"captions over 40 words: {[len(_re.sub(chr(37) + '.*', '', c).split()) for c in _capsF if len(_re.sub(chr(37) + '.*', '', c).split()) > 60]}")
     # the final copies are the v1 tables split into one floating table per panel: same numbers, same captions, [tbp] instead of [H]
     same = []
@@ -1271,7 +1271,7 @@ def final_checks():
         and [bf.index("\\paragraph{" + l + "}") for l in LEADS53] == sorted(bf.index("\\paragraph{" + l + "}") for l in LEADS53)
         and f"A flat control with the same spectrum and ratio as the deep one fires in {nf} of {len(flat)} intact and in {int(round(flat.dec_frac_cert.sum() * 10))} of 50 decoupled runs." in bf and "read with Euclidean distances, do not fire" not in bf
         and f"it detects it in {nd} of {len(deep)} seeds." in bf and "A deep hierarchy at the real noise level is detected, and a flat control is not." in pw
-        and "(iii)~The hierarchy test's power for a three-level hierarchy follows the backbone rather than its within/between ratio or family" in TF and "left open" not in bf and "no power at this noise level" not in bf and "without power" not in bf and "\\paragraph{The two-level implant is missed" not in bf and "Figure~\\ref{fig:implant} and Table~\\ref{tab:q5-power-e} give the detection rates and the power." in bf,
+        and "The hierarchy test's power for a three-level hierarchy follows the backbone rather than its within/between ratio or family" in TF and "left open" not in bf and "no power at this noise level" not in bf and "without power" not in bf and "\\paragraph{The two-level implant is missed" not in bf and "Figures~\\ref{fig:implant} and \\ref{fig:power} give the detection rates and the power." in bf,
         f"deep {nd}/{len(deep)} flat {nf}/{len(flat)} dec_all {dec_all} poi_none {poi_none}")
     S78 = pd.read_csv(R/"expR78_khrulkov_replication_summary.csv").set_index("dataset"); allin = len(S78) == 4 and bool(S78.within_range.all()); low = set(S78.index[S78.p_left_max <= 0.05]); smp = (FD/"tab_q03_sample_final.tex").read_text()
     chk("final (priority 2): the S5.1 published-reading paragraph after the lead-in, its claims re-derived from expR78_khrulkov_replication_summary.csv (all four within 0.03, excess negative everywhere, p <= 0.05 on CIFAR-100 and MiniImageNet only), the new lead-in, limitation (vi), and Table 8(b) with the four published and reproduced values",
@@ -1337,7 +1337,7 @@ def final_checks():
         and "a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \\citep{moreira2024hyperbolic}" in TF and "@inproceedings{moreira2024hyperbolic" in bib and "2082--2090" in bib and "Winter Conference on Applications of Computer Vision" in bib
         and not caps_ids
         and f4.get("panel_b") == "decoupled_power_per_backbone" and f4.get("n_covered") == 9 and not f4.get("implanted_alignment_curve") and (TEX/"figures/fig_implant_final.pdf").exists() and fi.get("real", {}).get("0.0") == 0.0 and fi.get("real", {}).get("1.0", 1) < 0.5 <= fi.get("shrunk", {}).get("1.0", 0)
-        and "\\label{fig:implant}" in app_f and "Figure~\\ref{fig:implant} and Table~\\ref{tab:q5-power-e} give the detection rates and the power." in bf
+        and "\\label{fig:implant}" in app_f and "Figures~\\ref{fig:implant} and \\ref{fig:power} give the detection rates and the power." in bf
         and "A trained control, inconclusive" not in TF,
         f"cov {len(cov)} unc {len(unc)} bal {bal.get('fa_bal')} high {bal.get('high')} caps_ids {caps_ids}")
     # ---- full-pass cleanup (2026-09-22, evening brief): duplicates out, Definition 8, S5.3 in seven paragraphs with each number once, the Khrulkov table in S5.1, S5.2 cuts, S3.2 sentence dropped
@@ -1368,8 +1368,8 @@ def final_checks():
         and "and it tests hierarchy among the frame's hubs only." in TF
         and "not a hierarchy among those centers" in abs_now and TF.count("not that the hubs form a hierarchy") == TF.count("not that the hubs form a hierarchy within the grouping") and "not that the hubs form a hierarchy" not in dep
         and S84 is not None and len(S84) == 13 and bool(tc) and tc.get("branch") == "keep" and float(S84.loc["ALL", "triplet_agree_mean"]) >= 0.9 and f"Across models, triplet agreement reaches {c58.triplet_agree_big_vs_block:.2f}, against {S84.loc['ALL', 'triplet_agree_mean']:.2f} for two resamples of the same model. Chance gives 0.33." in bf
-        and c58.triplet_agree_big_vs_block < S84.loc["ALL", "triplet_agree_min"] and "Two resamples of one model set the ceiling any pair of models can reach." in tm6 and f"mean over backbones & {S84.loc['ALL', 'ari_cut_mean']:.2f}" in tm6 and THESIS in bf
-        and "(vi)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work." in TF and "(viii)~The census" in TF and "(ix)~The objective--geometry" in TF and "(x)~Downstream" in TF
+        and c58.triplet_agree_big_vs_block < S84.loc["ALL", "triplet_agree_min"] and (lambda _c: all(abs(_c["ceiling_mean"][m_] - round(float(S84.loc[m_, "triplet_agree_mean"]), 3)) < 1e-9 for m_ in _c["ceiling_mean"]) and len(_c["cross_model"]) == 12 and max(_c["cross_model"].values()) < min(_c["ceiling_mean"].values()))(_j.load(open(R/"final_fig_ceiling.json"))) and THESIS in bf
+        and "The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work." in TF and "The census is class-centroid geometry on 6 datasets" in TF and "The objective--geometry link is correlational" in TF and "Downstream scope is prototype-based metric tasks" in TF
         and "The raw reading predicts the gain within datasets." in cor,
         f"ceiling {tc.get('triplet_ceiling_mean')} min {tc.get('triplet_ceiling_min')} branch {tc.get('branch')}")
     # ---- thesis and S5.4 after expR84 (2026-09-22, evening brief): topology largely shared, metric not; ceilings per measure beside the cross-model values
@@ -1378,7 +1378,7 @@ def final_checks():
         S84 is not None and THESIS in abs_now and bf.count(THESIS) == 2 and "moderately shared" not in bf and "does not converge to one common tree" not in bf
         and "In text, the result depends on the model's recipe and size." in abs_now and "a hierarchy test whose ability to detect a hierarchy is measured" in abs_now and "the hierarchy test finds structure" in abs_now and "Across models, the trees agree on which classes group together well above chance, though less than two readings of the same model, and not on distances; the self-supervised models organize classes by direction rather than by distance, which a comparison by distance misses." in abs_now and bf.count("well above chance, though short of what two readings of the same model reach") == 0 and "and not on distances" in abs_now and bf.count(NEW_CROSS) == 1 and "look like outliers" not in bf and bf.index(NEW_CROSS) < bf.index("\\section{Introduction}") and NEW_CROSS.replace("Across models, ", "\\emph{Across models,} ") in seg(bf, "\\section{Introduction}", "\\section{Related Work}")
         and "\\item \\textbf{The map of trees.} Across models, the trees agree on which classes group together but not on distances, and the self-supervised models organize classes by direction, which a comparison by distance misses." in bf and "\\item \\textbf{The instrument.} A calibrated reading of $\\delta$, compared with random clouds of the same shape, and a hierarchy test whose false-alarm rate and power are measured on real clouds." in bf and "\\item \\textbf{Consequences for practice.} The rule that derives curvature from a raw $\\delta$ assigns curvature to random clouds; we say what to measure before imposing curvature, and cosine collects most of the structure at no cost." in bf and "sharing is graded and supervision-dependent" not in bf and "largely shared" not in bf
-        and "The cophenetic and cut agreements reach about half their within-model ceiling (Tables~\\ref{tab:q6-treemap-b} and \\ref{tab:q6-treemap-c})." in bf and "\\paragraph{Controlled, the trees share their topology, not their metric.}" in bf
+        and "The cophenetic and cut agreements reach about half their within-model ceiling (Table~\\ref{tab:q6-treemap-b} and Figure~\\ref{fig:ceiling})." in bf and "\\paragraph{Controlled, the trees share their topology, not their metric.}" in bf
         and c58.triplet_agree_big_vs_block / S84.loc["ALL", "triplet_agree_mean"] >= 0.8 and 0.4 <= c58.coph_corr_big_vs_block / S84.loc["ALL", "coph_corr_mean"] <= 0.6 and 0.4 <= c58.ari_cut_big_vs_block / S84.loc["ALL", "ari_cut_mean"] <= 0.6 and tc.get("cross_over_ceiling", {}).get("triplet", 0) >= 0.8,
         f"cross/ceiling triplet {c58.triplet_agree_big_vs_block / S84.loc['ALL', 'triplet_agree_mean']:.2f} coph {c58.coph_corr_big_vs_block / S84.loc['ALL', 'coph_corr_mean']:.2f} ari {c58.ari_cut_big_vs_block / S84.loc['ALL', 'ari_cut_mean']:.2f}" if S84 is not None else "no expR84")
     # ---- consolidated pass (2026-09-22, night): abstract verbatim with the thesis as its last sentence, S1 glosses at first use, Figure 5 redrawn with the matrices in the appendix, 45-word splits
@@ -1395,9 +1395,30 @@ def final_checks():
     chk("final (12th review, abstract edits of 2026-09-23): 'no hierarchy as strong as the planted one is found' in the abstract and 'none as strong…' in S5.3(d); 'well above chance, though short of what two readings of the same model reach' in contribution 3 only, the abstract and the S1 answer paragraph saying the cross-model sentence of 2026-09-23 (15:45) with 'though less than two readings of the same model', the island in S5.4 only; the thesis with 'well above chance, though not as much as two readings of one model' twice; MERU lead-in; limitation (vii) on the diameter normalization with scope renumbered (viii)-(x); every continued caption of Table 3 names its panel",
         abs_now.endswith(THESIS) and bf.count(THESIS) == 2 and "clusters that they partly share" in THESIS and len(THESIS.split()) == 34 and "no hierarchy as strong as the planted one is found" in abs_now and bf.count("none as strong as the planted one is found") == 1 and "none is found in the real model" not in bf
         and "\\paragraph{Training in hyperbolic space leaves the clustering unchanged.}" in bf and "Imposing the geometry does not create" not in bf
-        and "(vii)~The reading divides by the diameter, so heavier tails in real clouds would lower $\\delta_{\\text{norm}}$ without any clustering. The cosine census mitigates this, and a percentile normalization is future work." in TF
+        and "The reading divides by the diameter, so heavier tails in real clouds would lower $\\delta_{\\text{norm}}$ without any clustering. The cosine census mitigates this, and a percentile normalization is future work." in TF
         and len(rob_c) == 0 and rob.count("\\caption{(continued)}") == rob.count("\\ContinuedFloat"),   # appendix cleanup (2026-09-23): one short caption, the other floats plain '(continued)' 
         f"continued captions {[c.strip()[:12] for c in rob_c]}")
+    # ---- appendix reduction (author's brief, 2026-09-24): the uncited tables are gone and the trend tables are figures
+    _applabs = set(_re.findall(r"\\label\{(tab:q[^}]*)\}", _tabs_final))
+    _mainlabs = {m_.group(1) for m_ in _re.finditer(r"\\ref\{(tab:[^}]*)\}", main_f)}
+    _alias = {"tab:q1-census", "tab:q5-power", "tab:q6-treemap", "tab:q8-robust"}   # a base label sharing its table with a cited one
+    _keptun = sorted(_applabs - _mainlabs - _alias)
+    _e2r = {(r_["model"], r_["dataset"]): r_ for r_ in load("exp2_metric_controls.csv")}
+    _hier = ["imagenet", "cifar100", "cifar10", "dtd"]
+    def _bestpp(m_):
+        h_ = [100 * (float(_e2r[(m_, d_)]["FS_H"]) - float(_e2r[(m_, d_)]["FS_R"])) for d_ in _hier]
+        c_ = [100 * (float(_e2r[(m_, d_)]["FS_COS"]) - float(_e2r[(m_, d_)]["FS_R"])) for d_ in _hier]
+        return round(sum(max(a_, b_) for a_, b_ in zip(h_, c_)) / 4, 2)
+    _fg = _j.load(open(R/"final_fig_gains.json")); _fb = _j.load(open(R/"final_fig_budget.json")); _fp = _j.load(open(R/"final_fig_power.json")); _fc = _j.load(open(R/"final_fig_classcount.json"))
+    chk("final (appendix reduction, 2026-09-24): every appendix table is cited from the main text except the five a main-text number rests on (radial control, planted alignment, balanced frame, and the two correlation panels of the corollary); the budget, class-count, power, ceiling and gains tables are figures whose values come from the same files; Section B keeps the four limitations S7 does not carry and Section C the four paragraphs the main text still needs; the reading guide lists them",
+        _keptun == ["tab:q4-depth-e", "tab:q5-power-c", "tab:q5-power-f", "tab:q9-corollary-b", "tab:q9-corollary-d"]
+        and all(("\\label{fig:" + f_ + "}") in app_f and (TEX/("figures/fig_" + f_ + "_final.pdf")).exists() for f_ in ("budget", "classcount", "power", "ceiling", "gains"))
+        and _fb["cells"] == 9 and _fb["max_drift_above_1e5"] <= 0.001 and _fp["n_covered"] == 9 and _fc["C"] == [10, 20, 50, 100, 200, 500, 1000]
+        and all(_fg["best_pp"][m_] == _bestpp(m_) for m_ in _fg["best_pp"]) and _fg["metric"]["dinov2_l"] == "cos" and len(_fg["best_pp"]) == 10
+        and "\\section{Limitations beyond Section" in app_f and app_f.count("\\paragraph{Limitations") == 2
+        and all(("\\ref{fig:" + f_ + "}") in seg(app_f, "\\subsection{How to read this appendix}", "\\FloatBarrier") for f_ in ("budget", "classcount", "power", "ceiling", "gains"))
+        and "\\ref{tab:q8-robust-c}" not in TF and "\\ref{tab:q2-text-c}" not in TF,
+        f"uncited tables kept {_keptun}")
     # ---- main-text completeness (author's brief, 2026-09-24, night): four sentences, every number against its file
     _slc = pd.read_csv(R/"expR62_samplelevel_record.csv"); _a3c = pd.read_csv(R/"exp3_alignment.csv").set_index("model").spearman_wn
     def _wnr(p_, n_):
@@ -1450,7 +1471,7 @@ def final_checks():
     _pre_f = TF[:TF.index("\\begin{document}")]; _sty_f = (TEX/"iclr2027_conference.sty").read_text()
     _s6_f = seg(bf, "\\section{Implications for Hyperbolic Representation Learning}", "\\section{Conclusion and Limitations}")
     _lim_f = bf[bf.index("\\paragraph{Limitations.}"):]   # bf ends at the Reproducibility Statement
-    _limapp = seg(TF, "\\section{Limitations in full}", "\\section{Detail from the main text}")
+    _limapp = seg(TF, "\\section{Limitations beyond Section~\\ref{sec:discussion}}", "\\section{Detail from the main text}")
     _detapp = seg(TF, "\\section{Detail from the main text}", "\\renewcommand{\\topfraction}")
     chk("final (template compliance, 2026-09-24): the preamble has no display-skip block and no textfloatsep, abovecaptionskip, floatsep, linespread or global parskip override, and the main text no \\raggedbottom, so the style's \\parskip .5pc, \\parindent 0 and \\flushbottom apply; S7 keeps seven limitations (the Euclidean test, the text probe and the correlational link joined the four of the compliance pass) with the full ten in Appendix~\\ref{app:limits}; the eight moved paragraphs in Appendix~\\ref{app:detail}; S6 in one paragraph; the only \\vspace is the author's before the Figure 1 caption",
         all(w not in _pre_f for w in ("g@addto@macro", "abovedisplayskip", "\\textfloatsep", "\\abovecaptionskip", "\\floatsep", "\\linespread"))
@@ -1461,11 +1482,11 @@ def final_checks():
         and [_lim_f.count("(%s)~" % r) for r in ("i", "ii", "iii", "iv", "v", "vi", "vii", "viii")] == [1, 1, 1, 1, 1, 1, 1, 0]
         and "The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative." in bf and "The text census depends on the probe: template and batching move the reading, so verdicts at the margin are fragile." in bf
         and "The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label ViTs." in bf
-        and "Appendix~\\ref{app:limits} gives the full list." in _lim_f and "\\label{app:limits}" in TF and "\\label{app:detail}" in TF
-        and all(("(%s)~" % r) in _limapp for r in ("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"))
-        and _s6_f.count("\\paragraph{") == 1 and _detapp.count("\\paragraph{") == 8
+        and "Appendix~\\ref{app:limits} gives the rest." in _lim_f and "\\label{app:limits}" in TF and "\\label{app:detail}" in TF
+        and [_limapp.count("(%s)~" % r) for r in ("i", "ii", "iii", "iv", "v")] == [1, 1, 1, 1, 0]
+        and _s6_f.count("\\paragraph{") == 1 and _detapp.count("\\paragraph{") == 4
         and f"The verdict of no hub hierarchy holds only in the {len(cov)} of 12 backbones where the decoupled control detects a planted hierarchy." in bf
-        and all(w in _detapp for w in ("FMNIST is genuine in", "Neural collapse predicts", "Only ViT-B and ViT-L are certified under every frame.", "MERU embeds images on the Lorentz hyperboloid", "Supervision deepens the resemblance on average", "GPT-2 S is genuine at the margin", "fixed-radius Euclidean encoder")),
+        and all(w in _detapp for w in ("FMNIST is genuine in", "Neural collapse predicts", "Only ViT-B and ViT-L are certified under every frame.", "fixed-radius Euclidean encoder")),
         f"limitations in S7 {[_lim_f.count('(%s)~' % r) for r in ('i', 'ii', 'iii', 'iv', 'v')]}; moved paragraphs {_detapp.count(chr(92) + chr(92) + 'paragraph{')}")
     # ---- numeral rule (2026-09-23): counts of models, cells, seeds and runs are numerals with their denominator; words only for descriptive quantities
     WORDS = r"\b(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|sixty|sixty-six|two hundred)\b\s+(?:other\s+)?(?:certified |real |blind |supervised |self-supervised |leaf-label |covered |vision |text |ImageNet |decoupled |intact )?(?:backbones?|models?|cells?|seeds?|runs?|replicates?|datasets?|class sets?|classes|superclasses|coarse labels|star seeds|resamples|model pairs|controls?|ResNets|ViTs|sizes|sentence embedders|values|verdicts|centroid clouds|rows)\b"
@@ -1495,7 +1516,7 @@ def final_checks():
         and len(over30_all) == 0, f"over 30: {[(w_, s_[:50]) for w_, s_ in over30_all[:5]]}")
     chk("final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row",
         not _re.search(r"\(([+-]\d\.\d)\)", dep) and not _re.search(r"\$[+-]\d\.\d\$", dep) and "$K{=}10$" in dep and "$K{=}60$" in dep and "supremum, Haar" in wn and "supremum, Gaussian" not in wn
-        and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in rob and rob.count("DINOv2-L & ") >= 5)
+        and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in app_f and _j.load(open(R/"final_fig_classcount.json"))["C"] == [10, 20, 50, 100, 200, 500, 1000] and rob.count("DINOv2-L & ") >= 2)
     alltex = nocom(TF) + "".join(nocom((FD/(s + ".tex")).read_text()) for s in inputs) + nocom(open(TEX/"tab_census_final.tex").read()) + nocom(open(TEX/"tab_khrulkov_final.tex").read())
     refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
     chk("final: every cross-reference of the final resolves", refs <= defs, str(sorted(refs - defs)))

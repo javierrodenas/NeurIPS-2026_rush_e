@@ -117,7 +117,7 @@ For a quadruple $(w,x,y,z)$ with the pairing sums of Eq.~\ref{eq:pairings} sorte
 \subsection{Estimation and normalization}
 \label{sec:f-estimation}
 
-Three steps turn $\delta$ into a number that can be compared across models. First, a thousand centroids have far more quadruples than can be enumerated, so the defect is computed on half a million random quadruples. Second, the largest defect in that sample is a poor estimate of the supremum: it belongs to a single extreme quadruple and keeps growing as more quadruples are drawn \citep{fournier2015computing}. We therefore read the 99.9th percentile of the sampled defects, $\hat\delta_{99.9}$, the value that 99.9 per cent of them fall below. It keeps the tail of the defects, as the supremum does, but it is set by hundreds of quadruples rather than by one. It also does not move with the sample size: across quadruple budgets the ImageNet reading drifts by less than half its own spread (Table~\ref{tab:q8-robust}). Third, the defect grows with the size of the point set, so we divide by the diameter, the largest pairwise distance:
+Three steps turn $\delta$ into a number that can be compared across models. First, a thousand centroids have far more quadruples than can be enumerated, so the defect is computed on half a million random quadruples. Second, the largest defect in that sample is a poor estimate of the supremum: it belongs to a single extreme quadruple and keeps growing as more quadruples are drawn \citep{fournier2015computing}. We therefore read the 99.9th percentile of the sampled defects, $\hat\delta_{99.9}$, the value that 99.9 per cent of them fall below. It keeps the tail of the defects, as the supremum does, but it is set by hundreds of quadruples rather than by one. It also does not move with the sample size: across quadruple budgets the ImageNet reading drifts by less than half its own spread (Figure~\ref{fig:budget}). Third, the defect grows with the size of the point set, so we divide by the diameter, the largest pairwise distance:
 \begin{equation}
 \delta_{\text{norm}}=\frac{\hat\delta_{99.9}}{\mathrm{diam}}.
 \label{eq:deltanorm}
@@ -276,7 +276,7 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 
 \paragraph{A trained hierarchy survives, and the decoupled test leans toward firing.} ViT-B fine-tuned with a hierarchical cross-entropy keeps firing once decoupled in 20 of 20 runs over 2 seeds, mean $z$ $-2.51$, on the WordNet frame. The leaf-only fine-tune fires in 6 of 20, mean $z$ $-1.37$, and the frozen checkpoint in none. Fine-tuning itself adds some decoupled signal and the hierarchical objective adds more, so the trained control separates the objectives by degree. A flat control with the same spectrum and ratio as the deep one fires in 0 of 5 intact and in 8 of 50 decoupled runs. The decoupled test is therefore biased toward firing, so the 4 real backbones not firing once decoupled is conservative evidence. The synthetic hierarchy at $z$ $-4.19$ to $-4.82$ stands well clear of that bias. On the balanced frame the matched flat control fires in 0 of 50 decoupled runs. Tables~\ref{tab:q5-power-d} and \ref{tab:q4-depth-d} give the runs. % expR77_positive_control.csv, expR77_positive_control_verdict.json, expR79_synthetic_deep_poincare.csv, expR83_flat_balanced_summary.csv
 
-\paragraph{No hub hierarchy is found where the test has power.} In those 9 backbones, none as strong as the planted one is found. The decoupling separates structure among the hubs of the frame from structure carried by cluster orientations. A hierarchy below the frame expressed in how clusters open would be removed with the orientations and counted as alignment. No hub hierarchy therefore means no hierarchy among the frame's hubs. Figure~\ref{fig:implant} and Table~\ref{tab:q5-power-e} give the detection rates and the power. % expR81_deep_per_backbone_summary.csv, final_wordnet_levels.json, expR64b_wn30.csv
+\paragraph{No hub hierarchy is found where the test has power.} In those 9 backbones, none as strong as the planted one is found. The decoupling separates structure among the hubs of the frame from structure carried by cluster orientations. A hierarchy below the frame expressed in how clusters open would be removed with the orientations and counted as alignment. No hub hierarchy therefore means no hierarchy among the frame's hubs. Figures~\ref{fig:implant} and \ref{fig:power} give the detection rates and the power. % expR81_deep_per_backbone_summary.csv, final_wordnet_levels.json, expR64b_wn30.csv
 
 \paragraph{The certified set depends on the frame.} Rerun under a balanced grouping into superclasses, the balanced frame, ViT-T joins the certified set and ViT-S and DINOv2-L leave it; other WordNet cuts change the set again (Table~\ref{tab:q4-depth}). % expR56_depth_variants.csv, expR64b_wn30bal_summary.csv
 
@@ -297,7 +297,7 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 
 \paragraph{The naive map manufactures an island.} Figure~\ref{fig:treemap} compares the trees of the 12 models in three ways. Panel (a) compares them as usually done, (b) under the criterion of Section~\ref{sec:f-treemap} against the within-model ceiling, and (c) by whether classes are grouped by direction or by distance. Compared with Euclidean distances and average linkage, the DINOv2 models then agree with none of the others, an island in the map of models. They agree with the 7 supervised and contrastive models far less than those 7 agree among themselves (DINO-B is not part of the island). The cause is chaining: DINOv2's Euclidean dendrograms put almost every class in one cluster, forcing the index to zero. % exp23_treemap_controls.npz, exp23_config_diagnostics.json
 
-\paragraph{Controlled, the trees share their topology, not their metric.} Across models, triplet agreement reaches 0.77, against 0.90 for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach about half their within-model ceiling (Tables~\ref{tab:q6-treemap-b} and \ref{tab:q6-treemap-c}). Calibrated local agreement across models survives, as \citet{groger2026aristotelian} find for similarity (Table~\ref{tab:q13-local}). % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling_summary.csv, exp21b_local_global_K200.csv
+\paragraph{Controlled, the trees share their topology, not their metric.} Across models, triplet agreement reaches 0.77, against 0.90 for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach about half their within-model ceiling (Table~\ref{tab:q6-treemap-b} and Figure~\ref{fig:ceiling}). Calibrated local agreement across models survives, as \citet{groger2026aristotelian} find for similarity (Table~\ref{tab:q13-local}). % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling_summary.csv, exp21b_local_global_K200.csv
 
 \paragraph{The self-supervised tree is angular.} Sibling triplets were resolved under cosine and under Euclidean distance: DINOv2 resolves them far better under cosine, so its semantics concentrate in the angular component and its Euclidean dendrograms chain. Repeated on cosine geometry, the census agrees with the Euclidean one in most cells, and DINOv2 on ImageNet is genuine, more than chance would give, under both. Figure~\ref{fig:treemap}c shows the triplets and Table~\ref{tab:q1-census-c} gives the cosine census. % exp10_local_vs_global.csv, expR57_census_cosine_haar_p999_200.csv
 
@@ -321,7 +321,7 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 
 \paragraph{Conclusion.} Read correctly, foundation models organize classes into clusters that they partly share, show no hierarchy among the superclasses where the test can see one, and their raw tree-likeness is not evidence for hyperbolic geometry. Curvature should be measured rather than assumed. Cosine collects most of what is there.
 
-\paragraph{Limitations.} (i)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess does not exclude hierarchy carried by the spectrum. (ii)~The hierarchy test's power follows the backbone. The verdict of no hub hierarchy holds only in the 9 of 12 backbones where the decoupled control detects a planted hierarchy. (iii)~The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative. (iv)~The text census depends on the probe: template and batching move the reading, so verdicts at the margin are fragile. (v)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work. (vi)~The census is class-centroid geometry on 6 datasets, and the sample-level reading covers 2 datasets, one image budget and one published setting. (vii)~The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label ViTs. Appendix~\ref{app:limits} gives the full list. % expR47_extraction_variance.csv, expR49_template_nulls_bs1.csv, expR81_deep_per_backbone_summary.csv
+\paragraph{Limitations.} (i)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess does not exclude hierarchy carried by the spectrum. (ii)~The hierarchy test's power follows the backbone. The verdict of no hub hierarchy holds only in the 9 of 12 backbones where the decoupled control detects a planted hierarchy. (iii)~The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative. (iv)~The text census depends on the probe: template and batching move the reading, so verdicts at the margin are fragile. (v)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work. (vi)~The census is class-centroid geometry on 6 datasets, and the sample-level reading covers 2 datasets, one image budget and one published setting. (vii)~The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label ViTs. Appendix~\ref{app:limits} gives the rest. % expR47_extraction_variance.csv, expR49_template_nulls_bs1.csv, expR81_deep_per_backbone_summary.csv
 
 \subsubsection*{Reproducibility Statement}
 Every number in the paper is annotated in the source with the result file that produces it, and all tables are generated by script from those files (Table~\ref{tab:provenance}). The full pipeline with fixed seeds will be released in the anonymized repository (\texttt{TODO(author)}). Its \texttt{tool/} directory ships the instrument as one script that reproduces any cell of Table~\ref{tab:census} from its centroid matrix. Estimator settings are stated in Section~\ref{sec:f-setup} and the model panel in Table~\ref{tab:q14-panel}.
@@ -347,33 +347,25 @@ In this work, we used generative AI tools for writing assistance; for the retrie
 (b) Let $x_1,\dots,x_n$ be iid standard Gaussian in $\mathbb{R}^d$ with $n$ fixed. For any pair $i\ne j$ the coordinates of $x_i-x_j$ are iid with variance $2$, so $\|x_i-x_j\|^2/(2d)\to1$ almost surely as $d\to\infty$ by the law of large numbers, and the convergence holds jointly over the finitely many pairs. Therefore $d_{\min}/d_{\max}\to1$, and by part (a) $\delta_{\text{norm}}\to0$. The rate is the distance-concentration rate of \citet{beyer1999nearest} and \citet{aggarwal2001surprising}: the relative contrast $(d_{\max}-d_{\min})/d_{\min}$ vanishes as $d^{-1/2}$. Part (b) is the dimension confound alone. The statistic confound is separate and elementary: a maximum over a growing sample of quadruples is non-decreasing in the sample size, so the sampled supremum can only rise with the budget.
 \end{proof}
 
-\section{Limitations in full}
+\section{Limitations beyond Section~\ref{sec:discussion}}
 \label{app:limits}
 
-The four limitations that bear most on the claims are in Section~\ref{sec:discussion}. This is the full list, the instrument first and the scope second.
+Section~\ref{sec:discussion} carries the seven limitations that bear most on the claims. These are the rest.
 
-\paragraph{Limitations of the instrument.} (i)~The excess certifies structure beyond second moments, star-like clustering included, so depth needs the separate test. (ii)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess does not exclude hierarchy carried by the spectrum. (iii)~The hierarchy test's power for a three-level hierarchy follows the backbone rather than its within/between ratio or family. Under the decoupled control it is 0.83 or more in 9 of 12 backbones and 0.60 or less in the other 3. Its false alarms on flat clouds are 8 of 50, and the verdict of no hub hierarchy therefore holds in those 9 only. It misses a planted two-level tree at this noise level, its decoupled form is biased toward firing, and it tests hierarchy among the frame's hubs only. Its trained control separates the objectives by degree, not absolutely: the leaf-only fine-tune also fires once decoupled, in 6 of 20 runs. A pre-set criterion expecting no intact certification of the leaf and frozen models was not met, because they are aligned. The alignment is not the radial spread of feature norms, which a control removes without changing the verdicts; full L2 normalization keeps it in 2 of the 4 backbones. Its exact form is not resolved here. (iv)~The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative. (v)~A causal LM's class representation depends on the extraction protocol as much as on the model. (vi)~The analysis rests on many choices, frames, stars and null variants among them, and a single pre-specified analysis is future work. (vii)~The reading divides by the diameter, so heavier tails in real clouds would lower $\delta_{\text{norm}}$ without any clustering. The cosine census mitigates this, and a percentile normalization is future work. % expR80_implanted_alignment.csv, expR79_synthetic_deep_poincare.csv, expR81_deep_per_backbone_summary.csv
+\paragraph{Limitations of the instrument.} (i)~The excess certifies structure beyond second moments, star-like clustering included, so depth needs the separate test. (ii)~The hierarchy test's power for a three-level hierarchy follows the backbone rather than its within/between ratio or family. Under the decoupled control it is 0.83 or more in 9 of 12 backbones and 0.60 or less in the other 3. Its false alarms on flat clouds are 8 of 50, and the verdict of no hub hierarchy therefore holds in those 9 only. It misses a planted two-level tree at this noise level, its decoupled form is biased toward firing, and it tests hierarchy among the frame's hubs only. Its trained control separates the objectives by degree, not absolutely: the leaf-only fine-tune also fires once decoupled, in 6 of 20 runs. A pre-set criterion expecting no intact certification of the leaf and frozen models was not met, because they are aligned. The alignment is not the radial spread of feature norms, which a control removes without changing the verdicts; full L2 normalization keeps it in 2 of the 4 backbones. Its exact form is not resolved here. (iii)~The reading divides by the diameter, so heavier tails in real clouds would lower $\delta_{\text{norm}}$ without any clustering. The cosine census mitigates this, and a percentile normalization is future work. % expR80_implanted_alignment.csv, expR79_synthetic_deep_poincare.csv, expR81_deep_per_backbone_summary.csv
 
-\paragraph{Limitations of scope.} (viii)~The census is class-centroid geometry on 6 datasets, and the sample-level reading covers 2 datasets, one image budget and one published setting. (ix)~The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label ViTs. (x)~Downstream scope is prototype-based metric tasks with modest gains.
+\paragraph{Limitations of scope.} (iv)~Downstream scope is prototype-based metric tasks with modest gains. % 
 
 \section{Detail from the main text}
 \label{app:detail}
 
-These paragraphs carry the detail of the results whose headline is in Sections~\ref{sec:f-class} to \ref{sec:practice}, in the order the main text reads them.
+These paragraphs carry the detail behind four sentences of Sections~\ref{sec:f-class} to \ref{sec:practice}, in the order the main text reads them.
 
-\paragraph{The structure depends on the class set more than on the model.} The smallest backbone is genuine on one dataset only, and the flat datasets have smaller and less consistent excesses; FMNIST is genuine in 5 of 12 backbones. A class-count control shows that the excess shrinks with the number of classes, so only the verdict carries across datasets. Tables~\ref{tab:q1-census} and \ref{tab:q8-robust-c} give the details. % expR52_census_haar_p999_200.csv, expR60_c_sweep_record.csv, expR45_convnet_rows.csv
+\paragraph{The structure depends on the class set more than on the model.} The smallest backbone is genuine on one dataset only, and the flat datasets have smaller and less consistent excesses; FMNIST is genuine in 5 of 12 backbones. A class-count control shows that the excess shrinks with the number of classes, so only the verdict carries across datasets. Table~\ref{tab:q1-census-b} and Figure~\ref{fig:classcount} give the details. % expR52_census_haar_p999_200.csv, expR60_c_sweep_record.csv, expR45_convnet_rows.csv
 
 \paragraph{Neural collapse is the flat limit, not what the census sees.} Neural collapse predicts that supervised class means converge to a simplex frame \citep{papyan2020prevalence}, a star with no hierarchy. The census does not certify that frame: class means cluster around superclass hubs, which the superclass recovery of Section~\ref{sec:content} shows. % expR52_census_haar_p999_200.csv, analysis4_finetuning.csv, e1_delta_by_layer.csv
 
 \paragraph{The certified set under other frames.} Only ViT-B and ViT-L are certified under every frame. A flat cloud clustered under the WordNet frame fires under the balanced frame in 38 of 50 decoupled runs. A real cloud read under a frame that is not its own is therefore expected to fire. The frozen ViT-B firing in 7 of 10 there is consistent with that mismatch and is not evidence of hub structure. % expR64b_wn30bal_summary.csv, expR77_positive_control.csv, expR83_flat_balanced_summary.csv
-
-\paragraph{Leaf labels and the recipe.} The augreg ViT-B agrees with WordNet like the ImageNet-21k ViTs, and DeiT-B, trained on the same labels with another recipe, does not. A hierarchical label set therefore does not explain the certified ViTs' alignment. % expR70_inet1k_supervised.csv
-
-\paragraph{MERU and its Euclidean twin.} MERU embeds images on the Lorentz hyperboloid with an entailment objective, and its Euclidean twin shares backbone, data and recipe \citep{desai2023meru}. Read with the census and the hierarchy test, MERU shows the same clustering as its twin, and no hub structure is detected. The test's power at MERU's spectrum, however, was not measured. Its embeddings stay in the near-flat regime, 95 per cent of them within 0.29 of the curvature scale. Table~\ref{tab:q4-depth-c} gives the readings and the radii. % expR63_meru_record.csv, expR71_meru_radii.csv
-
-\paragraph{The text census model by model.} GPT-2 S is genuine at the margin and GPT-2 M is not, while GPT-2 L and XL, Pythia at every scale and OLMo-1B are genuine under every reading. % expR53_text_haar_p999_200.csv, expR53_text_haar_sup_200.csv, expR57_text_cosine_haar_p999_200.csv
-
-\paragraph{WordNet, DBpedia and HierarCaps.} Supervision deepens the resemblance on average, and DeiT-B shows that the effect is recipe-dependent. On DBpedia Classes the three text embedders recover the true partition under every configuration. Tables~\ref{tab:q7-wordnet-c} and \ref{tab:q7-wordnet-d} give both readings. % exp3_alignment.csv, expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
 
 \paragraph{The zero-cost readout.} In few-shot learning a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \citep{moreira2024hyperbolic} (Table~\ref{tab:q9-corollary}). % exp2b_normalized_stack.csv, exp24_val_metric_selection.csv
 
@@ -387,21 +379,21 @@ Every table is generated by script from the released per-cell result files, and 
 \subsection{How to read this appendix}
 \label{app:howto}
 One question per subsection, in the order the main text first cites them, with a plain paragraph saying what the group answers.
-Each table then carries its own caption: the answer in bold, then what the columns are.
+Each table and figure then carries its own caption: the answer in bold, then what the columns or the axes are.
 
 \begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item Is the reading robust to our choices? Tables~\ref{tab:q8-robust}--\ref{tab:q8-robust-d}: the excess under the quadruple budget, resampling and the class count.
 \item Is a low raw reading evidence? Tables~\ref{tab:q10-calibration} and \ref{tab:q10-calibration-b}: known geometries and synthetic clusters read on the same scale.
-\item Is the structure beyond the second moments genuine? Tables~\ref{tab:q1-census}--\ref{tab:q1-census-d}: the vision census, per cell and per construction.
+\item Is the structure beyond the second moments genuine? Tables~\ref{tab:census}, \ref{tab:q1-census-b} and \ref{tab:q1-census-c}: the census per backbone, under every construction of the null and on cosine geometry.
 \item Which models, and how were they read? Table~\ref{tab:q14-panel}: the model panel and the extraction.
-\item Is text the same? Tables~\ref{tab:q2-text} and \ref{tab:q2-text-c}: the census on the thousand ImageNet class names, and the extraction.
-\item Does the premise survive where it is read? Table~\ref{tab:q3-sample}: the census on per-image features.
+\item Is text the same? Table~\ref{tab:q2-text}: the census on the thousand ImageNet class names.
+\item Does the premise survive where it is read? Tables~\ref{tab:khrulkov} and \ref{tab:q3-sample} and Figure~\ref{fig:samereading}: the published reading reproduced and calibrated, the census on per-image features, and two cells with the same reading and opposite verdicts.
+\item Is the reading robust to our choices? Figures~\ref{fig:budget} and \ref{fig:classcount} and Table~\ref{tab:q8-robust-b}: the excess under the quadruple budget, under the class count and under resampling.
 \item Is the structure deeper than a star? Tables~\ref{tab:q4-depth}--\ref{tab:q4-depth-e}: the hierarchy test and its controls.
-\item How much can the test see? Tables~\ref{tab:q5-power}--\ref{tab:q5-power-f}: power against planted hierarchies and false alarms on flat clouds.
-\item Is the island real? Tables~\ref{tab:q6-treemap}--\ref{tab:q6-treemap-c}: the tree map under every admissible configuration, against the within-model ceiling.
-\item Whose taxonomy? Tables~\ref{tab:q7-wordnet}--\ref{tab:q7-wordnet-d}: agreement with WordNet, superclass recovery, an independent ontology and a caption hierarchy.
+\item How much can the test see? Figures~\ref{fig:implant} and \ref{fig:power} and Tables~\ref{tab:q5-power}--\ref{tab:q5-power-f}: power against planted hierarchies and false alarms on flat clouds.
+\item Is the island real? Table~\ref{tab:q6-treemap-b} and Figure~\ref{fig:ceiling}: the three agreement measures and every tree against its own ceiling.
 \item Is local structure shared? Table~\ref{tab:q13-local}: permutation-calibrated agreement across model pairs.
-\item What follows for practice? Tables~\ref{tab:q9-corollary}--\ref{tab:q9-corollary-d}: accuracies, zero-cost gains and what predicts them.
+\item Whose taxonomy? Tables~\ref{tab:q7-wordnet}, \ref{tab:q7-wordnet-c} and \ref{tab:q7-wordnet-d}: agreement with WordNet, an independent ontology and a caption hierarchy.
+\item What follows for practice? Tables~\ref{tab:q9-corollary}, \ref{tab:q9-corollary-b} and \ref{tab:q9-corollary-d} and Figure~\ref{fig:gains}: accuracies, what predicts the gain, and the gain per backbone.
 \item Where does every number come from? Table~\ref{tab:provenance}: the result file behind each table.
 \end{itemize}
 
@@ -420,14 +412,6 @@ Each table then carries its own caption: the answer in bold, then what the colum
 \item \emph{w/b}: the within-cluster spread of a cloud divided by the spread between its hubs, which is how quiet a cloud is. \emph{tight} or \emph{shrunk spread}: the within-cluster spread shrunk into the range the synthetic sweep covers.
 \item \emph{$s^{*}$}: the smallest planted-tree strength at which the test fires. \emph{$\bar z_1$}: the mean $z$ at full planted-tree strength.
 \end{itemize}
-
-\FloatBarrier
-\subsection{Is the reading robust? Quadruple budget, null construction, resampling and class count}
-\label{app:robust}
-\label{app:csweep}
-
-\paragraph{What this table answers.} Three choices could have made the reading look structured: how many quadruples we sample, which images stand behind each centroid, and how many classes a cell has. Each table varies one of them and reads the same cells again. The verdicts move only where the excess was already at the edge of the null.
-\input{appendix_tables/final/tab_q08_robust_final}
 
 \FloatBarrier
 \subsection{Is a low raw reading evidence? Calibration on reference geometries and synthetic clusters}
@@ -474,6 +458,28 @@ Each table then carries its own caption: the answer in bold, then what the colum
 \input{appendix_tables/final/tab_q03_sample_final}
 
 \FloatBarrier
+\subsection{Is the reading robust? Quadruple budget, resampling and class count}
+\label{app:robust}
+\label{app:csweep}
+
+\paragraph{What this table answers.} Three choices could have made the reading look structured: how many quadruples we sample, which images stand behind each centroid, and how many classes a cell has. Each is varied in turn and the same cells are read again. The verdicts move only where the excess was already at the edge of the null.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig_budget_final.pdf}
+\caption{\textbf{The reading does not move with the quadruple budget.} Excess against the number of sampled quadruples per seed, one line per cell: 3 backbones on ImageNet, CIFAR-100 and DTD. % expR72_budget_record.csv
+}
+\label{fig:budget}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig_classcount_final.pdf}
+\caption{\textbf{The excess shrinks with the number of classes.} Excess against the size of the ImageNet subset, drawn at random or as WordNet siblings, averaged over 5 seeds, for 3 backbones. % expR60_c_sweep_record.csv
+}
+\label{fig:classcount}
+\end{figure}
+\input{appendix_tables/final/tab_q08_robust_final}
+
+\FloatBarrier
 \subsection{Is the structure deeper than a star? The hierarchy test}
 \label{app:depth}
 
@@ -491,13 +497,27 @@ Each table then carries its own caption: the answer in bold, then what the colum
 }
 \label{fig:implant}
 \end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig_power_final.pdf}
+\caption{\textbf{The power follows the backbone, not the noise level of its cloud.} Power against the within/between spread per backbone, intact (hollow) and decoupled (filled); dashed: power 0.8. % expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv
+}
+\label{fig:power}
+\end{figure}
 \input{appendix_tables/final/tab_q05_power_final}
 
 \FloatBarrier
-\subsection{Is the island real? The tree map under six configurations}
+\subsection{Is the island real? The tree map and the within-model ceiling}
 \label{app:treemap}
 
 \paragraph{What this table answers.} Trees of different models are compared as objects, without labels. The comparison depends on the cut, so the first table gives the diagnostics of every admissible configuration and the criterion that selects one. The last table reads two resamples of the same model, which is the ceiling any cross-model agreement can reach.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/fig_ceiling_final.pdf}
+\caption{\textbf{Every tree stays under its own ceiling and well above chance.} Per backbone: triplet agreement with the other 11 (dot) against the band of its own bootstrap copies, worst to mean. % expR84_tree_ceiling_summary.csv, expR58_treemap_cutfree.csv
+}
+\label{fig:ceiling}
+\end{figure}
 \input{appendix_tables/final/tab_q06_treemap}
 
 \FloatBarrier
@@ -519,6 +539,13 @@ Each table then carries its own caption: the answer in bold, then what the colum
 \label{app:familycorr}
 
 \paragraph{What this table answers.} The instrument certifies structure; this table asks what it buys downstream. Accuracies and zero-cost gains are read per cell, then correlated with the raw reading, with the calibrated one and with the hierarchy verdict. The gains are modest and limited to prototype tasks.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/fig_gains_final.pdf}
+\caption{\textbf{The zero-cost advantage is small and largest for the self-supervised models.} Best few-shot advantage over the Euclidean readout per backbone, averaged over the 4 hierarchical datasets, with the metric that collects it. % exp2_metric_controls.csv
+}
+\label{fig:gains}
+\end{figure}
 \input{appendix_tables/final/tab_q09_corollary}
 
 \FloatBarrier

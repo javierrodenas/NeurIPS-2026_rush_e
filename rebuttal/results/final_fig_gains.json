@@ -1,0 +1,32 @@
+{
+ "best_pp": {
+  "i21k_t": 0.58,
+  "i21k_s": 0.49,
+  "i21k_b": 0.51,
+  "i21k_l": 0.87,
+  "dinov2_s": 0.68,
+  "dinov2_b": 1.17,
+  "dinov2_l": 1.84,
+  "dinov2_g": 2.54,
+  "clip_b": 0.67,
+  "clip_l": 0.65
+ },
+ "metric": {
+  "i21k_t": "either",
+  "i21k_s": "either",
+  "i21k_b": "either",
+  "i21k_l": "either",
+  "dinov2_s": "H",
+  "dinov2_b": "cos",
+  "dinov2_l": "cos",
+  "dinov2_g": "cos",
+  "clip_b": "H",
+  "clip_l": "H"
+ },
+ "datasets": [
+  "imagenet",
+  "cifar100",
+  "cifar10",
+  "dtd"
+ ]
+}

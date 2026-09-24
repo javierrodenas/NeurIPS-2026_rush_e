@@ -128,35 +128,6 @@ FS best$-$R & ImageNet & $-0.64$ -- & $-0.71$ & $-0.57$ & $-0.90$ & (-1) \\
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\footnotesize
-\setlength{\tabcolsep}{5pt}
-\begin{tabular}{lcc}
-\toprule
-model & best$-$R (pp) & metric \\
-\midrule
-ViT-T & $+0.58$ & either \\
-ViT-S & $+0.49$ & either \\
-ViT-B & $+0.51$ & either \\
-ViT-L & $+0.87$ & either \\
-DINOv2-S & $+0.68$ & H \\
-DINOv2-B & $+1.17$ & cos \\
-DINOv2-L & $+1.84$ & cos \\
-DINOv2-G & $+2.54$ & cos \\
-CLIP-B & $+0.67$ & H \\
-CLIP-L & $+0.65$ & H \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{Cosine collects the gain for the self-supervised models.} Per backbone: the best zero-cost advantage over the Euclidean readout, averaged over the hierarchical datasets, and which metric collects it.
-}
-\label{tab:q9-corollary-c}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.6pt}
-\begingroup
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{llcc|cc|c}
 \toprule

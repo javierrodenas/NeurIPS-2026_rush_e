@@ -107,6 +107,8 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
 ,
          # main text without tables (author's brief, 2026-09-24): the S1 mirror of S5.1 points at the new figure
          ("2 of them are indistinguishable from a random cloud.", "2 of them are indistinguishable from a random cloud (Figure~\\ref{fig:premise})."),   # main text without tables (2026-09-24): the S1 mirror points at the new figure
+         # appendix reduction (2026-09-24): the budget table became a figure, so the S3.2 reference follows it
+         ("drifts by less than half its own spread (Table~\\ref{tab:q8-robust})", "drifts by less than half its own spread (Figure~\\ref{fig:budget})"),
 ]
 def edit(s):
     for a, b in EDITS:
@@ -286,7 +288,7 @@ left = re.findall(r"\{\{[A-Z0-9_]+\}\}", body); assert not left, left
 # ---- appendix cleanup (2026-09-23): one plain-language paragraph of 2-4 sentences before each table; every explanatory sentence of
 # the old captions and of the v1 prose that is not a claim of the main text is dropped (listed in the CHANGELOG).
 INTRO = {
- "tab_q08_robust": r"\paragraph{What this table answers.} Three choices could have made the reading look structured: how many quadruples we sample, which images stand behind each centroid, and how many classes a cell has. Each table varies one of them and reads the same cells again. The verdicts move only where the excess was already at the edge of the null.",
+ "tab_q08_robust": r"\paragraph{What this table answers.} Three choices could have made the reading look structured: how many quadruples we sample, which images stand behind each centroid, and how many classes a cell has. Each is varied in turn and the same cells are read again. The verdicts move only where the excess was already at the edge of the null.",
  "tab_q10_calibration": r"\paragraph{What this table answers.} A raw reading means nothing until something known is read on the same scale. The first table reads geometries whose answer we know in advance, a tree, a hyperbolic region and a sphere. The second reads clouds we built ourselves, clusters with and without a hierarchy above them, against each null in turn.",
  "tab_q01_census": r"\paragraph{What this table answers.} This is the census itself, one row per model and class set. The first table gives the reading used in the paper, the second repeats the verdict under other constructions of the null and of the statistic, and the third repeats the census on cosine geometry. A cell is genuine when its excess survives the correction across cells.",
  "tab_q14_panel": r"\paragraph{What this table answers.} Every model named anywhere in the paper appears here once, with its size and its role: census, control or text. The notes below the table say how features are taken from each kind of model, which is part of the measurement rather than a detail of implementation.",
@@ -303,21 +305,21 @@ INTRO = {
 HOWTO = r"""\subsection{How to read this appendix}
 \label{app:howto}
 One question per subsection, in the order the main text first cites them, with a plain paragraph saying what the group answers.
-Each table then carries its own caption: the answer in bold, then what the columns are.
+Each table and figure then carries its own caption: the answer in bold, then what the columns or the axes are.
 
 \begin{itemize}[topsep=2pt,itemsep=1pt,leftmargin=*]
-\item Is the reading robust to our choices? Tables~\ref{tab:q8-robust}--\ref{tab:q8-robust-d}: the excess under the quadruple budget, resampling and the class count.
 \item Is a low raw reading evidence? Tables~\ref{tab:q10-calibration} and \ref{tab:q10-calibration-b}: known geometries and synthetic clusters read on the same scale.
-\item Is the structure beyond the second moments genuine? Tables~\ref{tab:q1-census}--\ref{tab:q1-census-d}: the vision census, per cell and per construction.
+\item Is the structure beyond the second moments genuine? Tables~\ref{tab:census}, \ref{tab:q1-census-b} and \ref{tab:q1-census-c}: the census per backbone, under every construction of the null and on cosine geometry.
 \item Which models, and how were they read? Table~\ref{tab:q14-panel}: the model panel and the extraction.
-\item Is text the same? Tables~\ref{tab:q2-text} and \ref{tab:q2-text-c}: the census on the thousand ImageNet class names, and the extraction.
-\item Does the premise survive where it is read? Table~\ref{tab:q3-sample}: the census on per-image features.
+\item Is text the same? Table~\ref{tab:q2-text}: the census on the thousand ImageNet class names.
+\item Does the premise survive where it is read? Tables~\ref{tab:khrulkov} and \ref{tab:q3-sample} and Figure~\ref{fig:samereading}: the published reading reproduced and calibrated, the census on per-image features, and two cells with the same reading and opposite verdicts.
+\item Is the reading robust to our choices? Figures~\ref{fig:budget} and \ref{fig:classcount} and Table~\ref{tab:q8-robust-b}: the excess under the quadruple budget, under the class count and under resampling.
 \item Is the structure deeper than a star? Tables~\ref{tab:q4-depth}--\ref{tab:q4-depth-e}: the hierarchy test and its controls.
-\item How much can the test see? Tables~\ref{tab:q5-power}--\ref{tab:q5-power-f}: power against planted hierarchies and false alarms on flat clouds.
-\item Is the island real? Tables~\ref{tab:q6-treemap}--\ref{tab:q6-treemap-c}: the tree map under every admissible configuration, against the within-model ceiling.
-\item Whose taxonomy? Tables~\ref{tab:q7-wordnet}--\ref{tab:q7-wordnet-d}: agreement with WordNet, superclass recovery, an independent ontology and a caption hierarchy.
+\item How much can the test see? Figures~\ref{fig:implant} and \ref{fig:power} and Tables~\ref{tab:q5-power}--\ref{tab:q5-power-f}: power against planted hierarchies and false alarms on flat clouds.
+\item Is the island real? Table~\ref{tab:q6-treemap-b} and Figure~\ref{fig:ceiling}: the three agreement measures and every tree against its own ceiling.
 \item Is local structure shared? Table~\ref{tab:q13-local}: permutation-calibrated agreement across model pairs.
-\item What follows for practice? Tables~\ref{tab:q9-corollary}--\ref{tab:q9-corollary-d}: accuracies, zero-cost gains and what predicts them.
+\item Whose taxonomy? Tables~\ref{tab:q7-wordnet}, \ref{tab:q7-wordnet-c} and \ref{tab:q7-wordnet-d}: agreement with WordNet, an independent ontology and a caption hierarchy.
+\item What follows for practice? Tables~\ref{tab:q9-corollary}, \ref{tab:q9-corollary-b} and \ref{tab:q9-corollary-d} and Figure~\ref{fig:gains}: accuracies, what predicts the gain, and the gain per backbone.
 \item Where does every number come from? Table~\ref{tab:provenance}: the result file behind each table.
 \end{itemize}
 
@@ -350,7 +352,9 @@ for b in blocks:
     m = re.search(r"\\input\{appendix_tables/(tab_[a-z0-9_]+)\}", b); bytab[m.group(1)] = b
 KEEP = ["tab_q10_calibration", "tab_q01_census", "tab_q08_robust", "tab_q03_sample", "tab_q04_depth", "tab_q05_power", "tab_q06_treemap", "tab_q07_wordnet", "tab_q02_text", "tab_q13_local", "tab_q09_corollary", "tab_q14_panel"]
 DELETED = sorted(set(bytab) - set(KEEP) - {"tab_z_provenance"})
-REPL_ALL = [("Power on synthetic and implanted hierarchies", "Power on synthetic and planted hierarchies"),   # full read (2026-09-24): 'planted' everywhere in the prose; file names keep their spelling
+REPL_ALL = [("Power on synthetic and implanted hierarchies", "Power on synthetic and planted hierarchies"),
+            ("Is the reading robust? Quadruple budget, null construction, resampling and class count", "Is the reading robust? Quadruple budget, resampling and class count"),   # appendix reduction (2026-09-24)
+            ("Is the island real? The tree map under six configurations", "Is the island real? The tree map and the within-model ceiling"),   # full read (2026-09-24): 'planted' everywhere in the prose; file names keep their spelling
             ("the census of record", "the census"), ("census of record", "census"), ("the reading of record", "the reading"), ("reading of record", "reading"),
             ("the record excess", "the excess"), ("record excess", "excess"), ("under the record", "under the census reading"), ("in the record", "in the census reading"),
             ("the frame of record", "the frame"), ("the record", "the census reading"),
@@ -398,6 +402,23 @@ bytab["tab_q03_sample"] = bytab["tab_q03_sample"].replace("\\input{appendix_tabl
 _tabC = "\\input{tab_census_final}\n"
 assert bytab["tab_q01_census"].count("\\input{appendix_tables/tab_q01_census_final}") == 1
 bytab["tab_q01_census"] = bytab["tab_q01_census"].replace("\\input{appendix_tables/tab_q01_census_final}", _tabC + "\\input{appendix_tables/tab_q01_census_final}")
+
+# ---- appendix reduction (author's brief, 2026-09-24): five tables that showed a trend are figures now, in the style of Figure 2
+def _appfig(name, cap, width="0.62"):
+    return ("\\begin{figure}[H]\n\\centering\n\\includegraphics[width=" + width + "\\linewidth]{figures/" + name + ".pdf}\n"
+            "\\caption{" + cap + "\n}\n\\label{fig:" + name.replace("fig_", "").replace("_final", "") + "}\n\\end{figure}\n")
+_FIGCAP = {
+ "fig_budget_final": r"\textbf{The reading does not move with the quadruple budget.} Excess against the number of sampled quadruples per seed, one line per cell: 3 backbones on ImageNet, CIFAR-100 and DTD. % expR72_budget_record.csv",
+ "fig_classcount_final": r"\textbf{The excess shrinks with the number of classes.} Excess against the size of the ImageNet subset, drawn at random or as WordNet siblings, averaged over 5 seeds, for 3 backbones. % expR60_c_sweep_record.csv",
+ "fig_power_final": r"\textbf{The power follows the backbone, not the noise level of its cloud.} Power against the within/between spread per backbone, intact (hollow) and decoupled (filled); dashed: power 0.8. % expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv",
+ "fig_ceiling_final": r"\textbf{Every tree stays under its own ceiling and well above chance.} Per backbone: triplet agreement with the other 11 (dot) against the band of its own bootstrap copies, worst to mean. % expR84_tree_ceiling_summary.csv, expR58_treemap_cutfree.csv",
+ "fig_gains_final": r"\textbf{The zero-cost advantage is small and largest for the self-supervised models.} Best few-shot advantage over the Euclidean readout per backbone, averaged over the 4 hierarchical datasets, with the metric that collects it. % exp2_metric_controls.csv"}
+for _f, _c in _FIGCAP.items(): assert len(_c.split("%")[0].split()) <= 40, (_f, len(_c.split("%")[0].split()))
+for _stem, _names, _w in (("tab_q08_robust", ["fig_budget_final", "fig_classcount_final"], "0.62"), ("tab_q05_power", ["fig_power_final"], "0.62"),
+                          ("tab_q06_treemap", ["fig_ceiling_final"], "0.92"), ("tab_q09_corollary", ["fig_gains_final"], "0.92")):
+    _anchor = "\\input{appendix_tables/" + (FINAL_SRC.get(_stem, _stem)) + "}"
+    assert bytab[_stem].count(_anchor) == 1, (_stem, _anchor)
+    bytab[_stem] = bytab[_stem].replace(_anchor, "".join(_appfig(n, _FIGCAP[n], _w) for n in _names) + _anchor)
 labels = {}
 for stem in KEEP:
     fn = FINAL_SRC.get(stem, stem)
@@ -412,8 +433,9 @@ prov_block = bytab["tab_z_provenance"].replace("appendix_tables/tab_z_provenance
 # ---- the final's copies of the kept tables: appendix_tables/final/, one floating [tbp] table per panel so the appendix pages pack (the [H] parts of v1 left every page half empty)
 FD = TEX + "appendix_tables/final/"; os.makedirs(FD, exist_ok=True)
 # panels the brief deletes (null-variant panel, uncited supremum table) with the caption sentence that described them
-DROP = {"tab_q02_text": ("(b)",), "tab_q03_sample": ("(b)",), "tab_q05_power": ("(a)",),
-        "tab_q08_robust": ("(e)",), "tab_q09_corollary": ("(e)", "(f)", "(g)")}   # appendix cleanup (2026-09-23): panels no claim of the main text rests on
+DROP = {"tab_q02_text": ("(b)", "(c)"), "tab_q03_sample": ("(b)",), "tab_q05_power": ("(a)", "(b)", "(e)"),
+        "tab_q08_robust": ("(a)", "(c)", "(d)", "(e)"), "tab_q09_corollary": ("(c)", "(e)", "(f)", "(g)"),
+        "tab_q01_census": ("(a)", "(d)"), "tab_q06_treemap": ("(a)", "(c)"), "tab_q07_wordnet": ("(b)",)}   # appendix reduction (2026-09-24): every table the main text does not cite, unless the sweep shows a main-text number rests on it
 # DROP = {}   # tenth review (2026-09-22): Table 14(b), the raw-supremum correlations, restored   # the constructions panel of the census table is back in the final (the uncentered census is one of its columns, 2026-09-20)
 CAPFIX = {}
 DROPLINE = {"tab_q02_text": ["OLMo-7B"], "tab_q14_panel": ["OLMo-7B"]}   # fourth review: 15 text models; OLMo-7B was not extracted

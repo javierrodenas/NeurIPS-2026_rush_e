@@ -4,33 +4,6 @@
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
 \begingroup
-\setlength{\tabcolsep}{2.6pt}
-\begin{tabular}{llcccccc|cc}
-\toprule
-model & data & $10^4$ & $5{\times}10^4$ & $10^5$ & $5{\times}10^5$ & $10^6$ & $2{\times}10^6$ & drift ($\ge10^5$) & drift/s.d. \\
-\midrule
-ViT-L & IN & $-0.0161$ & $-0.0161$ & $-0.0160$ & $-0.0157$ & $-0.0159$ & $-0.0159$ & $0.0002$ & 0.07 \\
-DINOv2-L & IN & $-0.0131$ & $-0.0136$ & $-0.0137$ & $-0.0135$ & $-0.0136$ & $-0.0136$ & $0.0002$ & 0.38 \\
-CLIP-B & IN & $-0.0063$ & $-0.0060$ & $-0.0059$ & $-0.0065$ & $-0.0064$ & $-0.0064$ & $0.0007$ & 0.13 \\
-ViT-L & C100 & $-0.0208$ & $-0.0208$ & $-0.0206$ & $-0.0205$ & $-0.0205$ & $-0.0205$ & $0.0002$ & 0.03 \\
-DINOv2-L & C100 & $-0.0348$ & $-0.0348$ & $-0.0348$ & $-0.0348$ & $-0.0347$ & $-0.0347$ & $0.0001$ & 0.07 \\
-CLIP-B & C100 & $-0.0186$ & $-0.0195$ & $-0.0188$ & $-0.0195$ & $-0.0194$ & $-0.0194$ & $0.0006$ & 0.10 \\
-ViT-L & DTD & $-0.0305$ & $-0.0308$ & $-0.0312$ & $-0.0311$ & $-0.0313$ & $-0.0313$ & $0.0002$ & 0.05 \\
-DINOv2-L & DTD & $-0.0418$ & $-0.0419$ & $-0.0421$ & $-0.0420$ & $-0.0422$ & $-0.0420$ & $0.0002$ & 0.06 \\
-CLIP-B & DTD & $-0.0243$ & $-0.0235$ & $-0.0242$ & $-0.0240$ & $-0.0243$ & $-0.0242$ & $0.0003$ & 0.05 \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{The excess does not move with the quadruple budget.} Per cell: the excess at budgets from $10^4$ to $2\times10^6$ sampled quadruples per seed, and its drift over budgets as a fraction of the null spread.
-}
-\label{tab:q8-robust}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.4pt}
-\begingroup
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{llcccccc}
 \toprule
@@ -80,64 +53,5 @@ SigLIP-B & DTD & 80 & 200 & $-0.0233$ & $-0.0234$ & $0.0014$ & 1.00 \\
 \endgroup
 \caption{\textbf{The genuine count survives resampling of the images behind each centroid.} Per cell: the excess over 30 bootstrap resamples, its spread, and how many resamples stay genuine under the correction across cells.
 }
-\label{tab:q8-robust-b}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.4pt}
-\begingroup
-\setlength{\tabcolsep}{2.6pt}
-\begin{tabular}{lcccccc}
-\toprule
-model & IN & C100 & C10 & DTD & FMNIST & MNIST \\
-\midrule
-ViT-T & $-1.1$ (0)$^{\circ}$ & $-0.7$ (0)$^{\circ}$ & $-0.6$ (0)$^{\circ}$ & $-1.9$ (12)$^{\dagger}$ & $+1.3$ (0)$^{\circ}$ & $-0.9$ (0)$^{\circ}$ \\
-ViT-S & $-3.6$ (30) & $-0.0$ (0)$^{\circ}$ & $-2.4$ (29) & $-3.0$ (30) & $-1.5$ (30)$^{\circ}$$^{\ddagger}$ & $-1.3$ (0)$^{\circ}$ \\
-ViT-B & $-5.2$ (30) & $+0.8$ (0)$^{\circ}$ & $-2.1$ (1)$^{\dagger}$ & $-3.9$ (30) & $-1.9$ (30)$^{\dagger}$ & $-0.3$ (0)$^{\circ}$ \\
-ViT-L & $-5.0$ (30) & $-4.0$ (30) & $-2.4$ (30) & $-6.4$ (30) & $-2.2$ (30) & $-1.4$ (0)$^{\circ}$ \\
-\midrule
-DINO-B & $-8.9$ (30) & $-7.6$ (30) & $-2.4$ (30) & $-4.4$ (30) & $-0.1$ (0)$^{\circ}$ & $-1.4$ (0)$^{\circ}$ \\
-DINOv2-S & $-15.9$ (30) & $-9.7$ (30) & $-2.2$ (30) & $-3.1$ (30) & $-1.3$ (0)$^{\circ}$ & $+0.2$ (0)$^{\circ}$ \\
-DINOv2-B & $-31.7$ (30) & $-14.7$ (30) & $-4.9$ (30) & $-8.0$ (30) & $-2.6$ (30) & $-0.5$ (0)$^{\circ}$ \\
-DINOv2-L & $-30.7$ (30) & $-21.6$ (30) & $-6.0$ (30) & $-10.6$ (30) & $-1.3$ (30)$^{\circ}$$^{\ddagger}$ & $-0.4$ (0)$^{\circ}$ \\
-DINOv2-G & $-11.5$ (30) & $-28.2$ (30) & $-6.5$ (30) & $-8.2$ (30) & $-1.8$ (23)$^{\dagger}$ & $-0.7$ (0)$^{\circ}$ \\
-\midrule
-CLIP-B & $-1.3$ (0)$^{\circ}$ & $-3.1$ (30) & $-1.3$ (0)$^{\circ}$ & $-3.5$ (30) & $-1.4$ (0)$^{\circ}$ & $+0.3$ (0)$^{\circ}$ \\
-CLIP-L & $-2.1$ (11)$^{\dagger}$ & $-3.5$ (30) & $-1.3$ (0)$^{\circ}$ & $-4.2$ (30) & $-1.5$ (0)$^{\circ}$ & $-0.0$ (0)$^{\circ}$ \\
-SigLIP-B & $-1.7$ (0)$^{\circ}$ & $-4.3$ (30) & $-1.7$ (29)$^{\dagger}$ & $-4.0$ (30) & $-1.8$ (30)$^{\dagger}$ & $-1.3$ (0)$^{\circ}$ \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{Null, bootstrap and estimator noise together leave the verdicts standing.} Per cell: a joint score that divides the excess by the combined spread, and the genuine count it implies.
-}
-\label{tab:q8-robust-c}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.4pt}
-\begingroup
-\footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lr|cccc|cccc}
-\toprule
- & & \multicolumn{4}{c|}{random subsets (span the hierarchy)} & \multicolumn{4}{c}{WordNet-coherent (siblings)} \\
-model & $C$ & $\hat\delta_{99.9}$ & excess & below & NC adv & $\hat\delta_{99.9}$ & excess & below & NC adv \\
-\midrule
-DINOv2-L & 10 & 0.030 & -0.134 & 5/5 & +1.04 & 0.068 & -0.098 & 5/5 & +0.08 \\
-DINOv2-L & 20 & 0.034 & -0.091 & 5/5 & +1.32 & 0.071 & -0.065 & 5/5 & +0.12 \\
-DINOv2-L & 50 & 0.032 & -0.046 & 5/5 & +1.58 & 0.050 & -0.042 & 5/5 & +0.53 \\
-DINOv2-L & 100 & 0.031 & -0.032 & 5/5 & +1.46 & 0.044 & -0.031 & 5/5 & +0.77 \\
-DINOv2-L & 200 & 0.031 & -0.022 & 5/5 & +1.45 & 0.041 & -0.023 & 5/5 & +0.59 \\
-DINOv2-L & 500 & 0.030 & -0.016 & 2/2 & +1.01 & 0.031 & -0.018 & 2/2 & +0.82 \\
-DINOv2-L & 1000 & 0.030 & -0.014 & 1/1 & +0.57 & --- & --- & --- & --- \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{The excess shrinks with the number of classes.} ImageNet subsets of growing size, drawn at random across the hierarchy or as WordNet siblings: the reading, the excess and the verdict per subset.
-}
-\label{tab:q8-robust-d}
+\label{tab:q8-robust}\label{tab:q8-robust-b}
 \end{table}

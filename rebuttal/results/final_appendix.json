@@ -1,11 +1,11 @@
 {
  "kept": [
-  "tab_q08_robust",
   "tab_q10_calibration",
   "tab_q01_census",
   "tab_q14_panel",
   "tab_q02_text",
   "tab_q03_sample",
+  "tab_q08_robust",
   "tab_q04_depth",
   "tab_q05_power",
   "tab_q06_treemap",

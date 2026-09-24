@@ -3001,3 +3001,37 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - La entradilla nueva viaja a los cinco sitios del sweep que la fijaban (orden de las entradillas de §5.3, exención de números del
   párrafo, comprobaciones de la novena y la duodécima revisión y la del repaso completo).
 - Sweep 234/234, envío de 35 páginas con el texto principal hasta la página 9, rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 100. Reducción del apéndice (2026-09-24, brief del autor). Texto principal intacto salvo tres punteros.
+
+- **(1) Fuera las tablas que el texto principal no cita.** Las quince que listabas son exactamente las no citadas. Diez se han
+  ido: q1-census (el censo por celda bajo la lectura del papel), q1-census-d, q2-text-c, q5-power (el árbol de dos niveles
+  plantado, que ya es la Figura 9), q6-treemap (las seis configuraciones), q7-wordnet-b (recuperación de superclases),
+  q8-robust-c (ruido conjunto) y q9-corollary-c, más las dos que pasan a figura.
+- **Cinco quedan porque el sweep dice que un número del texto principal se apoya en ellas** (te las reporto): **q4-depth-e** (el
+  control radial: "$z$ de $-2.26$ a $-3.99$ … feature norms are not its source" en §5.3), **q5-power-c** (la alineación plantada
+  por eje principal: "reproduces it in the supervised ViTs and CLIP-B but not in DINOv2-L"), **q5-power-f** (el marco balanceado:
+  "fires in 0 of 50 decoupled runs"), y **q9-corollary-b** y **q9-corollary-d** (las correlaciones cruda y calibrada, en las que
+  se apoya "The raw and calibrated readings predict the gain … equally well" de §6).
+- **(2) Cinco tablas de tendencia son ahora figuras**, con la paleta, el fondo gris, la rejilla blanca y la leyenda con sombra de
+  la Figura 2, y sus valores leídos del mismo fichero que usaba la tabla: **Figura 7** presupuesto de cuádruples (exceso contra
+  presupuesto, una línea por celda, 9 celdas), **Figura 8** número de clases (exceso contra tamaño del subconjunto, al azar y
+  como hermanos de WordNet), **Figura 10** potencia por backbone contra el nivel de ruido de la nube (intacta hueca, desacoplada
+  llena, discontinua en 0.8), **Figura 11** techo intramodelo (banda del peor par bootstrap a la media, con el acuerdo cruzado
+  como punto) y **Figura 12** ganancias del corolario (barras de la mejor ventaja sin coste por backbone, con la métrica que la
+  recoge). Siguen como tablas el censo por celda, la reproducción de la lectura publicada, el panel de modelos, el censo de texto
+  y el índice de procedencia.
+- **Tres punteros del texto principal cambian de palabra**, que es lo que obliga la conversión: §3.2 "(Table~\ref{tab:q8-robust})"
+  → "(Figure~\ref{fig:budget})"; §5.3 "Figure 9 and Table …" → "Figures 9 and 10 give the detection rates and the power"; §5.4
+  "(Tables 20 and 21)" → "(Table 20 and Figure 11)". Ni una palabra más del texto principal se toca.
+- **(3) La sección B** pasa a llamarse "Limitations beyond Section 7" y guarda, con una frase de entrada, sólo las cuatro que §7
+  no dice: el exceso certifica estructura más allá de los segundos momentos, el bloque largo de la prueba de jerarquía (falsas
+  alarmas, sesgo del desacoplado, control entrenado, criterio previo, alineación no radial), la normalización por el diámetro y
+  el alcance downstream. El puntero de §7 dice ahora "gives the rest".
+- **(4) La sección C** guarda los cuatro párrafos que el texto principal aún necesita (conjunto de clases con FMNIST, colapso
+  neuronal, el conjunto certificado bajo otros marcos con la frase del marco balanceado, y la frase de Moreira) y suelta los
+  cuatro que el texto principal ya dice (etiquetas de hoja, MERU, censo de texto modelo a modelo, WordNet/DBpedia).
+- **(5) La guía de lectura (D.1)** lista las trece preguntas en el orden en que el texto principal las cita, con sus tablas y sus
+  figuras; dos títulos de subsección se ajustan a lo que queda dentro.
+- **Páginas: el envío pasa de 35 a 32.** El apéndice (pruebas incluidas, de la 16 a la 32) pasa de **20 a 17 páginas**. El texto
+  principal sigue acabando en la página 9. Sweep **235/235** con la comprobación nueva de la reducción. Rebuttal reconstruido
+  (61/61) y qa_pages regeneradas.

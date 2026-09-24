@@ -5,38 +5,6 @@
 \setlength{\tabcolsep}{3pt}
 \begingroup
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{llcc|ccc}
-\toprule
- & & & & \multicolumn{3}{c}{mean pairwise ARI at the reference cut} \\
-dataset & configuration & max frac.\ & CPCC & B/L/G vs block & S, DINO-B vs block & within \\
-\midrule
-ImageNet & euclid-average (deg.) & 0.97 & 0.761 & 0.03 & 0.08 & 0.64 \\
-ImageNet & euclid-complete (deg.) & 0.83 & 0.606 & 0.03 & 0.17 & 0.44 \\
-ImageNet & euclid-ward & 0.48 & 0.464 & 0.15 & 0.38 & 0.53 \\
-ImageNet & cosine-average (selected) & 0.40 & 0.691 & 0.38 & 0.35 & 0.48 \\
-ImageNet & cosine-complete & 0.32 & 0.539 & 0.13 & 0.17 & 0.50 \\
-ImageNet & cosine-ward & 0.37 & 0.464 & 0.17 & 0.39 & 0.55 \\
-\midrule
-CIFAR-100 & euclid-average (deg.) & 0.80 & 0.798 & 0.00 & 0.41 & 0.57 \\
-CIFAR-100 & euclid-complete (deg.) & 0.66 & 0.722 & 0.17 & 0.40 & 0.54 \\
-CIFAR-100 & euclid-ward & 0.33 & 0.534 & 0.37 & 0.65 & 0.63 \\
-CIFAR-100 & cosine-average (deg.) & 0.53 & 0.777 & 0.30 & 0.54 & 0.58 \\
-CIFAR-100 & cosine-complete (selected) & 0.39 & 0.698 & 0.39 & 0.51 & 0.63 \\
-CIFAR-100 & cosine-ward & 0.14 & 0.584 & 0.56 & 0.62 & 0.61 \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{The island belongs to the naive cut, not to the models.} Per configuration of metric and linkage: the degeneracy diagnostics, the cophenetic fidelity that selects one, and the mean pairwise agreement at the cut.
-}
-\label{tab:q6-treemap}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begingroup
-\setlength{\tabcolsep}{3pt}
 \begin{tabular}{ll|ccc}
 \toprule
 dataset & configuration & ARI at the cut & cophenetic corr. & triplet agreement \\
@@ -60,40 +28,5 @@ CIFAR-100 & cosine-ward & 0.56 / 0.61 & 0.74 / 0.73 & 0.76 / 0.76 \\
 \endgroup
 \caption{\textbf{The self-supervised models sit apart on distances, not on topology.} The three agreement measures for DINOv2 against the supervised and contrastive models, each written as against those models over within them.
 }
-\label{tab:q6-treemap-b}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begingroup
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lccc|c}
-\toprule
-model & ARI at the cut & cophenetic corr. & triplet agreement & lowest triplet \\
-\midrule
-ViT-T & 0.81 $\pm$ 0.03 & 0.94 $\pm$ 0.02 & 0.93 $\pm$ 0.04 & 0.85 \\
-ViT-S & 0.80 $\pm$ 0.11 & 0.94 $\pm$ 0.01 & 0.88 $\pm$ 0.08 & 0.70 \\
-ViT-B & 0.94 $\pm$ 0.01 & 0.94 $\pm$ 0.01 & 0.86 $\pm$ 0.04 & 0.75 \\
-ViT-L & 0.84 $\pm$ 0.06 & 0.96 $\pm$ 0.01 & 0.96 $\pm$ 0.02 & 0.87 \\
-\midrule
-DINO-B & 0.78 $\pm$ 0.10 & 0.94 $\pm$ 0.01 & 0.96 $\pm$ 0.01 & 0.95 \\
-DINOv2-S & 0.66 $\pm$ 0.05 & 0.91 $\pm$ 0.01 & 0.86 $\pm$ 0.05 & 0.69 \\
-DINOv2-B & 0.64 $\pm$ 0.09 & 0.93 $\pm$ 0.01 & 0.86 $\pm$ 0.03 & 0.77 \\
-DINOv2-L & 0.78 $\pm$ 0.05 & 0.94 $\pm$ 0.01 & 0.85 $\pm$ 0.04 & 0.71 \\
-DINOv2-G & 0.76 $\pm$ 0.05 & 0.95 $\pm$ 0.01 & 0.88 $\pm$ 0.02 & 0.84 \\
-\midrule
-CLIP-B & 0.87 $\pm$ 0.04 & 0.94 $\pm$ 0.01 & 0.93 $\pm$ 0.02 & 0.88 \\
-CLIP-L & 0.82 $\pm$ 0.06 & 0.97 $\pm$ 0.01 & 0.95 $\pm$ 0.01 & 0.92 \\
-SigLIP-B & 0.79 $\pm$ 0.07 & 0.95 $\pm$ 0.02 & 0.91 $\pm$ 0.03 & 0.84 \\
-\midrule
-mean over backbones & 0.79 $\pm$ 0.08 & 0.94 $\pm$ 0.01 & 0.90 $\pm$ 0.04 & 0.85 \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{Two resamples of one model set the ceiling any pair of models can reach.} Per backbone: the three measures between pairs of the 30 bootstrap centroid sets, with their mean, spread and minimum.
-}
-\label{tab:q6-treemap-c}
+\label{tab:q6-treemap}\label{tab:q6-treemap-b}
 \end{table}

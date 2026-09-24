@@ -1,0 +1,30 @@
+{
+ "covered": [
+  "i21k_s",
+  "i21k_b",
+  "i21k_l",
+  "dinov2_b",
+  "dinov2_l",
+  "dinov2_g",
+  "clip_b",
+  "clip_l",
+  "siglip_b"
+ ],
+ "n_covered": 9,
+ "ratio_covered": [
+  1.93,
+  1.96,
+  1.88,
+  3.71,
+  3.88,
+  3.92,
+  1.33,
+  1.49,
+  1.54
+ ],
+ "ratio_blind": [
+  1.55,
+  2.12,
+  3.0
+ ]
+}

@@ -299,3 +299,113 @@ for ax, (Mx, title) in zip(axes, [(Mn, "(a) naive: Euclidean, average"), (Ms, "(
     for sp in ax.spines.values(): sp.set_edgecolor("0.62")
 cb = fig.colorbar(im, cax=cax); cb.ax.tick_params(labelsize=8, length=1.5, pad=1); cb.outline.set_visible(False); cax.set_title("ARI", fontsize=8, pad=3)
 save(fig, "fig_treemap_matrices_final")
+
+# ================= appendix figures of the reduction (author's brief, 2026-09-24): five tables that show a trend become figures
+# in the style of Figure 2. Every value is read from the same result file the table used.
+# ---------------- the quadruple budget: the excess against the budget, one line per cell
+B72 = pd.read_csv(RES/"expR72_budget_record.csv")
+fig, ax = plt.subplots(figsize=(3.3, 1.9))
+DSL72 = {"imagenet": "IN", "cifar100": "C100", "dtd": "DTD"}; MK72 = {"imagenet": "o", "cifar100": "s", "dtd": "^"}; LS72 = {"imagenet": "-", "cifar100": "--", "dtd": ":"}
+for m in sorted(B72.model.unique()):
+    for ds in ("imagenet", "cifar100", "dtd"):
+        d_ = B72[(B72.model == m) & (B72.dataset == ds)].sort_values("n_quads")
+        if not len(d_): continue
+        ax.plot(d_.n_quads, d_.excess, LS72[ds], marker=MK72[ds], color=fam_color(m), lw=1.0, ms=3.4, mec="white", mew=0.5, zorder=3)
+ax.set_xscale("log"); ax.set_xlabel("sampled quadruples per seed", labelpad=1); ax.set_ylabel("excess")
+ax.set_title("the reading does not move with the budget", pad=3)
+hd = [plt.Line2D([], [], marker=MK72[d], color="k", ls=LS72[d], lw=1.0, ms=3.4, mec="white", mew=0.5, label=DSL72[d]) for d in ("imagenet", "cifar100", "dtd")]
+hd += [plt.Line2D([], [], color=fam_color(m), lw=2.0, label=NM[m]) for m in ("i21k_l", "dinov2_l", "clip_b")]
+ax.legend(handles=hd, **LEG, loc="center right", ncol=2, handlelength=1.4, handletextpad=0.4, columnspacing=0.9, fontsize=6.2)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+fig.subplots_adjust(left=0.17, right=0.99, top=0.90, bottom=0.24)
+_drift = float((B72[B72.n_quads >= 100000].groupby(["model", "dataset"]).excess.max() - B72[B72.n_quads >= 100000].groupby(["model", "dataset"]).excess.min()).max())
+json.dump({"cells": int(B72.groupby(["model", "dataset"]).ngroups), "budgets": sorted(int(x) for x in B72.n_quads.unique()), "max_drift_above_1e5": round(_drift, 4)}, open(RES/"final_fig_budget.json", "w"), indent=1)
+save(fig, "fig_budget_final")
+print(f"budget: {B72.groupby(['model','dataset']).ngroups} cells, drift above 1e5 at most {_drift:.4f}")
+
+# ---------------- the class count: the excess against the number of classes, random and WordNet subsets
+C60 = pd.read_csv(RES/"expR60_c_sweep_record.csv")
+fig, ax = plt.subplots(figsize=(3.3, 1.9))
+for m in sorted(C60.model.unique()):
+    for mode, ls, mk in (("random", "-", "o"), ("coherent", "--", "s")):
+        d_ = C60[(C60.model == m) & (C60["mode"] == mode)].groupby("C").excess.mean().sort_index()
+        ax.plot(d_.index, d_.values, ls, marker=mk, color=fam_color(m), lw=1.0, ms=3.4, mec="white", mew=0.5, zorder=3)
+ax.set_xscale("log"); ax.axhline(0, color="0.35", lw=0.6, zorder=1)
+ax.set_xlabel("classes in the subset", labelpad=1); ax.set_ylabel("excess")
+ax.set_title("the excess shrinks with the class count", pad=3)
+hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.0, ms=3.4, mec="white", mew=0.5, label="random classes"),
+      plt.Line2D([], [], marker="s", color="k", ls="--", lw=1.0, ms=3.4, mec="white", mew=0.5, label="WordNet siblings")]
+hd += [plt.Line2D([], [], color=fam_color(m), lw=2.0, label=NM[m]) for m in sorted(C60.model.unique())]
+ax.legend(handles=hd, **LEG, loc="lower right", ncol=2, handlelength=1.4, handletextpad=0.4, columnspacing=0.9, fontsize=6.2)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+fig.subplots_adjust(left=0.17, right=0.99, top=0.90, bottom=0.24)
+json.dump({"models": sorted(C60.model.unique()), "C": sorted(int(c) for c in C60.C.unique()),
+           "excess_by_C_random": {str(int(k)): round(float(v), 4) for k, v in C60[C60["mode"] == "random"].groupby("C").excess.mean().items()}}, open(RES/"final_fig_classcount.json", "w"), indent=1)
+save(fig, "fig_classcount_final")
+print(f"class count: {sorted(C60.C.unique())} classes, {C60.model.nunique()} models, two modes")
+
+# ---------------- the power per backbone against the noise level of the cloud
+P81 = pd.read_csv(RES/"expR81_deep_per_backbone_summary.csv").set_index("model")
+R64 = pd.read_csv(RES/"expR64b_wn30_summary.csv").set_index("model").ratio_real
+fig, ax = plt.subplots(figsize=(3.3, 1.9))
+for m in M:
+    ax.plot(R64[m], float(P81.loc[m, "power"]), "o", mfc="white", mec=fam_color(m), ms=4.2, mew=1.1, zorder=3)
+    ax.plot(R64[m], float(P81.loc[m, "dec_power"]), "o", color=fam_color(m), ms=4.6, mec="white", mew=0.6, zorder=4)
+    ax.plot([R64[m], R64[m]], [float(P81.loc[m, "power"]), float(P81.loc[m, "dec_power"])], "-", color=fam_color(m), lw=0.7, alpha=0.6, zorder=2)
+ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=1)
+ax.set_ylim(-0.05, 1.08); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"])
+ax.set_xlabel("noise level of the cloud (within/between spread)", labelpad=1); ax.set_ylabel("power")
+ax.set_title("the power follows the backbone, not its noise level", pad=3)
+hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.6, label="decoupled"),
+      plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=4.2, mew=1.1, label="intact"),
+      plt.Line2D([], [], color="k", lw=0.8, ls="--", label="power 0.8")]
+ax.legend(handles=hd, **LEG, loc="lower right", ncol=1, handlelength=1.4, handletextpad=0.4, fontsize=6.2)
+for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+fig.subplots_adjust(left=0.17, right=0.99, top=0.90, bottom=0.26)
+_cov81 = [m for m in M if float(P81.loc[m, "dec_power"]) >= 0.8]
+json.dump({"covered": _cov81, "n_covered": len(_cov81), "ratio_covered": [round(float(R64[m]), 2) for m in _cov81],
+           "ratio_blind": [round(float(R64[m]), 2) for m in M if m not in _cov81]}, open(RES/"final_fig_power.json", "w"), indent=1)
+save(fig, "fig_power_final")
+print(f"power: {len(_cov81)}/12 backbones at decoupled power 0.8 or more")
+
+# ---------------- the within-model ceiling against the cross-model agreement, per backbone
+S84f = pd.read_csv(RES/"expR84_tree_ceiling_summary.csv").set_index("model")
+C58 = pd.read_csv(RES/"expR58_treemap_cutfree.csv"); C58 = C58[(C58.dataset == "imagenet") & (C58.metric == "cosine") & (C58.linkage == "average")]
+fig, ax = plt.subplots(figsize=(5.5, 1.9))
+for m in M:
+    if m not in S84f.index: continue
+    lo, hi = float(S84f.loc[m, "triplet_agree_min"]), float(S84f.loc[m, "triplet_agree_mean"])
+    ax.plot([XPOS[m], XPOS[m]], [lo, hi], "-", color=BAND, lw=5, alpha=BAND_ALPHA, solid_capstyle="butt", zorder=1)
+    ax.plot([XPOS[m] - 0.3, XPOS[m] + 0.3], [hi, hi], "-", color="0.35", lw=0.8, zorder=2)
+    x_ = C58[(C58.model_a == m) | (C58.model_b == m)].triplet_agree.mean()
+    ax.plot(XPOS[m], x_, "o", color=fam_color(m), ms=4.6, mec="white", mew=0.6, zorder=4)
+ax.axhline(1 / 3, color="k", lw=0.8, ls="--", zorder=1)
+ax.set_ylabel("triplet agreement"); ax.set_title("each model's tree against its own ceiling", pad=3); famaxis(ax)
+hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.6, label="agreement with the other 11"),
+      Patch(color=BAND, alpha=BAND_ALPHA, label="within-model ceiling (worst to mean)"),
+      plt.Line2D([], [], color="k", lw=0.8, ls="--", label="chance, 0.33")]
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.5, handletextpad=0.45, columnspacing=1.1, bbox_to_anchor=(0.5, -0.20))
+fig.subplots_adjust(left=0.085, right=0.995, top=0.90, bottom=0.26)
+json.dump({"ceiling_mean": {m: round(float(S84f.loc[m, "triplet_agree_mean"]), 3) for m in M if m in S84f.index},
+           "cross_model": {m: round(float(C58[(C58.model_a == m) | (C58.model_b == m)].triplet_agree.mean()), 3) for m in M}}, open(RES/"final_fig_ceiling.json", "w"), indent=1)
+save(fig, "fig_ceiling_final")
+print("ceiling: 12 backbones, band from the worst bootstrap pair to the mean")
+
+# ---------------- the zero-cost gains per backbone
+E2 = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"exp2_metric_controls.csv"))}
+M10 = [m for m in M if m not in ("dinov1_b", "siglip_b")]; HIER = ["imagenet", "cifar100", "cifar10", "dtd"]
+fig, ax = plt.subplots(figsize=(5.5, 1.9))
+_best = {}
+for m in M10:
+    fsH = [100 * (float(E2[(m, ds)]["FS_H"]) - float(E2[(m, ds)]["FS_R"])) for ds in HIER]
+    fsC = [100 * (float(E2[(m, ds)]["FS_COS"]) - float(E2[(m, ds)]["FS_R"])) for ds in HIER]
+    best = sum(max(h, c) for h, c in zip(fsH, fsC)) / len(HIER); gap = sum(fsH) / 4 - sum(fsC) / 4
+    met = "H" if gap > 0.15 else ("cos" if gap < -0.15 else "either"); _best[m] = (round(best, 2), met)
+    ax.bar(XPOS[m], best, 0.74, color=fam_color(m), edgecolor="white", linewidth=0.8, zorder=3)
+    ax.annotate(met, (XPOS[m], best), xytext=(0, 2), textcoords="offset points", ha="center", va="bottom", fontsize=5.8, color="0.25", zorder=5)
+ax.axhline(0, color="0.35", lw=0.6, zorder=1)
+ax.set_ylabel("advantage (pp)"); ax.set_title("the best zero-cost readout, against the Euclidean one", pad=3); famaxis(ax)
+ax.set_ylim(0, max(v[0] for v in _best.values()) * 1.25)
+json.dump({"best_pp": {m: _best[m][0] for m in M10}, "metric": {m: _best[m][1] for m in M10}, "datasets": HIER}, open(RES/"final_fig_gains.json", "w"), indent=1)
+save(fig, "fig_gains_final")
+print("gains:", {NM[m]: _best[m] for m in M10})

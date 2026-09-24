@@ -35,26 +35,3 @@ E5-large & embedder & 1024 & $0.071$ & $+0.002^{\circ}$ & $+3\%$ & 44 & .781 & $
 }
 \label{tab:q2-text}
 \end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\begingroup
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lcc|cc}
-\toprule
-& \multicolumn{2}{c|}{GPT-2 M} & \multicolumn{2}{c}{OLMo-1B} \\
-batch size & fp32 $\hat\delta$ & fp16 $\hat\delta$ & fp32 $\hat\delta$ & fp16 $\hat\delta$ \\
-\midrule
-1 (no padding) & $0.0816$ & $0.0817$ & $0.0817$ & $0.0817$ \\
-16 & $0.0996$ & $0.0997$ & $0.0817$ & $0.0816$ \\
-32 & $0.0905$ & $0.0905$ & $0.0817$ & $0.0817$ \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{Extraction is part of the measurement.} The same thousand prompts under changes of batch size and of precision: the reading per setting for a causal language model of each family.
-}
-\label{tab:q2-text-c}
-\end{table}

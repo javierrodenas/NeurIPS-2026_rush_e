@@ -41,42 +41,6 @@ ViT-B (augreg, IN-1k) & $+0.52$ & $+0.01$ & -- & -- & -- \\
 \scriptsize
 \setlength{\tabcolsep}{2.6pt}
 \begingroup
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lccccc}
-\toprule
-model & euclid-avg$^{\dagger}$ & euclid-ward & cosine-avg$^{\dagger}$ & cosine-complete$^{*}$ & cosine-ward \\
-\midrule
-ViT-T & 0.31 & 0.38 & 0.29 & 0.33 & 0.33 \\
-ViT-S & 0.35 & 0.56 & 0.37 & 0.47 & 0.56 \\
-ViT-B & 0.39 & 0.61 & 0.43 & 0.45 & 0.57 \\
-ViT-L & 0.38 & 0.55 & 0.49 & 0.48 & 0.60 \\
-\midrule
-DINO-B & 0.22 & 0.48 & 0.28 & 0.38 & 0.54 \\
-DINOv2-S & 0.12 & 0.51 & 0.32 & 0.33 & 0.49 \\
-DINOv2-B & 0.02 & 0.47 & 0.35 & 0.42 & 0.51 \\
-DINOv2-L & 0.01 & 0.32 & 0.25 & 0.50 & 0.48 \\
-DINOv2-G & 0.00 & 0.19 & 0.08 & 0.20 & 0.52 \\
-\midrule
-CLIP-B & 0.18 & 0.48 & 0.18 & 0.37 & 0.48 \\
-CLIP-L & 0.35 & 0.52 & 0.32 & 0.41 & 0.54 \\
-SigLIP-B & 0.22 & 0.49 & 0.22 & 0.37 & 0.52 \\
-\midrule
-DeiT-B (IN-1k) & 0.22 & 0.56 & 0.23 & 0.38 & 0.54 \\
-ViT-B (augreg, IN-1k) & 0.30 & 0.44 & 0.40 & 0.42 & 0.48 \\
-\bottomrule
-\end{tabular}
-\par\vspace{2pt}
-\endgroup
-\caption{\textbf{Every family recovers the CIFAR-100 superclasses.} Per backbone and configuration: the agreement of the 20-cluster cut with the coarse labels, with the degenerate configurations marked.
-}
-\label{tab:q7-wordnet-b}
-\end{table}
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2.6pt}
-\begingroup
 \setlength{\tabcolsep}{2.5pt}
 \begin{tabular}{lcc|ccc|ccc}
 \toprule
