@@ -2800,3 +2800,20 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   una letra por modelo (D para DINO-B y S para SigLIP-B).
 - **(4)** Los paneles ocupan el ancho del texto: márgenes de 0.062 y 0.998 y separación entre paneles de 0.34 (antes 0.62).
 - Comprobado en qa_pages a 100 dpi. Envío en 32 páginas, texto principal en la página 9, sweep 230/230.
+## 89. Figura 2 en dos paneles (2026-09-24, brief del autor). Sin cambio de datos.
+
+- Dos paneles en una fila, ancho del texto, 2.05 in de alto, al estilo de Gröger et al. (2026, Fig. 5): cada panel lleva la curva
+  real y su control sobre los mismos ejes. (a) la lectura $\delta_{\mathrm{norm}}$ de cada modelo en puntos de color unidos por
+  línea continua dentro de cada familia, y la media del nulo emparejado en rombos grises unidos por línea de puntos; el punto va
+  lleno cuando la celda es genuina (BH, como en la Tabla 2) y hueco si no. (b) el $z$ intacto en puntos con línea continua, el $z$
+  con las orientaciones aleatorizadas en rombos con línea de puntos, discontinua en $-2$; el punto va hueco donde la prueba es
+  ciega (potencia decoupled por debajo de 0.8).
+- Mismo eje x en los dos: los 12 backbones por familia con un hueco de una posición, separadores blancos, tallas a 6.3 pt sobre su
+  marca y la familia debajo. A dos paneles las etiquetas caben en horizontal y se leen a 100 dpi (comprobado en qa_pages).
+- Una sola leyenda debajo, dos columnas, caja blanca redondeada con sombra: "model", "random cloud (a) / orientations randomized
+  (b)", "hollow: not genuine (a) / test blind (b)", "certified below". Pie: el tuyo, verbatim.
+- **El exceso y la potencia salen de la figura** y se quedan en sus tablas, como pediste: el exceso en la Tabla 5 y la potencia en
+  la Tabla 25; el hueco entre punto y rombo del panel (a) es el exceso, y el hueco del punto en (b) marca la ceguera.
+- Referencias: §3.3 cita ahora el panel (a) en la frase de "Size and evidence" (partida en dos por el tope de 30 palabras) y §5.3
+  apunta al panel (b), igual que el pie de la tabla de la prueba en el apéndice.
+- Envío: 32 páginas, texto principal en la página 9, sweep 230/230, qa_pages regeneradas.

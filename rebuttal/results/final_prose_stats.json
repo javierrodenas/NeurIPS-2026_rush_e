@@ -13,8 +13,8 @@
    "over30": 0
   },
   "Methodology": {
-   "sentences": 37,
-   "avg_words": 18.2,
+   "sentences": 38,
+   "avg_words": 18.0,
    "max_words": 30,
    "over30": 0
   },
@@ -44,7 +44,7 @@
   }
  },
  "avg_nonverbatim": 17.6,
- "n_nonverbatim_sentences": 150,
+ "n_nonverbatim_sentences": 151,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",

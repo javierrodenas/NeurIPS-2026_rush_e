@@ -39,74 +39,55 @@ def bar(ax, x, h, color, passes, width=0.38, zorder=3):
     return ax.bar(x, h, width, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
 
 
-# ---------------- Figure 2 (author's brief, 2026-09-24): the instrument in one figure. One row, four panels, the same x axis:
-# the 12 ImageNet backbones grouped by family, in size order, joined within a family by a line (Groger et al. 2026, Fig. 5).
+# ---------------- Figure 2 (author's brief, 2026-09-24, two panels): the instrument in one figure. The same x axis in both:
+# the 12 ImageNet backbones by family with a one-position gap; each panel shows the real curve and its control on the same axes.
 FAMS = [("sup.", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"]), ("SSL", ["dinov1_b", "dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"]),
-        ("contr.", ["clip_b", "clip_l", "siglip_b"])]   # the family tags of Table 2
+        ("contr.", ["clip_b", "clip_l", "siglip_b"])]
+SHORT = {"i21k_t": "T", "i21k_s": "S", "i21k_b": "B", "i21k_l": "L", "dinov1_b": "v1", "dinov2_s": "S", "dinov2_b": "B", "dinov2_l": "L", "dinov2_g": "G",
+         "clip_b": "B", "clip_l": "L", "siglip_b": "Sig"}   # the size inside the family; the family is named under the axis
 XPOS, XFAM, XSEP, _x = {}, [], [], 0.0
 for _fname, _ms in FAMS:
     _start = _x
     for _m in _ms: XPOS[_m] = _x; _x += 1.0
     XFAM.append((_fname, (_start + _x - 1.0) / 2)); XSEP.append(_x + 0.5); _x += 2.0
-XLIM = (-0.9, _x - 2.0 + 0.9); XSEP = XSEP[:-1]   # no separator after the last family
-SHORT = {"i21k_t": "T", "i21k_s": "S", "i21k_b": "B", "i21k_l": "L", "dinov1_b": "v1", "dinov2_s": "S", "dinov2_b": "B", "dinov2_l": "L", "dinov2_g": "G",
-         "clip_b": "B", "clip_l": "L", "siglip_b": "Sig"}   # the size inside the family (v1: DINO-B, Sig: SigLIP-B); the family is named under the axis
-def famaxis(ax, names=True):
-    """The shared x axis: model names as ticks and the family name under the group."""
+XLIM = (-0.9, _x - 2.0 + 0.9); XSEP = XSEP[:-1]
+def famaxis(ax):
     ax.set_xlim(*XLIM)
-    for xs_ in XSEP: ax.axvline(xs_, color="#D5D9DE", lw=0.8, zorder=0)
-    ax.set_xticks([XPOS[m] for m in M])
-    ax.set_xticklabels([SHORT[m] for m in M] if names else [], rotation=90, fontsize=7)   # rotated: upright, the 3-character labels are wider than their slot
-    ax.tick_params(axis="x", length=2, width=0.6, color="#BBBBBB", pad=1.5)   # a tick under each size label so they read apart
-    for fname, xc in XFAM: ax.annotate(fname, xy=(xc, 0), xytext=(0, -26), xycoords=("data", "axes fraction"), textcoords="offset points", ha="center", va="top", fontsize=7, color="0.25")
+    for xs_ in XSEP: ax.axvline(xs_, color="white", lw=1.4, zorder=0)
+    ax.set_xticks([XPOS[m] for m in M]); ax.set_xticklabels([SHORT[m] for m in M], fontsize=6.3)
+    ax.tick_params(axis="x", length=2, width=0.6, color="#BBBBBB", pad=1.5)
+    for fname, xc in XFAM: ax.annotate(fname, xy=(xc, 0), xytext=(0, -15), xycoords=("data", "axes fraction"), textcoords="offset points", ha="center", va="top", fontsize=7, color="0.25")
     for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-def famline(ax, ys, lw=0.9, alpha=0.85):
-    for fname, ms_ in FAMS:
-        ax.plot([XPOS[m] for m in ms_], [ys[m] for m in ms_], "-", color=fam_color(ms_[0]), lw=lw, alpha=alpha, zorder=2)
+def curves(ax, real, ctrl, filled):
+    """The real curve (colored dots on a solid line) and its control (gray diamonds on a dotted line), family by family."""
+    for _fname, ms_ in FAMS:
+        ax.plot([XPOS[m] for m in ms_], [ctrl[m] for m in ms_], ":", color=GRAY, lw=0.9, zorder=2)
+        ax.plot([XPOS[m] for m in ms_], [real[m] for m in ms_], "-", color=fam_color(ms_[0]), lw=1.0, zorder=3)
+    for m in M:
+        ax.plot(XPOS[m], ctrl[m], "D", color=GRAY, ms=3.4, mec="white", mew=0.7, zorder=4)
+        if filled[m]: ax.plot(XPOS[m], real[m], "o", color=fam_color(m), ms=5, mec="white", mew=0.8, zorder=5)
+        else: ax.plot(XPOS[m], real[m], "o", mfc="white", mec=fam_color(m), ms=5, mew=1.3, zorder=5)
 IN = {m: by[(m, "imagenet")] for m in M}
 D74 = {r["model"]: r for r in csv.DictReader(open(RES/"expR74_decoupling_summary.csv"))}
 D81 = {r["model"]: r for r in csv.DictReader(open(RES/"expR81_deep_per_backbone_summary.csv"))}
-fig, axes = plt.subplots(1, 4, figsize=(5.5, 2.95))   # the two figures it replaces took 3.65 in between them
-# (a) the raw reading and a random cloud of the same shape
-ax = axes[0]; famline(ax, {m: float(IN[m]["delta"]) for m in M})
-for m in M:
-    ax.plot(XPOS[m], float(IN[m]["null_mean"]), "D", color=GRAY, ms=3.4, mec="white", mew=0.7, zorder=3)
-    ax.plot(XPOS[m], float(IN[m]["delta"]), "o", color=fam_color(m), ms=4.6, mec="white", mew=0.8, zorder=4)
-ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) the shadow and\nits random cloud", linespacing=1.15, pad=3); famaxis(ax)
-# (b) the excess, filled when genuine, with the two-null-s.d. tick
+fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.05))
+ax = axes[0]
+curves(ax, {m: float(IN[m]["delta"]) for m in M}, {m: float(IN[m]["null_mean"]) for m in M}, {m: IN[m]["genuine_bh"] == "True" for m in M})
+ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) raw reading and its random cloud", pad=3); famaxis(ax)
 ax = axes[1]
-for m in M:
-    r = IN[m]; e = float(r["excess"]); sd = float(r["null_sd"])
-    bar(ax, XPOS[m], e, fam_color(m), r["genuine_bh"] == "True", width=0.72)
-    ax.plot([XPOS[m] - 0.48, XPOS[m] + 0.48], [-2 * sd, -2 * sd], "-", color="0.25", lw=1.1, solid_capstyle="butt", zorder=5)
-ax.axhline(0, color="0.35", lw=0.6, zorder=1); ax.set_ylim(top=0.0028)
-ax.set_ylabel("excess"); ax.set_title("(b) excess", pad=3); famaxis(ax)
-# (c) the hierarchy test, intact and with the cluster orientations randomized
-ax = axes[2]; famline(ax, {m: float(D74[m]["real_z"]) for m in M})
-ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=2)
-for m in M:
-    ax.plot(XPOS[m], float(D74[m]["dec_z_mean"]), "D", color=GRAY, ms=3.4, mec="white", mew=0.7, zorder=3)
-    ax.plot(XPOS[m], float(D74[m]["real_z"]), "o", color=fam_color(m), ms=4.6, mec="white", mew=0.8, zorder=4)
-ax.set_ylabel("hierarchy test $z$"); ax.set_title("(c) hierarchy test,\nintact and randomized", linespacing=1.15, pad=3); famaxis(ax)
-# (d) the power for a planted hierarchy
-ax = axes[3]
-for m in M:
-    p = float(D81[m]["dec_power"]); bar(ax, XPOS[m], p, fam_color(m), p >= 0.8, width=0.72)
-ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=2)
-ax.set_ylim(0, 1.1); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"])
-ax.set_ylabel("power"); ax.set_title("(d) power for a\nplanted hierarchy", linespacing=1.15, pad=3); famaxis(ax)
-hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.8, label="model (raw reading, intact test)"),
-      plt.Line2D([], [], marker="D", color=GRAY, ls="", ms=3.4, mec="white", mew=0.7, label="random cloud of the same shape / orientations randomized"),
-      Patch(color="k", label="filled: genuine or $\\geq0.8$ power"),
-      Patch(facecolor="white", edgecolor="k", hatch="////", label="hatched: not genuine or blind"),
-      plt.Line2D([], [], color="k", lw=0.8, ls="--", label="dashed: threshold")]
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=2, handlelength=1.4, handletextpad=0.5, columnspacing=1.4, bbox_to_anchor=(0.5, -0.155))
-fig.subplots_adjust(left=0.062, right=0.998, top=0.90, bottom=0.235, wspace=0.34)
-save(fig, "fig_instrument_final")
-_cert = [m for m in M if float(D74[m]["real_z"]) <= -2]; _gen = [m for m in M if IN[m]["genuine_bh"] == "True"]
+ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=1)
+curves(ax, {m: float(D74[m]["real_z"]) for m in M}, {m: float(D74[m]["dec_z_mean"]) for m in M}, {m: float(D81[m]["dec_power"]) >= 0.8 for m in M})
+ax.set_ylabel("hierarchy test $z$"); ax.set_title("(b) hierarchy test, intact and randomized", pad=3); famaxis(ax)
+hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.0, ms=5, mec="white", mew=0.8, label="model"),
+      plt.Line2D([], [], marker="D", color=GRAY, ls=":", lw=0.9, ms=3.4, mec="white", mew=0.7, label="random cloud (a) / orientations randomized (b)"),
+      plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=5, mew=1.3, label="hollow: not genuine (a) / test blind (b)"),
+      plt.Line2D([], [], color="k", lw=0.8, ls="--", label="certified below")]
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=2, handlelength=1.6, handletextpad=0.5, columnspacing=1.4, bbox_to_anchor=(0.5, -0.20))
+fig.subplots_adjust(left=0.085, right=0.995, top=0.90, bottom=0.26, wspace=0.22)
 _covered = [m for m in M if float(D81[m]["dec_power"]) >= 0.8]
 json.dump({"legend": [h.get_label() for h in hd], "implanted_alignment_curve": False, "panel_b": "decoupled_power_per_backbone", "n_covered": len(_covered), "covered": _covered}, open(RES/"final_fig4.json", "w"), indent=1)
-print(f"instrument: genuine {len(_gen)}/12, certified {len(_cert)}/12, power>=0.8 in {sum(float(D81[m]['dec_power']) >= 0.8 for m in M)}/12")
+save(fig, "fig_instrument_final")
+print(f"instrument: genuine {sum(IN[m]['genuine_bh'] == 'True' for m in M)}/12, certified {sum(float(D74[m]['real_z']) <= -2 for m in M)}/12, power>=0.8 in {len(_covered)}/12")
 
 # ---------------- appendix figure: the same reading with opposite verdicts (panel (b) of the former Figure 2)
 fig, ax = plt.subplots(1, 1, figsize=(2.3, 1.75))

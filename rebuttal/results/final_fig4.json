@@ -1,10 +1,9 @@
 {
  "legend": [
-  "model (raw reading, intact test)",
-  "random cloud of the same shape / orientations randomized",
-  "filled: genuine or $\\geq0.8$ power",
-  "hatched: not genuine or blind",
-  "dashed: threshold"
+  "model",
+  "random cloud (a) / orientations randomized (b)",
+  "hollow: not genuine (a) / test blind (b)",
+  "certified below"
  ],
  "implanted_alignment_curve": false,
  "panel_b": "decoupled_power_per_backbone",

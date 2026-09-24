@@ -346,7 +346,7 @@ def clean_block(b):
     b = re.sub(r"(?s)\n(?!\\(FloatBarrier|subsection|label|input))[^\n]*\\ref\{tab:q7-wordnet\}[^\n]*\n", "\n", b)   # HierarCaps prose (its panel is dropped)
     b = re.sub(r"(?s)\nThreshold sensitivity of the selection criterion.*?(?=\n\\begin\{figure\}|\n\\input\{)", "\n", b)   # treemap prose
     b = re.sub(r"\\begin\{figure\}.*?\\end\{figure\}\n?", "", b, flags=re.S)                     # no appendix figure is cited from the main text
-    b = b.replace("(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:depth}a)", "(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:instrument}c)")
+    b = b.replace("(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:depth}a)", "(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:instrument}b)")
     b = b.replace(" are reported without certification (Figure~\\ref{fig:depth-c100}).", " are reported without certification (Table~\\ref{tab:q4-depth}).")
     b = b.replace("(Figure~\\ref{fig:bestmetric}; held-out selection and policy comparison in Table~\\ref{tab:q9-corollary})", "(Table~\\ref{tab:q9-corollary})")
     b = b.replace("(Figure~\\ref{fig:causal}; raw $\\delta$, within architecture)", "(raw $\\delta$, within architecture)")

@@ -175,7 +175,7 @@ e(X)=\delta_{\text{norm}}(X)-\frac{1}{K}\sum_{k=1}^{K}\delta_{\text{norm}}(X'_k)
 \end{definition}
 \end{defbox}
 
-\paragraph{Size and evidence.} The excess is a size; the evidence is the rank of the reading among its replicates and the left-tail $p$ that the rank gives,
+\paragraph{Size and evidence.} The excess is a size, the gap between a reading and its random cloud in Figure~\ref{fig:instrument}a. The evidence is the rank of the reading among its replicates and the left-tail $p$ that the rank gives,
 \begin{equation}
 r=\#\{k:\ \delta_{\text{norm}}(X'_k)>\delta_{\text{norm}}(X)\},\qquad p=\frac{1+K-r}{K+1},\qquad K=200.
 \label{eq:rank}
@@ -198,7 +198,7 @@ and the word is used in this sense only.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_instrument_final.pdf}
-\caption{\textbf{The instrument in one figure.} (a) Raw reading and a random cloud of the same shape; (b) their difference, the excess, filled when genuine; (c) the hierarchy test before and after randomizing cluster orientations; (d) its power for a planted hierarchy, filled where the test can see one. % expR75_census_centered_haar.csv, expR74_decoupling_summary.csv, expR81_deep_per_backbone_summary.csv
+\caption{\textbf{The instrument in one figure.} (a) Each model's raw reading and a random cloud of the same shape; the gap is the excess, and hollow dots are not genuine. (b) The hierarchy test on the intact cloud and with cluster orientations randomized; hollow dots mark models where the test cannot see a planted hierarchy. % expR75_census_centered_haar.csv, expR74_decoupling_summary.csv, expR81_deep_per_backbone_summary.csv
 }
 \label{fig:instrument}
 \end{figure}
@@ -295,7 +295,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \subsection{Depth above the labelled clusters}
 \label{sec:f-depth}
 
-\paragraph{The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test was run on the 12 ImageNet centroid clouds under both matched stars, with the WordNet cut into superclasses as the frame and the superclass centers as hubs. Figure~\ref{fig:instrument}c shows the $z$ per backbone and Tables~\ref{tab:q4-depth} and \ref{tab:q4-depth-ap} give both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
+\paragraph{The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test was run on the 12 ImageNet centroid clouds under both matched stars, with the WordNet cut into superclasses as the frame and the superclass centers as hubs. Figure~\ref{fig:instrument}b shows the $z$ per backbone and Tables~\ref{tab:q4-depth} and \ref{tab:q4-depth-ap} give both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
 
 \paragraph{What it certifies is alignment.} Once the cluster orientations were randomized, the decoupling control of Definition~\ref{def:decoupling}, none of the 4 backbones fires. ViT-L then reads $-1.61$, within the $-1.61$ to $-1.76$ of the flat control: without its orientations the real cloud reads like a flat one. The alignment is relational: 0 of 60 runs fire with random hubs and 0 of 4 with random orientations, so it needs both the real hubs and the real orientations. Removing the radial component of every offset leaves it in all 4 certified backbones, $z$ from $-2.26$ to $-3.99$ under both stars; feature norms are not its source. Under full L2 normalization, which also moves the hubs, it survives in ViT-B and ViT-L only. The implanted principal-axis alignment reproduces it in the supervised ViTs and CLIP-B but not in DINOv2-L, and its geometric form is not resolved here. % expR74_decoupling_summary.csv, expR79_synthetic_deep_poincare.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30.csv, expR82_radial_control.csv, expR80_implanted_alignment.csv
 
