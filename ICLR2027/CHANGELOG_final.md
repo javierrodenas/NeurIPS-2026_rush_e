@@ -3202,3 +3202,18 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   Reproducibilidad empieza ahora al pie de la página 9 en vez de al principio de la 10; las referencias siguen en la 10.
 - Envío de 29 páginas, apéndice de 14. Sweep **240/240** (comprobación nueva: 32 filas del panel, todas con cita, ninguna
   columna "ref.", y las dos entradas nuevas con su página de editor). Rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 111. Pie de la Figura 3, panel (b): tu texto (2026-09-24, brief del autor)
+
+- El pie va literal, con `Section~\ref` en vez del número escrito a mano: "(b) The values reported by Khrulkov et al. (2020),
+  our reproduction with their estimator, and the random cloud of the same shape, all on their statistic: a dot inside the band
+  is what chance gives. On their statistic CIFAR-10, CIFAR-100 and CUB-200 fall inside it and only MiniImageNet below; on our
+  reading CIFAR-100 also falls below (Section 5.1)."
+- **La banda se queda sobre su estadístico**, el supremo, como pedías; el panel no cambia ni una marca.
+- **Comprobaciones**: el sweep ya verificaba que dentro de la banda caen `["cifar10", "cifar100", "cub"]` (de
+  `final_fig_premise.json`, escrito por el script de figuras); se añade la otra mitad de la frase, leída de
+  `expR78_khrulkov_replication_summary.csv`: con la lectura por percentil quedan por debajo CIFAR-100 ($p=0.030$) y
+  MiniImageNet ($p=0.005$), y dentro CIFAR-10 ($p=0.33$) y CUB-200 ($p=0.25$). Las dos cadenas del pie están fijadas en los dos
+  sitios del sweep que lo citaban.
+- **Página 9**: el pie crece cuatro líneas y se come justo la holgura que había quedado en la ronda anterior. El texto principal
+  sigue acabando en la página 9 y la Declaración de Reproducibilidad vuelve al principio de la página 10, como antes.
+- Envío de 29 páginas, apéndice de 14. Sweep **240/240**, rebuttal reconstruido (61/61), qa_pages regeneradas.
