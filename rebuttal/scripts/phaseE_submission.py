@@ -153,6 +153,17 @@ assert "depth test" not in body.lower() and "depth verdict" not in body and body
 if "s55" in CUTS: pass   # S5.5 is written with three sentences in the template (cut step 1 applied at the source)
 if "s6" in CUTS: pass    # S6 has three paragraphs in the template (cut step 2)
 if "table" in CUTS: pass # the model table is in the appendix (Table of the panel, cut step 3)
+# ---- main-text completeness (author's brief, 2026-09-24, night): the four sentences carry their numbers, each re-derived here
+_sl62 = pd.read_csv(R + 'expR62_samplelevel_record.csv'); assert len(_sl62) == 24
+F['SL_NOTGEN'] = str(int((~_sl62.genuine_bh).sum())); assert F['SL_NOTGEN'] == '14', F['SL_NOTGEN']
+_a3 = pd.read_csv(R + 'exp3_alignment.csv').set_index('model').spearman_wn
+def _wnrange(pref, n):
+    ms = [m for m in _a3.index if m.startswith(pref)]; assert len(ms) == n, (pref, ms)
+    return f"{_a3[ms].min():+.2f}", f"{_a3[ms].max():+.2f}"
+F['WN_SUP_LO'], F['WN_SUP_HI'] = _wnrange('i21k', 4)
+F['WN_DV2_LO'], F['WN_DV2_HI'] = _wnrange('dinov2', 4)
+F['WN_CON_LO'], F['WN_CON_HI'] = _wnrange(('clip', 'siglip'), 3)
+assert (F['WN_CON_LO'], F['WN_SUP_LO'], F['WN_DV2_HI']) == ('+0.57', '+0.49', '+0.22'), (F['WN_CON_LO'], F['WN_SUP_LO'], F['WN_DV2_HI'])
 # ---- priority 1c as a limitation (brief of 2026-09-21): the percentage and the family statement are checked against expR80
 assert IMPL and "runs1" in IMPL, "expR80 must be merged (expR80_decision.csv, expR80_implanted_alignment.csv)"
 F['IMPL_PCT'] = f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}"
@@ -269,7 +280,7 @@ if os.path.exists(R + 'expR81_deep_per_backbone.csv'):
 _s78 = pd.read_csv(R + 'expR78_khrulkov_replication_summary.csv').set_index('dataset')
 assert int((_s78.p_left_max > 0.05).sum()) == 2, "'two are indistinguishable from a random cloud'"
 assert set(_s78.index) == {'cifar10', 'cifar100', 'cub', 'miniimagenet'} and bool(_s78.within_range.all()) and bool((_s78.excess_mean < 0).all()) and set(_s78.index[_s78.p_left_max <= 0.05]) == {'cifar100', 'miniimagenet'}, _s78
-json.dump({**{k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN', 'MERU_P95', 'MERU_PCT')}, 'IMPL_PCT': f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}", **{k: F[k] for k in ('FA_DEC', 'RATIO_VITL', 'RATIO_DINO_LO', 'RATIO_DINO_HI', 'DEC_OBS', 'PROV81', 'RATIO_SC_LO', 'RATIO_SC_HI', 'Z_DEEP_HI', 'Z_DEEP_LO', 'Z_FLAT_HI', 'Z_FLAT_LO', 'Z_VITL_DEC', 'RATIO_DINOB', 'RATIO_VITB', 'Z_RAD_HI', 'Z_RAD_LO', 'P81_COVERED', 'P81_UNCOVERED', 'P81_COV_LO', 'P81_COV_HI', 'P81_UNC_LO', 'P81_UNC_HI', 'RATIO_BLIND_LO', 'RATIO_BLIND_HI', 'RATIO_COV_LO', 'RATIO_COV_HI', 'TRIP_BIG', 'TRIP_WITHIN', 'FA_BAL', 'FA_MIS', 'BAL_SENT', 'PC_HIER_Z0', 'PC_HIER_Z1', 'PC_CE_Z0', 'PC_CE_Z1', 'PC_CE_DEC1', 'PC_FROZEN_DEC', 'PC_HIER_POOL', 'PC_CE_POOL', 'PC_HIER_ZM', 'PC_CE_ZM', 'CEIL_TRIP', 'CEIL_TRIP_MIN', 'CEIL_TRIP_LO', 'CEIL_TRIP_HI', 'CEIL_COPH', 'CEIL_COPH_LO', 'CEIL_COPH_HI', 'CEIL_ARI', 'CEIL_ARI_LO', 'CEIL_ARI_HI', 'ARI58_BIG', 'ARI58_WITHIN', 'COPH58_BIG', 'COPH58_WITHIN', 'IMPL_REAL_S1', 'IMPL_SHRUNK_S1', 'IMPL_REAL_S0', 'PC_HIER_DEC', 'PC_CE_DEC', 'PC_FROZEN_BAL')}}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
+json.dump({**{k: F[k] for k in ('FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'SL_NOTGEN', 'WN_SUP_LO', 'WN_SUP_HI', 'WN_DV2_LO', 'WN_DV2_HI', 'WN_CON_LO', 'WN_CON_HI', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN', 'MERU_P95', 'MERU_PCT')}, 'IMPL_PCT': f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}", **{k: F[k] for k in ('FA_DEC', 'RATIO_VITL', 'RATIO_DINO_LO', 'RATIO_DINO_HI', 'DEC_OBS', 'PROV81', 'RATIO_SC_LO', 'RATIO_SC_HI', 'Z_DEEP_HI', 'Z_DEEP_LO', 'Z_FLAT_HI', 'Z_FLAT_LO', 'Z_VITL_DEC', 'RATIO_DINOB', 'RATIO_VITB', 'Z_RAD_HI', 'Z_RAD_LO', 'P81_COVERED', 'P81_UNCOVERED', 'P81_COV_LO', 'P81_COV_HI', 'P81_UNC_LO', 'P81_UNC_HI', 'RATIO_BLIND_LO', 'RATIO_BLIND_HI', 'RATIO_COV_LO', 'RATIO_COV_HI', 'TRIP_BIG', 'TRIP_WITHIN', 'FA_BAL', 'FA_MIS', 'BAL_SENT', 'PC_HIER_Z0', 'PC_HIER_Z1', 'PC_CE_Z0', 'PC_CE_Z1', 'PC_CE_DEC1', 'PC_FROZEN_DEC', 'PC_HIER_POOL', 'PC_CE_POOL', 'PC_HIER_ZM', 'PC_CE_ZM', 'CEIL_TRIP', 'CEIL_TRIP_MIN', 'CEIL_TRIP_LO', 'CEIL_TRIP_HI', 'CEIL_COPH', 'CEIL_COPH_LO', 'CEIL_COPH_HI', 'CEIL_ARI', 'CEIL_ARI_LO', 'CEIL_ARI_HI', 'ARI58_BIG', 'ARI58_WITHIN', 'COPH58_BIG', 'COPH58_WITHIN', 'IMPL_REAL_S1', 'IMPL_SHRUNK_S1', 'IMPL_REAL_S0', 'PC_HIER_DEC', 'PC_CE_DEC', 'PC_FROZEN_BAL')}}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
 for k, v in F.items(): body = body.replace("{{" + k + "}}", v)
 left = re.findall(r"\{\{[A-Z0-9_]+\}\}", body); assert not left, left
 # ---- appendix cleanup (2026-09-23): one plain-language paragraph of 2-4 sentences before each table; every explanatory sentence of

@@ -1051,12 +1051,17 @@ def final_checks():
         return [m.group(0).replace("$", "").replace("from ", "").strip() for m in RANGE.finditer(s) if not _re.fullmatch(r"\s*", m.group(0))]
     NOUNS = r"(?:other\s+)?(?:certified |real |blind |supervised |self-supervised |leaf-label |covered |vision |text |ImageNet |decoupled |intact )?(?:backbones?|models?|cells?|seeds?|runs?|replicates?|datasets?|class sets?|classes|superclasses|coarse labels|star seeds|resamples|model pairs|controls?|ResNets|ViTs|sizes|sentence embedders|values|verdicts|centroid clouds|rows)\b"
     HEADLINE = {"44 of 72", "18 of 24", "4 of 12", "0 of 60", "7 of 15", "0.48 to 2.5", "+0.9 to +1.3", "30 of 36", "47", "5 of 12", "210", "+0.41 against +0.28", "0 of 4", "4 of 5", "0 of 5", "0.03", "0.05", "60", "60\\%", "60%", "8 of 50", "1.9", "3.0--3.9", "3.0 to 3.9", "3.0", "3.9", "1.3--2.0", "1.3 to 2.0", "-4.19 to -4.82", "-1.61 to -1.76", "4.19 to -4.82", "1.61 to -1.76", "-1.61", "1.61", "2.1", "2.0", "-2.26 to -3.99", "2.26 to -3.99", "0.80 to 1.00", "0.00 to 0.45", "1.5 to 2.0", "10 of 10", "0 of 10", "7 of 10", "0.80", "0.45"}   # 2026-09-21: priorities 1b (4 of 5, 0 of 5), 2 (0.03, 0.05) and 1c (60%)   # 2026-09-20: the record is the centered Haar null (44 of 72; FMNIST 5 of 12); R6: relational alignment (0 of 4)
-    EXEMPT = {"Most cells show structure beyond the second moments.": (4, 3), "What it certifies is alignment.": (5, 2), "What the test can see.": (4, 2), "A trained hierarchy survives, and the decoupled test leans toward firing.": (3, 1), "Controlled, the trees share their topology, not their metric.": (3, 2), "The certified set depends on the frame.": (2, 2), "MERU's objective does not create hub structure.": (2, 2)}   # MERU: '95 per cent … within 0.29' (final accuracy pass, 2026-09-23)   # the ceilings per measure beside the cross-model values (thesis brief, 2026-09-22 evening)   # cleanup of 2026-09-22: S5.3 in seven paragraphs, each number once; (c) carries the counts of the test's power and biases
+    EXEMPT = {"Most cells show structure beyond the second moments.": (4, 3), "What it certifies is alignment.": (5, 2), "What the test can see.": (4, 2), "A trained hierarchy survives, and the decoupled test leans toward firing.": (3, 1), "Controlled, the trees share their topology, not their metric.": (3, 2), "The certified set depends on the frame.": (2, 2), "MERU's objective does not create hub structure.": (2, 2), "Agreement with WordNet follows supervision and recipe.": (3, 3)}   # MERU: '95 per cent … within 0.29' (final accuracy pass, 2026-09-23)   # the ceilings per measure beside the cross-model values (thesis brief, 2026-09-22 evening)   # cleanup of 2026-09-22: S5.3 in seven paragraphs, each number once; (c) carries the counts of the test's power and biases
     SENT_EXEMPT = {"What the test can see.", "A trained hierarchy survives, and the decoupled test leans toward firing.", "The count survives resampling.", "Neural collapse is the flat limit, not what the census sees.", "Size and evidence.", "Controlled, the trees share their topology, not their metric.", "What a genuine excess means.", "Three readouts are compared on the intact representation.", "The raw reading cannot select a curvature.", "Models share neighborhoods, not metrics.", "Both readings predict the gain, and the hierarchy verdict predicts none.", "A raw value cannot be called low on its own.", "Why a second test.", "A star of clusters already passes the census.", "The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.",
                    "The certified set depends on the frame.", "Leaf labels can produce the alignment but do not guarantee it.", "MERU's objective does not create hub structure.", "Text depends on recipe and scale."}   # page-9 recovery of 2026-09-24: one sentence each, the detail in Appendix~\ref{app:detail}   # the last two at two sentences for the page budget under the 361-word abstract (consolidated pass)   # cleanup of 2026-09-22: (c) by design, the two S5.2 paragraphs cut to two sentences by the author   # the author's count sentences carry more than one number
     import pandas as pd
     _S81h = pd.read_csv(R/"expR81_deep_per_backbone_summary.csv").set_index("model"); _c9 = _S81h[_S81h.dec_power >= 0.8].dec_power; _u3 = _S81h[_S81h.dec_power < 0.8].dec_power; _r64h = pd.read_csv(R/"expR64b_wn30_summary.csv").set_index("model").ratio_real
     HEADLINE |= {f"{_c9.min():.2f} to {_c9.max():.2f}", f"{_u3.min():.2f} to {_u3.max():.2f}", f"{_c9.min():.2f}", f"{_u3.max():.2f}", f"{_r64h[_u3.index].min():.1f} to {_r64h[_u3.index].max():.1f}", f"{_r64h[_c9.index].min():.1f} to {_r64h[_c9.index].max():.1f}"}   # ninth review: decoupled power ranges (nine/three) and the blind/covered ratio ranges, from the files
+    _a3h = pd.read_csv(R/"exp3_alignment.csv").set_index("model").spearman_wn   # main-text completeness (2026-09-24): the three WordNet ranges of S5.4 and the sample-level count of S5.1
+    for _p, _n in (("i21k", 4), ("dinov2", 4), (("clip", "siglip"), 3)):
+        _ms = [m for m in _a3h.index if m.startswith(_p)]; assert len(_ms) == _n
+        HEADLINE |= {f"{_a3h[_ms].min():+.2f} to {_a3h[_ms].max():+.2f}"}
+    HEADLINE |= {f"{int((~pd.read_csv(R/'expR62_samplelevel_record.csv').genuine_bh).sum())} of 24"}
     _c58h = pd.read_csv(R/"expR58_treemap_cutfree_summary.csv"); _c58h = _c58h[(_c58h.dataset == "imagenet") & (_c58h.metric == "cosine") & (_c58h.linkage == "average")].iloc[0]; HEADLINE |= {f"{_c58h.triplet_agree_big_vs_block:.2f} against {_c58h.triplet_agree_within_block:.2f}"}
     if (R/"expR84_tree_ceiling_summary.csv").exists(): _s84h = pd.read_csv(R/"expR84_tree_ceiling_summary.csv").set_index("model"); HEADLINE |= {f"{_s84h.loc['ALL', 'triplet_agree_mean']:.2f}", f"{_s84h.loc['ALL', 'triplet_agree_min']:.2f}"}   # tenth review: the within-model ceiling
     if (R/"expR84_tree_ceiling_summary.csv").exists():   # thesis brief (2026-09-22 evening): the ceilings per measure, their ranges, and the cross-model values of expR58
@@ -1100,7 +1105,7 @@ def final_checks():
             if results:
                 pmax, smax = EXEMPT.get(lead.group(1) if lead else "", (2, 1))
                 for s_ in sents:
-                    if len([g for g in groups(s_) if g not in counts_]) > 2: bad.append(f"{name}: more than two numbers in a sentence (author's rule of 2026-09-23): {s_[:80]}")
+                    if len([g for g in groups(s_) if g not in counts_]) > 2 and not s_.startswith("The correlation between inter-centroid and WordNet distances"): bad.append(f"{name}: more than two numbers in a sentence (author's rule of 2026-09-23): {s_[:80]}")   # the author's S5.4 sentence gives the three family ranges together (brief of 2026-09-24, night)
                 gs = [g for g in gs if g not in counts_]
                 if len(gs) > pmax: bad.append(f"{name}: >{pmax} numbers in a paragraph {gs}: {par[:60]!r}")
                 for s_ in sents:
@@ -1393,6 +1398,27 @@ def final_checks():
         and "(vii)~The reading divides by the diameter, so heavier tails in real clouds would lower $\\delta_{\\text{norm}}$ without any clustering. The cosine census mitigates this, and a percentile normalization is future work." in TF
         and len(rob_c) == 0 and rob.count("\\caption{(continued)}") == rob.count("\\ContinuedFloat"),   # appendix cleanup (2026-09-23): one short caption, the other floats plain '(continued)' 
         f"continued captions {[c.strip()[:12] for c in rob_c]}")
+    # ---- main-text completeness (author's brief, 2026-09-24, night): four sentences, every number against its file
+    _slc = pd.read_csv(R/"expR62_samplelevel_record.csv"); _a3c = pd.read_csv(R/"exp3_alignment.csv").set_index("model").spearman_wn
+    def _wnr(p_, n_):
+        ms_ = [m for m in _a3c.index if m.startswith(p_)]; assert len(ms_) == n_, (p_, ms_)
+        return f"${_a3c[ms_].min():+.2f}$ to ${_a3c[ms_].max():+.2f}$"
+    _g3 = lambda d_: set(d_[d_.genuine_bh == True].model)
+    _rec3 = pd.read_csv(R/"expR53_text_haar_p999_200.csv"); _sup3 = pd.read_csv(R/"expR53_text_haar_sup_200.csv"); _cos3 = pd.read_csv(R/"expR57_text_cosine_haar_p999_200.csv")
+    _all3 = _g3(_rec3) & _g3(_sup3) & _g3(_cos3); _any3 = _g3(_rec3) | _g3(_sup3) | _g3(_cos3)
+    _emb3 = [m for m in _rec3.model if m.startswith(("bge", "gte", "e5"))]; _db3 = pd.read_csv(R/"expR61_dbpedia_record.csv")
+    _txt_ok = ({"gpt2_l", "gpt2_xl"} <= _all3 and not ({"gpt2", "gpt2_m"} & _all3) and {"gpt2", "gpt2_m"} <= _any3
+               and {"pythia_410m", "pythia_1b", "pythia_2b8"} <= _all3 and len(_emb3) == 7 and not (set(_emb3) & _g3(_rec3))
+               and len(_db3) == 3 and bool((_db3.genuine_bh == True).all()) and set(_db3.model) <= set(_emb3))
+    _r71c = pd.read_csv(R/"expR71_meru_radii.csv"); _r71c = _r71c[_r71c.model.str.startswith("meru")]
+    chk("final (main-text completeness, 2026-09-24): S5.1 gives the sample-level count (14 of 24 from expR62), the MERU sentence carries the unmeasured power and the 95th-percentile radius from expR71, S5.4 gives the three WordNet ranges from exp3_alignment and the recipe pointer, and the text paragraph's per-model claims hold in expR53/expR57/expR61 (GPT-2 L and XL genuine under all three readings, S and M under some, Pythia at every size, the 7 embedders not on class names and the 3 read on DBpedia genuine)",
+        f"the calibrated reading is not genuine in {int((~_slc.genuine_bh).sum())} of {len(_slc)} cells, that is, no more than chance would give." in bf
+        and "Read with the census and the hierarchy test, MERU shows the same clustering as its Euclidean twin. No hub structure is detected, although the test's power at MERU's spectrum was not measured." in bf
+        and f"And 95 per cent of its embeddings stay within {_r71c.radius_sqrtc_p95.max():.2f} of the curvature scale, a nearly flat space (Table~\\ref{{tab:q4-depth-c}})." in bf
+        and f"The correlation between inter-centroid and WordNet distances is highest for the contrastive VLMs ({_wnr(('clip', 'siglip'), 3)}), then the supervised ViTs ({_wnr('i21k', 4)}), and lowest for DINOv2 ({_wnr('dinov2', 4)})." in bf
+        and "Among leaf-supervised ViTs it depends on the recipe (Section~\\ref{sec:f-depth})." in bf
+        and "GPT-2 L and XL are genuine under every reading while S and M change with it. Pythia is genuine at every size, and the sentence embedders are not on class names but are on DBpedia." in bf and _txt_ok,
+        f"sample-level not genuine {int((~_slc.genuine_bh).sum())} of {len(_slc)}; text ok {_txt_ok}")
     # ---- full read (author's brief, 2026-09-24, evening): vocabulary, S4 class sets, the statement boxes, the statements
     _ident = lambda s_: (nocom(s_).replace("fig_implant_final", "").replace("fig:implant", "").replace("expR80\\_implanted\\_alignment.csv", "")
                          .replace("expR64\\_implanted\\_depth.csv", "").replace("expR80_implanted_alignment", "").replace("expR64_implanted_depth", ""))

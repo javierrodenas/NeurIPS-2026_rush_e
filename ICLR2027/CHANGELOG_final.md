@@ -2956,3 +2956,23 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   ejes de las figuras. El literal del sweep sigue la frase nueva.
 - Sin cambio de números ni de maquetación: 35 páginas, texto principal hasta la página 9, declaraciones en la 9, referencias en
   la 10. Sweep 233/233, fichero de rebuttal reconstruido (61/61), qa_pages y FINAL_CHECK regenerados.
+## 97. Cuatro frases completas en el texto principal (2026-09-24, brief del autor). Números verificados contra sus tablas.
+
+- **(1)** §5.1: "the calibrated reading is not genuine in **14 of 24** cells". El 14 sale de `expR62_samplelevel_record.csv`
+  (24 celdas, 10 genuinas) por relleno nuevo `SL_NOTGEN`, con aserto en el constructor y comprobación en el sweep.
+- **(2)** §5.3, MERU: la frase dice ya que no se detecta estructura de hubs **aunque la potencia a su espectro no se midió**, y
+  que el **95 por ciento** de sus embeddings queda a menos de **0.29** de la escala de curvatura, "a nearly flat space". Los dos
+  números son los de `expR71_meru_radii.csv`, los mismos que el apéndice.
+- **(3)** §5.4, WordNet: la correlación va ahora con sus rangos, leídos de `exp3_alignment.csv`: VLM contrastivos
+  $+0.57$ a $+0.59$, ViT supervisados $+0.49$ a $+0.53$, DINOv2 $+0.18$ a $+0.22$ (DINO-B, $+0.36$, no es DINOv2 y queda fuera
+  del rango, como pedías). Cierra con "Among leaf-supervised ViTs it depends on the recipe (Section~\ref{sec:f-depth})".
+- **(4)** §5.4, texto: "GPT-2 L and XL are genuine under every reading while S and M change with it. Pythia is genuine at every
+  size, and the sentence embedders are not on class names but are on DBpedia." Comprobado en las tres lecturas
+  (`expR53_text_haar_p999_200.csv`, `expR53_text_haar_sup_200.csv`, `expR57_text_cosine_haar_p999_200.csv`): L y XL genuinos en
+  las tres; S genuino sólo bajo la lectura del percentil y M sólo bajo coseno; Pythia genuino en los tres tamaños y en las tres
+  lecturas; ninguno de los 7 embedders es genuino en los nombres de clase, y los 3 leídos en DBpedia sí lo son.
+- **Dos frases tuyas las he partido**, sin tocar ni una palabra, porque pasaban de tus 30 palabras: la de MERU (52 palabras y dos
+  puntos y coma) va en tres frases, y la de WordNet (40) en dos, cortando por los puntos y coma. Si las quieres enteras, es una
+  línea. La frase de los tres rangos lleva excepción nombrada en el sweep para tu tope de dos números por frase.
+- Sweep **234/234** con la comprobación nueva (cada número de las cuatro frases contra su fichero). Envío de 35 páginas, texto
+  principal hasta la página 9, declaraciones en la 9, referencias en la 10. Rebuttal reconstruido (61/61) y qa_pages revisadas.

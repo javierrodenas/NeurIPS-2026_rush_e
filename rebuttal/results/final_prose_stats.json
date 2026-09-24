@@ -25,8 +25,8 @@
    "over30": 0
   },
   "Results": {
-   "sentences": 66,
-   "avg_words": 18.4,
+   "sentences": 71,
+   "avg_words": 18.3,
    "max_words": 30,
    "over30": 0
   },
@@ -43,8 +43,8 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.2,
- "n_nonverbatim_sentences": 118,
+ "avg_nonverbatim": 18.1,
+ "n_nonverbatim_sentences": 123,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
@@ -58,6 +58,7 @@
    "section": "Results",
    "lead": "The premise does not survive calibration where it is read.",
    "numbers": [
+    "14 of 24",
     "24"
    ]
   },
@@ -163,7 +164,10 @@
   {
    "section": "Results",
    "lead": "MERU's objective does not create hub structure.",
-   "numbers": []
+   "numbers": [
+    "95",
+    "0.29"
+   ]
   },
   {
    "section": "Results",
@@ -191,7 +195,11 @@
   {
    "section": "Results",
    "lead": "Agreement with WordNet follows supervision and recipe.",
-   "numbers": []
+   "numbers": [
+    "+0.57 to +0.59",
+    "+0.49 to +0.53",
+    "+0.18 to +0.22"
+   ]
   },
   {
    "section": "Results",
