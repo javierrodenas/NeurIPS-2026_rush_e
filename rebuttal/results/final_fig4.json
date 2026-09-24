@@ -1,9 +1,11 @@
 {
  "legend": [
   "model",
-  "random cloud (a) / orientations randomized (b)",
-  "hollow: not genuine (a) / test blind (b)",
-  "certified below"
+  "random cloud (a) / real, randomized (c)",
+  "planted hierarchy, randomized (c)",
+  "genuine / power $\\geq0.8$",
+  "not genuine / blind",
+  "power intact (d)"
  ],
  "implanted_alignment_curve": false,
  "panel_b": "decoupled_power_per_backbone",

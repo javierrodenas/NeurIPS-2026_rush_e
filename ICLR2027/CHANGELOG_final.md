@@ -2825,3 +2825,18 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   un punteado explícito (1 pt de punto, 1.6 de hueco) a 1.0 pt. La leyenda muestra las dos claves con esos mismos estilos.
 - La figura tiene dos paneles, (a) y (b): el "(c)" de tu nota era de la versión de cuatro paneles. Los dos llevan el cambio.
 - Envío: 32 páginas, texto principal en la página 9, sweep 230/230, qa_pages regeneradas.
+## 91. Figura 2 en 2 × 2 (2026-09-24, brief del autor). Sin cambio de datos.
+
+- Cuatro paneles en dos filas, ancho del texto, 3.2 in de alto; el color significa familia en los cuatro. (a) lectura cruda de
+  ImageNet (puntos de color, línea continua) y media del nulo emparejado (rombos grises, punteada). (b) el exceso en barras, llena
+  cuando la celda es genuina (BH) y rayada si no, con una marca horizontal oscura en $-2$ desviaciones del nulo junto a cada barra.
+  (c) prueba de jerarquía: la nube real intacta (puntos, continua), la real con las orientaciones aleatorizadas (rombos grises,
+  punteada) y la jerarquía plantada de tres niveles aleatorizada igual (triángulos amarillos #FDB813, continua, `dec_z_mean` de
+  expR81), discontinua en $-2$. (d) potencia para la jerarquía plantada: dos barras por backbone, la intacta en gris claro y la
+  aleatorizada en el color de la familia (rayada por debajo de 0.8), discontinua en 0.8.
+- Mismo eje x en los cuatro, con las tallas y el nombre de familia también en la fila de arriba, como pediste. Una sola leyenda
+  debajo, tres columnas, caja blanca redondeada con sombra, sin nada recortado, con tus seis entradas. Pie: el tuyo, verbatim.
+- Referencias: §3.3 sigue citando el panel (a) en "Size and evidence" y §5.3 apunta ahora al panel (c), igual que el pie de la tabla
+  de la prueba en el apéndice. La Figura 3 no se toca.
+- **No hizo falta recortar §6**: con la figura de 3.2 in el texto principal sigue acabando en la página 9. Envío en 32 páginas,
+  sweep 230/230, qa_pages regeneradas y revisadas a 100 dpi.
