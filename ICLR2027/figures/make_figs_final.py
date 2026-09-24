@@ -61,11 +61,11 @@ def famaxis(ax):
 def curves(ax, real, ctrl, filled):
     """The real curve (colored dots on a solid line) and its control (gray diamonds on a dotted line), family by family."""
     for _fname, ms_ in FAMS:
-        ax.plot([XPOS[m] for m in ms_], [ctrl[m] for m in ms_], ":", color=GRAY, lw=0.9, zorder=2)
-        ax.plot([XPOS[m] for m in ms_], [real[m] for m in ms_], "-", color=fam_color(ms_[0]), lw=1.0, zorder=3)
+        ax.plot([XPOS[m] for m in ms_], [ctrl[m] for m in ms_], ls=(0, (1, 1.6)), color=GRAY, lw=1.0, zorder=2)   # the control is dotted
+        ax.plot([XPOS[m] for m in ms_], [real[m] for m in ms_], "-", color=fam_color(ms_[0]), lw=1.5, zorder=3)   # the model's curve is solid and reads through its markers
     for m in M:
-        ax.plot(XPOS[m], ctrl[m], "D", color=GRAY, ms=3.4, mec="white", mew=0.7, zorder=4)
-        if filled[m]: ax.plot(XPOS[m], real[m], "o", color=fam_color(m), ms=5, mec="white", mew=0.8, zorder=5)
+        ax.plot(XPOS[m], ctrl[m], "D", color=GRAY, ms=3.4, mec="white", mew=0.5, zorder=4)
+        if filled[m]: ax.plot(XPOS[m], real[m], "o", color=fam_color(m), ms=5, mec="white", mew=0.5, zorder=5)
         else: ax.plot(XPOS[m], real[m], "o", mfc="white", mec=fam_color(m), ms=5, mew=1.3, zorder=5)
 IN = {m: by[(m, "imagenet")] for m in M}
 D74 = {r["model"]: r for r in csv.DictReader(open(RES/"expR74_decoupling_summary.csv"))}
@@ -78,8 +78,8 @@ ax = axes[1]
 ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=1)
 curves(ax, {m: float(D74[m]["real_z"]) for m in M}, {m: float(D74[m]["dec_z_mean"]) for m in M}, {m: float(D81[m]["dec_power"]) >= 0.8 for m in M})
 ax.set_ylabel("hierarchy test $z$"); ax.set_title("(b) hierarchy test, intact and randomized", pad=3); famaxis(ax)
-hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.0, ms=5, mec="white", mew=0.8, label="model"),
-      plt.Line2D([], [], marker="D", color=GRAY, ls=":", lw=0.9, ms=3.4, mec="white", mew=0.7, label="random cloud (a) / orientations randomized (b)"),
+hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.5, ms=5, mec="white", mew=0.5, label="model"),
+      plt.Line2D([], [], marker="D", color=GRAY, ls=(0, (1, 1.6)), lw=1.0, ms=3.4, mec="white", mew=0.5, label="random cloud (a) / orientations randomized (b)"),
       plt.Line2D([], [], marker="o", mfc="white", mec="k", ls="", ms=5, mew=1.3, label="hollow: not genuine (a) / test blind (b)"),
       plt.Line2D([], [], color="k", lw=0.8, ls="--", label="certified below")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=2, handlelength=1.6, handletextpad=0.5, columnspacing=1.4, bbox_to_anchor=(0.5, -0.20))

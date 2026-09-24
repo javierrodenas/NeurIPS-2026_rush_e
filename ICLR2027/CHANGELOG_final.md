@@ -2817,3 +2817,11 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - Referencias: §3.3 cita ahora el panel (a) en la frase de "Size and evidence" (partida en dos por el tope de 30 palabras) y §5.3
   apunta al panel (b), igual que el pie de la tabla de la prueba en el apéndice.
 - Envío: 32 páginas, texto principal en la página 9, sweep 230/230, qa_pages regeneradas.
+## 90. Figura 2: curva del modelo continua, control punteado (2026-09-24, nota del autor).
+
+- Los estilos ya eran continuo para el modelo y punteado para el control, pero el modelo no se leía continuo: el borde blanco de
+  los marcadores (0.8 pt) cortaba la línea en cada punto y parecía a trazos, también en la clave de la leyenda. La línea del modelo
+  pasa de 1.0 a 1.5 pt y el borde blanco de los marcadores baja a 0.5 pt, así que la curva se lee de un trazo; el control usa ahora
+  un punteado explícito (1 pt de punto, 1.6 de hueco) a 1.0 pt. La leyenda muestra las dos claves con esos mismos estilos.
+- La figura tiene dos paneles, (a) y (b): el "(c)" de tu nota era de la versión de cuatro paneles. Los dos llevan el cambio.
+- Envío: 32 páginas, texto principal en la página 9, sweep 230/230, qa_pages regeneradas.
