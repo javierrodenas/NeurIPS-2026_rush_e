@@ -26,7 +26,7 @@
   },
   "Results": {
    "sentences": 71,
-   "avg_words": 18.3,
+   "avg_words": 18.2,
    "max_words": 30,
    "over30": 0
   },
@@ -163,7 +163,7 @@
   },
   {
    "section": "Results",
-   "lead": "MERU's objective does not create hub structure.",
+   "lead": "Training in hyperbolic space leaves the clustering unchanged.",
    "numbers": [
     "95",
     "0.29"

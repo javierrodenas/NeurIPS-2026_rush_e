@@ -16,7 +16,7 @@
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 38 | 18.1 | 30 | 0 |
 | Experimental Setup | 16 | 17.8 | 33 | 0 |
-| Results | 71 | 18.3 | 30 | 0 |
+| Results | 71 | 18.2 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 19 | 24 | 0 |
 | Conclusion and Limitations | 12 | 17.4 | 34 | 0 |
 
@@ -39,7 +39,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | No hub hierarchy is found where the test has power. | 9 |
 | Results | The certified set depends on the frame. | — |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
-| Results | MERU's objective does not create hub structure. | 95, 0.29 |
+| Results | Training in hyperbolic space leaves the clustering unchanged | 95, 0.29 |
 | Results | The naive map manufactures an island. | 12, 7, 7 |
 | Results | Controlled, the trees share their topology, not their metric | 0.77, 0.90, 0.33 |
 | Results | The self-supervised tree is angular. | — |

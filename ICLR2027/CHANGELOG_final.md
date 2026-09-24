@@ -2991,3 +2991,13 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   cambia: sigue con sus diez.
 - Sweep **234/234** (la comprobación de cumplimiento verifica ya las siete y las tres frases nuevas). Envío de 35 páginas, texto
   principal hasta la página 9, declaraciones y referencias en la 10. Rebuttal reconstruido (61/61) y qa_pages regeneradas.
+## 99. Párrafo de MERU en §5.3: entrada y cierre (2026-09-24, nota del autor). Sin cambio de números.
+
+- Entradilla: "MERU's objective does not create hub structure." → **"Training in hyperbolic space leaves the clustering
+  unchanged."**
+- Última frase: "And 95 per cent of its embeddings stay within 0.29 of the curvature scale, a nearly flat space (Tabla 20)." →
+  **"Its embeddings also stay nearly flat: 95 per cent lie within 0.29 of the curvature scale (Tabla 20)."** Los dos números
+  siguen siendo los rellenos de `expR71_meru_radii.csv`, y la tabla es la del gemelo euclídeo, la 20, como escribiste.
+- La entradilla nueva viaja a los cinco sitios del sweep que la fijaban (orden de las entradillas de §5.3, exención de números del
+  párrafo, comprobaciones de la novena y la duodécima revisión y la del repaso completo).
+- Sweep 234/234, envío de 35 páginas con el texto principal hasta la página 9, rebuttal reconstruido (61/61), qa_pages regeneradas.
