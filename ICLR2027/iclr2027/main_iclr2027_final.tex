@@ -193,14 +193,14 @@ and the word is used in this sense only.
 \end{definition}
 \end{defbox}
 
-\paragraph{What a genuine excess means.} A negative genuine excess, more than chance would give, certifies structure beyond the second moments; clustering is its most plausible reading, supported by the superclass recovery of Section~\ref{sec:content}. Two cells of the same dataset can have the same reading and opposite verdicts (Figure~\ref{fig:overview}).
+\paragraph{What a genuine excess means.} A negative genuine excess, more than chance would give, certifies structure beyond the second moments; clustering is its most plausible reading, supported by the superclass recovery of Section~\ref{sec:content}. Two cells of the same dataset can have the same reading and opposite verdicts (Figure~\ref{fig:samereading}).
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{figures/fig_overview_final.pdf}
-\caption{\textbf{The raw reading cannot be read on its own.} (a) Raw reading and matched null per ImageNet backbone, by family and size; within each family the null falls as the dimension grows, and the gap is the excess. (b) Same dataset, same reading, opposite verdict: ViT-B on CIFAR-100 images and DINO-B on CIFAR-100 centroids. % exp1_delta_controls.csv, expR52_census_haar_p999_200.csv, expR62_samplelevel_record.csv, final_fig2b.json
+\includegraphics[width=\linewidth]{figures/fig_instrument_final.pdf}
+\caption{\textbf{The instrument in one figure.} (a) Raw reading and a random cloud of the same shape; (b) their difference, the excess, filled when genuine; (c) the hierarchy test before and after randomizing cluster orientations; (d) its power for a planted hierarchy, filled where the test can see one. % expR75_census_centered_haar.csv, expR74_decoupling_summary.csv, expR81_deep_per_backbone_summary.csv
 }
-\label{fig:overview}
+\label{fig:instrument}
 \end{figure}
 
 \subsection{Hierarchy test}
@@ -295,15 +295,7 @@ The spread is taken over star seeds and null replicates, and a cloud is certifie
 \subsection{Depth above the labelled clusters}
 \label{sec:f-depth}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/fig_depth_final.pdf}
-\caption{\textbf{What the hierarchy test certifies, and where it can see a hierarchy.} (a) Depth $z$ per backbone, filled when certified; line at $z=-2$. (b) Decoupled power for an implanted three-level hierarchy, filled at 0.8 or more; line at 0.8. % expR56_depth_variants.csv, expR81_deep_per_backbone_summary.csv
-}
-\label{fig:depth}
-\end{figure}
-
-\paragraph{The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test was run on the 12 ImageNet centroid clouds under both matched stars, with the WordNet cut into superclasses as the frame and the superclass centers as hubs. Figure~\ref{fig:depth}a shows the $z$ per backbone and Tables~\ref{tab:q4-depth} and \ref{tab:q4-depth-ap} give both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
+\paragraph{The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test was run on the 12 ImageNet centroid clouds under both matched stars, with the WordNet cut into superclasses as the frame and the superclass centers as hubs. Figure~\ref{fig:instrument}c shows the $z$ per backbone and Tables~\ref{tab:q4-depth} and \ref{tab:q4-depth-ap} give both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
 
 \paragraph{What it certifies is alignment.} Once the cluster orientations were randomized, the decoupling control of Definition~\ref{def:decoupling}, none of the 4 backbones fires. ViT-L then reads $-1.61$, within the $-1.61$ to $-1.76$ of the flat control: without its orientations the real cloud reads like a flat one. The alignment is relational: 0 of 60 runs fire with random hubs and 0 of 4 with random orientations, so it needs both the real hubs and the real orientations. Removing the radial component of every offset leaves it in all 4 certified backbones, $z$ from $-2.26$ to $-3.99$ under both stars; feature norms are not its source. Under full L2 normalization, which also moves the hubs, it survives in ViT-B and ViT-L only. The implanted principal-axis alignment reproduces it in the supervised ViTs and CLIP-B but not in DINOv2-L, and its geometric form is not resolved here. % expR74_decoupling_summary.csv, expR79_synthetic_deep_poincare.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30.csv, expR82_radial_control.csv, expR80_implanted_alignment.csv
 
@@ -469,6 +461,13 @@ Each table then carries its own caption: the answer in bold, then what the colum
 \subsection{Does the premise survive at the sample level? The census on per-image features}
 \label{app:sample}
 \paragraph{What this table answers.} The premise is read on per-image features, so this table reads the census there instead of on class centroids. Each cell gives the raw statistic beside the excess over its matched null. Where the excess survives, it removes a small fraction of the null reading.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\linewidth]{figures/fig_samereading_final.pdf}
+\caption{\textbf{The same reading, opposite verdicts.} The raw reading of ViT-B on CIFAR-100 images and of DINO-B on CIFAR-100 centroids, each beside the mean of its matched null: the same reading, and only one of them is genuine. % expR62_samplelevel_record.csv, expR52_census_haar_p999_200.csv, final_fig2b.json
+}
+\label{fig:samereading}
+\end{figure}
 \input{appendix_tables/final/tab_q03_sample_final}
 
 \FloatBarrier

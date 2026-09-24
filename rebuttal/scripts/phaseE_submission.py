@@ -346,7 +346,7 @@ def clean_block(b):
     b = re.sub(r"(?s)\n(?!\\(FloatBarrier|subsection|label|input))[^\n]*\\ref\{tab:q7-wordnet\}[^\n]*\n", "\n", b)   # HierarCaps prose (its panel is dropped)
     b = re.sub(r"(?s)\nThreshold sensitivity of the selection criterion.*?(?=\n\\begin\{figure\}|\n\\input\{)", "\n", b)   # treemap prose
     b = re.sub(r"\\begin\{figure\}.*?\\end\{figure\}\n?", "", b, flags=re.S)                     # no appendix figure is cited from the main text
-    b = b.replace("(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:depth}a)", "(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:depth}a)")
+    b = b.replace("(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:depth}a)", "(Table~\\ref{tab:q4-depth}, Figure~\\ref{fig:instrument}c)")
     b = b.replace(" are reported without certification (Figure~\\ref{fig:depth-c100}).", " are reported without certification (Table~\\ref{tab:q4-depth}).")
     b = b.replace("(Figure~\\ref{fig:bestmetric}; held-out selection and policy comparison in Table~\\ref{tab:q9-corollary})", "(Table~\\ref{tab:q9-corollary})")
     b = b.replace("(Figure~\\ref{fig:causal}; raw $\\delta$, within architecture)", "(raw $\\delta$, within architecture)")
@@ -373,6 +373,10 @@ assert bytab["tab_q06_treemap"].count("\\input{appendix_tables/tab_q06_treemap}"
 # the ARI-matrix figure is not cited from the main text (appendix cleanup, 2026-09-23): it is not inserted   # consolidated pass (2026-09-22): the two ARI matrices, formerly Figure 5ab
 assert bytab["tab_q05_power"].count("\\input{appendix_tables/tab_q05_power_final}") == 1
 bytab["tab_q05_power"] = bytab["tab_q05_power"].replace("\\input{appendix_tables/tab_q05_power_final}", _figI + "\\input{appendix_tables/tab_q05_power_final}")
+_figSR = ("\\begin{figure}[H]\n\\centering\n\\includegraphics[width=0.45\\linewidth]{figures/fig_samereading_final.pdf}\n"
+          "\\caption{\\textbf{The same reading, opposite verdicts.} The raw reading of ViT-B on CIFAR-100 images and of DINO-B on CIFAR-100 centroids, each beside the mean of its matched null: the same reading, and only one of them is genuine. % expR62_samplelevel_record.csv, expR52_census_haar_p999_200.csv, final_fig2b.json\n}\n\\label{fig:samereading}\n\\end{figure}\n")
+assert bytab["tab_q03_sample"].count("\\input{appendix_tables/tab_q03_sample_final}") == 1
+bytab["tab_q03_sample"] = bytab["tab_q03_sample"].replace("\\input{appendix_tables/tab_q03_sample_final}", _figSR + "\\input{appendix_tables/tab_q03_sample_final}")
 labels = {}
 for stem in KEEP:
     fn = FINAL_SRC.get(stem, stem)

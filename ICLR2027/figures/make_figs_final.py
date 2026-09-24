@@ -38,26 +38,76 @@ def bar(ax, x, h, color, passes, width=0.38, zorder=3):
     if passes: return ax.bar(x, h, width, color=color, edgecolor="white", linewidth=0.8, zorder=zorder)
     return ax.bar(x, h, width, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
 
-# ---------------- Figure 2: raw reading next to its matched null, one pair of bars per backbone ordered by dimension
-order = list(M)   # family order, by size within family (author's brief, 2026-09-23): supervised ViTs, DINO/DINOv2, CLIP/SigLIP
-gauss = {int(r["d"]): float(r["delta_max"]) for r in csv.DictReader(open(RES/"exp1_delta_controls.csv")) if r["variant"] == "gauss"}
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.75), gridspec_kw={"width_ratios": [3.2, 1]})
-ax = axes[0]; X = np.arange(len(order))
-for i, m in enumerate(order):
-    r = by[(m, "imagenet")]
-    ax.bar(i - 0.2, float(r["delta"]), 0.38, color=fam_color(m), edgecolor="white", linewidth=0.8, zorder=3)
-    ax.bar(i + 0.2, float(r["null_mean"]), 0.38, color=LIGHT, edgecolor="white", linewidth=0.8, zorder=3)
-# the isotropic Gaussian reference: one short dashed tick over each pair of bars, at the reading of a Gaussian cloud of that dimension
-for i, m in enumerate(order):
-    ax.plot([i - 0.42, i + 0.42], [gauss[DIMS[m]], gauss[DIMS[m]]], "--", color=GRAY, lw=0.9, dashes=(2.2, 1.4), zorder=4)
-ax.set_xticks(X); ax.set_xticklabels([NM[m] for m in order], rotation=60, ha="right"); ax.set_xlim(-0.6, len(order) - 0.4)
-ax.set_ylim(0, 0.12); ax.set_yticks([0, 0.04, 0.08, 0.12]); ax.set_yticklabels(["0.00", "0.04", "0.08", "0.12"]); ax.set_ylabel(r"$\delta_{\mathrm{norm}}$ (ImageNet)")
-ax.set_title("(a) raw reading and matched null, by family and size")
-for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-hd = [Patch(color="k", label="raw reading"), Patch(color=LIGHT, label="matched null"), plt.Line2D([], [], ls="--", color=GRAY, label="isotropic Gaussian")]
-ax.set_ylim(0, 0.15); ax.set_yticks([0, 0.04, 0.08, 0.12]); ax.set_yticklabels(["0.00", "0.04", "0.08", "0.12"])
-ax.legend(handles=hd, **LEG, loc="upper right", ncol=2, handlelength=1.2, handletextpad=0.4, columnspacing=1.0, labelspacing=0.2, borderaxespad=0.1)
+
+# ---------------- Figure 2 (author's brief, 2026-09-24): the instrument in one figure. One row, four panels, the same x axis:
+# the 12 ImageNet backbones grouped by family, in size order, joined within a family by a line (Groger et al. 2026, Fig. 5).
+FAMS = [("sup.", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"]), ("SSL", ["dinov1_b", "dinov2_s", "dinov2_b", "dinov2_l", "dinov2_g"]),
+        ("contr.", ["clip_b", "clip_l", "siglip_b"])]   # the family tags of Table 2
+XPOS, XFAM, _x = {}, [], 0.0
+for _fname, _ms in FAMS:
+    _start = _x
+    for _m in _ms: XPOS[_m] = _x; _x += 1.0
+    XFAM.append((_fname, (_start + _x - 1.0) / 2)); _x += 0.9
+XLIM = (-0.8, _x - 0.9 + 0.8 - 1.0)
+SHORT = {"i21k_t": "T", "i21k_s": "S", "i21k_b": "B", "i21k_l": "L", "dinov1_b": "v1", "dinov2_s": "S", "dinov2_b": "B", "dinov2_l": "L", "dinov2_g": "G",
+         "clip_b": "B", "clip_l": "L", "siglip_b": "Sig"}   # the size inside the family (v1: DINO-B, Sig: SigLIP-B); the family is named under the axis
+def famaxis(ax, names=True):
+    """The shared x axis: model names as ticks and the family name under the group."""
+    ax.set_xlim(*XLIM); ax.set_xticks([XPOS[m] for m in M])
+    ax.set_xticklabels([SHORT[m] for m in M] if names else [], rotation=0, fontsize=7)
+    ax.tick_params(axis="x", length=0, pad=1)
+    for fname, xc in XFAM: ax.annotate(fname, xy=(xc, 0), xytext=(0, -17), xycoords=("data", "axes fraction"), textcoords="offset points", ha="center", va="top", fontsize=7.2, color="0.25")
+    for sp in ("top", "right"): ax.spines[sp].set_visible(False)
+def famline(ax, ys, lw=0.9, alpha=0.85):
+    for fname, ms_ in FAMS:
+        ax.plot([XPOS[m] for m in ms_], [ys[m] for m in ms_], "-", color=fam_color(ms_[0]), lw=lw, alpha=alpha, zorder=2)
+IN = {m: by[(m, "imagenet")] for m in M}
+D74 = {r["model"]: r for r in csv.DictReader(open(RES/"expR74_decoupling_summary.csv"))}
+D81 = {r["model"]: r for r in csv.DictReader(open(RES/"expR81_deep_per_backbone_summary.csv"))}
+fig, axes = plt.subplots(1, 4, figsize=(5.5, 2.95))   # the two figures it replaces took 3.65 in between them
+# (a) the raw reading and a random cloud of the same shape
+ax = axes[0]; famline(ax, {m: float(IN[m]["delta"]) for m in M})
+for m in M:
+    ax.plot(XPOS[m], float(IN[m]["null_mean"]), "D", color=GRAY, ms=3.4, mec="white", mew=0.7, zorder=3)
+    ax.plot(XPOS[m], float(IN[m]["delta"]), "o", color=fam_color(m), ms=4.6, mec="white", mew=0.8, zorder=4)
+ax.set_ylabel(r"$\delta_{\mathrm{norm}}$"); ax.set_title("(a) the shadow and\nits random cloud", linespacing=1.15, pad=3); famaxis(ax)
+# (b) the excess, filled when genuine, with the two-null-s.d. tick
 ax = axes[1]
+for m in M:
+    r = IN[m]; e = float(r["excess"]); sd = float(r["null_sd"])
+    bar(ax, XPOS[m], e, fam_color(m), r["genuine_bh"] == "True", width=0.72)
+    ax.plot([XPOS[m], XPOS[m]], [-2 * sd, 2 * sd], "-", color="0.35", lw=0.8, solid_capstyle="butt", zorder=5)
+ax.axhline(0, color="0.35", lw=0.6, zorder=1)
+ax.set_ylabel("excess"); ax.set_title("(b) excess", pad=3); famaxis(ax)
+# (c) the hierarchy test, intact and with the cluster orientations randomized
+ax = axes[2]; famline(ax, {m: float(D74[m]["real_z"]) for m in M})
+ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=2)
+for m in M:
+    ax.plot(XPOS[m], float(D74[m]["dec_z_mean"]), "D", color=GRAY, ms=3.4, mec="white", mew=0.7, zorder=3)
+    ax.plot(XPOS[m], float(D74[m]["real_z"]), "o", color=fam_color(m), ms=4.6, mec="white", mew=0.8, zorder=4)
+ax.set_ylabel("hierarchy test $z$"); ax.set_title("(c) hierarchy test,\nintact and randomized", linespacing=1.15, pad=3); famaxis(ax)
+# (d) the power for a planted hierarchy
+ax = axes[3]
+for m in M:
+    p = float(D81[m]["dec_power"]); bar(ax, XPOS[m], p, fam_color(m), p >= 0.8, width=0.72)
+ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=2)
+ax.set_ylim(0, 1.1); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"])
+ax.set_ylabel("power"); ax.set_title("(d) power for a\nplanted hierarchy", linespacing=1.15, pad=3); famaxis(ax)
+hd = [plt.Line2D([], [], marker="o", color="k", ls="", ms=4.6, mec="white", mew=0.8, label="reading of the model"),
+      plt.Line2D([], [], marker="D", color=GRAY, ls="", ms=3.4, mec="white", mew=0.7, label="random cloud / orientations randomized"),
+      Patch(color="k", label="genuine, certified or power $\\geq0.8$"),
+      Patch(facecolor="white", edgecolor="k", hatch="////", label="not"),
+      plt.Line2D([], [], color="0.35", lw=0.8, label="$\\pm$2 null s.d.")]
+fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.3, handletextpad=0.4, columnspacing=1.0, bbox_to_anchor=(0.5, -0.14))
+fig.subplots_adjust(left=0.075, right=0.995, top=0.90, bottom=0.235, wspace=0.62)
+save(fig, "fig_instrument_final")
+_cert = [m for m in M if float(D74[m]["real_z"]) <= -2]; _gen = [m for m in M if IN[m]["genuine_bh"] == "True"]
+_covered = [m for m in M if float(D81[m]["dec_power"]) >= 0.8]
+json.dump({"legend": [h.get_label() for h in hd], "implanted_alignment_curve": False, "panel_b": "decoupled_power_per_backbone", "n_covered": len(_covered), "covered": _covered}, open(RES/"final_fig4.json", "w"), indent=1)
+print(f"instrument: genuine {len(_gen)}/12, certified {len(_cert)}/12, power>=0.8 in {sum(float(D81[m]['dec_power']) >= 0.8 for m in M)}/12")
+
+# ---------------- appendix figure: the same reading with opposite verdicts (panel (b) of the former Figure 2)
+fig, ax = plt.subplots(1, 1, figsize=(2.3, 1.75))
 D = json.load(open(RES/"final_fig2b.json")); assert D.get("mode") == "sample", D   # fifth review: same dataset, same reading, opposite verdict
 sl = {(r["model"], r["dataset"]): r for r in csv.DictReader(open(RES/"expR62_samplelevel_record.csv"))}
 s_m, s_ds = D["sample_cell"]; c_m, c_ds = D["class_cell"]; cc = by[(c_m, c_ds)]; E = D["expected"]; ss = sl[(s_m, s_ds)]
@@ -71,8 +121,9 @@ ax.set_xticks([0, 1]); ax.set_xticklabels([c[0] for c in cells], linespacing=1.1
 ax.set_ylim(0, 0.16); ax.set_yticks([0, 0.05, 0.10, 0.15]); ax.set_yticklabels(["0.00", "0.05", "0.10", "0.15"])
 ax.set_title("(b) " + DSL[s_ds] + ": same reading,\nopposite verdict", linespacing=1.1)
 for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-fig.subplots_adjust(left=0.09, right=0.995, top=0.88, bottom=0.34, wspace=0.30)
-save(fig, "fig_overview_final")
+
+fig.subplots_adjust(left=0.20, right=0.97, top=0.84, bottom=0.26)
+save(fig, "fig_samereading_final")
 
 # ---------------- Figure 3: six narrow panels of twelve horizontal bars (excess), filled when genuine, hatched when not, the null band around zero
 def hbar(ax, y, w, color, passes, height=0.72, zorder=3):
@@ -95,37 +146,7 @@ fig.legend(handles=hd, **LEG, loc="lower center", ncol=3, handlelength=1.2, hand
 fig.subplots_adjust(left=0.10, right=0.995, top=0.91, bottom=0.25, wspace=0.12)
 save(fig, "fig_excess_final")
 
-# ---------------- Figure 4: (a) twelve bars of depth z, filled when certified, dashed line at -2, z printed inside the certified bars; (b) twelve bars of decoupled power per backbone
-# for an implanted three-level hierarchy at the backbone's own spectrum and ratio (expR81), filled at >= 0.8, line at 0.8 (ninth review, 2026-09-22); one legend below both panels
-dv = pd.read_csv(RES/"expR56_depth_variants.csv"); an = {r.model: float(r.z_depth) for r in dv[(dv.dataset == "imagenet") & (dv.K == 30) & (dv.variant == "aniso")].itertuples()}
-s81 = pd.read_csv(RES/"expR81_deep_per_backbone_summary.csv").set_index("model"); dpw = {m: float(s81.loc[m, "dec_power"]) for m in M}
-fig, axes = plt.subplots(1, 2, figsize=(5.5, 1.9), gridspec_kw={"width_ratios": [1, 1]})
-ax = axes[0]
-ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=2); ax.axhline(0, color=GRAY, lw=0.5, zorder=1)
-for i, m in enumerate(M):
-    z = an[m]; cert = z <= -2; bar(ax, i, z, fam_color(m), cert, width=0.76)
-    if cert: ax.text(i, z / 2, f"{z:+.1f}".replace("-", "−").replace("+", ""), ha="center", va="center", rotation=90, fontsize=8, color="white", zorder=5)
-ax.set_xticks(range(len(M))); ax.set_xticklabels([NM[m] for m in M], rotation=60, ha="right"); ax.set_xlim(-0.7, len(M) - 0.3)
-ax.set_ylim(-4.6, 1.2); ax.set_yticks([-4, -2, 0]); ax.set_yticklabels(["−4", "−2", "0"]); ax.set_ylabel("hierarchy test $z$")
-ax.set_title("(a) depth above the WordNet superclasses"); ax.tick_params(axis="x", length=0)
-for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-ax = axes[1]
-ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=2)
-for i, m in enumerate(M):
-    p = dpw[m]; cov = p >= 0.8; bar(ax, i, p, fam_color(m), cov, width=0.76)
-    if cov: ax.text(i, p / 2, f"{p:.2f}", ha="center", va="center", rotation=90, fontsize=7, color="white", zorder=5)
-ax.set_xticks(range(len(M))); ax.set_xticklabels([NM[m] for m in M], rotation=60, ha="right"); ax.set_xlim(-0.7, len(M) - 0.3)
-ax.set_ylim(0, 1.12); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"]); ax.set_ylabel("decoupled power")
-ax.set_title("(b) power for an implanted hierarchy"); ax.tick_params(axis="x", length=0)
-for sp in ("top", "right"): ax.spines[sp].set_visible(False)
-hd = [Patch(color="k", label="certified ($z\\leq-2$) or power $\\geq0.8$"), Patch(facecolor="white", edgecolor="k", hatch="////", label="not certified or power below 0.8")]
-covered = [m for m in M if dpw[m] >= 0.8]
-json.dump({"legend": [h.get_label() for h in hd], "implanted_alignment_curve": False, "panel_b": "decoupled_power_per_backbone", "n_covered": len(covered), "covered": covered}, open(RES/"final_fig4.json", "w"), indent=1)   # read by the sweep
-fig.legend(handles=hd, **LEG, loc="lower center", ncol=2, handlelength=1.4, handletextpad=0.4, columnspacing=1.2, bbox_to_anchor=(0.5, -0.13))   # clear of the model names (2026-09-24)
-fig.subplots_adjust(left=0.09, right=0.99, top=0.92, bottom=0.40, wspace=0.30)
-save(fig, "fig_depth_final")
-print(f"depth: certified {sum(v <= -2 for v in an.values())}/12; decoupled power >= 0.8 in {len(covered)}/12: {covered}")
-
+# ---------------- the former Figure 4 (depth bars and power bars) is now panels (c) and (d) of Figure 2 (brief of 2026-09-24)
 # ---------------- Appendix figure (ninth review): the two-level implant detection curves, formerly Figure 4b
 d64 = pd.read_csv(RES/"expR64b_wn30.csv"); dep = d64[(d64.kind == "depth") & (d64.partition == "rand6") & (d64.s != "real")].copy(); dep["s"] = dep.s.astype(float)
 tg = d64[(d64.kind == "depth") & (d64.partition == "rand6_t06")].copy(); tg["s"] = tg.s.astype(float)

@@ -2765,3 +2765,24 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   2.45 in y el texto principal se iba a la página 10, así que lo hice por márgenes.
 - **Figura 5(c)**: los nombres de los modelos van en negro; el color de familia lo llevan las barras.
 - Envío: 31 páginas, texto principal en la página 9, sweep 230/230.
+## 87. Figura 2 nueva, "el instrumento en una figura" (2026-09-24, brief del autor).
+
+- Una fila, cuatro paneles, el mismo eje x: los 12 backbones de ImageNet agrupados por familia (supervisados; DINO/DINOv2;
+  CLIP/SigLIP), unidos dentro de cada familia por una línea, al estilo de Gröger et al. (2026, Fig. 5), con la paleta y el estilo
+  nuevos. (a) lectura cruda (punto de color) y media del nulo emparejado (rombo gris); (b) el exceso, barra llena cuando es genuino
+  y rayada si no, con la marca de dos desviaciones del nulo por backbone; (c) el $z$ intacto (punto) y el decoupled (rombo), línea
+  discontinua en $-2$; (d) la potencia decoupled por backbone, llena a partir de 0.8. Datos: expR75 (filas de ImageNet),
+  expR74_decoupling_summary, expR81_deep_per_backbone_summary. Pie: el tuyo, verbatim.
+- **Sustituye a las Figuras 2 y 4 anteriores.** El par de la misma lectura con veredictos opuestos (antigua 2b) pasa al apéndice
+  como figura junto a la tabla del nivel de muestra. **La antigua 4b no se duplica**: era la potencia decoupled por backbone, que es
+  exactamente el panel (d) nuevo; si querías además una figura de potencia sintética aparte en el apéndice, dímelo.
+- **Etiquetas del eje**: doce nombres completos no caben bajo un panel de 1.1 in a un tamaño legible, así que cada modelo lleva su
+  talla dentro de la familia (T, S, B, L | v1, S, B, L, G | B, L, Sig) y la familia va debajo (sup., SSL, contr.), como en la
+  Tabla 2. Las leyendas van fuera de los datos, bajo la figura.
+- Referencias actualizadas: §3.3 apunta ahora a la figura del apéndice ("Two cells … opposite verdicts (Figure 5)"), §5.3 a la
+  Figura 2(c), y el pie de la tabla de la prueba de jerarquía a la Figura 2(c). Renumeración: Figura 1 concepto, 2 instrumento,
+  3 exceso, 4 mapa de árboles, y en el apéndice 5 la misma lectura y 6 las curvas del implante.
+- **La variante con cajas ya es el envío** (promovida el 24 por la mañana) y sigue acabando en la página 9, así que no hay nada que
+  reintentar: lo confirmo con la regla de la cadena (declaraciones en la página 9, referencias en la 10).
+- El apéndice pasa de 16 a 17 páginas por la figura que baja; el PDF, de 31 a 32. Sweep 230/230, texto principal en la página 9,
+  qa_pages regeneradas.

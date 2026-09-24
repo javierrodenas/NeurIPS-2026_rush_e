@@ -1,7 +1,10 @@
 {
  "legend": [
-  "certified ($z\\leq-2$) or power $\\geq0.8$",
-  "not certified or power below 0.8"
+  "reading of the model",
+  "random cloud / orientations randomized",
+  "genuine, certified or power $\\geq0.8$",
+  "not",
+  "$\\pm$2 null s.d."
  ],
  "implanted_alignment_curve": false,
  "panel_b": "decoupled_power_per_backbone",
