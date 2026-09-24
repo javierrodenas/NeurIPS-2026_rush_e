@@ -25,26 +25,26 @@
    "over30": 0
   },
   "Results": {
-   "sentences": 84,
-   "avg_words": 17.3,
+   "sentences": 66,
+   "avg_words": 18.1,
    "max_words": 30,
    "over30": 0
   },
   "Implications for Hyperbolic Representation Learning": {
-   "sentences": 8,
-   "avg_words": 16.9,
+   "sentences": 6,
+   "avg_words": 19,
    "max_words": 24,
    "over30": 0
   },
   "Conclusion and Limitations": {
-   "sentences": 21,
-   "avg_words": 18.8,
+   "sentences": 9,
+   "avg_words": 17.2,
    "max_words": 34,
    "over30": 0
   }
  },
- "avg_nonverbatim": 17.6,
- "n_nonverbatim_sentences": 151,
+ "avg_nonverbatim": 17.9,
+ "n_nonverbatim_sentences": 119,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
@@ -86,19 +86,7 @@
   },
   {
    "section": "Results",
-   "lead": "The structure depends on the class set more than on the model.",
-   "numbers": [
-    "5 of 12"
-   ]
-  },
-  {
-   "section": "Results",
    "lead": "A star of clusters already passes the census.",
-   "numbers": []
-  },
-  {
-   "section": "Results",
-   "lead": "Neural collapse is the flat limit, not what the census sees.",
    "numbers": []
   },
   {
@@ -157,10 +145,7 @@
   {
    "section": "Results",
    "lead": "The certified set depends on the frame.",
-   "numbers": [
-    "38 of 50",
-    "7 of 10"
-   ]
+   "numbers": []
   },
   {
    "section": "Results",
@@ -170,10 +155,7 @@
   {
    "section": "Results",
    "lead": "MERU's objective does not create hub structure.",
-   "numbers": [
-    "95",
-    "0.29"
-   ]
+   "numbers": []
   },
   {
    "section": "Results",
@@ -204,11 +186,6 @@
   },
   {
    "section": "Results",
-   "lead": "The recovery is not WordNet circularity.",
-   "numbers": []
-  },
-  {
-   "section": "Results",
    "lead": "Text depends on recipe and scale.",
    "numbers": [
     "7 of 15"
@@ -223,18 +200,7 @@
    "section": "Implications for Hyperbolic Representation Learning",
    "lead": "The raw reading cannot select a curvature.",
    "numbers": [
-    "0.48 to 2.5"
-   ]
-  },
-  {
-   "section": "Implications for Hyperbolic Representation Learning",
-   "lead": "Both readings predict the gain, and the hierarchy verdict predicts none.",
-   "numbers": []
-  },
-  {
-   "section": "Implications for Hyperbolic Representation Learning",
-   "lead": "The calibration certifies structure and does not choose the readout.",
-   "numbers": [
+    "0.48 to 2.5",
     "+0.9 to +1.3"
    ]
   }

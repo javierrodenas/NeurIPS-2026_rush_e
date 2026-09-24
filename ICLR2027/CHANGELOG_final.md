@@ -2851,3 +2851,40 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
   "S B L G", con un hueco menor que el de familia y un separador fino entre ambos. "sup." y "contr." no cambian. Los dos subgrupos
   conservan el color de la familia, y la línea que une modelos se traza dentro de cada subgrupo.
 - Envío: 32 páginas, texto principal en la página 9, sweep 230/230, qa_pages regeneradas y revisadas a 100 dpi.
+## 93. Cumplimiento de la plantilla y vuelta a la página 9 (2026-09-24, brief del autor). Sin cambio de datos.
+
+- **(A) Fuera todos los ajustes de espaciado que se apartaban del estilo ICLR 2027**: el bloque de `\abovedisplayskip` /
+  `\belowdisplayskip` (antigua línea 51), `\textfloatsep`, `\abovecaptionskip` y `\parskip` (antigua línea 56) y `\floatsep`
+  (antigua línea 380, las fracciones de colocación y los contadores se quedan). Rige ya el `\parskip .5pc` y el `\parindent 0pt`
+  de la plantilla. Añado uno más por el mismo motivo: el texto principal ya no declara `\raggedbottom`, así que vale el
+  `\flushbottom` del estilo; el apéndice lo conserva, donde las tablas `[H]` dejarían páginas a medias.
+- Coste: unas 50 líneas, es decir una página entera. El texto principal acababa en la 10 con §6 y §7 completas allí.
+- **(B) Recuperación de la página 9 en tu orden, moviendo al apéndice, y hasta que ha cabido:**
+  1. **§7 limitaciones**: quedan cuatro en el texto principal, (i) el nulo condiciona a los segundos momentos, (ii) la potencia
+     sigue al backbone y el veredicto de "ninguna jerarquía entre hubs" vale sólo en los 9 de 12, (iii) el análisis descansa en
+     muchas decisiones y falta un análisis pre-especificado, (iv) el alcance del censo y de la lectura por imágenes. La lista
+     entera, (i)–(x) verbatim, va a la nueva sección **Apéndice B "Limitations in full"** con puntero desde §7.
+  2. **§6** pasa a un solo párrafo de seis frases: la regla de Khrulkov, las curvaturas de 0.48 a 2.5, las dos lecturas que
+     predicen igual, "Calibration tells what a low δ means", la ganancia de $+0.9$ a $+1.3$ pp y la frase de alcance al final.
+  3. **§5.4**: acuerdo con WordNet, DBpedia y HierarCaps quedan en una frase cada uno dentro de un solo párrafo con los tres
+     punteros; el párrafo de texto queda en dos frases ("la receta y la escala, no la familia").
+  4. **§5.3**: marcos, etiquetas de hoja y MERU quedan en una frase cada uno con su puntero a la Tabla 17, 19 y 20.
+  5. **§5.2**: el párrafo del conjunto de clases y el del colapso neuronal van al apéndice.
+- Los ocho párrafos movidos están **verbatim** en la nueva sección **Apéndice C "Detail from the main text"**, en el orden en que
+  el texto principal los leía, cada uno con su comentario de procedencia: FMNIST y el control de número de clases, el colapso
+  neuronal, los marcos (BAL_SENT entera), las etiquetas de hoja, MERU con el 95 por ciento dentro de 0.29 y la potencia no medida,
+  el censo de texto modelo a modelo, WordNet/DBpedia/HierarCaps y la frase de Moreira.
+- **(C) Cuatro líneas más allá de tu lista**: con los cinco pasos el texto acababa cuatro líneas dentro de la página 10. Las he
+  sacado sin perder ninguna afirmación, porque las tres ya estaban dichas en el texto principal: las cuatro limitaciones quedan a
+  una frase cada una (la potencia por backbone y las falsas alarmas 8 de 50 siguen en §5.3), el párrafo de texto baja a dos frases
+  y en §6 cae "Cosine collects the self-supervised structure", que es la última frase de la conclusión.
+- **(D) Lo que sigue apartándose del estilo**, todo tipográfico y reversible en `phaseE_submission.py`: los saltos de encabezado
+  `\@startsection` de sección, subsección y párrafo (0.3/0.3/0 ex antes y 0.2/0.2/−1 em después, frente a 2.0/1.8/1.5 ex y
+  1.5/0.8/−1 em del estilo); `\topsep`, `\partopsep` y `\parskip` a cero **dentro de las cajas** de definición y proposición; tu
+  `\vspace{2pt}` entre la Figura 1 y su pie; y, tras `\appendix`, `\raggedbottom`, las fracciones y contadores de colocación de
+  flotantes y `\arraystretch 0.92`. No hay ningún `\linespread` ni ningún `\vspace{-…}` en todo el fichero.
+- Todas las afirmaciones del resumen siguen apoyadas en el texto principal (MERU con "a near-flat space", el texto con "la receta
+  y la escala", 44 de 72, 9 de 12, la estrella de clústeres) y ninguna figura cambia de tamaño.
+- Envío: **34 páginas**, texto principal hasta la página 9, declaraciones en la 10, referencias en la 10, apéndice de la 16 a la
+  34. Sweep **231/231** con la comprobación nueva de cumplimiento (preámbulo limpio, cuatro limitaciones, lista de diez en el
+  apéndice, ocho párrafos movidos, §6 en un párrafo). qa_pages regeneradas y revisadas.

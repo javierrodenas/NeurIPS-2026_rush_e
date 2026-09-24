@@ -2,11 +2,11 @@
 
 ## Page budget
 
-- PDF pages: 32. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 9 (ICLR line 482); the references start on page 10 (line 500).
-- Appendix: Proofs on page 16, tables from page 16 to page 32 (17 pages including the proofs).
-- Cut order applied (brief §5): s55, s6, table, s2 = S5.5 to three sentences, S6 three paragraphs, model table in the appendix, S2 to its first six sentences. Figures were not resized.
-- Beyond the cut order (the four steps freed about 25 of the 72 lines the first compile was over), the page was reached by trimming the non-verbatim prose sentence by sentence without dropping a claim (every kept claim is in `V3_OUTLINE.md`; the removed sentences restated a claim made in the same or a neighbouring paragraph) and by typographic spacing declared in the preamble: section/subsection/paragraph heading skips 1.2/1.0/0.5 ex (style: 2.0/1.8/1.5 ex), display skips 4 pt, definition and proposition environments 3 pt above and below, float separation 12 pt and caption skip 5 pt. Fonts, margins, line spacing and figure sizes are the style's and the brief's. Everything is in `rebuttal/scripts/phaseE_submission.py` and reverts by deleting those lines.
-
+- PDF pages: 34. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 509).
+- Appendix: Proofs on page 16, tables from page 17 to page 34 (19 pages including the proofs).
+- Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
+- Template compliance (brief of 2026-09-24): the preamble no longer overrides the style's spacing. The display-skip block, `\textfloatsep`, `\abovecaptionskip`, `\parskip` and `\floatsep` are gone and the main text no longer sets `\raggedbottom`, so the style's `\parskip .5pc`, `\parindent 0pt` and `\flushbottom` apply. Page 9 was recovered by moving content to the appendix in the author's order: the limitations (four kept in S7, the ten in Appendix B), S6 to one paragraph, the WordNet, DBpedia, HierarCaps and text readings of S5.4 to one sentence each, the frames, leaf-label and MERU paragraphs of S5.3 to one sentence each with a pointer, and the class-set and neural-collapse paragraphs of S5.2 to Appendix C. Every moved sentence is verbatim in the appendix and figures were not resized.
+- What still departs from the style, all of it typographic and reversible in `rebuttal/scripts/phaseE_submission.py`: the section, subsection and paragraph heading skips (0.3/0.3/0 ex before and 0.2/0.2/-1 em after, against the style's 2.0/1.8/1.5 ex and 1.5/0.8/-1 em); `\topsep`, `\partopsep` and `\parskip` zeroed inside the definition and proposition boxes only; the author's `\vspace{2pt}` between Figure 1 and its caption; and, after `\appendix`, `\raggedbottom`, the float-placement fractions and counters and `\arraystretch 0.92`.
 ## Sentence length per section (compiled text of the final file; verbatim sections included in the statistics, the rules are enforced on the non-verbatim prose)
 
 | section | sentences | mean words | longest | over 30 |
@@ -15,11 +15,11 @@
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 38 | 18.0 | 30 | 0 |
 | Experimental Setup | 17 | 17.3 | 30 | 0 |
-| Results | 84 | 17.3 | 30 | 0 |
-| Implications for Hyperbolic Representation Learning | 8 | 16.9 | 24 | 0 |
-| Conclusion and Limitations | 21 | 18.8 | 34 | 0 |
+| Results | 66 | 18.1 | 30 | 0 |
+| Implications for Hyperbolic Representation Learning | 6 | 19 | 24 | 0 |
+| Conclusion and Limitations | 9 | 17.2 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 151 sentences, mean 17.6 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 119 sentences, mean 17.9 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -30,26 +30,21 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | A published reading is reproduced and calibrated. | 4, 0.03, 4 |
 | Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 3, 47, 18 of 24 |
 | Results | The count survives resampling. | — |
-| Results | The structure depends on the class set more than on the mode | 5 of 12 |
 | Results | A star of clusters already passes the census. | — |
-| Results | Neural collapse is the flat limit, not what the census sees. | — |
 | Results | The hierarchy test certifies that clusters are oriented towa | 12 |
 | Results | What it certifies is alignment. | 4, -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, 4, -2.26 to -3.99 |
 | Results | What the test can see. | 4 of 5, 4, 9 of 12, 0.83 to 1.00, 3, 0.01 to 0.60, 3, 1.5 to 3.0, 1.3 to 3.9, 9, 20 of 20, 2, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, 4, -4.19 to -4.82, 0 of 50 |
 | Results | No hub hierarchy is found where the test has power. | 9 |
-| Results | The certified set depends on the frame. | 38 of 50, 7 of 10 |
+| Results | The certified set depends on the frame. | — |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
-| Results | MERU's objective does not create hub structure. | 95, 0.29 |
+| Results | MERU's objective does not create hub structure. | — |
 | Results | The naive map manufactures an island. | 12, 7 |
 | Results | Controlled, the trees share their topology, not their metric | 0.77, 0.90, 0.33 |
 | Results | The self-supervised tree is angular. | — |
 | Results | Agreement with WordNet follows supervision and recipe. | — |
-| Results | The recovery is not WordNet circularity. | — |
 | Results | Text depends on recipe and scale. | 7 of 15 |
 | Results | Models share neighborhoods, not metrics. | — |
-| Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5 |
-| Implications for Hyperbolic  | Both readings predict the gain, and the hierarchy verdict pr | — |
-| Implications for Hyperbolic  | The calibration certifies structure and does not choose the  | +0.9 to +1.3 |
+| Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5, +0.9 to +1.3 |
 
 ## Appendix material deleted from the final (kept in the frozen v1 file and its tables)
 
@@ -62,7 +57,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 230/230 checks passed.
+- Total: 231/231 checks passed.
 - Final-version checks:
 
     PASS final: Figure 5 carries the author's caption (consolidated pass); the ARI-matrix figure is out of the appendix (cleanup of 2026-09-23: it is cited from nowhere) 

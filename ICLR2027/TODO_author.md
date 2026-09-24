@@ -346,3 +346,9 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - (2026-09-23 21:00) Dos decisiones: "frame of record" sigue en §5.3 (el brief sólo renombraba "reading of record"); y "47 classes
   or more" se apoya en el número de clases de DTD, que no aparece en §4 ni en ninguna tabla.
 
+- (Plantilla y página 9, 2026-09-24) Tres cosas para ti: (i) el apéndice crece de 16 a 19 páginas con las dos secciones nuevas
+  (Limitations in full y Detail from the main text); si prefieres no crecer, el material movido puede volver a repartirse entre
+  los párrafos "What this table answers" de cada pregunta. (ii) Quedan los saltos de encabezado `\@startsection` más apretados
+  que los del estilo: quitarlos cuesta unas diez líneas y devuelve el texto a la página 10, así que los dejo hasta que digas.
+  (iii) §6 pierde "Cosine collects the self-supervised structure" y la frase de Moreira (que está en el apéndice C); §5.4 pierde
+  el detalle modelo a modelo de GPT-2, Pythia y OLMo (también en el apéndice C).
