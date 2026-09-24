@@ -3252,3 +3252,14 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **Sin efecto en el texto principal**: acaba en la página 9, Declaración de Reproducibilidad en la 10, 29 páginas, apéndice
   de 14. Sweep **242/242** (comprobación nueva: ni "McNemar" ni "NC H vs R" en ningún sitio del envío, nueve columnas, sesenta
   filas y el pie literal). Rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 114. Figura 1 nueva del autor: recompilado (2026-09-24)
+
+- Bajada tu `fig1_concept.pdf` (commit `a84c6c1`) y recompilado el envío con ella. Mismo lienzo, 1440x810 pt, así que no mueve
+  nada: 29 páginas, texto principal hasta la página 9, Declaración de Reproducibilidad en la 10, apéndice de 14. Sweep
+  **242/242**, rebuttal reconstruido (61/61), qa_pages regeneradas.
+- **Un aviso de legibilidad**: las etiquetas de las clases dentro de los tres paneles (Random, Star, Tree) miden unos 11.5 pt en
+  el lienzo de la figura, y la figura entra a 5.5 pulgadas, es decir a escala 0.275: en el PDF salen a unos **3.2 pt**. Lo más
+  pequeño en el resto del artículo son los nombres de modelos de las figuras, a 5.6--6.5 pt. Tal como está no se leen impresas.
+  Los títulos de panel y el recuadro ("All cast the same tree-shaped shadow") sí: bajan a unos 10.5 pt.
+- Si quieres, hay tres salidas: subir el tamaño de esas etiquetas en el origen a unos 20 pt de lienzo (5.5 pt impresos),
+  dejar sólo unas pocas etiquetas de ejemplo por panel, o quitarlas y describir los tres mundos en el pie.
