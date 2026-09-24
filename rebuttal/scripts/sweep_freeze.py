@@ -1513,7 +1513,7 @@ def final_checks():
         and len(over30_all) == 0, f"over 30: {[(w_, s_[:50]) for w_, s_ in over30_all[:5]]}")
     chk("final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row",
         not _re.search(r"\(([+-]\d\.\d)\)", dep) and not _re.search(r"\$[+-]\d\.\d\$", dep) and "$K{=}10$" in dep and "$K{=}60$" in dep and "supremum, Haar" in wn and "supremum, Gaussian" not in wn
-        and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in app_f and _j.load(open(R/"final_fig_classcount.json"))["C"] == [10, 20, 50, 100, 200, 500, 1000] and rob.count("DINOv2-L & ") >= 2)
+        and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in app_f and sorted(set(int(r_["C"]) for r_ in load("expR60_c_sweep_record.csv"))) == [10, 20, 50, 100, 200, 500, 1000] and rob.count("DINOv2-L & ") >= 2)
     alltex = nocom(TF) + "".join(nocom((FD/(s + ".tex")).read_text()) for s in inputs) + nocom(open(TEX/"tab_census_final.tex").read()) + nocom(open(TEX/"tab_khrulkov_final.tex").read())
     refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
     chk("final: every cross-reference of the final resolves", refs <= defs, str(sorted(refs - defs)))
