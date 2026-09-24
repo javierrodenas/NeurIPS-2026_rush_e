@@ -45,7 +45,7 @@ FAMS = [("sup.", ["i21k_t", "i21k_s", "i21k_b", "i21k_l"], 2.0), ("DINO", ["dino
         ("contr.", ["clip_b", "clip_l", "siglip_b"], 0.0)]   # DINO and DINOv2 are named apart, closer to each other than to the other families
 SHORT = {"i21k_t": "T", "i21k_s": "S", "i21k_b": "B", "i21k_l": "L", "dinov1_b": "B", "dinov2_s": "S", "dinov2_b": "B", "dinov2_l": "L", "dinov2_g": "G",
          "clip_b": "B", "clip_l": "L", "siglip_b": "Sig"}   # the size inside the family; the family is named under the axis
-PLANT = "#FDB813"   # the planted three-level hierarchy
+PLANT = "#222222"   # the planted three-level hierarchy: black, dashed, triangles (author's brief, 2026-09-24)
 XPOS, XFAM, XSEP, _x = {}, [], [], 0.0
 for _fname, _ms, _gap in FAMS:
     _start = _x
@@ -95,7 +95,7 @@ ax.set_ylabel("excess"); ax.set_title("(b) excess over the random cloud", pad=3)
 ax = axes[1][0]
 ax.axhline(-2, color="k", lw=0.8, ls="--", zorder=1)
 curve(ax, {m: float(D74[m]["dec_z_mean"]) for m in M}, DOT, color=GRAY, marker="D", ms=3.4, zorder=2)
-curve(ax, {m: float(D81[m]["dec_z_mean"]) for m in M}, "-", color=PLANT, marker="^", ms=4.4, zorder=3)
+curve(ax, {m: float(D81[m]["dec_z_mean"]) for m in M}, (0, (4, 1.8)), color=PLANT, marker="^", ms=4.4, zorder=3)
 curve(ax, {m: float(D74[m]["real_z"]) for m in M}, "-", ms=4.6, zorder=5)
 ax.set_ylabel("hierarchy test $z$"); ax.set_title("(c) hierarchy test, real and planted", pad=3); famaxis(ax)
 # (d) the power for the planted hierarchy, intact and randomized
@@ -110,7 +110,7 @@ ax.set_ylabel("power"); ax.set_title("(d) power for the planted hierarchy", pad=
 hd = [plt.Line2D([], [], marker="o", color="k", ls="-", lw=1.5, ms=4.6, mec="white", mew=0.5, label="model"),
       plt.Line2D([], [], marker="D", color=GRAY, ls=DOT, lw=1.0, ms=3.4, mec="white", mew=0.5, label="random cloud (a) / real, randomized (c)"),
       plt.Line2D([], [], marker="s", mfc="white", mec="#B6B6B6", ls="--", color="#C9C9C9", lw=0.8, ms=3.6, mew=0.9, label="random ball, same dimension (a)"),
-      plt.Line2D([], [], marker="^", color=PLANT, ls="-", lw=1.5, ms=4.4, mec="white", mew=0.5, label="planted hierarchy, randomized (c)"),
+      plt.Line2D([], [], marker="^", color=PLANT, ls=(0, (4, 1.8)), lw=1.5, ms=4.4, mec="white", mew=0.5, label="planted hierarchy, randomized (c)"),
       Patch(color="k", label="genuine / power $\\geq0.8$"),
       Patch(facecolor="white", edgecolor="k", hatch="////", label="not genuine / blind"),
       Patch(color=LIGHT, label="power intact (d)")]

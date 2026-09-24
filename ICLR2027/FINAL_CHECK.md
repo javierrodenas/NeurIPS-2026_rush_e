@@ -16,11 +16,11 @@
 | Related Work | 7 | 28.6 | 60 | 0 |
 | Methodology | 38 | 18.3 | 30 | 0 |
 | Experimental Setup | 16 | 17.8 | 33 | 0 |
-| Results | 70 | 17.9 | 30 | 0 |
+| Results | 71 | 17.7 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 19.3 | 24 | 0 |
 | Conclusion and Limitations | 10 | 21.3 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 123 sentences, mean 18.3 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 124 sentences, mean 18.2 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -44,7 +44,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | Controlled, the trees share their topology, not their metric | 0.77, 0.90, 0.33 |
 | Results | The self-supervised tree is angular. | — |
 | Results | Agreement with WordNet follows supervision and recipe. | +0.57 to +0.59, +0.49 to +0.53, +0.18 to +0.22 |
-| Results | Text depends on recipe and scale. | — |
+| Results | Text depends on recipe and scale. | 7 of 15 |
 | Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5, +0.9 to +1.3 |
 
 ## Appendix material deleted from the final (kept in the frozen v1 file and its tables)
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 238/238 checks passed.
+- Total: 239/239 checks passed.
 - Final-version checks:
 
     PASS final: references.bib is the author's bib of 2026-09-23 merged with the three cited entries it lacked: keys unique, every cited key present, Groger et al. as ICML 2026 with Shuo Wen, no escaped underscores in doi/url (they print a backslash), Gromov protected 

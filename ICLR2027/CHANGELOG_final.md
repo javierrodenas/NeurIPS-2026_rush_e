@@ -3123,3 +3123,16 @@ un CSV; `rebuttal/results/phaseE_fills.json` guarda los valores); el apéndice, 
 - **No ha hecho falta tocar la conclusión**: el texto principal sigue acabando en la página 9. Envío de 29 páginas, apéndice de
   14. Sweep **238/238** con la comprobación nueva del panel (excesos de expR53, tamaños del panel de modelos, 7 de 15 genuinos).
   Rebuttal reconstruido (61/61) y qa_pages regeneradas.
+## 106. Vuelve el contenido del párrafo de texto y se va el amarillo (2026-09-24, nota del autor).
+
+- **(1)** §5.4 recupera tu contenido: "{{TEXT_GEN}} of 15 text models are genuine under the reading. GPT-2 L and XL are genuine
+  under every reading while S and M change with it. Pythia is genuine at every size, and the sentence embedders are not on class
+  names but are on DBpedia." Cierra con el puntero a la Figura 4b y a la Tabla 6. Lo he dejado en **dos frases** donde tú
+  escribías una con coma, porque la frase única se iba a 35 palabras y pasaba tu tope de 30. La dependencia de la sonda ya no
+  está en el párrafo: sigue en §7, limitación (iv).
+- **(2)** Fuera el amarillo: `palette.py` pone **BAND = "#DDE3EA"** (gris azulado claro) con **BAND_ALPHA = 0.6**, y esa banda es
+  la que usan la de $\pm2$ desviaciones del nulo de la Figura 4 y la del techo intramodelo de la Figura 5b. La jerarquía plantada
+  de la Figura 2(c) pasa a **#222222**, en línea discontinua con triángulos, y la leyenda con ella. Las once figuras se
+  regeneraron; no queda ninguna aparición de #FDE725 ni de #FDB813 fuera de la comprobación que lo prohíbe.
+- Envío de 29 páginas, texto principal hasta la página 9 (no ha hecho falta tocar la conclusión), apéndice de 14. Sweep
+  **239/239** con la comprobación nueva de paleta. Rebuttal reconstruido (61/61) y qa_pages regeneradas.

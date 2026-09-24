@@ -25,8 +25,8 @@
    "over30": 0
   },
   "Results": {
-   "sentences": 70,
-   "avg_words": 17.9,
+   "sentences": 71,
+   "avg_words": 17.7,
    "max_words": 30,
    "over30": 0
   },
@@ -43,8 +43,8 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.3,
- "n_nonverbatim_sentences": 123,
+ "avg_nonverbatim": 18.2,
+ "n_nonverbatim_sentences": 124,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
@@ -204,7 +204,9 @@
   {
    "section": "Results",
    "lead": "Text depends on recipe and scale.",
-   "numbers": []
+   "numbers": [
+    "7 of 15"
+   ]
   },
   {
    "section": "Implications for Hyperbolic Representation Learning",

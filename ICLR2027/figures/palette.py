@@ -9,8 +9,8 @@ FAMILY_COLORS = {   # discrete viridis (author's brief, 2026-09-24); the four ar
     "embedder": "#440154",       # text models: BGE / GTE / E5
     "null": "#7F7F7F",           # nulls, stars and controls stay gray
 }
-BAND = "#FDE725"                 # bands and highlights, at 35 per cent opacity and never the only carrier
-BAND_ALPHA = 0.35
+BAND = "#DDE3EA"                 # bands and highlights: light blue-gray at 60 per cent opacity, never the only carrier (2026-09-24)
+BAND_ALPHA = 0.6
 DATASET_MARKERS = {"imagenet": "o", "cifar100": "s", "cifar10": "D",
                    "dtd": "^", "fashionmnist": "v", "mnist": "x"}
 def family(model):

@@ -1401,6 +1401,13 @@ def final_checks():
         
         and len(rob_c) == 0 and rob.count("\\caption{(continued)}") == rob.count("\\ContinuedFloat"),   # appendix cleanup (2026-09-23): one short caption, the other floats plain '(continued)' 
         f"continued captions {[c.strip()[:12] for c in rob_c]}")
+    # ---- the palette of the bands and of the planted hierarchy (author's brief, 2026-09-24)
+    _pal = (R.parents[1]/"ICLR2027"/"figures"/"palette.py").read_text()
+    chk("final (palette, 2026-09-24): every band is the light blue-gray at 60 per cent and the planted hierarchy is black, dashed, with triangles; no yellow is left in the palette or the figure script",
+        'BAND = "#DDE3EA"' in _pal and "BAND_ALPHA = 0.6" in _pal and 'PLANT = "#222222"' in FIGSRC
+        and 'curve(ax, {m: float(D81[m]["dec_z_mean"]) for m in M}, (0, (4, 1.8)), color=PLANT, marker="^"' in FIGSRC
+        and 'ls=(0, (4, 1.8)), lw=1.5, ms=4.4, mec="white", mew=0.5, label="planted hierarchy, randomized (c)"' in FIGSRC
+        and "FDE725" not in _pal and "FDB813" not in FIGSRC and "FDE725" not in FIGSRC)
     # ---- Figure 4(b), the text models by size (author's brief, 2026-09-24)
     _ft = _j.load(open(R/"final_fig_text.json")); _t53 = {r_["model"]: r_ for r_ in load("expR53_text_haar_p999_200.csv")}
     _pan = (FD/"tab_q14_panel.tex").read_text()
@@ -1446,6 +1453,7 @@ def final_checks():
         and "\\ref{tab:q8-robust-c}" not in TF and "\\ref{tab:q2-text-c}" not in TF and "\\ref{tab:provenance}" not in TF,
         f"uncited tables kept {_keptun}")
     # ---- main-text completeness (author's brief, 2026-09-24, night): four sentences, every number against its file
+    _t53c = {r_["model"]: r_ for r_ in load("expR53_text_haar_p999_200.csv")}
     _slc = pd.read_csv(R/"expR62_samplelevel_record.csv"); _a3c = pd.read_csv(R/"exp3_alignment.csv").set_index("model").spearman_wn
     def _wnr(p_, n_):
         ms_ = [m for m in _a3c.index if m.startswith(p_)]; assert len(ms_) == n_, (p_, ms_)
@@ -1464,7 +1472,7 @@ def final_checks():
         and f"Its embeddings also stay nearly flat: 95 per cent lie within {_r71c.radius_sqrtc_p95.max():.2f} of the curvature scale (Table~\\ref{{tab:q4-depth-c}})." in bf
         and f"The correlation between inter-centroid and WordNet distances is highest for the contrastive VLMs ({_wnr(('clip', 'siglip'), 3)}), then the supervised ViTs ({_wnr('i21k', 4)}), and lowest for DINOv2 ({_wnr('dinov2', 4)})." in bf
         and "Among leaf-supervised ViTs it depends on the recipe (Section~\\ref{sec:f-depth})." in bf
-        and "The verdict depends on the probe as well: the template and the batching move the reading, so verdicts at the margin are fragile. The sentence embedders are not genuine on the class names but are on DBpedia." in bf
+        and f"{sum(str(_t53c[m_].get('genuine_bh')) == 'True' for m_ in _t53c)} of 15 text models are genuine under the reading. GPT-2 L and XL are genuine under every reading while S and M change with it. Pythia is genuine at every size, and the sentence embedders are not on class names but are on DBpedia." in bf
         and "Figure~\\ref{fig:excess}b and Table~\\ref{tab:q2-text} give the census per model." in bf and _txt_ok
         and (lambda _ft: _ft["text_genuine"] == 7 and _ft["n_text"] == 15 and set(_ft["params"]) == set(_ft["excess"]))(_j.load(open(R/"final_fig_text.json"))),
         f"sample-level not genuine {int((~_slc.genuine_bh).sum())} of {len(_slc)}; text ok {_txt_ok}")
