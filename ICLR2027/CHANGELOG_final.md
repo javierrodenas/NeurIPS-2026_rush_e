@@ -3626,3 +3626,13 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
 - Sin cambios en el PDF: 29 páginas, texto principal hasta la página 9 (última línea "...the objective--geometry link is
   correlational"), los dos PDF con el mismo texto. Por eso no rehago las figuras ni los zips: reescribirlos solo cambiaría las
   fechas dentro de los ficheros.
+## 136. Figura 9 regenerada de verdad (2026-09-25)
+
+- En la entrada anterior comprobé que el PDF de la figura ya llevaba el título nuevo y no la rehice. Aquí sí: ejecutado
+  `figures/make_figs_final.py`, `fig_gains_final.pdf` reescrito (md5 nuevo) y las otras ocho figuras devueltas a su versión
+  anterior, que no cambian de contenido, para que el diff sea solo la que tocaba.
+- Reconstruido el paper con ella: la figura llega igual a `ICLR2027/iclr2027/figures/` y a `submission/figures/` (mismo md5 en
+  las dos), y el título impreso es "the best zero-cost metric, against the Euclidean one".
+- 29 páginas, texto principal hasta la página 9 (última línea "...the objective--geometry link is correlational"),
+  Declaración de Reproducibilidad en la 10, los dos PDF con el mismo texto. Sweep **250/250**, rebuttal 61/61, los dos zips
+  regenerados.
