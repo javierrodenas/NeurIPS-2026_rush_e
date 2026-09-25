@@ -3600,3 +3600,12 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
   palabra inglesa ("squared distance", "the square of a Gaussian", "the two largest sums").
 - 29 páginas, texto principal hasta la página 9, los dos PDF con el mismo texto. Sweep **249/249** (la comprobación del apéndice
   A exige ahora los dos entornos y ningún cuadrado manual), rebuttal 61/61, `submission/` y los dos zips regenerados.
+## 134. Apéndice A, vuelta atrás (2026-09-25, brief del autor)
+
+- Deshecho lo de la entrada 133: las dos partes vuelven a ser `\paragraph{Proof of (a).}` y `\paragraph{Proof of (b).}`, con
+  `\qquad\square` al final de la ecuación (9) y `$\square$` al final de (b). No queda ningún entorno `proof` en el envío.
+- El motivo: con el entorno de amsthm el cuadrado de (a) caía en la línea de debajo de la ecuación, porque la demostración
+  acaba en un display; así queda en la misma línea, que es como estaba.
+- Las comprobaciones del sweep vuelven a las de antes: ningún `\begin{proof}`, los dos ladillos y los dos cuadrados.
+- 29 páginas, texto principal hasta la página 9, los dos PDF con el mismo texto. Sweep **249/249**, rebuttal 61/61,
+  `submission/` y los dos zips regenerados.
