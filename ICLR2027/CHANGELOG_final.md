@@ -3488,3 +3488,13 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
 - **Verificado**: el zip descomprimido en limpio compila a **29 páginas** y da el **mismo texto** que el PDF del envío.
 - Sweep **248/248**: la comprobación de `submission/` ahora exige las 12 tablas en `appendix_tables/`, las 9 figuras en
   `figures/`, el `.bbl` y el README, y que cada `\input` y cada `\includegraphics` resuelva dentro de la carpeta.
+## 126. Los dos zips, hechos por script (2026-09-25)
+
+- **`ICLR2027/submission.zip`** (8,7 MB): la carpeta `submission/` entera, con los ficheros principales arriba y las tablas y
+  figuras en sus dos directorios. Descomprimida en limpio compila a 29 páginas y da el mismo texto que el PDF del envío.
+- **`ICLR2027/supplementary_code.zip`** (892 KB, 157 ficheros): lo escribe ahora `rebuttal/scripts/make_supplement.py`, que
+  parte del mapa del README (83 ficheros de resultados, 6 generadores, 59 scripts de experimento), añade `figures/palette.py`,
+  el estilo, `tool/` y el README, anonimiza las rutas en las copias del zip y **se niega a escribir el zip** si queda alguna de
+  las cadenas vigiladas ("rodenas", "radeva", "aguilar", "javi", "ub.edu", "neurips", "/media/"). Ahora mismo: 0 en todas.
+- `final_rebuild.sh` llama a los dos constructores, así que las dos carpetas y los dos zips se regeneran en cada reconstrucción
+  y no pueden quedarse viejos.
