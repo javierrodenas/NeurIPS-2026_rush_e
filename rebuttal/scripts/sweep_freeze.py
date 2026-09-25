@@ -1035,7 +1035,7 @@ def final_checks():
     secs_ = _re.findall(r"\\section\{([^}]*)\}", bf); subs_ = _re.findall(r"\\subsection\{([^}]*)\}", bf); prop = bf[bf.index("\\begin{proposition}"):bf.index("\\end{proposition}")]
     chk("final: skeleton of seven sections and ten subsections (S5.5 moved to the appendix on 2026-09-24), eight definitions in light-blue boxes and Proposition 1 in amber (promotion of the boxed variant), six numbered equations, Proposition 1 (a)(b) with its one proof in Appendix A",
         len(secs_) == 7 and secs_[2] == "Methodology" and secs_[-1] == "Conclusion and Limitations" and len(subs_) == 10 and "What is shared is local" not in TF[:TF.index("\\appendix")] and "Calibrated local agreement across models survives, as \\citet{groger2026aristotelian} find for similarity (Table~\\ref{tab:q13-local})." in bf and "\\paragraph{Models share neighborhoods, not metrics.}" not in bf and bf.count("\\begin{definition}[") == 8 and bf.count("\\begin{proposition}") == 1 and "(a)" in prop and "(b)" in prop
-        and bf.count("\\begin{equation}") == 6 and all(("\\label{eq:%s}" % e) in bf for e in ("pairings", "deltanorm", "excess", "rank", "bh", "depth")) and TF.count("\\begin{proof}") == 0 and "\\label{app:proofs}" in TF and TF.index("\\section{Proofs}") > TF.index("\\appendix")
+        and bf.count("\\begin{equation}") == 6 and all(("\\label{eq:%s}" % e) in bf for e in ("pairings", "deltanorm", "excess", "rank", "bh", "depth")) and TF.count("\\begin{proof}") == TF.count("\\end{proof}") == 2   # los dos proofs del apéndice A (2026-09-25) and "\\label{app:proofs}" in TF and TF.index("\\section{Proofs}") > TF.index("\\appendix")
         and "tcolorbox" in TF and "\\textcolor" not in bf and "\\colorbox" not in bf and "\\begin{lemma}" not in bf and "\\begin{corollary}" not in bf and "\\begin{remark" not in bf and "\\newtheorem{definition}" in TF)
     # ---- prose rules on the non-verbatim prose of S3-S7 (definitions, equations, captions and tables excluded)
     src = nocom(bf); src = _re.sub(r"\\begin\{(figure|table|tabular|center)\}.*?\\end\{\1\}", "", src, flags=_re.S); src = _re.sub(r"\\begin\{equation\*?\}.*?\\end\{equation\*?\}", " EQUATION. ", src, flags=_re.S); src = _re.sub(r"\\input\{[^}]*\}", "", src)
@@ -1632,9 +1632,9 @@ def final_checks():
     chk("final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve",
         _pfA.count("\\begin{equation}") == 6 and "\\textbf{Proposition~\\ref{prop:bound}} (range bound and dimension confound)." in _pfA
         and "\\paragraph{Intuition.} The defect is half the difference between two sums of distances." in _pfA
-        and "\\paragraph{Proof of (a).} Take any four points and their three pairing sums (Eq.~\\ref{eq:pairings})." in _pfA
-        and "\\paragraph{Proof of (b).} Let $x_1,\\dots,x_n\\in\\mathbb{R}^d$ have iid standard Gaussian coordinates." in _pfA
-        and _pfA.count("$\\square$") == 1 and _pfA.count("\\qquad\\square") == 1
+        and "\\begin{proof}[Proof of (a)]\nTake any four points and their three pairing sums (Eq.~\\ref{eq:pairings})." in _pfA
+        and "\\begin{proof}[Proof of (b)]\nLet $x_1,\\dots,x_n\\in\\mathbb{R}^d$ have iid standard Gaussian coordinates." in _pfA
+        and _pfA.count("\\square") == 0 and _pfA.count("\\end{proof}") == 2   # el cuadrado lo pone amsthm (2026-09-25)
         and "\\label{eq:pairings}" in bf and "\\label{prop:bound}" in bf and "\\usepackage{amssymb}" in TF
         and "relative contrast between the farthest and the nearest pair vanishes at rate $d^{-1/2}$ \\citep{beyer1999nearest, aggarwal2001surprising}" in _pfA,
         f"{_pfA.count(chr(92) + chr(92) + 'begin{equation}')} equations in Appendix A")

@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 246/248 checks passed.
+- Total: 248/249 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 
@@ -67,9 +67,8 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
     PASS final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve 
     PASS final: every row of the model panel carries its citation, inline after the model name since it fits the text width (author's brief, 2026-09-24), Barlow Twins and BYOL among them, and both new entries have a publisher source 
     PASS final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table 
-    FAIL final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
+    PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm, amssymb (the \square of the proofs, 2026-09-24) and tcolorbox (the boxed statements), same class, same packages otherwise 
-    FAIL(all): final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
 
 ## Cited bibliography entries and their sources (DBLP key, else DOI, else publisher URL)
 

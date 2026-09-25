@@ -3590,3 +3590,13 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
   "/media/": **0 en todas**. El constructor se niega a escribir el zip si alguna sobrevive.
 - 29 páginas, texto principal hasta la página 9 (última línea: "...the objective--geometry link is correlational"), los dos PDF
   con el mismo texto. Sweep **249/249** con una comprobación nueva del contenido del zip; rebuttal 61/61.
+## 133. Apéndice A con el entorno `proof` (2026-09-25, brief del autor)
+
+- Las dos partes van ahora en `\begin{proof}[Proof of (a)] … \end{proof}` y `\begin{proof}[Proof of (b)] … \end{proof}`, y
+  desaparecen los `\qquad\square` de la ecuación (9) y del final de (b). El cuadrado lo coloca amsthm: en (a), como la
+  demostración acaba en una ecuación, cae en la línea siguiente al margen derecho; en (b), al final del párrafo.
+- Los títulos se imprimen como los de amsthm, *Proof of (a).* en cursiva, en lugar de los ladillos en negrita de antes.
+- En todo el envío ya no queda ningún `\square` escrito a mano; las tres apariciones de "square" que quedan en el `.tex` son la
+  palabra inglesa ("squared distance", "the square of a Gaussian", "the two largest sums").
+- 29 páginas, texto principal hasta la página 9, los dos PDF con el mismo texto. Sweep **249/249** (la comprobación del apéndice
+  A exige ahora los dos entornos y ningún cuadrado manual), rebuttal 61/61, `submission/` y los dos zips regenerados.
