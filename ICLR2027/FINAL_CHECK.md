@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 509).
+- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 506).
 - Appendix: Proofs on page 16, implementation and additional results from page 17 to page 29 (14 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 248/248 checks passed.
+- Total: 247/248 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 

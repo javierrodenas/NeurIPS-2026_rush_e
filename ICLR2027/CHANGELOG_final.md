@@ -3498,3 +3498,15 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
   las cadenas vigiladas ("rodenas", "radeva", "aguilar", "javi", "ub.edu", "neurips", "/media/"). Ahora mismo: 0 en todas.
 - `final_rebuild.sh` llama a los dos constructores, así que las dos carpetas y los dos zips se regeneran en cada reconstrucción
   y no pueden quedarse viejos.
+## 127. Declaración de uso de IA, tu texto (2026-09-25, brief del autor)
+
+- Sustituida entera y literal: "We used generative AI tools to assist with writing and editing, retrieving references, and
+  implementing and running the experimental code, and to give feedback on drafts and on the methodology. We reviewed and
+  verified all AI-assisted work, including every number, figure and reference, and take full responsibility for the content of
+  this paper."
+- **Lo que sale con ella**, por si lo quieres de vuelta: la frase "The research question, the study design and the
+  interpretation of the results are the authors'." que añadimos el 25, y la de "We have not used generative AI tools for other
+  tasks with required disclosure."
+- `submission/` y los dos zips se regeneraron solos con la cadena; el `.tex` de la carpeta ya lleva la declaración nueva y
+  sigue compilando en limpio a 29 páginas.
+- 29 páginas, texto principal hasta la página 9. Sweep **248/248**, rebuttal 61/61, qa_pages regeneradas.
