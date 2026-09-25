@@ -3636,3 +3636,22 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
 - 29 páginas, texto principal hasta la página 9 (última línea "...the objective--geometry link is correlational"),
   Declaración de Reproducibilidad en la 10, los dos PDF con el mismo texto. Sweep **250/250**, rebuttal 61/61, los dos zips
   regenerados.
+## 137. §1(i) sin la referencia adelantada, y repaso del orden de citas (2026-09-25, brief del autor)
+
+- **§1, parte (i)**: "(p = 0.030, Figure 3)" → "**(p = 0.030)**". La Figura 3 se cita ahora por primera vez en §5.1, que es
+  donde se explica.
+- **Las cinco figuras del texto principal se citan en orden**: Figura 1 en §1, Figura 2 en §3.3, Figura 3 en §5.1, Figura 4 en
+  §5.2 y Figura 5 en §5.4. Estrictamente creciente.
+- **Referencias adelantadas que quedan, todas al apéndice** y por eso inevitables con la numeración por orden de aparición:
+  la **Figura 6** (presupuesto de cuádruplas) se cita en §3.2, antes que las figuras 2 a 5; y las **Figuras 7 y 8** en §5.3,
+  antes que la Figura 5.
+- **Tablas**: las 23 están en el apéndice. Su numeración sigue el orden en que el texto principal cita cada **pregunta**, pero
+  al partir cada pregunta en una tabla por panel los números dejan de ser monótonos. Ocho casos en que una tabla se cita
+  después de otra de número mayor: **Tabla 1** (el panel de modelos, §4; vive en el apéndice B, así que precede a todas las del
+  C), **Tabla 6** tras la 7 (§5.1), **Tabla 4** tras la 5, la 7 y la 6 (§5.2), **Tabla 3** tras la 8 (§5.2), **Tablas 13, 11 y
+  12** tras la 14 y la 15 (§5.3), y **Tabla 22** tras la 23 (§6).
+- **Un detalle que te señalo**: la frase que abre el apéndice C dice "the tables are numbered in the order the main text first
+  cites them, one per question". Es cierta por pregunta, no por tabla numerada, desde que cada panel es una tabla. Si quieres,
+  la ajusto a "the tables follow the order in which the main text first cites each question" — una línea, sin tocar nada más.
+- 29 páginas, texto principal hasta la página 9, los dos PDF con el mismo texto. Sweep **250/250**, rebuttal 61/61,
+  `submission/` y los dos zips regenerados.

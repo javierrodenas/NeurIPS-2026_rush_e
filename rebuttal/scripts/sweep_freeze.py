@@ -1502,7 +1502,7 @@ def final_checks():
         and '_ax3[0].annotate("(a) per-image features"' in FIGSRC and 'axb3.annotate("(b) the values of Khrulkov et al., calibrated"' in FIGSRC
         and 'ax.set_title("(a) raw reading, random ball and random cloud", pad=3)' in FIGSRC
         and "Figure~\\ref{fig:premise}a and Table~\\ref{tab:q3-sample} give the 24 cells." in bf
-        and "calibrated, only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p=0.030$, Figure~\\ref{fig:premise})." in bf,
+        and "calibrated, only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p=0.030$)." in bf,
         f"sample-level genuine {int(_sl.genuine_bh.sum())}/24; inside the band {_prem['inside_band']}")
     # ---- template compliance and the page-9 recovery (author's brief, 2026-09-24): the preamble keeps no spacing override of the
     # style's; S7 keeps four limitations with the full list in the appendix; the moved paragraphs live in the appendix verbatim
@@ -1539,7 +1539,7 @@ def final_checks():
         (all(f"${S85.loc[d, 'excess_sup_mean']:+.4f}$ & {int(round(S85.loc[d, 'r_above_median']))}/200, {S85.loc[d, 'p_left_min']:.3f}--{S85.loc[d, 'p_left_max']:.3f}" in kt85 for d in S85.index) and bool((S85.n_trials == 10).all()) and "(sup.)" not in kt85 and "\\multicolumn{2}{c}{their statistic, the supremum}" in kt85 and "expR85_khrulkov_sup_summary.csv" in kt85
          and "only before correction ($p=0.030$). Under their own statistic, the supremum, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. Figure~\\ref{fig:premise}b and Table~\\ref{tab:khrulkov} give the 4 datasets." in bf
          and all(float(S85.loc[d, "p_left_median"]) < 0.05 for d in ("cifar100", "miniimagenet")) and all(float(S85.loc[d, "p_left_median"]) > 0.05 for d in ("cifar10", "cub")) and float(S85.loc["cifar100", "p_left_max"]) > 0.05
-         and "under their own statistic" not in s1_ and "CIFAR-100 falls below it only before correction ($p=0.030$, Figure~\\ref{fig:premise}). (ii)" in s1_
+         and "under their own statistic" not in s1_ and "CIFAR-100 falls below it only before correction ($p=0.030$). (ii)" in s1_
          and "For their own statistic, the supremum, against the same replicates: the mean excess, the median rank over 10 trials and the range of $p$ across trials. CIFAR-100 is below the null in the median trial but not in every trial." in kt85 and "$r$/200, $p$ range \\\\" in kt85) if S85 is not None
         else ("The calibration reads the percentile statistic $\\hat\\delta_{99.9}$, whereas their statistic is the supremum. Figure~\\ref{fig:premise}b and Table~\\ref{tab:khrulkov} give the 4 datasets." in bf and "(sup.)" not in kt85),
         f"expR85 {'merged' if S85 is not None else 'not merged'}")
@@ -1560,7 +1560,7 @@ def final_checks():
     _bh78 = [d for i_, (d, v_) in enumerate(_p78s.items(), 1) if i_ <= max([0] + [j_ for j_, (d2, v2) in enumerate(_p78s.items(), 1) if float(v2) <= 0.05 * j_ / len(_p78s)])]
     chk("final (BH consistency, 2026-09-25): the published values carry the paper's own definition of genuine, Benjamini--Hochberg across the 4 datasets, which leaves MiniImageNet alone; S1, S5.1 and the Figure 3 caption say so and give CIFAR-100's uncorrected p from the file",
         _bh78 == ["miniimagenet"] == _bhj["bh_genuine"] and f"{float(_p78s['cifar100']):.3f}" == "0.030"
-        and "calibrated, only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p=0.030$, Figure~\\ref{fig:premise})." in bf
+        and "calibrated, only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p=0.030$)." in bf
         and "Calibrated, only MiniImageNet \\citep{miniimagenet} is genuine. CIFAR-10 and CUB-200 \\citep{cub} are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p=0.030$)." in bf
         and "on our reading only MiniImageNet is genuine after correction, and CIFAR-100 falls below at $p=0.030$ before it" in bf
         and "(WordNet agreement: Table~\\ref{tab:q7-wordnet})" in (FD/"tab_q04_depth_final.tex").read_text(),
