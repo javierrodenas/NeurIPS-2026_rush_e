@@ -149,6 +149,10 @@
    "points with no structure, clusters around a center,"
   ],
   [
+   "2 of them are indistinguishable from a random cloud (Figure~\\ref{fig:premise}).",
+   "only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p={{KH_C100_P}}$, Figure~\\ref{fig:premise})."
+  ],
+  [
    "which presupposes a diagnostic of the kind we calibrate.",
    "which presupposes a diagnostic of the kind we calibrate. In few-shot learning \\citet{moreira2024hyperbolic} find that fixed-radius Euclidean prototypes match hyperbolic ones."
   ],

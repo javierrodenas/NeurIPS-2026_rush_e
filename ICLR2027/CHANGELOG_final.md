@@ -3339,3 +3339,32 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
     llevaba "dec.\ $z$" sin definir. Los demás pies nombran exactamente lo que imprimen.
 - 29 páginas, texto principal hasta la página 9, apéndice de 14. Sweep **244/244** con una comprobación nueva para estas
   correcciones; rebuttal reconstruido (61/61), qa_pages regeneradas, resumen de OpenReview actualizado.
+## 118. Coherencia con BH en los valores publicados (2026-09-25, brief del autor)
+
+- **La definición de genuino del artículo, aplicada también a los 4 conjuntos de Khrulkov**: Benjamini--Hochberg al 5 por
+  ciento sobre los cuatro deja **sólo a MiniImageNet**. CIFAR-100 ($p=0.030$) cae en el rango 2, justo por encima del umbral
+  0.025. El cálculo va en el constructor, con `assert` de que el conjunto es exactamente `['miniimagenet']`, y queda registrado
+  en `final_khrulkov_bh.json`; el $p$ de CIFAR-100 entra por relleno nuevo (`KH_C100_P`), no escrito a mano.
+- **§1, parte (i)**: tu frase, partida en dos por el punto y coma para no pasar de 30 palabras: "...are reproduced and,
+  calibrated, only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls
+  below it only before correction ($p=0.030$, Figure 3)."
+- **§5.1**: la misma afirmación, también en dos frases (la regla de §4--§6 no admite punto y coma). La frase del supremo queda
+  intacta, como pedías.
+- **Pie de la Figura 3(b)**, última cláusula: "on our reading only MiniImageNet is genuine after correction, and CIFAR-100 falls
+  below at $p=0.030$ before it (Section 5.1)."
+- **Tabla 12**: el pie añade "(WordNet agreement: Table 19)".
+- **Grep de otras afirmaciones que se apoyen en un $p$ sin corregir** (lo que pedías que te reportara):
+  - **La frase del supremo de §5.1** es la única que queda: usa la mediana del $p$ por conjunto contra 0.05, sin corregir. Con BH
+    sobre los mismos cuatro daría MiniImageNet **y** CIFAR-100 (mediana 0.0249, justo en el umbral 0.025 del rango 2), que es lo
+    que la frase ya dice en palabras ("changes from trial to trial"). La dejo como está por tu instrucción.
+  - **DBpedia** (§5.4, "the three text embedders read a genuine excess"): comprobado, los tres tienen $p=0.005$ y pasan BH en
+    cualquier rango, así que la afirmación no cambia.
+  - **Todo lo demás** que dice "genuine" ya usa `genuine_bh`, es decir BH dentro de su censo: las 72 celdas del censo, las 24 de
+    nivel de muestra, los 15 modelos de texto, el censo del coseno y las celdas de MERU.
+  - **Un matiz de la figura**: el relleno de los puntos de la Figura 3(b) sigue la banda de $\pm2$ s.d., que es un criterio
+    distinto de BH; el pie ahora dice las dos lecturas de forma explícita, así que no queda ambigüedad.
+- **Presupuesto de página**: las frases nuevas costaban cuatro líneas. Se recuperan con dos recortes que no pierden ninguna
+  afirmación: en §5.1 "for ResNet-34 on 4 datasets within 0.03" → "for ResNet-34 within 0.03" (la última frase del párrafo ya
+  dice "the 4 datasets") y en §5.3 "The power therefore follows the backbone" → "The power follows the backbone".
+- 29 páginas, texto principal hasta la página 9. Sweep **245/245** (comprobación nueva: el conjunto BH, el $p$ del fichero y las
+  tres frases). Rebuttal reconstruido (61/61), qa_pages regeneradas.

@@ -12,15 +12,15 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 35 | 22.0 | 51 | 0 |
+| Introduction | 36 | 21.8 | 51 | 0 |
 | Related Work | 7 | 26.4 | 60 | 0 |
 | Methodology | 38 | 18.2 | 30 | 0 |
 | Experimental Setup | 16 | 17.7 | 33 | 0 |
-| Results | 71 | 18.0 | 30 | 0 |
+| Results | 72 | 17.8 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 19.3 | 24 | 0 |
 | Conclusion and Limitations | 10 | 21.7 | 34 | 0 |
 
-Non-verbatim prose of S3–S7: 124 sentences, mean 18.4 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 125 sentences, mean 18.3 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (34 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -28,7 +28,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | section | paragraph | numbers |
 |---|---|---|
 | Results | The premise does not survive calibration where it is read. | 14 of 24, 24 |
-| Results | A published reading is reproduced and calibrated. | 4, 0.03, 4 |
+| Results | A published reading is reproduced and calibrated. | 0.03, 4 |
 | Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 3, 47, 18 of 24 |
 | Results | The count survives resampling. | — |
 | Results | A star of clusters already passes the census. | — |
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 243/244 checks passed.
+- Total: 244/245 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 
