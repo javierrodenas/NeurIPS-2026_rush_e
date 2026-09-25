@@ -1486,6 +1486,10 @@ def final_checks():
         and "The class sets are ImageNet (1000 classes) and CIFAR-100 \\citep[100 classes;][]{cifar10}, which carry a real hierarchy; DTD \\citep[47 classes;][]{dtd} and CIFAR-10 (10 classes); and the flat FashionMNIST \\citep[FMNIST, 10 classes;][]{fashion} and MNIST \\citep[10 classes;][]{mnist}." in bf
         and "\\end{equation}\nwhere the spread is taken over star seeds and null replicates, and a cloud is certified" in bf
         and "unbreakable" in TF and "breakable" not in TF.replace("unbreakable", "") and TF.count("\\begin{defbox}") == 8
+        and all(c_ in TF for c_ in ("\\definecolor{stmtdefrule}{HTML}{3B528B}", "\\definecolor{stmtdefback}{HTML}{E9EDF5}", "\\definecolor{stmtproprule}{HTML}{21918C}", "\\definecolor{stmtpropback}{HTML}{E2F2F1}"))
+        and "\\newtcolorbox{defbox}{statementbox=stmtdefrule, colback=stmtdefback}" in TF and "\\newtcolorbox{propbox}{statementbox=stmtproprule, colback=stmtpropback}" in TF
+        and "blue!55!black" not in TF and "orange!70!black" not in TF and "borderline west={1.2pt}" in TF
+        and all(f'"{n_}": "{h_}"' in (R.parents[1]/"ICLR2027"/"figures"/"palette.py").read_text() for n_, h_ in (("supervised", "#3B528B"), ("ssl", "#21918C")))   # los filetes son los colores de las familias en las figuras (autor, 2026-09-25)
         and "metric-selection heuristic" not in TF and "involves no human subjects and no personal data, and proposes an analysis methodology." in stm
         and "a dot inside the band is what chance gives. On their statistic CIFAR-10 and CUB-200 fall inside the band, MiniImageNet below it, and CIFAR-100 at its edge" in bf
         and bf.count("planted") >= 8,

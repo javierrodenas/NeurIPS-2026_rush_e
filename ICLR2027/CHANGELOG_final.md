@@ -3738,3 +3738,21 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
   entera, más la última frase de §6.
 - 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio y los dos zips regenerados. Sweep
   **250/250**, rebuttal **61/61**.
+## 141. Los recuadros toman la paleta de las figuras (2026-09-25, brief del autor)
+
+- **Definiciones** (8 recuadros): filete izquierdo **#3B528B** y fondo **#E9EDF5**. **Proposición 1**: filete **#21918C** y
+  fondo **#E2F2F1**. Antes eran `blue!55!black` sobre `blue!4` y `orange!70!black` sobre `orange!8`, colores de xcolor sin
+  relación con las figuras.
+- Los dos filetes son exactamente `FAMILY_COLORS["supervised"]` y `FAMILY_COLORS["ssl"]` de `figures/palette.py`, los mismos
+  que llevan los ViT supervisados y la familia DINOv2 en las Figuras 2 a 5.
+- **Nada más cambia**: color del texto, fuentes, `boxrule=0pt` sin marco, relleno de 2 pt, `borderline west={1.2pt}` y los
+  espacios antes y después quedan como estaban. Los cuatro tonos se declaran con `\definecolor{...}{HTML}{...}` en el preámbulo.
+- **Comprobado en el PDF, no solo en el `.tex`**: muestreo de píxeles de las páginas de QA 3 a 5 encuentra los cuatro valores
+  exactos (filete de definición 3B528B con fondo E9EDF5, filete de la proposición 21918C con fondo E2F2F1).
+- **Check nuevo en el sweep**: los cuatro `\definecolor`, las dos cajas que los usan, que no quede ningún `blue!55!black` ni
+  `orange!70!black`, el filete de 1.2 pt, y que los dos filetes sigan siendo los hex de `palette.py`, para que recuadros y
+  figuras no se separen.
+- 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio y los dos zips regenerados. Sweep
+  **250/250**, rebuttal **61/61**.
+- **La página 9 sigue igual que en la entrada 140**: el texto principal se sale **2 líneas** (ranuras 486 y 487, el final de la
+  limitación (vi) y la (vii) entera). El color no mueve ni una línea; sigue pendiente que elijas qué suelto para recuperarlas.

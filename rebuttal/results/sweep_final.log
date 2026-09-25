@@ -118,8 +118,9 @@ PASS final: every row of the model panel carries its citation, inline after the 
 PASS final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table 
 PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
 PASS final: preamble of the frozen v1 plus amsthm, amssymb (the \square of the proofs, 2026-09-24) and tcolorbox (the boxed statements), same class, same packages otherwise 
-PASS rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) 
+FAIL rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 2 inserted paragraphs; diff at char 2763
 PASS rebuttal: every inserted paragraph carries a provenance comment naming its result file and points to its table 
 PASS rebuttal (priority 1c, rule not met): the planted-alignment counts and the power in the paragraph and table match expR80_implanted_alignment.csv / expR80_decision.csv, the rule is stated as not met and no 'measured power' claim enters 
 PASS rebuttal (priority 1): every z of the trained positive control matches expR77_positive_control.csv and the verdict sentence matches the pre-set criterion in expR77_positive_control_verdict.json 
-[phaseB re-total] 250/250
+[phaseB re-total] 249/250
+FAIL(all): rebuttal: the file is the frozen submission file plus the inserted paragraphs and the parallel-track appendix subsection, nothing else (frozen text and numbers unchanged) | 2 inserted paragraphs; diff at char 2763
