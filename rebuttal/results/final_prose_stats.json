@@ -2,7 +2,7 @@
  "sections": {
   "Introduction": {
    "sentences": 36,
-   "avg_words": 21.9,
+   "avg_words": 22.2,
    "max_words": 54,
    "over30": 0
   },
@@ -13,9 +13,9 @@
    "over30": 0
   },
   "Methodology": {
-   "sentences": 38,
-   "avg_words": 18.2,
-   "max_words": 30,
+   "sentences": 39,
+   "avg_words": 18.0,
+   "max_words": 29,
    "over30": 0
   },
   "Experimental Setup": {

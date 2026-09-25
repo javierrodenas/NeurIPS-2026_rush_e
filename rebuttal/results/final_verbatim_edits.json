@@ -149,6 +149,14 @@
    "points with no structure, clusters around a center,"
   ],
   [
+   "And the supremum over sampled quadruples grows with the budget and does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}.",
+   "And computing the supremum exactly takes more than cubic time \\citep{fournier2015computing}, so it is taken over sampled quadruples, where it grows with the budget and does not converge: the \\emph{statistic confound}."
+  ],
+  [
+   "than can be enumerated, so the defect is computed on half a million random quadruples. Second, the largest defect in that sample is a poor estimate of the supremum: it belongs to a single extreme quadruple and keeps growing as more quadruples are drawn \\citep{fournier2015computing}.",
+   "than can be enumerated, and exact computation takes more than cubic time \\citep{fournier2015computing}. The defect is therefore computed on half a million random quadruples. Second, the largest defect in that sample is a poor estimate of the supremum: it belongs to a single extreme quadruple and keeps growing as more quadruples are drawn."
+  ],
+  [
    "2 of them are indistinguishable from a random cloud (Figure~\\ref{fig:premise}).",
    "only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p={{KH_C100_P}}$, Figure~\\ref{fig:premise})."
   ],

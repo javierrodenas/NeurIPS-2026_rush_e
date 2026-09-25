@@ -12,9 +12,9 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 36 | 21.9 | 54 | 0 |
+| Introduction | 36 | 22.2 | 54 | 0 |
 | Related Work | 7 | 25.1 | 60 | 0 |
-| Methodology | 38 | 18.2 | 30 | 0 |
+| Methodology | 39 | 18.0 | 29 | 0 |
 | Experimental Setup | 16 | 17.8 | 34 | 0 |
 | Results | 73 | 17.9 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 18 | 23 | 0 |
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 246/246 checks passed.
+- Total: 245/246 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 

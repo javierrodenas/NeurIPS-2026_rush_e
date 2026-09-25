@@ -1017,7 +1017,7 @@ def final_checks():
     chk("final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence)", grom in norm(bf) and est in norm(bf))
     _CUTTAIL = {"It adds a hierarchy test measured on real clouds"}   # S2 keeps its first seven sentences (cut step 4 of the page budget); the Moreira citation of 2026-09-25 took the place of the closing one, whose three items are contributions 1 and 2 of S1
     chk("final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives",
-        len(ED) == 40 and all((a not in bf) or (a in b) for a, b in ED) and any("clusters oriented toward their hubs in a few" in b for _, b in ED) and any("In the 9 of 12 backbones where a planted hierarchy is detected, none as strong is found; in the other 3 the test is blind." in b for _, b in ED) and "49 of 72" not in bf and all((fillb(b) in bf) or b in _CUTTAIL for _, b in ED if b and not any(a2 in b for a2, _ in ED if a2)) and sum(1 for a, _ in ED if "shadow" in a) == 4 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
+        len(ED) == 42 and all((a not in bf) or (a in b) for a, b in ED) and any("clusters oriented toward their hubs in a few" in b for _, b in ED) and any("In the 9 of 12 backbones where a planted hierarchy is detected, none as strong is found; in the other 3 the test is blind." in b for _, b in ED) and "49 of 72" not in bf and all((fillb(b) in bf) or b in _CUTTAIL for _, b in ED if b and not any(a2 in b for a2, _ in ED if a2)) and sum(1 for a, _ in ED if "shadow" in a) == 4 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
         and any("three artifacts push it down" in a for a, _ in ED) and any("sala2018representation" in b and "gu2019learning" in b for _, b in ED)
         and bf.count("30 of 36") >= 2 and "cannot be called low on its own" in bf)
     # ---- metaphors, bridges and banned phrases anywhere in the body (Figure 1 and its caption excepted), thesis twice
@@ -1565,6 +1565,12 @@ def final_checks():
         and "on our reading only MiniImageNet is genuine after correction, and CIFAR-100 falls below at $p=0.030$ before it" in bf
         and "(WordNet agreement: Table~\\ref{tab:q7-wordnet})" in (FD/"tab_q04_depth_final.tex").read_text(),
         f"BH over the four: {_bh78}")
+    chk("final (citation fix, 2026-09-25): Fournier et al. support the cost of the exact computation, in S1 and S3.2, and no longer the growth of the sampled supremum, which is our own observation",
+        "And computing the supremum exactly takes more than cubic time \\citep{fournier2015computing}, so it is taken over sampled quadruples, where it grows with the budget and does not converge: the \\emph{statistic confound}." in bf
+        and "than can be enumerated, and exact computation takes more than cubic time \\citep{fournier2015computing}. The defect is therefore computed on half a million random quadruples." in bf
+        and "keeps growing as more quadruples are drawn." in bf and "as more quadruples are drawn \\citep{fournier2015computing}" not in bf
+        and bf.count("\\citep{fournier2015computing}") == 2,
+        f"fournier cited {bf.count(chr(92) + chr(92) + 'citep{fournier2015computing}')} times in the main text")
     _pci = _j.load(open(R/"final_power_ci.json")); _s81c = pd.read_csv(R/"expR81_deep_per_backbone_summary.csv").set_index("model")
     def _wil(p_, n_, z_=1.96):
         den = 1 + z_ * z_ / n_; c_ = (p_ + z_ * z_ / (2 * n_)) / den

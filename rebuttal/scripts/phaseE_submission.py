@@ -119,6 +119,12 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
          ('clusters oriented toward their hubs in a few; no hierarchy among the hubs where the test can see one;',
           'non-random orientation of clusters relative to their superclass centers in a few; no hierarchy among those centers where the test can see one;'),
          ('points with no structure, clusters around a hub,', 'points with no structure, clusters around a center,'),
+         # citation fix (author's brief, 2026-09-25): Fournier et al. support the cost of the exact computation, not the
+         # behaviour of a sampled supremum, which is our own observation; the S3.2 sentence is split at the 30-word cap
+         ('And the supremum over sampled quadruples grows with the budget and does not converge \\citep{fournier2015computing}: the \\emph{statistic confound}.',
+          'And computing the supremum exactly takes more than cubic time \\citep{fournier2015computing}, so it is taken over sampled quadruples, where it grows with the budget and does not converge: the \\emph{statistic confound}.'),
+         ('than can be enumerated, so the defect is computed on half a million random quadruples. Second, the largest defect in that sample is a poor estimate of the supremum: it belongs to a single extreme quadruple and keeps growing as more quadruples are drawn \\citep{fournier2015computing}.',
+          'than can be enumerated, and exact computation takes more than cubic time \\citep{fournier2015computing}. The defect is therefore computed on half a million random quadruples. Second, the largest defect in that sample is a poor estimate of the supremum: it belongs to a single extreme quadruple and keeps growing as more quadruples are drawn.'),
          # BH consistency for the published values (author's brief, 2026-09-25); split at the author's semicolon to keep the 30-word rule
          ('2 of them are indistinguishable from a random cloud (Figure~\\ref{fig:premise}).',
           'only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p={{KH_C100_P}}$, Figure~\\ref{fig:premise}).'),

@@ -3449,3 +3449,17 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
 5. **La cadena sigue viva**: reconstruido el envío y el rebuttal después de mover todo. 29 páginas, texto principal hasta la
    página 9, sweep **246/246**, rebuttal 61/61. El único ajuste fue la comprobación de las rasterizaciones, que ahora mira
    `qa_pages_final/` y el juego archivado. **El PDF final no cambia**: el texto extraído es idéntico al de antes de empezar.
+## 123. La cita de Fournier et al. donde corresponde (2026-09-25, brief del autor)
+
+- **§1**: "And computing the supremum exactly takes more than cubic time \citep{fournier2015computing}, so it is taken over
+  sampled quadruples, where it grows with the budget and does not converge: the \emph{statistic confound}."
+- **§3.2**: la cita entra en la primera frase, con el coste del cálculo exacto, y sale de la siguiente, que es observación
+  nuestra. La frase resultante pasaba de 30 palabras, así que va partida en dos, como hacemos siempre: "First, a thousand
+  centroids have far more quadruples than can be enumerated, and exact computation takes more than cubic time (Fournier et al.,
+  2015). The defect is therefore computed on half a million random quadruples." La segunda queda "...it belongs to a single
+  extreme quadruple and keeps growing as more quadruples are drawn." sin cita.
+- `fournier2015computing` se cita ahora **dos veces** en el texto principal, las dos por el coste del cálculo exacto.
+- **`submission/` actualizado** (el `.tex` y las ocho figuras que la reconstrucción volvió a escribir) y verificado otra vez:
+  compila solo, 29 páginas, texto idéntico al PDF del envío.
+- 29 páginas, texto principal hasta la página 9. Sweep **247/247** (comprobación nueva: las dos frases, la ausencia de la cita
+  en la tercera y el recuento de dos citas). Rebuttal reconstruido (61/61), qa_pages regeneradas.
