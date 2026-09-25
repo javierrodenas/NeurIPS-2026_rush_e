@@ -3550,3 +3550,8 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
   clusters and a true tree all score a low raw $\delta$. Only a calibrated reading can tell them apart."
 - `submission/` y los dos zips regenerados; `submission.zip` baja a 8.842 KB. Sweep **248/248**, rebuttal 61/61, qa_pages
   regeneradas.
+## 130. §5.4, una palabra (2026-09-25, brief del autor)
+
+- "the DINOv2 models **then** agree with none of the others" → "the DINOv2 models agree with none of the others". El "then"
+  colgaba de la frase que recorría los paneles, que salió en la entrada 128.
+- `submission/` y los dos zips regenerados. 29 páginas, texto principal hasta la página 9. Sweep **248/248**, rebuttal 61/61.
