@@ -1,11 +1,6 @@
 {
  "N_COV": "9",
  "SUP_C100_R": "196",
- "KH_C100_P": "0.030",
- "DEC_RUNS_LO": "50",
- "DEC_RUNS_HI": "200",
- "PW_VITS_LO": "0.79",
- "PW_DINOV2B_LO": "0.78",
  "FMNIST_GEN": "5",
  "POL_RULE_H": "+0.41",
  "POL_COS_H": "+0.28",
