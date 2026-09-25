@@ -3539,3 +3539,14 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
 - **§5.3**: "so it needs both the real hubs and the real orientations" → "so it needs both".
 - **§7**: las siete limitaciones se comprimen entre dos y tres palabras cada una; ninguna desaparece.
 - 29 páginas, texto principal hasta la página 9. Sweep **248/248**, rebuttal 61/61, `submission/` y los dos zips regenerados.
+## 129. Figura 1 nueva del autor (2026-09-25)
+
+- Bajada tu `fig1_concept.pdf` (commit `36a02af`) y reconstruido todo con ella. Mismo lienzo, 1440x810 pt, así que el paper no
+  se mueve: 29 páginas, texto principal hasta la página 9, Declaración de Reproducibilidad en la 10.
+- **Las etiquetas ya se leen**: las de esta versión miden 22 a 38 pt en el lienzo, que a 5.5 pulgadas de ancho salen a **6.1 a
+  10.4 pt** impresas. En la anterior estaban a 3.2 pt, por debajo de todo lo demás del artículo; ahora están al nivel de los
+  nombres de modelo de las otras figuras (5.6--6.5 pt) o por encima.
+- Los tres paneles se titulan ahora "Random Cloud", "Star" y "Tree", y el recuadro añade la línea "A random cloud, a star of
+  clusters and a true tree all score a low raw $\delta$. Only a calibrated reading can tell them apart."
+- `submission/` y los dos zips regenerados; `submission.zip` baja a 8.842 KB. Sweep **248/248**, rebuttal 61/61, qa_pages
+  regeneradas.
