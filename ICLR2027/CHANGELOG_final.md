@@ -3568,3 +3568,25 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
   dos ficheros con `diff` vacío, la frase nueva ("the DINOv2 models agree with none of the others") en el PDF del envío, y el
   texto principal acabando en la página 9 (Declaración de Reproducibilidad en la 10, slot 487).
 - 31 ficheros en `submission/`, zip de 8.837 KB. Sweep **248/248**, rebuttal 61/61.
+## 132. El suplemento, solo código (2026-09-25, brief del autor)
+
+- **`supplementary_code.zip` pasa de 157 ficheros y 892 KB a 68 y 172 KB**: dentro quedan `scripts/` con los **59 scripts de
+  experimento** cuyo resultado aparece en el paper (`exp*.py` y `final_wordnet_levels.py`), `tool/` entero (el instrumento, su
+  demo, su autocomprobación y los dos ficheros de etiquetas de ejemplo) y un `README.md` nuevo.
+- **Fuera**: `figures/`, `iclr2027/gen_*`, `phaseE_submission.py`, `sweep_freeze.py`, `make_supp_readme.py` y los 83 CSV de
+  `results/`. Es decir, todo lo que monta el paper.
+- **El README nuevo** lleva una fila por script con: dónde se reporta su resultado (número de tabla o figura tal como sale
+  impreso, más la sección), los modelos y los conjuntos que necesita, y qué escribe; más cómo ejecutarlo
+  (`PLATONIC_ROOT=<caché> PLATONIC_RESULTS=results python3 scripts/<script>.py`) y un apartado para `tool/`. Los números de
+  tabla y figura se sacan recorriendo el paper compilado, así que siguen siendo correctos si cambia la numeración.
+- **Ningún script se queda colgado**: el constructor comprueba que todo lo que importan esté en el archivo, reescribe las rutas
+  internas del repositorio (`ICLR2027/tool` → `tool/`, `rebuttal/scripts` → el propio directorio) y lleva `palette.py` y
+  `style.mplstyle` junto a los scripts, que son lo único que las dos figuras de diagnóstico importan. Si algo faltara, el
+  constructor aborta.
+- **Declaración de Reproducibilidad**, tu texto: "The supplementary material contains the scripts that produce every result in
+  the paper, with fixed seeds, and a README that maps each result to its script; its tool/ directory ships the instrument as one
+  script that reproduces any cell of Table 4 from its centroid matrix."
+- **Anonimato**: grep insensible a mayúsculas dentro del zip de "rodenas", "radeva", "aguilar", "javi", "ub.edu", "neurips" y
+  "/media/": **0 en todas**. El constructor se niega a escribir el zip si alguna sobrevive.
+- 29 páginas, texto principal hasta la página 9 (última línea: "...the objective--geometry link is correlational"), los dos PDF
+  con el mismo texto. Sweep **249/249** con una comprobación nueva del contenido del zip; rebuttal 61/61.

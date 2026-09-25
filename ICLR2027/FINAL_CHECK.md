@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 506).
+- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 504).
 - Appendix: Proofs on page 16, implementation and additional results from page 17 to page 29 (14 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 248/248 checks passed.
+- Total: 246/248 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 
@@ -67,8 +67,9 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
     PASS final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve 
     PASS final: every row of the model panel carries its citation, inline after the model name since it fits the text width (author's brief, 2026-09-24), Barlow Twins and BYOL among them, and both new entries have a publisher source 
     PASS final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table 
-    PASS final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
+    FAIL final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
     PASS final: preamble of the frozen v1 plus amsthm, amssymb (the \square of the proofs, 2026-09-24) and tcolorbox (the boxed statements), same class, same packages otherwise 
+    FAIL(all): final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present 
 
 ## Cited bibliography entries and their sources (DBLP key, else DOI, else publisher URL)
 

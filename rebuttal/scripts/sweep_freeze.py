@@ -1565,6 +1565,18 @@ def final_checks():
         and "on our reading only MiniImageNet is genuine after correction, and CIFAR-100 falls below at $p=0.030$ before it" in bf
         and "(WordNet agreement: Table~\\ref{tab:q7-wordnet})" in (FD/"tab_q04_depth_final.tex").read_text(),
         f"BH over the four: {_bh78}")
+    _zip = Path(__file__).resolve().parents[2]/"ICLR2027"/"supplementary_code.zip"
+    import zipfile as _zf
+    _names = sorted(_zf.ZipFile(_zip).namelist()) if _zip.exists() else []
+    _txt = "".join(_zf.ZipFile(_zip).read(n_).decode("utf-8", "ignore").lower() for n_ in _names if n_.endswith((".py", ".md", ".mplstyle"))) if _names else ""
+    chk("final (supplement, 2026-09-25): the archive carries only the code that produces results -- the experiment scripts, tool/ and a README that maps each result to its script -- with no figure or table generator, no assembler and no result file, and no identifying string",
+        bool(_names) and sum(1 for n_ in _names if n_.startswith("scripts/") and n_.endswith(".py")) >= 55
+        and any(n_ == "README.md" for n_ in _names) and sum(1 for n_ in _names if n_.startswith("tool/")) >= 5
+        and not any(n_.startswith("results/") or n_.startswith("figures/") or n_.startswith("iclr2027/") for n_ in _names)
+        and not any(n_.endswith((".csv", ".json")) for n_ in _names)
+        and not any(b_ in n_ for n_ in _names for b_ in ("gen_appendix", "gen_main_table", "phaseE_submission", "sweep_freeze", "make_supp_readme", "make_figs"))
+        and not any(w_ in _txt for w_ in ("rodenas", "radeva", "aguilar", "javi", "ub.edu", "neurips", "/media/")),
+        f"{len(_names)} entries in supplementary_code.zip")
     _sub = Path(__file__).resolve().parents[2]/"ICLR2027"/"submission"
     _subf = sorted(str(p.relative_to(_sub)) for p in _sub.rglob("*") if p.is_file())
     chk("final: submission/ is what Overleaf takes (author, 2026-09-25): the main files at the top level, the tables in appendix_tables/ and the figures in figures/, the bibliography already compiled, and every \\input and \\includegraphics of its .tex resolving inside the folder",
@@ -1637,7 +1649,7 @@ def final_checks():
     chk("final: the per-cell census is the centered Haar record with the two self-supervised ResNets as rows (author's brief, 2026-09-24), and it answers the reference of the former main-text table", (lambda _c: "expR75_census_centered_haar.csv" in _c and _c.count("\\label{tab:census}") == 1 and "Barlow-R50" in _c and "BYOL-R50" in _c and _c.count("\\\\") >= 14)((FD/"tab_q01_census_final.tex").read_text()))
     # ---- statements
     AI = "We used generative AI tools to assist with writing and editing, retrieving references, and implementing and running the experimental code, and to give feedback on drafts and on the methodology. We reviewed and verified all AI-assisted work, including every number, figure and reference, and take full responsibility for the content of this paper."
-    chk("final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present", AI in stm and "The full pipeline with fixed seeds is provided in the supplementary material; its \\texttt{tool/} directory ships the instrument as one script" in stm and "Ethics Statement" in stm
+    chk("final: AI Use Statement with exactly the three declared items and the responsibility sentence; Reproducibility pointing at the supplementary material, with no TODO or anonymized-repository placeholder left in the file; Ethics present", AI in stm and "The supplementary material contains the scripts that produce every result in the paper, with fixed seeds, and a README that maps each result to its script; its \\texttt{tool/} directory ships the instrument as one script that reproduces any cell of Table~\\ref{tab:census} from its centroid matrix." in stm and "Ethics Statement" in stm
         and not any(w in TF for w in ("TODO", "anonymized repository", "ANONYMIZED")))
     chk("final: preamble of the frozen v1 plus amsthm, amssymb (the \\square of the proofs, 2026-09-24) and tcolorbox (the boxed statements), same class, same packages otherwise", TF[:TF.index("\\usepackage{amsthm}")] == T1[:T1.index("\\usepackage{array}\n") + len("\\usepackage{array}\n")] and TF.count("\\usepackage") == T1.count("\\usepackage") + 3 and "\\usepackage[most]{tcolorbox}" in TF and "\\usepackage{amssymb}" in TF
         and TF.count("\\begin{defbox}") == TF.count("\\begin{definition}") == 8 and TF.count("\\begin{propbox}") == TF.count("\\begin{proposition}") == 1)
