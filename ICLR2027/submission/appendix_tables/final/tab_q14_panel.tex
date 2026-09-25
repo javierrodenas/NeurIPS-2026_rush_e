@@ -1,0 +1,52 @@
+% prov: (model panel: stated in the generator; parameter counts from the model cards)
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llr}
+\toprule
+type & model & params \\
+\midrule
+Supervised ViT (vision) & ViT-T (i21k) \citep{dosovitskiy2021an} & 5M \\
+Supervised ViT (vision) & ViT-S (i21k) \citep{dosovitskiy2021an} & 22M \\
+Supervised ViT (vision) & ViT-B (i21k) \citep{dosovitskiy2021an} & 86M \\
+Supervised ViT (vision) & ViT-L (i21k) \citep{dosovitskiy2021an} & 307M \\
+SSL (vision) & DINO-B \citep{dinov1} & 86M \\
+SSL (vision) & DINOv2-S \citep{dinov2} & 22M \\
+SSL (vision) & DINOv2-B \citep{dinov2} & 86M \\
+SSL (vision) & DINOv2-L \citep{dinov2} & 307M \\
+SSL (vision) & DINOv2-G \citep{dinov2} & 1.1B \\
+Contrastive (vision) & CLIP-B \citep{CLIP} & 86M \\
+Contrastive (vision) & CLIP-L \citep{CLIP} & 307M \\
+Contrastive (vision) & SigLIP-B \citep{siglip} & 86M \\
+\midrule
+Causal LM & GPT-2 S \citep{gpt2} & 117M \\
+Causal LM & GPT-2 M \citep{gpt2} & 345M \\
+Causal LM & GPT-2 L \citep{gpt2} & 774M \\
+Causal LM & GPT-2 XL \citep{gpt2} & 1.5B \\
+Causal LM & Pythia-410M \citep{pythia} & 410M \\
+Causal LM & Pythia-1B \citep{pythia} & 1.0B \\
+Causal LM & Pythia-2.8B \citep{pythia} & 2.8B \\
+Causal LM & OLMo-1B \citep{olmo} & 1.0B \\
+Text embedder & BGE-base \citep{BGE} & 110M \\
+Text embedder & BGE-large \citep{BGE} & 335M \\
+Text embedder & GTE-base \citep{gte} & 110M \\
+Text embedder & GTE-large \citep{gte} & 335M \\
+Text embedder & GTE-Qwen2-1.5B \citep{gte} & 1.5B \\
+Text embedder & E5-base \citep{e5} & 110M \\
+Text embedder & E5-large \citep{e5} & 335M \\
+\midrule
+Controls (vision) & DeiT-B/16 (IN-1k, no distillation) \citep{deit} & 86M \\
+Controls (vision) & ViT-B/16 augreg (IN-1k) \citep{augreg} & 86M \\
+Controls (vision) & MERU ViT-S/B/L and CLIP twins \citep{desai2023meru} & 22M/86M/307M \\
+Controls (vision) & Barlow Twins (ResNet-50) \citep{zbontar2021barlow} & 24M \\
+Controls (vision) & BYOL (ResNet-50) \citep{grill2020bootstrap} & 24M \\
+\bottomrule
+\end{tabular}\par\vspace{3pt}
+{\scriptsize Extraction: vision backbones use the encoder's default pooled embedding (timm, CLS or global pool per architecture); causal language models the last-token state of ``a photo of a \{class\}'', one prompt at a time, since batching alters GPT-2's hidden states; text embedders their recommended pooling, CLS for BGE, mean for GTE and E5, last token for GTE-Qwen2; the CLIP and SigLIP text towers their own text encoders.}
+
+\par\vspace{2pt}
+\caption{\textbf{The models and the extraction.} Every backbone, language model and text embedder of the census and of the controls, with its parameter count; the note below the table says how features are extracted and pooled.
+}
+\label{tab:q14-panel}
+\end{table}

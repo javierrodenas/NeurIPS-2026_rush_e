@@ -4,6 +4,24 @@ Actualizado: 2026-09-03. Dos "papers" conviven aquí: la sumisión **NeurIPS 202
 decisión 2026-09-24) y la resumisión **ICLR 2027** (`ICLR2027/`, activa). Todo número del paper ICLR
 sale de un CSV en `rebuttal/results/` vía un generador; nada se teclea a mano.
 
+## Limpieza del 25 de septiembre de 2026 (nada borrado)
+
+El repositorio queda con tres cosas en la raíz: `CODE_MAP.md`, `ICLR2027/` y `rebuttal/` (la cadena viva:
+`scripts/` y `results/`). Dentro de `ICLR2027/`:
+
+- `iclr2027/` construye el envío; `figures/` lo dibuja; `tool/` es el instrumento suelto.
+- `submission/` es **exactamente** lo que lee el PDF final (29 ficheros: el `.tex`, las 12 tablas del apéndice, la del
+  apéndice de Khrulkov, las 9 figuras, `references.bib`, los ficheros de estilo y el propio PDF). Compila sola y da el
+  mismo PDF.
+- `supplementary_code.zip` es el material suplementario anonimizado; `supplementary_code/README.md` es su mapa.
+- `main_iclr2027_final.pdf`, `main_iclr2027_rebuttal.pdf`, `qa_pages_final/`, `CHANGELOG_final.md`, `FINAL_CHECK.md`,
+  `TODO_author.md` y `OPENREVIEW_abstract.txt` son la salida viva de la cadena.
+- `archive/` guarda todo lo demás, sin borrar nada: `pdfs/` (v1, v2, v3, boxes y el rebuttal anterior), `qa/` (las
+  rasterizaciones v1--v3), `notes/` (memos, planes, informes, diffs), `rebuttal_material/` (las respuestas a los
+  revisores y los REVIEWER_CHECKLIST, para octubre), `rebuttal/` (scripts y resultados que ya no alimentan ningún
+  número) y `neurips2026/` (la sumisión anterior entera: `main.tex`, sus tablas, `references.bib`, `figures/`,
+  `figures_archive/` y `codigo/`).
+
 ## Raíz (versión NeurIPS 2026 — congelada)
 
 - `main.tex`, `neurips_2026.tex`, `neurips_2026.sty`, `references.bib`, `checklist.tex` — la sumisión 18165 tal como se envió. No tocar.

@@ -1,0 +1,124 @@
+% prov: table1_regenerated.csv, exp2_metric_controls.csv, exp2b_normalized_stack.csv, night/correlation_cis.csv, exp20_null_ztable.csv, expR68_corollary_excess.csv, exp24_val_metric_selection.csv, night/t_sweep.csv
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\scriptsize\renewcommand{\arraystretch}{0.88}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llccccccc}
+\toprule
+ & & \multicolumn{2}{c}{NC acc.\ (\%)} & \multicolumn{2}{c}{FS acc.\ (\%)} & \multicolumn{3}{c}{FS advantage over Euclidean (pp)} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-9}
+model & data & Eucl. & Poinc. & Eucl. & Poinc. & cosine & radial map & Poinc.$_{\text{N}}$ $-$ cos \\
+\midrule
+ViT-T & IN & 68.1 & 67.2 & 97.5 & 97.6 & -0.01 & +0.01 & +0.08 \\
+ & C100 & 29.3 & 28.2 & 62.4 & 63.1 & +1.01 & +0.45 & +0.55 \\
+ & C10 & 87.5 & 87.4 & 87.6 & 88.1 & +0.66 & +0.19 & +0.29 \\
+ & DTD & 63.7 & 62.5 & 83.3 & 83.9 & -0.23 & +0.32 & +0.69 \\
+ & FMNIST & 78.5 & 78.4 & 81.6 & 81.9 & +0.21 & +0.10 & +0.31 \\
+ & MNIST & 75.9 & 74.0 & 74.3 & 74.6 & +0.64 & +0.52 & +0.20 \\
+\midrule
+ViT-S & IN & 77.7 & 77.5 & 98.6 & 98.7 & +0.17 & -0.02 & -0.07 \\
+ & C100 & 74.9 & 74.6 & 92.2 & 92.4 & +0.59 & +0.16 & -0.00 \\
+ & C10 & 93.4 & 93.2 & 92.0 & 92.5 & +0.56 & +0.27 & +0.19 \\
+ & DTD & 69.3 & 68.5 & 85.4 & 86.0 & -0.03 & +0.25 & +0.73 \\
+ & FMNIST & 80.7 & 80.4 & 83.7 & 83.5 & +0.28 & +0.08 & -0.19 \\
+ & MNIST & 84.8 & 84.1 & 80.5 & 81.4 & +0.34 & +0.65 & +0.84 \\
+\midrule
+ViT-B & IN & 81.6 & 81.7 & 98.9 & 99.0 & +0.20 & -0.04 & -0.05 \\
+ & C100 & 77.3 & 77.0 & 92.5 & 92.7 & +0.56 & +0.12 & -0.05 \\
+ & C10 & 94.5 & 94.0 & 92.7 & 93.0 & +0.49 & +0.18 & +0.15 \\
+ & DTD & 70.8 & 70.8 & 85.4 & 86.2 & +0.28 & +0.19 & +0.69 \\
+ & FMNIST & 81.3 & 81.6 & 83.4 & 83.3 & +0.03 & +0.09 & -0.04 \\
+ & MNIST & 81.6 & 80.5 & 76.8 & 77.6 & +0.19 & +0.51 & +0.66 \\
+\midrule
+ViT-L & IN & 86.1 & 86.2 & 99.4 & 99.4 & +0.11 & -0.03 & -0.02 \\
+ & C100 & 85.3 & 85.2 & 94.8 & 95.5 & +1.17 & +0.31 & +0.12 \\
+ & C10 & 97.5 & 97.5 & 95.0 & 95.8 & +1.25 & +0.35 & +0.59 \\
+ & DTD & 71.8 & 71.5 & 85.6 & 86.5 & +0.13 & +0.16 & +1.02 \\
+ & FMNIST & 83.7 & 83.5 & 84.4 & 84.7 & +0.00 & +0.17 & +0.23 \\
+ & MNIST & 84.2 & 83.6 & 80.8 & 81.6 & +0.08 & +0.42 & +0.67 \\
+\midrule
+DINOv2-S & IN & 74.7 & 74.4 & 97.4 & 97.9 & +0.68 & +0.03 & -0.22 \\
+ & C100 & 73.4 & 74.4 & 94.3 & 95.1 & +0.80 & +0.15 & +0.06 \\
+ & C10 & 95.0 & 95.2 & 92.9 & 93.5 & -0.36 & +0.13 & +1.06 \\
+ & DTD & 73.4 & 73.4 & 89.8 & 90.5 & +0.30 & +0.04 & +0.36 \\
+ & FMNIST & 82.2 & 82.2 & 85.4 & 85.5 & +0.02 & +0.07 & +0.07 \\
+ & MNIST & 83.4 & 81.9 & 80.2 & 80.8 & -0.07 & +0.45 & +0.67 \\
+\midrule
+DINOv2-B & IN & 78.9 & 78.9 & 97.0 & 97.8 & +1.40 & +0.04 & -0.63 \\
+ & C100 & 87.4 & 87.9 & 96.5 & 97.2 & +1.11 & +0.09 & -0.34 \\
+ & C10 & 97.1 & 97.4 & 94.7 & 95.4 & +0.27 & +0.03 & +0.43 \\
+ & DTD & 74.2 & 74.7 & 89.2 & 90.3 & +1.48 & +0.01 & -0.35 \\
+ & FMNIST & 83.2 & 82.8 & 85.9 & 85.9 & +0.21 & +0.04 & -0.18 \\
+ & MNIST & 80.6 & 78.8 & 76.6 & 77.1 & +0.17 & +0.48 & +0.47 \\
+\midrule
+DINOv2-L & IN & 79.8 & 80.4 & 96.2 & 97.1 & +2.13 & +0.02 & -1.24 \\
+ & C100 & 85.6 & 87.7 & 96.1 & 97.1 & +1.80 & +0.09 & -0.74 \\
+ & C10 & 97.9 & 98.3 & 94.1 & 95.1 & +0.92 & -0.00 & +0.11 \\
+ & DTD & 74.4 & 75.2 & 87.1 & 88.4 & +2.40 & +0.03 & -0.98 \\
+ & FMNIST & 84.4 & 84.5 & 87.8 & 87.9 & +0.29 & +0.03 & -0.03 \\
+ & MNIST & 74.1 & 72.7 & 70.5 & 71.1 & +0.25 & +0.43 & +0.46 \\
+\midrule
+DINOv2-G & IN & 78.4 & 78.3 & 96.2 & 97.1 & +2.57 & +0.03 & -1.65 \\
+ & C100 & 89.8 & 91.0 & 95.9 & 97.2 & +2.44 & +0.13 & -1.10 \\
+ & C10 & 97.8 & 98.2 & 92.3 & 93.8 & +2.51 & -0.02 & -1.01 \\
+ & DTD & 72.9 & 73.1 & 87.2 & 88.5 & +2.63 & +0.01 & -1.38 \\
+ & FMNIST & 85.9 & 85.8 & 89.0 & 89.2 & +0.38 & +0.04 & -0.07 \\
+ & MNIST & 79.3 & 78.6 & 72.9 & 73.8 & +0.30 & +0.56 & +0.72 \\
+\midrule
+CLIP-B & IN & 61.4 & 59.9 & 96.8 & 96.8 & -0.04 & -0.00 & +0.14 \\
+ & C100 & 65.6 & 65.1 & 87.7 & 88.9 & -0.03 & +0.44 & +1.21 \\
+ & C10 & 87.9 & 88.3 & 89.5 & 90.1 & -0.19 & +0.20 & +0.90 \\
+ & DTD & 63.7 & 63.2 & 82.2 & 83.1 & -0.23 & +0.36 & +1.29 \\
+ & FMNIST & 75.9 & 75.1 & 78.8 & 78.9 & +0.06 & +0.17 & +0.10 \\
+ & MNIST & 70.1 & 66.6 & 70.9 & 69.7 & +0.04 & +0.23 & -1.17 \\
+\midrule
+CLIP-L & IN & 75.0 & 74.5 & 98.4 & 98.6 & +0.01 & +0.00 & +0.22 \\
+ & C100 & 74.6 & 74.5 & 90.0 & 90.8 & +0.12 & +0.39 & +1.23 \\
+ & C10 & 95.9 & 95.9 & 92.4 & 93.0 & +0.16 & +0.25 & +0.91 \\
+ & DTD & 68.6 & 69.0 & 85.2 & 86.2 & -0.08 & +0.36 & +1.24 \\
+ & FMNIST & 76.2 & 75.9 & 76.8 & 77.3 & +0.12 & +0.33 & +0.68 \\
+ & MNIST & 85.2 & 86.1 & 83.7 & 84.7 & +0.08 & +0.58 & +1.06 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}
+\endgroup
+\caption{\textbf{The zero-cost gains are modest and limited to prototype tasks.} The 10 backbones with cached per-dataset features, DINO-B and SigLIP-B excluded. Per cell: nearest-centroid and few-shot accuracy under the Euclidean (Eucl.) and the Poincar\'{e} (Poinc.) readout, then the advantage of each zero-cost metric in percentage points over the Euclidean readout.
+}
+\label{tab:q9-corollary}
+\end{table}
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.6pt}
+\begingroup
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llcc|cc|c}
+\toprule
+ & & \multicolumn{2}{c|}{raw $\hat\delta_{99.9}$} & \multicolumn{2}{c|}{excess} & depth $z$ \\
+gain & dataset & $r$ [CI95] & dm & $r$ [CI95] & dm & $r$ [CI95] \\
+\midrule
+NC H$-$R & ImageNet & $-0.84$ [-0.96, -0.45] & $-0.83$ & $-0.73$ [-0.93, -0.19] & $-0.61$ & $-0.28$ [-0.77, +0.42] \\
+ & CIFAR-100 & $-0.92$ [-0.98, -0.68] & $-0.58$ & $-0.79$ [-0.95, -0.33] & $-0.21$ & $+0.52$ [-0.16, +0.87] \\
+ & CIFAR-10 & $-0.63$ [-0.90, +0.00] & $-0.31$ & $-0.67$ [-0.91, -0.06] & $-0.34$ & n/a \\
+ & DTD & $-0.67$ [-0.91, -0.07] & $-0.67$ & $-0.76$ [-0.94, -0.26] & $-0.60$ & n/a \\
+\midrule
+FS H$-$R & ImageNet & $-0.86$ [-0.97, -0.50] & $-0.56$ & $-0.21$ [-0.74, +0.48] & $+0.35$ & $+0.27$ [-0.43, +0.77] \\
+ & CIFAR-100 & $-0.62$ [-0.90, +0.02] & $-0.51$ & $-0.79$ [-0.95, -0.31] & $-0.80$ & $-0.26$ [-0.76, +0.45] \\
+ & CIFAR-10 & $-0.78$ [-0.95, -0.31] & $-0.64$ & $-0.78$ [-0.95, -0.30] & $-0.66$ & n/a \\
+ & DTD & $-0.87$ [-0.97, -0.53] & $-0.94$ & $-0.98$ [-1.00, -0.91] & $-0.97$ & n/a \\
+\midrule
+FS best$-$R & ImageNet & $-0.83$ [-0.96, -0.43] & $-0.50$ & $-0.08$ [-0.68, +0.58] & $+0.47$ & $+0.13$ [-0.54, +0.70] \\
+ & CIFAR-100 & $-0.77$ [-0.94, -0.27] & $-0.75$ & $-0.75$ [-0.94, -0.23] & $-0.65$ & $+0.22$ [-0.48, +0.75] \\
+ & CIFAR-10 & $-0.63$ [-0.90, -0.01] & $-0.55$ & $-0.62$ [-0.90, +0.02] & $-0.56$ & n/a \\
+ & DTD & $-0.81$ [-0.95, -0.36] & $-0.78$ & $-0.90$ [-0.98, -0.63] & $-0.84$ & n/a \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}
+\endgroup
+\caption{\textbf{The calibrated reading predicts the gain as well as the raw one, and the hierarchy verdict predicts none.} Per dataset and task: the same correlations for the raw statistic, the excess and the hierarchy-test $z$; dm is the same correlation with both variables centred within family.
+}
+\label{tab:q9-corollary-d}
+\end{table}

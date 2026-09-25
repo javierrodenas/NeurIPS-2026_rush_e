@@ -3425,3 +3425,27 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
 - **No desborda**: el texto principal sigue acabando en la página 9 y la Declaración de Reproducibilidad en la 10, con la misma
   línea de corte que antes (slot 487). No he tocado nada más.
 - 29 páginas. Sweep **246/246**, rebuttal 61/61, qa_pages regeneradas.
+## 122. Limpieza del repositorio, sin borrar nada (2026-09-25, brief del autor)
+
+1. **Etiqueta**: el commit del envío queda marcado como `iclr2027-submission`.
+2. **`ICLR2027/submission/`**: exactamente lo que lee el PDF final, **29 ficheros**. Tectonic no escribe `.fls`
+   (no tiene `-recorder`), así que la lista sale de leer el `.tex`: `\input`, `\includegraphics`, `\IfFileExists`,
+   `\bibliography`, `\bibliographystyle` y los paquetes locales, y de seguir los `\input` de los `.sty`. La prueba es la que
+   pedías: se copia la carpeta a un directorio limpio, se compila sola y sale el mismo PDF, **29 páginas y texto idéntico**
+   (`diff` sin diferencias).
+3. **`ICLR2027/supplementary_code.zip`**: 162 ficheros, **900 KB**. Lleva los 83 ficheros de resultados que el README mapea
+   (dos de ellos, `analysis4_finetuning.csv` y `e1_delta_by_layer.csv`, viven fuera del repo y se copian de su origen), los 6
+   generadores del README, los 59 scripts de experimento que escriben esos resultados, `figures/palette.py` y el estilo,
+   `tool/` entero y el README. **Anonimizado**: en las copias del zip las rutas absolutas pasan a `data/...`; el grep
+   insensible a mayúsculas de "rodenas", "radeva", "aguilar", "javi", "ub.edu", "neurips" y "/media/" da **0 en todos**.
+   Las copias del repositorio no se tocan.
+4. **`ICLR2027/archive/`** recoge lo demás, sin borrar: `pdfs/` (v1, v2, v3, boxes y el rebuttal anterior), `qa/` (qa_pages,
+   qa_pages_v2, qa_pages_v3), `notes/` (16 memos, planes, informes y diffs), `rebuttal_material/` (19 ficheros: las respuestas
+   a los revisores, los comentarios al AC y los cuatro REVIEWER_CHECKLIST, para octubre), `rebuttal/` (286 ficheros de
+   resultados y 40 scripts que ya no alimentan ningún número del paper) y `neurips2026/` (la sumisión anterior entera).
+   **Los cuatro ficheros sueltos de la raíz** (`references.bib`, `tab_orc_k.tex`, `tab_full_results.tex`, `tab_breadth.tex`)
+   **no están sin usar**: son `\input` de `main.tex` y `neurips_2026.tex`, así que se van con ellos a `archive/neurips2026/`
+   en lugar de borrarse, que es lo que manda tu regla de no borrar nada. Si los quieres fuera del disco, dímelo.
+5. **La cadena sigue viva**: reconstruido el envío y el rebuttal después de mover todo. 29 páginas, texto principal hasta la
+   página 9, sweep **246/246**, rebuttal 61/61. El único ajuste fue la comprobación de las rasterizaciones, que ahora mira
+   `qa_pages_final/` y el juego archivado. **El PDF final no cambia**: el texto extraído es idéntico al de antes de empezar.

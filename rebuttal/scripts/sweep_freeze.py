@@ -801,7 +801,7 @@ def final_pass_prose_checks():
     for tok, srcs in missing: print("   NUMBER LOST (appendix):", tok, srcs)
     chk("final: every decimal token of the old appendix (44 tables; Table 13 and the two-pass control B39, superseded by expR77, excepted) survives in the consolidated tables or the paper", not missing)
     cl = open(ROOT/"ICLR2027"/"CHANGELOG_final.md").read().split("\n")[:6]
-    chk("final: freeze note at the top of the CHANGELOG and the QA rasterizations present", any("Frozen 17 Sept 2026" in l for l in cl) and len(list((ROOT/"ICLR2027"/"qa_pages").glob("*.png"))) >= 9)
+    chk("final: freeze note at the top of the CHANGELOG and the QA rasterizations present", any("Frozen 17 Sept 2026" in l for l in cl) and len(list((ROOT/"ICLR2027"/"qa_pages_final").glob("*.png"))) >= 9 and len(list((ROOT/"ICLR2027"/"archive"/"qa"/"qa_pages").glob("*.png"))) >= 9)   # the v1/v2/v3 rasterizations live in the archive since the cleanup of 2026-09-25
 final_pass_prose_checks()
 # ---------- Parallel version v2 (main_iclr2027_v2.tex): same numbers, same files, the v1 prose rules, the v2 skeleton ----------
 def v2_checks():
