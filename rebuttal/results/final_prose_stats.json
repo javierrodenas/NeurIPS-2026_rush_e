@@ -2,8 +2,8 @@
  "sections": {
   "Introduction": {
    "sentences": 36,
-   "avg_words": 21.8,
-   "max_words": 51,
+   "avg_words": 21.9,
+   "max_words": 54,
    "over30": 0
   },
   "Related Work": {
@@ -20,12 +20,12 @@
   },
   "Experimental Setup": {
    "sentences": 16,
-   "avg_words": 17.7,
-   "max_words": 33,
+   "avg_words": 17.8,
+   "max_words": 34,
    "over30": 0
   },
   "Results": {
-   "sentences": 72,
+   "sentences": 73,
    "avg_words": 17.8,
    "max_words": 30,
    "over30": 0
@@ -37,20 +37,20 @@
    "over30": 0
   },
   "Conclusion and Limitations": {
-   "sentences": 10,
-   "avg_words": 21.7,
-   "max_words": 34,
+   "sentences": 11,
+   "avg_words": 19.7,
+   "max_words": 28,
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.3,
- "n_nonverbatim_sentences": 125,
+ "avg_nonverbatim": 18.1,
+ "n_nonverbatim_sentences": 127,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
   "n_over30": 0,
   "thesis_words": [
-   34
+   25
   ]
  },
  "numbers_per_paragraph_S5_S6": [
@@ -93,7 +93,7 @@
   },
   {
    "section": "Results",
-   "lead": "The hierarchy test certifies that clusters are oriented toward their hubs in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.",
+   "lead": "The hierarchy test certifies that how clusters are oriented relative to their hubs is not random in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.",
    "numbers": [
     "12"
    ]

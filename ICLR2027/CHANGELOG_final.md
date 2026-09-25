@@ -3368,3 +3368,28 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
   dice "the 4 datasets") y en §5.3 "The power therefore follows the backbone" → "The power follows the backbone".
 - 29 páginas, texto principal hasta la página 9. Sweep **245/245** (comprobación nueva: el conjunto BH, el $p$ del fichero y las
   tres frases). Rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 119. Repaso de línea, once cambios (2026-09-25, brief del autor)
+
+1. **"clusters are oriented toward their hubs"** → "how clusters are oriented relative to their hubs is not random" en el
+   ladillo de §5.3, y la contribución 2 pasa a "non-random orientation of clusters relative to their superclass centers in a
+   few". El grep encuentra dos sitios más, los pies de la Tabla 10 y del bloque de §5.3, que van con la misma forma.
+2. **Tesis**, idéntica en resumen y §7, ahora en dos frases: "...organize classes into clusters that they partly share and show
+   no hierarchy among the superclasses where the test can see one. Their raw tree-likeness is not evidence for hyperbolic
+   geometry." Son 25 y 9 palabras, las dos por debajo del tope de 30.
+3. **"a second test" → "the second test"** en la segunda mención, en el resumen y en §1(ii).
+4. **§3.3**: fuera la frase repetida; la Definición 3 la conserva. El párrafo necesitaba un ladillo propio y lleva "Of the two
+   constructions, one reproduces the shape exactly."
+5. **§3.3**: "can read 0.082 alike" → "can have the same reading, 0.082".
+6. **§5.3**: "so the failure of the 4 real backbones to fire once rotated is conservative evidence".
+7. **§5.3** se titula "Hierarchy above the labelled clusters"; §4 "creates depth" → "creates hierarchy"; §5.2 "not depth" → "not
+   a hierarchy".
+8. **§5.3**: "sit at noise levels 1.5 to 3.0, inside the 1.3 to 3.9" y "not its noise level or family".
+9. **§4 sin paréntesis dobles**: "CIFAR-100 (100 classes; Krizhevsky, 2009)", "DTD (47 classes; Cimpoi et al., 2014)",
+   "FashionMNIST (FMNIST, 10 classes; Xiao et al., 2017)" y "MNIST (10 classes; LeCun et al., 1998)", con `\citep[...;][]{}`.
+   La abreviatura FMNIST se define dentro del propio paréntesis, así que tampoco ahí quedan dos seguidos.
+10. **Declaración de uso de IA**: entra "The research question, the study design and the interpretation of the results are the
+    authors'."
+11. **§5.4**: "Pythia is genuine at every size." detrás de la frase de GPT-2. Comprobado en `expR53_text_haar_p999_200.csv`: los
+    tres tamaños tienen `genuine_bh` verdadero ($p$ 0.005, 0.010 y 0.005).
+- **No hizo falta recortar la última frase de la conclusión**: el texto principal sigue acabando en la página 9 sin tocarla.
+- 29 páginas. Sweep **245/245**, rebuttal 61/61, qa_pages regeneradas, resumen de OpenReview actualizado (327 palabras).
