@@ -58,10 +58,11 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 245/246 checks passed.
+- Total: 248/248 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 
+    PASS final: submission/ is what Overleaf takes (author, 2026-09-25): the main files at the top level, the tables in appendix_tables/ and the figures in figures/, the bibliography already compiled, and every \input and \includegraphics of its .tex resolving inside the folder 
     PASS final: the corollary panel drops the McNemar column (the main text never used it, author's brief 2026-09-24): 9 columns, 60 rows of accuracies and advantages, and a caption that defines Eucl. and Poinc. and gives the advantages in percentage points 
     PASS final: Appendix A is the author's expanded proof (2026-09-24): the proposition restated by reference, an intuition paragraph, the two parts proved with 6 displayed equations, and the labels it cites resolve 
     PASS final: every row of the model panel carries its citation, inline after the model name since it fits the text width (author's brief, 2026-09-24), Barlow Twins and BYOL among them, and both new entries have a publisher source 

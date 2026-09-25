@@ -1567,9 +1567,9 @@ def final_checks():
         f"BH over the four: {_bh78}")
     _sub = Path(__file__).resolve().parents[2]/"ICLR2027"/"submission"
     _subf = sorted(str(p.relative_to(_sub)) for p in _sub.rglob("*") if p.is_file())
-    chk("final: submission/ carries exactly what the paper reads, with the bibliography already compiled and a note on the layout; every \\input and \\includegraphics of the .tex resolves inside it",
+    chk("final: submission/ is what Overleaf takes (author, 2026-09-25): the main files at the top level, the tables in appendix_tables/ and the figures in figures/, the bibliography already compiled, and every \\input and \\includegraphics of its .tex resolving inside the folder",
         len(_subf) == 31 and "main_iclr2027_final.tex" in _subf and "main_iclr2027_final.bbl" in _subf and "README.txt" in _subf
-        and sum(1 for f in _subf if f.startswith("appendix_tables/final/")) == 12 and sum(1 for f in _subf if f.startswith("figures/")) == 9
+        and sum(1 for f in _subf if f.startswith("appendix_tables/")) == 12 and sum(1 for f in _subf if f.startswith("figures/")) == 9
         and all((_sub/(g if g.endswith(".tex") else g + ".tex")).exists() for g in _re.findall(r"\\input\{([^}]*)\}", (_sub/"main_iclr2027_final.tex").read_text()))
         and all((_sub/g).exists() for g in _re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]*)\}", (_sub/"main_iclr2027_final.tex").read_text()))
         and (Path(__file__).resolve().parents[2]/"ICLR2027"/"submission.zip").exists(),

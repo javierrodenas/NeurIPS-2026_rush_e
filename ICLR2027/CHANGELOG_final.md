@@ -3476,3 +3476,15 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
 - Sweep **248/248**: la comprobación nueva recorre `submission/` fichero a fichero (31: el `.tex`, el `.bbl`, el README, las
   12 tablas, las 9 figuras, la tabla de Khrulkov, la bibliografía, los cuatro ficheros de estilo y el PDF) y verifica que
   cada `\input` y cada `\includegraphics` del `.tex` resuelve dentro de la carpeta.
+## 125. `submission/` con la forma que pide Overleaf (2026-09-25, brief del autor)
+
+- La carpeta pierde el nivel sobrante: las tablas están ahora en **`appendix_tables/`** (sin `final/`), las figuras en
+  **`figures/`**, y arriba quedan los ficheros principales: `main_iclr2027_final.tex`, `references.bib`,
+  `main_iclr2027_final.bbl`, `tab_khrulkov_final.tex`, los cuatro de estilo, el `README.txt` y el PDF de referencia.
+  Los `\input` del `.tex` se reescriben para esa forma.
+- Se construye con un script, no a mano: **`rebuttal/scripts/make_submission.py`**, que lee el `.tex`, resuelve sus entradas,
+  copia, reescribe las rutas, compila una vez en una copia aparte para escribir el `.bbl`, escribe el README y comprime
+  `submission.zip`. La cadena lo llama en cada reconstrucción, así que la carpeta nunca se queda vieja.
+- **Verificado**: el zip descomprimido en limpio compila a **29 páginas** y da el **mismo texto** que el PDF del envío.
+- Sweep **248/248**: la comprobación de `submission/` ahora exige las 12 tablas en `appendix_tables/`, las 9 figuras en
+  `figures/`, el `.bbl` y el README, y que cada `\input` y cada `\includegraphics` resuelva dentro de la carpeta.
