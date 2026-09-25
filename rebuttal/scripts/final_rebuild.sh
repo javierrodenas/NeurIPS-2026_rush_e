@@ -21,10 +21,10 @@ for key in ('C ONCLUSION', 'R EPRODUCIBILITY', 'R EFERENCES', 'P ROOFS'):
     print(f"{key:18s} slot {max(nums)+1} page {pre.count(chr(12))+1}")
 EOF
 python3 rebuttal/scripts/make_supp_readme.py
-python3 rebuttal/scripts/make_submission.py "$TECTONIC"
-python3 rebuttal/scripts/make_supplement.py
 python3 rebuttal/scripts/sweep_freeze.py > rebuttal/results/sweep_final.log 2>&1 || true
 grep -n "FAIL\|phaseB re-total" rebuttal/results/sweep_final.log | cut -c1-200 | tail -n 5
 cp "$BUILD/main_iclr2027_final.pdf" ICLR2027/main_iclr2027_final.pdf
+python3 rebuttal/scripts/make_submission.py "$TECTONIC"
+python3 rebuttal/scripts/make_supplement.py
 rm -rf ICLR2027/qa_pages_final && mkdir -p ICLR2027/qa_pages_final && pdftoppm -r 100 -png ICLR2027/main_iclr2027_final.pdf ICLR2027/qa_pages_final/p && echo "qa pages: $(ls ICLR2027/qa_pages_final | wc -l)"
 python3 rebuttal/scripts/make_final_check.py ICLR2027/main_iclr2027_final.pdf rebuttal/results/sweep_final.log | cut -c1-120

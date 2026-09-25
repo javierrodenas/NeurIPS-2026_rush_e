@@ -39,19 +39,22 @@ for f in set(figs):
 for f in set(bibs + styles):
     shutil.copy2(SRC + f, DST + os.path.basename(f))
 open(DST + MAIN, "w", encoding="utf-8").write(tex)
-shutil.copy2(os.path.join(ROOT, "ICLR2027", "main_iclr2027_final.pdf"), DST + "main_iclr2027_final.pdf")
-
 TECTONIC = sys.argv[1] if len(sys.argv) > 1 else ""
-if TECTONIC:   # compile once in a scratch copy to write the .bbl the folder ships
-    tmp = os.path.join(ROOT, "ICLR2027", ".subbuild")
-    shutil.rmtree(tmp, ignore_errors=True); shutil.copytree(DST, tmp)
-    os.remove(os.path.join(tmp, "main_iclr2027_final.pdf"))
-    subprocess.run([TECTONIC, "-X", "compile", "--keep-intermediates", MAIN], cwd=tmp, check=True,
+if TECTONIC:   # compile the folder in place: the PDF it ships is the one its own sources produce
+    subprocess.run([TECTONIC, "-X", "compile", "--keep-intermediates", MAIN], cwd=DST, check=True,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    shutil.copy2(os.path.join(tmp, "main_iclr2027_final.bbl"), DST + "main_iclr2027_final.bbl")
-    pages = subprocess.run(["pdfinfo", os.path.join(tmp, "main_iclr2027_final.pdf")], capture_output=True, text=True).stdout
-    print("standalone compile:", [l for l in pages.split("\n") if l.startswith("Pages")][0])
-    shutil.rmtree(tmp, ignore_errors=True)
+    for junk in ("main_iclr2027_final.aux", "main_iclr2027_final.blg", "main_iclr2027_final.out", "main_iclr2027_final.log"):
+        if os.path.exists(DST + junk): os.remove(DST + junk)
+    pages = subprocess.run(["pdfinfo", DST + "main_iclr2027_final.pdf"], capture_output=True, text=True).stdout
+    print("submission compiled in place:", [l for l in pages.split("\n") if l.startswith("Pages")][0])
+    root_pdf = os.path.join(ROOT, "ICLR2027", "main_iclr2027_final.pdf")
+    if os.path.exists(root_pdf):   # the shipped PDF and the root one must read the same
+        a = subprocess.run(["pdftotext", "-layout", DST + "main_iclr2027_final.pdf", "-"], capture_output=True, text=True).stdout
+        b = subprocess.run(["pdftotext", "-layout", root_pdf, "-"], capture_output=True, text=True).stdout
+        print("submission vs root PDF text:", "identical" if a == b else "DIFFERENT")
+        assert a == b, "the folder does not reproduce the shipped PDF"
+else:
+    shutil.copy2(os.path.join(ROOT, "ICLR2027", "main_iclr2027_final.pdf"), DST + "main_iclr2027_final.pdf")
 
 README = """ICLR 2027 submission - source
 

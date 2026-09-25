@@ -3555,3 +3555,16 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
 - "the DINOv2 models **then** agree with none of the others" → "the DINOv2 models agree with none of the others". El "then"
   colgaba de la frase que recorría los paneles, que salió en la entrada 128.
 - `submission/` y los dos zips regenerados. 29 páginas, texto principal hasta la página 9. Sweep **248/248**, rebuttal 61/61.
+## 131. El PDF de `submission/` lo produce la propia carpeta (2026-09-25, brief del autor)
+
+- **El fallo**: `make_submission.py` copiaba el PDF de `ICLR2027/`, y en la cadena corría **antes** del `cp` que deja ahí el
+  build nuevo, así que la copia del envío iba siempre un build por detrás; por eso seguía diciendo "the DINOv2 models then
+  agree". Se veía solo comparando los dos PDF, que es lo que has hecho.
+- **Arreglado en dos sitios**: `final_rebuild.sh` llama a los constructores **después** de copiar el PDF, y `make_submission.py`
+  ya no copia nada: **compila `submission/main_iclr2027_final.tex` en su propio directorio**, de modo que el PDF que se
+  entrega es el que producen sus propias fuentes, y borra los auxiliares. Antes de terminar compara el texto de los dos PDF y
+  **aborta si difieren**, así que esto no puede repetirse sin que la cadena falle.
+- **Comprobado ahora**: `submission compiled in place: Pages 29`, "submission vs root PDF text: identical", `pdftotext` de los
+  dos ficheros con `diff` vacío, la frase nueva ("the DINOv2 models agree with none of the others") en el PDF del envío, y el
+  texto principal acabando en la página 9 (Declaración de Reproducibilidad en la 10, slot 487).
+- 31 ficheros en `submission/`, zip de 8.837 KB. Sweep **248/248**, rebuttal 61/61.
