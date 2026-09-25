@@ -14,19 +14,19 @@
   },
   "Methodology": {
    "sentences": 39,
-   "avg_words": 18.0,
+   "avg_words": 18.1,
    "max_words": 29,
    "over30": 0
   },
   "Experimental Setup": {
-   "sentences": 16,
-   "avg_words": 17.8,
+   "sentences": 15,
+   "avg_words": 18.3,
    "max_words": 34,
    "over30": 0
   },
   "Results": {
-   "sentences": 73,
-   "avg_words": 17.9,
+   "sentences": 70,
+   "avg_words": 17.7,
    "max_words": 30,
    "over30": 0
   },
@@ -38,13 +38,13 @@
   },
   "Conclusion and Limitations": {
    "sentences": 9,
-   "avg_words": 22.3,
+   "avg_words": 20.9,
    "max_words": 28,
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.3,
- "n_nonverbatim_sentences": 125,
+ "avg_nonverbatim": 18.2,
+ "n_nonverbatim_sentences": 121,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",
@@ -175,7 +175,6 @@
    "section": "Results",
    "lead": "The naive map manufactures an island.",
    "numbers": [
-    "12",
     "7",
     "7"
    ]

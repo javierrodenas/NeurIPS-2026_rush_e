@@ -14,13 +14,13 @@
 |---|---|---|---|---|
 | Introduction | 36 | 22.2 | 54 | 0 |
 | Related Work | 7 | 25.1 | 60 | 0 |
-| Methodology | 39 | 18.0 | 29 | 0 |
-| Experimental Setup | 16 | 17.8 | 34 | 0 |
-| Results | 73 | 17.9 | 30 | 0 |
+| Methodology | 39 | 18.1 | 29 | 0 |
+| Experimental Setup | 15 | 18.3 | 34 | 0 |
+| Results | 70 | 17.7 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 18 | 23 | 0 |
-| Conclusion and Limitations | 9 | 22.3 | 28 | 0 |
+| Conclusion and Limitations | 9 | 20.9 | 28 | 0 |
 
-Non-verbatim prose of S3–S7: 125 sentences, mean 18.3 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 121 sentences, mean 18.2 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (25 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -40,7 +40,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | The certified set depends on the grouping. | — |
 | Results | Leaf labels can produce the alignment but do not guarantee i | — |
 | Results | Training in hyperbolic space leaves the clustering unchanged | 95, 0.29 |
-| Results | The naive map manufactures an island. | 12, 7, 7 |
+| Results | The naive map manufactures an island. | 7, 7 |
 | Results | Controlled, the trees share their topology, not their metric | 0.77, 0.90, 0.33 |
 | Results | The self-supervised tree is angular. | — |
 | Results | Agreement with WordNet follows supervision. | +0.57 to +0.59, +0.49 to +0.53, +0.18 to +0.22 |
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 247/248 checks passed.
+- Total: 248/248 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 

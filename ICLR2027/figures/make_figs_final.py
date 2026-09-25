@@ -376,7 +376,7 @@ for m in M10:
     ax.bar(XPOS[m], best, 0.74, color=fam_color(m), edgecolor="white", linewidth=0.8, zorder=3)
     ax.annotate(met, (XPOS[m], best), xytext=(0, 2), textcoords="offset points", ha="center", va="bottom", fontsize=5.8, color="0.25", zorder=5)
 ax.axhline(0, color="0.35", lw=0.6, zorder=1)
-ax.set_ylabel("advantage (pp)"); ax.set_title("the best zero-cost readout, against the Euclidean one", pad=3); famaxis(ax)
+ax.set_ylabel("advantage (pp)"); ax.set_title("the best zero-cost metric, against the Euclidean one", pad=3); famaxis(ax)
 ax.set_ylim(0, max(v[0] for v in _best.values()) * 1.25)
 json.dump({"best_pp": {m: _best[m][0] for m in M10}, "metric": {m: _best[m][1] for m in M10}, "datasets": HIER}, open(RES/"final_fig_gains.json", "w"), indent=1)
 save(fig, "fig_gains_final")

@@ -68,7 +68,7 @@
 \maketitle
 
 \begin{abstract}
-Hyperbolic representation learning rests on a premise we call latent hyperbolicity: standard models are already tree-like because their class geometry scores a low Gromov $\delta$, a measure of tree-likeness that is zero for a tree. That low value is also what a random cloud of the same dimension and spread scores, so we build an instrument that reads every score as its excess over many such clouds, and add a second test whose ability to detect a hierarchy is measured. We apply it to 12 vision backbones, 6 datasets and 15 text models. On image features, where the premise is read, the calibrated reading is indistinguishable from a random cloud in most model--dataset cells and small elsewhere. Class centroids do carry structure that a random cloud of the same shape does not, in 44 of 72 cells, but so does a star of clusters. In 4 of 12 ImageNet backbones the second test finds more than clusters, but what it finds is how each cluster is oriented, not a hierarchy among the superclasses: rotating each cluster at random erases it, whereas a hierarchy we plant ourselves, synthetic or trained into a model, survives the rotation. In the 9 backbones where a planted hierarchy is detected, no hierarchy as strong is found; in the other 3 the test cannot tell. MERU, trained in hyperbolic space, shows the same structure as its Euclidean twin in a space that stays nearly flat. In text, the result depends on the model's recipe and size. Across models, the trees agree on which classes group together well above chance, though less than two readings of the same model, and not on distances; the self-supervised models organize classes by direction rather than by distance, which a comparison by distance misses. Read correctly, foundation models organize classes into clusters that they partly share and show no hierarchy among the superclasses where the test can see one. Their raw tree-likeness is not evidence for hyperbolic geometry.
+Hyperbolic representation learning rests on a premise we call latent hyperbolicity: standard models are already tree-like because their class geometry scores a low Gromov $\delta$, a measure of tree-likeness that is zero for a tree. That low value is also what a random cloud of the same dimension and spread scores, so we build an instrument that reads every score as its excess over many such clouds, and add a second test whose ability to detect a hierarchy is measured. We apply it to 12 vision backbones, 6 datasets and 15 text models. On image features, where the premise is read, the calibrated reading is indistinguishable from a random cloud in most model--dataset cells and small elsewhere. Class centroids do carry structure that a random cloud of the same shape does not, in 44 of 72 cells, but so does a star of clusters. The second test finds no hierarchy among superclasses in the 9 of 12 backbones where it detects a planted one. What it finds in 4 of them is how each cluster is oriented, which disappears when clusters are rotated at random. MERU, trained in hyperbolic space, shows the same structure as its Euclidean twin in a space that stays nearly flat. In text, the result depends on the model's recipe and size. Across models, the trees agree on which classes group together well above chance, though less than two readings of the same model, and not on distances; the self-supervised models organize classes by direction rather than by distance, which a comparison by distance misses. Read correctly, foundation models organize classes into clusters that they partly share and show no hierarchy among the superclasses where the test can see one. Their raw tree-likeness is not evidence for hyperbolic geometry.
 \end{abstract}
 
 \section{Introduction}
@@ -192,7 +192,9 @@ and the word is used in this sense only.
 \end{definition}
 \end{defbox}
 
+
 \paragraph{What a genuine excess means.} A negative genuine excess, more than chance would give, certifies structure beyond the second moments; clustering is its most plausible reading, supported by the superclass recovery of Section~\ref{sec:content}. Two cells of the same dataset can have the same reading, $0.082$, ViT-B on CIFAR-100 images and DINO-B on its centroids, and only the second is genuine.
+
 
 \begin{figure}[t]
 \centering
@@ -206,12 +208,12 @@ and the word is used in this sense only.
 \subsection{Hierarchy test}
 \label{sec:f-depthtest}
 
-\paragraph{Why a second test.} A genuine excess can come from clusters alone, so a second test asks whether the clusters are themselves arranged hierarchically. It needs three constructions.
+\paragraph{Why a second test.} A genuine excess can come from clusters alone, so a second test, which we call the hierarchy test, asks whether the clusters are themselves arranged hierarchically. It needs three constructions.
 
 \begin{defbox}
 \begin{definition}[hub null and hub excess]
 \label{def:hubnull}
-Given a grouping of classes into superclasses, which we call the frame, assigning each centroid $x_i$ to a cluster $k(i)$ with hub $h_{k(i)}$, the cluster mean, write $x_i=h_{k(i)}+o_i$. The hub null keeps every offset $o_i$ and replaces the hubs by a Haar resample with their spectrum, $x'_i=h'_{k(i)}+o_i$, and the excess of Eq.~\ref{eq:excess} against this null, $e_{\mathrm{hub}}$, measures structure above the clusters of the frame only.
+Given a grouping of classes into superclasses, assigning each centroid $x_i$ to a cluster $k(i)$ with hub $h_{k(i)}$, the cluster mean, write $x_i=h_{k(i)}+o_i$. The hub null keeps every offset $o_i$ and replaces the hubs by a Haar resample with their spectrum, $x'_i=h'_{k(i)}+o_i$, and the excess of Eq.~\ref{eq:excess} against this null, $e_{\mathrm{hub}}$, measures structure above the clusters of the grouping only.
 \end{definition}
 \end{defbox}
 
@@ -225,7 +227,7 @@ The matched star of a cloud keeps the real clusters, each as a Haar sample with 
 \begin{defbox}
 \begin{definition}[rotating each cluster]
 \label{def:decoupling}
-This control keeps the hubs of the frame and rotates each cluster's offsets by an independent Haar rotation. A verdict that survives the rotation is carried by the arrangement of the hubs; one that does not is carried by the orientation of the clusters relative to their hubs, which we call alignment.
+This control keeps the hubs of the grouping and rotates each cluster's offsets by an independent Haar rotation. A verdict that survives the rotation is carried by the arrangement of the hubs; one that does not is carried by the orientation of the clusters relative to their hubs, which we call alignment.
 \end{definition}
 \end{defbox}
 
@@ -236,6 +238,7 @@ This control keeps the hubs of the frame and rotates each cluster's offsets by a
 \end{equation}
 where the spread is taken over star seeds and null replicates, and a cloud is certified against its matched star when $z\le-2$. The power of the test is the fraction of planted hierarchies it detects, and its false-alarm rate is the fraction of flat controls that fire. Both are measured in Section~\ref{sec:f-depth}.
 
+
 \subsection{Comparing trees across models}
 \label{sec:f-treemap}
 
@@ -244,7 +247,7 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 \subsection{Projection and tasks}
 \label{sec:f-projection}
 
-\paragraph{Three readouts are compared on the intact representation.} A parameter-free map centers the features, scales the 95th-percentile norm to radius $1/\sqrt2$ and preserves directions. Euclidean, cosine and Poincar\'{e} readouts are then scored by nearest-centroid classification and 5-way 5-shot episodes on every cell of the task grid. % exp1, exp2
+\paragraph{Three metrics are compared on the intact representation.} A parameter-free map centers the features, scales the 95th-percentile norm to radius $1/\sqrt2$ and preserves directions. Euclidean, cosine and Poincar\'{e} metrics are then scored by nearest-centroid classification and 5-way 5-shot episodes on every cell of the task grid. % exp1, exp2
 
 \section{Experimental Setup}
 \label{sec:f-setup}
@@ -253,7 +256,7 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 
 \paragraph{Four controls test the alternatives.} Two self-supervised ResNets \citep{resnet,zbontar2021barlow,grill2020bootstrap} read the vision census. DeiT-B \citep{deit} and the augreg ViT-B \citep{augreg}, trained on ImageNet-1k leaf labels, test whether a hierarchical label set explains the alignment. MERU and its Euclidean CLIP twin \citep{desai2023meru} test whether training in hyperbolic space creates hierarchy. The census ViT-B, fine-tuned with and without a hierarchical objective, is the trained control.
 
-\paragraph{The premise is read on images and hierarchy on centroids.} The sample-level reading uses about a thousand stratified training images per cell on CIFAR-100 and DTD. Class centroids average a hundred cached training images per class on ImageNet and the full cached split elsewhere. Causal language models give the last-token state of ``a photo of a \{class\}'', extracted one prompt at a time because batching alters GPT-2's hidden states. Embedders use their recommended pooling (Table~\ref{tab:q14-panel}).
+\paragraph{The premise is read on images and hierarchy on centroids.} The sample-level reading uses about a thousand stratified training images per cell on CIFAR-100 and DTD. Class centroids average a hundred cached training images per class on ImageNet and the full cached split elsewhere. Text models are read one prompt at a time, since batching alters GPT-2's hidden states, each with its own pooling (Table~\ref{tab:q14-panel}).
 
 \paragraph{Calibration budget and groupings.} Each cell is read against 200 Haar replicates, with half a million sampled quadruples per seed and 10 seeds. With 10 classes there are only 210 quadruples, so $\hat\delta_{99.9}$ coincides with the supremum there. Benjamini--Hochberg runs over the vision census and, separately, over the text census. The grouping into superclasses is the WordNet \citep{wordnet} cut into 30 superclasses on ImageNet and the 20 coarse labels on CIFAR-100. A balanced grouping is the control, with 10 star seeds.
 
@@ -263,6 +266,11 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 \subsection{The premise at the sample level}
 \label{sec:f-sample}
 
+
+\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in 14 of 24 cells, that is, no more than chance would give. The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What fails is the evidence the premise cites, not the possibility of a hierarchy. Where it is genuine, the excess removes at most two fifths of the null reading. Figure~\ref{fig:premise}a and Table~\ref{tab:q3-sample} give the 24 cells. % expR62_samplelevel_record.csv
+
+\paragraph{A published reading is reproduced and calibrated.} The estimator of \citet{Khrulkov_2020_CVPR}, run on our extraction, reproduces the raw $\delta_{\text{rel}}$ they report for ResNet-34 within 0.03. Calibrated, only MiniImageNet \citep{miniimagenet} is genuine. CIFAR-10 and CUB-200 \citep{cub} are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p=0.030$). Under their own statistic, the supremum, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. Figure~\ref{fig:premise}b and Table~\ref{tab:khrulkov} give the 4 datasets. % expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_premise_final.pdf}
@@ -271,12 +279,15 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 \label{fig:premise}
 \end{figure}
 
-\paragraph{The premise does not survive calibration where it is read.} On per-image features, where the premise is read, the calibrated reading is not genuine in 14 of 24 cells, that is, no more than chance would give. The excess is conservative: the null keeps the spectrum, so a hierarchy carried by the spectrum alone would not show. What fails is the evidence the premise cites, not the possibility of a hierarchy. Where it is genuine, the excess removes at most two fifths of the null reading. Figure~\ref{fig:premise}a and Table~\ref{tab:q3-sample} give the 24 cells. % expR62_samplelevel_record.csv
-
-\paragraph{A published reading is reproduced and calibrated.} The estimator of \citet{Khrulkov_2020_CVPR}, run on our extraction, reproduces the raw $\delta_{\text{rel}}$ they report for ResNet-34 within 0.03. Calibrated, only MiniImageNet \citep{miniimagenet} is genuine. CIFAR-10 and CUB-200 \citep{cub} are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p=0.030$). Under their own statistic, the supremum, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. Figure~\ref{fig:premise}b and Table~\ref{tab:khrulkov} give the 4 datasets. % expR78_khrulkov_replication_summary.csv, expR85_khrulkov_sup_summary.csv
-
 \subsection{Structure beyond the second moments at the class level}
 \label{sec:f-class}
+
+
+\paragraph{Most cells show structure beyond the second moments.} It is genuine, beyond a random cloud of the same shape, in 44 of 72 cells and 30 of 36 on the 3 datasets with 47 classes or more. On ImageNet and CIFAR-100 the count is 18 of 24. Figure~\ref{fig:excess} and Table~\ref{tab:census} give the census. % expR52_census_haar_p999_200.csv
+
+\paragraph{The count survives resampling.} Folding image resampling and estimator seeds into the null spread, or repeating the census on resamples, keeps most of it. Table~\ref{tab:q8-robust-b} gives the bootstrap. % expR66_joint_sensitivity_summary.csv
+
+\paragraph{A star of clusters already passes the census.} A synthetic star with no hierarchy scores an excess as deep as any real cell, so a negative excess says structure beyond the second moments, not a hierarchy. Table~\ref{tab:q10-calibration-b} gives the star's excess. % expR42_star_calibration.csv
 
 \begin{figure}[t]
 \centering
@@ -286,18 +297,12 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 \label{fig:excess}
 \end{figure}
 
-\paragraph{Most cells show structure beyond the second moments.} It is genuine, beyond a random cloud of the same shape, in 44 of 72 cells and 30 of 36 on the 3 datasets with 47 classes or more. On ImageNet and CIFAR-100 the count is 18 of 24. Figure~\ref{fig:excess} and Table~\ref{tab:census} give the census. % expR52_census_haar_p999_200.csv
-
-\paragraph{The count survives resampling.} Folding image resampling and estimator seeds into the null spread, or repeating the census on resamples, keeps most of it. Table~\ref{tab:q8-robust-b} gives the bootstrap. % expR66_joint_sensitivity_summary.csv
-
-\paragraph{A star of clusters already passes the census.} A synthetic star with no hierarchy scores an excess as deep as any real cell, so a negative excess says structure beyond the second moments, not a hierarchy. Table~\ref{tab:q10-calibration-b} gives the star's excess. % expR42_star_calibration.csv
-
 \subsection{Hierarchy above the labelled clusters}
 \label{sec:f-depth}
 
 \paragraph{The hierarchy test certifies that how clusters are oriented relative to their hubs is not random in 4 of 12 backbones: ViT-S, ViT-B, ViT-L and DINOv2-L.} The test compares each cloud with its matched star, the same clusters with no hierarchy above them. It was run on the 12 ImageNet centroid clouds under both stars, with the WordNet grouping into superclasses and its centers as hubs. Figure~\ref{fig:instrument}c shows the $z$ per backbone and Tables~\ref{tab:q4-depth} and \ref{tab:q4-depth-ap} give both stars. % expR56_depth_variants.csv, expR69_depth_haarhubs_summary.csv
 
-\paragraph{What it certifies is alignment, how each cluster is oriented.} Once each cluster is rotated at random, the control of Definition~\ref{def:decoupling}, none of the 4 backbones fires. ViT-L then reads $-1.61$, within the $-1.61$ to $-1.76$ of the flat control: without its orientations the real cloud reads like a flat one. The alignment is relational: 0 of 60 runs fire with random hubs and 0 of 4 with random orientations, so it needs both the real hubs and the real orientations. Removing the radial component of every offset leaves it in all 4 certified backbones, $z$ from $-2.08$ to $-3.99$ under both stars; feature norms are not its source (Table~\ref{tab:q4-depth-e}). Under full L2 normalization, which also moves the hubs, it survives in ViT-B and ViT-L only. Its geometric form is not resolved here. % expR74_decoupling_summary.csv, expR79_synthetic_deep_poincare.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30.csv, expR82_radial_control.csv, expR80_implanted_alignment.csv
+\paragraph{What it certifies is alignment, how each cluster is oriented.} Once each cluster is rotated at random, the control of Definition~\ref{def:decoupling}, none of the 4 backbones fires. ViT-L then reads $-1.61$, within the $-1.61$ to $-1.76$ of the flat control: without its orientations the real cloud reads like a flat one. The alignment is relational: 0 of 60 runs fire with random hubs and 0 of 4 with random orientations, so it needs both. Removing the radial component of every offset leaves it in all 4 certified backbones, $z$ from $-2.08$ to $-3.99$ under both stars; feature norms are not its source (Table~\ref{tab:q4-depth-e}). Under full L2 normalization, which also moves the hubs, it survives in ViT-B and ViT-L only. Its geometric form is not resolved here. % expR74_decoupling_summary.csv, expR79_synthetic_deep_poincare.csv, expR69_depth_haarhubs_summary.csv, expR64b_wn30.csv, expR82_radial_control.csv, expR80_implanted_alignment.csv
 
 \paragraph{What the test can see.} The noise level of a cloud is its within-cluster spread relative to the distance between its hubs. Given a planted two-level tree at this noise level, the test misses it; given a three-level hierarchy with ViT-L's spectrum and noise, it detects it in 4 of 5 seeds. That detection survives orientation randomization, whereas none of the 4 real verdicts does. The same hierarchy was then built at each backbone's own spectrum and ratio. With clusters rotated the control detects it in 9 of 12 backbones (power 0.83--1.00) over 50 to 200 runs per backbone, and not in the other 3 (power 0.01--0.60). ViT-S and DINOv2-B sit closest to the threshold, with 95 per cent intervals reaching 0.79 and 0.78. The 3 that cannot see a planted hierarchy, ViT-T, DINO-B and DINOv2-S, sit at noise levels 1.5 to 3.0, inside the 1.3 to 3.9 spanned by the 9 covered backbones. The power follows the backbone, not its noise level or family. % expR64b_wn30_summary.csv, expR79_synthetic_deep_poincare.csv, expR81_deep_per_backbone.csv, expR81_deep_per_backbone_summary.csv
 
@@ -322,20 +327,20 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 \label{fig:treemap}
 \end{figure}
 
-\paragraph{The naive map manufactures an island.} Figure~\ref{fig:treemap} compares the trees of the 12 models in three ways. Panel (a) compares them as usually done, (b) under the criterion of Section~\ref{sec:f-treemap} against the within-model ceiling, and (c) by whether classes are grouped by direction or by distance. Compared with Euclidean distances and average linkage, the DINOv2 models then agree with none of the others, an island in the map of models. They agree with the 7 supervised and contrastive models far less than those 7 agree among themselves (DINO-B is not part of the island). The cause is chaining: DINOv2's Euclidean dendrograms put almost every class in one cluster, forcing the index to zero. % exp23_treemap_controls.npz, exp23_config_diagnostics.json
+\paragraph{The naive map manufactures an island.} Compared with Euclidean distances and average linkage, the DINOv2 models then agree with none of the others, an island in the map of models. They agree with the 7 supervised and contrastive models far less than those 7 agree among themselves (DINO-B is not part of the island). The cause is chaining: DINOv2's Euclidean dendrograms put almost every class in one cluster, forcing the index to zero (Figure~\ref{fig:treemap}a). % exp23_treemap_controls.npz, exp23_config_diagnostics.json
 
 \paragraph{Controlled, the trees share their topology, not their metric.} Across models, triplet agreement reaches 0.77, against 0.90 for two resamples of the same model. Chance gives 0.33. The cophenetic and cut agreements reach about half their within-model ceiling (Table~\ref{tab:q6-treemap-b} and Figure~\ref{fig:treemap}b). Calibrated local agreement across models survives, as \citet{groger2026aristotelian} find for similarity (Table~\ref{tab:q13-local}). % exp23_treemap_controls.npz, expR58_treemap_cutfree_summary.csv, expR84_tree_ceiling_summary.csv, exp21b_local_global_K200.csv
 
 \paragraph{The self-supervised tree is angular.} Sibling triplets were resolved under cosine and under Euclidean distance: DINOv2 resolves them far better under cosine, so its semantics concentrate in the angular component and its Euclidean dendrograms chain. Repeated on cosine geometry, the census agrees with the Euclidean one in most cells, and DINOv2 on ImageNet is genuine, more than chance would give, under both. Figure~\ref{fig:treemap}c shows the triplets and Table~\ref{tab:q1-census-c} gives the cosine census. % exp10_local_vs_global.csv, expR57_census_cosine_haar_p999_200.csv
 
-\paragraph{Agreement with WordNet follows supervision.} The correlation between inter-centroid and WordNet distances is highest for the contrastive VLMs ($+0.57$ to $+0.59$), then the supervised ViTs ($+0.49$ to $+0.53$), and lowest for DINOv2 ($+0.18$ to $+0.22$). On DBpedia Classes \citep{dbpedia}, an ontology independent of WordNet, the three text embedders read a genuine excess and recover the true partition. On HierarCaps, a four-level caption hierarchy with no class set \citep{alper2024hierarcaps}, the encoders resolve sibling triplets far above chance. Tables~\ref{tab:q7-wordnet}, \ref{tab:q7-wordnet-c} and \ref{tab:q7-wordnet-d} give the three readings. % exp3_alignment.csv, expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
+\paragraph{Agreement with WordNet follows supervision.} The correlation between inter-centroid and WordNet distances is highest for the contrastive VLMs ($+0.57$ to $+0.59$), then the supervised ViTs ($+0.49$ to $+0.53$), and lowest for DINOv2 ($+0.18$ to $+0.22$). On DBpedia Classes \citep{dbpedia} and on HierarCaps \citep{alper2024hierarcaps}, two hierarchies independent of WordNet, the text encoders read a genuine excess and resolve sibling triplets far above chance. Tables~\ref{tab:q7-wordnet}, \ref{tab:q7-wordnet-c} and \ref{tab:q7-wordnet-d} give the three readings. % exp3_alignment.csv, expR61_dbpedia_record.csv, exp27_dbpedia_treemap.json, exp16_hierarcaps.csv
 
-\paragraph{Text depends on recipe and scale.} 7 of 15 text models are genuine under the reading (Figure~\ref{fig:excess}b). GPT-2 L and XL are genuine under every reading while S and M change with it. Pythia is genuine at every size. The sentence embedders are not genuine on class names but are on DBpedia (Table~\ref{tab:q2-text}). % expR53_text_haar_p999_200.csv, expR49_template_nulls_bs1.csv, expR47_extraction_variance.csv, expR61_dbpedia_record.csv
+\paragraph{Text depends on recipe and scale.} 7 of 15 text models are genuine under the reading (Figure~\ref{fig:excess}b). GPT-2 L and XL are genuine under every reading while S and M change with it. Pythia is genuine at every size. The sentence embedders are not genuine on class names (Table~\ref{tab:q2-text}). % expR53_text_haar_p999_200.csv, expR49_template_nulls_bs1.csv, expR47_extraction_variance.csv, expR61_dbpedia_record.csv
 
 \section{Implications for Hyperbolic Representation Learning}
 \label{sec:practice}
 
-\paragraph{The raw reading cannot select a curvature.} \citet{Khrulkov_2020_CVPR} set the curvature of the Poincar\'{e} ball from the relative hyperbolicity, $c=(0.144/\delta_{\text{rel}})^{2}$ with $\delta_{\text{rel}}=2\delta/\mathrm{diam}$. Applied, with the supremum it was calibrated for, to structureless Gaussian clouds, it assigns curvatures from 0.48 to 2.5. The raw and calibrated readings predict the gain of a non-Euclidean readout equally well, and the hierarchy verdict predicts none (Table~\ref{tab:q9-corollary-d}). Calibration tells what a low $\delta$ means, not which readout to use. The Poincar\'{e} readout adds $+0.9$ to $+1.3$ pp over cosine for the contrastive VLMs on prototype tasks and nothing consistent elsewhere (Table~\ref{tab:q9-corollary}). We test zero-cost readouts only; whether hyperbolic training helps for other reasons is outside this study. % exp1_delta_controls.csv, expR68_corollary_excess.csv, exp24_val_metric_selection.csv, exp2b_normalized_stack.csv, exp2_metric_controls.csv
+\paragraph{The raw reading cannot select a curvature.} \citet{Khrulkov_2020_CVPR} set the curvature of the Poincar\'{e} ball from the relative hyperbolicity, $c=(0.144/\delta_{\text{rel}})^{2}$ with $\delta_{\text{rel}}=2\delta/\mathrm{diam}$. Applied, with the supremum it was calibrated for, to structureless Gaussian clouds, it assigns curvatures from 0.48 to 2.5. The raw and calibrated readings predict the gain of a non-Euclidean metric equally well, and the hierarchy verdict predicts none (Table~\ref{tab:q9-corollary-d}). Calibration tells what a low $\delta$ means, not which metric to use. The Poincar\'{e} metric adds $+0.9$ to $+1.3$ pp over cosine for the contrastive VLMs on prototype tasks and nothing consistent elsewhere (Table~\ref{tab:q9-corollary}). We test zero-cost metrics only; whether hyperbolic training helps for other reasons is outside this study. % exp1_delta_controls.csv, expR68_corollary_excess.csv, exp24_val_metric_selection.csv, exp2b_normalized_stack.csv, exp2_metric_controls.csv
 
 
 \section{Conclusion and Limitations}
@@ -343,7 +348,7 @@ where the spread is taken over star seeds and null replicates, and a cloud is ce
 
 \paragraph{Conclusion.} Read correctly, foundation models organize classes into clusters that they partly share and show no hierarchy among the superclasses where the test can see one. Their raw tree-likeness is not evidence for hyperbolic geometry.
 
-\paragraph{Limitations.} (i)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess over it does not exclude hierarchy carried by the spectrum. (ii)~The verdict of no hub hierarchy holds only in the 9 of 12 backbones where the control with clusters rotated detects a planted hierarchy. (iii)~The text census depends on the probe: template and batching move the reading, so verdicts at the margin are fragile. (iv)~The analysis rests on many choices, groupings, stars and null variants among them, and a single pre-specified analysis is future work. (v)~The census is class-centroid geometry on 6 datasets, and the sample-level reading covers 2 datasets, one image budget and one published setting. (vi)~The reading divides by the diameter, so heavier tails in real clouds would lower $\delta_{\text{norm}}$ without any clustering; the cosine census mitigates this. (vii)~The hierarchy test is Euclidean and may be conservative for DINOv2's angular tree, and the link between training objective and geometry is correlational. % expR47_extraction_variance.csv, expR49_template_nulls_bs1.csv, expR81_deep_per_backbone_summary.csv
+\paragraph{Limitations.} (i)~The spectrum null conditions on the second moments, to which a hierarchy contributes, so a low excess over it does not exclude hierarchy carried by the spectrum. (ii)~The verdict of no hub hierarchy holds only in the 9 of 12 backbones where the control with clusters rotated detects a planted hierarchy. (iii)~The text census depends on the probe: template and batching move the reading, so marginal verdicts are fragile. (iv)~The analysis rests on many choices, groupings, stars and null variants among them; a pre-specified analysis is future work. (v)~The census is class-centroid geometry on 6 datasets, and the sample-level reading covers 2 datasets, one budget and one setting. (vi)~The reading divides by the diameter, so heavier tails would lower $\delta_{\text{norm}}$ without any clustering; the cosine census mitigates this. (vii)~The hierarchy test is Euclidean and may be conservative for the angular DINOv2 tree; the objective--geometry link is correlational. % expR47_extraction_variance.csv, expR49_template_nulls_bs1.csv, expR81_deep_per_backbone_summary.csv
 
 \subsubsection*{Reproducibility Statement}
 Every number in the paper is produced by a script from a result file; the README of the supplementary material maps each table and figure to its script and file. The full pipeline with fixed seeds is provided in the supplementary material; its \texttt{tool/} directory ships the instrument as one script that reproduces any cell of Table~\ref{tab:census} from its centroid matrix. Estimator settings are stated in Section~\ref{sec:f-setup} and the model panel in Table~\ref{tab:q14-panel}.
@@ -490,7 +495,7 @@ Every table is generated by script from the released per-cell result files, and 
 \subsection{Is local structure shared? Permutation-calibrated agreement}
 \label{app:local}
 \paragraph{What this table answers.} Two models can place classes in the same neighborhoods and still disagree on distances. This table calibrates both readings against permutations of the class labels, so agreement is counted only where a shuffled pairing would not reach it.
-\paragraph{Models share neighborhoods, not metrics.} Permutation-calibrated mutual-kNN agreement and centroid CKA survive across all 66 model pairs, and the Poincar\'{e} readout improves neither \citep{groger2026aristotelian} (Table~\ref{tab:q13-local}). % exp21b_local_global_K200.csv
+\paragraph{Models share neighborhoods, not metrics.} Permutation-calibrated mutual-kNN agreement and centroid CKA survive across all 66 model pairs, and the Poincar\'{e} metric improves neither \citep{groger2026aristotelian} (Table~\ref{tab:q13-local}). % exp21b_local_global_K200.csv
 \input{appendix_tables/tab_q13_local}
 
 \FloatBarrier
@@ -517,11 +522,11 @@ Every table is generated by script from the released per-cell result files, and 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth]{figures/fig_gains_final.pdf}
-\caption{\textbf{The zero-cost advantage is small and largest for the self-supervised models.} Best few-shot advantage over the Euclidean readout, averaged over ImageNet, CIFAR-100, CIFAR-10 and DTD, with the metric that collects it; the 10 backbones evaluated, DINO-B and SigLIP-B excluded. % exp2_metric_controls.csv
+\caption{\textbf{The zero-cost advantage is small and largest for the self-supervised models.} Best few-shot advantage over the Euclidean metric, averaged over ImageNet, CIFAR-100, CIFAR-10 and DTD, with the metric that collects it; the 10 backbones evaluated, DINO-B and SigLIP-B excluded. % exp2_metric_controls.csv
 }
 \label{fig:gains}
 \end{figure}
-\paragraph{The zero-cost readout.} In few-shot learning a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \citep{moreira2024hyperbolic} (Table~\ref{tab:q9-corollary}). % exp2b_normalized_stack.csv, exp24_val_metric_selection.csv
+\paragraph{The zero-cost metric.} In few-shot learning a fixed-radius Euclidean encoder does at least as well as hyperbolic prototypes \citep{moreira2024hyperbolic} (Table~\ref{tab:q9-corollary}). % exp2b_normalized_stack.csv, exp24_val_metric_selection.csv
 
 \input{appendix_tables/tab_q09_corollary}
 

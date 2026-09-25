@@ -3510,3 +3510,32 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
 - `submission/` y los dos zips se regeneraron solos con la cadena; el `.tex` de la carpeta ya lleva la declaración nueva y
   sigue compilando en limpio a 29 páginas.
 - 29 páginas, texto principal hasta la página 9. Sweep **248/248**, rebuttal 61/61, qa_pages regeneradas.
+## 128. Repaso final de cinco puntos (2026-09-25, brief del autor)
+
+1. **Resumen**: las dos frases de la jerarquía pasan a ser tuyas, con los números por relleno: "The second test finds no
+   hierarchy among superclasses in the 9 of 12 backbones where it detects a planted one. What it finds in 4 of them is how each
+   cluster is oriented, which disappears when clusters are rotated at random." El resumen baja a 293 palabras; el de OpenReview
+   está regenerado.
+2. **"readout" → "metric"** en las 25 apariciones (texto, pies y tablas): §3.6 "Three metrics are compared", §6 "the gain of a
+   non-Euclidean metric", "zero-cost metric", el eje de la Figura 9. "reading" se queda sólo para $\delta_{\text{norm}}$.
+3. **Definición 6** pierde ", which we call the frame"; la 8 dice "the hubs of the grouping". En el envío no queda ni un "frame"
+   nuestro: los dos que el grep encuentra son "Figure 1 frames the question" (el verbo) y el "simplex frame" de
+   \citet{papyan2020prevalence}, que es término suyo.
+4. **§3.4** abre con "so a second test, which we call the hierarchy test, asks whether the clusters are themselves arranged
+   hierarchically."
+5. **Pie de la Tabla 16**: "...against the supervised and contrastive models. Each cell: DINOv2 against the other models / the
+   other models among themselves."
+
+**Lo que costó la página 9, y de dónde salió.** Con estos cambios el texto crecía cuatro líneas y los flotantes añadían dos
+más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo porque son mías, no tuyas:
+- **Colocación, sin tocar texto**: la Figura 3 se ancla detrás de los párrafos de §5.1 y la Figura 4 detrás de los de §5.2
+  (tres líneas).
+- **§5.4**: fuera la frase que recorría los paneles ("Panel (a) compares them as usually done...") porque el pie de la Figura 5
+  ya lo dice, y el puntero pasa a la última frase del párrafo. Las lecturas de DBpedia y HierarCaps se funden en una frase, que
+  mantiene las dos afirmaciones. Y "not genuine on class names but are on DBpedia" pierde la coletilla, que repetía el párrafo
+  anterior.
+- **§4**: las dos frases de extracción por familia se resumen en "Text models are read one prompt at a time, since batching
+  alters GPT-2's hidden states, each with its own pooling (Table 1)", porque el detalle entero está en la nota de la Tabla 1.
+- **§5.3**: "so it needs both the real hubs and the real orientations" → "so it needs both".
+- **§7**: las siete limitaciones se comprimen entre dos y tres palabras cada una; ninguna desaparece.
+- 29 páginas, texto principal hasta la página 9. Sweep **248/248**, rebuttal 61/61, `submission/` y los dos zips regenerados.
