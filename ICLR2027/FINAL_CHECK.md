@@ -12,7 +12,7 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 36 | 22.2 | 54 | 0 |
+| Introduction | 36 | 22.3 | 54 | 0 |
 | Related Work | 7 | 25.1 | 60 | 0 |
 | Methodology | 39 | 18.1 | 29 | 0 |
 | Experimental Setup | 15 | 18.3 | 34 | 0 |
@@ -29,7 +29,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 |---|---|---|
 | Results | The premise does not survive calibration where it is read. | 14 of 24, 24 |
 | Results | A published reading is reproduced and calibrated. | 0.03, 4 |
-| Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 3, 47, 18 of 24 |
+| Results | Most cells show structure beyond the second moments. | 44 of 72, 30 of 36, 3, 18 of 24 |
 | Results | The count survives resampling. | — |
 | Results | A star of clusters already passes the census. | — |
 | Results | The hierarchy test certifies that how clusters are oriented  | 12 |
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 249/250 checks passed.
+- Total: 250/250 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 

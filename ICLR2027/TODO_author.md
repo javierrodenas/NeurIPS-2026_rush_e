@@ -382,3 +382,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   conservative" y "The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label
   ViTs". También cayó la última frase de la conclusión, como pediste. Si quieres alguno de vuelta, dime cuál y qué suelto a
   cambio: cada uno cuesta una línea.
+- (Los 3 conjuntos con muchas clases, 2026-09-25) Al meter "(ImageNet, CIFAR-100 and DTD)" la frase de §5.2 llegaba a 31
+  palabras, así que el recordatorio quedó en "beyond a random cloud" en vez de "beyond a random cloud of the same shape". La
+  forma compartida se define en §3.1 y se repite en el pie de la Figura 4, pero si prefieres la frase larga ahí, dime qué
+  suelto: son dos palabras de margen. La lista de conjuntos queda exceptuada de la regla de paréntesis cortos, como las listas
+  de citas.

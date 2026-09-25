@@ -3655,3 +3655,21 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
   la ajusto a "the tables follow the order in which the main text first cites each question" — una línea, sin tocar nada más.
 - 29 páginas, texto principal hasta la página 9, los dos PDF con el mismo texto. Sweep **250/250**, rebuttal 61/61,
   `submission/` y los dos zips regenerados.
+## 138. "los 3 conjuntos con muchas clases" y la frase que abre el apéndice (2026-09-25, brief del autor)
+
+- **§1, respuesta (ii) y §5.2**: "30 of 36 on datasets with 47 classes or more" → "**30 of 36 on the 3 datasets with many
+  classes (ImageNet, CIFAR-100 and DTD)**". Tres copias en el constructor (la de §1, la de §5.2 y la del fichero de rebuttal),
+  más la plantilla del cuerpo. El número no cambia: sigue siendo el recuento de `expR75_census_centered_haar.csv` sobre
+  ImageNet, CIFAR-100 y DTD, que son exactamente los tres conjuntos con 47 clases o más.
+- **Dos ajustes mecánicos que obliga la redacción nueva**, los dos sin perder ninguna afirmación:
+  - La frase de §5.2 pasaba a 31 palabras con el paréntesis. Recorté el recordatorio de "beyond a random cloud **of the same
+    shape**" a "beyond a random cloud": la forma compartida ya se define en §3.1 y se repite en el pie de la Figura 4.
+  - La lista de conjuntos es un paréntesis de cinco palabras y chocaba con la regla de "ningún paréntesis de más de tres".
+    Añadí la excepción en `sweep_freeze.py`, con el mismo criterio que ya vale para las listas de citas: una enumeración no es
+    un aparte.
+- **Frase que abre el apéndice**: "the tables are numbered in the order the main text first cites them, one per question" →
+  "the tables are **grouped by question, in the order in which the main text first cites each question**". Es la corrección que
+  te señalaba la entrada 137: desde que cada panel es una tabla, el orden es por pregunta y no por número de tabla.
+- 29 páginas, texto principal hasta la página 9 (última línea sin cambios, "...the objective--geometry link is correlational"),
+  Declaración de Reproducibilidad en la 10, los dos PDF con el mismo texto. Sweep **250/250**, rebuttal 61/61, `submission/`
+  recompilado en su sitio y los dos zips regenerados.

@@ -1122,7 +1122,7 @@ def final_checks():
             gs = [g for g in gs if g not in counts_]   # counts with their noun are not result numbers (numeral rule, 2026-09-23)
             if off: bad.append(f"{name}: number outside the headline set {off}: {par[:60]!r}")
             for m in _re.finditer(r"\(([^()]*)\)", cp):
-                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and not _re.fullmatch(r"(Table|Tables|Figure|Figures) REF[ab]?( and (REF|Figure REF[ab]?))?", m.group(1)) and m.group(1) != "DINO-B is not part of the island" and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")
+                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and not _re.fullmatch(r"(Table|Tables|Figure|Figures) REF[ab]?( and (REF|Figure REF[ab]?))?", m.group(1)) and m.group(1) != "DINO-B is not part of the island" and m.group(1) != "ImageNet, CIFAR-100 and DTD" and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")   # la lista de conjuntos es una enumeración, como las listas de citas (autor, 2026-09-25)
             for s_ in sents:
                 if s_.count(";") >= 2 and not s_.startswith("Read correctly, foundation models") and not s_.startswith("The class sets are ImageNet"): bad.append(f"{name}: semicolon chain: {s_[:80]}")   # the author's thesis lists its clauses with semicolons
             low = cp.lower()

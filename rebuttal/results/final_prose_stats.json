@@ -2,7 +2,7 @@
  "sections": {
   "Introduction": {
    "sentences": 36,
-   "avg_words": 22.2,
+   "avg_words": 22.3,
    "max_words": 54,
    "over30": 0
   },
@@ -77,7 +77,6 @@
     "44 of 72",
     "30 of 36",
     "3",
-    "47",
     "18 of 24"
    ]
   },
