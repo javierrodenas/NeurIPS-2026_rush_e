@@ -3756,3 +3756,16 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
   **250/250**, rebuttal **61/61**.
 - **La página 9 sigue igual que en la entrada 140**: el texto principal se sale **2 líneas** (ranuras 486 y 487, el final de la
   limitación (vi) y la (vii) entera). El color no mueve ni una línea; sigue pendiente que elijas qué suelto para recuperarlas.
+## 142. §1: el párrafo del instrumento cierra con la pregunta (2026-09-25, brief del autor)
+
+- La frase "\citet{groger2026aristotelian} calibrate similarity across models; we calibrate geometry within a model, and
+  comparing trees across models needs a calibration of its own." pasa **delante** de "With it we ask of geometry what
+  convergence work asks of similarity...", así que el párrafo termina en la pregunta "**what survives calibration, and is it
+  shared?**", justo antes de "The answer has three parts".
+- Solo cambia el orden: ni una palabra distinta, ni una cita distinta. Hecho como par nuevo de la cadena de ediciones
+  (`len(ED)` 44 → 45), así que el check que compara §1 con `main_local.tex` más las ediciones sigue verificándolo entero.
+- El párrafo ocupa las mismas 7 líneas que antes (ranuras 075 a 081), así que no mueve el presupuesto de páginas.
+- 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio y los dos zips regenerados. Sweep
+  **250/250**, rebuttal **61/61**.
+- **La página 9 sigue como en las entradas 140 y 141**: el texto principal se sale **2 líneas** (ranuras 486 y 487, el final de
+  la limitación (vi) y la (vii) entera). Pendiente de que elijas qué suelto.

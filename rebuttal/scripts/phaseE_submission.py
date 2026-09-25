@@ -138,6 +138,9 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
           'expresses every reading as an \\emph{excess} over a random cloud of the same dimension and spectrum, ranks it against 200 such clouds'),
          ('adds a \\emph{second test} whose false-alarm rate and power are measured on real clouds.',
           'adds a \\emph{second test} whose false alarms and ability to detect a planted hierarchy are measured on real clouds.'),
+         # S1 (author's brief, 2026-09-25): the paragraph of the instrument closes on the question
+         ('With it we ask of geometry what convergence work asks of similarity \\citep{huh2024platonic, groger2026aristotelian}: what survives calibration, and is it shared? \\citet{groger2026aristotelian} calibrate similarity across models; we calibrate geometry within a model, and comparing trees across models needs a calibration of its own.',
+          '\\citet{groger2026aristotelian} calibrate similarity across models; we calibrate geometry within a model, and comparing trees across models needs a calibration of its own. With it we ask of geometry what convergence work asks of similarity \\citep{huh2024platonic, groger2026aristotelian}: what survives calibration, and is it shared?'),
 ]
 def edit(s):
     for a, b in EDITS:
