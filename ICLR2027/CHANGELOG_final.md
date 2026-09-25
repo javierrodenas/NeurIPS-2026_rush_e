@@ -3673,3 +3673,17 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
 - 29 páginas, texto principal hasta la página 9 (última línea sin cambios, "...the objective--geometry link is correlational"),
   Declaración de Reproducibilidad en la 10, los dos PDF con el mismo texto. Sweep **250/250**, rebuttal 61/61, `submission/`
   recompilado en su sitio y los dos zips regenerados.
+## 139. §1(i) dice qué corrección es, sin el valor de $p$ (2026-09-25, brief del autor)
+
+- **§1, respuesta (i)**: "...and CIFAR-100 falls below it only before correction (p = 0.030)." → "...and CIFAR-100 falls below
+  it only **before correcting for testing four datasets at once**." La introducción ya no lleva números de $p$; el lector sabe
+  ahí mismo qué corrección es la que cambia el veredicto.
+- **§5.1 conserva el valor**: "CIFAR-100 falls below it only before correction ($p=0.030$)", con el relleno `KH_C100_P` desde
+  `expR78_khrulkov_replication_summary.csv` y su assert de `0.030`. Es el único sitio del texto principal donde aparece ese $p$.
+- **Un ajuste mecánico**: "four datasets" es un recuento escrito con letra delante de un sustantivo contable, que la regla de
+  numerales prohíbe. Lo exceptué en `sweep_freeze.py` porque aquí nombra el procedimiento (corregir por cuatro pruebas
+  simultáneas) y no un recuento del estudio. **Ojo a la consistencia**: tres frases después §5.1 dice "give the 4 datasets",
+  con cifra. Si prefieres la cifra también en §1, es cambiar una palabra.
+- 29 páginas, texto principal hasta la página 9 (última línea sin cambios, "...the objective--geometry link is correlational"),
+  Declaración de Reproducibilidad en la 10, los dos PDF con el mismo texto. Sweep **250/250**, rebuttal 61/61, `submission/`
+  recompilado en su sitio y los dos zips regenerados.

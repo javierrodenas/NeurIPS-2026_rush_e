@@ -12,7 +12,7 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 36 | 22.3 | 54 | 0 |
+| Introduction | 36 | 22.4 | 54 | 0 |
 | Related Work | 7 | 25.1 | 60 | 0 |
 | Methodology | 39 | 18.1 | 29 | 0 |
 | Experimental Setup | 15 | 18.3 | 34 | 0 |
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 250/250 checks passed.
+- Total: 249/250 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 

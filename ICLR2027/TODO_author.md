@@ -387,3 +387,6 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   forma compartida se define en §3.1 y se repite en el pie de la Figura 4, pero si prefieres la frase larga ahí, dime qué
   suelto: son dos palabras de margen. La lista de conjuntos queda exceptuada de la regla de paréntesis cortos, como las listas
   de citas.
+- ("four datasets" o "4 datasets", 2026-09-25) §1(i) queda con tu redacción literal, "before correcting for testing four
+  datasets at once". §5.1 escribe "the 4 datasets" con cifra tres frases después, así que la regla de numerales queda con una
+  excepción para esta frase. Dime si quieres "4 datasets" en §1 y retiro la excepción.

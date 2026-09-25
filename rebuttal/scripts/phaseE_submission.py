@@ -127,7 +127,7 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
           'than can be enumerated, and exact computation takes more than cubic time \\citep{fournier2015computing}. The defect is therefore computed on half a million random quadruples. Second, the largest defect in that sample is a poor estimate of the supremum: it belongs to a single extreme quadruple and keeps growing as more quadruples are drawn.'),
          # BH consistency for the published values (author's brief, 2026-09-25); split at the author's semicolon to keep the 30-word rule
          ('2 of them are indistinguishable from a random cloud (Figure~\\ref{fig:premise}).',
-          'only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p={{KH_C100_P}}$).'),
+          'only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correcting for testing four datasets at once.'),
          # final corrections (author's brief, 2026-09-25): S2 cites the few-shot result the corollary leans on
          (', which presupposes a diagnostic of the kind we calibrate.',
           '. In few-shot learning \\citet{moreira2024hyperbolic} find that fixed-radius Euclidean prototypes match hyperbolic ones.'),
