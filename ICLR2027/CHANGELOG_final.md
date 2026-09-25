@@ -3609,3 +3609,20 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
 - Las comprobaciones del sweep vuelven a las de antes: ningún `\begin{proof}`, los dos ladillos y los dos cuadrados.
 - 29 páginas, texto principal hasta la página 9, los dos PDF con el mismo texto. Sweep **249/249**, rebuttal 61/61,
   `submission/` y los dos zips regenerados.
+## 135. "readout" en las figuras: ya no quedaba ninguno (2026-09-25, brief del autor)
+
+- **El título de la Figura 9 ya dice** "the best zero-cost metric, against the Euclidean one": entró en el cambio de
+  "readout" a "metric" de la entrada 128, que barrió también `figures/make_figs_final.py`. El PDF de la figura, regenerado
+  desde entonces en cada reconstrucción, lo imprime así, de modo que no había nada que regenerar.
+- **Grep completo**, que es lo que pedías comprobar: `readout` no aparece en **ningún** script de figuras
+  (`ICLR2027/figures/*.py`), ni en el texto de **ninguno de los nueve PDF** de figuras del envío, ni en el `.tex` del paper,
+  ni en el de `submission/`.
+- **Queda una sola aparición en todo el repositorio activo**, y es intencionada: la cadena de ediciones de
+  `phaseE_submission.py` guarda como *origen* la frase antigua de la contribución 4 ("which zero-cost readout collects what is
+  there"), que es el texto de `main_local.tex` que la edición sustituye. Si se cambia, la edición deja de aplicarse: ya pasó el
+  25 y dejó la contribución sin actualizar.
+- **Comprobación nueva en el sweep** para que no vuelva a colarse: ningún "readout" en los scripts de figuras ni en el paper, y
+  el título de la Figura 9 fijado literal. Sweep **250/250**.
+- Sin cambios en el PDF: 29 páginas, texto principal hasta la página 9 (última línea "...the objective--geometry link is
+  correlational"), los dos PDF con el mismo texto. Por eso no rehago las figuras ni los zips: reescribirlos solo cambiaría las
+  fechas dentro de los ficheros.

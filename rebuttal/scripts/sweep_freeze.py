@@ -1565,6 +1565,10 @@ def final_checks():
         and "on our reading only MiniImageNet is genuine after correction, and CIFAR-100 falls below at $p=0.030$ before it" in bf
         and "(WordNet agreement: Table~\\ref{tab:q7-wordnet})" in (FD/"tab_q04_depth_final.tex").read_text(),
         f"BH over the four: {_bh78}")
+    _figsrc = "".join((Path(__file__).resolve().parents[2]/"ICLR2027"/"figures"/f).read_text() for f in ("make_figs_final.py", "palette.py"))
+    chk("final: no figure says 'readout' in a title, a label or a legend (the word is 'metric' since 2026-09-25), and Figure 9's panel title names the best zero-cost metric",
+        "readout" not in _figsrc.lower() and 'ax.set_title("the best zero-cost metric, against the Euclidean one"' in _figsrc and "readout" not in TF.lower(),
+        "readout in the figure scripts or the paper")
     _zip = Path(__file__).resolve().parents[2]/"ICLR2027"/"supplementary_code.zip"
     import zipfile as _zf
     _names = sorted(_zf.ZipFile(_zip).namelist()) if _zip.exists() else []
