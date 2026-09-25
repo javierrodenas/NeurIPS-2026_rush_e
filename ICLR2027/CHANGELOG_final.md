@@ -3393,3 +3393,24 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
     tres tamaños tienen `genuine_bh` verdadero ($p$ 0.005, 0.010 y 0.005).
 - **No hizo falta recortar la última frase de la conclusión**: el texto principal sigue acabando en la página 9 sin tocarla.
 - 29 páginas. Sweep **245/245**, rebuttal 61/61, qa_pages regeneradas, resumen de OpenReview actualizado (327 palabras).
+## 120. Intervalos de la potencia con las clases rotadas (2026-09-25, brief del autor)
+
+- **§5.3, "What the test can see"**: detrás de "(power 0.83--1.00)" entra "over 50 to 200 runs per backbone", y una frase nueva:
+  "ViT-S and DINOv2-B sit closest to the threshold, with 95 per cent intervals reaching 0.79 and 0.78." Los cuatro números son
+  rellenos leídos de `expR81_deep_per_backbone_summary.csv`: las tiradas son 50 por backbone y 200 en la familia DINOv2
+  (comprobado con `assert`), y los límites inferiores de Wilson al 95 por ciento son 0.786 para ViT-S (0.90 de 50) y 0.777 para
+  DINOv2-B (0.835 de 200), que redondean a 0.79 y 0.78. Los dos son, en efecto, los más cercanos al umbral entre los 9 cubiertos.
+- **Figura 2(d) y la figura de potencia del apéndice**: cada barra (y cada punto) de la potencia con las clases rotadas lleva un
+  bigote vertical fino, el intervalo de Wilson al 95 por ciento calculado con la tirada de cada backbone. La línea discontinua en
+  0.8 y la regla de relleno/rayado en 0.8 no cambian. Pies: "whiskers: 95 per cent intervals over 50 runs per backbone, 200 for
+  the DINOv2 family".
+- **El presupuesto de página**: las dos frases y la cláusula del pie costaban seis líneas. Se pagan así, en el orden que tienes
+  fijado: (i) fuera la última frase de la conclusión ("Cosine collects most of what is there."), que era tu primera instrucción;
+  (ii) tres recortes que no pierden ninguna afirmación: "repeating the census on resamples", "Rerun under a balanced grouping" y
+  la frase de alcance de §6, que queda "whether hyperbolic training helps for other reasons is outside this study"; (iii) y, por
+  tu regla del 24 de septiembre ("stop adding as soon as the main text would pass page 9"), **salen de §7 dos de los tres puntos
+  que subimos entonces**: el test es euclídeo y puede ser conservador con el árbol angular de DINOv2, y el vínculo
+  objetivo--geometría es correlacional. La lista queda en 6 puntos; el del censo de texto se queda.
+- 29 páginas, texto principal hasta la página 9. Sweep **246/246** (comprobación nueva: tiradas, los dos límites de Wilson
+  recalculados en el sweep, las dos frases y los dos pies, y las dos llamadas al bigote en el script de figuras). Rebuttal
+  reconstruido (61/61), qa_pages regeneradas, resumen de OpenReview actualizado.

@@ -6,7 +6,7 @@ the edits are saved to rebuttal/results/final_verbatim_edits.json for the sweep.
 result files (phaseE_fills.json + phaseE_v3_fills.json + the Figure 5 values). The appendix keeps the question tables the main text
 cites, without figures, in citation order. Cuts for the page budget are applied in the brief's order through FINAL_CUTS (comma-separated
 steps among: s55, s6, table, s2). Run from the repo root after phaseE_final.py, phaseE_v3.py, gen_appendix_final.py and make_figs_final.py."""
-import json, re, os, sys, importlib
+import json, math, re, os, sys, importlib
 import numpy as np, pandas as pd
 R = os.environ.get('PLATONIC_RESULTS', 'rebuttal/results').rstrip('/') + '/'; S = 'rebuttal/scripts/'; TEX = 'ICLR2027/iclr2027/'; P1 = TEX + 'main_iclr2027.tex'; PF = TEX + 'main_iclr2027_final.tex'
 import numpy.core as _c; sys.modules.setdefault("numpy._core", _c)
@@ -169,7 +169,7 @@ body = open(S + 'phaseE_paper_final.tex.tmpl').read()
 for k, v in [("%%ABSTRACT%%", ABSTRACT), ("%%INTRO%%", INTRO), ("%%RELATED%%", RELATED), ("%%GROMOV%%", GROMOV), ("%%ESTIMATION%%", ESTIM)]:
     assert body.count(k) == 1, k; body = body.replace(k, v)
 for _a, _b in (("Depth test", "Hierarchy test"), ("depth test", "hierarchy test"), ("depth-test", "hierarchy-test"), ("depth verdict", "hierarchy verdict")): body = body.replace(_a, _b)   # rename of 2026-09-23 (S1 rewrite brief): the test is the hierarchy test; 'depth' stays where it means the z statistic
-assert "depth test" not in body.lower() and "depth verdict" not in body and body.count("hierarchy test") >= 5 and body.count("second test") >= 4, (body.count("hierarchy test"), body.count("second test"))   # plain-language pass (2026-09-25): S1 and the abstract say "second test"
+assert "depth test" not in body.lower() and "depth verdict" not in body and body.count("hierarchy test") >= 4 and body.count("second test") >= 4, (body.count("hierarchy test"), body.count("second test"))   # plain-language pass (2026-09-25): S1 and the abstract say "second test"
 if "s55" in CUTS: pass   # S5.5 is written with three sentences in the template (cut step 1 applied at the source)
 if "s6" in CUTS: pass    # S6 has three paragraphs in the template (cut step 2)
 if "table" in CUTS: pass # the model table is in the appendix (Table of the panel, cut step 3)
@@ -237,6 +237,18 @@ def _names(ms):
         while k + len(grp) < len(ms) and _NM[ms[k + len(grp)]].rsplit('-', 1)[0] == pre and pre in ('ViT', 'DINOv2', 'CLIP'): grp.append(ms[k + len(grp)])
         out.append(_NM[grp[0]] if len(grp) == 1 else pre + '-' + '/'.join(_NM[g].rsplit('-', 1)[1] for g in grp)); k += len(grp)
     return ', '.join(out[:-1]) + ' and ' + out[-1] if len(out) > 1 else out[0]
+# ---- the power intervals (author's brief, 2026-09-25): Wilson 95 per cent on the rotated-cluster power, from the run counts of expR81
+def _wilson(p_, n_, z_=1.96):
+    den = 1 + z_ * z_ / n_; c_ = (p_ + z_ * z_ / (2 * n_)) / den
+    h_ = z_ * math.sqrt(p_ * (1 - p_) / n_ + z_ * z_ / (4 * n_ * n_)) / den
+    return c_ - h_, c_ + h_
+_runs = _s81['dec_runs'].astype(int); assert set(_runs[[m for m in _ord if m.startswith('dinov2')]]) == {200} and set(_runs[[m for m in _ord if not m.startswith('dinov2')]]) == {50}, _runs.to_dict()
+F['DEC_RUNS_LO'], F['DEC_RUNS_HI'] = str(int(_runs.min())), str(int(_runs.max()))
+_wl = {m: _wilson(float(_s81.loc[m, 'dec_power']), int(_runs[m])) for m in _ord}
+_closest = sorted(_cov, key=lambda m: float(_s81.loc[m, 'dec_power']))[:2]; assert _closest == ['dinov2_b', 'i21k_s'], _closest
+F['PW_VITS_LO'], F['PW_DINOV2B_LO'] = f"{_wl['i21k_s'][0]:.2f}", f"{_wl['dinov2_b'][0]:.2f}"
+assert (F['PW_VITS_LO'], F['PW_DINOV2B_LO']) == ('0.79', '0.78'), (F['PW_VITS_LO'], F['PW_DINOV2B_LO'])
+json.dump({"runs": _runs.to_dict(), "wilson95": {m: [round(v[0], 4), round(v[1], 4)] for m, v in _wl.items()}, "closest_to_threshold": _closest}, open(R + 'final_power_ci.json', 'w'), indent=1)
 F['P81_COVERED'] = _names(_cov); F['P81_UNCOVERED'] = _names(_unc)   # the brief's lists, compressed by family
 F['P81_COV_LO'], F['P81_COV_HI'] = f"{_s81.loc[_cov, 'dec_power'].min():.2f}", f"{_s81.loc[_cov, 'dec_power'].max():.2f}"; F['P81_UNC_LO'], F['P81_UNC_HI'] = f"{_s81.loc[_unc, 'dec_power'].min():.2f}", f"{_s81.loc[_unc, 'dec_power'].max():.2f}"
 assert F['P81_COVERED'] == 'ViT-S/B/L, DINOv2-B/L/G, CLIP-B/L and SigLIP-B' and F['P81_UNCOVERED'] == 'ViT-T, DINO-B and DINOv2-S', (F['P81_COVERED'], F['P81_UNCOVERED'])
@@ -320,7 +332,7 @@ if os.path.exists(R + 'expR81_deep_per_backbone.csv'):
 _s78 = pd.read_csv(R + 'expR78_khrulkov_replication_summary.csv').set_index('dataset')
 assert int((_s78.p_left_max > 0.05).sum()) == 2, "'two are indistinguishable from a random cloud'"
 assert set(_s78.index) == {'cifar10', 'cifar100', 'cub', 'miniimagenet'} and bool(_s78.within_range.all()) and bool((_s78.excess_mean < 0).all()) and set(_s78.index[_s78.p_left_max <= 0.05]) == {'cifar100', 'miniimagenet'}, _s78
-json.dump({**{k: F[k] for k in ('N_COV', 'SUP_C100_R', 'KH_C100_P', 'FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'SL_NOTGEN', 'WN_SUP_LO', 'WN_SUP_HI', 'WN_DV2_LO', 'WN_DV2_HI', 'WN_CON_LO', 'WN_CON_HI', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN', 'MERU_P95', 'MERU_PCT')}, 'IMPL_PCT': f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}", **{k: F[k] for k in ('FA_DEC', 'RATIO_VITL', 'RATIO_DINO_LO', 'RATIO_DINO_HI', 'DEC_OBS', 'PROV81', 'RATIO_SC_LO', 'RATIO_SC_HI', 'Z_DEEP_HI', 'Z_DEEP_LO', 'Z_FLAT_HI', 'Z_FLAT_LO', 'Z_VITL_DEC', 'RATIO_DINOB', 'RATIO_VITB', 'Z_RAD_HI', 'Z_RAD_LO', 'P81_COVERED', 'P81_UNCOVERED', 'P81_COV_LO', 'P81_COV_HI', 'P81_UNC_LO', 'P81_UNC_HI', 'RATIO_BLIND_LO', 'RATIO_BLIND_HI', 'RATIO_COV_LO', 'RATIO_COV_HI', 'TRIP_BIG', 'TRIP_WITHIN', 'FA_BAL', 'FA_MIS', 'BAL_SENT', 'PC_HIER_Z0', 'PC_HIER_Z1', 'PC_CE_Z0', 'PC_CE_Z1', 'PC_CE_DEC1', 'PC_FROZEN_DEC', 'PC_HIER_POOL', 'PC_CE_POOL', 'PC_HIER_ZM', 'PC_CE_ZM', 'CEIL_TRIP', 'CEIL_TRIP_MIN', 'CEIL_TRIP_LO', 'CEIL_TRIP_HI', 'CEIL_COPH', 'CEIL_COPH_LO', 'CEIL_COPH_HI', 'CEIL_ARI', 'CEIL_ARI_LO', 'CEIL_ARI_HI', 'ARI58_BIG', 'ARI58_WITHIN', 'COPH58_BIG', 'COPH58_WITHIN', 'IMPL_REAL_S1', 'IMPL_SHRUNK_S1', 'IMPL_REAL_S0', 'PC_HIER_DEC', 'PC_CE_DEC', 'PC_FROZEN_BAL')}}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
+json.dump({**{k: F[k] for k in ('N_COV', 'SUP_C100_R', 'KH_C100_P', 'DEC_RUNS_LO', 'DEC_RUNS_HI', 'PW_VITS_LO', 'PW_DINOV2B_LO', 'FMNIST_GEN', 'POL_RULE_H', 'POL_COS_H', 'WN_H', 'QUAD10', 'SL_NOTGEN', 'WN_SUP_LO', 'WN_SUP_HI', 'WN_DV2_LO', 'WN_DV2_HI', 'WN_CON_LO', 'WN_CON_HI', 'NAIVE_BIG', 'C_LO', 'C_HI', 'N_GEN', 'MERU_P95', 'MERU_PCT')}, 'IMPL_PCT': f"{100 * IMPL['hits1'] / IMPL['runs1']:.0f}", **{k: F[k] for k in ('FA_DEC', 'RATIO_VITL', 'RATIO_DINO_LO', 'RATIO_DINO_HI', 'DEC_OBS', 'PROV81', 'RATIO_SC_LO', 'RATIO_SC_HI', 'Z_DEEP_HI', 'Z_DEEP_LO', 'Z_FLAT_HI', 'Z_FLAT_LO', 'Z_VITL_DEC', 'RATIO_DINOB', 'RATIO_VITB', 'Z_RAD_HI', 'Z_RAD_LO', 'P81_COVERED', 'P81_UNCOVERED', 'P81_COV_LO', 'P81_COV_HI', 'P81_UNC_LO', 'P81_UNC_HI', 'RATIO_BLIND_LO', 'RATIO_BLIND_HI', 'RATIO_COV_LO', 'RATIO_COV_HI', 'TRIP_BIG', 'TRIP_WITHIN', 'FA_BAL', 'FA_MIS', 'BAL_SENT', 'PC_HIER_Z0', 'PC_HIER_Z1', 'PC_CE_Z0', 'PC_CE_Z1', 'PC_CE_DEC1', 'PC_FROZEN_DEC', 'PC_HIER_POOL', 'PC_CE_POOL', 'PC_HIER_ZM', 'PC_CE_ZM', 'CEIL_TRIP', 'CEIL_TRIP_MIN', 'CEIL_TRIP_LO', 'CEIL_TRIP_HI', 'CEIL_COPH', 'CEIL_COPH_LO', 'CEIL_COPH_HI', 'CEIL_ARI', 'CEIL_ARI_LO', 'CEIL_ARI_HI', 'ARI58_BIG', 'ARI58_WITHIN', 'COPH58_BIG', 'COPH58_WITHIN', 'IMPL_REAL_S1', 'IMPL_SHRUNK_S1', 'IMPL_REAL_S0', 'PC_HIER_DEC', 'PC_CE_DEC', 'PC_FROZEN_BAL')}}, open(R + 'final_fills.json', 'w'), indent=1)   # the fills of the final version, read by the sweep (IMPL_* added below when expR80 enters)
 for k, v in F.items(): body = body.replace("{{" + k + "}}", v)
 left = re.findall(r"\{\{[A-Z0-9_]+\}\}", body); assert not left, left
 # ---- appendix cleanup (2026-09-23): one plain-language paragraph of 2-4 sentences before each table; every explanatory sentence of
@@ -408,7 +420,7 @@ def _appfig(name, cap, width="0.62"):
             "\\caption{" + cap + "\n}\n\\label{fig:" + name.replace("fig_", "").replace("_final", "") + "}\n\\end{figure}\n")
 _FIGCAP = {
  "fig_budget_final": r"\textbf{The reading does not move with the quadruple budget.} Excess against the number of sampled quadruples per seed, one line per cell: 3 backbones on ImageNet, CIFAR-100 and DTD. % expR72_budget_record.csv",
- "fig_power_final": r"\textbf{The power follows the backbone, not the noise level of its cloud.} Power against the within/between spread per backbone, intact (hollow) and with clusters rotated (filled); dashed: power 0.8. % expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv",
+ "fig_power_final": r"\textbf{The power follows the backbone, not the noise level of its cloud.} Power against the within/between spread, intact (hollow) and with clusters rotated (filled); whiskers: 95 per cent intervals over 50 runs per backbone, 200 for the DINOv2 family. % expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv",
  "fig_gains_final": r"\textbf{The zero-cost advantage is small and largest for the self-supervised models.} Best few-shot advantage over the Euclidean readout, averaged over ImageNet, CIFAR-100, CIFAR-10 and DTD, with the metric that collects it; the 10 backbones evaluated, DINO-B and SigLIP-B excluded. % exp2_metric_controls.csv"}
 for _f, _c in _FIGCAP.items(): assert len(_c.split("%")[0].split()) <= 40, (_f, len(_c.split("%")[0].split()))
 for _stem, _names, _w in (("tab_q08_robust", ["fig_budget_final"], "0.62"), ("tab_q05_power", ["fig_power_final"], "0.62"),

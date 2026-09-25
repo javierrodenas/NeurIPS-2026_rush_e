@@ -16,11 +16,11 @@
 | Related Work | 7 | 26.4 | 60 | 0 |
 | Methodology | 38 | 18.2 | 30 | 0 |
 | Experimental Setup | 16 | 17.8 | 34 | 0 |
-| Results | 73 | 17.8 | 30 | 0 |
-| Implications for Hyperbolic Representation Learning | 6 | 19.3 | 24 | 0 |
-| Conclusion and Limitations | 11 | 19.7 | 28 | 0 |
+| Results | 74 | 17.8 | 30 | 0 |
+| Implications for Hyperbolic Representation Learning | 6 | 18 | 23 | 0 |
+| Conclusion and Limitations | 8 | 22.1 | 28 | 0 |
 
-Non-verbatim prose of S3–S7: 127 sentences, mean 18.1 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 125 sentences, mean 18.2 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (25 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -34,7 +34,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | A star of clusters already passes the census. | — |
 | Results | The hierarchy test certifies that how clusters are oriented  | 12 |
 | Results | What it certifies is alignment, how each cluster is oriented | 4, -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, 4, -2.08 to -3.99 |
-| Results | What the test can see. | 4 of 5, 4, 9 of 12, 0.83 to 1.00, 3, 0.01 to 0.60, 3, 1.5 to 3.0, 1.3 to 3.9, 9 |
+| Results | What the test can see. | 4 of 5, 4, 9 of 12, 0.83 to 1.00, 50 to 200, 3, 0.01 to 0.60, 95, 0.79 and 0.78, 3, 1.5 to 3.0, 1.3 to 3.9, 9 |
 | Results | A trained hierarchy survives, and the test leans toward firi | 20 of 20, 2, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, 4, -4.19 to -4.82, 0 of 50 |
 | Results | No hub hierarchy is found where the test has power. | 9 |
 | Results | The certified set depends on the grouping. | — |
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 244/245 checks passed.
+- Total: 246/246 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 

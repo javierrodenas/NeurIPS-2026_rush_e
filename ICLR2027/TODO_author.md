@@ -377,3 +377,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
   El artículo usa el $p$ sin corregir ahí, y la figura llena el punto según la banda de $\pm2$ s.d.; tu pie nuevo lo cuenta bien
   ("at its edge, its verdict changing from trial to trial"). Dime si prefieres decirlo también en §5.1. (iv) La Tabla 12 ya no
   promete el acuerdo con WordNet de los dos ViT de etiquetas hoja: está en la Tabla 19, por si quieres un puntero explícito.
+- (Potencia e intervalos, 2026-09-25) Para que las dos frases y el bigote cupieran en la página 9 salieron de las limitaciones
+  dos de los tres puntos que subiste el 24: "The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be
+  conservative" y "The objective--geometry link is correlational, resting chiefly on DINOv2's scale range and on 2 leaf-label
+  ViTs". También cayó la última frase de la conclusión, como pediste. Si quieres alguno de vuelta, dime cuál y qué suelto a
+  cambio: cada uno cuesta una línea.

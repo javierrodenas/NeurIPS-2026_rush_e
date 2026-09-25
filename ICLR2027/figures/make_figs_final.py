@@ -5,7 +5,7 @@ not, the threshold or the null as a dashed line or a gray band, numbers only on 
 Writes fig_overview_final, fig_excess_final, fig_depth_final, fig_treemap_final and the appendix fig_implant_final (pdf+png) next to the other figures; the v1/v2/v3
 figure files are untouched. Data: expR52_census_haar_p999_200.csv, expR62_samplelevel_record.csv, exp1_delta_controls.csv,
 expR56_depth_variants.csv, expR64b_wn30.csv, exp23_treemap_controls.npz, phaseC_fig2b.json."""
-import csv, os, sys, json, importlib
+import csv, os, sys, json, math, importlib
 from pathlib import Path
 import numpy as np, numpy.core as _core
 sys.modules.setdefault("numpy._core", _core)
@@ -34,6 +34,13 @@ by = {(r["model"], r["dataset"]): r for r in census}
 def save(fig, name):
     for o in (HERE, HERE.parent/"iclr2027"/"figures"): fig.savefig(o/f"{name}.pdf"); fig.savefig(o/f"{name}.png", dpi=200)
     print(name, "written")
+def wilson(p, n, z=1.96):
+    """95 per cent interval for a proportion; n is the run count of expR81 (50 per backbone, 200 for the DINOv2 family)."""
+    den = 1 + z * z / n; c = (p + z * z / (2 * n)) / den
+    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / den
+    return c - h, c + h
+def whisker(ax, x, lo, hi, lw=0.7, color="0.25", zorder=6):
+    ax.plot([x, x], [lo, hi], "-", color=color, lw=lw, solid_capstyle="butt", zorder=zorder)
 def hbar(ax, y, w, color, passes, height=0.72, zorder=3):
     if passes: return ax.barh(y, w, height, color=color, edgecolor="white", linewidth=0.8, zorder=zorder)
     return ax.barh(y, w, height, facecolor="white", edgecolor=color, hatch="////", linewidth=0.6, zorder=zorder)
@@ -108,6 +115,7 @@ for m in M:
     p_int, p_dec = float(D81[m]["power"]), float(D81[m]["dec_power"])   # pd is pandas: do not shadow it
     ax.bar(XPOS[m] - 0.2, p_int, 0.38, color=LIGHT, edgecolor="white", linewidth=0.8, zorder=3)
     bar(ax, XPOS[m] + 0.2, p_dec, fam_color(m), p_dec >= 0.8, width=0.38)
+    whisker(ax, XPOS[m] + 0.2, *wilson(p_dec, int(float(D81[m]["dec_runs"]))))   # 95 per cent interval (author's brief, 2026-09-25)
 ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=2)
 ax.set_ylim(0, 1.1); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"])
 ax.set_ylabel("power"); ax.set_title("(d) power for the planted hierarchy", pad=3); famaxis(ax)
@@ -338,6 +346,7 @@ for m in M:
     ax.plot(R64[m], float(P81.loc[m, "power"]), "o", mfc="white", mec=fam_color(m), ms=4.2, mew=1.1, zorder=3)
     ax.plot(R64[m], float(P81.loc[m, "dec_power"]), "o", color=fam_color(m), ms=4.6, mec="white", mew=0.6, zorder=4)
     ax.plot([R64[m], R64[m]], [float(P81.loc[m, "power"]), float(P81.loc[m, "dec_power"])], "-", color=fam_color(m), lw=0.7, alpha=0.6, zorder=2)
+    whisker(ax, R64[m], *wilson(float(P81.loc[m, "dec_power"]), int(P81.loc[m, "dec_runs"])))   # 95 per cent interval (author's brief, 2026-09-25)
 ax.axhline(0.8, color="k", lw=0.8, ls="--", zorder=1)
 ax.set_ylim(-0.05, 1.08); ax.set_yticks([0, 0.5, 0.8, 1]); ax.set_yticklabels(["0", "0.5", "0.8", "1"])
 ax.set_xlabel("noise level of the cloud (within/between spread)", labelpad=1); ax.set_ylabel("power")
