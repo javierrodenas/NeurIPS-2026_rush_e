@@ -2,7 +2,7 @@
  "sections": {
   "Introduction": {
    "sentences": 36,
-   "avg_words": 22.4,
+   "avg_words": 22.8,
    "max_words": 54,
    "over30": 0
   },
@@ -13,27 +13,27 @@
    "over30": 0
   },
   "Methodology": {
-   "sentences": 39,
+   "sentences": 40,
    "avg_words": 18.1,
    "max_words": 29,
    "over30": 0
   },
   "Experimental Setup": {
    "sentences": 15,
-   "avg_words": 18.3,
+   "avg_words": 18.7,
    "max_words": 34,
    "over30": 0
   },
   "Results": {
    "sentences": 70,
-   "avg_words": 17.7,
-   "max_words": 30,
+   "avg_words": 18.0,
+   "max_words": 40,
    "over30": 0
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 6,
-   "avg_words": 18,
-   "max_words": 23,
+   "avg_words": 18.5,
+   "max_words": 26,
    "over30": 0
   },
   "Conclusion and Limitations": {
@@ -43,8 +43,8 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.2,
- "n_nonverbatim_sentences": 121,
+ "avg_nonverbatim": 18.4,
+ "n_nonverbatim_sentences": 122,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",

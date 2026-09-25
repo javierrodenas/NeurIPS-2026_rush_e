@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 504).
+- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 10; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 490); the references start on page 10 (line 507).
 - Appendix: Proofs on page 16, implementation and additional results from page 17 to page 29 (14 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.
@@ -12,15 +12,15 @@
 
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
-| Introduction | 36 | 22.4 | 54 | 0 |
+| Introduction | 36 | 22.8 | 54 | 0 |
 | Related Work | 7 | 25.1 | 60 | 0 |
-| Methodology | 39 | 18.1 | 29 | 0 |
-| Experimental Setup | 15 | 18.3 | 34 | 0 |
-| Results | 70 | 17.7 | 30 | 0 |
-| Implications for Hyperbolic Representation Learning | 6 | 18 | 23 | 0 |
+| Methodology | 40 | 18.1 | 29 | 0 |
+| Experimental Setup | 15 | 18.7 | 34 | 0 |
+| Results | 70 | 18.0 | 40 | 0 |
+| Implications for Hyperbolic Representation Learning | 6 | 18.5 | 26 | 0 |
 | Conclusion and Limitations | 9 | 20.9 | 28 | 0 |
 
-Non-verbatim prose of S3–S7: 121 sentences, mean 18.2 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 122 sentences, mean 18.4 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (25 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 249/250 checks passed.
+- Total: 250/250 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 

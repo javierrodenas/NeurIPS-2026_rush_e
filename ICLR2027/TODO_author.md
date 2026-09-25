@@ -390,3 +390,8 @@ img/clase, extraídas de `/media/HDD_4TB_1/javi/ILSVRC2012_img_train` con
 - ("four datasets" o "4 datasets", 2026-09-25) §1(i) queda con tu redacción literal, "before correcting for testing four
   datasets at once". §5.1 escribe "the 4 datasets" con cifra tres frases después, así que la regla de numerales queda con una
   excepción para esta frase. Dime si quieres "4 datasets" en §1 y retiro la excepción.
+- (Palabras llanas, 2026-09-25) Tres cosas que decides tú: (i) la frase "though less than two resampled versions..." la he
+  cambiado también en §1(iii) porque el sweep exige que el abstract y §1 la lleven idéntica; (ii) "neighbours" en §3.5 es
+  grafía británica y el resto del paper es americano; (iii) la frase de MERU dice "nearly flat" dos veces con tu redacción
+  nueva. Y **el texto principal se sale 2 líneas a la página 10** (final de la limitación (vi) y la (vii) entera): dime qué
+  suelto y las recupero.

@@ -3687,3 +3687,54 @@ más: seis en total. Se pagaron sin perder ninguna afirmación, y te las listo p
 - 29 páginas, texto principal hasta la página 9 (última línea sin cambios, "...the objective--geometry link is correlational"),
   Declaración de Reproducibilidad en la 10, los dos PDF con el mismo texto. Sweep **250/250**, rebuttal 61/61, `submission/`
   recompilado en su sitio y los dos zips regenerados.
+## 140. Palabras llanas en el primer uso, once puntos (2026-09-25, brief del autor)
+
+Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
+
+- **(1) Abstract**: "two readings of the same model" → "two **resampled versions** of the same model"; "the model's recipe and
+  size" → "the model's **training** recipe and size". Abstract de OpenReview reexportado (293 palabras, tope 360).
+  **Aviso**: la frase de "Across models..." está espejada en §1(iii) y el sweep exige que las dos sean idénticas
+  (`bf.count(NEW_CROSS) == 1` antes de §1 más su variante con `\emph{Across models,}` dentro de §1). Para no romper el espejo
+  he cambiado las dos. Si querías solo el abstract, hay que partir ese check en dos cadenas; dímelo y lo hago.
+- **(2) §1**: "only MiniImageNet is genuine" → "only MiniImageNet **stays below the random cloud**"; y la frase del instrumento
+  pasa a "expresses every reading as an excess over a **random cloud of the same dimension and spectrum**, ranks it **against
+  200 such clouds**". Las 200 réplicas ya eran las de `expR75`; ahora se dicen.
+- **(11) §1, primer uso**: "of the same dimension and spectrum" → "..., **its spread along each direction**," en la frase del
+  párrafo 3, que es donde el espectro se nombra por primera vez. La segunda mención (el instrumento) queda sin glosa.
+- **(10) §1**: "whose false-alarm rate and power are measured on real clouds" → "whose **false alarms and ability to detect a
+  planted hierarchy** are measured on real clouds". La viñeta de contribuciones conserva "false-alarm rate and power": es el
+  resumen técnico y va después. Si quieres la misma redacción ahí, es una línea.
+- **(3) §3.3**: "certifies structure beyond the second moments**, that is, beyond what the mean and the covariance explain**".
+  Con la glosa la frase llegaba a 39 palabras, así que **el punto y coma del autor pasa a ser el final de frase**: "...explain.
+  Clustering is its most plausible reading, supported by...". No se pierde ninguna palabra y el párrafo pasa de 2 a 3 frases.
+- **(5) §3.5**: "mutual-kNN agreement **(the overlap of nearest neighbours)** and centroid CKA **(a similarity index)**".
+  **Ojo**: "neighbours" es grafía británica y el resto del paper es americano ("neighborhoods" en §5.4). Lo dejo tal como lo
+  escribiste; dime si lo paso a "neighbors".
+- **(4) §4**: "trained on ImageNet-1k leaf labels **(the 1000 fine classes, with no superclasses)**". El 1000 es el `n` de
+  `expR75_census_centered_haar.csv` para ImageNet (1000 en todas sus filas) y el mismo que ya da §4 en "ImageNet (1000
+  classes)".
+- **(9) §5.1**: "reproduces the raw $\delta_{\text{rel}} **= 2\delta/\mathrm{diam}**$ they report". §6 sigue definiéndolo
+  dentro de la fórmula de curvatura, que es donde se usa.
+- **(6) §5.3**: "95 per cent lie within 0.29 **curvature radii of the origin, where the space is nearly flat**". **Aviso**: la
+  frase empieza con "Its embeddings also stay nearly flat:", así que "nearly flat" sale dos veces. Si quieres, el arranque pasa
+  a "Its embeddings also stay in the flat regime:" y se queda una sola.
+- **(7) §5.4**: "resolve sibling triplets **(two classes that share a WordNet parent and a third that does not)**".
+- **(8) §5.4 y §6**: "the contrastive VLMs" → "the contrastive **vision--language models (VLMs**, $+0.57$ to $+0.59$)" en su
+  primer uso. Lo escribo con la abreviatura y los valores en **un solo paréntesis**: "(VLMs) ($+0.57$ to $+0.59$)" dejaba dos
+  paréntesis pegados. §6: "pp" → "**percentage points**" (es su única aparición) y "on prototype tasks" → "on
+  **nearest-centroid and few-shot** tasks".
+- **Reglas del sweep tocadas, todas documentadas en el fichero**: `GLOSS_OK` con las cinco glosas en paréntesis (la regla de
+  "ningún paréntesis de más de tres palabras" no puede aplicarse a una definición), `SPELLED_OK` con "two classes that share a
+  WordNet parent" (la definición se lee en palabras, como "four datasets at once"), el prefijo "fine " añadido a los recuentos
+  con su sustantivo para que "1000 fine classes" cuente como recuento, la frase de las tres correlaciones de §5.4 exceptuada de
+  la regla de 30 palabras (32 con "vision--language models") igual que ya lo estaba de la regla de números, y `len(ED)` 42 → 44.
+
+- **Se sale de la página 9 por 2 líneas.** No he recortado nada, como pediste. La página 9 termina ahora en la ranura 485, en
+  mitad de la limitación (vi); en la página 10 caen las ranuras **486 y 487**: el final de (vi) ("...the cosine census
+  mitigates this.") y la limitación (vii) completa. La Declaración de Reproducibilidad sigue después, en la 489. Las glosas
+  suman 3 líneas y la cola solo tenía 1 de margen.
+  **Para recuperar las 2 líneas, lo más barato** (elige una y la aplico): (a) quitar otra vez la limitación (vii), que es justo
+  lo que sobresale; (b) la última frase de la conclusión; (c) la glosa de la tripleta hermana de §5.4, que ocupa una línea
+  entera, más la última frase de §6.
+- 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio y los dos zips regenerados. Sweep
+  **250/250**, rebuttal **61/61**.
