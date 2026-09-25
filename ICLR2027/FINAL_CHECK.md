@@ -13,14 +13,14 @@
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
 | Introduction | 36 | 21.9 | 54 | 0 |
-| Related Work | 7 | 26.4 | 60 | 0 |
+| Related Work | 7 | 25.1 | 60 | 0 |
 | Methodology | 38 | 18.2 | 30 | 0 |
 | Experimental Setup | 16 | 17.8 | 34 | 0 |
-| Results | 74 | 17.8 | 30 | 0 |
+| Results | 73 | 17.9 | 30 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 18 | 23 | 0 |
-| Conclusion and Limitations | 8 | 22.1 | 28 | 0 |
+| Conclusion and Limitations | 9 | 22.3 | 28 | 0 |
 
-Non-verbatim prose of S3–S7: 125 sentences, mean 18.2 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 125 sentences, mean 18.3 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (25 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -43,7 +43,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | The naive map manufactures an island. | 12, 7, 7 |
 | Results | Controlled, the trees share their topology, not their metric | 0.77, 0.90, 0.33 |
 | Results | The self-supervised tree is angular. | — |
-| Results | Agreement with WordNet follows supervision and recipe. | +0.57 to +0.59, +0.49 to +0.53, +0.18 to +0.22 |
+| Results | Agreement with WordNet follows supervision. | +0.57 to +0.59, +0.49 to +0.53, +0.18 to +0.22 |
 | Results | Text depends on recipe and scale. | 7 of 15 |
 | Implications for Hyperbolic  | The raw reading cannot select a curvature. | 0.48 to 2.5, +0.9 to +1.3 |
 

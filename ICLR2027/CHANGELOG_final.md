@@ -3414,3 +3414,14 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
 - 29 páginas, texto principal hasta la página 9. Sweep **246/246** (comprobación nueva: tiradas, los dos límites de Wilson
   recalculados en el sweep, las dos frases y los dos pies, y las dos llamadas al bigote en el script de figuras). Rebuttal
   reconstruido (61/61), qa_pages regeneradas, resumen de OpenReview actualizado.
+## 121. Limitación (vii) de vuelta, pagada con dos recortes (2026-09-25, brief del autor)
+
+- **§7** recupera el punto, ya fundido en uno: "(vii) The hierarchy test is Euclidean and may be conservative for DINOv2's
+  angular tree, and the link between training objective and geometry is correlational." La lista vuelve a 7 puntos.
+- **Pagado como pedías**: (a) en §5.4 desaparece "Among leaf-supervised ViTs it depends on the recipe (Section 5.3)." y el
+  ladillo queda "Agreement with WordNet follows supervision."; (b) en §2 se borra la cláusula ", which presupposes a diagnostic
+  of the kind we calibrate", de modo que la frase termina en "...a mixed-curvature product to be learned (Gu et al., 2019)." y
+  la de Moreira la sigue sin cambios.
+- **No desborda**: el texto principal sigue acabando en la página 9 y la Declaración de Reproducibilidad en la 10, con la misma
+  línea de corte que antes (slot 487). No he tocado nada más.
+- 29 páginas. Sweep **246/246**, rebuttal 61/61, qa_pages regeneradas.

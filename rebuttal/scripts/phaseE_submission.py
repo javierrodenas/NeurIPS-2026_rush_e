@@ -123,8 +123,8 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
          ('2 of them are indistinguishable from a random cloud (Figure~\\ref{fig:premise}).',
           'only MiniImageNet is genuine. CIFAR-10 and CUB-200 are indistinguishable from a random cloud, and CIFAR-100 falls below it only before correction ($p={{KH_C100_P}}$, Figure~\\ref{fig:premise}).'),
          # final corrections (author's brief, 2026-09-25): S2 cites the few-shot result the corollary leans on
-         ('which presupposes a diagnostic of the kind we calibrate.',
-          'which presupposes a diagnostic of the kind we calibrate. In few-shot learning \\citet{moreira2024hyperbolic} find that fixed-radius Euclidean prototypes match hyperbolic ones.'),
+         (', which presupposes a diagnostic of the kind we calibrate.',
+          '. In few-shot learning \\citet{moreira2024hyperbolic} find that fixed-radius Euclidean prototypes match hyperbolic ones.'),
          ('The instrument reads the objects instead of the shadow: the excess separates the random cloud from the other two, and the hierarchy test separates the star from the tree.',
           'The instrument reads the objects instead of the shadow: the excess separates the random cloud from the other two, and the second test separates the star from the tree.'),
 ]
