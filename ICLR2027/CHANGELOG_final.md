@@ -3463,3 +3463,16 @@ color y la marca de la media quedan por encima del rectángulo. Ningún dato que
   compila solo, 29 páginas, texto idéntico al PDF del envío.
 - 29 páginas, texto principal hasta la página 9. Sweep **247/247** (comprobación nueva: las dos frases, la ausencia de la cita
   en la tercera y el recuento de dos citas). Rebuttal reconstruido (61/61), qa_pages regeneradas.
+## 124. `submission/` a prueba de la subida (2026-09-25)
+
+- El árbol que está en git compila tal cual: lo saqué con `git archive HEAD ICLR2027/submission`, lo compilé en un
+  directorio limpio y dio **29 páginas**. Los 29 ficheros estaban todos versionados, tablas incluidas, así que lo que fallaba
+  no era el contenido sino la forma de compilarlo o de subirlo.
+- **Dos añadidos para que no dependa de eso**: `main_iclr2027_final.bbl` (la bibliografía ya compilada, así que con pdflatex
+  solo, sin pasada de bibtex, salen las citas) y un `README.txt` con el comando exacto, el orden de pasadas y el mapa de
+  carpetas, con el aviso de que si se aplanan `appendix_tables/final/` o `figures/` los `\input` dejan de resolver.
+- **`ICLR2027/submission.zip`** (8,7 MB): la carpeta entera con su estructura, para subirla de una pieza. Descomprimida en
+  limpio compila a 29 páginas y da el mismo texto que el PDF del envío.
+- Sweep **248/248**: la comprobación nueva recorre `submission/` fichero a fichero (31: el `.tex`, el `.bbl`, el README, las
+  12 tablas, las 9 figuras, la tabla de Khrulkov, la bibliografía, los cuatro ficheros de estilo y el PDF) y verifica que
+  cada `\input` y cada `\includegraphics` del `.tex` resuelve dentro de la carpeta.

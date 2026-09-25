@@ -1565,6 +1565,15 @@ def final_checks():
         and "on our reading only MiniImageNet is genuine after correction, and CIFAR-100 falls below at $p=0.030$ before it" in bf
         and "(WordNet agreement: Table~\\ref{tab:q7-wordnet})" in (FD/"tab_q04_depth_final.tex").read_text(),
         f"BH over the four: {_bh78}")
+    _sub = Path(__file__).resolve().parents[2]/"ICLR2027"/"submission"
+    _subf = sorted(str(p.relative_to(_sub)) for p in _sub.rglob("*") if p.is_file())
+    chk("final: submission/ carries exactly what the paper reads, with the bibliography already compiled and a note on the layout; every \\input and \\includegraphics of the .tex resolves inside it",
+        len(_subf) == 31 and "main_iclr2027_final.tex" in _subf and "main_iclr2027_final.bbl" in _subf and "README.txt" in _subf
+        and sum(1 for f in _subf if f.startswith("appendix_tables/final/")) == 12 and sum(1 for f in _subf if f.startswith("figures/")) == 9
+        and all((_sub/(g if g.endswith(".tex") else g + ".tex")).exists() for g in _re.findall(r"\\input\{([^}]*)\}", (_sub/"main_iclr2027_final.tex").read_text()))
+        and all((_sub/g).exists() for g in _re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]*)\}", (_sub/"main_iclr2027_final.tex").read_text()))
+        and (Path(__file__).resolve().parents[2]/"ICLR2027"/"submission.zip").exists(),
+        f"{len(_subf)} files in submission/")
     chk("final (citation fix, 2026-09-25): Fournier et al. support the cost of the exact computation, in S1 and S3.2, and no longer the growth of the sampled supremum, which is our own observation",
         "And computing the supremum exactly takes more than cubic time \\citep{fournier2015computing}, so it is taken over sampled quadruples, where it grows with the budget and does not converge: the \\emph{statistic confound}." in bf
         and "than can be enumerated, and exact computation takes more than cubic time \\citep{fournier2015computing}. The defect is therefore computed on half a million random quadruples." in bf
