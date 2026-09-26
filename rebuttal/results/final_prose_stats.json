@@ -32,8 +32,8 @@
   },
   "Implications for Hyperbolic Representation Learning": {
    "sentences": 6,
-   "avg_words": 18.5,
-   "max_words": 26,
+   "avg_words": 18.8,
+   "max_words": 28,
    "over30": 0
   },
   "Conclusion and Limitations": {
@@ -43,7 +43,7 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.4,
+ "avg_nonverbatim": 18.5,
  "n_nonverbatim_sentences": 122,
  "over30_rule": {
   "cap": 30,

@@ -171,6 +171,9 @@ centroid matrix, without the rest of the pipeline.
 for r in sorted(rows):
     README += f"| `scripts/{r[0]}` | {r[1]} | {r[2]} | {r[3]} | `{r[4]}` |\n"
 README += f"\n{len(rows)} experiment scripts, {len(helpers)} shared helpers, plus `tool/`.\n"
+README += ("\n`scripts/palette.py` and `scripts/style.mplstyle` are the colours and the matplotlib style of the paper's figures; "
+           "`expR64_implanted_depth.py` and `expR64b_implanted_depth_v2.py` import them for the diagnostic plot they draw after writing "
+           "their CSV, and `expR55_depth_power.py` and `expR55b_depth_power_leafframe.py` use the style when it is present.\n")
 open(os.path.join(stage, "README.md"), "w", encoding="utf-8").write(README)
 
 for root, _, fs in os.walk(stage):   # anonymize the copies, never the repository

@@ -3769,3 +3769,26 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
   **250/250**, rebuttal **61/61**.
 - **La página 9 sigue como en las entradas 140 y 141**: el texto principal se sale **2 líneas** (ranuras 486 y 487, el final de
   la limitación (vi) y la (vii) entera). Pendiente de que elijas qué suelto.
+## 143. Auditoría final: la Figura 9 citada, la frase del control de clases fuera, el suplemento revisado (2026-09-26, brief del autor)
+
+- **(1) §6**, frase de Poincaré: "...and nothing consistent elsewhere (Table~\ref{tab:q9-corollary}, **Figure~\ref{fig:gains}**)".
+  La Figura 9 (ganancias por métrica en el apéndice) no se citaba desde ningún sitio; ahora se cita una vez, desde §6, y el
+  sweep lo pina (`\ref{fig:gains}` exactamente una vez). La regla de paréntesis lee "(Table REF, Figure REF)" como puntero.
+- **(2) Apéndice, subsección del censo**: borrada "A class-count control shows that the excess shrinks with the number of
+  classes, so only the verdict carries across datasets." Con ella sale `expR60_c_sweep_record.csv` del comentario de
+  procedencia del párrafo, porque ya no sostiene ninguna afirmación ahí. El control de clases sigue en la subsección de
+  robustez ("how many classes a cell has... The verdicts move only where the excess was already at the edge of the null"), y el
+  check que pinaba la frase borrada apunta ahora a esa.
+- **(3) Suplemento: `scripts/palette.py` y `scripts/style.mplstyle` se quedan**, porque dos scripts de experimento los
+  importan en firme: `expR64_implanted_depth.py` y `expR64b_implanted_depth_v2.py` hacen `from palette import color` y
+  `plt.style.use("style.mplstyle")` sin `try`, en la figura de diagnóstico que dibujan después de escribir su CSV; sin los dos
+  ficheros fallarían tras producir el resultado. `expR55_depth_power.py` y `expR55b_depth_power_leafframe.py` cargan el estilo
+  dentro de un `try` y seguirían sin él. El README del zip lo dice ahora en una línea, y el sweep exige que los dos ficheros
+  vayan en el zip si y solo si algún script hace `from palette import`.
+- **Cadena de construcción**: `make_supplement.py` pasa a ejecutarse antes del sweep, que lee el zip; antes iba después y el
+  sweep veía el zip de la compilación anterior.
+- 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio y los dos zips regenerados (68 ficheros en
+  el de código). Sweep **250/250**, rebuttal **61/61**.
+- **La página 9 sigue como en las entradas 140 a 142**: el texto principal se sale **2 líneas** (ranuras 486 y 487, el final de
+  la limitación (vi) y la (vii) entera). El puntero a la Figura 9 cabe en su línea y no mueve nada. Pendiente de que elijas
+  qué suelto.

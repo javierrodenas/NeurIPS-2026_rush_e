@@ -1124,7 +1124,7 @@ def final_checks():
             gs = [g for g in gs if g not in counts_]   # counts with their noun are not result numbers (numeral rule, 2026-09-23)
             if off: bad.append(f"{name}: number outside the headline set {off}: {par[:60]!r}")
             for m in _re.finditer(r"\(([^()]*)\)", cp):
-                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and not _re.fullmatch(r"(Table|Tables|Figure|Figures) REF[ab]?( and (REF|Figure REF[ab]?))?", m.group(1)) and m.group(1) not in GLOSS_OK and not m.group(1).startswith("VLMs, ") and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")   # la lista de conjuntos es una enumeración, como las listas de citas (autor, 2026-09-25)
+                if not _re.fullmatch(r"(i|ii|iii|iv|v|vi|vii|viii|ix|x|[a-c])", m.group(1)) and not _re.fullmatch(r"(Table|Tables|Figure|Figures) REF[ab]?((,| and) (REF|Figure REF[ab]?))?", m.group(1)) and m.group(1) not in GLOSS_OK and not m.group(1).startswith("VLMs, ") and len(m.group(1).split()) > 3: bad.append(f"{name}: parenthetical over three words: ({m.group(1)[:50]})")   # la lista de conjuntos es una enumeración, como las listas de citas (autor, 2026-09-25)
             for s_ in sents:
                 if s_.count(";") >= 2 and not s_.startswith("Read correctly, foundation models") and not s_.startswith("The class sets are ImageNet"): bad.append(f"{name}: semicolon chain: {s_[:80]}")   # the author's thesis lists its clauses with semicolons
             low = cp.lower()
@@ -1558,7 +1558,7 @@ def final_checks():
         and len(over30_all) == 0, f"over 30: {[(w_, s_[:50]) for w_, s_ in over30_all[:5]]}")
     chk("final (4th review): depth table with two-decimal z everywhere and the K = 10/30/60 sweep with the balanced frame; DBpedia supremum columns under the Haar null; no OLMo-7B row; no expR32 bootstrap row",
         not _re.search(r"\(([+-]\d\.\d)\)", dep) and not _re.search(r"\$[+-]\d\.\d\$", dep) and "$K{=}10$" in dep and "$K{=}60$" in dep and "supremum, Haar" in wn and "supremum, Gaussian" not in wn
-        and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "shrinks with the number of classes" in app_f and sorted(set(int(r_["C"]) for r_ in load("expR60_c_sweep_record.csv"))) == [10, 20, 50, 100, 200, 500, 1000] and rob.count("DINOv2-L & ") >= 2)
+        and "OLMo-7B" not in txt_ and "OLMo-7B" not in pan_ and "centroid bootstrap: excess" not in rob and "expR32" not in rob and "expR73" in rob and "how many classes a cell has. Each is varied in turn and the same cells are read again." in app_f and "A class-count control shows" not in app_f and sorted(set(int(r_["C"]) for r_ in load("expR60_c_sweep_record.csv"))) == [10, 20, 50, 100, 200, 500, 1000] and rob.count("DINOv2-L & ") >= 2)
     alltex = nocom(TF) + "".join(nocom((FD/(s + ".tex")).read_text()) for s in inputs) + nocom(open(TEX/"tab_census_final.tex").read()) + nocom(open(TEX/"tab_khrulkov_final.tex").read())
     refs = set(_re.findall(r"\\(?:eq)?ref\{([^}]*)\}", alltex)); defs = set(_re.findall(r"\\label\{([^}]*)\}", alltex))
     chk("final: every cross-reference of the final resolves", refs <= defs, str(sorted(refs - defs)))
@@ -1574,7 +1574,8 @@ def final_checks():
         f"BH over the four: {_bh78}")
     _figsrc = "".join((Path(__file__).resolve().parents[2]/"ICLR2027"/"figures"/f).read_text() for f in ("make_figs_final.py", "palette.py"))
     chk("final: no figure says 'readout' in a title, a label or a legend (the word is 'metric' since 2026-09-25), and Figure 9's panel title names the best zero-cost metric",
-        "readout" not in _figsrc.lower() and 'ax.set_title("the best zero-cost metric, against the Euclidean one"' in _figsrc and "readout" not in TF.lower(),
+        "readout" not in _figsrc.lower() and 'ax.set_title("the best zero-cost metric, against the Euclidean one"' in _figsrc and "readout" not in TF.lower()
+        and "nothing consistent elsewhere (Table~\\ref{tab:q9-corollary}, Figure~\\ref{fig:gains})" in bf and bf.count("\\ref{fig:gains}") == 1,   # Figure 9 cited from S6 (final audit, 2026-09-26)
         "readout in the figure scripts or the paper")
     _zip = Path(__file__).resolve().parents[2]/"ICLR2027"/"supplementary_code.zip"
     import zipfile as _zf
@@ -1586,7 +1587,9 @@ def final_checks():
         and not any(n_.startswith("results/") or n_.startswith("figures/") or n_.startswith("iclr2027/") for n_ in _names)
         and not any(n_.endswith((".csv", ".json")) for n_ in _names)
         and not any(b_ in n_ for n_ in _names for b_ in ("gen_appendix", "gen_main_table", "phaseE_submission", "sweep_freeze", "make_supp_readme", "make_figs"))
-        and not any(w_ in _txt for w_ in ("rodenas", "radeva", "aguilar", "javi", "ub.edu", "neurips", "/media/")),
+        and not any(w_ in _txt for w_ in ("rodenas", "radeva", "aguilar", "javi", "ub.edu", "neurips", "/media/"))
+        and (("scripts/palette.py" in _names and "scripts/style.mplstyle" in _names) == ("from palette import" in _txt))   # the two style files ride along only while an experiment script imports them (final audit, 2026-09-26)
+        and "palette.py" in _zf.ZipFile(_zip).read("README.md").decode("utf-8", "ignore"),
         f"{len(_names)} entries in supplementary_code.zip")
     _sub = Path(__file__).resolve().parents[2]/"ICLR2027"/"submission"
     _subf = sorted(str(p.relative_to(_sub)) for p in _sub.rglob("*") if p.is_file())
