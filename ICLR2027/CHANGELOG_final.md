@@ -3848,3 +3848,16 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
   **Ojo**: si además quieres (6), hacen falta **dos** líneas, porque (6) añade unas 8 palabras al mismo párrafo de §1.
 - 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio (con el `.bbl` nuevo) y los dos zips
   regenerados. Sweep **250/251** (solo la línea libre), rebuttal 61/61.
+## 146. Ajuste exacto aceptado y texto principal congelado (2026-09-26, decisión del autor)
+
+- **El texto principal termina en la última línea de la página 9** (ranura 485, limitación (vii)) y la página 10 abre con la
+  Declaración de Reproducibilidad. Aceptado como cumplimiento del límite; (b), (c) y (6) **no** se aplican.
+- **Check de presupuesto**: deja de exigir la línea libre. Ahora comprueba, leyendo el PDF con `pdftotext`, que la última
+  línea de §7 está en la página 9 y que la primera línea de texto de la página 10 es "Reproducibility Statement".
+- **Congelación**: check nuevo que cuenta los tokens del texto construido desde `\begin{document}` hasta el encabezado de la
+  Declaración (comentarios fuera) y exige que no supere el valor grabado hoy en `rebuttal/results/final_main_freeze.json`
+  (**5068**). A partir de ahora ninguna edición puede añadir palabras antes de la Declaración de Reproducibilidad; cualquier
+  petición que las añadiera se señala antes de tocar nada y se ofrece una redacción de la misma longitud o un sitio en el
+  apéndice.
+- Sin cambios en el texto ni en el PDF (mismo texto en los dos PDF). Sweep **252/252**, rebuttal **61/61**, `submission/`
+  recompilado en su sitio y los dos zips regenerados.

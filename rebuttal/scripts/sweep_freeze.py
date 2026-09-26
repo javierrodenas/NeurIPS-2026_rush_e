@@ -1590,9 +1590,15 @@ def final_checks():
         if "link is correlational." in _l: _last7 = _slot
     _p10_lines = [_l.strip() for _l in _p10.split("\n") if _l.strip() and not _l.strip().startswith("Under review") and not _re.fullmatch(r"\d{3}", _l.strip())]
     _p10_first = _re.sub(r"[\s\d]", "", _p10_lines[0]).upper() if _p10_lines else ""
-    chk("final (page budget, 2026-09-26): in the PDF, the last line of S7 (limitation (vii), '...link is correlational.') sits on page 9 with at least one free line below it, and page 10 opens with the Reproducibility Statement",
-        _last7 is not None and bool(_slots9) and _last7 <= max(_slots9) - 1 and "link is correlational" not in _p10 and _p10_first == "REPRODUCIBILITYSTATEMENT",
+    chk("final (page budget, 2026-09-26): in the PDF, the last line of S7 (limitation (vii), '...link is correlational.') is on page 9 and page 10 opens with the Reproducibility Statement (the exact fit, last line of page 9, accepted by the author on 2026-09-26)",
+        _last7 is not None and bool(_slots9) and "link is correlational" not in _p10 and _p10_first == "REPRODUCIBILITYSTATEMENT",
         f"S7 ends at slot {_last7} of page 9 (last slot {max(_slots9) if _slots9 else None}); page 10 opens with {_p10_first[:30]!r}")
+
+    # ---- the freeze (author, 2026-09-26): the main text ends on the last line of page 9, so no edit may add words before the Reproducibility Statement
+    _frz = _j.load(open(R/"final_main_freeze.json")); _seg = TF[TF.index("\\begin{document}"):TF.index("Reproducibility Statement")]
+    _now = len(_re.sub(r"(?m)(?<!\\)%.*$", "", _seg).split())
+    chk("final (freeze, 2026-09-26): the main text is frozen at the exact fit of page 9; its token count from the document start to the Reproducibility Statement may not exceed the recorded one",
+        _now <= int(_frz["main_text_words"]), f"main text {_now} tokens vs frozen {_frz['main_text_words']}")
     _zip = Path(__file__).resolve().parents[2]/"ICLR2027"/"supplementary_code.zip"
     import zipfile as _zf
     _names = sorted(_zf.ZipFile(_zip).namelist()) if _zip.exists() else []
