@@ -3861,3 +3861,23 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
   apéndice.
 - Sin cambios en el texto ni en el PDF (mismo texto en los dos PDF). Sweep **252/252**, rebuttal **61/61**, `submission/`
   recompilado en su sitio y los dos zips regenerados.
+## 147. Apéndice y bibliografía, texto principal congelado (2026-09-26, brief del autor)
+
+- **(1) `references.bib`, `cub`**: number CNS-TR-2010-001 → **CNS-TR-2011-001**; en el `.bbl` sale "Computation \& Neural
+  Systems Technical Report CNS-TR-2011-001".
+- **(2) Tabla 6, cabecera de las dos columnas del supremo**: probé primero la forma larga "their statistic, the supremum from
+  a fixed base point" y tectonic la marca **57 pt demasiado ancha** (`Overfull \hbox` en `tab_khrulkov_final`, la única del
+  build); la tabla va a `\footnotesize` con `\tabcolsep` de 2 pt y sin `\resizebox`. Queda tu forma corta, "**supremum,
+  fixed base point**", con la que el build vuelve a **cero** cajas desbordadas. El pin del sweep la exige tal cual.
+- **(3) Apéndice C.4**: título "Is the reading robust? **Quadruple budget and resampling**" y primer párrafo "**Two** choices
+  could have made the reading look structured: how many quadruples we sample **and** which images stand behind each
+  centroid. Each is varied in turn..." La Tabla 7 ya solo tiene imágenes por clase y bootstrap, así que el título y el
+  párrafo describen lo que hay. El pin del control de clases apunta a la frase nueva. Queda un `\label{app:csweep}` huérfano
+  (sin `\ref`) donde estuvo la figura del barrido de clases; no hace daño y no lo he tocado.
+- **(4) `references.bib`, `groger2026aristotelian`**: `series = {Proceedings of Machine Learning Research}`, `volume = {306}`;
+  impreso "In International Conference on Machine Learning (ICML), volume 306 of Proceedings of Machine Learning Research,
+  2026".
+- **Verificado**: `pdftotext` de las páginas 1 a 9 **idéntico** al de antes de este brief (0 líneas de diferencia, números
+  de línea incluidos); §7 sigue acabando en la última línea de la página 9 y la 10 abre con la Declaración; el check de
+  congelación pasa (5068 tokens). 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio con el
+  `.bbl` nuevo, los dos zips regenerados. Sweep **252/252**, rebuttal **61/61**.

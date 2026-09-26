@@ -237,7 +237,8 @@ Dirk Groeneveld, Iz~Beltagy, Evan~Pete Walsh, Akshita Bhagia, Rodney Kinney,
 Fabian Gr{\"{o}}ger, Shuo Wen, and Maria Brbi{\'c}.
 \newblock Revisiting the {Platonic} representation hypothesis: An
   {Aristotelian} view.
-\newblock In \emph{International Conference on Machine Learning (ICML)}, 2026.
+\newblock In \emph{International Conference on Machine Learning (ICML)}, volume
+  306 of \emph{Proceedings of Machine Learning Research}, 2026.
 \newblock \doi{10.48550/ARXIV.2602.14486}.
 \newblock URL \url{https://doi.org/10.48550/arXiv.2602.14486}.
 
@@ -532,7 +533,7 @@ Oriol Vinyals, Charles Blundell, Timothy Lillicrap, Koray Kavukcuoglu, and Daan
 Catherine Wah, Steve Branson, Peter Welinder, Pietro Perona, and Serge
   Belongie.
 \newblock The {Caltech-UCSD} birds-200-2011 dataset.
-\newblock Computation \& Neural Systems Technical Report CNS-TR-2010-001,
+\newblock Computation \& Neural Systems Technical Report CNS-TR-2011-001,
   California Institute of Technology, 2011.
 \newblock URL \url{https://authors.library.caltech.edu/records/cvm3y-5hh21}.
 
