@@ -8,7 +8,7 @@
   },
   "Related Work": {
    "sentences": 7,
-   "avg_words": 24.9,
+   "avg_words": 24.7,
    "max_words": 60,
    "over30": 0
   },
@@ -25,8 +25,8 @@
    "over30": 0
   },
   "Results": {
-   "sentences": 69,
-   "avg_words": 18,
+   "sentences": 68,
+   "avg_words": 18.2,
    "max_words": 40,
    "over30": 0
   },
@@ -43,8 +43,8 @@
    "over30": 0
   }
  },
- "avg_nonverbatim": 18.4,
- "n_nonverbatim_sentences": 121,
+ "avg_nonverbatim": 18.5,
+ "n_nonverbatim_sentences": 120,
  "over30_rule": {
   "cap": 30,
   "exceptions": "definitions, citation lists, the thesis sentence (verbatim from the abstract)",

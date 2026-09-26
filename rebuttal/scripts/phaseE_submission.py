@@ -144,6 +144,10 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
          # page budget (author's brief, 2026-09-26, step 3): the curvature sentence of S2 shortened
          ('The curvature itself has been studied as a representation tradeoff \\citep{sala2018representation} and as a mixed-curvature product to be learned \\citep{gu2019learning}.',
           'Curvature has been studied as a representation tradeoff \\citep{sala2018representation} and as a mixed-curvature product to be learned \\citep{gu2019learning}.'),
+         # attribution fixes (author's brief, 2026-09-26): Tifrea et al. read the co-occurrence graph, Ermolov et al. also measured on features, the graph comparison of S2
+         ('and on word vectors \\citep{tifrea2019poincare}', 'and on the word co-occurrence graph \\citep{tifrea2019poincare}'),
+         ('on CNN and ViT features \\citep{Khrulkov_2020_CVPR, bdeir2024fully}', 'on CNN and ViT features \\citep{Khrulkov_2020_CVPR, bdeir2024fully, ermolov2022hyperbolic}'),
+         ('compared with that of random graphs of comparable size', 'compared with that of random and model graphs'),
 ]
 def edit(s):
     for a, b in EDITS:
@@ -311,7 +315,7 @@ if os.path.exists(R + 'expR85_khrulkov_sup_summary.csv'):
     _s85 = pd.read_csv(R + 'expR85_khrulkov_sup_summary.csv').set_index('dataset'); assert set(_s85.index) == {'cifar10', 'cifar100', 'cub', 'miniimagenet'} and bool((_s85.n_trials == 10).all()), _s85[['n_trials']]
     F['SUP_C100_R'] = str(int(round(float(_s85.loc['cifar100', 'r_above_median']))))   # Figure 3(b): the median rank of CIFAR-100 under their statistic (author's brief, 2026-09-25)
     _e85 = pd.read_csv(R + 'expR85_khrulkov_sup.csv'); assert bool((_e85.n_rep == 200).all()) and len(_e85) == 40, len(_e85)
-    F['SUP_CLAUSE'] = "Under their own statistic, the supremum, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. "; F['PROV85'] = ", expR85_khrulkov_sup_summary.csv"   # author's sentence (2026-09-23, 17:40), split at the 30-word cap; the median trial decides
+    F['SUP_CLAUSE'] = "Under their own statistic, the supremum from a fixed base point, CIFAR-10 and CUB-200 stay indistinguishable from a random cloud and MiniImageNet stays below it. The verdict for CIFAR-100 changes from trial to trial, as the statistic confound predicts. "; F['PROV85'] = ", expR85_khrulkov_sup_summary.csv"   # author's sentence (2026-09-23, 17:40), split at the 30-word cap; the median trial decides
     assert all(float(_s85.loc[d, 'p_left_median']) < 0.05 for d in ('cifar100', 'miniimagenet')) and all(float(_s85.loc[d, 'p_left_median']) > 0.05 for d in ('cifar10', 'cub')) and float(_s85.loc['cifar100', 'p_left_max']) > 0.05, "'CIFAR-10 and CUB-200 stay indistinguishable and MiniImageNet stays below; CIFAR-100 changes from trial to trial' (median p over the 10 trials, largest p for CIFAR-100)"
     json.dump({"n_trials": 10, "excess_sup_mean": _s85.excess_sup_mean.round(4).to_dict(), "p_left_max": _s85.p_left_max.round(3).to_dict(), "all_negative": bool((_s85.excess_sup_mean < 0).all()), "p_left_median": _s85.p_left_median.round(3).to_dict(), "p_left_min": _s85.p_left_min.round(3).to_dict(), "r_above_median": _s85.r_above_median.round(1).to_dict()}, open(R + 'final_khrulkov_sup.json', 'w'), indent=1)
 else:

@@ -181,7 +181,8 @@ Aleksandr Ermolov, Leyla Mirvakhabova, Valentin Khrulkov, Nicu Sebe, and
   Vigneron]{fournier2015computing}
 Herv{\'e} Fournier, Anas Ismail, and Antoine Vigneron.
 \newblock Computing the {Gromov} hyperbolicity of a discrete metric space.
-\newblock \emph{Information Processing Letters}, 115\penalty0 (6-8), 2015.
+\newblock \emph{Information Processing Letters}, 115\penalty0 (6-8):\penalty0
+  576--579, 2015.
 \newblock \doi{10.1016/j.ipl.2015.02.002}.
 
 \bibitem[Ganea et~al.(2018)Ganea, Becigneul, and Hofmann]{ganea2018hyperbolic}
@@ -584,7 +585,7 @@ Jure Zbontar, Li~Jing, Ishan Misra, Yann LeCun, and Stephane Deny.
 Xiaohua Zhai, Basil Mustafa, Alexander Kolesnikov, and Lucas Beyer.
 \newblock Sigmoid loss for language image pre-training.
 \newblock In \emph{2023 IEEE/CVF International Conference on Computer Vision
-  (ICCV)}, pp.\  11941--11952. IEEE, 2023.
+  (ICCV)}, pp.\  11975--11986. IEEE, 2023.
 \newblock \doi{10.1109/ICCV51070.2023.01100}.
 
 \end{thebibliography}

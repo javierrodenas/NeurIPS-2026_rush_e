@@ -3822,3 +3822,29 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
   conclusión. Cada una vale una línea; no toco ninguna sin tu palabra.
 - 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio y los dos zips regenerados. Sweep
   **250/251** (solo falla la línea libre), rebuttal 61/61.
+## 145. Opción (a) aplicada, bib y atribuciones; la línea libre vuelve a perderse por las atribuciones (2026-09-26, brief del autor)
+
+- **Presupuesto (opción a)**: fuera de §5.3 "The power follows the backbone, not its noise level or family."; la afirmación
+  sigue siendo el titular del pie de la Figura 8 y el sweep la exige allí y la prohíbe en el texto principal. **Recuperó una
+  línea** (el párrafo pasa de 26 a 25 ranuras).
+- **Atribuciones (1)-(5)**, que iban después del presupuesto:
+  (1) §1 "and on word vectors" → "and on the **word co-occurrence graph** \citep{tifrea2019poincare}";
+  (3) §1 "on CNN and ViT features \citep{Khrulkov_2020_CVPR, bdeir2024fully**, ermolov2022hyperbolic**}";
+  (2) §2 "compared with that of random graphs of comparable size" → "compared with that of **random and model graphs**";
+  (4) "the supremum" → "the supremum **from a fixed base point**" en §5.1 (frase de `SUP_CLAUSE`), en el pie de la Tabla 6
+  (`gen_appendix_final.py`) y en el pie de la Figura 3 ("all on their statistic, the supremum from a fixed base point: a dot
+  inside the band..."). En §5.1 y la Tabla 6 el texto dice "their **own** statistic" y lo conservo;
+  (5) `references.bib`: `siglip` pages 11941--11952 → **11975--11986** (paginación CVF open access, DOI igual);
+  `fournier2015computing` sin páginas → **576--579**. Las dos salen en el `.bbl` y en el PDF ("115(6-8):576–579" y
+  "11975–11986. IEEE, 2023"). Tres pares nuevos en la cadena (`len(ED)` 46 → 49).
+- **La línea libre se pierde otra vez, y sé exactamente dónde**: la opción (a) ganó una línea en §5.3, pero (1) y (3) añaden
+  "the word co-occurrence graph" y "Ermolov et al., 2022" al primer párrafo de §1, que pasa de 14 a 15 ranuras. Neto cero:
+  la última línea de §7 vuelve a la ranura **485, la última de la página 9**, y la página 10 abre con la Declaración de
+  Reproducibilidad. **Verificado en el PDF**; el check de presupuesto sigue fallando solo por la línea libre.
+- **(6) no aplicado**, por su propia condición: no hay línea libre. El par "(cliques are 0-hyperbolic; \citealp{adcock2013treelike})"
+  queda preparado; `adcock2013treelike` existe en el bib (ICDM 2013, DOI 10.1109/ICDM.2013.77).
+- Para la línea libre quedan las opciones (b), la última frase de §6 ("We test zero-cost metrics only; whether hyperbolic
+  training helps for other reasons is outside this study.", nota de alcance), o (c), la última frase de la conclusión.
+  **Ojo**: si además quieres (6), hacen falta **dos** líneas, porque (6) añade unas 8 palabras al mismo párrafo de §1.
+- 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio (con el `.bbl` nuevo) y los dos zips
+  regenerados. Sweep **250/251** (solo la línea libre), rebuttal 61/61.
