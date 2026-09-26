@@ -141,6 +141,9 @@ EDITS = [('Figure~\\ref{fig:concept} shows why a low reading is not enough: a st
          # S1 (author's brief, 2026-09-25): the paragraph of the instrument closes on the question
          ('With it we ask of geometry what convergence work asks of similarity \\citep{huh2024platonic, groger2026aristotelian}: what survives calibration, and is it shared? \\citet{groger2026aristotelian} calibrate similarity across models; we calibrate geometry within a model, and comparing trees across models needs a calibration of its own.',
           '\\citet{groger2026aristotelian} calibrate similarity across models; we calibrate geometry within a model, and comparing trees across models needs a calibration of its own. With it we ask of geometry what convergence work asks of similarity \\citep{huh2024platonic, groger2026aristotelian}: what survives calibration, and is it shared?'),
+         # page budget (author's brief, 2026-09-26, step 3): the curvature sentence of S2 shortened
+         ('The curvature itself has been studied as a representation tradeoff \\citep{sala2018representation} and as a mixed-curvature product to be learned \\citep{gu2019learning}.',
+          'Curvature has been studied as a representation tradeoff \\citep{sala2018representation} and as a mixed-curvature product to be learned \\citep{gu2019learning}.'),
 ]
 def edit(s):
     for a, b in EDITS:
@@ -434,9 +437,9 @@ def _appfig(name, cap, width="0.62"):
             "\\caption{" + cap + "\n}\n\\label{fig:" + name.replace("fig_", "").replace("_final", "") + "}\n\\end{figure}\n")
 _FIGCAP = {
  "fig_budget_final": r"\textbf{The reading does not move with the quadruple budget.} Excess against the number of sampled quadruples per seed, one line per cell: 3 backbones on ImageNet, CIFAR-100 and DTD. % expR72_budget_record.csv",
- "fig_power_final": r"\textbf{The power follows the backbone, not the noise level of its cloud.} Power against the within/between spread, intact (hollow) and with clusters rotated (filled); whiskers: 95 per cent intervals over 50 runs per backbone, 200 for the DINOv2 family. % expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv",
+ "fig_power_final": r"\textbf{The power follows the backbone, not the noise level of its cloud.} Power against the within/between spread, intact (hollow) and with clusters rotated (filled); whiskers: 95 per cent intervals over 50 runs per backbone, 200 for the DINOv2 family. ViT-S and DINOv2-B sit closest to the threshold, with 95 per cent intervals reaching {{PW_VITS_LO}} and {{PW_DINOV2B_LO}}. % expR81_deep_per_backbone_summary.csv, expR64b_wn30_summary.csv",
  "fig_gains_final": r"\textbf{The zero-cost advantage is small and largest for the self-supervised models.} Best few-shot advantage over the Euclidean metric, averaged over ImageNet, CIFAR-100, CIFAR-10 and DTD, with the metric that collects it; the 10 backbones evaluated, DINO-B and SigLIP-B excluded. % exp2_metric_controls.csv"}
-for _f, _c in _FIGCAP.items(): assert len(_c.split("%")[0].split()) <= 40, (_f, len(_c.split("%")[0].split()))
+for _f, _c in _FIGCAP.items(): assert len(_c.split("%")[0].split()) <= (60 if _f == "fig_power_final" else 40), (_f, len(_c.split("%")[0].split()))   # the power caption carries the S5.3 interval sentence (page budget, 2026-09-26)
 for _stem, _names, _w in (("tab_q08_robust", ["fig_budget_final"], "0.62"), ("tab_q05_power", ["fig_power_final"], "0.62"),
                           ("tab_q09_corollary", ["fig_gains_final"], "0.92")):
     _anchor = "\\input{appendix_tables/" + (FINAL_SRC.get(_stem, _stem)) + "}"

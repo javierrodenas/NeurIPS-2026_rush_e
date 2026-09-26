@@ -1017,7 +1017,7 @@ def final_checks():
     chk("final: 'Gromov delta' and 'Estimation and normalization' verbatim modulo the recorded edits (supremum phrase, bridge sentence)", grom in norm(bf) and est in norm(bf))
     _CUTTAIL = {"It adds a hierarchy test measured on real clouds"}   # S2 keeps its first seven sentences (cut step 4 of the page budget); the Moreira citation of 2026-09-25 took the place of the closing one, whose three items are contributions 1 and 2 of S1
     chk("final: the recorded edits are exactly the briefs' (shadow x2, geometric face, intent of the supremum, the bridge; 4th/5th reviews: abstract, S1 confounds and counts, S2 citations) and none of the old phrases survives",
-        len(ED) == 45 and all((a not in bf) or (a in b) for a, b in ED) and any("clusters oriented toward their hubs in a few" in b for _, b in ED) and any("In the 9 of 12 backbones where a planted hierarchy is detected, none as strong is found; in the other 3 the test is blind." in b for _, b in ED) and "49 of 72" not in bf and all((fillb(b) in bf) or b in _CUTTAIL for _, b in ED if b and not any(a2 in b for a2, _ in ED if a2)) and sum(1 for a, _ in ED if "shadow" in a) == 4 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
+        len(ED) == 46 and all((a not in bf) or (a in b) for a, b in ED) and any("clusters oriented toward their hubs in a few" in b for _, b in ED) and any("In the 9 of 12 backbones where a planted hierarchy is detected, none as strong is found; in the other 3 the test is blind." in b for _, b in ED) and "49 of 72" not in bf and all((fillb(b) in bf) or b in _CUTTAIL for _, b in ED if b and not any(a2 in b for a2, _ in ED if a2)) and sum(1 for a, _ in ED if "shadow" in a) == 4 and any("geometric face" in a for a, _ in ED) and any("intent of the supremum" in a for a, _ in ED) and any("next question" in a for a, _ in ED)
         and any("three artifacts push it down" in a for a, _ in ED) and any("sala2018representation" in b and "gu2019learning" in b for _, b in ED)
         and bf.count("30 of 36") >= 2 and "cannot be called low on its own" in bf)
     # ---- metaphors, bridges and banned phrases anywhere in the body (Figure 1 and its caption excepted), thesis twice
@@ -1524,7 +1524,7 @@ def final_checks():
         and [_lim_f.count("(%s)~" % r) for r in ("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix")] == [1, 1, 1, 1, 1, 1, 1, 0, 0]   # (vii) restored as one merged item (author, 2026-09-25)
         and "The hierarchy test is Euclidean, and for the angular DINOv2 tree it may be conservative." not in bf and "The text census depends on the probe: template and batching move the reading, so marginal verdicts are fragile." in bf
         and "resting chiefly on DINOv2's scale range" not in bf
-        and "app:limits" not in TF and "app:detail" not in TF and "The reading divides by the diameter, so heavier tails would lower $\\delta_{\\text{norm}}$ without any clustering; the cosine census mitigates this." in _lim_f
+        and "app:limits" not in TF and "app:detail" not in TF and "Dividing by the diameter lets heavier tails lower $\\delta_{\\text{norm}}$; the cosine census mitigates this. (vii)~The hierarchy test is Euclidean, possibly conservative for the angular DINOv2 tree, and the objective--geometry link is correlational." in _lim_f
         and _s6_f.count("\\paragraph{") == 1
         and f"(ii)~The verdict of no hub hierarchy holds only in the {len(cov)} of 12 backbones where the control with clusters rotated detects a planted hierarchy." in bf
         and all(w in app_f for w in ("FMNIST is genuine in", "Neural collapse predicts", "Only ViT-B and ViT-L are certified under every grouping.", "fixed-radius Euclidean encoder")),
@@ -1577,6 +1577,22 @@ def final_checks():
         "readout" not in _figsrc.lower() and 'ax.set_title("the best zero-cost metric, against the Euclidean one"' in _figsrc and "readout" not in TF.lower()
         and "nothing consistent elsewhere (Table~\\ref{tab:q9-corollary}, Figure~\\ref{fig:gains})" in bf and bf.count("\\ref{fig:gains}") == 1,   # Figure 9 cited from S6 (final audit, 2026-09-26)
         "readout in the figure scripts or the paper")
+
+    # ---- page budget (author's brief, 2026-09-26), read from the PDF itself: the last line of S7 is on page 9 with a free line under it, and page 10 opens with the Reproducibility Statement
+    import subprocess as _sp
+    _pdf = Path(__file__).resolve().parents[2]/"ICLR2027"/"main_iclr2027_final.pdf"
+    _pages = _sp.run(["pdftotext", "-layout", str(_pdf), "-"], capture_output=True, text=True).stdout.split("\f") if _pdf.exists() else []
+    _p9, _p10 = (_pages[8], _pages[9]) if len(_pages) > 10 else ("", "")
+    _slot, _last7, _slots9 = None, None, []
+    for _l in _p9.split("\n"):
+        _m = _re.match(r"^\s*(\d{3})\b", _l)
+        if _m: _slot = int(_m.group(1)); _slots9.append(_slot)
+        if "link is correlational." in _l: _last7 = _slot
+    _p10_lines = [_l.strip() for _l in _p10.split("\n") if _l.strip() and not _l.strip().startswith("Under review") and not _re.fullmatch(r"\d{3}", _l.strip())]
+    _p10_first = _re.sub(r"[\s\d]", "", _p10_lines[0]).upper() if _p10_lines else ""
+    chk("final (page budget, 2026-09-26): in the PDF, the last line of S7 (limitation (vii), '...link is correlational.') sits on page 9 with at least one free line below it, and page 10 opens with the Reproducibility Statement",
+        _last7 is not None and bool(_slots9) and _last7 <= max(_slots9) - 1 and "link is correlational" not in _p10 and _p10_first == "REPRODUCIBILITYSTATEMENT",
+        f"S7 ends at slot {_last7} of page 9 (last slot {max(_slots9) if _slots9 else None}); page 10 opens with {_p10_first[:30]!r}")
     _zip = Path(__file__).resolve().parents[2]/"ICLR2027"/"supplementary_code.zip"
     import zipfile as _zf
     _names = sorted(_zf.ZipFile(_zip).namelist()) if _zip.exists() else []
@@ -1616,7 +1632,7 @@ def final_checks():
         and f'{_wil(float(_s81c.loc["i21k_s", "dec_power"]), 50)[0]:.2f}' == "0.79" and f'{_wil(float(_s81c.loc["dinov2_b", "dec_power"]), 200)[0]:.2f}' == "0.78"
         and _pci["closest_to_threshold"] == ["dinov2_b", "i21k_s"]
         and "over 50 to 200 runs per backbone, and not in the other 3" in bf
-        and "ViT-S and DINOv2-B sit closest to the threshold, with 95 per cent intervals reaching 0.79 and 0.78." in bf
+        and "ViT-S and DINOv2-B sit closest to the threshold, with 95 per cent intervals reaching 0.79 and 0.78." in app_f and "ViT-S and DINOv2-B sit closest to the threshold, with 95 per cent intervals reaching 0.79 and 0.78." not in bf and "ViT-S and DINOv2-B sit closest to the threshold, with 95 per cent intervals reaching 0.79 and 0.78." in TF.split("fig_power_final")[1][:1200]
         and "whiskers: 95 per cent intervals over 50 runs per backbone, 200 for the DINOv2 family" in TF and TF.count("whiskers: 95 per cent intervals") == 2
         and FIGSRC.count("whisker(ax,") == 3 and "def wilson(p, n, z=1.96):" in FIGSRC,   # the definition plus the two calls
         "power intervals of 2026-09-25")

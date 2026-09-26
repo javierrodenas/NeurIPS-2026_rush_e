@@ -3792,3 +3792,33 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
 - **La página 9 sigue como en las entradas 140 a 142**: el texto principal se sale **2 líneas** (ranuras 486 y 487, el final de
   la limitación (vi) y la (vii) entera). El puntero a la Figura 9 cabe en su línea y no mueve nada. Pendiente de que elijas
   qué suelto.
+## 144. Presupuesto de páginas: §7 vuelve a la página 9, sin perder ninguna afirmación (2026-09-26, brief urgente del autor)
+
+- **(1) §7, limitaciones (vi) y (vii)** con tu redacción: "(vi) Dividing by the diameter lets heavier tails lower δ_norm; the
+  cosine census mitigates this. (vii) The hierarchy test is Euclidean, possibly conservative for the angular DINOv2 tree, and
+  the objective--geometry link is correlational."
+- **(2) §5.3**: la frase "ViT-S and DINOv2-B sit closest to the threshold, with 95 per cent intervals reaching 0.79 and 0.78."
+  pasa al pie de la figura de potencia por backbone del apéndice (Figura 8), detrás de la cláusula de los bigotes; los dos
+  valores siguen siendo los rellenos `PW_VITS_LO`/`PW_DINOV2B_LO` de `expR81`, ahora resueltos en el apéndice. El tope de 40
+  palabras de ese pie sube a 60 solo para esa figura. El check de intervalos de potencia exige ahora la frase en el pie y fuera
+  del texto principal.
+- **(3) §2**, hacía falta: "The curvature itself has been studied..." → "**Curvature** has been studied as a representation
+  tradeoff \citep{sala2018representation} and as a mixed-curvature product to be learned \citep{gu2019learning}." (par nuevo de
+  la cadena, `len(ED)` 45 → 46). **No recuperó ninguna línea**: el párrafo de §2 se reajustó dentro de sus mismas líneas.
+- **Verificado en el PDF** (`pdftotext`, no la plantilla): la última línea de §7 ("...objective--geometry link is
+  correlational.") está en la **página 9**, y la **página 10 abre con la Declaración de Reproducibilidad** (ranura 486). Antes
+  de esta entrada las ranuras 486 y 487 de la página 10 eran texto principal.
+- **Lo que falta: la línea libre.** La última línea de §7 ocupa la ranura **485, la última de la página 9**; margen cero. Los
+  pasos (1) y (2) recuperaron 3 líneas y (3) ninguna; pedías al menos una libre y no la hay.
+- **Check nuevo en el sweep, tal como lo pediste**: lee el PDF con `pdftotext`, localiza la última línea de §7 en la página 9,
+  exige al menos una ranura libre debajo y que la primera línea de texto de la página 10 sea "Reproducibility Statement". Con
+  el estado actual **falla por la línea libre** (su detalle: "S7 ends at slot 485 of page 9 (last slot 485)"); las otras dos
+  condiciones se cumplen. Lo dejo estricto a propósito: es tu criterio de aceptación y así no se olvida. Para que el sweep lo
+  lea, `cp` del PDF pasa a ejecutarse antes del sweep en `final_rebuild.sh`.
+- **Cómo conseguir la línea sin perder afirmaciones, elige**: (a) la última frase de §5.3, "The power follows the backbone,
+  not its noise level or family.", que ya es el titular del pie de la Figura 8 ("The power follows the backbone, not the noise
+  level of its cloud"), así que no desaparece del paper; (b) la última frase de §6, "We test zero-cost metrics only; whether
+  hyperbolic training helps for other reasons is outside this study.", que es una nota de alcance; (c) la última frase de la
+  conclusión. Cada una vale una línea; no toco ninguna sin tu palabra.
+- 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio y los dos zips regenerados. Sweep
+  **250/251** (solo falla la línea libre), rebuttal 61/61.

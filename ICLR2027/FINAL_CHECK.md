@@ -2,7 +2,7 @@
 
 ## Page budget
 
-- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 10; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 490); the references start on page 10 (line 507).
+- PDF pages: 29. Main text (through the Conclusion and Limitations section) ends on page 9; the Reproducibility, Ethics and AI Use statements start on page 10 (ICLR line 487); the references start on page 10 (line 504).
 - Appendix: Proofs on page 16, implementation and additional results from page 17 to page 29 (14 pages including the proofs).
 - Cut order applied (brief §5): s55, s6, table, s2 = S5.5 in the appendix behind a one-sentence pointer, S6 in one paragraph since 2026-09-24, model table in the appendix, S2 to its first six sentences. Figures were not resized.
 - Main text without tables (brief of 2026-09-24): the census table and the published-reading table are inputted in the appendix, each beside the question it answers, and the published-reading table keeps every column including the supremum. Their place in Section 5.1 is taken by a figure, `fig_premise_final`, with the 24 sample-level cells and the four published datasets.
@@ -13,14 +13,14 @@
 | section | sentences | mean words | longest | over 30 |
 |---|---|---|---|---|
 | Introduction | 36 | 22.8 | 54 | 0 |
-| Related Work | 7 | 25.1 | 60 | 0 |
+| Related Work | 7 | 24.9 | 60 | 0 |
 | Methodology | 40 | 18.1 | 29 | 0 |
 | Experimental Setup | 15 | 18.7 | 34 | 0 |
-| Results | 70 | 18.0 | 40 | 0 |
+| Results | 69 | 18 | 40 | 0 |
 | Implications for Hyperbolic Representation Learning | 6 | 18.8 | 28 | 0 |
-| Conclusion and Limitations | 9 | 20.9 | 28 | 0 |
+| Conclusion and Limitations | 9 | 20.2 | 28 | 0 |
 
-Non-verbatim prose of S3–S7: 122 sentences, mean 18.5 words (rule: mean ≤ 22).
+Non-verbatim prose of S3–S7: 121 sentences, mean 18.4 words (rule: mean ≤ 22).
 Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definitions and citation lists excepted; sentences over the cap outside those: 0; the thesis sentence, verbatim from the abstract, is the one kept exception (25 words).
 
 ## Numbers per paragraph in S5–S6 (rule: ≤ 1 per sentence, ≤ 2 per paragraph, headline numbers only)
@@ -34,7 +34,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 | Results | A star of clusters already passes the census. | — |
 | Results | The hierarchy test certifies that how clusters are oriented  | 12 |
 | Results | What it certifies is alignment, how each cluster is oriented | 4, -1.61, -1.61 to -1.76, 0 of 60, 0 of 4, 4, -2.08 to -3.99 |
-| Results | What the test can see. | 4 of 5, 4, 9 of 12, 0.83 to 1.00, 50 to 200, 3, 0.01 to 0.60, 95, 0.79 and 0.78, 3, 1.5 to 3.0, 1.3 to 3.9, 9 |
+| Results | What the test can see. | 4 of 5, 4, 9 of 12, 0.83 to 1.00, 50 to 200, 3, 0.01 to 0.60, 3, 1.5 to 3.0, 1.3 to 3.9, 9 |
 | Results | A trained hierarchy survives, and the test leans toward firi | 20 of 20, 2, -2.51, 6 of 20, -1.37, 0 of 5, 8 of 50, 4, -4.19 to -4.82, 0 of 50 |
 | Results | No hub hierarchy is found where the test has power. | 9 |
 | Results | The certified set depends on the grouping. | — |
@@ -58,7 +58,7 @@ Rule of 2026-09-23: no sentence over 30 words in S3–S7 (pages 3–9), definiti
 
 ## Sweep (rebuttal/scripts/sweep_freeze.py)
 
-- Total: 249/250 checks passed.
+- Total: 248/251 checks passed.
 - Final-version checks:
 
     PASS final: every cross-reference of the final resolves 
