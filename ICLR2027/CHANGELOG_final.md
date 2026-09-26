@@ -3893,6 +3893,8 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
 - **Altura conservada, medido en el PDF de la figura**: 176.452 pt antes y después; anchura 468.99 → 469.71 pt (+0.15 %,
   el título centrado asoma un pelo por la derecha), que escalada a `\linewidth` deja la figura 0.2 pt más baja, la dirección
   segura para el ajuste de la página 9. Solo se regenera `fig_excess_final`; las otras ocho figuras se restauran de git.
-- **Texto principal**: `pdftotext` de las páginas 1 a 9 idéntico salvo la marca nueva del eje de la figura; §7 sigue acabando
+- **Texto principal**: `pdftotext` de las páginas 1 a 9 sin ninguna línea de prosa distinta; las 10 líneas que difieren son
+  texto interno de las Figuras 3 y 4 en la página 7 (marcas y rótulos de ejes), que `pdftotext -layout` realinea al cambiar
+  0.15 % la anchura de la Figura 4, más la marca nueva −0.01 del eje de (b). §7 sigue acabando
   en la última línea de la página 9 y la 10 abre con la Declaración; congelación intacta. 29 páginas, los dos PDF con el
   mismo texto, `submission/` con la figura nueva, los dos zips regenerados. Sweep **252/252**, rebuttal 61/61.
