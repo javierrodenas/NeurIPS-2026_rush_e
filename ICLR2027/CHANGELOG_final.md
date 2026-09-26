@@ -3881,3 +3881,18 @@ Ningún número cambia. Los once puntos, con el sitio exacto donde caen:
   de línea incluidos); §7 sigue acabando en la última línea de la página 9 y la 10 abre con la Declaración; el check de
   congelación pasa (5068 tokens). 29 páginas, los dos PDF con el mismo texto, `submission/` recompilado en su sitio con el
   `.bbl` nuevo, los dos zips regenerados. Sweep **252/252**, rebuttal **61/61**.
+## 148. Figura 4, panel (b): título centrado y ejes a lo ancho (2026-09-26, brief del autor)
+
+- El rótulo "(b) text models, ImageNet class names" era una anotación alineada a la izquierda que sobresalía por la derecha
+  de los ejes; ahora es el **título de los ejes** (`axb.set_title`, `pad=24`, la misma altura que el rótulo de (a)), centrado
+  sobre el área de dibujo.
+- **Los ejes de (b) se ensanchan hasta donde llegaba aquel rótulo**: el script mide el borde derecho de la anotación antigua
+  en el lienzo y fija ahí el borde derecho de los ejes, así que el espacio vacío bajo el título desaparece y la anchura total
+  de la figura no cambia. Al ensancharse, el eje x de (b) gana la marca −0.01; nada más cambia: (a), las etiquetas y, la
+  leyenda y la altura quedan como estaban.
+- **Altura conservada, medido en el PDF de la figura**: 176.452 pt antes y después; anchura 468.99 → 469.71 pt (+0.15 %,
+  el título centrado asoma un pelo por la derecha), que escalada a `\linewidth` deja la figura 0.2 pt más baja, la dirección
+  segura para el ajuste de la página 9. Solo se regenera `fig_excess_final`; las otras ocho figuras se restauran de git.
+- **Texto principal**: `pdftotext` de las páginas 1 a 9 idéntico salvo la marca nueva del eje de la figura; §7 sigue acabando
+  en la última línea de la página 9 y la 10 abre con la Declaración; congelación intacta. 29 páginas, los dos PDF con el
+  mismo texto, `submission/` con la figura nueva, los dos zips regenerados. Sweep **252/252**, rebuttal 61/61.

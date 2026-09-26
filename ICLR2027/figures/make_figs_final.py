@@ -214,7 +214,7 @@ for _i, (m, _lab) in enumerate(TXTORD):
     hbar(axb, YT[_i], float(TXT[m]["excess"]), LM if _i < 8 else EMB, TXT[m]["genuine_bh"] == "True")
 axb.set_yticks(YT); axb.set_yticklabels([l for _, l in TXTORD], fontsize=5.6); axb.set_ylim(-0.7, len(TXTORD) - 0.3)
 axb.tick_params(axis="y", length=0); axb.set_xlabel("excess", labelpad=1)
-axb.annotate("(b) text models, ImageNet class names", xy=(0, 1), xytext=(0, 24), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)
+_tb = axb.annotate("(b) text models, ImageNet class names", xy=(0, 1), xytext=(0, 24), xycoords="axes fraction", textcoords="offset points", ha="left", va="baseline", fontsize=8)   # measured below, then replaced by the axes title
 for sp in ("top", "right"): axb.spines[sp].set_visible(False)
 json.dump({"text_genuine": sum(TXT[m]["genuine_bh"] == "True" for m, _ in TXTORD), "n_text": len(TXTORD), "order": [m for m, _ in TXTORD],
            "excess": {m: float(TXT[m]["excess"]) for m, _ in TXTORD}, "labels": {m: l for m, l in TXTORD}}, open(RES/"final_fig_text.json", "w"), indent=1)
@@ -223,6 +223,10 @@ hd = [Patch(color="k", label="genuine"), Patch(facecolor="white", edgecolor="k",
       Patch(color=LM, label="causal LM (b)"), Patch(color=EMB, label="embedder (b)")]
 fig.legend(handles=hd, **LEG, loc="lower center", ncol=5, handlelength=1.2, handletextpad=0.4, columnspacing=1.0, bbox_to_anchor=(0.5, -0.03))
 fig.subplots_adjust(left=0.10, right=0.995, top=0.83, bottom=0.27)
+# (b) fills the width its left-aligned label used to reach, and the label becomes the centred axes title (author's brief, 2026-09-26); height, y labels and (a) unchanged
+fig.canvas.draw(); _x1 = fig.transFigure.inverted().transform(_tb.get_window_extent())[1, 0]; _tb.remove()
+_pb = axb.get_position(); axb.set_position([_pb.x0, _pb.y0, _x1 - _pb.x0, _pb.height])
+axb.set_title("(b) text models, ImageNet class names", fontsize=8, pad=24)
 save(fig, "fig_excess_final")
 print(f"text panel: {sum(TXT[m]['genuine_bh'] == 'True' for m, _ in TXTORD)}/{len(TXTORD)} genuine on the class names")
 
